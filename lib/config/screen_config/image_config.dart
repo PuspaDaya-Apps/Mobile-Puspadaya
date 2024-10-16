@@ -1,0 +1,1 @@
+//! contoh variable "const String exampleName = 'assets/images/example.jpg';"
