@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/screen_config/image_config.dart';
+import '../../../config/screen_config/size_config.dart';
+import '../../../config/theme/pallet_color.dart';
+
 class PageNotFoundScreen extends StatelessWidget {
   const PageNotFoundScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Text('page not found'),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              pageNotFoundVector,
+              scale: SizeConfig.calMultiplierImage(200)
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(20)),
+            Text(
+              'Halaman Tidak Dapat Ditemukan',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: fontColor1,
+                fontSize: SizeConfig.calMultiplierText(20),
+                fontWeight: FontWeight.w500
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
