@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'config/screen_config/size_config.dart';
+import 'config/theme/theme.dart';
 import 'route/route_name.dart';
 import 'route/route_page.dart';
 
@@ -19,9 +20,10 @@ class BuildApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Puspadaya',
       debugShowCheckedModeBanner: false,
+      theme: themeData,
       onGenerateRoute: MyRoute.generateRoute,
       initialRoute: SPLASHSCREEN,
     );
