@@ -12,5 +12,6 @@ void main() async {
     DeviceOrientation.portraitDown
   ]);
 
-  await initializeDateFormatting('id_ID', null).then((_) => runApp(const MyApp()));  
+  await initializeDateFormatting('id_ID', null).then((_) => runApp(const MyApp())); 
+   
 }

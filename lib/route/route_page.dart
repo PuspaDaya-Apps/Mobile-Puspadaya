@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/kodeOTP/view/otp_screen.dart';
+import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import './route_name.dart';
 
@@ -19,6 +21,18 @@ class MyRoute {
       case ONBOARDING :
       return MaterialPageRoute(
         builder: (context) => const OnBoardingScreen(),
+        settings: settings
+      );
+
+      case OTP :
+      return MaterialPageRoute(
+        builder: (context) => const OtpScreen(),
+        settings: settings
+      );
+      
+      case RESETPASSWORD :
+      return MaterialPageRoute(
+        builder: (context) => const ResetPasswordScreen(),
         settings: settings
       );
 
