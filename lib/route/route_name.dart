@@ -9,4 +9,4 @@ const String ERRORPAGE = "/ErrorPage";
 
 // ! login workflow
 const String OTP = "/login/codeOTP";
-const String RESETPASSWORD = "/login/reset-Password";
+const String RESETPASSWORD = "/login/reset-password";

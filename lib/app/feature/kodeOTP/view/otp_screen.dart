@@ -8,15 +8,23 @@ import 'package:puspadaya/route/route_name.dart';
 import 'dart:async';
 
 import 'package:puspadaya/utils/logger/logger.dart';
-
-class OtpScreen extends StatefulWidget {
+class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  Widget build(BuildContext context) {
+    return OtpScreen();
+  }
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class OtpScreenView extends StatefulWidget {
+  const OtpScreenView({super.key});
+
+  @override
+  State<OtpScreenView> createState() => _OtpScreenViewState();
+}
+
+class _OtpScreenViewState extends State<OtpScreenView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController pinController = TextEditingController();
 
@@ -130,7 +138,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   RichText(
                     text: const TextSpan(
-                      text: '4 digit kode OTP sudah kami kirimkan ke ',
+                      text: '5 digit kode OTP sudah kami kirimkan ke ',
                       style: TextStyle(
                         color: Colors.black54,
                         fontSize: 14,

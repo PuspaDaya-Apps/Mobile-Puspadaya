@@ -32,7 +32,7 @@ class MyRoute {
       
       case RESETPASSWORD :
       return MaterialPageRoute(
-        builder: (context) => const ResetPasswordScreen(),
+        builder: (context) => const ResetPassword(),
         settings: settings
       );
 
