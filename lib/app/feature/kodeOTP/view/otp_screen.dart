@@ -83,9 +83,9 @@ class _OtpScreenState extends State<OtpScreen> {
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 16,
+        padding: EdgeInsets.symmetric(
+          horizontal: SizeConfig.calWidthMultiplier(20),
+          vertical: SizeConfig.calHeightMultiplier(16),
         ),
         child: ButtonPrimary(
           color: baseColor,
@@ -100,7 +100,8 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.calWidthMultiplier(24)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -108,16 +109,16 @@ class _OtpScreenState extends State<OtpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 50),
-                  const Center(
+                  SizedBox(height: SizeConfig.calHeightMultiplier(50)),
+                  Center(
                     child: Image(
-                      height: 250,
+                      height: SizeConfig.calHeightMultiplier(250),
                       image: AssetImage(
                         oTPCodeImage,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   const Text(
                     'Masukan Kode OTP',
                     style: TextStyle(
@@ -126,7 +127,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   RichText(
                     text: const TextSpan(
                       text: '4 digit kode OTP sudah kami kirimkan ke ',
@@ -146,7 +147,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(25)),
                   // Pinput untuk OTP
                   Center(
                     child: Pinput(
@@ -193,7 +194,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(12)),
                   Row(
                     children: [
                       Text(
@@ -217,7 +218,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(30)),
                   const Center(
                     child: Text(
                       'Sisa Waktu :',

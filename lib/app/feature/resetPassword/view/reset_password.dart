@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/primary_button.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
+import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -14,7 +15,8 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
@@ -80,7 +82,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.calWidthMultiplier(50)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
@@ -88,14 +91,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 50),
-                  const Center(
+                  SizedBox(height: SizeConfig.calHeightMultiplier(50)),
+                  Center(
                     child: Image(
-                      height: 250,
+                      height: SizeConfig.calHeightMultiplier(250),
                       image: AssetImage(resetPasswordImage),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   const Text(
                     'Atur Ulang Kata Sandi',
                     style: TextStyle(
@@ -104,12 +107,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Kata Sandi Baru',
                     style: TextStyle(color: fontColor2),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
                     controller: passwordController,
                     hintText: "Masukan Kata Sandi Baru",
@@ -119,12 +122,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Konfirmasi Kata Sandi',
                     style: TextStyle(color: fontColor2),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
                     controller: confirmPasswordController,
                     hintText: "Konfirmasi Masukan Kata Sandi",
@@ -134,7 +137,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   ButtonPrimary(
                     color: baseColor,
                     mainButtonMessage: "Ganti Kata Sandi",

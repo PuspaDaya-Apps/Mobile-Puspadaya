@@ -25,7 +25,7 @@ class BuildApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeData,
       onGenerateRoute: MyRoute.generateRoute,
-      initialRoute: RESETPASSWORD,
+      initialRoute: OTP,
     );
   }
 }
