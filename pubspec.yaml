@@ -39,13 +39,13 @@ dependencies:
   http: ^1.2.2
   icons_launcher: ^3.0.0
   image_picker: ^1.1.2
-  intl: ^0.19.0
   json_annotation: ^4.9.0
   logger: ^2.5.0
   page_transition: ^2.1.0
   pinput: ^5.0.0
   rename: ^3.0.2
   shared_preferences: ^2.3.2
+  table_calendar: ^3.1.2
   url_launcher: ^6.3.1
 
 dev_dependencies:
@@ -54,6 +54,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^6.8.0
+  intl: ^0.19.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

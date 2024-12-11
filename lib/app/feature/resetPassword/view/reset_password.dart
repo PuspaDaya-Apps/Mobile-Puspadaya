@@ -91,7 +91,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.calWidthMultiplier(50)),
+              horizontal: SizeConfig.calWidthMultiplier(24)),
           child: SingleChildScrollView(
             child: Form(
               key: formKey,
