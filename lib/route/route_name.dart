@@ -7,3 +7,8 @@ const String ONBOARDING = "/OnBoarding";
 const String LOGIN = "/Login";
 
 const String ERRORPAGE = "/ErrorPage";
+
+// ! login workflow
+const String OTP = "/login/codeOTP";
+const String RESETPASSWORD = "/login/reset-password";
+const String JADWAL = '/jadwal';
