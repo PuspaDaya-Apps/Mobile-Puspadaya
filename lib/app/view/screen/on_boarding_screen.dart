@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../config/screen_config/image_config.dart';
 import '../../../config/screen_config/size_config.dart';
 import '../../../config/theme/pallet_color.dart';
+import '../../../route/route_name.dart';
 import '../widget/on_boarding_item_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -33,6 +34,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       'description': "Akses tips pencegahan stunting serta layanan kesehatan yang terpercaya dan akurat.",
     }
   ];
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,53 +104,176 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(25),
                     ),
-                    page+1 == onBoardingItem.length
-                    ? Container(
-                      height: SizeConfig.calHeightMultiplier(40),
-                      width: MediaQuery.sizeOf(context).width,
+                    page == 0
+                    ? Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: SizeConfig.calWidthMultiplier(25)
                       ),
-                      child: ElevatedButton(
-                        onPressed: (){},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: baseColor
-                        ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: SizeConfig.calMultiplierText(15),
-                            fontWeight: FontWeight.w500
-                          ),
-                        )
-                      ),
-                    )
-                    : Container(
-                      height: SizeConfig.calHeightMultiplier(40),
-                      width: MediaQuery.sizeOf(context).width,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(25)
-                      ),
-                      alignment: Alignment.center,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(onBoardingItem.length, (index) {
-                          return AnimatedContainer(
-                            height: SizeConfig.calWidthMultiplier(22),
-                            width: SizeConfig.calWidthMultiplier(22),
-                            margin: EdgeInsets.only(
-                              right: SizeConfig.calWidthMultiplier(17)
-                            ),
-                            duration: const Duration(milliseconds: 500),
-                            decoration: BoxDecoration(
-                              color: page == index ? pointOnBoardingColor : pointOnBoardingColor.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(
-                                SizeConfig.calWidthMultiplier(22)
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(40),
+                            width: SizeConfig.calWidthMultiplier(157.50),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  page = page + 1;
+                                  pageController.nextPage(
+                                    duration: const Duration(milliseconds: 800), 
+                                    curve: Curves.easeIn
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: buttonOnBoardingColor2
+                              ),
+                              child: Text(
+                                'Selanjutnya',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontWeight: FontWeight.w500
+                                ),
                               )
                             ),
-                          );
-                        }),
+                          ),
+                        ],
+                      ),
+                    )
+                    : page+1 == onBoardingItem.length
+                    ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(25)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(40),
+                            width: SizeConfig.calWidthMultiplier(157.50),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  page = page - 1;
+                                  pageController.previousPage(
+                                    duration: const Duration(milliseconds: 800), 
+                                    curve: Curves.easeIn
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: const BorderSide(
+                                  color: buttonOnBoardingColor1,
+                                  width: 1.5
+                                ),
+                                shadowColor: Colors.black
+                              ),
+                              child: Text(
+                                'Kembali',
+                                style: TextStyle(
+                                  color: buttonOnBoardingColor1,
+                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(40),
+                            width: SizeConfig.calWidthMultiplier(157.50),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                Navigator.pushReplacementNamed(context, LOGIN);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: buttonOnBoardingColor2
+                              ),
+                              child: Text(
+                                'login',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    : Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(25)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(40),
+                            width: SizeConfig.calWidthMultiplier(157.50),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  page = page - 1;
+                                  pageController.previousPage(
+                                    duration: const Duration(milliseconds: 800), 
+                                    curve: Curves.easeIn
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: const BorderSide(
+                                  color: buttonOnBoardingColor1,
+                                  width: 1.5
+                                ),
+                                shadowColor: Colors.black
+                              ),
+                              child: Text(
+                                'Kembali',
+                                style: TextStyle(
+                                  color: buttonOnBoardingColor1,
+                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(40),
+                            width: SizeConfig.calWidthMultiplier(157.50),
+                            child: ElevatedButton(
+                              onPressed: (){
+                                setState(() {
+                                  page = page + 1;
+                                  pageController.nextPage(
+                                    duration: const Duration(milliseconds: 800), 
+                                    curve: Curves.easeIn
+                                  );
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: buttonOnBoardingColor2
+                              ),
+                              child: Text(
+                                'Selanjutnya',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   ],
