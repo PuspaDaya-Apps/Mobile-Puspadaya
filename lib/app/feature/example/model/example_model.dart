@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'example_model.g.dart';
 
-// @JsonSerializable()
+@JsonSerializable()
 class Example{
   @JsonKey(name:'example_id')
   int id;
