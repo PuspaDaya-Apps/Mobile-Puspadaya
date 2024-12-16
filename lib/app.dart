@@ -26,6 +26,7 @@ class BuildApp extends StatelessWidget {
       theme: themeData,
       onGenerateRoute: MyRoute.generateRoute,
       initialRoute: SPLASHSCREEN,
+      // home: const OnBoardingScreen(),
     );
   }
 }
