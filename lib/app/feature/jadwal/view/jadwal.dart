@@ -28,8 +28,10 @@ class _JadwalViewState extends State<JadwalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: blueColor2,
+        shape: CircleBorder(),
         child: Icon(
+          size: 38,
           Icons.add,
           color: Colors.white,
         ),
@@ -237,7 +239,7 @@ class LocationCard extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 4,
+          width: SizeConfig.calWidthMultiplier(4),
         ),
         Text(
           '${location}',
@@ -402,8 +404,7 @@ class _CalenderViewState extends State<CalenderView> {
                       width: 34,
                       height: 34,
                       decoration: BoxDecoration(
-                        color: Colors.amber[
-                            200], // Sesuaikan dengan warna selected decoration
+                        color: yellowColor1, // Sesuaikan dengan warna selected decoration
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -411,7 +412,7 @@ class _CalenderViewState extends State<CalenderView> {
                           '${day.day}',
                           style: TextStyle(
                             color: Colors
-                                .white, // Sesuaikan dengan selected text style
+                                .black45, // Sesuaikan dengan selected text style
                             fontWeight: FontWeight.bold,
                           ),
                         ),

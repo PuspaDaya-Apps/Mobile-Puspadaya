@@ -114,7 +114,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                     'Nama Kegiatan',
                     style: TextStyle(fontSize: 12),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _nameController,
                     hintText: "Masukan Nama Kegiatan",
@@ -128,12 +128,12 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Tanggal',
                     style: TextStyle(fontSize: 12),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   DateTimePickerWidget(
                     isDate: true,
                     controller: _dateController,
@@ -148,7 +148,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
                   Row(
                     children: [
                       Expanded(
@@ -159,7 +159,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                               'Mulai',
                               style: TextStyle(fontSize: 12),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
                               isDate: false,
                               controller: _startTimeController,
@@ -186,7 +186,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                               'Berakhir',
                               style: TextStyle(fontSize: 12),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
                               isDate: false,
                               controller: _endTimeController,
@@ -206,12 +206,12 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Lokasi Kegiatan',
                     style: TextStyle(fontSize: 12),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _locationController,
                     hintText: "Masukan Lokasi Kegiatan",
@@ -225,7 +225,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
                   ButtonPrimary(
                     color: baseColor,
                     mainButtonMessage: 'Simpan',
