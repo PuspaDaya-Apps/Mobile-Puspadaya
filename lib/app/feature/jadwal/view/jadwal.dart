@@ -3,6 +3,7 @@ import 'package:puspadaya/app/feature/jadwal/model/schadule.dart' as Schadule;
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -26,6 +27,17 @@ class _JadwalViewState extends State<JadwalView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, CREATEJADWAL);
+          // Navigator.pushNamed(context, '/createJadwal');
+        },
+      ),
       backgroundColor: greyBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -116,50 +128,55 @@ class JadwalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8, top: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: BoxDecoration(
-        color: blueColor1,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DateCard(date),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  '${timeStart} - ${timeEnd}',
-                  style: TextStyle(
-                    color: secoundaryFontColor1,
-                    fontWeight: FontWeight.bold,
-                    fontSize: SizeConfig.calMultiplierText(16),
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, EDITJADWAL);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8, top: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: BoxDecoration(
+          color: blueColor1,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DateCard(date),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    '${timeStart} - ${timeEnd}',
+                    style: TextStyle(
+                      color: secoundaryFontColor1,
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.calMultiplierText(16),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const Divider(color: Colors.white),
-          Text(
-            '${name}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+              ],
             ),
-          ),
-          LocationCard(
-            location: location,
-          ),
-        ],
+            const Divider(color: Colors.white),
+            Text(
+              '${name}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            LocationCard(
+              location: location,
+            ),
+          ],
+        ),
       ),
     );
   }

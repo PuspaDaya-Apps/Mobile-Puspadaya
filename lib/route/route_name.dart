@@ -11,3 +11,5 @@ const String ERRORPAGE = "/ErrorPage";
 const String OTP = "/login/codeOTP";
 const String RESETPASSWORD = "/login/reset-password";
 const String JADWAL = '/jadwal';
+const String CREATEJADWAL = '/jadwal/create';
+const String EDITJADWAL = '/jadwal/edit';

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
+import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
 import '../app/view/screen/on_boarding_screen.dart';
@@ -30,6 +32,14 @@ class MyRoute {
       case JADWAL:
         return MaterialPageRoute(
             builder: (context) => const Jadwal(), settings: settings);
+
+      case CREATEJADWAL:
+        return MaterialPageRoute(
+            builder: (context) => const CreateJadwal(), settings: settings);
+
+      case EDITJADWAL:
+        return MaterialPageRoute(
+            builder: (context) => const EditJadwal(), settings: settings);
 
 
       default:

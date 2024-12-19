@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/screen_config/size_config.dart';
 import 'config/theme/theme.dart';
 import 'route/route_name.dart';
 import 'route/route_page.dart';
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
@@ -21,6 +23,16 @@ class BuildApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
+      locale: Locale('id', 'ID'), // Set default ke Indonesia
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('id', 'ID'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       title: 'Puspadaya',
       debugShowCheckedModeBanner: false,
       theme: themeData,
