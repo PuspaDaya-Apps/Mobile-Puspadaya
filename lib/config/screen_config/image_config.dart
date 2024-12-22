@@ -15,3 +15,8 @@ const String oTPCodeImage = 'assets/images/img_otp_code.png';
 const String resetPasswordImage = 'assets/images/img_reset_password.png';
 
 const String iconLocation = 'assets/icons/ic_location.png';
+const String iconHome = "assets/icons/ic_home.png";
+const String iconMeasuring = "assets/icons/ic_measuring.png";
+const String iconProfile = "assets/icons/ic_profile.png";
+const String iconSchadule = "assets/icons/ic_schadule.png";
+const String iconVisitation = "assets/icons/ic_visitaion.png";

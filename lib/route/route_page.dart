@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
 import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
@@ -41,6 +42,9 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const EditJadwal(), settings: settings);
 
+      case HOME:
+        return MaterialPageRoute(
+            builder: (context) => const HomeWrapper(), settings: settings);
 
       default:
         return PageTransition(
