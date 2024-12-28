@@ -10,6 +10,7 @@ const String logoNoText = 'assets/logo/logo_no_text.png';
 const String onBoarding1Image = 'assets/images/on_boarding1_image.png';
 const String onBoarding2Image = 'assets/images/on_boarding2_image.png';
 const String onBoarding3Image = 'assets/images/on_boarding3_image.png';
+const String exitImage = "assets/images/img_exit.png";
 
 const String userImageDefault = 'assets/images/user_default.png';
 const String oTPCodeImage = 'assets/images/img_otp_code.png';
@@ -21,3 +22,4 @@ const String iconMeasuring = "assets/icons/ic_measuring.png";
 const String iconProfile = "assets/icons/ic_profile.png";
 const String iconSchadule = "assets/icons/ic_schadule.png";
 const String iconVisitation = "assets/icons/ic_visitaion.png";
+

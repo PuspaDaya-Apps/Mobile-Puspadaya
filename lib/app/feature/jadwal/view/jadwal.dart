@@ -4,7 +4,6 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Jadwal extends StatelessWidget {
@@ -261,7 +260,6 @@ class CalenderView extends StatefulWidget {
 }
 
 class _CalenderViewState extends State<CalenderView> {
-  DateTime _today = DateTime.now();
   DateTime? _selectedDay;
   DateTime _focusedDay = DateTime.now();
   List<Schadule.Datum> schadules = [
@@ -306,8 +304,8 @@ class _CalenderViewState extends State<CalenderView> {
       updatedAt: DateTime.now(),
     ),
   ];
-  final ValueNotifier<List<Schadule.Datum>> _schadules =
-      ValueNotifier<List<Schadule.Datum>>([]);
+  // final ValueNotifier<List<Schadule.Datum>> _schadules =
+  //     ValueNotifier<List<Schadule.Datum>>([]);
   List<Schadule.Datum> _getEventsForDay(DateTime day) {
     return schadules.where((schedule) {
       return isSameDay(schedule.time, day);

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:puspadaya/app/feature/home/view/home.dart';
@@ -7,7 +5,6 @@ import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/kunjungan/view/kunjungan.dart';
 import 'package:puspadaya/app/feature/pengukuran/view/pengukuran.dart';
 import 'package:puspadaya/app/feature/profile/view/profile.dart';
-import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/icon/home_menu_icon.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
+import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
                 role: 'Ketua Kader',
               ),
               SizedBox(
-                height: 16,
+                height: SizeConfig.calHeightMultiplier(16),
               ),
               CardListActivity(
                 date: DateTime.now(),
@@ -47,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
               ),
               HomeMenuFeatures(),
               SizedBox(
-                height: 8,
+                height: SizeConfig.calHeightMultiplier(8),
               ),
               CardCarousel(),
               CardMessages(
@@ -78,10 +79,10 @@ class CardCarousel extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          spacing: 10,
+          spacing: SizeConfig.calWidthMultiplier(10),
           children: [
             SizedBox(
-              width: 18,
+              width: SizeConfig.calWidthMultiplier(18),
             ),
             HomeCard(
               title: 'Posyandu',
@@ -105,7 +106,7 @@ class CardCarousel extends StatelessWidget {
               isPositive: true,
             ),
             SizedBox(
-              width: 10,
+              width: SizeConfig.calWidthMultiplier(10),
             ),
           ],
         ),
@@ -148,8 +149,12 @@ class CardListActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 24),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin:
+          EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+      padding: EdgeInsets.symmetric(
+        horizontal: SizeConfig.calWidthMultiplier(16),
+        vertical: SizeConfig.calHeightMultiplier(12),
+      ),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
@@ -239,11 +244,11 @@ class ProfileSection extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            spacing: 12,
+            spacing: SizeConfig.calWidthMultiplier(12),
             children: [
               Image(
                 image: AssetImage(userImageDefault),
-                height: 50,
+                height: SizeConfig.calMultiplierImage(50),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,8 +275,8 @@ class ProfileSection extends StatelessWidget {
             ],
           ),
           Container(
-            width: 30,
-            height: 30,
+            width: SizeConfig.calWidthMultiplier(30),
+            height: SizeConfig.calHeightMultiplier(30),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: blueColor3.withValues(alpha: 0.3),
@@ -365,10 +370,11 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = 130.0;
+    double sizeHeighRowItemMenu = SizeConfig.calHeightMultiplier(130.0);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding:
+          EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 4,
@@ -532,8 +538,11 @@ class GraphData extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: 300,
-      margin: EdgeInsets.symmetric(horizontal: 24,vertical: 8),
+      height: SizeConfig.calHeightMultiplier(300),
+      margin: EdgeInsets.symmetric(
+        horizontal: SizeConfig.calWidthMultiplier(24),
+        vertical: SizeConfig.calHeightMultiplier(8),
+      ),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -559,7 +568,7 @@ class GraphData extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 8,
+            height: SizeConfig.calHeightMultiplier(8),
           ),
           Text(
             'Menampilkan grafik jumlah kunjungan yang telah dilakukan ketua kader',
@@ -570,27 +579,28 @@ class GraphData extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: SizeConfig.calHeightMultiplier(20),
           ),
           Expanded(
             child: Container(
               color: Colors.white,
               child: BarChart(
                 BarChartData(
-                  maxY: 70,
+                  maxY: maxY+10,
                   alignment: BarChartAlignment.spaceEvenly,
                   barGroups: dataChart,
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: 18, // Menyediakan ruang untuk judul
+                        reservedSize: SizeConfig.calWidthMultiplier(18) , // Menyediakan ruang untuk judul
                         getTitlesWidget: (value, meta) {
                           // Tentukan interval label secara dinamis
                           if (value % 10 == 0) {
                             return Text(
                               value.toInt().toString(),
-                              style: TextStyle(fontSize: 10, color: Colors.black38),
+                              style: TextStyle(
+                                  fontSize: 10, color: Colors.black38),
                             );
                           }
                           return Container(); // Kosongkan jika tidak memenuhi kriteria
@@ -602,13 +612,24 @@ class GraphData extends StatelessWidget {
                         showTitles: true,
                         getTitlesWidget: (value, meta) {
                           const months = [
-                            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-                            'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'Mei',
+                            'Jun',
+                            'Jul',
+                            'Ags',
+                            'Sep',
+                            'Okt',
+                            'Nov',
+                            'Des'
                           ];
                           if (value >= 0 && value < months.length) {
                             return Text(
                               months[value.toInt()],
-                              style: TextStyle(fontSize: 10, color: Colors.black38),
+                              style: TextStyle(
+                                  fontSize: 10, color: Colors.black38),
                             );
                           }
                           return Container(); // Kosongkan jika tidak valid
