@@ -131,7 +131,7 @@ class JadwalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, EDITJADWAL);
       },
       child: Container(
@@ -387,24 +387,13 @@ class _CalenderViewState extends State<CalenderView> {
               // Tambahkan marker untuk hari dengan jadwal
               markerBuilder: (context, day, events) {
                 if (events.isNotEmpty) {
-                  // if (day.day == DateTime.now().day) {
-                  //   return Container(
-                  //     child: Text(
-                  //       '${DateTime.now().day}',
-                  //       style: TextStyle(
-                  //         fontSize: 8,
-                  //         color: Colors.white,
-                  //         fontWeight: FontWeight.bold,
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
                   return Center(
                     child: Container(
                       width: 34,
                       height: 34,
                       decoration: BoxDecoration(
-                        color: yellowColor1, // Sesuaikan dengan warna selected decoration
+                        color:
+                            yellowColor1, // Sesuaikan dengan warna selected decoration
                         shape: BoxShape.circle,
                       ),
                       child: Center(
