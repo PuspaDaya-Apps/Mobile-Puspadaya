@@ -4,6 +4,7 @@
 
 const String SPLASHSCREEN = "/";
 const String ONBOARDING = "/OnBoarding";
+const String LOGIN = "/Login";
 
 const String ERRORPAGE = "/ErrorPage";
 
