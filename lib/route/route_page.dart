@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
 import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
+import 'package:puspadaya/app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import '../app/feature/login/view/login_screen.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
@@ -57,6 +58,10 @@ class MyRoute {
       case HOME:
         return MaterialPageRoute(
             builder: (context) => const HomeWrapper(), settings: settings);
+
+      case KEBIJAKAN_PRIVASI:
+        return MaterialPageRoute(
+            builder: (context) => const KebijakanPrivasi(), settings: settings);
 
       default:
         return PageTransition(

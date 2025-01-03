@@ -15,8 +15,8 @@ const Color fontColor1 = Color(0xFF181D27);
 const Color fontColor2 = Color(0xFF212529);
 
 const Color fontGray1 = Color(0xff6a6a6a);
-const Color blueColorDark = Color(0xff2F5F98);
-const Color redColor = Color(0xffE32B2B);
+// const Color blueColorDark = Color(0xff2F5F98);
+// const Color redColor = Color(0xffE32B2B);
 
 const Color fontColorTextFieldLogin = Color(0xFF2F5F98);
 const Color fontColorLupaPassword = Color(0xFFFB344F);

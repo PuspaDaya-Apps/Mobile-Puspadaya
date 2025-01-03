@@ -15,3 +15,4 @@ const String JADWAL = '/jadwal';
 const String CREATEJADWAL = '/jadwal/create';
 const String EDITJADWAL = '/jadwal/edit';
 const String HOME = "/home";
+const String KEBIJAKAN_PRIVASI = '/profile/kebijakan-privasi';
