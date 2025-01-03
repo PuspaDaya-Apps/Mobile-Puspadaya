@@ -4,6 +4,7 @@ import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -117,7 +118,9 @@ class _ProfileViewState extends State<ProfileView> {
                       title: "Kebijakan Aplikasi",
                       description: "Lihat kebijakan dan ketentuan.",
                       colorChevron: Colors.grey,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, KEBIJAKAN_PRIVASI);
+                      },
                     ),
                     CardMenuProfile(
                       icon: FluentIcons.arrow_exit_20_filled,

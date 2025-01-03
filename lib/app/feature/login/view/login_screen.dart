@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
@@ -152,7 +153,9 @@ class LoginScreenView extends StatelessWidget {
                                   top:SizeConfig.calHeightMultiplier(20)
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: (){},
+                                  onPressed: (){
+                                    Navigator.pushReplacementNamed(context, HOME);
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: buttonLoginColor,
                                     shape: RoundedRectangleBorder(
