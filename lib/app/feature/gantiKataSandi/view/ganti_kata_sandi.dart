@@ -41,6 +41,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
+        onBackPressed: () => Navigator.pop(context),
         title: "Ganti Kata Sandi",
       ),
       body: SafeArea(
