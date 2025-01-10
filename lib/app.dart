@@ -35,7 +35,7 @@ class BuildApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeData,
       onGenerateRoute: MyRoute.generateRoute,
-      initialRoute: HOME,
+      initialRoute: GANTI_KATA_SANDI,
       // home: const OnBoardingScreen(),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
+import 'package:puspadaya/app/feature/gantiProfile/view/ganti_profile.dart';
 import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
 import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
@@ -15,33 +17,26 @@ import '../app/view/screen/splash_screen.dart';
 
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name){
+    switch (settings.name) {
+      case SPLASHSCREEN:
+        return MaterialPageRoute(
+            builder: (context) => const SplashScreen(), settings: settings);
 
-      case SPLASHSCREEN :
-      return MaterialPageRoute(
-        builder: (context) => const SplashScreen(),
-        settings: settings
-      );
+      case ONBOARDING:
+        return MaterialPageRoute(
+            builder: (context) => const OnBoardingScreen(), settings: settings);
 
-      case ONBOARDING :
-      return MaterialPageRoute(
-        builder: (context) => const OnBoardingScreen(),
-        settings: settings
-      );
+      case LOGIN:
+        return MaterialPageRoute(
+            builder: (context) => const LoginScreen(), settings: settings);
 
-      case LOGIN :
-      return MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-        settings: settings
-      );
-      
       case OTP:
-      return MaterialPageRoute(
-        builder: (context) => const Jadwal(), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => const Jadwal(), settings: settings);
 
       case RESETPASSWORD:
-      return MaterialPageRoute(
-        builder: (context) => const ResetPassword(), settings: settings);
+        return MaterialPageRoute(
+            builder: (context) => const ResetPassword(), settings: settings);
 
       case JADWAL:
         return MaterialPageRoute(
@@ -62,6 +57,14 @@ class MyRoute {
       case KEBIJAKAN_PRIVASI:
         return MaterialPageRoute(
             builder: (context) => const KebijakanPrivasi(), settings: settings);
+
+      case GANTI_KATA_SANDI:
+        return MaterialPageRoute(
+            builder: (context) => const GantiKataSandi(), settings: settings);
+
+      case UBAH_PROFILE:
+        return MaterialPageRoute(
+            builder: (context) => const GantiProfile(), settings: settings);
 
       default:
         return PageTransition(
