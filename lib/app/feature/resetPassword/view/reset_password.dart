@@ -4,6 +4,7 @@ import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/validator/passowrd_validator.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -13,6 +14,7 @@ class ResetPassword extends StatelessWidget {
     return ResetPasswordView();
   }
 }
+
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});
 
@@ -25,38 +27,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-
-  String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Kata sandi tidak boleh kosong';
-    }
-    if (value.length < 8) {
-      return 'Kata sandi harus minimal 8 karakter';
-    }
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung huruf besar';
-    }
-    if (!RegExp(r'[a-z]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung huruf kecil';
-    }
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung angka';
-    }
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung simbol';
-    }
-    return null;
-  }
-
-  String? confirmPasswordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Konfirmasi kata sandi tidak boleh kosong';
-    }
-    if (value != passwordController.text) {
-      return 'Kata sandi tidak cocok';
-    }
-    return null;
-  }
 
   void handleSubmit() {
     if (formKey.currentState?.validate() ?? false) {
@@ -126,7 +96,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Masukan Kata Sandi Baru",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: passwordValidator,
+                    validator: (value) =>
+                        PasswordValidator.passwordValidator(value),
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
@@ -141,7 +112,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Konfirmasi Masukan Kata Sandi",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: confirmPasswordValidator,
+                    validator: (value) =>
+                        PasswordValidator.confirmPasswordValidator(
+                            value, passwordController.text),
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),

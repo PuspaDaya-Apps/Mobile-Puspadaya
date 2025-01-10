@@ -16,3 +16,5 @@ const String CREATEJADWAL = '/jadwal/create';
 const String EDITJADWAL = '/jadwal/edit';
 const String HOME = "/home";
 const String KEBIJAKAN_PRIVASI = '/profile/kebijakan-privasi';
+const String GANTI_KATA_SANDI = '/profile/ganti-kata-sandi';
+const String UBAH_PROFILE = '/profile/ubah-profile';

@@ -38,12 +38,15 @@ class _ProfileViewState extends State<ProfileView> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24), vertical: SizeConfig.calHeightMultiplier(16)),
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.calWidthMultiplier(24),
+              vertical: SizeConfig.calHeightMultiplier(16)),
           child: Column(
-            spacing: SizeConfig.calHeightMultiplier(24) ,
+            spacing: SizeConfig.calHeightMultiplier(24),
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: SizeConfig.calHeightMultiplier(24)),
+                padding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.calHeightMultiplier(24)),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: baseColor,
@@ -84,7 +87,9 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: SizeConfig.calHeightMultiplier(24), horizontal: SizeConfig.calWidthMultiplier(16)),
+                padding: EdgeInsets.symmetric(
+                    vertical: SizeConfig.calHeightMultiplier(24),
+                    horizontal: SizeConfig.calWidthMultiplier(16)),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -104,14 +109,18 @@ class _ProfileViewState extends State<ProfileView> {
                       title: "Ubah Profil",
                       description: "Perbarui informasi pribadi Anda.",
                       colorChevron: Colors.grey,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, UBAH_PROFILE);
+                      },
                     ),
                     CardMenuProfile(
                       icon: FluentIcons.lock_closed_key_24_regular,
                       title: "Ganti Kata Sandi",
                       description: "Perbarui kata sandi akun.",
                       colorChevron: Colors.grey,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, GANTI_KATA_SANDI);
+                      },
                     ),
                     CardMenuProfile(
                       icon: FluentIcons.channel_24_regular,
@@ -140,9 +149,7 @@ class _ProfileViewState extends State<ProfileView> {
                               cancelButton: () {
                                 Navigator.of(context).pop();
                               },
-                              mainButton: () {
-
-                              },
+                              mainButton: () {},
                               cancelButtonMessage: 'Batalkan',
                               mainButtonMessage: 'Iya, saya ingin keluar',
                             );
