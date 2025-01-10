@@ -18,7 +18,9 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: onBackPressed != null
           ? IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+              icon: const Icon(
+                Icons.arrow_back_ios_new_rounded,
+              ),
               onPressed: onBackPressed,
             )
           : null,
