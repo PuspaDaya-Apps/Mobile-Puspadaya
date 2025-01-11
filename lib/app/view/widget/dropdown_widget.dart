@@ -7,11 +7,13 @@ class DropdownWidget extends StatelessWidget {
   final ValueChanged<dynamic>? onChanged;
   final String hint;
   final String value;
+  final FormFieldValidator<String>? validator;
   DropdownWidget(
       {super.key,
       required this.items,
       this.onChanged,
       required this.hint,
+      this.validator,
       required this.value});
 
   @override
@@ -28,6 +30,7 @@ class DropdownWidget extends StatelessWidget {
         );
       }).toList(),
       onChanged: onChanged,
+      validator: validator,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
