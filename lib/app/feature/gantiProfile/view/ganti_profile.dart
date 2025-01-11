@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/appbar.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button.dart';
@@ -9,7 +11,6 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/config/validator/profile_validator.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
 
 class GantiProfile extends StatelessWidget {
   const GantiProfile({super.key});
@@ -32,6 +33,9 @@ class _GantiProfileViewState extends State<GantiProfileView> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _addressFormKey = GlobalKey<_AddressFormFieldState>();
+  String? _imagePath;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +59,13 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ProfilePicture(),
+                  ProfilePicture(
+                    onImageSelected: (path) {
+                      setState(() {
+                        _imagePath = path;
+                      });
+                    },
+                  ),
 
                   // nama lenkap
                   Text(
@@ -119,7 +129,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     height: SizeConfig.calHeightMultiplier(16),
                   ),
 
-                  // email
+                  // alamat
                   Text(
                     'Alamat',
                     style: AppTextStyles.primaryTextMedium.copyWith(
@@ -127,13 +137,21 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     ),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  AddressFormField(),
+                  AddressFormField(key: _addressFormKey),
                   SizedBox(height: SizeConfig.calHeightMultiplier(32)),
                   ButtonPrimary(
                     color: bluePrimary40,
                     mainButtonMessage: "Simpan",
                     mainButton: () {
-                      if (_formKey.currentState?.validate() ?? false) {}
+                      if (_formKey.currentState?.validate() ?? false) {
+                        print('nama lengkap ${_nameController.text}');
+                        print('nomor telepon ${_phoneController.text}');
+                        print('email ${_emailController.text}');
+                        final address =
+                            _addressFormKey.currentState?.getAddress();
+                        print('alamat: $address');
+                        print('image path: $_imagePath');
+                      }
                     },
                   ),
                 ],
@@ -170,6 +188,11 @@ class _AddressFormFieldState extends State<AddressFormField> {
   final List<String> dusun = ['Krajan', 'Lugonto', 'Srampon'];
   final List<String> rtOptions = ['001', '002', '003'];
   final List<String> rwOptions = ['01', '02', '03'];
+
+  String getAddress() {
+    return 'Kota: $selectedKota, Kecamatan: $selectedKecamatan, Desa: $selectedDesa, Dusun: $selectedDusun, RT: ${_rtController.text}, RW: ${_rwController.text}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -266,10 +289,31 @@ class _AddressFormFieldState extends State<AddressFormField> {
   }
 }
 
-class ProfilePicture extends StatelessWidget {
+class ProfilePicture extends StatefulWidget {
+  final Function(String) onImageSelected;
+
   const ProfilePicture({
     super.key,
+    required this.onImageSelected,
   });
+
+  @override
+  _ProfilePictureState createState() => _ProfilePictureState();
+}
+
+class _ProfilePictureState extends State<ProfilePicture> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    setState(() {
+      _image = pickedFile;
+      if (_image != null) {
+        widget.onImageSelected(_image!.path);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -291,9 +335,16 @@ class ProfilePicture extends StatelessWidget {
                 color: Colors.grey,
                 shape: BoxShape.circle,
               ),
-              child: Image(
-                image: AssetImage(userImageDefault),
-              ),
+              child: _image == null
+                  ? Image.asset(userImageDefault)
+                  : ClipOval(
+                      child: Image.file(
+                        File(_image!.path),
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
             ),
             Positioned(
               bottom: 0,
@@ -309,7 +360,7 @@ class ProfilePicture extends StatelessWidget {
                   onTap: () {
                     showModalBottomSheet(
                       useSafeArea: true,
-                      barrierColor: Colors.black.withValues(alpha: 0.5),
+                      barrierColor: Colors.black.withOpacity(0.5),
                       context: context,
                       builder: (context) {
                         return Container(
@@ -336,6 +387,10 @@ class ProfilePicture extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 title: Text('Camera'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.camera);
+                                },
                               ),
                               ListTile(
                                 leading: Icon(
@@ -343,6 +398,10 @@ class ProfilePicture extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 title: Text('Gallery'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  _pickImage(ImageSource.gallery);
+                                },
                               ),
                             ],
                           ),
