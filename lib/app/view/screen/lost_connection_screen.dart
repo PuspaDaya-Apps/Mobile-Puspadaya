@@ -16,19 +16,16 @@ class LostConnectionScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              lostConnectionVector,
-              scale: SizeConfig.calMultiplierImage(200)
-            ),
+            Image.asset(lostConnectionVector,
+                scale: SizeConfig.calMultiplierImage(200)),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Koneksi Terputus',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: fontColor1,
-                fontSize: SizeConfig.calMultiplierText(20),
-                fontWeight: FontWeight.w500
-              ),
+                  color: textPrimary20,
+                  fontSize: SizeConfig.calMultiplierText(20),
+                  fontWeight: FontWeight.w500),
             )
           ],
         ),

@@ -7,6 +7,7 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 class Home extends StatelessWidget {
@@ -32,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.only(top: 16),
           child: ListView(
             children: [
               ProfileSection(
@@ -158,7 +159,7 @@ class CardListActivity extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: baseColor,
+        color: bluePrimaryMain,
         boxShadow: [
           BoxShadow(
             color: Color(0xffE4E6E9).withValues(alpha: 0.3),
@@ -178,9 +179,8 @@ class CardListActivity extends StatelessWidget {
                 children: [
                   Text(
                     '${date.day.toString().padLeft(2, '0')}',
-                    style: TextStyle(
+                    style: AppTextStyles.primaryTextSemibold.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 30,
                     ),
                   ),
@@ -210,9 +210,8 @@ class CardListActivity extends StatelessWidget {
               ),
               Text(
                 '${location}',
-                style: TextStyle(
+                style: AppTextStyles.primaryTextMedium.copyWith(
                   fontSize: 12,
-                  fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),
               )
@@ -256,16 +255,15 @@ class ProfileSection extends StatelessWidget {
                 children: [
                   Text(
                     'Selamat Datang ${name}',
-                    style: TextStyle(
-                      color: fontColor1,
-                      fontWeight: FontWeight.bold,
+                    style: AppTextStyles.primaryTextMedium.copyWith(
+                      color: textPrimary10,
                       fontSize: 12,
                     ),
                   ),
                   Text(
                     '${role}',
                     style: TextStyle(
-                      color: fontGray1,
+                      color: textSecoundary,
                       fontWeight: FontWeight.normal,
                       fontSize: 10,
                     ),
@@ -279,12 +277,12 @@ class ProfileSection extends StatelessWidget {
             height: SizeConfig.calHeightMultiplier(30),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: blueColor3.withValues(alpha: 0.3),
+              color: bluePrimaryMain.withValues(alpha: 0.3),
             ),
             child: Center(
               child: FaIcon(
                 FontAwesomeIcons.solidBell,
-                color: blueColor3,
+                color: bluePrimaryMain,
                 size: 18,
               ),
             ),
@@ -586,14 +584,15 @@ class GraphData extends StatelessWidget {
               color: Colors.white,
               child: BarChart(
                 BarChartData(
-                  maxY: maxY+10,
+                  maxY: maxY + 10,
                   alignment: BarChartAlignment.spaceEvenly,
                   barGroups: dataChart,
                   titlesData: FlTitlesData(
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: SizeConfig.calWidthMultiplier(18) , // Menyediakan ruang untuk judul
+                        reservedSize: SizeConfig.calWidthMultiplier(
+                            18), // Menyediakan ruang untuk judul
                         getTitlesWidget: (value, meta) {
                           // Tentukan interval label secara dinamis
                           if (value % 10 == 0) {

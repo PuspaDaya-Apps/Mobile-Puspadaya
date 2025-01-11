@@ -4,6 +4,7 @@ import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 class Profile extends StatelessWidget {
@@ -30,9 +31,8 @@ class _ProfileViewState extends State<ProfileView> {
         automaticallyImplyLeading: false,
         title: Text(
           'Profile',
-          style: TextStyle(
+          style: AppTextStyles.primaryTextSemibold.copyWith(
             fontSize: 16,
-            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -49,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
                     vertical: SizeConfig.calHeightMultiplier(24)),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: baseColor,
+                  color: bluePrimaryMain,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
@@ -67,16 +67,14 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       Text(
                         'Ayu Dewi',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                        style: AppTextStyles.primaryTextSemibold.copyWith(
                           fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
                       Text(
                         '081234567890',
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
+                        style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,
                           color: Colors.white,
                         ),
@@ -217,18 +215,15 @@ class CardMenuProfile extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: AppTextStyles.primaryTextMedium.copyWith(
                     color: Colors.black,
                     fontSize: 13,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   description,
-                  style: TextStyle(
-                    color: Colors.black45,
+                  style: AppTextStyles.secoundaryTextNormal.copyWith(
                     fontSize: 11,
-                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
