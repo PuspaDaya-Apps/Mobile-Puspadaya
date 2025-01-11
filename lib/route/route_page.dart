@@ -6,6 +6,7 @@ import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
 import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
 import 'package:puspadaya/app/feature/kebijakanPrivasi/view/kebijakan.dart';
+import 'package:puspadaya/app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
@@ -32,7 +33,7 @@ class MyRoute {
 
       case OTP:
         return MaterialPageRoute(
-            builder: (context) => const Jadwal(), settings: settings);
+            builder: (context) => const OtpScreen(), settings: settings);
 
       case RESETPASSWORD:
         return MaterialPageRoute(

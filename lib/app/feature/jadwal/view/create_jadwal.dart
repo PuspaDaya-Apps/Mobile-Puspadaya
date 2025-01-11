@@ -87,7 +87,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: greyBackgroundColor,
+      backgroundColor: backgroundWhite10,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -128,7 +128,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Tanggal',
                     style: TextStyle(fontSize: 12),
@@ -148,7 +148,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
                     children: [
                       Expanded(
@@ -206,7 +206,7 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       ),
                     ],
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Lokasi Kegiatan',
                     style: TextStyle(fontSize: 12),
@@ -225,9 +225,9 @@ class _CreateJadwalState extends State<CreateJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   ButtonPrimary(
-                    color: baseColor,
+                    color: bluePrimaryMain,
                     mainButtonMessage: 'Simpan',
                     mainButton: () {
                       if (_formKey.currentState!.validate()) {

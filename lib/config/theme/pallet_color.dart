@@ -1,38 +1,35 @@
 import 'package:flutter/material.dart';
 
 //! contoh variabel 'const Color exampleColor = Color(0xFFFFFFFF);'
-const Color whiteBackgroundColor = Color(0xfff9f9f9);
-const Color greyBackgroundColor = Color(0xfff3f3f3);
-const Color secoundaryFontColor1 = Color(0xff6B7897);
-const Color baseColor = Color(0xFF4BA1FF);
-const Color blueColor1 = Color(0xff4F9FFD);
-const Color blueColor2 = Color(0xff2F5F98);
-const Color blueColor3 = Color(0xff4AA1FF);
-const Color yellowColor1 = Color(0xffF1F688);
+// const Color whiteBackgroundColor = Color(0xfff9f9f9);
+// const Color greyBackgroundColor = Color(0xfff3f3f3);
+// const Color secoundaryFontColor1 = Color(0xff6B7897);
+// const Color baseColor = Color(0xFF4BA1FF);
+// const Color blueColor1 = Color(0xff4F9FFD);
+// const Color blueColor2 = Color(0xff2F5F98);
+// const Color blueColor3 = Color(0xff4AA1FF);
+// const Color yellowColor1 = Color(0xffF1F688);
 
-const Color backgroundLoginColor = Color(0xFF00AECD);
-const Color fontColor1 = Color(0xFF181D27);
-const Color fontColor2 = Color(0xFF212529);
+// const Color backgroundLoginColor = Color(0xFF00AECD);
 
-const Color fontGray1 = Color(0xff6a6a6a);
+// // const Color blueColorDark = Color(0xff2F5F98);
+// // const Color redColor = Color(0xffE32B2B);
+
+// const Color fontColorTextFieldLogin = Color(0xFF2F5F98);
+// const Color fontColorLupaPassword = Color(0xFFFB344F);
+// const Color buttonLoginColor = Color(0xFF4F9FFD);
+// const Color checkBoxLoginColor = Color(0xFFCDD1E0);
+// const Color buttonLupaKataSandiColor1 = Color(0xFFE5F1FF);
+// const Color buttonLupaKataSandiColor2 = Color(0xFF1F2855);
+// const Color buttonOnBoardingColor1 = Color(0xFFA6A9AD);
+// const Color buttonOnBoardingColor2 = Color(0xFF3F7FCA);
+
+// const Color borderDefaultColor = Color(0xFFC6C6C6);
+
 // const Color blueColorDark = Color(0xff2F5F98);
 // const Color redColor = Color(0xffE32B2B);
 
-const Color fontColorTextFieldLogin = Color(0xFF2F5F98);
-const Color fontColorLupaPassword = Color(0xFFFB344F);
-const Color buttonLoginColor = Color(0xFF4F9FFD);
-const Color checkBoxLoginColor = Color(0xFFCDD1E0);
-const Color buttonLupaKataSandiColor1 = Color(0xFFE5F1FF);
-const Color buttonLupaKataSandiColor2 = Color(0xFF1F2855);
-const Color buttonOnBoardingColor1 = Color(0xFFA6A9AD);
-const Color buttonOnBoardingColor2 = Color(0xFF3F7FCA);
-
-const Color borderDefaultColor = Color(0xFFC6C6C6);
-
-const Color blueColorDark = Color(0xff2F5F98);
-const Color redColor = Color(0xffE32B2B);
-
-// new pallete
+// // new pallete
 
 // blue
 const Color bluePrimary10 = Color(0xff003a5c);
@@ -94,7 +91,11 @@ const Color redPrimary80 = Color(0xFFF6A2AB);
 const Color redPrimary90 = Color(0xFFFFCCD1);
 
 //text
-const Color textPrimary = Color(0xff212529);
+const Color textPrimary10 = Color(0xff212529);
+const Color textPrimary20 = Color(0xFF181D27);
+const Color textPrimary30 = Color(0xFF212529);
+
+const Color fontGray1 = Color(0xff6a6a6a);
 const Color textSecoundary = Color(0xffA6A8A9);
 const Color textThird = Color(0xff2f5f98);
 const Color textUrgent = Color(0xffdc3545);

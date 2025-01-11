@@ -7,7 +7,7 @@ part 'example_state.dart';
 class ExampleBloc extends Bloc<ExampleEvent, ExampleState> {
   ExampleBloc() : super(ExampleInitial()) {
     on<ExampleEvent>((event, emit) {
-      // TODO: implement event handler
+      // TODO: implement event handler000
     });
   }
 }

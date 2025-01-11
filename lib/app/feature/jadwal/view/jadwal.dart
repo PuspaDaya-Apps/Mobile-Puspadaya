@@ -27,7 +27,7 @@ class _JadwalViewState extends State<JadwalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: blueColor2,
+        backgroundColor: bluePrimary40,
         shape: CircleBorder(),
         child: Icon(
           size: 38,
@@ -39,7 +39,7 @@ class _JadwalViewState extends State<JadwalView> {
           // Navigator.pushNamed(context, '/createJadwal');
         },
       ),
-      backgroundColor: greyBackgroundColor,
+      backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: SingleChildScrollView(
           // Gunakan SingleChildScrollView
@@ -137,7 +137,7 @@ class JadwalCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 8, top: 8),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
-          color: blueColor1,
+          color: bluePrimaryMain,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -157,7 +157,7 @@ class JadwalCard extends StatelessWidget {
                   child: Text(
                     '${timeStart} - ${timeEnd}',
                     style: TextStyle(
-                      color: secoundaryFontColor1,
+                      color: textSecoundary,
                       fontWeight: FontWeight.bold,
                       fontSize: SizeConfig.calMultiplierText(16),
                     ),
@@ -326,7 +326,7 @@ class _CalenderViewState extends State<CalenderView> {
             locale: 'id_ID',
             headerStyle: HeaderStyle(
               titleTextStyle: TextStyle(
-                color: secoundaryFontColor1,
+                color: textPrimary10.withValues(alpha: 0.6),
                 fontWeight: FontWeight.w500,
                 fontSize: SizeConfig.calMultiplierText(16),
               ),
@@ -391,7 +391,7 @@ class _CalenderViewState extends State<CalenderView> {
                       height: 34,
                       decoration: BoxDecoration(
                         color:
-                            yellowColor1, // Sesuaikan dengan warna selected decoration
+                            goldPrimary70, // Sesuaikan dengan warna selected decoration
                         shape: BoxShape.circle,
                       ),
                       child: Center(
@@ -454,7 +454,7 @@ class _CalenderViewState extends State<CalenderView> {
                     child: Text(
                       'Tidak ada jadwal untuk hari ini',
                       style: TextStyle(
-                        color: secoundaryFontColor1,
+                        color: textSecoundary,
                         fontSize: 16,
                       ),
                     ),

@@ -97,7 +97,7 @@ class _EditJadwalState extends State<EditJadwal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: greyBackgroundColor,
+      backgroundColor: backgroundWhite10,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -124,7 +124,7 @@ class _EditJadwalState extends State<EditJadwal> {
                     'Nama Kegiatan',
                     style: TextStyle(fontSize: 12),
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(8)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _nameController,
                     hintText: "Masukan Nama Kegiatan",
@@ -138,12 +138,12 @@ class _EditJadwalState extends State<EditJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Tanggal',
                     style: TextStyle(fontSize: 12),
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(8)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   DateTimePickerWidget(
                     isDate: true,
                     controller: _dateController,
@@ -158,7 +158,7 @@ class _EditJadwalState extends State<EditJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
                     children: [
                       Expanded(
@@ -169,7 +169,7 @@ class _EditJadwalState extends State<EditJadwal> {
                               'Mulai',
                               style: TextStyle(fontSize: 12),
                             ),
-                            SizedBox(height:  SizeConfig.calHeightMultiplier(8)),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
                               isDate: false,
                               controller: _startTimeController,
@@ -196,7 +196,7 @@ class _EditJadwalState extends State<EditJadwal> {
                               'Berakhir',
                               style: TextStyle(fontSize: 12),
                             ),
-                            SizedBox(height:  SizeConfig.calHeightMultiplier(8)),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
                               isDate: false,
                               controller: _endTimeController,
@@ -216,12 +216,12 @@ class _EditJadwalState extends State<EditJadwal> {
                       ),
                     ],
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Lokasi Kegiatan',
                     style: TextStyle(fontSize: 12),
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(8)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _locationController,
                     hintText: "Masukan Lokasi Kegiatan",
@@ -235,9 +235,9 @@ class _EditJadwalState extends State<EditJadwal> {
                       return null;
                     },
                   ),
-                  SizedBox(height:  SizeConfig.calHeightMultiplier(16)),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   ButtonPrimary(
-                    color: baseColor,
+                    color: bluePrimaryMain,
                     mainButtonMessage: 'Simpan',
                     mainButton: () {
                       if (_formKey.currentState!.validate()) {

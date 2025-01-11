@@ -4,7 +4,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 class AppTextStyles {
   static TextStyle primaryText = TextStyle(
     fontFamily: 'Poppins',
-    color: textPrimary,
+    color: textPrimary10,
   );
 
   static TextStyle secoundaryText = TextStyle(

@@ -48,7 +48,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
               iconSize: 24,
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
               duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: baseColor,
+              tabBackgroundColor: bluePrimaryMain,
               color: Colors.grey.shade500,
               gap: 4,
               tabBorderRadius: 12,

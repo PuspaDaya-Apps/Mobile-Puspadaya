@@ -23,36 +23,25 @@ class _CheckboxLoginWidgetState extends State<CheckboxLoginWidget> {
         Transform.scale(
           scale: 1.3,
           child: Checkbox(
-            value: widget.ingatSaya,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5)
-            ),
-            side: const BorderSide(
-              width: 1,
-              color: checkBoxLoginColor
-            ),
-            activeColor: checkBoxLoginColor,
-            checkColor: Colors.white,
-            visualDensity: const VisualDensity(
-              horizontal: -4, 
-              vertical: -4
-            ),
-            onChanged: (value) {
-              setState(() {
-                widget.ingatSaya = !widget.ingatSaya ;
-              });
-            }
-          ),
+              value: widget.ingatSaya,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              side: const BorderSide(width: 1, color: stroke10),
+              activeColor: stroke10,
+              checkColor: Colors.white,
+              visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+              onChanged: (value) {
+                setState(() {
+                  widget.ingatSaya = !widget.ingatSaya;
+                });
+              }),
         ),
         const SizedBox(width: 4),
-        Text(
-          'Ingat Saya',
-          style: TextStyle(
-            color: fontColor2,
-            fontSize: SizeConfig.calMultiplierText(12),
-            fontWeight: FontWeight.w400
-          )
-        )
+        Text('Ingat Saya',
+            style: TextStyle(
+                color: textPrimary30,
+                fontSize: SizeConfig.calMultiplierText(12),
+                fontWeight: FontWeight.w400))
       ],
     );
   }

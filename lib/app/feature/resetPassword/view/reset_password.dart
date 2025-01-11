@@ -40,9 +40,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
+      backgroundColor: backgroundWhite,
       appBar: AppBar(
-        backgroundColor: whiteBackgroundColor,
+        backgroundColor: backgroundWhite,
         title: const Text(
           'Ganti Kata Sandi',
           style: TextStyle(
@@ -80,7 +80,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   const Text(
                     'Atur Ulang Kata Sandi',
                     style: TextStyle(
-                      color: blueColorDark,
+                      color: bluePrimary20,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,7 +88,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Kata Sandi Baru',
-                    style: TextStyle(color: fontColor2),
+                    style: TextStyle(color: bluePrimary20),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
@@ -104,7 +104,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Konfirmasi Kata Sandi',
-                    style: TextStyle(color: fontColor2),
+                    style: TextStyle(color: bluePrimary20),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
@@ -120,7 +120,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   ButtonPrimary(
-                    color: baseColor,
+                    color: bluePrimaryMain,
                     mainButtonMessage: "Ganti Kata Sandi",
                     mainButton: handleSubmit,
                   ),

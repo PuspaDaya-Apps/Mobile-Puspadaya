@@ -31,7 +31,7 @@ class TextFieldWidget extends StatelessWidget {
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,
-        fillColor: whiteBackgroundColor,
+        fillColor: backgroundWhite,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
@@ -42,7 +42,7 @@ class TextFieldWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: baseColor),
+          borderSide: const BorderSide(width: 1, color: bluePrimaryMain),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

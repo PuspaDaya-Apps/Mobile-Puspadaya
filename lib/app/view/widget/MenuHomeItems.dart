@@ -26,7 +26,7 @@ class HomeMenuItems extends StatelessWidget {
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-            color: baseColor.withValues(alpha: 0.3),
+            color: bluePrimaryMain.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: Colors.white,

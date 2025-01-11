@@ -5,7 +5,7 @@ import '../../../config/screen_config/size_config.dart';
 import '../../../config/theme/pallet_color.dart';
 import '../../../route/route_name.dart';
 
-class SplashScreen extends StatefulWidget{
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
@@ -13,11 +13,10 @@ class SplashScreen extends StatefulWidget{
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3)).then((value){
+    Future.delayed(const Duration(seconds: 3)).then((value) {
       Navigator.pushReplacementNamed(context, ONBOARDING);
     });
   }
@@ -25,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: baseColor,
+      backgroundColor: bluePrimaryMain,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -42,17 +41,15 @@ class _SplashScreenState extends State<SplashScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(
-                bottom: SizeConfig.calHeightMultiplier(25) 
-              ),
+              padding:
+                  EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
               child: Text(
                 "V. 1.0",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: SizeConfig.calMultiplierText(18),
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600
-                ),
+                    fontSize: SizeConfig.calMultiplierText(18),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           )
