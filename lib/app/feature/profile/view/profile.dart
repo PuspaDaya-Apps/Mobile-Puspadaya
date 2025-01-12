@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
+import 'package:puspadaya/app/view/widget/appbar.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -27,14 +28,9 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Profile',
-          style: AppTextStyles.primaryTextSemibold.copyWith(
-            fontSize: 16,
-          ),
-        ),
+      appBar: PrimaryAppBar(
+        title: "Profile",
+        onBackPressed: null,
       ),
       body: SafeArea(
         child: Container(
@@ -89,15 +85,16 @@ class _ProfileViewState extends State<ProfileView> {
                     vertical: SizeConfig.calHeightMultiplier(24),
                     horizontal: SizeConfig.calWidthMultiplier(16)),
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 30,
-                        offset: const Offset(0, 0),
-                        color: Colors.black.withValues(alpha: 0.1),
-                      ),
-                    ]),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 30,
+                      offset: const Offset(0, 0),
+                      color: Colors.black.withValues(alpha: 0.1),
+                    ),
+                  ],
+                ),
                 child: Column(
                   spacing: SizeConfig.calHeightMultiplier(26),
                   mainAxisSize: MainAxisSize.min,

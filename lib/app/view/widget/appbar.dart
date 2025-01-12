@@ -26,9 +26,9 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
       backgroundColor: Colors.white,
       title: Text(
-        'Ganti Kata Sandi',
+        '${title}',
         style: AppTextStyles.primaryTextSemibold.copyWith(
-          fontSize: 16,
+          fontSize: 20,
         ),
       ),
       actions: actions,
