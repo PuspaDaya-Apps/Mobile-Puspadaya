@@ -10,6 +10,7 @@ import 'package:puspadaya/app/view/widget/riwayat_ibu_hamil_items.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 class Pengukuran extends StatelessWidget {
   const Pengukuran({super.key});
@@ -44,6 +45,25 @@ class _PengukuranViewState extends State<PengukuranView> {
         title: "Pengukuran",
         actions: [],
         onBackPressed: null,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: bluePrimary40,
+        shape: CircleBorder(),
+        child: Icon(
+          size: 38,
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          switch (selectedMenu) {
+            case 'kehadiran':
+              Navigator.pushNamed(context, CREATE_JADWAL);
+              break;
+            default:
+          }
+
+          // Navigator.pushNamed(context, '/createJadwal');
+        },
       ),
       body: SafeArea(
         child: Container(
@@ -94,6 +114,7 @@ class _PengukuranViewState extends State<PengukuranView> {
     switch (selectedMenu) {
       case 'Kehadiran':
         return DaftarKehadiranItems(
+          onTap: () {},
           location: "Posyandu A",
           date: "08/10/2024",
           duration: "5 jam 25 menit",
@@ -101,6 +122,7 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Pengukuran Balita':
         return PengukuranBalitaItems(
+          onTap: () {},
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
           date: "08/10/2024",
@@ -108,12 +130,14 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Pengukuran Ibu Hamil':
         return PengukuranIbuHamilItems(
+          onTap: () {},
           name: "Siti Aminah",
           nik: "362155482327264",
           date: "08/10/2024",
         );
       case 'Pengukuran Tamu':
         return PengukuranTamuItems(
+          onTap: () {},
           name: "Ahmad Tamu",
           nik: "362155482327265",
           date: "08/10/2024",
@@ -121,12 +145,14 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Riwayat Balita':
         return RiwayatBalitaItems(
+          onTap: () {},
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
           gender: 'Laki-Laki',
         );
       case 'Riwayat Ibu Hamil':
         return RiwayatIbuHamilItems(
+          onTap: () {},
           name: "Siti Aminah",
           nik: "362155482327264",
           gestationalAge: "6 bulan",

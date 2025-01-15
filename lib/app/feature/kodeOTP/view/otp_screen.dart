@@ -100,7 +100,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
           mainButton: () {
             if (formKey.currentState!.validate()) {
               logger.d(pinController.text);
-              Navigator.pushReplacementNamed(context, RESETPASSWORD);
+              Navigator.pushReplacementNamed(context, RESET_PASSWORD);
             }
           },
           mainButtonMessage: 'Verifikasi Kode OTP',

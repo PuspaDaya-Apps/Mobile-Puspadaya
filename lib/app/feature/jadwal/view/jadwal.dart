@@ -35,7 +35,7 @@ class _JadwalViewState extends State<JadwalView> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATEJADWAL);
+          Navigator.pushNamed(context, CREATE_JADWAL);
           // Navigator.pushNamed(context, '/createJadwal');
         },
       ),
@@ -131,7 +131,7 @@ class JadwalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, EDITJADWAL);
+        Navigator.pushNamed(context, EDIT_JADWAL);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 8, top: 8),

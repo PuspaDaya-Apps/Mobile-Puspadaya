@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+class DetailPengukuranBalita extends StatelessWidget {
+  const DetailPengukuranBalita({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const DetailPengukuranBalitaView();
+  }
+}
+
+class DetailPengukuranBalitaView extends StatefulWidget {
+  const DetailPengukuranBalitaView({super.key});
+
+  @override
+  State<DetailPengukuranBalitaView> createState() =>
+      _DetailPengukuranBalitaViewState();
+}
+
+class _DetailPengukuranBalitaViewState
+    extends State<DetailPengukuranBalitaView> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
