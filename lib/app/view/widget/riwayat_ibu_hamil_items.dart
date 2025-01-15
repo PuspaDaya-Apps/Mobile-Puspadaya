@@ -6,9 +6,11 @@ class RiwayatIbuHamilItems extends StatelessWidget {
   final String name;
   final String nik;
   final String gestationalAge;
+  final VoidCallback onTap;
 
   const RiwayatIbuHamilItems({
     super.key,
+    required this.onTap,
     required this.name,
     required this.nik,
     required this.gestationalAge,
@@ -17,7 +19,7 @@ class RiwayatIbuHamilItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       title: Container(
         child: Column(
           spacing: 4,

@@ -7,9 +7,10 @@ class PengukuranBalitaItems extends StatelessWidget {
   final String nik;
   final String date;
   final String place;
-
+  final VoidCallback onTap;
   const PengukuranBalitaItems({
     super.key,
+    required this.onTap,
     required this.place,
     required this.name,
     required this.date,
@@ -19,6 +20,7 @@ class PengukuranBalitaItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       title: Container(
         child: Column(
           spacing: 4,

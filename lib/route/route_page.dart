@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
+import 'package:puspadaya/app/feature/createPengukuranBalita/view/create_pengukuran_balita.dart';
+import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
+import 'package:puspadaya/app/feature/detailPengukuranBalita/view/detail_pengukuran_anak.dart';
+import 'package:puspadaya/app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
+import 'package:puspadaya/app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
 import 'package:puspadaya/app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import 'package:puspadaya/app/feature/gantiProfile/view/ganti_profile.dart';
 import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
@@ -35,25 +43,28 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const OtpScreen(), settings: settings);
 
-      case RESETPASSWORD:
+      case RESET_PASSWORD:
         return MaterialPageRoute(
             builder: (context) => const ResetPassword(), settings: settings);
-
-      case JADWAL:
-        return MaterialPageRoute(
-            builder: (context) => const Jadwal(), settings: settings);
-
-      case CREATEJADWAL:
-        return MaterialPageRoute(
-            builder: (context) => const CreateJadwal(), settings: settings);
-
-      case EDITJADWAL:
-        return MaterialPageRoute(
-            builder: (context) => const EditJadwal(), settings: settings);
 
       case HOME:
         return MaterialPageRoute(
             builder: (context) => const HomeWrapper(), settings: settings);
+
+      // JADWAL
+      case JADWAL:
+        return MaterialPageRoute(
+            builder: (context) => const Jadwal(), settings: settings);
+
+      case CREATE_JADWAL:
+        return MaterialPageRoute(
+            builder: (context) => const CreateJadwal(), settings: settings);
+
+      case EDIT_JADWAL:
+        return MaterialPageRoute(
+            builder: (context) => const EditJadwal(), settings: settings);
+
+      // PROFILE
 
       case KEBIJAKAN_PRIVASI:
         return MaterialPageRoute(
@@ -66,6 +77,45 @@ class MyRoute {
       case UBAH_PROFILE:
         return MaterialPageRoute(
             builder: (context) => const GantiProfile(), settings: settings);
+
+      // PENGUKURAN
+      case CREATE_KEHADIRAN:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKehadiran(), settings: settings);
+
+      case DETAIL_KEHADIRAN:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKehadiran(), settings: settings);
+
+      case CREATE_PENGUKURAN_BALITA:
+        return MaterialPageRoute(
+            builder: (context) => const CreatePengukuranBalita(),
+            settings: settings);
+
+      case DETAIL_PENGUKURAN_BALITA:
+        return MaterialPageRoute(
+            builder: (context) => const DetailPengukuranBalita(),
+            settings: settings);
+
+      case CREATE_PENGUKURAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const CreatePengukuranIbuHamil(),
+            settings: settings);
+
+      case DETAIL_PENGUKURAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const DetailPengukuranIbuHamil(),
+            settings: settings);
+
+      case DETAIL_RIWAYAT_BALITA:
+        return MaterialPageRoute(
+            builder: (context) => const DetailRiwayatBalita(),
+            settings: settings);
+
+      case DETAIL_RIWAYAT_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const DetailRiwayatIbuHamil(),
+            settings: settings);
 
       default:
         return PageTransition(

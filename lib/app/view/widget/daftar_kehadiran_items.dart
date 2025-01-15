@@ -7,8 +7,10 @@ class DaftarKehadiranItems extends StatelessWidget {
   final String date;
   final String duration;
   final String status;
+  final VoidCallback onTap;
   const DaftarKehadiranItems({
     super.key,
+    required this.onTap,
     required this.duration,
     required this.status,
     required this.location,
@@ -18,6 +20,7 @@ class DaftarKehadiranItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: onTap,
       title: Container(
         child: Column(
           spacing: 4,

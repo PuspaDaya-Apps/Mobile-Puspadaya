@@ -6,10 +6,12 @@ class PengukuranIbuHamilItems extends StatelessWidget {
   final String name;
   final String nik;
   final String date;
+  final VoidCallback onTap;
 
   const PengukuranIbuHamilItems({
     super.key,
     required this.name,
+    required this.onTap,
     required this.date,
     required this.nik,
   });
@@ -17,7 +19,7 @@ class PengukuranIbuHamilItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       title: Container(
         child: Column(
           spacing: 4,

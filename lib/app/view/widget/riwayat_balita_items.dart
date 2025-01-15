@@ -8,9 +8,11 @@ class RiwayatBalitaItems extends StatelessWidget {
   final String gender;
   int? year;
   int? month;
+  final VoidCallback onTap;
 
   RiwayatBalitaItems({
     super.key,
+    required this.onTap,
     this.year,
     this.month,
     required this.name,
@@ -21,7 +23,7 @@ class RiwayatBalitaItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: onTap,
       title: Container(
         child: Column(
           spacing: 4,
