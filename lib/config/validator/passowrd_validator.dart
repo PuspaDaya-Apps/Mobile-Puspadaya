@@ -1,4 +1,17 @@
+// !validator terlalu boiler plate jika di gunakan seperti ini
 class PasswordValidator {
+  // static String? required(value, String message) {
+  //   if (value == null || value.isEmpty) {
+  //     return message;
+  //   }
+  // }
+
+  // static String? min(value, int min, String message) {
+  //   if (value.length < min) {
+  //     return message;
+  //   }
+  // }
+
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Kata sandi tidak boleh kosong';

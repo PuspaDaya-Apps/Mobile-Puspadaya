@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/view/widget/appbar.dart';
 import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
@@ -88,12 +89,10 @@ class _CreateJadwalState extends State<CreateJadwal> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundWhite10,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text('Buat Jadwal Posyandu'),
+      appBar: PrimaryAppBar(
+        title: "Buat Jadwal Posyandu",
+        actions: [],
+        onBackPressed: () => Navigator.pop(context),
       ),
       body: SafeArea(
         child: Padding(
