@@ -9,7 +9,6 @@ import 'package:puspadaya/app/view/widget/riwayat_balita_items.dart';
 import 'package:puspadaya/app/view/widget/riwayat_ibu_hamil_items.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
-import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 class Pengukuran extends StatelessWidget {
@@ -57,7 +56,16 @@ class _PengukuranViewState extends State<PengukuranView> {
         onPressed: () {
           switch (selectedMenu) {
             case 'kehadiran':
-              Navigator.pushNamed(context, CREATE_JADWAL);
+              Navigator.pushNamed(context, CREATE_KEHADIRAN);
+              break;
+            case 'Pengukuran Balita':
+              Navigator.pushNamed(context, CREATE_PENGUKURAN_BALITA);
+              break;
+            case 'Pengukuran Ibu Hamil':
+              Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL);
+              break;
+            case 'Pengukuran Tamu':
+              Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
               break;
             default:
           }
@@ -114,7 +122,9 @@ class _PengukuranViewState extends State<PengukuranView> {
     switch (selectedMenu) {
       case 'Kehadiran':
         return DaftarKehadiranItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_KEHADIRAN);
+          },
           location: "Posyandu A",
           date: "08/10/2024",
           duration: "5 jam 25 menit",
@@ -122,7 +132,9 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Pengukuran Balita':
         return PengukuranBalitaItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_PENGUKURAN_BALITA);
+          },
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
           date: "08/10/2024",
@@ -130,14 +142,18 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Pengukuran Ibu Hamil':
         return PengukuranIbuHamilItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL);
+          },
           name: "Siti Aminah",
           nik: "362155482327264",
           date: "08/10/2024",
         );
       case 'Pengukuran Tamu':
         return PengukuranTamuItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU);
+          },
           name: "Ahmad Tamu",
           nik: "362155482327265",
           date: "08/10/2024",
@@ -145,14 +161,18 @@ class _PengukuranViewState extends State<PengukuranView> {
         );
       case 'Riwayat Balita':
         return RiwayatBalitaItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_RIWAYAT_BALITA);
+          },
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
           gender: 'Laki-Laki',
         );
       case 'Riwayat Ibu Hamil':
         return RiwayatIbuHamilItems(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL);
+          },
           name: "Siti Aminah",
           nik: "362155482327264",
           gestationalAge: "6 bulan",
