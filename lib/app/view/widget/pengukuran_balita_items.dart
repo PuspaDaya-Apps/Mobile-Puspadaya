@@ -37,7 +37,7 @@ class PengukuranBalitaItems extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Column(
-                spacing: 2,
+                spacing: 1,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

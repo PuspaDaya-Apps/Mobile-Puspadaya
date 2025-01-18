@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/createPengukuranBalita/bloc/cubit/search_balita_cubit.dart';
 import 'package:puspadaya/app/feature/createPengukuranBalita/view/search_balita.dart';
 import 'package:puspadaya/app/view/widget/appbar.dart';
@@ -54,6 +55,10 @@ class _CreatePengukuranBalitaViewState
   final _formKey = GlobalKey<FormState>();
   String selectedPosyandu = 'Posyandu A';
   String selectedPosition = 'Terlentang';
+  String selectedHeight = 'Microtoise';
+  String selectedWeight = 'Timbangan Digital';
+  String selectedUpperArmCircumference = 'Pita Lila';
+  String selectedUterineFundalHeight = 'Metline';
 
   final List<String> selectPosyandu = [
     'Posyandu A',
@@ -77,7 +82,74 @@ class _CreatePengukuranBalitaViewState
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: "Pengukuran Anak",
-        actions: [],
+        actions: [
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialogFormWidget(
+                  title: 'Pilih Alat Ukur',
+                  mainButton: () {
+                    Navigator.pop(context);
+                  },
+                  mainButtonMessage: 'Simpan',
+                  colorMainButton: bluePrimaryMain,
+                  selectedHeight: selectedHeight,
+                  selectedWeight: selectedWeight,
+                  selectedUpperArmCircumference: selectedUpperArmCircumference,
+                  selectedUterineFundalHeight: selectedUterineFundalHeight,
+                  onHeightChanged: (value) {
+                    setState(() {
+                      selectedHeight = value;
+                    });
+                  },
+                  onWeightChanged: (value) {
+                    setState(() {
+                      selectedWeight = value;
+                    });
+                  },
+                  onUpperArmCircumferenceChanged: (value) {
+                    setState(() {
+                      selectedUpperArmCircumference = value;
+                    });
+                  },
+                  onUterineFundalHeightChanged: (value) {
+                    setState(() {
+                      selectedUterineFundalHeight = value;
+                    });
+                  },
+                ),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.only(right: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: bluePrimary30,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                spacing: 2,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    FontAwesomeIcons.penToSquare,
+                    color: Colors.white,
+                    size: 14,
+                  ),
+                  Text(
+                    'Ubah Alat',
+                    style: AppTextStyles.primaryTextMedium.copyWith(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
         onBackPressed: () => Navigator.pop(context),
       ),
       body: SafeArea(
@@ -516,6 +588,176 @@ class TextFormFieldSearch extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(width: 1, color: Colors.red),
+        ),
+      ),
+    );
+  }
+}
+
+class AlertDialogFormWidget extends StatelessWidget {
+  final String title;
+  final VoidCallback mainButton;
+  final String mainButtonMessage;
+  final Color colorMainButton;
+  final String selectedHeight;
+  final String selectedWeight;
+  final String selectedUpperArmCircumference;
+  final String selectedUterineFundalHeight;
+  final ValueChanged onHeightChanged;
+  final ValueChanged onWeightChanged;
+  final ValueChanged onUpperArmCircumferenceChanged;
+  final ValueChanged onUterineFundalHeightChanged;
+
+  List<String> selectHeight = [
+    'Microtoise',
+    'Alat Ukur Tinggi Badan',
+    'Alat Ukur Lainnya',
+  ];
+
+  List<String> selectWeight = [
+    'Timbangan Digital',
+    'Timbangan Manual',
+    'Timbangan Lainnya',
+  ];
+
+  List<String> selectUpperArmCircumference = [
+    'Pita Lila',
+    'Alat Ukur Lainnya',
+  ];
+
+  List<String> selectUterineFundalHeight = [
+    'Metline',
+    'Alat Ukur Lainnya',
+  ];
+
+  AlertDialogFormWidget({
+    super.key,
+    required this.title,
+    required this.mainButton,
+    required this.mainButtonMessage,
+    required this.colorMainButton,
+    required this.selectedHeight,
+    required this.selectedWeight,
+    required this.selectedUpperArmCircumference,
+    required this.selectedUterineFundalHeight,
+    required this.onHeightChanged,
+    required this.onWeightChanged,
+    required this.onUpperArmCircumferenceChanged,
+    required this.onUterineFundalHeightChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      scrollable: true, // Make the dialog scrollable
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              textAlign: TextAlign.center,
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+                fontSize: SizeConfig.calHeightMultiplier(16),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tinggi Badan',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      DropdownWidget(
+                        items: selectHeight,
+                        hint: 'Tinggi Badan',
+                        value: selectedHeight,
+                        onChanged: onHeightChanged, // Update selected height
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Lingkar Lengan Atas',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      DropdownWidget(
+                        items: selectUpperArmCircumference,
+                        hint: 'Lingkar Lengan Atas',
+                        value: selectedUpperArmCircumference,
+                        onChanged:
+                            onUpperArmCircumferenceChanged, // Update selected upper arm circumference
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Berat Badan',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      DropdownWidget(
+                        items: selectWeight,
+                        hint: 'Berat Badan',
+                        value: selectedWeight,
+                        onChanged: onWeightChanged, // Update selected weight
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Tinggi Fundus Uteri',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      DropdownWidget(
+                        items: selectUterineFundalHeight,
+                        hint: 'Tinggi Fundus Uteri',
+                        value: selectedUterineFundalHeight,
+                        onChanged:
+                            onUterineFundalHeightChanged, // Update selected uterine fundal height
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(30)),
+            ButtonPrimary(
+              mainButtonMessage: mainButtonMessage,
+              mainButton: mainButton,
+              color: colorMainButton,
+            ),
+          ],
         ),
       ),
     );
