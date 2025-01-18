@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  auto_size_text_field: ^2.2.4
   bloc: ^8.1.4
   camera: ^0.11.0+2
   carousel_slider: ^5.0.0

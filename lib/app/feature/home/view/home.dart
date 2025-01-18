@@ -368,7 +368,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = SizeConfig.calHeightMultiplier(130.0);
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 6.6;
 
     return Container(
       padding:
