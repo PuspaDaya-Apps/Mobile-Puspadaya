@@ -12,6 +12,12 @@ class PasswordValidator {
   //   }
   // }
 
+  // static String? max(value, int max, String message) {
+  //   if (value.length > max) {
+  //     return message;
+  //   }
+  // }
+
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Kata sandi tidak boleh kosong';

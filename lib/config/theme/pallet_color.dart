@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 
 // const Color backgroundLoginColor = Color(0xFF00AECD);
 
-// // const Color blueColorDark = Color(0xff2F5F98);
-// // const Color redColor = Color(0xffE32B2B);
+// const Color blueColorDark = Color(0xff2F5F98);
+// const Color redColor = Color(0xffE32B2B);
 
 // const Color fontColorTextFieldLogin = Color(0xFF2F5F98);
 // const Color fontColorLupaPassword = Color(0xFFFB344F);
@@ -29,7 +29,7 @@ import 'package:flutter/material.dart';
 // const Color blueColorDark = Color(0xff2F5F98);
 // const Color redColor = Color(0xffE32B2B);
 
-// // new pallete
+// new pallete
 
 // blue
 const Color bluePrimary10 = Color(0xff003a5c);
