@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/view/widget/primary_button.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
@@ -21,7 +21,8 @@ class AlertDialogWidget extends StatelessWidget {
     required this.mainButtonMessage,
     this.cancelButtonMessage,
     this.cancelButton,
-    this.image, required this.colorMainButton,
+    this.image,
+    required this.colorMainButton,
   });
 
   @override

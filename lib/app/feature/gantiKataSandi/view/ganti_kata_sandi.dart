@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/view/widget/appbar.dart';
-import 'package:puspadaya/app/view/widget/primary_button.dart';
+import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';

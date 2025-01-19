@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
-import 'package:puspadaya/app/view/widget/home_card.dart';
+import 'package:puspadaya/app/view/widget/home_card_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
