@@ -1,8 +1,10 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/createPengukuranBalita/model/balita_search.dart';
 import 'package:puspadaya/app/view/widget/appbar.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 class SearchBalita extends StatelessWidget {
   const SearchBalita({super.key});
@@ -23,9 +25,33 @@ class SearchBalitaView extends StatefulWidget {
 class _SearchBalitaViewState extends State<SearchBalitaView> {
   TextEditingController _searchController = TextEditingController();
   // Placeholder values for the variables
-  String name = "Muhammad Kaivan Al Hakim";
-  String nik = "362155482327263";
-  String parent = "Sela Khusnanda";
+  final List<BalitaSearch> balitaList = [
+    BalitaSearch(
+      name: "Muhammad Kaivan Al Hakim",
+      nik: "362155482327263",
+      parent: "Sela Khusnanda",
+    ),
+    BalitaSearch(
+      name: "Muhammad Ilham Azaka",
+      nik: "362155482327263",
+      parent: "Sela Khusnanda",
+    ),
+    BalitaSearch(
+      name: "Muhammad Kelvin Aliya",
+      nik: "362155482327263",
+      parent: "Sela Khusnanda",
+    ),
+    BalitaSearch(
+      name: "Muhammad Zein Akrobi",
+      nik: "362155482327263",
+      parent: "Sela Khusnanda",
+    ),
+    BalitaSearch(
+      name: "Muhammad Amirul Aljabar",
+      nik: "362155482327263",
+      parent: "Sela Khusnanda",
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,12 +106,15 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: balitaList.length,
             itemBuilder: (context, index) {
+              BalitaSearch balita = balitaList[index];
               return Column(
                 children: [
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context, balita);
+                    },
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -101,7 +130,7 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            '$name',
+                            balita.name,
                             style: AppTextStyles.primaryTextMedium.copyWith(
                               fontSize: 14,
                               color: Colors.white,
@@ -123,7 +152,7 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: nik,
+                                    text: balita.nik,
                                     style: AppTextStyles.primaryTextNormal
                                         .copyWith(
                                       fontSize: 12,
@@ -151,7 +180,7 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: parent,
+                                    text: balita.parent,
                                     style: AppTextStyles.primaryTextNormal
                                         .copyWith(
                                       fontSize: 12,

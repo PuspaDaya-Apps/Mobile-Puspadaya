@@ -2,20 +2,24 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/createPengukuranBalita/bloc/cubit/search_balita_cubit.dart';
+import 'package:puspadaya/app/feature/createPengukuranBalita/model/balita_search.dart';
 import 'package:puspadaya/app/feature/createPengukuranBalita/view/search_balita.dart';
 import 'package:puspadaya/app/view/widget/appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
+import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/measuring_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button.dart';
 import 'package:puspadaya/app/view/widget/radio_button_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/config/validator/pengukuran_balita_validator.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 class CreatePengukuranBalita extends StatelessWidget {
   const CreatePengukuranBalita({super.key});
@@ -189,10 +193,12 @@ class _CreatePengukuranBalitaViewState
                             listener: (context, state) {
                               if (state is SearchBalitaSelected) {
                                 _nameController.text = state.name;
+                                _nikController.text = state.nik;
                               }
                             },
                             child: TextFormFieldSearch(
-                                nameController: _nameController),
+                              controller: _nameController,
+                            ),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Visibility(
@@ -499,27 +505,73 @@ class _CreatePengukuranBalitaViewState
                           color: bluePrimaryMain,
                           mainButtonMessage: 'Simpan',
                           mainButton: () {
-                            if (_formKey.currentState!.validate()) {
-                              print('Nama: ${_nameController.text}');
-                              print('NIK: ${_nikController.text}');
-                              print('Usia: ${_ageController.text}');
-                              print('Tempat Pengukuran: $selectedPosyandu');
-                              print('Posisi Pengukuran: $selectedPosition');
-                              print(
-                                  'Tinggi Badan: ${_heightController.text} cm');
-                              print(
-                                  'Lingkar Lengan Atas: ${_upperArmCircumferenceController.text} cm');
-                              print(
-                                  'Berat Badan: ${_weightController.text} kg');
-                              print(
-                                  'Lingkar Kepala: ${_headCircumferenceController.text} cm');
-                              print(
-                                  'Asi Eksklusif: ${asiEksklusifValue == 1 ? 'Ya' : 'Tidak'}');
-                              print(
-                                  'MPASI: ${mpasiValue == 1 ? 'Ya' : 'Tidak'}');
-                              print('Catatan: ${_catatanController.text}');
-                              print('Keluhan: ${_keluhanController.text}');
-                            }
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialogSave(
+                                  cancelButton: () {
+                                    Navigator.pop(context);
+                                  },
+                                  mainButton: () {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialogResult(
+                                          nik: _nikController.text,
+                                          name: _nameController.text,
+                                          statusStunting: 'Normal',
+                                          statusGizi: 'Normal',
+                                          mainButton: () {
+                                            Navigator.pop(context);
+                                          },
+                                          mainButtonMessage:
+                                              'Tambah Pengukuran',
+                                          cancelButton: () {
+                                            Navigator.pop(
+                                                context); // Tutup dialog AlertDialogResult
+                                            // ! terdapat permasalahan disini
+                                          },
+                                          cancelButtonMessage: 'Selesai',
+                                          colorMainButton: bluePrimaryMain,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  cancelButtonMessage: 'Tidak',
+                                  mainButtonMessage: 'Iya Simpan Data',
+                                  colorMainButton: bluePrimaryMain,
+                                  heighValue: _heightController.text,
+                                  weightValue: _weightController.text,
+                                  upperArmCircumference:
+                                      _upperArmCircumferenceController.text,
+                                  uterineFundalHeightValue:
+                                      _upperArmCircumferenceController.text,
+                                );
+                              },
+                            );
+
+                            // if (_formKey.currentState!.validate()) {
+                            //   print('Nama: ${_nameController.text}');
+                            //   print('NIK: ${_nikController.text}');
+                            //   print('Usia: ${_ageController.text}');
+                            //   print('Tempat Pengukuran: $selectedPosyandu');
+                            //   print('Posisi Pengukuran: $selectedPosition');
+                            //   print(
+                            //       'Tinggi Badan: ${_heightController.text} cm');
+                            //   print(
+                            //       'Lingkar Lengan Atas: ${_upperArmCircumferenceController.text} cm');
+                            //   print(
+                            //       'Berat Badan: ${_weightController.text} kg');
+                            //   print(
+                            //       'Lingkar Kepala: ${_headCircumferenceController.text} cm');
+                            //   print(
+                            //       'Asi Eksklusif: ${asiEksklusifValue == 1 ? 'Ya' : 'Tidak'}');
+                            //   print(
+                            //       'MPASI: ${mpasiValue == 1 ? 'Ya' : 'Tidak'}');
+                            //   print('Catatan: ${_catatanController.text}');
+                            //   print('Keluhan: ${_keluhanController.text}');
+                            // }
                           },
                         ),
                       ],
@@ -538,14 +590,15 @@ class _CreatePengukuranBalitaViewState
 class TextFormFieldSearch extends StatelessWidget {
   const TextFormFieldSearch({
     super.key,
-    required TextEditingController nameController,
-  }) : _nameController = nameController;
+    required this.controller,
+  });
 
-  final TextEditingController _nameController;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: true,
       validator: (value) {
         PengukuranBalitaValidator.validateNama(value!);
       },
@@ -556,11 +609,17 @@ class TextFormFieldSearch extends StatelessWidget {
             builder: (context) => SearchBalita(),
           ),
         );
+        logger.d(result);
         if (result != null) {
-          context.read<SearchBalitaCubit>().selectBalita(result);
+          // result harus berisi objek Balita
+          context
+              .read<SearchBalitaCubit>()
+              .selectBalita(result.name, result.nik);
+          // Kembalikan data ke halaman sebelumnya
+          // Navigator.pop(context, result);
         }
       },
-      controller: _nameController,
+      controller: controller,
       style: Theme.of(context).textTheme.bodySmall,
       keyboardType: TextInputType.text,
       obscureText: false,
@@ -757,6 +816,353 @@ class AlertDialogFormWidget extends StatelessWidget {
               mainButton: mainButton,
               color: colorMainButton,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AlertDialogSave extends StatelessWidget {
+  final String heighValue;
+  final String weightValue;
+  final String upperArmCircumference;
+  final String uterineFundalHeightValue;
+
+  final VoidCallback mainButton;
+  final String mainButtonMessage;
+  final Color colorMainButton;
+  final String? cancelButtonMessage;
+  final VoidCallback? cancelButton;
+  const AlertDialogSave({
+    super.key,
+    required this.mainButton,
+    required this.mainButtonMessage,
+    required this.colorMainButton,
+    this.cancelButtonMessage,
+    this.cancelButton,
+    required this.heighValue,
+    required this.weightValue,
+    required this.upperArmCircumference,
+    required this.uterineFundalHeightValue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      scrollable: true, // Make the dialog scrollable
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Image(
+                image: AssetImage(imageConfirmSave),
+                height: 200,
+                width: 200,
+              ),
+            ),
+            Text(
+              textAlign: TextAlign.center,
+              'Apakah Anda Yakin Untuk Menyimpan Data?',
+              style: AppTextStyles.primaryTextSemibold.copyWith(
+                fontSize: SizeConfig.calHeightMultiplier(16),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+            Text(
+              textAlign: TextAlign.start,
+              'Data Pengukuran : ',
+              style: AppTextStyles.secoundaryText.copyWith(
+                fontSize: SizeConfig.calHeightMultiplier(12),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            Row(
+              spacing: 8,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tinggi Badan',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                              text: heighValue,
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'cm',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Lingkar Lengan Atas',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                              text: upperArmCircumference,
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'cm',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Berat Badan',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                              text: weightValue,
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'kg',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Tinggi Fundus Uteri',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                              text: uterineFundalHeightValue,
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'cm',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(30)),
+            ButtonPrimary(
+              mainButtonMessage: mainButtonMessage,
+              mainButton: mainButton,
+              color: colorMainButton,
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(12),
+            ),
+            // Tampilkan cancel button hanya jika keduanya tidak null
+            if (cancelButtonMessage != null && cancelButton != null)
+              Center(
+                child: GestureDetector(
+                  onTap: cancelButton,
+                  child: Text(
+                    cancelButtonMessage!,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AlertDialogResult extends StatelessWidget {
+  final String nik;
+  final String name;
+  final String statusStunting;
+  final String statusGizi;
+  final VoidCallback mainButton;
+  final String mainButtonMessage;
+  final Color colorMainButton;
+  final String? cancelButtonMessage;
+  final VoidCallback? cancelButton;
+
+  const AlertDialogResult({
+    super.key,
+    required this.nik,
+    required this.name,
+    required this.statusStunting,
+    required this.statusGizi,
+    required this.mainButton,
+    required this.mainButtonMessage,
+    required this.colorMainButton,
+    this.cancelButtonMessage,
+    this.cancelButton,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      scrollable: true, // Make the dialog scrollable
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        width: MediaQuery.sizeOf(context).width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Ensure Column adapts to its content
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                'Hasil Pengukuran',
+                style: AppTextStyles.primaryTextSemibold.copyWith(
+                  fontSize: SizeConfig.calHeightMultiplier(16),
+                ),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+            Text(
+              'Identitas Anak',
+              style: AppTextStyles.primaryTextSemibold.copyWith(
+                fontSize: SizeConfig.calHeightMultiplier(12),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(4)),
+            Text(
+              'NIK : ${nik}',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: SizeConfig.calHeightMultiplier(12),
+              ),
+            ),
+            Text(
+              'Nama : ${name}',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: SizeConfig.calHeightMultiplier(12),
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Status Stunting',
+                        style: AppTextStyles.primaryTextMedium.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      InfoFieldWidget(text: statusStunting),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Status Gizi',
+                        style: AppTextStyles.primaryTextMedium.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      InfoFieldWidget(text: statusGizi),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(30)),
+            ButtonPrimary(
+              mainButtonMessage: mainButtonMessage,
+              mainButton: mainButton,
+              color: colorMainButton,
+            ),
+            if (cancelButtonMessage != null && cancelButton != null) ...[
+              SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+              Center(
+                child: GestureDetector(
+                  onTap: cancelButton,
+                  child: Text(
+                    cancelButtonMessage!,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ]
           ],
         ),
       ),
