@@ -11,8 +11,9 @@ class SearchBalitaInitial extends SearchBalitaState {}
 
 class SearchBalitaSelected extends SearchBalitaState {
   final String name;
+  final String nik;
 
-  const SearchBalitaSelected(this.name);
+  const SearchBalitaSelected(this.name, this.nik);
 
   @override
   List<Object> get props => [name];

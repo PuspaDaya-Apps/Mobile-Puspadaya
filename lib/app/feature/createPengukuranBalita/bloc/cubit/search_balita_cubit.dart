@@ -6,7 +6,7 @@ part 'search_balita_state.dart';
 class SearchBalitaCubit extends Cubit<SearchBalitaState> {
   SearchBalitaCubit() : super(SearchBalitaInitial());
 
-  void selectBalita(String name) {
-    emit(SearchBalitaSelected(name));
+  void selectBalita(String name, String nik) {
+    emit(SearchBalitaSelected(name, nik));
   }
 }
