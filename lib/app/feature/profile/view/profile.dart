@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
-import 'package:puspadaya/app/view/widget/appbar.dart';
+import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';

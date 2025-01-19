@@ -1,55 +1,48 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/model/balita_search.dart';
-import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/feature/createPengukuranIbuHamil/model/ibu_hamil_search.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
 
-class SearchBalita extends StatelessWidget {
-  const SearchBalita({super.key});
+class SearchIbuHamil extends StatelessWidget {
+  const SearchIbuHamil({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SearchBalitaView();
+    return SearchIbuHamilView();
   }
 }
 
-class SearchBalitaView extends StatefulWidget {
-  const SearchBalitaView({super.key});
+class SearchIbuHamilView extends StatefulWidget {
+  const SearchIbuHamilView({super.key});
 
   @override
-  State<SearchBalitaView> createState() => _SearchBalitaViewState();
+  State<SearchIbuHamilView> createState() => _SearchIbuHamilViewState();
 }
 
-class _SearchBalitaViewState extends State<SearchBalitaView> {
+class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
   // Placeholder values for the variables
-  final List<BalitaSearch> balitaList = [
-    BalitaSearch(
-      name: "Muhammad Kaivan Al Hakim",
+  final List<IbuHamilSearch> ibuHamilList = [
+    IbuHamilSearch(
+      name: "Kurma Melati Ayu Putri",
       nik: "362155482327263",
-      parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
-      name: "Muhammad Ilham Azaka",
+    IbuHamilSearch(
+      name: "Mentari Kumala Sari",
       nik: "362155482327263",
-      parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
-      name: "Muhammad Kelvin Aliya",
+    IbuHamilSearch(
+      name: "Dewi antasari",
       nik: "362155482327263",
-      parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
-      name: "Muhammad Zein Akrobi",
+    IbuHamilSearch(
+      name: "Adianti Ayu Lestari",
       nik: "362155482327263",
-      parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
-      name: "Muhammad Amirul Aljabar",
+    IbuHamilSearch(
+      name: "Della Marisa ",
       nik: "362155482327263",
-      parent: "Sela Khusnanda",
     ),
   ];
   @override
@@ -106,14 +99,14 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
           child: ListView.builder(
-            itemCount: balitaList.length,
+            itemCount: ibuHamilList.length,
             itemBuilder: (context, index) {
-              BalitaSearch balita = balitaList[index];
+              IbuHamilSearch ibuHamil = ibuHamilList[index];
               return Column(
                 children: [
                   ListTile(
                     onTap: () {
-                      Navigator.pop(context, balita);
+                      Navigator.pop(context, ibuHamil);
                     },
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,66 +123,30 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            balita.name,
+                            ibuHamil.name,
                             style: AppTextStyles.primaryTextMedium.copyWith(
                               fontSize: 14,
                               color: Colors.white,
                             ),
                           ),
                         ),
-                        Row(
-                          spacing: 10,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "NIK : ",
-                                    style: AppTextStyles.primaryTextNormal
-                                        .copyWith(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: balita.nik,
-                                    style: AppTextStyles.primaryTextNormal
-                                        .copyWith(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "NIK : ",
+                                style: AppTextStyles.primaryTextNormal.copyWith(
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            Container(
-                              height: 15, // Set a fixed height for the divider
-                              width: 2,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(24),
+                              TextSpan(
+                                text: ibuHamil.nik,
+                                style: AppTextStyles.primaryTextNormal.copyWith(
+                                  fontSize: 12,
+                                ),
                               ),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Ibu : ",
-                                    style: AppTextStyles.primaryTextNormal
-                                        .copyWith(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: balita.parent,
-                                    style: AppTextStyles.primaryTextNormal
-                                        .copyWith(
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
