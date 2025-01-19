@@ -4,7 +4,7 @@ import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart
 import 'package:puspadaya/app/feature/createPengukuranBalita/view/create_pengukuran_balita.dart';
 import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
-import 'package:puspadaya/app/feature/detailPengukuranBalita/view/detail_pengukuran_anak.dart';
+import 'package:puspadaya/app/feature/detailPengukuranBalita/view/detail_pengukuran_balita.dart';
 import 'package:puspadaya/app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
 import 'package:puspadaya/app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
