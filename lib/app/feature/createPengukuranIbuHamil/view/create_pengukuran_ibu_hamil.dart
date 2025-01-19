@@ -407,6 +407,8 @@ class _CreatePengukuranIbuHamilViewState
                     children: [
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           spacing: 8,
                           children: [
                             Text(
@@ -416,8 +418,8 @@ class _CreatePengukuranIbuHamilViewState
                               ),
                             ),
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               spacing: 16,
                               children: [
                                 CustomRadioButton(
