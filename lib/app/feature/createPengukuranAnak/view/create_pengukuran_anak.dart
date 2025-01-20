@@ -1,9 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/Bloc/cubit/search_balita_cubit.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/model/balita_search.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/view/search_balita.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/Bloc/cubit/search_anak_cubit.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/model/balita_search.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/view/search_anak.dart';
 import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -19,32 +19,31 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/config/validator/pengukuran_balita_validator.dart';
+import 'package:puspadaya/config/validator/pengukuran_anak_validator.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
-class CreatePengukuranBalita extends StatelessWidget {
-  const CreatePengukuranBalita({super.key});
+class CreatePengukuranAnak extends StatelessWidget {
+  const CreatePengukuranAnak({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchBalitaCubit(),
-      child: const CreatePengukuranBalitaView(),
+      create: (context) => SearchAnakCubit(),
+      child: const CreatePengukuranAnakView(),
     );
   }
 }
 
-class CreatePengukuranBalitaView extends StatefulWidget {
-  const CreatePengukuranBalitaView({super.key});
+class CreatePengukuranAnakView extends StatefulWidget {
+  const CreatePengukuranAnakView({super.key});
 
   @override
-  State<CreatePengukuranBalitaView> createState() =>
-      _CreatePengukuranBalitaViewState();
+  State<CreatePengukuranAnakView> createState() =>
+      _CreatePengukuranAnakViewState();
 }
 
-class _CreatePengukuranBalitaViewState
-    extends State<CreatePengukuranBalitaView> {
+class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nikController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
@@ -191,9 +190,9 @@ class _CreatePengukuranBalitaViewState
                             style: TextStyle(fontSize: 12),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          BlocListener<SearchBalitaCubit, SearchBalitaState>(
+                          BlocListener<SearchAnakCubit, SearchAnakState>(
                             listener: (context, state) {
-                              if (state is SearchBalitaSelected) {
+                              if (state is SearchAnakSelected) {
                                 _nameController.text = state.name;
                                 _nikController.text = state.nik;
                               }
@@ -602,21 +601,19 @@ class TextFormFieldSearch extends StatelessWidget {
     return TextFormField(
       readOnly: true,
       validator: (value) {
-        PengukuranBalitaValidator.validateNama(value!);
+        PengukuranAnakValidator.validateNama(value!);
       },
       onTap: () async {
         final result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SearchBalita(),
+            builder: (context) => SearchAnak(),
           ),
         );
         logger.d(result);
         if (result != null) {
-          // result harus berisi objek Balita
-          context
-              .read<SearchBalitaCubit>()
-              .selectBalita(result.name, result.nik);
+          // result harus berisi objek Anak
+          context.read<SearchAnakCubit>().selectAnak(result.name, result.nik);
           // Kembalikan data ke halaman sebelumnya
           // Navigator.pop(context, result);
         }

@@ -1,52 +1,52 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/model/balita_search.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/model/balita_search.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
-class SearchBalita extends StatelessWidget {
-  const SearchBalita({super.key});
+class SearchAnak extends StatelessWidget {
+  const SearchAnak({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SearchBalitaView();
+    return const SearchAnakView();
   }
 }
 
-class SearchBalitaView extends StatefulWidget {
-  const SearchBalitaView({super.key});
+class SearchAnakView extends StatefulWidget {
+  const SearchAnakView({super.key});
 
   @override
-  State<SearchBalitaView> createState() => _SearchBalitaViewState();
+  State<SearchAnakView> createState() => _SearchAnakViewState();
 }
 
-class _SearchBalitaViewState extends State<SearchBalitaView> {
+class _SearchAnakViewState extends State<SearchAnakView> {
   TextEditingController _searchController = TextEditingController();
   // Placeholder values for the variables
-  final List<BalitaSearch> balitaList = [
-    BalitaSearch(
+  final List<AnakSearch> balitaList = [
+    AnakSearch(
       name: "Muhammad Kaivan Al Hakim",
       nik: "362155482327263",
       parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
+    AnakSearch(
       name: "Muhammad Ilham Azaka",
       nik: "362155482327263",
       parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
+    AnakSearch(
       name: "Muhammad Kelvin Aliya",
       nik: "362155482327263",
       parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
+    AnakSearch(
       name: "Muhammad Zein Akrobi",
       nik: "362155482327263",
       parent: "Sela Khusnanda",
     ),
-    BalitaSearch(
+    AnakSearch(
       name: "Muhammad Amirul Aljabar",
       nik: "362155482327263",
       parent: "Sela Khusnanda",
@@ -108,7 +108,7 @@ class _SearchBalitaViewState extends State<SearchBalitaView> {
           child: ListView.builder(
             itemCount: balitaList.length,
             itemBuilder: (context, index) {
-              BalitaSearch balita = balitaList[index];
+              AnakSearch balita = balitaList[index];
               return Column(
                 children: [
                   ListTile(

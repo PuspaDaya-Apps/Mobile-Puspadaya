@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/daftar_kehadiran_items_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
-import 'package:puspadaya/app/view/widget/pengukuran_balita_items_widget.dart';
+import 'package:puspadaya/app/view/widget/pengukuran_anak_items_widget.dart';
 import 'package:puspadaya/app/view/widget/pengukuran_ibu_hamil_items_widget.dart';
 import 'package:puspadaya/app/view/widget/pengukuran_tamu_items_widget.dart';
-import 'package:puspadaya/app/view/widget/riwayat_balita_items_widget.dart';
+import 'package:puspadaya/app/view/widget/riwayat_anak_items_widget.dart';
 import 'package:puspadaya/app/view/widget/riwayat_ibu_hamil_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
@@ -30,10 +30,10 @@ class PengukuranView extends StatefulWidget {
 class _PengukuranViewState extends State<PengukuranView> {
   final List<String> pengukuranMenu = [
     'Kehadiran',
-    'Pengukuran Balita',
+    'Pengukuran Anak',
     'Pengukuran Ibu Hamil',
     'Pengukuran Tamu',
-    'Riwayat Balita',
+    'Riwayat Anak',
     'Riwayat Ibu Hamil'
   ];
   String selectedMenu = "Kehadiran";
@@ -58,7 +58,7 @@ class _PengukuranViewState extends State<PengukuranView> {
             case 'kehadiran':
               Navigator.pushNamed(context, CREATE_KEHADIRAN);
               break;
-            case 'Pengukuran Balita':
+            case 'Pengukuran Anak':
               Navigator.pushNamed(context, CREATE_PENGUKURAN_BALITA);
               break;
             case 'Pengukuran Ibu Hamil':
@@ -130,8 +130,8 @@ class _PengukuranViewState extends State<PengukuranView> {
           duration: "5 jam 25 menit",
           status: "Sedang Berjalan",
         );
-      case 'Pengukuran Balita':
-        return PengukuranBalitaItems(
+      case 'Pengukuran Anak':
+        return PengukuranAnakItems(
           onTap: () {
             Navigator.pushNamed(context, DETAIL_PENGUKURAN_BALITA);
           },
@@ -159,8 +159,8 @@ class _PengukuranViewState extends State<PengukuranView> {
           date: "08/10/2024",
           place: "Posyandu B",
         );
-      case 'Riwayat Balita':
-        return RiwayatBalitaItems(
+      case 'Riwayat Anak':
+        return RiwayatAnakItems(
           onTap: () {
             Navigator.pushNamed(context, DETAIL_RIWAYAT_BALITA);
           },
