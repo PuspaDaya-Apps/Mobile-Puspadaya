@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class PengukuranBalitaItems extends StatelessWidget {
+class PengukuranAnakItems extends StatelessWidget {
   final String name;
   final String nik;
   final String date;
   final String place;
   final VoidCallback onTap;
-  const PengukuranBalitaItems({
+  const PengukuranAnakItems({
     super.key,
     required this.onTap,
     required this.place,

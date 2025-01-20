@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class RiwayatBalitaItems extends StatelessWidget {
+class RiwayatAnakItems extends StatelessWidget {
   final String name;
   final String nik;
   final String gender;
@@ -10,7 +10,7 @@ class RiwayatBalitaItems extends StatelessWidget {
   int? month;
   final VoidCallback onTap;
 
-  RiwayatBalitaItems({
+  RiwayatAnakItems({
     super.key,
     required this.onTap,
     this.year,

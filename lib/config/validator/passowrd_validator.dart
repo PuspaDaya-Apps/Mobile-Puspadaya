@@ -1,4 +1,5 @@
 // !validator terlalu boiler plate jika di gunakan seperti ini
+
 class PasswordValidator {
   // static String? required(value, String message) {
   //   if (value == null || value.isEmpty) {

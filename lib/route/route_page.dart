@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
-import 'package:puspadaya/app/feature/createPengukuranBalita/view/create_pengukuran_balita.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
-import 'package:puspadaya/app/feature/detailPengukuranBalita/view/detail_pengukuran_balita.dart';
+import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
 import 'package:puspadaya/app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
@@ -89,12 +89,12 @@ class MyRoute {
 
       case CREATE_PENGUKURAN_BALITA:
         return MaterialPageRoute(
-            builder: (context) => const CreatePengukuranBalita(),
+            builder: (context) => const CreatePengukuranAnak(),
             settings: settings);
 
       case DETAIL_PENGUKURAN_BALITA:
         return MaterialPageRoute(
-            builder: (context) => const DetailPengukuranBalita(),
+            builder: (context) => const DetailPengukuranAnak(),
             settings: settings);
 
       case CREATE_PENGUKURAN_IBU_HAMIL:
