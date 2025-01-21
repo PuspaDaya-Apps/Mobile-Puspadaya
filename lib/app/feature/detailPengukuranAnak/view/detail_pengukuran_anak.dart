@@ -53,7 +53,7 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
             padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
             width: MediaQuery.sizeOf(context).width,
             height: MediaQuery.sizeOf(context).height / 1.2,
@@ -105,7 +105,10 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children: [DetailData(), DetailCatatan()],
+                    children: [
+                      DetailData(),
+                      DetailCatatan(),
+                    ],
                   ),
                 ),
               ],

@@ -7,8 +7,10 @@ import 'package:puspadaya/app/view/widget/pengukuran_ibu_hamil_items_widget.dart
 import 'package:puspadaya/app/view/widget/pengukuran_tamu_items_widget.dart';
 import 'package:puspadaya/app/view/widget/riwayat_anak_items_widget.dart';
 import 'package:puspadaya/app/view/widget/riwayat_ibu_hamil_items_widget.dart';
+import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 class Pengukuran extends StatelessWidget {
@@ -37,13 +39,38 @@ class _PengukuranViewState extends State<PengukuranView> {
     'Riwayat Ibu Hamil'
   ];
   String selectedMenu = "Kehadiran";
+  bool isSearching = false; // State variable to manage search bar visibility
+  TextEditingController searchController =
+      TextEditingController(); // Controller for the search bar
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PrimaryAppBar(
-        title: "Pengukuran",
-        actions: [],
-        onBackPressed: null,
+      appBar: AppBar(
+        title: isSearching
+            ? AnimatedContainer(
+                duration: Duration(milliseconds: 300), // Animation duration
+                curve: Curves.easeInOut, // Animation curve
+                width: isSearching
+                    ? double.infinity
+                    : 0, // Width changes based on search state
+                child: SearchTextFieldWidget(
+                  controller: searchController,
+                  hintText: 'Cari Data',
+                ),
+              )
+            : AnimatedOpacity(
+                opacity: isSearching ? 0 : 1, // Fade out when searching
+                duration: Duration(milliseconds: 300), // Animation duration
+                curve: Curves.easeInOut, // Animation curve
+                child: Text(
+                  'Pengukuran',
+                  style: AppTextStyles.primaryTextSemibold.copyWith(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+        actions: _buildAppBarActions(),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: bluePrimary40,
@@ -55,11 +82,11 @@ class _PengukuranViewState extends State<PengukuranView> {
         ),
         onPressed: () {
           switch (selectedMenu) {
-            case 'kehadiran':
+            case 'Kehadiran':
               Navigator.pushNamed(context, CREATE_KEHADIRAN);
               break;
             case 'Pengukuran Anak':
-              Navigator.pushNamed(context, CREATE_PENGUKURAN_BALITA);
+              Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
               break;
             case 'Pengukuran Ibu Hamil':
               Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL);
@@ -69,8 +96,6 @@ class _PengukuranViewState extends State<PengukuranView> {
               break;
             default:
           }
-
-          // Navigator.pushNamed(context, '/createJadwal');
         },
       ),
       body: SafeArea(
@@ -84,18 +109,14 @@ class _PengukuranViewState extends State<PengukuranView> {
                 onChanged: (value) {
                   setState(() {
                     selectedMenu = value;
+                    isSearching = false; // Reset search state when menu changes
                   });
                 },
                 items: pengukuranMenu,
               ),
-              SizedBox(
-                height: 16,
-              ),
+              SizedBox(height: 16),
               Expanded(
                 child: ListView.builder(
-                  // shrinkWrap: true, // Mengatur batasan tinggi pada ListView
-                  // physics:
-                  //     NeverScrollableScrollPhysics(), // Menghindari scrolling dalam nested ListView
                   itemCount: 10,
                   itemBuilder: (context, index) {
                     return Container(
@@ -103,8 +124,7 @@ class _PengukuranViewState extends State<PengukuranView> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        boxShadow:
-                            boxShadow(), // Use the desired box shadow function
+                        boxShadow: boxShadow(),
                       ),
                       child: _buildListItem(),
                     );
@@ -116,6 +136,30 @@ class _PengukuranViewState extends State<PengukuranView> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildAppBarActions() {
+    if (selectedMenu != 'Kehadiran') {
+      return [
+        Container(
+          margin: EdgeInsets.only(right: 24),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                isSearching = !isSearching; // Toggle search bar visibility
+                if (!isSearching) {
+                  searchController.clear(); // Clear search input when closing
+                }
+              });
+            },
+            child: Icon(
+              isSearching ? Icons.close : Icons.search,
+            ),
+          ),
+        ),
+      ];
+    }
+    return [];
   }
 
   Widget _buildListItem() {
@@ -133,7 +177,7 @@ class _PengukuranViewState extends State<PengukuranView> {
       case 'Pengukuran Anak':
         return PengukuranAnakItems(
           onTap: () {
-            Navigator.pushNamed(context, DETAIL_PENGUKURAN_BALITA);
+            Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK);
           },
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
@@ -162,7 +206,7 @@ class _PengukuranViewState extends State<PengukuranView> {
       case 'Riwayat Anak':
         return RiwayatAnakItems(
           onTap: () {
-            Navigator.pushNamed(context, DETAIL_RIWAYAT_BALITA);
+            Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
           },
           name: "Muhammad Kaivan Al Hakim",
           nik: "362155482327263",
