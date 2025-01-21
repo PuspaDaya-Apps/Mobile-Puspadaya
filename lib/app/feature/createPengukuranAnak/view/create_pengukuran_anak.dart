@@ -160,7 +160,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            margin: EdgeInsets.all(20),
             padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,

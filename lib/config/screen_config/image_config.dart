@@ -27,3 +27,4 @@ const String iconSchadule = "assets/icons/ic_schadule.png";
 const String iconVisitation = "assets/icons/ic_visitaion.png";
 
 const String imageConfirmSave = "assets/images/confirm_save.png";
+const String imageDeleteItems = "assets/images/img_delete_items.png";

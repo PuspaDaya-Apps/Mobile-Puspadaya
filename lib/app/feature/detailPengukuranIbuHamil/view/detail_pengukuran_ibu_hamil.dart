@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_measuring_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 class DetailPengukuranIbuHamil extends StatelessWidget {
   const DetailPengukuranIbuHamil({super.key});
@@ -37,16 +40,15 @@ class _DetailPengukuranIbuHamilViewState
         },
       ),
       body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-          width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height / 1.2,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -260,15 +262,42 @@ class _DetailPengukuranIbuHamilViewState
                   children: [
                     Expanded(
                       child: ButtonPrimary(
-                          color: goldPrimaryMain,
-                          mainButtonMessage: 'Perharui',
-                          mainButton: () {}),
+                        color: goldPrimaryMain,
+                        mainButtonMessage: 'Perbarui',
+                        mainButton: () {
+                          Navigator.pushNamed(
+                              context, UPDATE_PENGUKURAN_IBU_HAMIL);
+                        },
+                      ),
                     ),
                     Expanded(
                       child: ButtonPrimary(
-                          color: redPrimaryMain,
-                          mainButtonMessage: 'Hapus',
-                          mainButton: () {}),
+                        color: redPrimaryMain,
+                        mainButtonMessage: 'Hapus',
+                        mainButton: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialogWidget(
+                                title: 'Apakah Anda Yakin?',
+                                message:
+                                    'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                mainButton: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                image: imageDeleteItems,
+                                mainButtonMessage: 'Iya, Hapus Pengukuran',
+                                colorMainButton: redPrimaryMain,
+                                cancelButton: () {
+                                  Navigator.pop(context);
+                                },
+                                cancelButtonMessage: 'Batalkan',
+                              );
+                            },
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),

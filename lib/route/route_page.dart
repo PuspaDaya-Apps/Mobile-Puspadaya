@@ -15,6 +15,8 @@ import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
 import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
 import 'package:puspadaya/app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import 'package:puspadaya/app/feature/kodeOTP/view/otp_screen.dart';
+import 'package:puspadaya/app/feature/updatePengukuranAnak/view/update_pengukuran_anak.dart';
+import 'package:puspadaya/app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil.dart';
 import '../app/feature/login/view/login_screen.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
@@ -87,14 +89,19 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const DetailKehadiran(), settings: settings);
 
-      case CREATE_PENGUKURAN_BALITA:
+      case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
             builder: (context) => const CreatePengukuranAnak(),
             settings: settings);
 
-      case DETAIL_PENGUKURAN_BALITA:
+      case DETAIL_PENGUKURAN_ANAK:
         return MaterialPageRoute(
             builder: (context) => const DetailPengukuranAnak(),
+            settings: settings);
+
+      case UPDATE_PENGUKURAN_ANAK:
+        return MaterialPageRoute(
+            builder: (context) => const UpdatePengukuranAnak(),
             settings: settings);
 
       case CREATE_PENGUKURAN_IBU_HAMIL:
@@ -107,7 +114,12 @@ class MyRoute {
             builder: (context) => const DetailPengukuranIbuHamil(),
             settings: settings);
 
-      case DETAIL_RIWAYAT_BALITA:
+      case UPDATE_PENGUKURAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const UpdatePengukuranIbuHamil(),
+            settings: settings);
+
+      case DETAIL_RIWAYAT_ANAK:
         return MaterialPageRoute(
             builder: (context) => const DetailRiwayatBalita(),
             settings: settings);

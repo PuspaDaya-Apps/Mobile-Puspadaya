@@ -10,16 +10,21 @@ class InfoFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 50,
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
       decoration: BoxDecoration(
         color: backgroundWhite10,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(
-        '${text}',
-        style: AppTextStyles.primaryTextNormal.copyWith(
-          color: textPrimary30,
-          fontSize: 12,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          textAlign: TextAlign.start,
+          '${text}',
+          style: AppTextStyles.primaryTextNormal.copyWith(
+            color: textPrimary30,
+            fontSize: 12,
+          ),
         ),
       ),
     );
