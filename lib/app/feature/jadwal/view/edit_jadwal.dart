@@ -130,12 +130,12 @@ class _EditJadwalState extends State<EditJadwal> {
                     keyboardType: TextInputType.text,
                     obscureText: false,
                     isPasswordField: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Nama kegiatan tidak boleh kosong";
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return "Nama kegiatan tidak boleh kosong";
+                    //   }
+                    //   return null;
+                    // },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -227,12 +227,12 @@ class _EditJadwalState extends State<EditJadwal> {
                     keyboardType: TextInputType.text,
                     obscureText: false,
                     isPasswordField: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Lokasi kegiatan tidak boleh kosong";
-                      }
-                      return null;
-                    },
+                    // validator: (value) {
+                    //   if (value == null || value.isEmpty) {
+                    //     return "Lokasi kegiatan tidak boleh kosong";
+                    //   }
+                    //   return null;
+                    // },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   ButtonPrimary(

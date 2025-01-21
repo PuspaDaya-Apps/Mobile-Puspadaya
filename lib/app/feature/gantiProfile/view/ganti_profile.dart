@@ -10,7 +10,6 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/config/validator/profile_validator.dart';
 
 class GantiProfile extends StatelessWidget {
   const GantiProfile({super.key});
@@ -81,7 +80,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     keyboardType: TextInputType.text,
                     obscureText: false,
                     isPasswordField: false,
-                    validator: (value) => ProfileValidator.validateName(value!),
+                    // validator: (value) => ProfileValidator.validateName(value!),
                   ),
                   SizedBox(
                     height: SizeConfig.calHeightMultiplier(16),
@@ -101,8 +100,8 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     keyboardType: TextInputType.phone,
                     obscureText: false,
                     isPasswordField: false,
-                    validator: (value) =>
-                        ProfileValidator.validatePhone(value!),
+                    // validator: (value) =>
+                    //     ProfileValidator.validatePhone(value!),
                   ),
                   SizedBox(
                     height: SizeConfig.calHeightMultiplier(16),
@@ -122,8 +121,8 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     keyboardType: TextInputType.emailAddress,
                     obscureText: false,
                     isPasswordField: false,
-                    validator: (value) =>
-                        ProfileValidator.validateEmail(value!),
+                    // validator: (value) =>
+                    //     ProfileValidator.validateEmail(value!),
                   ),
                   SizedBox(
                     height: SizeConfig.calHeightMultiplier(16),
