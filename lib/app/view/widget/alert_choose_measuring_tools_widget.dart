@@ -62,6 +62,7 @@ class AlertChooseMeasuringTools extends StatelessWidget {
       scrollable: true, // Make the dialog scrollable
       contentPadding: EdgeInsets.zero,
       content: Container(
+        width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16)),
           color: Colors.white,
@@ -70,7 +71,7 @@ class AlertChooseMeasuringTools extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               textAlign: TextAlign.center,
@@ -82,84 +83,62 @@ class AlertChooseMeasuringTools extends StatelessWidget {
               ),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            Row(
-              spacing: 8,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tinggi Badan',
-                        style: AppTextStyles.primaryTextNormal.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        items: selectHeight,
-                        hint: 'Tinggi Badan',
-                        value: selectedHeight,
-                        onChanged: onHeightChanged, // Update selected height
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      Text(
-                        'Lingkar Lengan Atas',
-                        style: AppTextStyles.primaryTextNormal.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        items: selectUpperArmCircumference,
-                        hint: 'Lingkar Lengan Atas',
-                        value: selectedUpperArmCircumference,
-                        onChanged:
-                            onUpperArmCircumferenceChanged, // Update selected upper arm circumference
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Berat Badan',
-                        style: AppTextStyles.primaryTextNormal.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        items: selectWeight,
-                        hint: 'Berat Badan',
-                        value: selectedWeight,
-                        onChanged: onWeightChanged, // Update selected weight
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      Text(
-                        'Tinggi Fundus Uteri',
-                        style: AppTextStyles.primaryTextNormal.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        items: selectUterineFundalHeight,
-                        hint: 'Tinggi Fundus Uteri',
-                        value: selectedUterineFundalHeight,
-                        onChanged:
-                            onUterineFundalHeightChanged, // Update selected uterine fundal height
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            Text(
+              'Tinggi Badan',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            DropdownWidget(
+              items: selectHeight,
+              hint: 'Tinggi Badan',
+              value: selectedHeight,
+              onChanged: onHeightChanged, // Update selected height
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Text(
+              'Lingkar Lengan Atas',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            DropdownWidget(
+              items: selectUpperArmCircumference,
+              hint: 'Lingkar Lengan Atas',
+              value: selectedUpperArmCircumference,
+              onChanged:
+                  onUpperArmCircumferenceChanged, // Update selected upper arm circumference
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Text(
+              'Berat Badan',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            DropdownWidget(
+              items: selectWeight,
+              hint: 'Berat Badan',
+              value: selectedWeight,
+              onChanged: onWeightChanged, // Update selected weight
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Text(
+              'Tinggi Fundus Uteri',
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            DropdownWidget(
+              items: selectUterineFundalHeight,
+              hint: 'Tinggi Fundus Uteri',
+              value: selectedUterineFundalHeight,
+              onChanged:
+                  onUterineFundalHeightChanged, // Update selected uterine fundal height
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(30)),
             ButtonPrimary(

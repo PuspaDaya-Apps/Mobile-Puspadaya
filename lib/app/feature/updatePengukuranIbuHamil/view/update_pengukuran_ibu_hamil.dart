@@ -318,7 +318,6 @@ class _UpdatePengukuranIbuHamilViewState
                           isPasswordField: false,
                           keyboardType: TextInputType.number,
                           obscureText: false,
-                          validator: (value) {},
                         ),
                       ),
                       Text(
@@ -437,7 +436,6 @@ class _UpdatePengukuranIbuHamilViewState
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validator: (value) {},
                             ),
                           ],
                         ),

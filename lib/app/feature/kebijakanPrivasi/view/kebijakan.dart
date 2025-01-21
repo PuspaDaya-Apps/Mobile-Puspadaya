@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class KebijakanPrivasi extends StatelessWidget {
   const KebijakanPrivasi({super.key});
@@ -43,6 +44,7 @@ class _KebijakanPrivasiViewState extends State<KebijakanPrivasiView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: AppBar(
         title: const Text(
           "Kebijakan Privasi",

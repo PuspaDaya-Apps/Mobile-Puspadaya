@@ -46,7 +46,9 @@ class _PengukuranViewState extends State<PengukuranView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: AppBar(
+        backgroundColor: backgroundWhite10,
         title: isSearching
             ? AnimatedContainer(
                 duration: Duration(milliseconds: 300), // Animation duration
@@ -54,9 +56,13 @@ class _PengukuranViewState extends State<PengukuranView> {
                 width: isSearching
                     ? double.infinity
                     : 0, // Width changes based on search state
-                child: SearchTextFieldWidget(
-                  controller: searchController,
-                  hintText: 'Cari Data',
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.sizeOf(context).width / 48),
+                  child: SearchTextFieldWidget(
+                    controller: searchController,
+                    hintText: 'Cari Data',
+                  ),
                 ),
               )
             : AnimatedOpacity(

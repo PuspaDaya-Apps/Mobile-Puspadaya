@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
 class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -24,7 +25,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: onBackPressed,
             )
           : null,
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundWhite10,
       title: Text(
         '${title}',
         style: AppTextStyles.primaryTextSemibold.copyWith(

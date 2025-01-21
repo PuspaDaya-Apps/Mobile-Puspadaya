@@ -230,7 +230,6 @@ class _CreatePengukuranIbuHamilViewState
                     isPasswordField: false,
                     keyboardType: TextInputType.number,
                     obscureText: false,
-                    validator: (value) {},
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Text(
@@ -245,7 +244,6 @@ class _CreatePengukuranIbuHamilViewState
                     isPasswordField: false,
                     keyboardType: TextInputType.number,
                     obscureText: false,
-                    validator: (value) {},
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Container(
@@ -345,7 +343,6 @@ class _CreatePengukuranIbuHamilViewState
                           isPasswordField: false,
                           keyboardType: TextInputType.number,
                           obscureText: false,
-                          validator: (value) {},
                         ),
                       ),
                       Text(
@@ -464,7 +461,6 @@ class _CreatePengukuranIbuHamilViewState
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validator: (value) {},
                             ),
                           ],
                         ),
@@ -556,9 +552,7 @@ class TextFormFieldSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      validator: (value) {
-        // PengukuranBalitaValidator.validateNama(value!);
-      },
+      validator: null,
       onTap: () async {
         final result = await Navigator.push(
           context,

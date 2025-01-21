@@ -28,6 +28,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: "Profile",
         onBackPressed: null,

@@ -4,7 +4,7 @@ import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/config/validator/passowrd_validator.dart';
+import 'package:puspadaya/config/validator/validator.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -96,8 +96,20 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Masukan Kata Sandi Baru",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: (value) =>
-                        PasswordValidator.passwordValidator(value),
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                    ],
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
@@ -112,9 +124,20 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Konfirmasi Masukan Kata Sandi",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: (value) =>
-                        PasswordValidator.confirmPasswordValidator(
-                            value, passwordController.text),
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                    ],
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),

@@ -19,7 +19,6 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/config/validator/pengukuran_anak_validator.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
@@ -81,7 +80,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9.7;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -220,7 +219,6 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
-                                  validator: (value) {},
                                 ),
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16)),
@@ -236,7 +234,6 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
-                                  validator: (value) {},
                                 ),
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16)),
@@ -359,6 +356,44 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
                                   ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  MeasurementWidget(
+                                    title: 'Berat Badan',
+                                    hintText: 'contoh: 6,5',
+                                    unit: 'kg',
+                                    tool: 'Timbangan Digital',
+                                    controller: _weightController,
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16),
+                                  ),
+                                  MeasurementWidget(
+                                    title: 'Lingkar Kepala',
+                                    hintText: 'contoh: 6,5',
+                                    unit: 'cm',
+                                    tool: 'Alat Ukur Lingkar Kepala',
+                                    controller: _headCircumferenceController,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Text(
                                     'Asi Ekskusif',
                                     style: AppTextStyles.primaryTextNormal
@@ -406,29 +441,9 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                             ),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  MeasurementWidget(
-                                    title: 'Berat Badan',
-                                    hintText: 'contoh: 6,5',
-                                    unit: 'kg',
-                                    tool: 'Timbangan Digital',
-                                    controller: _weightController,
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(16),
-                                  ),
-                                  MeasurementWidget(
-                                    title: 'Lingkar Kepala',
-                                    hintText: 'contoh: 6,5',
-                                    unit: 'cm',
-                                    tool: 'Alat Ukur Lingkar Kepala',
-                                    controller: _headCircumferenceController,
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(16),
-                                  ),
                                   Text(
                                     'MPASI',
                                     style: AppTextStyles.primaryTextNormal
@@ -455,7 +470,10 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         },
                                         label: 'Ya',
                                       ),
-                                      SizedBox(width: 16),
+                                      SizedBox(
+                                        width:
+                                            SizeConfig.calHeightMultiplier(16),
+                                      ),
                                       CustomRadioButton(
                                         value: 0,
                                         groupValue: mpasiValue!,
@@ -600,9 +618,6 @@ class TextFormFieldSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      validator: (value) {
-        PengukuranAnakValidator.validateNama(value!);
-      },
       onTap: () async {
         final result = await Navigator.push(
           context,

@@ -5,7 +5,7 @@ import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/config/validator/passowrd_validator.dart';
+import 'package:puspadaya/config/validator/validator.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 class GantiKataSandi extends StatelessWidget {
@@ -80,8 +80,12 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                       });
                     },
                     isPasswordField: true,
-                    validator: (value) =>
-                        PasswordValidator.passwordValidator(value),
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                    ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Text(
@@ -103,8 +107,20 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                       });
                     },
                     isPasswordField: true,
-                    validator: (value) =>
-                        PasswordValidator.passwordValidator(value),
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                    ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Text(
@@ -116,20 +132,35 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
-                      controller: _confirmPasswordController,
-                      hintText: "********",
-                      keyboardType: TextInputType.visiblePassword,
-                      obscureText: !_isConfirmPasswordVisible,
-                      onToggleVisibility: () {
-                        setState(() {
-                          _isConfirmPasswordVisible =
-                              !_isConfirmPasswordVisible;
-                        });
-                      },
-                      isPasswordField: true,
-                      validator: (value) =>
-                          PasswordValidator.confirmPasswordValidator(
-                              value, _newPasswordController.text)),
+                    controller: _confirmPasswordController,
+                    hintText: "********",
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: !_isConfirmPasswordVisible,
+                    onToggleVisibility: () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
+                    isPasswordField: true,
+                    validators: [
+                      (value) => Validator.required(
+                          value!, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                      (value) => Validator.compareValue(
+                          value,
+                          _newPasswordController.text,
+                          'Kata sandi tidak cocok'),
+                    ],
+                  ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(32)),
                   ButtonPrimary(
                     color: redPrimaryMain,

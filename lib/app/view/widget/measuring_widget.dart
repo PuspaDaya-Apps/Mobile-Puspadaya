@@ -44,6 +44,7 @@ class MeasurementWidget extends StatelessWidget {
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 obscureText: false,
                 isPasswordField: false,
+                validators: [],
               ),
             ),
             SizedBox(width: 6),
