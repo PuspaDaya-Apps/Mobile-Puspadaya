@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/Bloc/cubit/search_anak_cubit.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/model/balita_search.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/view/search_anak.dart';
+import 'package:puspadaya/app/feature/createPengukuranAnak/view/widget/alert_dialog_result.dart';
+import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -86,74 +88,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: "Pengukuran Anak",
-        actions: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertChooseMeasuringTools(
-                  title: 'Pilih Alat Ukur',
-                  mainButton: () {
-                    Navigator.pop(context);
-                  },
-                  mainButtonMessage: 'Simpan',
-                  colorMainButton: bluePrimaryMain,
-                  selectedHeight: selectedHeight,
-                  selectedWeight: selectedWeight,
-                  selectedUpperArmCircumference: selectedUpperArmCircumference,
-                  selectedUterineFundalHeight: selectedUterineFundalHeight,
-                  onHeightChanged: (value) {
-                    setState(() {
-                      selectedHeight = value;
-                    });
-                  },
-                  onWeightChanged: (value) {
-                    setState(() {
-                      selectedWeight = value;
-                    });
-                  },
-                  onUpperArmCircumferenceChanged: (value) {
-                    setState(() {
-                      selectedUpperArmCircumference = value;
-                    });
-                  },
-                  onUterineFundalHeightChanged: (value) {
-                    setState(() {
-                      selectedUterineFundalHeight = value;
-                    });
-                  },
-                ),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.only(right: 24),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                color: bluePrimary30,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                spacing: 2,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.penToSquare,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  Text(
-                    'Ubah Alat',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+        actions: [__buildChangeMeasuringToolsButton(context)],
         onBackPressed: () => Navigator.pop(context),
       ),
       body: SafeArea(
@@ -549,7 +484,6 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                           cancelButton: () {
                                             Navigator.pop(
                                                 context); // Tutup dialog AlertDialogResult
-                                            // ! terdapat permasalahan disini
                                           },
                                           cancelButtonMessage: 'Selesai',
                                           colorMainButton: bluePrimaryMain,
@@ -604,195 +538,70 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
       ),
     );
   }
-}
 
-class TextFormFieldSearch extends StatelessWidget {
-  const TextFormFieldSearch({
-    super.key,
-    required this.controller,
-  });
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: true,
-      onTap: () async {
-        final result = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SearchAnak(),
+  Widget __buildChangeMeasuringToolsButton(context) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertChooseMeasuringTools(
+            title: 'Pilih Alat Ukur',
+            mainButton: () {
+              Navigator.pop(context);
+            },
+            mainButtonMessage: 'Simpan',
+            colorMainButton: bluePrimaryMain,
+            selectedHeight: selectedHeight,
+            selectedWeight: selectedWeight,
+            selectedUpperArmCircumference: selectedUpperArmCircumference,
+            selectedUterineFundalHeight: selectedUterineFundalHeight,
+            onHeightChanged: (value) {
+              setState(() {
+                selectedHeight = value;
+              });
+            },
+            onWeightChanged: (value) {
+              setState(() {
+                selectedWeight = value;
+              });
+            },
+            onUpperArmCircumferenceChanged: (value) {
+              setState(() {
+                selectedUpperArmCircumference = value;
+              });
+            },
+            onUterineFundalHeightChanged: (value) {
+              setState(() {
+                selectedUterineFundalHeight = value;
+              });
+            },
           ),
         );
-        logger.d(result);
-        if (result != null) {
-          // result harus berisi objek Anak
-          context.read<SearchAnakCubit>().selectAnak(result.name, result.nik);
-          // Kembalikan data ke halaman sebelumnya
-          // Navigator.pop(context, result);
-        }
       },
-      controller: controller,
-      style: Theme.of(context).textTheme.bodySmall,
-      keyboardType: TextInputType.text,
-      obscureText: false,
-      decoration: InputDecoration(
-        suffixIcon: Icon(
-          FluentIcons.search_24_regular,
-        ),
-        hintText: 'Pilih Anak',
-        hintStyle:
-            Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
-        filled: true,
-        fillColor: backgroundWhite10,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: bluePrimaryMain),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.red),
-        ),
-      ),
-    );
-  }
-}
-
-class AlertDialogResult extends StatelessWidget {
-  final String nik;
-  final String name;
-  final String statusStunting;
-  final String statusGizi;
-  final VoidCallback mainButton;
-  final String mainButtonMessage;
-  final Color colorMainButton;
-  final String? cancelButtonMessage;
-  final VoidCallback? cancelButton;
-
-  const AlertDialogResult({
-    super.key,
-    required this.nik,
-    required this.name,
-    required this.statusStunting,
-    required this.statusGizi,
-    required this.mainButton,
-    required this.mainButtonMessage,
-    required this.colorMainButton,
-    this.cancelButtonMessage,
-    this.cancelButton,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true, // Make the dialog scrollable
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        width: MediaQuery.sizeOf(context).width,
+      child: Container(
+        margin: const EdgeInsets.only(right: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Colors.white,
+          color: bluePrimary30,
+          borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // Ensure Column adapts to its content
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          spacing: 2,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Text(
-                'Hasil Pengukuran',
-                style: AppTextStyles.primaryTextSemibold.copyWith(
-                  fontSize: SizeConfig.calHeightMultiplier(16),
-                ),
-              ),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
-            Text(
-              'Identitas Anak',
-              style: AppTextStyles.primaryTextSemibold.copyWith(
-                fontSize: SizeConfig.calHeightMultiplier(12),
-              ),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(4)),
-            Text(
-              'NIK : ${nik}',
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                fontSize: SizeConfig.calHeightMultiplier(12),
-              ),
+            Icon(
+              FontAwesomeIcons.penToSquare,
+              color: Colors.white,
+              size: 14,
             ),
             Text(
-              'Nama : ${name}',
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                fontSize: SizeConfig.calHeightMultiplier(12),
+              'Ubah Alat',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+                color: Colors.white,
               ),
             ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Status Stunting',
-                        style: AppTextStyles.primaryTextMedium.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      InfoFieldWidget(text: statusStunting),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Status Gizi',
-                        style: AppTextStyles.primaryTextMedium.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      InfoFieldWidget(text: statusGizi),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(30)),
-            ButtonPrimary(
-              mainButtonMessage: mainButtonMessage,
-              mainButton: mainButton,
-              color: colorMainButton,
-            ),
-            if (cancelButtonMessage != null && cancelButton != null) ...[
-              SizedBox(height: SizeConfig.calHeightMultiplier(12)),
-              Center(
-                child: GestureDetector(
-                  onTap: cancelButton,
-                  child: Text(
-                    cancelButtonMessage!,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ]
           ],
         ),
       ),

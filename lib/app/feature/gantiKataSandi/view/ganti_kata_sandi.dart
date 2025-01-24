@@ -144,7 +144,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                     isPasswordField: true,
                     validators: [
                       (value) => Validator.required(
-                          value!, "Kata sandi tidak boleh kosong"),
+                          value, "Kata sandi tidak boleh kosong"),
                       (value) => Validator.min(
                           value, 8, "Kata sandi minimal 8 karakter"),
                       (value) => Validator.mustContainsCapitalize(
@@ -155,10 +155,11 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           value, "Kata sandi harus mengandung angka"),
                       (value) => Validator.mustContainsSymbol(
                           value, 'Kata sandi harus mengandung simbol'),
-                      (value) => Validator.compareValue(
-                          value,
-                          _newPasswordController.text,
-                          'Kata sandi tidak cocok'),
+                      (value) => Validator.compareValues(
+                            value,
+                            _newPasswordController.text,
+                            'Kata sandi tidak cocok',
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(32)),

@@ -25,6 +25,8 @@ const String iconMeasuring = "assets/icons/ic_measuring.png";
 const String iconProfile = "assets/icons/ic_profile.png";
 const String iconSchadule = "assets/icons/ic_schadule.png";
 const String iconVisitation = "assets/icons/ic_visitaion.png";
+const String iconFaktorResiko = "assets/icons/ic_faktor_resiko.png";
+const String iconExcel = "assets/icons/ic_excel.png";
 
 const String imageConfirmSave = "assets/images/confirm_save.png";
 const String imageDeleteItems = "assets/images/img_delete_items.png";

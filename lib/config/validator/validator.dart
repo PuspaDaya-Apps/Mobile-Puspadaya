@@ -45,7 +45,7 @@ class Validator {
     return null;
   }
 
-  static String? valudateEmail(String value, String message) {
+  static String? validateEmail(String value, String message) {
     if (!value.contains('@')) {
       return message;
     }
@@ -80,10 +80,11 @@ class Validator {
     return null;
   }
 
-  static String? compareValue(
+  static String? compareValues(
       String value, String compareValue, String message) {
     if (value != compareValue) {
       return message;
     }
+    return null;
   }
 }
