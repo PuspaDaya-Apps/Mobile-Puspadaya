@@ -6,9 +6,11 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBackPressed;
   final List<Widget>? actions;
+  final Color? background;
 
   const PrimaryAppBar({
     Key? key,
+    this.background,
     required this.title,
     this.onBackPressed,
     this.actions,
@@ -25,7 +27,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: onBackPressed,
             )
           : null,
-      backgroundColor: backgroundWhite10,
+      backgroundColor: background != null ? background : Colors.white,
       title: Text(
         '${title}',
         style: AppTextStyles.primaryTextSemibold.copyWith(

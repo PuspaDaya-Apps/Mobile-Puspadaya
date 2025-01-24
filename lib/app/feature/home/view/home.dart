@@ -8,6 +8,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 class Home extends StatelessWidget {
@@ -305,59 +306,60 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
   // State untuk mengontrol jumlah item
   bool _isExpanded = false;
 
-  // Daftar item menu
-  final List<Widget> _menuItems = [
-    HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FontAwesomeIcons.userPlus,
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Alat Ukur',
-      iconMenu: FontAwesomeIcons.rulerCombined,
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Monitoring',
-      iconMenu: FontAwesomeIcons.chartLine,
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Faktor Resiko',
-      iconMenu: iconFaktorResiko,
-      colorIcon: Colors.red.shade300,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-        menuName: 'Parameter Gizi',
-        iconMenu: FontAwesomeIcons.utensils,
-        colorIcon: greenPrimary50,
-        onTap: () {}),
-    HomeMenuItems(
-      menuName: 'Beban Kerja',
-      iconMenu: FontAwesomeIcons.briefcase,
-      colorIcon: pinkPrimary50,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-        menuName: 'Laporan',
-        iconMenu: FontAwesomeIcons.print,
-        colorIcon: greenPrimary50,
-        onTap: () {}),
-    HomeMenuItems(
-      menuName: 'e-PPGBM',
-      colorIcon: greenPrimary50,
-      iconMenu: iconExcel,
-      onTap: () {},
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     // Hitung jumlah item yang akan ditampilkan
+    // Daftar item menu
+    final List<Widget> _menuItems = [
+      HomeMenuItems(
+        menuName: 'Register',
+        iconMenu: FontAwesomeIcons.userPlus,
+        colorIcon: Colors.blue.shade700,
+        onTap: () {},
+      ),
+      HomeMenuItems(
+        menuName: 'Alat Ukur',
+        iconMenu: FontAwesomeIcons.rulerCombined,
+        colorIcon: Colors.blue.shade700,
+        onTap: () {},
+      ),
+      HomeMenuItems(
+        menuName: 'Monitoring',
+        iconMenu: FontAwesomeIcons.chartLine,
+        colorIcon: Colors.blue.shade700,
+        onTap: () {},
+      ),
+      HomeMenuItems(
+        menuName: 'Faktor Resiko',
+        iconMenu: iconFaktorResiko,
+        colorIcon: Colors.red.shade300,
+        onTap: () {},
+      ),
+      HomeMenuItems(
+          menuName: 'Parameter Gizi',
+          iconMenu: FontAwesomeIcons.utensils,
+          colorIcon: greenPrimary50,
+          onTap: () {}),
+      HomeMenuItems(
+        menuName: 'Beban Kerja',
+        iconMenu: FontAwesomeIcons.briefcase,
+        colorIcon: pinkPrimary50,
+        onTap: () {
+          Navigator.pushNamed(context, BEBAN_KERJA);
+        },
+      ),
+      HomeMenuItems(
+          menuName: 'Laporan',
+          iconMenu: FontAwesomeIcons.print,
+          colorIcon: greenPrimary50,
+          onTap: () {}),
+      HomeMenuItems(
+        menuName: 'e-PPGBM',
+        colorIcon: greenPrimary50,
+        iconMenu: iconExcel,
+        onTap: () {},
+      ),
+    ];
     int itemExpanedCol = (_menuItems.length / 4).ceil();
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');

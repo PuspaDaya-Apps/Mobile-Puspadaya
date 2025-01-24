@@ -30,6 +30,7 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
+        background: backgroundWhite10,
         title: "Profile",
         onBackPressed: null,
       ),
