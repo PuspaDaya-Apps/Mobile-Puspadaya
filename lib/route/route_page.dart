@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/bebanKerja/view/beban_kerja.dart';
 import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
@@ -128,6 +129,14 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const DetailRiwayatIbuHamil(),
             settings: settings);
+
+      case BEBAN_KERJA:
+        return MaterialPageRoute(
+            builder: (context) => const BebanKerja(), settings: settings);
+
+      case DETAIL_BEBAN_KERJA:
+        return MaterialPageRoute(
+            builder: (context) => const BebanKerja(), settings: settings);
 
       default:
         return PageTransition(
