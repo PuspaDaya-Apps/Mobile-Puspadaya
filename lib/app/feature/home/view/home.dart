@@ -47,6 +47,9 @@ class _HomeViewState extends State<HomeView> {
                 date: DateTime.now(),
                 location: "Posyandu Mawar 6",
               ),
+              SizedBox(
+                height: SizeConfig.calHeightMultiplier(16),
+              ),
               HomeMenuFeatures(),
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(8),
@@ -306,58 +309,49 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
   final List<Widget> _menuItems = [
     HomeMenuItems(
       menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+      iconMenu: FontAwesomeIcons.userPlus,
+      colorIcon: Colors.blue.shade700,
+      onTap: () {},
     ),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+      menuName: 'Alat Ukur',
+      iconMenu: FontAwesomeIcons.rulerCombined,
+      colorIcon: Colors.blue.shade700,
+      onTap: () {},
     ),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+      menuName: 'Monitoring',
+      iconMenu: FontAwesomeIcons.chartLine,
+      colorIcon: Colors.blue.shade700,
+      onTap: () {},
     ),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+      menuName: 'Faktor Resiko',
+      iconMenu: iconFaktorResiko,
+      colorIcon: Colors.red.shade300,
+      onTap: () {},
     ),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+        menuName: 'Parameter Gizi',
+        iconMenu: FontAwesomeIcons.utensils,
+        colorIcon: greenPrimary50,
+        onTap: () {}),
+    HomeMenuItems(
+      menuName: 'Beban Kerja',
+      iconMenu: FontAwesomeIcons.briefcase,
+      colorIcon: pinkPrimary50,
+      onTap: () {},
     ),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
-    ),
+        menuName: 'Laporan',
+        iconMenu: FontAwesomeIcons.print,
+        colorIcon: greenPrimary50,
+        onTap: () {}),
     HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
-    ),
-    HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
-    ),
-    HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
-    ),
-    HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
-    ),
-    HomeMenuItems(
-      menuName: 'Register',
-      iconMenu: FaIcon(FontAwesomeIcons.userPlus),
-      colorIcon: Colors.blue.shade300,
+      menuName: 'e-PPGBM',
+      colorIcon: greenPrimary50,
+      iconMenu: iconExcel,
+      onTap: () {},
     ),
   ];
 
@@ -368,7 +362,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 6.6;
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 8;
 
     return Container(
       padding:
@@ -382,16 +376,17 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
             duration: const Duration(milliseconds: 300), // Durasi animasi
             curve: Curves.easeInOut, // Kurva animasi
             height: _isExpanded
-                ? sizeHeighRowItemMenu * itemExpanedCol.toDouble()
+                ? sizeHeighRowItemMenu * itemExpanedCol.toDouble() +
+                    MediaQuery.of(context).size.height / 50
                 : sizeHeighRowItemMenu, // Tinggi menu saat diperluas/dikecilkan
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // Jumlah kolom grid
-                mainAxisSpacing: 0,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 0.60,
+                childAspectRatio: 3 / 4,
+                mainAxisSpacing: 16,
+                maxCrossAxisExtent: 80,
               ),
               itemBuilder: (context, index) {
                 return _menuItems[index];
