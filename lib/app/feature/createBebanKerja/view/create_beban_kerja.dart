@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/feature/createBebanKerja/model/JobItems.dart';
+import 'package:puspadaya/app/feature/createBebanKerja/view/widget/thropy_alert.dart';
+import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/checkbox_list_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -125,6 +128,7 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
         },
         background: Colors.white,
       ),
+      backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.all(20),
@@ -242,7 +246,28 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
               ButtonPrimary(
                 color: bluePrimaryMain,
                 mainButtonMessage: 'Simpan',
-                mainButton: () {},
+                mainButton: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ThropyAlert(
+                        image: imageThropy,
+                        title: 'Total Bobot Yang Anda Dapatkan 87.9',
+                        message:
+                            'Terus pertahankan semangat dan konsistensi, karena setiap usaha kamu sangat berarti. Ayo, kita capai lebih tinggi lagi!',
+                        mainButton: () {
+                          Navigator.pop(context);
+                        },
+                        cancelButton: () {
+                          Navigator.pop(context);
+                        },
+                        cancelButtonMessage: 'Batalkan',
+                        mainButtonMessage: "Simpan",
+                        colorMainButton: bluePrimaryMain,
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
