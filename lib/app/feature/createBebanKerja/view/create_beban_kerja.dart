@@ -3,6 +3,7 @@ import 'package:puspadaya/app/feature/createBebanKerja/model/JobItems.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/checkbox_list_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -44,19 +45,73 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
     Jobitems(label: 'Pendaftaran bayi dan Anak', status: false),
     Jobitems(label: 'Penimbangan dan pengukuran', status: false),
     Jobitems(label: 'Pencatatan', status: false),
-    Jobitems(label: 'Pelayanan Kesehatan', status: false, subItems: [
-      Jobitems(label: 'Pelayanan Kesehatan 1', status: false),
-      Jobitems(label: 'Pelayanan Kesehatan 2', status: false),
-    ]),
+    Jobitems(
+      label: 'Pelayanan Kesehatan',
+      status: false,
+      subItems: [
+        Jobitems(label: 'Memberikan TTD(Tablet Tambah Darah)', status: false),
+        Jobitems(label: 'Memberikan vit A di posyandu', status: false),
+        Jobitems(label: 'Memberikan obat cacing di posyandu', status: false),
+        Jobitems(
+          label: 'Memberikan PMT penyuluhan untuk Anak di Posyandu',
+          status: false,
+        ),
+      ],
+      isExpanded: false,
+    ),
     Jobitems(label: 'Pencatatan dan pelaporan', status: false),
-    Jobitems(label: 'Penyuluhan Kesehatan', status: false, subItems: [
-      Jobitems(label: 'Penyuluhan Kesehatan 1', status: false),
-      Jobitems(label: 'Penyuluhan Kesehatan 2', status: false),
-    ]),
-    Jobitems(label: 'Kunjungan Rumah', status: false, subItems: [
-      Jobitems(label: 'Kunjungan Rumah 1', status: false),
-      Jobitems(label: 'Kunjungan Rumah 2', status: false),
-    ]),
+    Jobitems(
+      label: 'Penyuluhan Kesehatan',
+      status: false,
+      subItems: [
+        Jobitems(label: 'Penyuluhan penggunaan buku KIA ', status: false),
+        Jobitems(label: 'Penyuluhan Isi Piring ku', status: false),
+        Jobitems(label: 'Penyuluhan manfaat PMT ', status: false),
+        Jobitems(label: 'Penyuluhan aktifitas fisik', status: false),
+        Jobitems(label: 'Penyuluhan ASI eksklusif ', status: false),
+        Jobitems(label: 'Penyuluhan KB', status: false),
+        Jobitems(label: 'Penyuluhan Imunisais ', status: false),
+        Jobitems(label: 'Penyuluhan vit A', status: false),
+        Jobitems(label: 'Penyuluhan obat cacing', status: false),
+        Jobitems(label: 'Penyuluhan stimulasi perkembangan', status: false),
+        Jobitems(label: 'Penyuluhan MPASI', status: false),
+        Jobitems(
+            label:
+                'Penyuluhan hasil penimbangan dan pengukuran, serta tindak lanjutnya',
+            status: false),
+        Jobitems(
+            label: 'Penyuluhan pemantauna tanda bahaya bayi dan Anak',
+            status: false),
+      ],
+      isExpanded: false,
+    ),
+    Jobitems(
+      label: 'Kunjungan Rumah',
+      status: false,
+      subItems: [
+        Jobitems(
+            label: 'Memberikan makanan tambahan pada ibu hamil KEK',
+            status: false),
+        Jobitems(
+            label: 'Memberikan PMT kepada Anak bermasalah gizi', status: false),
+        Jobitems(label: 'Penimbangan dan pengukuran di rumah', status: false),
+        Jobitems(label: 'Penggunaan buku KIA', status: false),
+        Jobitems(label: 'Isi Piring Ku', status: false),
+        Jobitems(label: 'Manfaat PMT', status: false),
+        Jobitems(label: 'Aktivitas fisik', status: false),
+        Jobitems(label: 'ASI eksklusif', status: false),
+        Jobitems(label: 'KB', status: false),
+        Jobitems(label: 'Imunisasi', status: false),
+        Jobitems(label: 'Obat Cacing', status: false),
+        Jobitems(label: 'Stimulasi Perkembangan', status: false),
+        Jobitems(label: 'MPASI', status: false),
+        Jobitems(
+            label: 'Hasil penimbangan dan pengukuran, serta tindak lanjutnya',
+            status: false),
+        Jobitems(label: 'Pemantauan tanda bahaya bayi dan Anak', status: false),
+      ],
+      isExpanded: false,
+    ),
     Jobitems(label: 'Komunikasi efektif', status: false),
   ];
 
@@ -121,31 +176,56 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
                   itemBuilder: (context, index) {
                     return listOfJob[index].subItems != null &&
                             listOfJob[index].subItems!.isNotEmpty
-                        ? ExpansionTile(
-                            title: CheckboxListWidget(
-                              isChecked: listOfJob[index].status,
-                              label: listOfJob[index].label,
-                              onChanged: (value) {
-                                setState(() {
-                                  listOfJob[index].status = value ?? false;
-                                });
-                              },
-                            ),
-                            children: listOfJob[index].subItems!.map((subItem) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0), // Menambahkan padding ke kiri
-                                child: CheckboxListWidget(
-                                  isChecked: subItem.status,
-                                  label: subItem.label,
+                        ? Column(
+                            children: [
+                              ExpansionTile(
+                                onExpansionChanged: (value) {
+                                  setState(() {
+                                    listOfJob[index].isExpanded = value;
+                                  });
+                                },
+                                childrenPadding: EdgeInsets.all(0),
+                                tilePadding: EdgeInsets.all(0),
+                                title: CheckboxListWidget(
+                                  isChecked: listOfJob[index].status,
+                                  label: listOfJob[index].label,
                                   onChanged: (value) {
                                     setState(() {
-                                      subItem.status = value ?? false;
+                                      listOfJob[index].status = value ?? false;
+                                      // Mengatur status semua sub-items
+                                      for (var subItem
+                                          in listOfJob[index].subItems!) {
+                                        subItem.status = value ?? false;
+                                      }
                                     });
                                   },
                                 ),
-                              );
-                            }).toList(),
+                                children: listOfJob[index].subItems!.map(
+                                  (subItem) {
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 20.0),
+                                      child: CheckboxListWidget(
+                                        isChecked: subItem.status,
+                                        label: subItem.label,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            subItem.status = value ?? false;
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                              !listOfJob[index].isExpanded!
+                                  ? Container(
+                                      width: double.infinity,
+                                      color: Colors.black38,
+                                      height: 2,
+                                    )
+                                  : SizedBox.shrink()
+                            ],
                           )
                         : CheckboxListWidget(
                             isChecked: listOfJob[index].status,
@@ -158,6 +238,11 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
                           );
                   },
                 ),
+              ),
+              ButtonPrimary(
+                color: bluePrimaryMain,
+                mainButtonMessage: 'Simpan',
+                mainButton: () {},
               ),
             ],
           ),
