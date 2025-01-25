@@ -151,7 +151,7 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                         title: Text(
                           jobItems[index].label,
                           style: AppTextStyles.primaryTextMedium.copyWith(
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
                         children: jobItems[index].subItems!.map((subItem) {
@@ -166,7 +166,7 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                                 subItem.label,
                                 textAlign: TextAlign.start,
                                 style: AppTextStyles.primaryTextMedium
-                                    .copyWith(fontSize: 16),
+                                    .copyWith(fontSize: 14),
                               ),
                             ),
                           );
@@ -178,7 +178,7 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                         child: Text(
                           jobItems[index].label,
                           style: AppTextStyles.primaryTextMedium
-                              .copyWith(fontSize: 16),
+                              .copyWith(fontSize: 14),
                         ),
                       );
                     }
