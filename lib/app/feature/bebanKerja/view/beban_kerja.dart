@@ -4,6 +4,7 @@ import 'package:puspadaya/app/view/widget/beban_kader_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 class BebanKerja extends StatelessWidget {
   const BebanKerja({super.key});
@@ -27,18 +28,22 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
     List<BebanKerjaItems> bebanKerja = [
       BebanKerjaItems(
         onTap: () {
-          Navigator.pushNamed(context, '');
+          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
         },
         place: 'Posyandu Mawar 8',
         date: 'September 2024',
       ),
       BebanKerjaItems(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
+        },
         place: 'Posyandu Mawar 8',
         date: 'September 2024',
       ),
       BebanKerjaItems(
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
+        },
         place: 'Posyandu Mawar 8',
         date: 'September 2024',
       ),
@@ -71,6 +76,18 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
             },
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: bluePrimary40,
+        shape: CircleBorder(),
+        child: Icon(
+          size: 38,
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, CREATE_BEBAN_KERJA);
+        },
       ),
     );
   }

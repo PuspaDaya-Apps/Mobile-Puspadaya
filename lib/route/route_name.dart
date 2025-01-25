@@ -31,4 +31,5 @@ const String DETAIL_PENGUKURAN_TAMU = '/pengukuran/detail-tamu';
 const String DETAIL_RIWAYAT_ANAK = '/pengukuran/detail-riwayat-anak';
 const String DETAIL_RIWAYAT_IBU_HAMIL = '/pengukuran/detail-riwayat-ibu-hamil';
 const String BEBAN_KERJA = '/beban-kerja';
+const String CREATE_BEBAN_KERJA = '/beban-kerja/create';
 const String DETAIL_BEBAN_KERJA = '/beban-kerja/detail';
