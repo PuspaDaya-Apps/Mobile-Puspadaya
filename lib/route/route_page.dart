@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/bebanKerja/view/beban_kerja.dart';
+import 'package:puspadaya/app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
 import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
 import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
@@ -136,8 +138,11 @@ class MyRoute {
 
       case DETAIL_BEBAN_KERJA:
         return MaterialPageRoute(
-            builder: (context) => const BebanKerja(), settings: settings);
+            builder: (context) => const DetailBebanKerja(), settings: settings);
 
+      case CREATE_BEBAN_KERJA:
+        return MaterialPageRoute(
+            builder: (context) => const CreateBebanKerja(), settings: settings);
       default:
         return PageTransition(
             child: const PageNotFoundScreen(),
