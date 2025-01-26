@@ -55,6 +55,7 @@ dependencies:
   pinput: ^5.0.0
   rename: ^3.0.2
   shared_preferences: ^2.3.2
+  snacky: ^0.5.6
   table_calendar: ^3.1.2
   url_launcher: ^6.3.1
 
