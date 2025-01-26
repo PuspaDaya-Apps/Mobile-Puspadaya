@@ -28,12 +28,12 @@ class BuildApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
-      locale: Locale('id', 'ID'), // Set default ke Indonesia
-      supportedLocales: [
+      locale: const Locale('id', 'ID'), // Set default ke Indonesia
+      supportedLocales: const [
         Locale('en', 'US'),
         Locale('id', 'ID'),
       ],
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
