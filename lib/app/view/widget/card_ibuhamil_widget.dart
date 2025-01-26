@@ -52,7 +52,7 @@ class CardIbuhamilWidget extends StatelessWidget{
                     vertical: SizeConfig.calHeightMultiplier(3)
                   ),
                   decoration: BoxDecoration(
-                    color: buttonLoginColor,
+                    color: bluePrimaryMain,
                     borderRadius: BorderRadius.circular(4)
                   ),
                   child: Text(
@@ -70,7 +70,7 @@ class CardIbuhamilWidget extends StatelessWidget{
                 Text(
                   "Ayah : $nik",
                   style: TextStyle(
-                    color: fontColor2.withOpacity(0.7),
+                    color: textPrimary10.withOpacity(0.7),
                     fontSize: SizeConfig.calMultiplierText(12),
                     fontWeight: FontWeight.w400
                   ),
@@ -78,7 +78,7 @@ class CardIbuhamilWidget extends StatelessWidget{
                 Text(
                   "Usia Kandungan : $bulan Bulan $minggu Minggu",
                   style: TextStyle(
-                    color: fontColor2.withOpacity(0.7),
+                    color: textPrimary10.withOpacity(0.7),
                     fontSize: SizeConfig.calMultiplierText(12),
                     fontWeight: FontWeight.w400
                   ),
@@ -91,7 +91,7 @@ class CardIbuhamilWidget extends StatelessWidget{
           ),
           Icon(
             Icons.arrow_forward_ios_rounded,
-            color: baseColor,
+            color: bluePrimaryMain,
             size: SizeConfig.calWidthMultiplier(14),
           )
         ],
