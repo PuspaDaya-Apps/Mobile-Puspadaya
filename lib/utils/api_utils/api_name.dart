@@ -5,5 +5,8 @@ part of 'api_utils.dart';
 abstract class LinkApi {
   LinkApi._();
 
-  static const LOGINURL  = "/login";
+  //!Auth
+  static const LOGINURL  = "/auth/login";
+  static const REFRESHTOKENURL  = "/auth/refresh-token";
+  static const LOGOUTURL  = "/auth/logout";
 }
