@@ -33,3 +33,8 @@ const String DETAIL_RIWAYAT_IBU_HAMIL = '/pengukuran/detail-riwayat-ibu-hamil';
 const String BEBAN_KERJA = '/beban-kerja';
 const String CREATE_BEBAN_KERJA = '/beban-kerja/create';
 const String DETAIL_BEBAN_KERJA = '/beban-kerja/detail';
+const String KUNJUNGAN = '/kunjungan';
+const String CREATE_KUNJUNGAN_STUNTING = '/kunjungan/anak-stunting/create';
+const String CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR =
+    '/kunjungan/anak-tidak-hadir/create';
+const String CREATE_KUNJUNGAN_IBU_HAMIL = '/kunjungan/ibu-hamil/create';
