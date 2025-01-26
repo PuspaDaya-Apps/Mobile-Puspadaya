@@ -216,7 +216,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                       debugPrint(state.error);
                                     }
                                     if (state is LoginSuccessState) {
-                                      Navigator.pushNamed(context, HOMEEXAMPLE);
+                                      Navigator.pushNamed(context, HOME);
                                       // debugPrint("SUCCESS LOGIN");
                                     }
                                     if (state is NullErrorState) {
