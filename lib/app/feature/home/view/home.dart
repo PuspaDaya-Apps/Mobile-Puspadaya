@@ -518,6 +518,20 @@ class GraphData extends StatelessWidget {
       BarChartRodData(toY: 30, color: Colors.red, width: 16),
     ]),
   ];
+  List<String> listMonth = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember"
+  ];
 
   GraphData({super.key});
 
@@ -581,6 +595,22 @@ class GraphData extends StatelessWidget {
               color: Colors.white,
               child: BarChart(
                 BarChartData(
+                  barTouchData: BarTouchData(
+                    touchTooltipData: BarTouchTooltipData(
+                      getTooltipColor: (group) {
+                        return bluePrimaryMain;
+                      },
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        String month = listMonth[group.x.toInt()];
+                        return BarTooltipItem(
+                          '$month\n${rod.toY}',
+                          TextStyle(
+                            color: Colors.white,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   maxY: maxY + 10,
                   alignment: BarChartAlignment.spaceEvenly,
                   barGroups: dataChart,

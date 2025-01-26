@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-
 import '../app/feature/bebanKerja/view/beban_kerja.dart';
 import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import '../app/feature/createKehadiran/view/create_kehadiran.dart';
@@ -138,6 +137,7 @@ class MyRoute {
             builder: (context) => const DetailRiwayatIbuHamil(),
             settings: settings);
 
+      //beban kerja
       case BEBAN_KERJA:
         return MaterialPageRoute(
             builder: (context) => const BebanKerja(), settings: settings);
@@ -149,7 +149,22 @@ class MyRoute {
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(
             builder: (context) => const CreateBebanKerja(), settings: settings);
-            
+      //Pengukuran
+      case CREATE_KUNJUNGAN_STUNTING:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganStunting(),
+            settings: settings);
+
+      case CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganAnakTidakHadir(),
+            settings: settings);
+
+      case CREATE_KUNJUNGAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganIbuHamil(),
+            settings: settings);
+
       default:
       return PageTransition(
         child: const PageNotFoundScreen(),

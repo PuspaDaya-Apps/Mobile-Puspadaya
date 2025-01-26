@@ -27,62 +27,137 @@ class DetailBebanKerjaView extends StatefulWidget {
 
 class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
   List<Jobitem> jobItems = [
-    Jobitem(label: 'Pendaftaran Ibu Hamil'),
-    Jobitem(label: 'Pendaftaran bayi dan Anak'),
-    Jobitem(label: 'Penimbangan dan pengukuran'),
-    Jobitem(label: 'Pencatatan'),
     Jobitem(
-      label: 'Pelayanan Kesehatan',
+      label: 'Administrasi',
       subItems: [
-        Jobitem(label: 'Memberikan TTD(Tablet Tambah Darah)'),
-        Jobitem(label: 'Memberikan vit A di posyandu'),
-        Jobitem(label: 'Memberikan obat cacing di posyandu'),
-        Jobitem(label: 'Memberikan PMT penyuluhan untuk Anak di Posyandu'),
-      ],
-    ),
-    Jobitem(label: 'Pencatatan dan pelaporan'),
-    Jobitem(
-      label: 'Penyuluhan Kesehatan',
-      subItems: [
-        Jobitem(label: 'Penyuluhan penggunaan buku KIA'),
-        Jobitem(label: 'Penyuluhan Isi Piring ku'),
-        Jobitem(label: 'Penyuluhan manfaat PMT'),
-        Jobitem(label: 'Penyuluhan aktifitas fisik'),
-        Jobitem(label: 'Penyuluhan ASI eksklusif'),
-        Jobitem(label: 'Penyuluhan KB'),
-        Jobitem(label: 'Penyuluhan Imunisais'),
-        Jobitem(label: 'Penyuluhan vit A'),
-        Jobitem(label: 'Penyuluhan obat cacing'),
-        Jobitem(label: 'Penyuluhan stimulasi perkembangan'),
-        Jobitem(label: 'Penyuluhan MPASI'),
         Jobitem(
-            label:
-                'Penyuluhan hasil penimbangan dan pengukuran, serta tindak lanjutnya'),
-        Jobitem(label: 'Penyuluhan pemantauna tanda bahaya bayi dan Anak'),
+          label: 'Malakukan Komunikasi Efektif',
+        ),
+        Jobitem(
+          label: 'Pendaftaran ibu hamil',
+        ),
+        Jobitem(
+          label: 'Pendaftaran bayi dan balita',
+        ),
+        Jobitem(
+          label: 'Pencatatan',
+        ),
+        Jobitem(
+          label: 'Pencatatan dan pelaporan',
+        ),
       ],
     ),
     Jobitem(
-      label: 'Kunjungan Rumah',
+      label: 'Keterampilan Bayi dan Balita Tugas Lainnya',
       subItems: [
-        Jobitem(label: 'Memberikan makanan tambahan pada ibu hamil KEK'),
-        Jobitem(label: 'Memberikan PMT kepada Anak bermasalah gizi'),
-        Jobitem(label: 'Penimbangan dan pengukuran di rumah'),
-        Jobitem(label: 'Penggunaan buku KIA'),
-        Jobitem(label: 'Isi Piring Ku'),
-        Jobitem(label: 'Manfaat PMT'),
-        Jobitem(label: 'Aktivitas fisik'),
-        Jobitem(label: 'ASI eksklusif'),
-        Jobitem(label: 'KB'),
-        Jobitem(label: 'Imunisasi'),
-        Jobitem(label: 'Obat Cacing'),
-        Jobitem(label: 'Stimulasi Perkembangan'),
-        Jobitem(label: 'MPASI'),
         Jobitem(
-            label: 'Hasil penimbangan dan pengukuran, serta tindak lanjutnya'),
-        Jobitem(label: 'Pemantauan tanda bahaya bayi dan Anak'),
+          label: 'Penyuluhan Imunisasi ',
+        ),
+        Jobitem(
+          label:
+              'Penyuluhan hasil penimbangan dan pengukuran, serta tindak lanjutnya',
+        ),
+        Jobitem(
+          label: 'Penyuluhan penggunaan buku KIA ',
+        ),
+        Jobitem(
+          label: 'Penyuluhan ASI eksklusif',
+        ),
+        Jobitem(
+          label: 'Penyuluhan MPASI ',
+        ),
+        Jobitem(
+          label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
+        ),
+        Jobitem(
+          label: 'Penimbangan dan pengukuran ',
+        ),
+        Jobitem(
+          label: 'Penyuluhan ASI eksklusif',
+        ),
+        Jobitem(
+          label: 'Penyuluhan MPASI',
+        ),
+        Jobitem(
+          label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
+        ),
+        Jobitem(
+          label: 'Penimbangan dan pengukuran',
+        ),
+        Jobitem(
+          label: 'Penyuluhan vit A',
+        ),
+        Jobitem(
+          label: 'Penyuluhan obat cacing',
+        ),
+        Jobitem(
+          label: 'Penyuluhan stimulasi perkembangan',
+        ),
+        Jobitem(
+          label: 'Memberikan vit A',
+        ),
+        Jobitem(
+          label: 'Memberikan obat cacing',
+        ),
+        Jobitem(
+          label: 'Penimbangan dan pengukuran',
+        ),
+        Jobitem(
+          label: 'Penyuluhan vit A',
+        ),
+        Jobitem(
+          label: 'Penyuluhan obat cacing',
+        ),
       ],
     ),
-    Jobitem(label: 'Komunikasi efektif'),
+    Jobitem(
+      label: 'Keterampilan Ibu Hamil & Menyusui',
+      subItems: [
+        Jobitem(
+          label: 'Penyuluhan Isi Piring ku',
+        ),
+        Jobitem(
+          label: 'Memberikan TTD (Tablet Tambah Darah)',
+        ),
+      ],
+    ),
+    Jobitem(
+      label: 'Tambahan',
+      subItems: [
+        Jobitem(
+          label: 'Penyuluhan aktifitas fisik',
+        ),
+        Jobitem(
+          label: 'Penyuluhan KB',
+        ),
+        Jobitem(
+          label: 'Penyuluhan manfaat PMT Ibu Hamil dan Balita',
+        ),
+        Jobitem(
+          label: 'Memberikan PMT untuk balita & ibu hamil',
+        ),
+      ],
+    ),
+    Jobitem(
+      label: 'Tugas Lainnya',
+      subItems: [
+        Jobitem(
+          label: 'Memasak & Menyiapkan PMT',
+        ),
+        Jobitem(
+          label: 'Negosisasi/Advokasi',
+        ),
+        Jobitem(
+          label: 'Presentasi',
+        ),
+        Jobitem(
+          label: 'Pelatihan, Jambore,',
+        ),
+        Jobitem(
+          label: 'Menghadiri Rapat/ Kegiatan',
+        ),
+      ],
+    ),
   ];
 
   @override
