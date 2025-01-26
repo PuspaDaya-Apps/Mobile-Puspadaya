@@ -5,5 +5,8 @@ part of 'shared_preferences_utils.dart';
 abstract class SharedPrefName {
   SharedPrefName._();
 
-  static const EXAMPLE = 'Example';
+  static const ONBOARDING = "OnBoarding";
+  static const ACCOUNT = "Account";
+  static const REFRESHTOKEN = "RefreshToken";
+  static const ACCESSTOKEN = "AccessToken";
 }

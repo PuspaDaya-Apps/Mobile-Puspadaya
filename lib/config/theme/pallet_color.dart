@@ -16,4 +16,10 @@ const Color buttonLupaKataSandiColor2 = Color(0xFF1F2855);
 const Color buttonOnBoardingColor1 = Color(0xFFA6A9AD);
 const Color buttonOnBoardingColor2 = Color(0xFF3F7FCA);
 
+const Color backgroundPageColor = Color(0xFFF3F3F3);
+const Color fontAppbarColor = Color(0xFF4A4A68);
+
+const Color backgroundAvatarCardColor = Color(0xFFC8E1FE);
+const Color iconDarkBlueColor = Color(0xFF486284);
+
 const Color borderDefaultColor = Color(0xFFC6C6C6);

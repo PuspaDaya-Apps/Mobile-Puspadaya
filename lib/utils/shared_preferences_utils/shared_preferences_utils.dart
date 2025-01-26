@@ -1,21 +1,77 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'shared_preferences_name.dart';
 
 class SharedPrefUtils {
-  //example 
-  Future<void> storedExample (String value) async {
+
+  //!OnBoarding
+  Future<void> storedOnBoarding () async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(SharedPrefName.EXAMPLE, value);
+    prefs.setBool(SharedPrefName.ONBOARDING, true);
   }
 
-  Future<String?> getExample () async {
+  Future<bool?> getOnBoarding () async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(SharedPrefName.EXAMPLE); 
+    return prefs.getBool(SharedPrefName.ONBOARDING); 
   }
 
-  Future<void> removeExample() async {
+  Future<void> removeOnBoarding() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.remove(SharedPrefName.EXAMPLE);
+    prefs.remove(SharedPrefName.ONBOARDING);
   }
+
+  //!Account
+  Future<void> storedAccount (String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(SharedPrefName.ACCOUNT, value);
+  }
+
+  Future<String?> getAccount () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.ACCOUNT); 
+  }
+
+  Future<void> removeAccount() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.ACCOUNT);
+  }
+
+  //!RefreshToken
+  Future<void> storedRefreshToken (String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.REFRESHTOKEN, value);
+  }
+
+  Future<String?> getRefreshToken () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.REFRESHTOKEN); 
+  }
+
+  Future<void> removeRefreshToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.REFRESHTOKEN);
+
+    String? a = prefs.getString(SharedPrefName.REFRESHTOKEN); 
+    debugPrint(a);
+  }
+
+  //!AccessToken
+  Future<void> storedAccessToken (String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.ACCESSTOKEN, value);
+  }
+
+  Future<String?> getAccessToken () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.ACCESSTOKEN); 
+  }
+
+  Future<void> removeAccessToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.ACCESSTOKEN);
+
+    String? a = prefs.getString(SharedPrefName.ACCESSTOKEN); 
+    debugPrint(a);
+  } 
 }
