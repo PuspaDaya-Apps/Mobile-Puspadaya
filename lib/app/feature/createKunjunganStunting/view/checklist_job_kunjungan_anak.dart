@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../view/widget/checkbox_list_widget.dart';
 import 'model/CheckBoxKunjungan.dart';
@@ -48,6 +49,7 @@ class _ChecklistJobKunjunganAnakState extends State<ChecklistJobKunjunganAnak> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: Column(
@@ -224,37 +226,95 @@ class UploadImage extends StatefulWidget {
 class _UploadImageState extends State<UploadImage> {
   final ImagePicker _picker = ImagePicker();
   List<XFile> _images = []; // Menyimpan beberapa gambar
-
-  Future<void> _pickImages(ImageSource source) async {
-    final pickedFiles =
-        await _picker.pickMultiImage(); // Menggunakan pickMultiImage
-    if (pickedFiles != null) {
+  Future<void> _pickImageFromGallery() async {
+    final List<XFile>? images = await _picker.pickMultiImage();
+    if (images != null) {
       setState(() {
-        _images = pickedFiles; // Simpan semua gambar yang dipilih
+        _images.addAll(images);
       });
     }
   }
 
+  Future<void> _pickImages(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+        source: ImageSource.camera); // Pilih satu gambar dari kamera
+    if (pickedFile != null) {
+      setState(() {
+        _images.add(pickedFile); // Tambahkan gambar ke daftar
+      });
+    }
+  }
+
+  void _removeImage(int index) {
+    setState(() {
+      _images.removeAt(index); // Hapus gambar berdasarkan indeks
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: const EdgeInsets.all(20),
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-        ),
+    return Container(
+      margin: const EdgeInsets.all(20),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            _images.isNotEmpty
+                ? Column(
+                    spacing: 8.0,
+                    children: _images.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      XFile image = entry.value;
+                      return Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: MediaQuery.sizeOf(context).height / 5,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(File(image.path)),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          Positioned(
+                            top: 5,
+                            right: 5,
+                            child: GestureDetector(
+                              onTap: () => _removeImage(index),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.red,
+                                ),
+                                padding: EdgeInsets.all(4),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  )
+                : Container(), // Jika tidak ada gambar, tampilkan kosong
+            _images.isEmpty ? SizedBox.shrink() : const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 showModalBottomSheet(
                   useSafeArea: true,
-                  barrierColor: Colors.black.withOpacity(0.5),
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
                   context: context,
                   builder: (context) {
                     return Container(
@@ -273,7 +333,7 @@ class _UploadImageState extends State<UploadImage> {
                           SizedBox(height: 20),
                           ListTile(
                             leading: Icon(
-                              Icons.camera,
+                              FluentIcons.camera_24_regular,
                               color: Colors.black,
                             ),
                             title: Text('Camera'),
@@ -284,13 +344,13 @@ class _UploadImageState extends State<UploadImage> {
                           ),
                           ListTile(
                             leading: Icon(
-                              Icons.image,
+                              FluentIcons.image_24_regular,
                               color: Colors.black,
                             ),
                             title: Text('Gallery'),
                             onTap: () {
                               Navigator.pop(context);
-                              _pickImages(ImageSource.gallery);
+                              _pickImageFromGallery();
                             },
                           ),
                         ],
@@ -330,34 +390,17 @@ class _UploadImageState extends State<UploadImage> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            // Tampilkan gambar yang dipilih
-            _images.isNotEmpty
-                ? Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8.0,
-                    children: _images.map((image) {
-                      return Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(File(image.path)),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      );
-                    }).toList(),
-                  )
-                : Container(), // Jika tidak ada gambar, tampilkan kosong
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Logika untuk upload
+
+            const SizedBox(height: 16),
+            ButtonPrimary(
+              color: bluePrimaryMain,
+              mainButtonMessage: 'Upload Bukti',
+              mainButton: () {
+                for (var image in _images) {
+                  logger.i(image.path);
+                }
               },
-              child: Text('Upload'),
-            ),
+            )
           ],
         ),
       ),

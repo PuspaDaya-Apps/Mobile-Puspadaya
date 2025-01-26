@@ -31,7 +31,7 @@ class PrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         '${title}',
         style: AppTextStyles.primaryTextSemibold.copyWith(
-          fontSize: 12,
+          fontSize: 16,
         ),
       ),
       actions: actions,

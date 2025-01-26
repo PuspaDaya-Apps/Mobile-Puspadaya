@@ -7,6 +7,8 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import 'checklist_job_kunjungan_ibu_hamil.dart';
+
 class TimerKunjunganIbuHamil extends StatefulWidget {
   const TimerKunjunganIbuHamil({super.key});
 
@@ -19,7 +21,7 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Kunjungan Anak Stunting',
+        title: 'Kunjungan Ibu Hamil',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -227,7 +229,16 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
                 ButtonPrimary(
                   color: greenPrimaryMain,
                   mainButtonMessage: 'Mulai',
-                  mainButton: () {},
+                  mainButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ChecklistJobKunjunganIbuHamil();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
