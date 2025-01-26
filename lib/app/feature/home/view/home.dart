@@ -364,7 +364,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 8;
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 6.5;
 
     return Container(
       padding:
@@ -386,7 +386,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 3 / 4,
+                childAspectRatio: 0.60,
                 mainAxisSpacing: 16,
                 maxCrossAxisExtent: 80,
               ),

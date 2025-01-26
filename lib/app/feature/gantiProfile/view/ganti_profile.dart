@@ -359,7 +359,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
                   onTap: () {
                     showModalBottomSheet(
                       useSafeArea: true,
-                      barrierColor: Colors.black.withOpacity(0.5),
+                      barrierColor: Colors.black.withValues(alpha: 0.5),
                       context: context,
                       builder: (context) {
                         return Container(

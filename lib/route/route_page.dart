@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/home/view/home.dart';
 import '../app/feature/bebanKerja/view/beban_kerja.dart';
 import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import '../app/feature/createKehadiran/view/create_kehadiran.dart';
+import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
+import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
 import '../app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
 import '../app/feature/detailKehadiran/view/detail_kehadiran.dart';
 import '../app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
@@ -33,9 +37,12 @@ import './route_name.dart';
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      // case SPLASHSCREEN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const SplashScreen(), settings: settings);
       case SPLASHSCREEN:
         return MaterialPageRoute(
-            builder: (context) => const SplashScreen(), settings: settings);
+            builder: (context) => const HomeWrapper(), settings: settings);
 
       case ONBOARDING:
         return MaterialPageRoute(
@@ -62,9 +69,9 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const Jadwal(), settings: settings);
 
-      case HOMEEXAMPLE :
+      case HOMEEXAMPLE:
         return MaterialPageRoute(
-          builder: (context) => const HomeExample(), settings: settings);
+            builder: (context) => const HomeExample(), settings: settings);
 
       case CREATE_JADWAL:
         return MaterialPageRoute(
@@ -148,7 +155,9 @@ class MyRoute {
 
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(
-            builder: (context) => const CreateBebanKerja(), settings: settings);
+          builder: (context) => const CreateBebanKerja(),
+          settings: settings,
+        );
       //Pengukuran
       case CREATE_KUNJUNGAN_STUNTING:
         return MaterialPageRoute(
@@ -166,12 +175,11 @@ class MyRoute {
             settings: settings);
 
       default:
-      return PageTransition(
-        child: const PageNotFoundScreen(),
-        type: PageTransitionType.fade,
-        duration: const Duration(milliseconds: 600),
-        settings: settings
-      );
+        return PageTransition(
+            child: const PageNotFoundScreen(),
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 600),
+            settings: settings);
     }
   }
 }
