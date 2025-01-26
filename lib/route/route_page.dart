@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../app/feature/bebanKerja/view/beban_kerja.dart';
+import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
+import '../app/feature/createKehadiran/view/create_kehadiran.dart';
+import '../app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
+import '../app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
+import '../app/feature/detailKehadiran/view/detail_kehadiran.dart';
+import '../app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
+import '../app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
+import '../app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
+import '../app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
+import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
+import '../app/feature/gantiProfile/view/ganti_profile.dart';
+import '../app/feature/home/view/home_wrapper.dart';
+import '../app/feature/jadwal/view/create_jadwal.dart';
+import '../app/feature/jadwal/view/edit_jadwal.dart';
+import '../app/feature/jadwal/view/jadwal.dart';
+import '../app/feature/kebijakanPrivasi/view/kebijakan.dart';
+import '../app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
-import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
-import 'package:puspadaya/app/feature/kodeOTP/view/otp_screen.dart';
-import'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
-import 'package:puspadaya/app/feature/bebanKerja/view/beban_kerja.dart';
-import 'package:puspadaya/app/feature/createBebanKerja/view/create_beban_kerja.dart';
-import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
-import 'package:puspadaya/app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
-import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
-import 'package:puspadaya/app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
-import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
-import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
-import 'package:puspadaya/app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
-import 'package:puspadaya/app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
-import 'package:puspadaya/app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
-import 'package:puspadaya/app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
-import 'package:puspadaya/app/feature/gantiProfile/view/ganti_profile.dart';
-import 'package:puspadaya/app/feature/home/view/home_wrapper.dart';
-import 'package:puspadaya/app/feature/jadwal/view/create_jadwal.dart';
-import 'package:puspadaya/app/feature/jadwal/view/edit_jadwal.dart';
-import 'package:puspadaya/app/feature/kebijakanPrivasi/view/kebijakan.dart';
-import 'package:puspadaya/app/feature/kodeOTP/view/otp_screen.dart';
-import 'package:puspadaya/app/feature/updatePengukuranAnak/view/update_pengukuran_anak.dart';
-import 'package:puspadaya/app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil.dart';
-import '../app/feature/login/view/login_screen.dart';
-import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
-import 'package:puspadaya/app/feature/resetPassword/view/reset_password.dart';
+import '../app/feature/resetPassword/view/reset_password.dart';
+import '../app/feature/updatePengukuranAnak/view/update_pengukuran_anak.dart';
+import '../app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
@@ -68,10 +64,8 @@ class MyRoute {
             builder: (context) => const Jadwal(), settings: settings);
 
       case HOMEEXAMPLE :
-      return MaterialPageRoute(
-        builder: (context) => const HomeExample(),
-        settings: settings
-      );
+        return MaterialPageRoute(
+          builder: (context) => const HomeExample(), settings: settings);
 
       case CREATE_JADWAL:
         return MaterialPageRoute(

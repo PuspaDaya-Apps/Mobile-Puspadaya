@@ -9,5 +9,4 @@ abstract class LinkApi {
   static const LOGINURL  = "/auth/login";
   static const REFRESHTOKENURL  = "/auth/refresh-token";
   static const LOGOUTURL  = "/auth/logout";
-
 }
