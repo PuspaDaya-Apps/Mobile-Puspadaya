@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: baseColor,
+        backgroundColor: bluePrimaryMain,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -58,14 +58,14 @@ class _SplashScreenState extends State<SplashScreen> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding:
-                    EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
+                  EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
                 child: Text(
                   "V. 1.0",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: SizeConfig.calMultiplierText(18),
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
+                    fontSize: SizeConfig.calMultiplierText(18),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600),
                 ),
               ),
             )

@@ -52,7 +52,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return Scaffold(
-      backgroundColor: baseColor,
+      backgroundColor: bluePrimaryMain,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if(state is LoadAccountSuccessState) {
@@ -158,8 +158,9 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                 borderRadius: BorderRadius.circular(5)),
                                               side: const BorderSide(
                                                 width: 1,
-                                                color: checkBoxLoginColor),
-                                              activeColor: checkBoxLoginColor,
+                                                color: stroke10
+                                              ),
+                                              activeColor: stroke10,
                                               checkColor: Colors.white,
                                               visualDensity: const VisualDensity(
                                                 horizontal: -4,
@@ -174,7 +175,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                           const SizedBox(width: 4),
                                           Text('Ingat Saya',
                                             style: TextStyle(
-                                              color: fontColor2,
+                                              color: textPrimary10,
                                               fontSize: SizeConfig.calMultiplierText(12),
                                               fontWeight: FontWeight.w400))
                                         ],
@@ -189,7 +190,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                           child: Text(
                                             'Lupa Kata Sandi?',
                                             style: TextStyle(
-                                              color: fontColorLupaPassword,
+                                              color: textUrgent,
                                               fontSize:
                                                   SizeConfig.calMultiplierText(
                                                       13),
@@ -197,7 +198,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                               decoration:
                                                   TextDecoration.underline,
                                               decorationColor:
-                                                  fontColorLupaPassword,
+                                                  textUrgent,
                                             ),
                                           ))
                                     ],
@@ -258,7 +259,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: buttonLoginColor,
+                                        backgroundColor: buttonPriamary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10)),
                                         padding: EdgeInsets.symmetric(
