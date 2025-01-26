@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class AppTextStyles {
-  static TextStyle primaryText = TextStyle(
+  static TextStyle primaryText = const TextStyle(
     fontFamily: 'Poppins',
     color: textPrimary10,
   );
 
-  static TextStyle secoundaryText = TextStyle(
+  static TextStyle secoundaryText = const TextStyle(
     fontFamily: 'Poppins',
     color: textSecoundary,
   );
 
-  static TextStyle thridText = TextStyle(
+  static TextStyle thridText = const TextStyle(
     fontFamily: 'Poppins',
     color: textSecoundary,
   );
 
-  static TextStyle urgentText = TextStyle(
+  static TextStyle urgentText = const TextStyle(
     fontFamily: 'Poppins',
     color: textUrgent,
   );

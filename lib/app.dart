@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'app/feature/authorization/bloc/blocAuthentication/authentication_bloc.dart';
+import 'app/feature/authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/screen_config/size_config.dart';
 import 'config/theme/theme.dart';
@@ -10,7 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BuildApp();
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => AuthorizationBloc()),
+      BlocProvider(create: (context) => AuthenticationBloc()),
+    ], child: const BuildApp());
   }
 }
 
@@ -21,12 +28,12 @@ class BuildApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
-      locale: Locale('id', 'ID'), // Set default ke Indonesia
-      supportedLocales: [
+      locale: const Locale('id', 'ID'), // Set default ke Indonesia
+      supportedLocales: const [
         Locale('en', 'US'),
         Locale('id', 'ID'),
       ],
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -36,7 +43,7 @@ class BuildApp extends StatelessWidget {
       theme: themeData,
       onGenerateRoute: MyRoute.generateRoute,
       initialRoute: SPLASHSCREEN,
-      // home: const OnBoardingScreen(),
+      // home: const AnakListScreen(),
     );
   }
 }
