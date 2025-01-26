@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/feature/createKunjunganAnakTidakHadir/view/timer_kunjungan_tidak_hadir.dart';
-import 'package:puspadaya/app/feature/createKunjunganStunting/model/KunjunganStuntingItem.dart';
+import 'package:puspadaya/app/feature/createKunjunganStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
