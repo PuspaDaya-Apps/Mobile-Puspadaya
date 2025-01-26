@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -53,7 +57,7 @@ class _ChecklistJobKunjunganAnakState extends State<ChecklistJobKunjunganAnak> {
               backgroundColor: Colors.white,
               elevation: 0,
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
                 onPressed: () {
                   if (_currentPage > 0) {
                     setState(() {
@@ -86,18 +90,15 @@ class _ChecklistJobKunjunganAnakState extends State<ChecklistJobKunjunganAnak> {
                 ),
               ),
             ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              height: 4,
-              width: double.infinity,
-              color: Colors.grey[200],
-              child: FractionallySizedBox(
-                alignment: Alignment.centerLeft,
-                widthFactor: _progressValues[_currentPage],
-                child: Container(
-                  color: bluePrimaryMain,
-                ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 800),
+                curve: Curves.easeInOut,
+                height: 4,
+                width: MediaQuery.sizeOf(context).width *
+                    _progressValues[_currentPage],
+                color: bluePrimaryMain,
               ),
             ),
           ],
@@ -121,13 +122,49 @@ class _ChecklistJobKunjunganAnakState extends State<ChecklistJobKunjunganAnak> {
   }
 }
 
-class CheckListJobKunjunganAnakView extends StatelessWidget {
+class CheckListJobKunjunganAnakView extends StatefulWidget {
   final VoidCallback goToNext;
+
+  CheckListJobKunjunganAnakView({super.key, required this.goToNext});
+
+  @override
+  State<CheckListJobKunjunganAnakView> createState() =>
+      _CheckListJobKunjunganAnakViewState();
+}
+
+class _CheckListJobKunjunganAnakViewState
+    extends State<CheckListJobKunjunganAnakView> {
   List<CheckboxKunjungan> listOfCheckbox = [
     CheckboxKunjungan(
-        isChecked: false, label: 'Pemberian Makanan Tambahan (PMT)')
+      isChecked: false,
+      label: 'Pemberian Makanan Tambahan (PMT)',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Manfaat PMT',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Anak Tidak Berada di Rumah',
+    ),
   ];
-  CheckListJobKunjunganAnakView({super.key, required this.goToNext});
+
+  void _updateCheckbox(int index, bool? value) {
+    setState(() {
+      if (index == listOfCheckbox.length - 1 && value == true) {
+        // If the last checkbox is selected, disable all other checkboxes
+        for (int i = 0; i < listOfCheckbox.length - 1; i++) {
+          listOfCheckbox[i].isChecked = false;
+        }
+      } else if (index != listOfCheckbox.length - 1) {
+        // If any other checkbox is selected, uncheck the last checkbox
+        listOfCheckbox[listOfCheckbox.length - 1].isChecked = false;
+      }
+
+      // Update the selected checkbox state
+      listOfCheckbox[index].isChecked = value ?? false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,16 +185,30 @@ class CheckListJobKunjunganAnakView extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          CheckboxListWidget(
-            isChecked: false,
-            label: 'test',
-            onChanged: (bool? value) {},
-          ),
+          const SizedBox(height: 10),
+          ...listOfCheckbox.asMap().entries.map((entry) {
+            int index = entry.key;
+            CheckboxKunjungan item = entry.value;
+
+            return CheckboxListWidget(
+              isChecked: item.isChecked,
+              label: item.label,
+              onChanged: (value) {
+                if (index == listOfCheckbox.length - 1 && value == true) {
+                  // Disable other checkboxes if the last one is selected
+                  for (int i = 0; i < listOfCheckbox.length - 1; i++) {
+                    listOfCheckbox[i].isChecked = false;
+                  }
+                }
+                _updateCheckbox(index, value);
+              },
+            );
+          }).toList(),
           const SizedBox(height: 20),
           ButtonPrimary(
             color: bluePrimaryMain,
             mainButtonMessage: 'Simpan',
-            mainButton: goToNext,
+            mainButton: widget.goToNext,
           ),
         ],
       ),
@@ -165,8 +216,24 @@ class CheckListJobKunjunganAnakView extends StatelessWidget {
   }
 }
 
-class UploadImage extends StatelessWidget {
-  const UploadImage({super.key});
+class UploadImage extends StatefulWidget {
+  @override
+  _UploadImageState createState() => _UploadImageState();
+}
+
+class _UploadImageState extends State<UploadImage> {
+  final ImagePicker _picker = ImagePicker();
+  List<XFile> _images = []; // Menyimpan beberapa gambar
+
+  Future<void> _pickImages(ImageSource source) async {
+    final pickedFiles =
+        await _picker.pickMultiImage(); // Menggunakan pickMultiImage
+    if (pickedFiles != null) {
+      setState(() {
+        _images = pickedFiles; // Simpan semua gambar yang dipilih
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -182,27 +249,114 @@ class UploadImage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Upload Bukti Kunjungan',
-              style: AppTextStyles.primaryTextMedium.copyWith(
-                fontSize: 16,
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  useSafeArea: true,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 16),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 5,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          ListTile(
+                            leading: Icon(
+                              Icons.camera,
+                              color: Colors.black,
+                            ),
+                            title: Text('Camera'),
+                            onTap: () {
+                              Navigator.pop(context);
+                              _pickImages(ImageSource.camera);
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.image,
+                              color: Colors.black,
+                            ),
+                            title: Text('Gallery'),
+                            onTap: () {
+                              Navigator.pop(context);
+                              _pickImages(ImageSource.gallery);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                  ),
+                  Text(
+                    'Tambah Bukti',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                side: BorderSide(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+                foregroundColor: Colors.blue,
+                minimumSize: Size(double.infinity, 52),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
             const SizedBox(height: 20),
-            Center(
-              child: Icon(
-                Icons.cloud_upload,
-                size: 80,
-                color: bluePrimaryMain,
-              ),
-            ),
+            // Tampilkan gambar yang dipilih
+            _images.isNotEmpty
+                ? Wrap(
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: _images.map((image) {
+                      return Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: FileImage(File(image.path)),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                : Container(), // Jika tidak ada gambar, tampilkan kosong
             const SizedBox(height: 20),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Upload',
-              mainButton: () {
+            ElevatedButton(
+              onPressed: () {
                 // Logika untuk upload
               },
+              child: Text('Upload'),
             ),
           ],
         ),

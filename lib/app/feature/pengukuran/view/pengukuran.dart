@@ -79,7 +79,7 @@ class _PengukuranViewState extends State<PengukuranView> {
         actions: _buildAppBarActions(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimary40,
+        backgroundColor: bluePrimaryMain,
         shape: CircleBorder(),
         child: Icon(
           size: 38,

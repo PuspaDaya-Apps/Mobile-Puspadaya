@@ -27,7 +27,7 @@ class _JadwalViewState extends State<JadwalView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimary40,
+        backgroundColor: bluePrimaryMain,
         shape: CircleBorder(),
         child: Icon(
           size: 38,
