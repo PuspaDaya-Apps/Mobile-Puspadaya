@@ -44,78 +44,92 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
     "Desember"
   ];
   List<Jobitems> listOfJob = [
-    Jobitems(label: 'Pendaftaran Ibu Hamil', status: false),
-    Jobitems(label: 'Pendaftaran bayi dan Anak', status: false),
-    Jobitems(label: 'Penimbangan dan pengukuran', status: false),
-    Jobitems(label: 'Pencatatan', status: false),
     Jobitems(
-      label: 'Pelayanan Kesehatan',
+      label: 'Administrasi',
       status: false,
       subItems: [
-        Jobitems(label: 'Memberikan TTD(Tablet Tambah Darah)', status: false),
-        Jobitems(label: 'Memberikan vit A di posyandu', status: false),
-        Jobitems(label: 'Memberikan obat cacing di posyandu', status: false),
+        Jobitems(label: 'Malakukan Komunikasi Efektif', status: false),
+        Jobitems(label: 'Pendaftaran ibu hamil', status: false),
+        Jobitems(label: 'Pendaftaran bayi dan balita', status: false),
         Jobitems(
-          label: 'Memberikan PMT penyuluhan untuk Anak di Posyandu',
+          label: 'Pencatatan',
+          status: false,
+        ),
+        Jobitems(
+          label: 'Pencatatan dan pelaporan',
           status: false,
         ),
       ],
       isExpanded: false,
     ),
-    Jobitems(label: 'Pencatatan dan pelaporan', status: false),
     Jobitems(
-      label: 'Penyuluhan Kesehatan',
+      label: 'Keterampilan Bayi dan Balita Tugas Lainnya',
       status: false,
       subItems: [
-        Jobitems(label: 'Penyuluhan penggunaan buku KIA ', status: false),
-        Jobitems(label: 'Penyuluhan Isi Piring ku', status: false),
-        Jobitems(label: 'Penyuluhan manfaat PMT ', status: false),
-        Jobitems(label: 'Penyuluhan aktifitas fisik', status: false),
-        Jobitems(label: 'Penyuluhan ASI eksklusif ', status: false),
-        Jobitems(label: 'Penyuluhan KB', status: false),
-        Jobitems(label: 'Penyuluhan Imunisais ', status: false),
-        Jobitems(label: 'Penyuluhan vit A', status: false),
-        Jobitems(label: 'Penyuluhan obat cacing', status: false),
-        Jobitems(label: 'Penyuluhan stimulasi perkembangan', status: false),
-        Jobitems(label: 'Penyuluhan MPASI', status: false),
+        Jobitems(label: 'Penyuluhan Imunisasi ', status: false),
         Jobitems(
             label:
                 'Penyuluhan hasil penimbangan dan pengukuran, serta tindak lanjutnya',
             status: false),
+        Jobitems(label: 'Penyuluhan penggunaan buku KIA ', status: false),
+        Jobitems(label: 'Penyuluhan ASI eksklusif', status: false),
+        Jobitems(label: 'Penyuluhan MPASI ', status: false),
         Jobitems(
-            label: 'Penyuluhan pemantauna tanda bahaya bayi dan Anak',
+            label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
             status: false),
+        Jobitems(label: 'Penimbangan dan pengukuran ', status: false),
+        Jobitems(label: 'Penyuluhan ASI eksklusif', status: false),
+        Jobitems(label: 'Penyuluhan MPASI', status: false),
+        Jobitems(
+            label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
+            status: false),
+        Jobitems(label: 'Penimbangan dan pengukuran', status: false),
+        Jobitems(label: 'Penyuluhan vit A', status: false),
+        Jobitems(label: 'Penyuluhan obat cacing', status: false),
+        Jobitems(label: 'Penyuluhan stimulasi perkembangan', status: false),
+        Jobitems(label: 'Memberikan vit A', status: false),
+        Jobitems(label: 'Memberikan obat cacing', status: false),
+        Jobitems(label: 'Penimbangan dan pengukuran', status: false),
+        Jobitems(label: 'Penyuluhan vit A', status: false),
+        Jobitems(label: 'Penyuluhan obat cacing', status: false),
       ],
       isExpanded: false,
     ),
     Jobitems(
-      label: 'Kunjungan Rumah',
+      label: 'Keterampilan Ibu Hamil & Menyusui',
       status: false,
       subItems: [
-        Jobitems(
-            label: 'Memberikan makanan tambahan pada ibu hamil KEK',
-            status: false),
-        Jobitems(
-            label: 'Memberikan PMT kepada Anak bermasalah gizi', status: false),
-        Jobitems(label: 'Penimbangan dan pengukuran di rumah', status: false),
-        Jobitems(label: 'Penggunaan buku KIA', status: false),
-        Jobitems(label: 'Isi Piring Ku', status: false),
-        Jobitems(label: 'Manfaat PMT', status: false),
-        Jobitems(label: 'Aktivitas fisik', status: false),
-        Jobitems(label: 'ASI eksklusif', status: false),
-        Jobitems(label: 'KB', status: false),
-        Jobitems(label: 'Imunisasi', status: false),
-        Jobitems(label: 'Obat Cacing', status: false),
-        Jobitems(label: 'Stimulasi Perkembangan', status: false),
-        Jobitems(label: 'MPASI', status: false),
-        Jobitems(
-            label: 'Hasil penimbangan dan pengukuran, serta tindak lanjutnya',
-            status: false),
-        Jobitems(label: 'Pemantauan tanda bahaya bayi dan Anak', status: false),
+        Jobitems(label: 'Penyuluhan Isi Piring ku', status: false),
+        Jobitems(label: 'Memberikan TTD (Tablet Tambah Darah)', status: false),
       ],
       isExpanded: false,
     ),
-    Jobitems(label: 'Komunikasi efektif', status: false),
+    Jobitems(
+      label: 'Tambahan',
+      status: false,
+      subItems: [
+        Jobitems(label: 'Penyuluhan aktifitas fisik', status: false),
+        Jobitems(label: 'Penyuluhan KB', status: false),
+        Jobitems(
+            label: 'Penyuluhan manfaat PMT Ibu Hamil dan Balita',
+            status: false),
+        Jobitems(
+            label: 'Memberikan PMT untuk balita & ibu hamil', status: false),
+      ],
+      isExpanded: false,
+    ),
+    Jobitems(
+      label: 'Tugas Lainnya',
+      status: false,
+      subItems: [
+        Jobitems(label: 'Memasak & Menyiapkan PMT', status: false),
+        Jobitems(label: 'Negosisasi/Advokasi', status: false),
+        Jobitems(label: 'Presentasi', status: false),
+        Jobitems(label: 'Pelatihan, Jambore,', status: false),
+        Jobitems(label: 'Menghadiri Rapat/ Kegiatan', status: false),
+      ],
+      isExpanded: false,
+    ),
   ];
 
   @override

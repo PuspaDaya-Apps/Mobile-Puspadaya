@@ -31,3 +31,6 @@ const String iconExcel = "assets/icons/ic_excel.png";
 const String imageConfirmSave = "assets/images/confirm_save.png";
 const String imageDeleteItems = "assets/images/img_delete_items.png";
 const String imageThropy = "assets/images/img_thropy.png";
+const String imageOnTheWay = "assets/images/image_on_the_way.png";
+const String imageDoneTask = "assets/images/image_done_task.png";
+const String imageCrossRoad = "assets/images/image_cross_road.png";
