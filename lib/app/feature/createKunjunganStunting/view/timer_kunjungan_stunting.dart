@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -227,7 +228,16 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
                 ButtonPrimary(
                   color: greenPrimaryMain,
                   mainButtonMessage: 'Mulai',
-                  mainButton: () {},
+                  mainButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ChecklistJobKunjunganAnak();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
