@@ -1,34 +1,5 @@
 import 'package:flutter/material.dart';
 
-//! contoh variabel 'const Color exampleColor = Color(0xFFFFFFFF);'
-// const Color whiteBackgroundColor = Color(0xfff9f9f9);
-// const Color greyBackgroundColor = Color(0xfff3f3f3);
-// const Color secoundaryFontColor1 = Color(0xff6B7897);
-// const Color baseColor = Color(0xFF4BA1FF);
-// const Color blueColor1 = Color(0xff4F9FFD);
-// const Color blueColor2 = Color(0xff2F5F98);
-// const Color blueColor3 = Color(0xff4AA1FF);
-// const Color yellowColor1 = Color(0xffF1F688);
-
-// const Color backgroundLoginColor = Color(0xFF00AECD);
-
-// const Color blueColorDark = Color(0xff2F5F98);
-// const Color redColor = Color(0xffE32B2B);
-
-// const Color fontColorTextFieldLogin = Color(0xFF2F5F98);
-// const Color fontColorLupaPassword = Color(0xFFFB344F);
-// const Color buttonLoginColor = Color(0xFF4F9FFD);
-// const Color checkBoxLoginColor = Color(0xFFCDD1E0);
-// const Color buttonLupaKataSandiColor1 = Color(0xFFE5F1FF);
-// const Color buttonLupaKataSandiColor2 = Color(0xFF1F2855);
-// const Color buttonOnBoardingColor1 = Color(0xFFA6A9AD);
-// const Color buttonOnBoardingColor2 = Color(0xFF3F7FCA);
-
-// const Color borderDefaultColor = Color(0xFFC6C6C6);
-
-// const Color blueColorDark = Color(0xff2F5F98);
-// const Color redColor = Color(0xffE32B2B);
-
 // new pallete
 
 // blue

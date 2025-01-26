@@ -112,9 +112,34 @@ class NetworkUtils {
     });
   }
 
-  Future<dynamic> delete(
-      Uri url, Map<String, String> header, String body) async {
-    return http.delete(url, headers: header, body: body).then((response) {
+   Future<dynamic> patch(Uri url, Map<String, String> header, String body) async {
+    return http.patch(url, headers: header, body: body).then((response) {
+      final String bodyResponse = response.body;
+      final int statusResponse = response.statusCode;
+
+      debugPrint(bodyResponse);
+      debugPrint(statusResponse.toString());
+
+      if(statusResponse == 200 ||
+         statusResponse == 201 ||
+         statusResponse == 202 ||
+         statusResponse == 206 ||
+         statusResponse == 401 ||
+         statusResponse == 403 ||
+         statusResponse == 400 ||
+         statusResponse == 422
+      ) {
+        return json.decode(bodyResponse);
+      } else {
+        throw bodyResponse;
+      }
+    }).catchError((dynamic error){
+      throw Exception(error);
+    });
+  }
+
+  Future<dynamic> delete(Uri url, Map<String, String> header, String body) async {
+    return http.delete(url,headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
 
