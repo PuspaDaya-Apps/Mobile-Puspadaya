@@ -109,15 +109,13 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)
-                            )
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20))),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
                                 child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
@@ -280,8 +278,8 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                             ],
                           ),
                         ),
-                      )
-                    ],
+                      ),
+                    ]
                   ),
                 ),
               ),

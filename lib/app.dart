@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'app/feature/authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import 'app/feature/authorization/bloc/blocAuthorization/authorization_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/screen_config/size_config.dart';
 import 'config/theme/theme.dart';
 import 'route/route_name.dart';
@@ -27,6 +28,16 @@ class BuildApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
+      locale: Locale('id', 'ID'), // Set default ke Indonesia
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('id', 'ID'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       title: 'Puspadaya',
       debugShowCheckedModeBanner: false,
       theme: themeData,

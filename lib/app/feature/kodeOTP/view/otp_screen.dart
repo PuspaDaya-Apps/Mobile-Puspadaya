@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-import 'package:puspadaya/app/view/widget/primary_button.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'dart:async';
-
 import 'package:puspadaya/utils/logger/logger.dart';
+
 class OtpScreen extends StatelessWidget {
   const OtpScreen({super.key});
 
@@ -72,9 +72,9 @@ class _OtpScreenViewState extends State<OtpScreenView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
+      backgroundColor: backgroundWhite10,
       appBar: AppBar(
-        backgroundColor: whiteBackgroundColor,
+        backgroundColor: backgroundWhite10,
         title: const Text(
           'OTP',
           style: TextStyle(
@@ -96,11 +96,11 @@ class _OtpScreenViewState extends State<OtpScreenView> {
           vertical: SizeConfig.calHeightMultiplier(16),
         ),
         child: ButtonPrimary(
-          color: baseColor,
+          color: bluePrimaryMain,
           mainButton: () {
             if (formKey.currentState!.validate()) {
               logger.d(pinController.text);
-              Navigator.pushReplacementNamed(context, RESETPASSWORD);
+              Navigator.pushReplacementNamed(context, RESET_PASSWORD);
             }
           },
           mainButtonMessage: 'Verifikasi Kode OTP',
@@ -130,7 +130,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
                   const Text(
                     'Masukan Kode OTP',
                     style: TextStyle(
-                      color: blueColorDark,
+                      color: bluePrimary30,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -196,7 +196,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
                             margin: const EdgeInsets.only(bottom: 9),
                             width: 22,
                             height: 2,
-                            color: baseColor,
+                            color: bluePrimaryMain,
                           ),
                         ],
                       ),
@@ -217,7 +217,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
                         child: Text(
                           'Kirim Ulang',
                           style: TextStyle(
-                            color: blueColorDark,
+                            color: bluePrimary30,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                           ),
@@ -254,7 +254,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
         style: const TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
-          color: redColor,
+          color: redPrimaryMain,
         ),
       ),
     );

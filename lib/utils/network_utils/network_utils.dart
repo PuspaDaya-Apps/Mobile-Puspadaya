@@ -5,8 +5,7 @@ import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
 // import "package:image_picker/image_picker.dart";
 
-class NetworkUtils{
-
+class NetworkUtils {
   Future<dynamic> get(Uri url, Map<String, String> header) async {
     return http.get(url, headers: header).then((response) {
       final String bodyResponse = response.body;
@@ -15,46 +14,46 @@ class NetworkUtils{
       debugPrint(bodyResponse);
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 200 ||
-         statusResponse == 201 ||
-         statusResponse == 202 ||
-         statusResponse == 206 ||
-         statusResponse == 401 ||
-         statusResponse == 403 ||
-         statusResponse == 400 
-      ) {
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 400) {
         return json.decode(bodyResponse);
       } else {
         throw bodyResponse;
       }
-    }).catchError((dynamic error){
+    }).catchError((dynamic error) {
       throw Exception(error);
     });
   }
 
   Future<dynamic> post(Uri url, Map<String, String> header, String body) async {
-    return http.post(url, headers: header, body: body).then((http.Response response) {
+    return http
+        .post(url, headers: header, body: body)
+        .then((http.Response response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
 
       debugPrint(bodyResponse);
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 200 ||
-         statusResponse == 201 ||
-         statusResponse == 202 ||
-         statusResponse == 206 ||
-         statusResponse == 401 ||
-         statusResponse == 403 ||
-         statusResponse == 400 ||
-         statusResponse == 422 ||
-         statusResponse == 409
-      ) {
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 400 ||
+          statusResponse == 422 ||
+          statusResponse == 409) {
         return json.decode(bodyResponse);
       } else {
         throw bodyResponse;
       }
-    }).catchError((dynamic error){
+    }).catchError((dynamic error) {
       throw Exception(error);
     });
   }
@@ -87,7 +86,7 @@ class NetworkUtils{
   //     return throw Exception('Error while fetching data or Your session has expired');
   //   }
   // }
-  
+
   Future<dynamic> put(Uri url, Map<String, String> header, String body) async {
     return http.put(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
@@ -96,20 +95,19 @@ class NetworkUtils{
       debugPrint(bodyResponse);
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 200 ||
-         statusResponse == 201 ||
-         statusResponse == 202 ||
-         statusResponse == 206 ||
-         statusResponse == 401 ||
-         statusResponse == 403 ||
-         statusResponse == 400 ||
-         statusResponse == 422
-      ) {
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 400 ||
+          statusResponse == 422) {
         return json.decode(bodyResponse);
       } else {
         throw bodyResponse;
       }
-    }).catchError((dynamic error){
+    }).catchError((dynamic error) {
       throw Exception(error);
     });
   }
@@ -148,19 +146,18 @@ class NetworkUtils{
       debugPrint(bodyResponse);
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 200 ||
-         statusResponse == 201 ||
-         statusResponse == 202 ||
-         statusResponse == 206 ||
-         statusResponse == 401 ||
-         statusResponse == 403 ||
-         statusResponse == 400 
-      ) {
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 400) {
         return json.decode(bodyResponse);
       } else {
         throw bodyResponse;
       }
-    }).catchError((dynamic error){
+    }).catchError((dynamic error) {
       throw Exception(error);
     });
   }

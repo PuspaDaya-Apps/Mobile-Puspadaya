@@ -16,19 +16,16 @@ class PageNotFoundScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              pageNotFoundVector,
-              scale: SizeConfig.calMultiplierImage(200)
-            ),
+            Image.asset(pageNotFoundVector,
+                scale: SizeConfig.calMultiplierImage(200)),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Halaman Tidak Dapat Ditemukan',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: fontColor1,
-                fontSize: SizeConfig.calMultiplierText(20),
-                fontWeight: FontWeight.w500
-              ),
+                  color: textPrimary20,
+                  fontSize: SizeConfig.calMultiplierText(20),
+                  fontWeight: FontWeight.w500),
             )
           ],
         ),

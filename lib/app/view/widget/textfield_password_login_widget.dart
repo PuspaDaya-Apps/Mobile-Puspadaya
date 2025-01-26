@@ -4,12 +4,12 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class TextFieldPasswordLoginWidget extends StatefulWidget {
   const TextFieldPasswordLoginWidget({
-    super.key, 
-    required this.title, 
+    super.key,
+    required this.title,
     required this.keyboard,
     required this.textController,
     required this.hintText,
-    this.errortext, 
+    this.errortext,
   });
 
   final String title;
@@ -19,10 +19,12 @@ class TextFieldPasswordLoginWidget extends StatefulWidget {
   final String? errortext;
 
   @override
-  State<TextFieldPasswordLoginWidget> createState() => _TextFieldPasswordLoginWidgetState();
+  State<TextFieldPasswordLoginWidget> createState() =>
+      _TextFieldPasswordLoginWidgetState();
 }
 
-class _TextFieldPasswordLoginWidgetState extends State<TextFieldPasswordLoginWidget> {
+class _TextFieldPasswordLoginWidgetState
+    extends State<TextFieldPasswordLoginWidget> {
   bool hiddenText = true;
 
   @override
@@ -36,65 +38,50 @@ class _TextFieldPasswordLoginWidgetState extends State<TextFieldPasswordLoginWid
           Text(
             widget.title,
             style: TextStyle(
-              color: fontColorTextFieldLogin,
-              fontSize: SizeConfig.calMultiplierText(14),
-              fontWeight: FontWeight.w600
-            ),
+                color: bluePrimary20,
+                fontSize: SizeConfig.calMultiplierText(14),
+                fontWeight: FontWeight.w600),
           ),
-          SizedBox(
-            height: SizeConfig.calHeightMultiplier(6)
-          ),
+          SizedBox(height: SizeConfig.calHeightMultiplier(6)),
           TextField(
             controller: widget.textController,
             obscureText: hiddenText,
             keyboardType: widget.keyboard,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: SizeConfig.calWidthMultiplier(12),
-                vertical: SizeConfig.calHeightMultiplier(9)
-              ),
-              hintText: widget.hintText,
-              hintStyle: TextStyle(
-                color: fontColor2.withOpacity(0.6),
-                fontSize: SizeConfig.calMultiplierText(13),
-                fontWeight: FontWeight.w400
-              ),
-              errorText: widget.errortext,
-              errorStyle: TextStyle(
-                fontSize: SizeConfig.calMultiplierText(13),
-                fontWeight: FontWeight.w400
-              ),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: borderDefaultColor
-                ),
-                borderRadius: BorderRadius.circular(10)
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: borderDefaultColor
-                ),
-                borderRadius: BorderRadius.circular(10)
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)
-              ),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    hiddenText = !hiddenText;
-                  });
-                }, 
-                icon: Icon(
-                  hiddenText
-                  ? Icons.visibility_outlined
-                  : Icons.visibility_off_outlined,
-                  color: fontColorTextFieldLogin,
-                )
-              )
-            ),
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.calWidthMultiplier(12),
+                    vertical: SizeConfig.calHeightMultiplier(9)),
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                    color: textPrimary30.withOpacity(0.6),
+                    fontSize: SizeConfig.calMultiplierText(13),
+                    fontWeight: FontWeight.w400),
+                errorText: widget.errortext,
+                errorStyle: TextStyle(
+                    fontSize: SizeConfig.calMultiplierText(13),
+                    fontWeight: FontWeight.w400),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: stroke10),
+                    borderRadius: BorderRadius.circular(10)),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: stroke10),
+                    borderRadius: BorderRadius.circular(10)),
+                focusedBorder:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        hiddenText = !hiddenText;
+                      });
+                    },
+                    icon: Icon(
+                      hiddenText
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: bluePrimary20,
+                    ))),
           ),
         ],
       ),
