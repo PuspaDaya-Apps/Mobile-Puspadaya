@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import '../app/feature/login/view/login_screen.dart';
-import '../app/view/screen/on_boarding_screen.dart';
-import './route_name.dart';
 
+import '../app/feature/login/view/login_screen.dart';
+import '../app/view/screen/home_example.dart';
+import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/page_not_found_screen.dart';
 import '../app/view/screen/splash_screen.dart';
+
+import './route_name.dart';
 
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -26,6 +28,12 @@ class MyRoute {
       case LOGIN :
       return MaterialPageRoute(
         builder: (context) => const LoginScreen(),
+        settings: settings
+      );
+
+      case HOMEEXAMPLE :
+      return MaterialPageRoute(
+        builder: (context) => const HomeExample(),
         settings: settings
       );
 

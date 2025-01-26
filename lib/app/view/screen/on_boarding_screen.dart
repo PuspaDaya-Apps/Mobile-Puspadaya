@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../config/screen_config/image_config.dart';
 import '../../../config/screen_config/size_config.dart';
 import '../../../config/theme/pallet_color.dart';
 import '../../../route/route_name.dart';
+import '../../feature/authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../widget/on_boarding_item_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -189,6 +191,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
                               onPressed: (){
+                                BlocProvider.of<AuthenticationBloc>(context).add(OnBoardingDoneEvent());
                                 Navigator.pushReplacementNamed(context, LOGIN);
                               },
                               style: ElevatedButton.styleFrom(
