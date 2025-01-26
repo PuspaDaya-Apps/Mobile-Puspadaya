@@ -19,21 +19,24 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController pageController = PageController();
   int page = 0;
 
-  final List<Map<String,String>> onBoardingItem = [
+  final List<Map<String, String>> onBoardingItem = [
     {
       'image': onBoarding1Image,
       'tittle': "Pantau Tumbuh Kembang Anak",
-      'description': "Catat tinggi, berat, dan perkembangan anak Anda dengan Kartu Identitas Anak digital. Mudahkan pemantauan kesehatan anak dengan fitur ini.",
+      'description':
+          "Catat tinggi, berat, dan perkembangan anak Anda dengan Kartu Identitas Anak digital. Mudahkan pemantauan kesehatan anak dengan fitur ini.",
     },
     {
       'image': onBoarding2Image,
       'tittle': "Cegah Stunting untuk Pertumbuhan Optimal Anak",
-      'description': "Dapatkan rekomendasi nutrisi dan tips kesehatan untuk mencegah stunting sejak dini.",
+      'description':
+          "Dapatkan rekomendasi nutrisi dan tips kesehatan untuk mencegah stunting sejak dini.",
     },
     {
       'image': onBoarding3Image,
       'tittle': "Akses Informasi Kesehatan Terpercaya",
-      'description': "Akses tips pencegahan stunting serta layanan kesehatan yang terpercaya dan akurat.",
+      'description':
+          "Akses tips pencegahan stunting serta layanan kesehatan yang terpercaya dan akurat.",
     }
   ];
 
@@ -61,22 +64,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.calWidthMultiplier(25)
-                ),
+                  horizontal: SizeConfig.calWidthMultiplier(25)),
                 child: Text(
                   "Hallo, Selamat Datang Di Puspadaya",
                   maxLines: 2,
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: baseColor,
+                    color: bluePrimaryMain,
                     fontSize: SizeConfig.calMultiplierText(20),
                     fontWeight: FontWeight.w600
                   ),
                 ),
               ),
-              SizedBox(
-                height: SizeConfig.calHeightMultiplier(65) 
-              ),
+              SizedBox(height: SizeConfig.calHeightMultiplier(65)),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -96,8 +96,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             horizontal: SizeConfig.calWidthMultiplier(25)
                           ),
                           child: OnBoardingItemWidget(
-                            image: onBoardingItem[index]['image']!, 
-                            title: onBoardingItem[index]['tittle']!, 
+                            image: onBoardingItem[index]['image']!,
+                            title: onBoardingItem[index]['tittle']!,
                             description: onBoardingItem[index]['description']!
                           ),
                         ),
@@ -109,8 +109,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     page == 0
                     ? Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(25)
-                      ),
+                        horizontal: SizeConfig.calWidthMultiplier(25)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,23 +119,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             height: SizeConfig.calHeightMultiplier(40),
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   page = page + 1;
                                   pageController.nextPage(
-                                    duration: const Duration(milliseconds: 800), 
+                                    duration:const Duration(milliseconds: 800),
                                     curve: Curves.easeIn
                                   );
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: buttonOnBoardingColor2
+                                backgroundColor: bluePrimary40
                               ),
                               child: Text(
                                 'Selanjutnya',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontSize:SizeConfig.calMultiplierText(15),
                                   fontWeight: FontWeight.w500
                                 ),
                               )
@@ -145,11 +144,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         ],
                       ),
                     )
-                    : page+1 == onBoardingItem.length
+                    : page + 1 == onBoardingItem.length
                     ? Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(25)
-                      ),
+                        horizontal: SizeConfig.calWidthMultiplier(25)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,28 +157,26 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             height: SizeConfig.calHeightMultiplier(40),
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   page = page - 1;
                                   pageController.previousPage(
-                                    duration: const Duration(milliseconds: 800), 
-                                    curve: Curves.easeIn
-                                  );
+                                    duration: const Duration(milliseconds: 800),
+                                    curve: Curves.easeIn);
                                 });
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 side: const BorderSide(
-                                  color: buttonOnBoardingColor1,
-                                  width: 1.5
-                                ),
+                                  color: textSecoundary,
+                                  width: 1.5),
                                 shadowColor: Colors.black
                               ),
                               child: Text(
                                 'Kembali',
                                 style: TextStyle(
-                                  color: buttonOnBoardingColor1,
-                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  color: textSecoundary,
+                                  fontSize:SizeConfig.calMultiplierText(15),
                                   fontWeight: FontWeight.w500
                                 ),
                               )
@@ -190,18 +186,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             height: SizeConfig.calHeightMultiplier(40),
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 BlocProvider.of<AuthenticationBloc>(context).add(OnBoardingDoneEvent());
                                 Navigator.pushReplacementNamed(context, LOGIN);
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: buttonOnBoardingColor2
+                                backgroundColor: bluePrimary40
                               ),
                               child: Text(
                                 'login',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontSize:SizeConfig.calMultiplierText(15),
                                   fontWeight: FontWeight.w500
                                 ),
                               )
@@ -223,11 +219,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             height: SizeConfig.calHeightMultiplier(40),
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   page = page - 1;
                                   pageController.previousPage(
-                                    duration: const Duration(milliseconds: 800), 
+                                    duration: const Duration(milliseconds: 800),
                                     curve: Curves.easeIn
                                   );
                                 });
@@ -235,16 +231,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 side: const BorderSide(
-                                  color: buttonOnBoardingColor1,
-                                  width: 1.5
-                                ),
+                                  color: textSecoundary,
+                                  width: 1.5),
                                 shadowColor: Colors.black
                               ),
                               child: Text(
                                 'Kembali',
                                 style: TextStyle(
-                                  color: buttonOnBoardingColor1,
-                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  color: textSecoundary,
+                                  fontSize:SizeConfig.calMultiplierText(15),
                                   fontWeight: FontWeight.w500
                                 ),
                               )
@@ -254,23 +249,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             height: SizeConfig.calHeightMultiplier(40),
                             width: SizeConfig.calWidthMultiplier(157.50),
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
                                   page = page + 1;
                                   pageController.nextPage(
-                                    duration: const Duration(milliseconds: 800), 
+                                    duration: const Duration(milliseconds: 800),
                                     curve: Curves.easeIn
                                   );
                                 });
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: buttonOnBoardingColor2
+                                backgroundColor: bluePrimary40
                               ),
                               child: Text(
                                 'Selanjutnya',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: SizeConfig.calMultiplierText(15),
+                                  fontSize:SizeConfig.calMultiplierText(15),
                                   fontWeight: FontWeight.w500
                                 ),
                               )
@@ -278,12 +273,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
-                )
+                ),
               )
             ],
-          ),
+          )
         )
       ),
     );

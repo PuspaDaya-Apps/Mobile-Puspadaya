@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/validator/validator.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -8,16 +9,18 @@ class TextFieldWidget extends StatelessWidget {
   final bool obscureText;
   final bool isPasswordField;
   final VoidCallback? onToggleVisibility;
-  final FormFieldValidator<String>? validator;
-  const TextFieldWidget(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.keyboardType,
-      required this.obscureText,
-      required this.isPasswordField,
-      this.onToggleVisibility,
-      this.validator});
+  // final FormFieldValidator<String>? validator;
+  List<String? Function(String)>? validators;
+  TextFieldWidget({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.keyboardType,
+    required this.obscureText,
+    required this.isPasswordField,
+    this.onToggleVisibility,
+    this.validators,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class TextFieldWidget extends StatelessWidget {
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,
-        fillColor: whiteBackgroundColor,
+        fillColor: backgroundWhite10,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
@@ -42,11 +45,14 @@ class TextFieldWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: baseColor),
+          borderSide: const BorderSide(width: 1, color: bluePrimaryMain),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.red),
+          borderSide: const BorderSide(
+            width: 1,
+            color: Colors.red,
+          ),
         ),
         suffixIcon: isPasswordField
             ? IconButton(
@@ -57,7 +63,12 @@ class TextFieldWidget extends StatelessWidget {
               )
             : null,
       ),
-      validator: validator,
+      validator: (value) => validators != null
+          ? Validator.validateField(
+              value!,
+              validators!,
+            )
+          : null, // Call validateField only if validators are provided
     );
   }
 }

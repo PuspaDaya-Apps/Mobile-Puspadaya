@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/view/widget/primary_button.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/validator/validator.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
@@ -13,6 +14,7 @@ class ResetPassword extends StatelessWidget {
     return ResetPasswordView();
   }
 }
+
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});
 
@@ -26,38 +28,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  String? passwordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Kata sandi tidak boleh kosong';
-    }
-    if (value.length < 8) {
-      return 'Kata sandi harus minimal 8 karakter';
-    }
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung huruf besar';
-    }
-    if (!RegExp(r'[a-z]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung huruf kecil';
-    }
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung angka';
-    }
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
-      return 'Kata sandi harus mengandung simbol';
-    }
-    return null;
-  }
-
-  String? confirmPasswordValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Konfirmasi kata sandi tidak boleh kosong';
-    }
-    if (value != passwordController.text) {
-      return 'Kata sandi tidak cocok';
-    }
-    return null;
-  }
-
   void handleSubmit() {
     if (formKey.currentState?.validate() ?? false) {
       // Lakukan aksi setelah validasi sukses
@@ -70,9 +40,9 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
+      backgroundColor: backgroundWhite,
       appBar: AppBar(
-        backgroundColor: whiteBackgroundColor,
+        backgroundColor: backgroundWhite,
         title: const Text(
           'Ganti Kata Sandi',
           style: TextStyle(
@@ -110,7 +80,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   const Text(
                     'Atur Ulang Kata Sandi',
                     style: TextStyle(
-                      color: blueColorDark,
+                      color: bluePrimary20,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -118,7 +88,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Kata Sandi Baru',
-                    style: TextStyle(color: fontColor2),
+                    style: TextStyle(color: bluePrimary20),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
@@ -126,14 +96,27 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Masukan Kata Sandi Baru",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: passwordValidator,
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                    ],
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
                     'Konfirmasi Kata Sandi',
-                    style: TextStyle(color: fontColor2),
+                    style: TextStyle(color: bluePrimary20),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(6)),
                   TextFieldWidget(
@@ -141,13 +124,26 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     hintText: "Konfirmasi Masukan Kata Sandi",
                     isPasswordField: true,
                     keyboardType: TextInputType.visiblePassword,
-                    validator: confirmPasswordValidator,
+                    validators: [
+                      (value) => Validator.required(
+                          value, "Kata sandi tidak boleh kosong"),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(
+                          value, 'Kata sandi harus mengandung huruf besar'),
+                      (value) => Validator.mustContainsLowerCase(
+                          value, 'Kata sandi harus mengandung huruf kecil'),
+                      (value) => Validator.mustContainsNumber(
+                          value, "Kata sandi harus mengandung angka"),
+                      (value) => Validator.mustContainsSymbol(
+                          value, 'Kata sandi harus mengandung simbol'),
+                    ],
                     obscureText: true,
                     onToggleVisibility: () {},
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   ButtonPrimary(
-                    color: baseColor,
+                    color: bluePrimaryMain,
                     mainButtonMessage: "Ganti Kata Sandi",
                     mainButton: handleSubmit,
                   ),
