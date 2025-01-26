@@ -3,8 +3,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/bebanKerja/view/beban_kerja.dart';
 import 'package:puspadaya/app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import 'package:puspadaya/app/feature/createKehadiran/view/create_kehadiran.dart';
+import 'package:puspadaya/app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
+import 'package:puspadaya/app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import 'package:puspadaya/app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
 import 'package:puspadaya/app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
 import 'package:puspadaya/app/feature/detailKehadiran/view/detail_kehadiran.dart';
 import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
@@ -132,6 +135,7 @@ class MyRoute {
             builder: (context) => const DetailRiwayatIbuHamil(),
             settings: settings);
 
+      //beban kerja
       case BEBAN_KERJA:
         return MaterialPageRoute(
             builder: (context) => const BebanKerja(), settings: settings);
@@ -143,6 +147,23 @@ class MyRoute {
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(
             builder: (context) => const CreateBebanKerja(), settings: settings);
+
+      //Pengukuran
+      case CREATE_KUNJUNGAN_STUNTING:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganStunting(),
+            settings: settings);
+
+      case CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganAnakTidakHadir(),
+            settings: settings);
+
+      case CREATE_KUNJUNGAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => const CreateKunjunganIbuHamil(),
+            settings: settings);
+
       default:
         return PageTransition(
             child: const PageNotFoundScreen(),
