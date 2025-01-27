@@ -34,8 +34,34 @@ const String DETAIL_RIWAYAT_IBU_HAMIL = '/pengukuran/detail-riwayat-ibu-hamil';
 const String BEBAN_KERJA = '/beban-kerja';
 const String CREATE_BEBAN_KERJA = '/beban-kerja/create';
 const String DETAIL_BEBAN_KERJA = '/beban-kerja/detail';
+
+// !kunjungan
 const String KUNJUNGAN = '/kunjungan';
 const String CREATE_KUNJUNGAN_STUNTING = '/kunjungan/anak-stunting/create';
 const String CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR =
     '/kunjungan/anak-tidak-hadir/create';
 const String CREATE_KUNJUNGAN_IBU_HAMIL = '/kunjungan/ibu-hamil/create';
+
+//! detail kunjungan done
+const String DETAIL_KUNJUNGAN_STUNTING_DONE =
+    '/kunjungan/anak-stunting/detail/done';
+const String DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_DONE =
+    '/kunjungan/anak-tidak-hadir/detail/done';
+const String DETAIL_KUNJUNGAN_IBU_HAMIL_DONE =
+    '/kunjungan/ibu-hammil/detail/done';
+
+//! detail stunting on going
+const String DETAIL_KUNJUNGAN_STUNTING_ON_GOING =
+    '/kunjungan/anak-stunting/detail/on-going';
+const String DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_ON_GOING =
+    '/kunjungan/anak-tidak-hadir/detail/on-going';
+const String DETAIL_KUNJUNGAN_IBU_HAMIL_ON_GOING =
+    '/kunjungan/ibu-hammil/detail/on-going';
+
+//! detail stunting not started
+const String DETAIL_KUNJUNGAN_STUNTING_NOT_STARTED =
+    '/kunjungan/anak-stunting/detail/on-going';
+const String DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED =
+    '/kunjungan/anak-tidak-hadir/detail/on-going';
+const String DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED =
+    '/kunjungan/ibu-hammil/detail/on-going';

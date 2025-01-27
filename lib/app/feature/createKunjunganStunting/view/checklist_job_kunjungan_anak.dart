@@ -8,6 +8,8 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
+import '../../../view/widget/alert_confirm_create_kunjungan.dart';
+import '../../../view/widget/alert_done_create_kunjungan.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import 'model/CheckBoxKunjungan.dart';
 
@@ -396,9 +398,18 @@ class _UploadImageState extends State<UploadImage> {
               color: bluePrimaryMain,
               mainButtonMessage: 'Upload Bukti',
               mainButton: () {
-                for (var image in _images) {
-                  logger.i(image.path);
-                }
+                // for (var image in _images) {
+                //   logger.i(image.path);
+                // }
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertConfirmCreateKunjungan(
+                      totalDistance: '5,4',
+                      totalDuration: "12 Menit 14 Detik",
+                    );
+                  },
+                );
               },
             )
           ],
