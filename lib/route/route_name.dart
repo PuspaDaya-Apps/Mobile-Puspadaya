@@ -60,8 +60,8 @@ const String DETAIL_KUNJUNGAN_IBU_HAMIL_ON_GOING =
 
 //! detail stunting not started
 const String DETAIL_KUNJUNGAN_STUNTING_NOT_STARTED =
-    '/kunjungan/anak-stunting/detail/on-going';
+    '/kunjungan/anak-stunting/detail/not-started';
 const String DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED =
-    '/kunjungan/anak-tidak-hadir/detail/on-going';
+    '/kunjungan/anak-tidak-hadir/detail/not-started';
 const String DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED =
-    '/kunjungan/ibu-hammil/detail/on-going';
+    '/kunjungan/ibu-hammil/detail/not-started';

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:puspadaya/app/feature/home/view/home.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_stunting.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_tidak_hadir.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/bebanKerja/view/beban_kerja.dart';
 import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import '../app/feature/createKehadiran/view/create_kehadiran.dart';
@@ -11,6 +13,12 @@ import '../app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
 import '../app/feature/detailKehadiran/view/detail_kehadiran.dart';
+import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_stunting.dart';
+import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_tidak_hadir.dart';
+import '../app/feature/detailKunjunganBerjalan/view/kunjungan_ibu_hamil.dart';
+import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_stunting.dart';
+import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.dart';
+import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
 import '../app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
@@ -30,7 +38,6 @@ import '../app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
-import '../app/view/screen/splash_screen.dart';
 
 import './route_name.dart';
 
@@ -158,7 +165,8 @@ class MyRoute {
           builder: (context) => const CreateBebanKerja(),
           settings: settings,
         );
-      //Pengukuran
+      //! kunjungan create
+
       case CREATE_KUNJUNGAN_STUNTING:
         return MaterialPageRoute(
             builder: (context) => const CreateKunjunganStunting(),
@@ -172,6 +180,54 @@ class MyRoute {
       case CREATE_KUNJUNGAN_IBU_HAMIL:
         return MaterialPageRoute(
             builder: (context) => const CreateKunjunganIbuHamil(),
+            settings: settings);
+
+      // ! kunjungan detail
+
+      //? belum dimulai
+      case DETAIL_KUNJUNGAN_STUNTING_NOT_STARTED:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganAnakStuntingNotStarted(),
+            settings: settings);
+
+      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED:
+        return MaterialPageRoute(
+            builder: (context) =>
+                const DetailKunjunganAnakTidakHadirNotStarted(),
+            settings: settings);
+      case DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganIbuHamilNotStarted(),
+            settings: settings);
+
+      //? berjalan
+      case DETAIL_KUNJUNGAN_STUNTING_ON_GOING:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganAnakStuntingOnGoing(),
+            settings: settings);
+
+      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_ON_GOING:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganAnakTidakHadirOnGoing(),
+            settings: settings);
+      case DETAIL_KUNJUNGAN_IBU_HAMIL_ON_GOING:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganIbuHamilOnGoing(),
+            settings: settings);
+
+      //? done
+      case DETAIL_KUNJUNGAN_STUNTING_DONE:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganAnakStuntingDone(),
+            settings: settings);
+
+      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_DONE:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganAnakTidakHadirDone(),
+            settings: settings);
+      case DETAIL_KUNJUNGAN_IBU_HAMIL_DONE:
+        return MaterialPageRoute(
+            builder: (context) => const DetailKunjunganIbuHamilDone(),
             settings: settings);
 
       default:
