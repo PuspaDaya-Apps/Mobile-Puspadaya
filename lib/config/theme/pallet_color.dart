@@ -68,6 +68,7 @@ const Color textPrimary30 = Color(0xFF212529);
 
 const Color fontGray1 = Color(0xff6a6a6a);
 const Color textSecoundary = Color(0xffA6A8A9);
+const Color textSeecoundary2 = Color(0xff909294);
 const Color textThird = Color(0xff2f5f98);
 const Color textUrgent = Color(0xffdc3545);
 
