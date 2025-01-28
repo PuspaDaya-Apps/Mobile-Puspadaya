@@ -8,13 +8,14 @@ import '../../model/detailListKunjungan_model.dart';
 
 class DaftarKunjunganDetailItem extends StatelessWidget {
   final DetailListkunjunganModel detailKunjungan;
-
+  final Status status;
   final VoidCallback onTap;
 
-  DaftarKunjunganDetailItem({
+  const DaftarKunjunganDetailItem({
     super.key,
     required this.onTap,
     required this.detailKunjungan,
+    required this.status,
   });
 
   @override
@@ -40,7 +41,11 @@ class DaftarKunjunganDetailItem extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: bluePrimary50,
+                  color: status == Status.belumDiMulai
+                      ? greenPrimaryMain
+                      : status == Status.berjalan
+                          ? goldPrimaryMain
+                          : bluePrimaryMain,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(

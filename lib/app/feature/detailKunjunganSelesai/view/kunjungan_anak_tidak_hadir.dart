@@ -8,6 +8,7 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../kunjungan/model/Kunjungan.dart';
+import 'detail_kunjungan_selesai.dart';
 
 class DetailKunjunganAnakTidakHadirDone extends StatelessWidget {
   const DetailKunjunganAnakTidakHadirDone({super.key});
@@ -201,8 +202,18 @@ class _DetailKunjunganAnakTidakHadirDoneViewState
                   itemCount: 2,
                   itemBuilder: (context, index) {
                     return DaftarKunjunganDetailItem(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DetailKunjunganSelesai();
+                            },
+                          ),
+                        );
+                      },
                       detailKunjungan: listDaftarKunjungan[index],
+                      status: listDaftarKunjungan[index].status,
                     );
                   },
                 ),

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/pallet_color.dart';
+import '../../../../../config/screen_config/size_config.dart';
+import '../../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
+import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
+import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
 
-class DetailKunjunganSelesai extends StatelessWidget {
+class DetailKunjunganBelumSelesai extends StatelessWidget {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
@@ -17,7 +20,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
   ];
-  DetailKunjunganSelesai({super.key});
+  DetailKunjunganBelumSelesai({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,21 @@ class DetailKunjunganSelesai extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Center(
+                  child: Image(
+                    width: 240,
+                    image: AssetImage(
+                      imageOnTheWay,
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
+                Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: 1,
+                  color: Colors.black54,
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                 const Text(
                   'NIK',
                   style: TextStyle(
@@ -236,6 +254,23 @@ class DetailKunjunganSelesai extends StatelessWidget {
                               'https://picsum.photos/350/450',
                             ],
                           );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(16),
+                ),
+                ButtonPrimary(
+                  color: goldPrimaryMain,
+                  mainButtonMessage: 'Perbarui ',
+                  mainButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ChecklistJobKunjunganAnak();
                         },
                       ),
                     );

@@ -3,13 +3,8 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class BuktiKunjungan extends StatelessWidget {
-  final List<String> imageUrls = [
-    'https://picsum.photos/200/300',
-    'https://picsum.photos/300/300',
-    'https://picsum.photos/350/400',
-    'https://picsum.photos/350/450',
-  ];
-  BuktiKunjungan({super.key});
+  final List<String> imageUrls;
+  BuktiKunjungan({super.key, required this.imageUrls});
 
   @override
   Widget build(BuildContext context) {

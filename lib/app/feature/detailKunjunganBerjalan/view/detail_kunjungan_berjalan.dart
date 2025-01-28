@@ -8,7 +8,7 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 
-class DetailKunjunganSelesai extends StatelessWidget {
+class DetailKunjunganBerjalan extends StatelessWidget {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
@@ -17,7 +17,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
   ];
-  DetailKunjunganSelesai({super.key});
+  DetailKunjunganBerjalan({super.key});
 
   @override
   Widget build(BuildContext context) {

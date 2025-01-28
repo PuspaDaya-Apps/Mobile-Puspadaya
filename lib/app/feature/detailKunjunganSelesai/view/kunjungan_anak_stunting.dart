@@ -213,6 +213,7 @@ class _DetailKunjunganAnakStuntingDoneViewState
                         );
                       },
                       detailKunjungan: listDaftarKunjungan[index],
+                      status: listDaftarKunjungan[index].status,
                     );
                   },
                 ),
