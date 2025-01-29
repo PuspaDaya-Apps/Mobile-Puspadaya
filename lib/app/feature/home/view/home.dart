@@ -315,7 +315,9 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         menuName: 'Register',
         iconMenu: FontAwesomeIcons.userPlus,
         colorIcon: Colors.blue.shade700,
-        onTap: () {},
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER);
+        },
       ),
       HomeMenuItems(
         menuName: 'Alat Ukur',
