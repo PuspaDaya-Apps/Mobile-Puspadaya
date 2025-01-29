@@ -42,6 +42,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   flutter_localizations:
     sdk: flutter
+  flutter_native_splash: ^2.4.1
   font_awesome_flutter: ^10.8.0
   google_nav_bar: ^5.0.7
   http: ^1.2.2
@@ -63,17 +64,20 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^2.4.1
   json_serializable: ^6.8.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
+flutter_native_splash: null
 
-flutter_native_splash:
-  color: "#4bbcff"
-  icon_background_color: "#ffffff"
-  image: assets/logo/logo_small.png
+icons_launcher:
+  image_path: "assets/logo/logo_big_frame.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
 
 flutter:
 
