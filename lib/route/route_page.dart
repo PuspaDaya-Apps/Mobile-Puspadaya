@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_stunting.dart';
 import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/register/view/register.dart';
 import '../app/feature/bebanKerja/view/beban_kerja.dart';
 import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
 import '../app/feature/createKehadiran/view/create_kehadiran.dart';
@@ -229,6 +230,13 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const DetailKunjunganIbuHamilDone(),
             settings: settings);
+
+      // ! register
+      case REGISTER:
+        return MaterialPageRoute(
+          builder: (context) => const Register(),
+          settings: settings,
+        );
 
       default:
         return PageTransition(
