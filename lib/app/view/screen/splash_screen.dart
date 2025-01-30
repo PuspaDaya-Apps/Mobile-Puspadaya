@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../config/screen_config/image_config.dart';
 import '../../../config/screen_config/size_config.dart';
@@ -19,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
     Future.delayed(const Duration(seconds: 3)).then((value) async {
       BlocProvider.of<AuthenticationBloc>(context).add(AppStartEvent());
     });
@@ -33,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
         if(state is AuthenticationTrue) {
           BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationTrueEvent());
-          Navigator.pushNamed(context, HOMEEXAMPLE);
+          Navigator.pushNamed(context, HOME);
         }
         if(state is AuthenticationFalse) {
           Navigator.pushNamed(context, LOGIN);
@@ -49,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 backgroundColor: Colors.white,
                 radius: SizeConfig.calWidthMultiplier(97.5),
                 child: Image.asset(
-                  logoText,
+                  logoBig,
                   width: SizeConfig.calMultiplierImage(125),
                 ),
               ),
