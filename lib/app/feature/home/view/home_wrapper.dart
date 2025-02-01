@@ -1,5 +1,8 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
 import 'package:puspadaya/app/feature/home/view/home.dart';
 import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
 import 'package:puspadaya/app/feature/kunjungan/view/kunjungan.dart';
@@ -7,6 +10,54 @@ import 'package:puspadaya/app/feature/pengukuran/view/pengukuran.dart';
 import 'package:puspadaya/app/feature/profile/view/profile.dart';
 import 'package:puspadaya/config/theme/icon/home_menu_icon.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+
+import '../../../../route/route_name.dart';
+import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
+import '../bloc/user_bloc.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => UserBloc(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthorizationBloc, AuthorizationState>(
+            listener: (context, state) {
+              if(state is AuthorizationFalse) {
+                Navigator.pushReplacementNamed(context, LOGIN);
+              } 
+            }
+          ),
+          BlocListener<AuthenticationBloc, AuthenticationState>(
+            listener: (context, state) {
+      
+            }
+          ),
+        ],
+        child: const DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            duration: Duration(seconds: 2),
+            content: Text(
+              "Tekan Lagi Untuk Keluar",
+              style: TextStyle(
+                color: textPrimary10, 
+                fontSize: 12, 
+                fontWeight: FontWeight.w600
+              ),
+            )
+          ),
+          child: HomeWrapper(),
+        ),
+      ),
+    );
+  }
+}
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});

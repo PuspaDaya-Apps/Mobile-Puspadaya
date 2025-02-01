@@ -9,4 +9,5 @@ abstract class SharedPrefName {
   static const ACCOUNT = "Account";
   static const REFRESHTOKEN = "RefreshToken";
   static const ACCESSTOKEN = "AccessToken";
+  static const CURRENTUSER = "CurrentUser";
 }

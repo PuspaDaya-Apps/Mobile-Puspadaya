@@ -20,3 +20,9 @@ class SendLoginEvent extends LoginEvent {
 }
 
 class NullErrorEvent extends LoginEvent {}
+
+class GetCurrentUserEvent extends LoginEvent {
+  final String accessToken;
+
+  const GetCurrentUserEvent(this.accessToken);
+}

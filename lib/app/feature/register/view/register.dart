@@ -1,11 +1,21 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:puspadaya/app/feature/register/view/widget/anak_item.dart';
+import 'package:puspadaya/app/feature/register/view/widget/anggota_kader_item.dart';
+import 'package:puspadaya/app/feature/register/view/widget/ibu_hamil_item.dart';
+import 'package:puspadaya/app/feature/register/view/widget/pengasuh_item.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-
-import '../../../../config/screen_config/image_config.dart';
+import 'package:puspadaya/route/route_name.dart';
 import '../../../view/widget/MenuHomeItems.dart';
+import '../../../view/widget/card_anak_widget.dart';
+import '../../../view/widget/card_anggotakader_widget.dart';
+import '../../../view/widget/card_ibuhamil_widget.dart';
+import '../../../view/widget/card_orangtua_widget.dart';
+import '../../../view/widget/card_pengasuh_widget.dart';
+import 'widget/orang_tua_item.dart';
 
 class Register extends StatelessWidget {
   const Register({super.key});
@@ -24,46 +34,57 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  final List<Widget> _menuItems = [
-    HomeMenuItems(
-      menuName: 'Orang Tua',
-      iconMenu: Icons
-          .family_restroom, // Ikon pengguna umum, lebih representatif untuk orang tua
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Anak',
-      iconMenu: FontAwesomeIcons
-          .child, // Ikon anak kecil, lebih sesuai untuk menu ini
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Pengasuh',
-      iconMenu: FontAwesomeIcons
-          .personBreastfeeding, // Simbol bantuan, cocok untuk pengasuh
-      colorIcon: Colors.blue.shade700,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Ibu Hamil',
-      iconMenu:
-          FontAwesomeIcons.personPregnant, // Ikon ibu hamil, lebih relevan
-      colorIcon: Colors.red.shade300,
-      onTap: () {},
-    ),
-    HomeMenuItems(
-      menuName: 'Anggota Kader',
-      iconMenu: FluentIcons
-          .people_team_24_filled, // Simbol grup, cocok untuk anggota kader
-      colorIcon: greenPrimary50,
-      onTap: () {},
-    ),
-  ];
+  TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _menuItems = [
+      HomeMenuItems(
+        colorBackground: pinkPrimary70,
+        menuName: 'Orang Tua',
+        iconMenu: Icons.family_restroom,
+        colorIcon: pinkPrimaryMain,
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER_ORANG_TUA);
+        },
+      ),
+      HomeMenuItems(
+        colorBackground: goldPrimary70,
+        menuName: 'Anak',
+        iconMenu: FontAwesomeIcons.child,
+        colorIcon: goldPrimaryMain,
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER_ANAK);
+        },
+      ),
+      HomeMenuItems(
+        colorBackground: purplePrimary70, // Warna baru untuk pengasuh
+        menuName: 'Pengasuh',
+        iconMenu: FontAwesomeIcons.personBreastfeeding,
+        colorIcon: purplePrimaryMain, // Ikon lebih kontras dengan background
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER_PENGASUH);
+        },
+      ),
+      HomeMenuItems(
+        colorBackground: greenPrimary70,
+        menuName: 'Ibu Hamil',
+        iconMenu: FontAwesomeIcons.personPregnant,
+        colorIcon: greenPrimaryMain,
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER_IBU_HAMIL);
+        },
+      ),
+      HomeMenuItems(
+        colorBackground: bluePrimary70, // Warna baru untuk anggota kader
+        menuName: 'Anggota Kader',
+        iconMenu: FluentIcons.people_team_24_filled,
+        colorIcon: bluePrimaryMain, // Sesuai dengan tema kebersamaan
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER_ANGGOTA_KADER);
+        },
+      ),
+    ];
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Register',
@@ -74,39 +95,99 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+        child: Container(
+          padding: const EdgeInsets.only(left: 24, right: 24),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return GridView.builder(
+                      shrinkWrap:
+                          true, // Membuat GridView menyesuaikan ukuran kontennya
+                      physics:
+                          NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
+                      itemCount: _menuItems.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                        crossAxisSpacing: 32,
+                        childAspectRatio: 0.7,
+                        mainAxisSpacing: 0,
+                        maxCrossAxisExtent: 80,
+                      ),
+                      itemBuilder: (context, index) {
+                        return _menuItems[index];
+                      },
+                    );
+                  },
+                ),
               ),
-              margin: const EdgeInsets.all(20.0),
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return GridView.builder(
-                    shrinkWrap:
-                        true, // Membuat GridView menyesuaikan ukuran kontennya
-                    physics:
-                        NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
-                    itemCount: _menuItems.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                      crossAxisSpacing: 32,
-                      childAspectRatio: 0.7,
-                      mainAxisSpacing: 0,
-                      maxCrossAxisExtent: 80,
+              SizedBox(
+                height: 16,
+              ),
+              Container(
+                color: Colors.black26,
+                width: double.infinity,
+                height: 2,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Expanded(
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: OrangTuaItem(
+                        husband: 'Heri Dharmawan',
+                        kk: '62080635261527',
+                        wife: 'Dewi Ayu',
+                        color: pinkPrimaryMain,
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      return _menuItems[index];
-                    },
-                  );
-                },
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: AnakItem(
+                        color: goldPrimaryMain,
+                        name: 'Muhammad Kaivan Al Hakim',
+                        gender: 'Laki Laki',
+                        month: 4,
+                        nik: '362155482327263',
+                        year: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: PengasuhItem(
+                        color: purplePrimaryMain,
+                        name: 'Siti Aisyah',
+                        child: 'Sancaka Adi Sanjaya',
+                        nik: '362155482327273',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: IbuHamilItem(
+                        color: greenPrimaryMain,
+                        month: 3,
+                        name: 'Mentari Kumala Sari',
+                        nik: '362155482327263',
+                        week: 2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -7,10 +7,12 @@ class HomeMenuItems extends StatelessWidget {
   final String menuName;
   final Color? colorIcon; // Opsional
   final dynamic iconMenu;
+  final Color colorBackground;
   final VoidCallback onTap;
 
   HomeMenuItems({
     super.key,
+    required this.colorBackground,
     required this.onTap,
     required this.menuName,
     required this.iconMenu,
@@ -32,8 +34,8 @@ class HomeMenuItems extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color:
-                  bluePrimaryMain.withOpacity(0.3), // Menggunakan withOpacity
+              color: colorBackground.withValues(
+                  alpha: 0.3), // Menggunakan withOpacity
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: Colors.white,
