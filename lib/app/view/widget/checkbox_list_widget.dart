@@ -16,13 +16,18 @@ class CheckboxListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Align(
-          alignment: Alignment.topCenter,
-          child: Checkbox(
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 8,
+        children: [
+          Checkbox(
+            visualDensity: VisualDensity(
+              horizontal: -4,
+              vertical: -4,
+            ),
             side: BorderSide(
               color: stroke10,
               width: 2,
@@ -33,23 +38,23 @@ class CheckboxListWidget extends StatelessWidget {
             value: isChecked,
             onChanged: onChanged,
           ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              onChanged(!isChecked);
-            },
-            child: Text(
-              label,
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                fontSize: 16,
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                onChanged(!isChecked);
+              },
+              child: Text(
+                label,
+                style: AppTextStyles.primaryTextNormal.copyWith(
+                  fontSize: 16,
+                ),
+                softWrap: true,
+                overflow: TextOverflow.visible,
               ),
-              softWrap: true,
-              overflow: TextOverflow.visible,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

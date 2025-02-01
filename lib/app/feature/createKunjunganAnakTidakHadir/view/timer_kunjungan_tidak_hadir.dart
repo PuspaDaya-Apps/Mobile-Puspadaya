@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/createKunjunganAnakTidakHadir/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -228,7 +229,16 @@ class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
                 ButtonPrimary(
                   color: greenPrimaryMain,
                   mainButtonMessage: 'Mulai',
-                  mainButton: () {},
+                  mainButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ChecklistJobKunjunganAnakTidakHadir();
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -22,7 +22,7 @@ class SearchTextFieldWidget extends StatelessWidget {
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,
-        fillColor: backgroundWhite10,
+        fillColor: Colors.white,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

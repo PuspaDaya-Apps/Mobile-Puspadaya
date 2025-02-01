@@ -3,67 +3,64 @@ import 'package:flutter/material.dart';
 import '../../../config/screen_config/size_config.dart';
 import '../../../config/theme/pallet_color.dart';
 
-class CardAnakWidget extends StatelessWidget{
-  const CardAnakWidget({
-    required this.nama,
-    required this.nik,
-    required this.gender,
-    required this.tahun,
-    required this.bulan,
-    super.key
-  });
+class CardAnakWidget extends StatelessWidget {
+  const CardAnakWidget(
+      {required this.nama,
+      required this.nik,
+      required this.gender,
+      this.tahun,
+      required this.bulan,
+      super.key,
+      required this.onTap});
 
   final String nama;
   final String nik;
   final String gender;
-  final String tahun;
+  final String? tahun;
   final String bulan;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      padding: EdgeInsets.symmetric(
-        vertical: SizeConfig.calHeightMultiplier(8),
-        horizontal: SizeConfig.calWidthMultiplier(14)
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, 1),
-            color: Colors.black.withValues(alpha: 0.16),
-            // color: Colors.black.withOpacity(0.16),
-            blurRadius: 3
-          )
-        ]
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        padding: EdgeInsets.symmetric(
+            vertical: SizeConfig.calHeightMultiplier(8),
+            horizontal: SizeConfig.calWidthMultiplier(14)),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                  offset: const Offset(0, 1),
+                  color: Colors.black.withValues(alpha: 0.16),
+                  // color: Colors.black.withOpacity(0.16),
+                  blurRadius: 3)
+            ]),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+                child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.calWidthMultiplier(14),
-                    vertical: SizeConfig.calHeightMultiplier(3)
-                  ),
+                      horizontal: SizeConfig.calWidthMultiplier(14),
+                      vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                    color: bluePrimaryMain,
-                    borderRadius: BorderRadius.circular(4)
-                  ),
+                      color: bluePrimaryMain,
+                      borderRadius: BorderRadius.circular(4)),
                   child: Text(
                     nama,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: SizeConfig.calMultiplierText(15),
-                      fontWeight: FontWeight.w500
-                    ),
+                        color: Colors.white,
+                        fontSize: SizeConfig.calMultiplierText(15),
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
                 SizedBox(
@@ -82,26 +79,23 @@ class CardAnakWidget extends StatelessWidget{
                           Text(
                             "NIK : $nik",
                             style: TextStyle(
-                              color: textPrimary10.withOpacity(0.7),
-                              fontSize: SizeConfig.calMultiplierText(12),
-                              fontWeight: FontWeight.w400
-                            ),
+                                color: textPrimary10.withOpacity(0.7),
+                                fontSize: SizeConfig.calMultiplierText(12),
+                                fontWeight: FontWeight.w400),
                           ),
                           Text(
                             gender,
                             style: TextStyle(
-                              color: textPrimary10.withOpacity(0.7),
-                              fontSize: SizeConfig.calMultiplierText(12),
-                              fontWeight: FontWeight.w400
-                            ),
+                                color: textPrimary10.withOpacity(0.7),
+                                fontSize: SizeConfig.calMultiplierText(12),
+                                fontWeight: FontWeight.w400),
                           ),
                         ],
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(10)
-                      ),
+                          horizontal: SizeConfig.calWidthMultiplier(10)),
                       child: Container(
                         color: bluePrimaryMain,
                         height: SizeConfig.calHeightMultiplier(35),
@@ -120,10 +114,9 @@ class CardAnakWidget extends StatelessWidget{
                             Text(
                               'Usia',
                               style: TextStyle(
-                                color: textPrimary10.withOpacity(0.7),
-                                fontSize: SizeConfig.calMultiplierText(13),
-                                fontWeight: FontWeight.w400
-                              ),
+                                  color: textPrimary10.withOpacity(0.7),
+                                  fontSize: SizeConfig.calMultiplierText(13),
+                                  fontWeight: FontWeight.w400),
                             ),
                             const SizedBox(
                               width: 2,
@@ -131,41 +124,46 @@ class CardAnakWidget extends StatelessWidget{
                             Align(
                               alignment: Alignment.bottomLeft,
                               child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    color: textPrimary10.withOpacity(0.7),
-                                    fontWeight: FontWeight.w400
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: tahun,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  text: TextSpan(
                                       style: TextStyle(
-                                        fontSize: SizeConfig.calMultiplierText(26),
-                                      )
-                                    ),
-                                    TextSpan(
-                                      text: ' Tahun ',
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.calMultiplierText(13),
-                                      )
-                                    ),
-                                    TextSpan(
-                                      text: bulan,
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.calMultiplierText(26),
-                                      )
-                                    ),
-                                    TextSpan(
-                                      text: ' Bulan',
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.calMultiplierText(13),
-                                      )
-                                    )
-                                  ]
-                                )
-                              ),
+                                          color: textPrimary10.withOpacity(0.7),
+                                          fontWeight: FontWeight.w400),
+                                      children: [
+                                        if (tahun != null)
+                                          TextSpan(
+                                            text: tahun,
+                                            style: TextStyle(
+                                              fontSize:
+                                                  SizeConfig.calMultiplierText(
+                                                      26),
+                                            ),
+                                          ),
+                                        if (tahun != null)
+                                          TextSpan(
+                                            text: ' Tahun ',
+                                            style: TextStyle(
+                                              fontSize:
+                                                  SizeConfig.calMultiplierText(
+                                                      13),
+                                            ),
+                                          ),
+                                        TextSpan(
+                                            text: bulan,
+                                            style: TextStyle(
+                                              fontSize:
+                                                  SizeConfig.calMultiplierText(
+                                                      26),
+                                            )),
+                                        TextSpan(
+                                            text: ' Bulan',
+                                            style: TextStyle(
+                                              fontSize:
+                                                  SizeConfig.calMultiplierText(
+                                                      13),
+                                            ))
+                                      ])),
                             )
                           ],
                         ),
@@ -174,17 +172,17 @@ class CardAnakWidget extends StatelessWidget{
                   ],
                 )
               ],
-            ) 
-          ),
-          SizedBox(
-            width: SizeConfig.calWidthMultiplier(16),
-          ),
-          Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: bluePrimaryMain,
-            size: SizeConfig.calWidthMultiplier(14),
-          )
-        ],
+            )),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(16),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: bluePrimaryMain,
+              size: SizeConfig.calWidthMultiplier(14),
+            )
+          ],
+        ),
       ),
     );
   }
