@@ -34,7 +34,9 @@ class HomeScreen extends StatelessWidget {
           ),
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
-      
+              if(state is RefreshTokenFailed) {
+                Navigator.pushReplacementNamed(context, LOGIN);
+              }
             }
           ),
         ],
