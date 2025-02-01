@@ -4,13 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 // @JsonSerializable()
 class LoginResponseModel {
-  int statusCode;
   String message;
   String? error;
   Data? data;
 
   LoginResponseModel({
-    required this.statusCode,
     required this.message,
     this.error,
     this.data
@@ -49,7 +47,6 @@ class Data {
 
 LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
     LoginResponseModel(
-      statusCode: (json['statusCode'] as num).toInt(),
       message: json['message'] as String,
       error: json['error'] as String?,
       data: json['data'] == null
@@ -59,7 +56,6 @@ LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) =>
     <String, dynamic>{
-      'statusCode': instance.statusCode,
       'message': instance.message,
       'error': instance.error,
       'data': instance.data,

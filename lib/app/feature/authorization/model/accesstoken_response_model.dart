@@ -4,13 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 // @JsonSerializable()
 class AccessTokenResponseModel {
-  int statusCode;
   String message;
   String? error;
   Data? data;
 
   AccessTokenResponseModel({
-    required this.statusCode,
     required this.message,
     this.error,
     this.data
@@ -38,7 +36,6 @@ class Data {
 AccessTokenResponseModel _$AccessTokenResponseModelFromJson(
         Map<String, dynamic> json) =>
     AccessTokenResponseModel(
-      statusCode: (json['statusCode'] as num).toInt(),
       message: json['message'] as String,
       error: json['error'] as String?,
       data: json['data'] == null
@@ -49,7 +46,6 @@ AccessTokenResponseModel _$AccessTokenResponseModelFromJson(
 Map<String, dynamic> _$AccessTokenResponseModelToJson(
         AccessTokenResponseModel instance) =>
     <String, dynamic>{
-      'statusCode': instance.statusCode,
       'message': instance.message,
       'error': instance.error,
       'data': instance.data,
