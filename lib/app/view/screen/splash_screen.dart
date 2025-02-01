@@ -31,14 +31,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if(state is AuthenticationFirstTime) {
-          Navigator.pushNamed(context, ONBOARDING);
+          Navigator.pushReplacementNamed(context, ONBOARDING);
         }
         if(state is AuthenticationTrue) {
           BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationTrueEvent());
-          Navigator.pushNamed(context, HOME);
+          Navigator.pushReplacementNamed(context, HOME);
         }
         if(state is AuthenticationFalse) {
-          Navigator.pushNamed(context, LOGIN);
+          Navigator.pushReplacementNamed(context, LOGIN);
         }
       },
       child: Scaffold(
