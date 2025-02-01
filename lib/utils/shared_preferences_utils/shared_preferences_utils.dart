@@ -73,5 +73,24 @@ class SharedPrefUtils {
 
     String? a = prefs.getString(SharedPrefName.ACCESSTOKEN); 
     debugPrint(a);
-  } 
+  }
+
+  //!Current User
+  Future<void> storedCurrentUser (String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.CURRENTUSER, value);
+  }
+
+  Future<String?> getCurrentUser () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.CURRENTUSER); 
+  }
+
+  Future<void> removeCurrentUser () async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.CURRENTUSER);
+
+    String? a = prefs.getString(SharedPrefName.CURRENTUSER); 
+    debugPrint(a);
+  }
 }

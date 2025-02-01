@@ -10,6 +10,7 @@ const Color bluePrimary40 = Color(0xff2f99d6);
 const Color bluePrimary50 = Color(0xff3dabeb);
 const Color bluePrimaryMain = Color(0xff4bbcff);
 const Color bluePrimary60 = Color(0xff6ac9ff);
+const Color bluePrimary70 = Color(0xff8bd4ff);
 const Color bluePrimary80 = Color(0xffabe0ff);
 const Color bluePrimary90 = Color(0xffccecff);
 
@@ -60,6 +61,18 @@ const Color redPrimary60 = Color(0xFFE45765);
 const Color redPrimary70 = Color(0xFFED7B87);
 const Color redPrimary80 = Color(0xFFF6A2AB);
 const Color redPrimary90 = Color(0xFFFFCCD1);
+
+// purple
+const Color purplePrimary10 = Color(0xFF2E003A);
+const Color purplePrimary20 = Color(0xFF4F0A5C);
+const Color purplePrimary30 = Color(0xFF70197D);
+const Color purplePrimary40 = Color(0xFF92309E);
+const Color purplePrimary50 = Color(0xFFA843B5);
+const Color purplePrimaryMain = Color(0xFFBF57CC);
+const Color purplePrimary60 = Color(0xFFD277E0);
+const Color purplePrimary70 = Color(0xFFE09CF0);
+const Color purplePrimary80 = Color(0xFFEFBFF9);
+const Color purplePrimary90 = Color(0xFFF7DFFF);
 
 //text
 const Color textPrimary10 = Color(0xff212529);

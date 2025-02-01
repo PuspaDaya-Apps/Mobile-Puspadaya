@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 // import "package:image_picker/image_picker.dart";
 
 class NetworkUtils {
-  Future<dynamic> get(Uri url, Map<String, String> header) async {
+  Future<List<dynamic>> get(Uri url, Map<String, String> header) async {
     return http.get(url, headers: header).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -21,7 +21,7 @@ class NetworkUtils {
           statusResponse == 401 ||
           statusResponse == 403 ||
           statusResponse == 400) {
-        return json.decode(bodyResponse);
+        return [statusResponse ,json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -30,7 +30,7 @@ class NetworkUtils {
     });
   }
 
-  Future<dynamic> post(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> post(Uri url, Map<String, String> header, String body) async {
     return http
         .post(url, headers: header, body: body)
         .then((http.Response response) {
@@ -49,7 +49,7 @@ class NetworkUtils {
           statusResponse == 400 ||
           statusResponse == 422 ||
           statusResponse == 409) {
-        return json.decode(bodyResponse);
+        return [statusResponse ,json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -87,7 +87,7 @@ class NetworkUtils {
   //   }
   // }
 
-  Future<dynamic> put(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> put(Uri url, Map<String, String> header, String body) async {
     return http.put(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -103,7 +103,7 @@ class NetworkUtils {
           statusResponse == 403 ||
           statusResponse == 400 ||
           statusResponse == 422) {
-        return json.decode(bodyResponse);
+        return [statusResponse ,json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -112,7 +112,7 @@ class NetworkUtils {
     });
   }
 
-   Future<dynamic> patch(Uri url, Map<String, String> header, String body) async {
+   Future<List<dynamic>> patch(Uri url, Map<String, String> header, String body) async {
     return http.patch(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -129,7 +129,7 @@ class NetworkUtils {
          statusResponse == 400 ||
          statusResponse == 422
       ) {
-        return json.decode(bodyResponse);
+        return [statusResponse ,json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -138,7 +138,7 @@ class NetworkUtils {
     });
   }
 
-  Future<dynamic> delete(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> delete(Uri url, Map<String, String> header, String body) async {
     return http.delete(url,headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -153,7 +153,7 @@ class NetworkUtils {
           statusResponse == 401 ||
           statusResponse == 403 ||
           statusResponse == 400) {
-        return json.decode(bodyResponse);
+        return [statusResponse ,json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }

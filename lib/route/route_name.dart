@@ -66,4 +66,33 @@ const String DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED =
 const String DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED =
     '/kunjungan/ibu-hammil/detail/not-started';
 
+//! register
 const String REGISTER = '/register';
+
+const String REGISTER_ORANG_TUA = '/register/orang-tua';
+const String CREATE_REGISTER_ORANG_TUA = '/register/orang-tua/create';
+const String DETAIL_REGISTER_ORANG_TUA = '/register/orang-tua/detail';
+const String UPDATE_REGISTER_ORANG_TUA = '/register/orang-tua/update';
+
+const String REGISTER_ANAK = '/register/anak';
+const String CREATE_REGISTER_ANAK = '/register/orang-anak/create';
+const String DETAIL_REGISTER_ANAK = '/register/orang-anak/detail';
+const String UPDATE_REGISTER_ANAK = '/register/orang-anak/update';
+
+const String REGISTER_PENGASUH = '/register/pengasuh';
+const String CREATE_REGISTER_PENGASUH = '/register/pengasuh/create';
+const String DETAIL_REGISTER_PENGASUH = '/register/pengasuh/detail';
+const String UPDATE_REGISTER_PENGASUH = '/register/pengasuh/update';
+
+const String REGISTER_IBU_HAMIL = '/register/ibu-hamil';
+const String CREATE_REGISTER_IBU_HAMIL = '/register/ibu-hamil/create';
+const String DETAIL_REGISTER_IBU_HAMIL = '/register/ibu-hamil/detail';
+const String UPDATE_REGISTER_IBU_HAMIL = '/register/ibu-hamil/update';
+
+const String REGISTER_ANGGOTA_KADER = '/register/anggota-kader';
+const String CREATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/create';
+const String DETAIL_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/detail';
+const String UPDATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/update';
+
+// ! feature maintenacne
+const String FEATURE_MAINTENANCE = '/maintenance';

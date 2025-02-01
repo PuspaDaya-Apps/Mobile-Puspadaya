@@ -25,10 +25,24 @@ final class NullErrorState extends LoginState {
 
 final class LoginProcessState extends LoginState {}
 
-final class LoginSuccessState extends LoginState {}
+final class LoginSuccessState extends LoginState {
+  final String accessToken;
+
+  const LoginSuccessState(this.accessToken);
+}
 
 final class LoginFailedState extends LoginState {
   final String error;
 
   const LoginFailedState(this.error);
+}
+
+final class CurrentUserProccesState extends LoginState {}
+
+final class CurrentUserSuccesState extends LoginState {}
+
+final class CurrentUserFailedState extends LoginState {
+  final String error;
+
+  const CurrentUserFailedState(this.error);
 }

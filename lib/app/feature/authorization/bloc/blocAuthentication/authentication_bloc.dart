@@ -63,14 +63,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(valueRefreshToken));
 
         try {
-          AccessTokenResponseModel accessTokenResponseModel = await AuthenticationApi().getAccesTokenService(
+          List<dynamic> response = await AuthenticationApi().getAccesTokenService(
             AccessTokenModel(refreshToken: refreshTokenModel.refreshToken)
           );
 
-          if(accessTokenResponseModel.statusCode == 200) {
+          int statusCode = response[0] as int;
+          AccessTokenResponseModel accessTokenResponseModel = AccessTokenResponseModel.fromJson(response[1]);
+
+          if(statusCode == 200) {
             SharedPrefUtils().storedAccessToken(accessTokenResponseModel.data!.accessToken);
             emit(RefreshTokenValid());
-          } else if (accessTokenResponseModel.statusCode == 401) {
+          } else if (statusCode == 401) {
             emit(AuthenticationFalse());
           } else {
             emit(RefreshTokenFailed(accessTokenResponseModel.message));
@@ -89,11 +92,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         emit(AuthenticationFalse());
       } else {
         try {
-          LogoutResponseModel logoutResponseModel = await AuthenticationApi().logoutService(valueAccessToken);
+          List<dynamic> response = await AuthenticationApi().logoutService(valueAccessToken);
 
-          if (logoutResponseModel.statusCode == 200) {
+          int statusCode = response[0] as int;
+          LogoutResponseModel logoutResponseModel = LogoutResponseModel.fromJson(response[1]);
+
+          if (statusCode == 200) {
             emit(LogoutSuccess());
-          } else if (logoutResponseModel.statusCode == 401) {
+          } else if (statusCode == 401) {
             emit(AuthenticationFalse());
           } else {
             emit(LogoutFailed(logoutResponseModel.message));
