@@ -1,12 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:snacky/snacky.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
-import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../view/widget/textfield_password_login_widget.dart';
 import '../../../view/widget/textfield_username_login_widget.dart';
 import '../../lupaKataSandi/view/lupa_kata_sandi_screen.dart';
@@ -36,7 +36,6 @@ class _LoginScreenViewState extends State<LoginScreenView> {
   final List<String> image = <String>[login1Vector, login2Vector];
 
   late TextEditingController usernameController = TextEditingController();
-
   late TextEditingController passwordController = TextEditingController();
 
   bool ingatSaya = false;
@@ -102,15 +101,17 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                         child: Container(
                           // height: MediaQuery.sizeOf(context).height,
                           padding: EdgeInsets.only(
-                              top: SizeConfig.calHeightMultiplier(35),
-                              bottom: SizeConfig.calHeightMultiplier(60),
-                              right: SizeConfig.calWidthMultiplier(25),
-                              left: SizeConfig.calWidthMultiplier(25)),
+                            top: SizeConfig.calHeightMultiplier(35),
+                            bottom: SizeConfig.calHeightMultiplier(60),
+                            right: SizeConfig.calWidthMultiplier(25),
+                            left: SizeConfig.calWidthMultiplier(25)),
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20))),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)
+                            )
+                          ),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,14 +213,22 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                     top: SizeConfig.calHeightMultiplier(20)),
                                 child: BlocConsumer<LoginBloc, LoginState>(
                                   listener: (context, state) {
+                                    //login
                                     if (state is LoginFailedState) {
                                       debugPrint(state.error);
                                     }
                                     if (state is LoginSuccessState) {
-                                      Navigator.pushNamed(context, HOME);
-                                      // debugPrint("SUCCESS LOGIN");
+                                      loginBloc.add(GetCurrentUserEvent(state.accessToken));
                                     }
                                     if (state is NullErrorState) {
+                                      debugPrint(state.error);
+                                    }
+
+                                    //getUser
+                                    if(state is CurrentUserSuccesState) {
+                                      Navigator.pushReplacementNamed(context, HOME);
+                                    }
+                                    if(state is CurrentUserFailedState) {
                                       debugPrint(state.error);
                                     }
                                   },
