@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:puspadaya/app/view/widget/daftar_kehadiran_items_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
-import 'package:puspadaya/app/view/widget/pengukuran_anak_items_widget.dart';
-import 'package:puspadaya/app/view/widget/pengukuran_ibu_hamil_items_widget.dart';
-import 'package:puspadaya/app/view/widget/pengukuran_tamu_items_widget.dart';
-import 'package:puspadaya/app/view/widget/riwayat_anak_items_widget.dart';
-import 'package:puspadaya/app/view/widget/riwayat_ibu_hamil_items_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
+
+import '../../Kehadiran/index/view/index_kehadiran_screen.dart';
+import '../../PengukuranTamu/index/view/index_pengukuran_tamu_screen.dart';
+import '../../RiwayatAnak/index/view/index_riwayat_anak_screen.dart';
+import '../../RiwayatIbuHamil/index/view/index_riwayat_ibu_hamil_screen.dart';
+import '../../pengukuranAnak/index/view/index_pengukuran_anak_screen.dart';
+import '../../pengukuranIbuHamil/index/view/index_pengukuran_ibu_hamil_screen.dart';
 
 class Pengukuran extends StatelessWidget {
   const Pengukuran({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PengukuranView();
+    return const PengukuranView();
   }
 }
 
@@ -51,7 +50,7 @@ class _PengukuranViewState extends State<PengukuranView> {
         backgroundColor: backgroundWhite10,
         title: isSearching
             ? AnimatedContainer(
-                duration: Duration(milliseconds: 300), // Animation duration
+                duration: const Duration(milliseconds: 300), // Animation duration
                 curve: Curves.easeInOut, // Animation curve
                 width: isSearching
                     ? double.infinity
@@ -67,7 +66,7 @@ class _PengukuranViewState extends State<PengukuranView> {
               )
             : AnimatedOpacity(
                 opacity: isSearching ? 0 : 1, // Fade out when searching
-                duration: Duration(milliseconds: 300), // Animation duration
+                duration: const Duration(milliseconds: 300), // Animation duration
                 curve: Curves.easeInOut, // Animation curve
                 child: Text(
                   'Pengukuran',
@@ -79,9 +78,9 @@ class _PengukuranViewState extends State<PengukuranView> {
         actions: _buildAppBarActions(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimaryMain,
-        shape: CircleBorder(),
-        child: Icon(
+        backgroundColor: bluePrimary40,
+        shape: const CircleBorder(),
+        child: const Icon(
           size: 38,
           Icons.add,
           color: Colors.white,
@@ -106,7 +105,7 @@ class _PengukuranViewState extends State<PengukuranView> {
       ),
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(left: 24, right: 24, top: 16),
+          margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
           child: Column(
             children: [
               DropdownWidget(
@@ -120,22 +119,9 @@ class _PengukuranViewState extends State<PengukuranView> {
                 },
                 items: pengukuranMenu,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: boxShadow(),
-                      ),
-                      child: _buildListItem(),
-                    );
-                  },
-                ),
+                child: _buildListItem(),
               ),
             ],
           ),
@@ -148,7 +134,7 @@ class _PengukuranViewState extends State<PengukuranView> {
     if (selectedMenu != 'Kehadiran') {
       return [
         Container(
-          margin: EdgeInsets.only(right: 24),
+          margin: const EdgeInsets.only(right: 24),
           child: GestureDetector(
             onTap: () {
               setState(() {
@@ -171,62 +157,17 @@ class _PengukuranViewState extends State<PengukuranView> {
   Widget _buildListItem() {
     switch (selectedMenu) {
       case 'Kehadiran':
-        return DaftarKehadiranItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_KEHADIRAN);
-          },
-          location: "Posyandu A",
-          date: "08/10/2024",
-          duration: "5 jam 25 menit",
-          status: "Sedang Berjalan",
-        );
+        return const IndexKehadiranScreen();
       case 'Pengukuran Anak':
-        return PengukuranAnakItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK);
-          },
-          name: "Muhammad Kaivan Al Hakim",
-          nik: "362155482327263",
-          date: "08/10/2024",
-          place: "Posyandu A",
-        );
+        return const IndexPengukuranAnakScreen();
       case 'Pengukuran Ibu Hamil':
-        return PengukuranIbuHamilItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL);
-          },
-          name: "Siti Aminah",
-          nik: "362155482327264",
-          date: "08/10/2024",
-        );
+        return const IndexPengukuranIbuHamilScreen();
       case 'Pengukuran Tamu':
-        return PengukuranTamuItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU);
-          },
-          name: "Ahmad Tamu",
-          nik: "362155482327265",
-          date: "08/10/2024",
-          place: "Posyandu B",
-        );
+        return const IndexPengukuranTamuScreen();
       case 'Riwayat Anak':
-        return RiwayatAnakItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
-          },
-          name: "Muhammad Kaivan Al Hakim",
-          nik: "362155482327263",
-          gender: 'Laki-Laki',
-        );
+        return const IndexRiwayatAnakScreen();
       case 'Riwayat Ibu Hamil':
-        return RiwayatIbuHamilItems(
-          onTap: () {
-            Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL);
-          },
-          name: "Siti Aminah",
-          nik: "362155482327264",
-          gestationalAge: "6 bulan",
-        );
+        return const IndexRiwayatIbuHamilScreen();
       default:
         return Container();
     }

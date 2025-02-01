@@ -4,12 +4,10 @@
 
 // @JsonSerializable()
 class LogoutResponseModel {
-  int statusCode;
   String message;
   String? error;
 
   LogoutResponseModel({
-    required this.statusCode,
     required this.message,
     this.error
   });
@@ -21,7 +19,6 @@ class LogoutResponseModel {
 
 LogoutResponseModel _$LogoutResponseModelFromJson(Map<String, dynamic> json) =>
     LogoutResponseModel(
-      statusCode: (json['statusCode'] as num).toInt(),
       message: json['message'] as String,
       error: json['error'] as String?,
     );
@@ -29,7 +26,6 @@ LogoutResponseModel _$LogoutResponseModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$LogoutResponseModelToJson(
         LogoutResponseModel instance) =>
     <String, dynamic>{
-      'statusCode': instance.statusCode,
       'message': instance.message,
       'error': instance.error,
     };
