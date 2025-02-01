@@ -79,11 +79,13 @@ class KunjunganItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      color: item.status == Status.belumDiMulai
-                          ? greenPrimaryMain
-                          : item.status == Status.berjalan
-                              ? goldPrimaryMain
-                              : bluePrimaryMain,
+                      decoration: BoxDecoration(
+                          color: item.status == Status.belumDiMulai
+                              ? greenPrimaryMain
+                              : item.status == Status.berjalan
+                                  ? goldPrimaryMain
+                                  : bluePrimaryMain,
+                          borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(
                         vertical: 4,
                         horizontal: 12,

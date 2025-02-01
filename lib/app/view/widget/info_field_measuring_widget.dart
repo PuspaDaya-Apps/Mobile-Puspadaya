@@ -6,13 +6,13 @@ import 'package:puspadaya/config/theme/text_style.dart';
 class InfoFieldMeasuringWidget extends StatelessWidget {
   final String title;
   final String unit;
-  final String tool;
+  final String? tool;
   final String value;
   const InfoFieldMeasuringWidget(
       {super.key,
       required this.title,
       required this.unit,
-      required this.tool,
+      this.tool,
       required this.value});
 
   @override
@@ -48,12 +48,14 @@ class InfoFieldMeasuringWidget extends StatelessWidget {
         SizedBox(
           height: SizeConfig.calHeightMultiplier(4),
         ),
-        Text(
-          'Alat : $tool',
-          style: AppTextStyles.primaryTextNormal.copyWith(
-            fontSize: 10,
-          ),
-        ),
+        tool != null
+            ? Text(
+                'Alat : $tool',
+                style: AppTextStyles.primaryTextNormal.copyWith(
+                  fontSize: 10,
+                ),
+              )
+            : SizedBox.shrink(),
       ],
     );
   }
