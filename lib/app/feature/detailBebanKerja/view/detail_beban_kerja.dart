@@ -119,6 +119,19 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
         Jobitem(
           label: 'Memberikan TTD (Tablet Tambah Darah)',
         ),
+        Jobitem(
+          label: 'Menjelaskan Pemeriksaan Ibu Hamil dan Ibu Nifas',
+        ),
+        Jobitem(
+          label:
+              'Menjelaskan bahwa ibu hamil perlu memantau berat badan, lingkar lengan dan tekanan darah dengan kurva Buku KIA',
+        ),
+        Jobitem(
+          label: 'Menjelaskan pemantauan tanda bahaya ibu hamil, ibu nifas',
+        ),
+        Jobitem(
+          label: 'Menjelaskan Penggunaan Buku KIA bagian ibu hamil, nifas',
+        ),
       ],
     ),
     Jobitem(

@@ -186,55 +186,57 @@ class CardMenuProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Color(0xff9491DE).withValues(
-                alpha: 0.3,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Icon(
-                size: 22,
-                color: Color(0xff9491DE),
-                icon,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              spacing: 2,
-              children: [
-                Text(
-                  title,
-                  style: AppTextStyles.primaryTextMedium.copyWith(
-                    color: Colors.black,
-                    fontSize: 13,
-                  ),
+      child: Container(
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color(0xff9491DE).withValues(
+                  alpha: 0.3,
                 ),
-                Text(
-                  description,
-                  style: AppTextStyles.secoundaryTextNormal.copyWith(
-                    fontSize: 11,
-                  ),
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Icon(
+                  size: 22,
+                  color: Color(0xff9491DE),
+                  icon,
                 ),
-              ],
+              ),
             ),
-          ),
-          Icon(
-            color: colorChevron,
-            FluentIcons.chevron_right_24_regular,
-          ),
-        ],
+            SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 2,
+                children: [
+                  Text(
+                    title,
+                    style: AppTextStyles.primaryTextMedium.copyWith(
+                      color: Colors.black,
+                      fontSize: 13,
+                    ),
+                  ),
+                  Text(
+                    description,
+                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              color: colorChevron,
+              FluentIcons.chevron_right_24_regular,
+            ),
+          ],
+        ),
       ),
     );
   }

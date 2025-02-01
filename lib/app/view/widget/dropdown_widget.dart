@@ -8,16 +8,18 @@ class DropdownWidget extends StatelessWidget {
   final ValueChanged<dynamic>? onChanged;
   final ValueChanged<dynamic>? onSaved;
   final String hint;
-  final String value;
+  final String? value; // Ubah menjadi nullable
   final FormFieldValidator<String>? validator;
-  DropdownWidget(
-      {super.key,
-      required this.items,
-      this.onChanged,
-      required this.hint,
-      this.validator,
-      required this.value,
-      this.onSaved});
+
+  DropdownWidget({
+    super.key,
+    required this.items,
+    this.onChanged,
+    required this.hint,
+    this.validator,
+    this.value,
+    this.onSaved,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class DropdownWidget extends StatelessWidget {
       style: AppTextStyles.primaryTextNormal.copyWith(
         fontSize: 12,
       ),
-      value: value,
+      value: value, // Ini bisa null
       hint: Text(
         hint,
         style: AppTextStyles.secoundaryTextNormal.copyWith(
@@ -39,10 +41,9 @@ class DropdownWidget extends StatelessWidget {
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
-          // borderSide: const BorderSide(width: 1, color: Colors.grey),
           borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(12),
-            bottomLeft: Radius.circular(12),
+            bottomRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
           ),
           color: backgroundWhite10,
         ),
@@ -66,20 +67,20 @@ class DropdownWidget extends StatelessWidget {
         filled: true,
         fillColor: backgroundWhite10,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(width: 1, color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(12), topLeft: Radius.circular(12)),
+              topRight: Radius.circular(10), topLeft: Radius.circular(10)),
           borderSide: const BorderSide(width: 1, color: Colors.grey),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(width: 1, color: redPrimaryMain),
         ),
       ),

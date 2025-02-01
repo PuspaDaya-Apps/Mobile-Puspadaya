@@ -276,18 +276,27 @@ class ProfileSection extends StatelessWidget {
               )
             ],
           ),
-          Container(
-            width: SizeConfig.calWidthMultiplier(30),
-            height: SizeConfig.calHeightMultiplier(30),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: bluePrimaryMain.withValues(alpha: 0.3),
-            ),
-            child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.solidBell,
-                color: bluePrimaryMain,
-                size: 18,
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                FEATURE_MAINTENANCE,
+                arguments: 'Notifikasi', // Kirimkan nama fitur sebagai argumen
+              );
+            },
+            child: Container(
+              width: SizeConfig.calWidthMultiplier(30),
+              height: SizeConfig.calHeightMultiplier(30),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: bluePrimaryMain.withValues(alpha: 0.3),
+              ),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.solidBell,
+                  color: bluePrimaryMain,
+                  size: 18,
+                ),
               ),
             ),
           )
@@ -312,59 +321,109 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     // Daftar item menu
     final List<Widget> _menuItems = [
       HomeMenuItems(
+        colorBackground: bluePrimary40, // Biru terang untuk Register
         menuName: 'Register',
         iconMenu: FontAwesomeIcons.userPlus,
-        colorIcon: Colors.blue.shade700,
-        onTap: () {},
+        colorIcon: bluePrimary40,
+        onTap: () {
+          Navigator.pushNamed(context, REGISTER);
+        },
       ),
       HomeMenuItems(
+        colorBackground: goldPrimary30, // Abu-abu untuk Alat Ukur (Netral)
         menuName: 'Alat Ukur',
         iconMenu: FontAwesomeIcons.rulerCombined,
-        colorIcon: Colors.blue.shade700,
-        onTap: () {},
+        colorIcon: goldPrimary30,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'Alat Ukur', // Kirimkan nama fitur sebagai argumen
+          );
+        },
       ),
       HomeMenuItems(
+        colorBackground: bluePrimaryMain, // Biru utama untuk Monitoring
         menuName: 'Monitoring',
         iconMenu: FontAwesomeIcons.chartLine,
-        colorIcon: Colors.blue.shade700,
-        onTap: () {},
+        colorIcon: bluePrimaryMain,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'Monitoring', // Kirimkan nama fitur sebagai argumen
+          );
+        },
       ),
       HomeMenuItems(
+        colorBackground: redPrimaryMain, // Merah untuk Faktor Resiko
         menuName: 'Faktor Resiko',
         iconMenu: iconFaktorResiko,
-        colorIcon: Colors.red.shade300,
-        onTap: () {},
+        colorIcon: redPrimaryMain,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'Faktor Resiko', // Kirimkan nama fitur sebagai argumen
+          );
+        },
       ),
       HomeMenuItems(
-          menuName: 'Parameter Gizi',
-          iconMenu: FontAwesomeIcons.utensils,
-          colorIcon: greenPrimary50,
-          onTap: () {}),
+        colorBackground: greenPrimary50, // Hijau untuk Parameter Gizi
+        menuName: 'Parameter Gizi',
+        iconMenu: FontAwesomeIcons.utensils,
+        colorIcon: greenPrimary50,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'Parameter Gizi', // Kirimkan nama fitur sebagai argumen
+          );
+        },
+      ),
       HomeMenuItems(
+        colorBackground: purplePrimary50, // Ungu untuk Beban Kerja
         menuName: 'Beban Kerja',
         iconMenu: FontAwesomeIcons.briefcase,
-        colorIcon: pinkPrimary50,
+        colorIcon: purplePrimary50,
         onTap: () {
           Navigator.pushNamed(context, BEBAN_KERJA);
         },
       ),
       HomeMenuItems(
-          menuName: 'Laporan',
-          iconMenu: FontAwesomeIcons.print,
-          colorIcon: greenPrimary50,
-          onTap: () {}),
+        colorBackground:
+            goldPrimary50, // Emas untuk Laporan (Menandakan penting)
+        menuName: 'Laporan',
+        iconMenu: FontAwesomeIcons.print,
+        colorIcon: goldPrimary50,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'Laporan', // Kirimkan nama fitur sebagai argumen
+          );
+        },
+      ),
       HomeMenuItems(
+        colorBackground: greenPrimary50, // Hijau tetap untuk e-PPGBM
         menuName: 'e-PPGBM',
-        colorIcon: greenPrimary50,
         iconMenu: iconExcel,
-        onTap: () {},
+        colorIcon: greenPrimary50,
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            FEATURE_MAINTENANCE,
+            arguments: 'e-PPGBM', // Kirimkan nama fitur sebagai argumen
+          );
+        },
       ),
     ];
+
     int itemExpanedCol = (_menuItems.length / 4).ceil();
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 8;
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 6.5;
 
     return Container(
       padding:
@@ -386,7 +445,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 3 / 4,
+                childAspectRatio: 0.60,
                 mainAxisSpacing: 16,
                 maxCrossAxisExtent: 80,
               ),

@@ -6,11 +6,11 @@ abstract class LinkApi {
   LinkApi._();
 
   //!MasterData
-  static const PROVINSIURL  = "/provinsi";
-  static const KABUPATENURL  = "/kabupaten-kota";
-  static const KECAMATANURL  = "/kecamatan";
-  static const DESAURL  = "/desa-kelurahan";
-  static const DUSUNURL  = "/dusun";
+  static const PROVINSIURL = "/provinsi";
+  static const KABUPATENURL = "/kabupaten-kota";
+  static const KECAMATANURL = "/kecamatan";
+  static const DESAURL = "/desa-kelurahan";
+  static const DUSUNURL = "/dusun";
 
   //!Auth
   static const LOGINURL  = "/auth/login";
@@ -24,7 +24,7 @@ abstract class LinkApi {
   //!Users
   static const CURRENTUSRURL = "/users/current";
   static const USERURL  = "/users";
-
+  
   //!Orang Tua
   static const ORANGTUAURL  = "/register/orang-tua";
   static const DETAILORANGTUAURL  = "/register/detail-orang-tua";
@@ -50,9 +50,8 @@ abstract class LinkApi {
   static const KEHADIRANPOSYANDUURL = "/kehadiran-posyandu";
 
   //!Pengukuran Anak
-  static const PENGUKURANANAKURL  = "/pengukuran-anak";
+  static const PENGUKURANANAKURL = "/pengukuran-anak";
 
   //!Pengukuran Ibu Hamil
-  static const PENGUKURANIBUHAMILURL  = "/pengukuran-ibu-hamil";
-
+  static const PENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil";
 }

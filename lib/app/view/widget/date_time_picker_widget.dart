@@ -27,7 +27,7 @@ class DateTimePickerWidget extends StatelessWidget {
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,
-        fillColor: backgroundWhite,
+        fillColor: backgroundWhite10,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

@@ -236,13 +236,19 @@ class _DetailDataState extends State<DetailData> {
                 )
               ],
             ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
+            ),
             Container(
               width: double.infinity,
               height: 2,
               color: Colors.black54,
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Image(
+              width: MediaQuery.sizeOf(context).width,
+              image: AssetImage(imageGrafikPerkembanganAnak),
+            )
           ],
         ),
       ),

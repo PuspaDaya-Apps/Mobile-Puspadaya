@@ -4,7 +4,6 @@ import 'package:puspadaya/app/feature/kunjungan/view/widget/alert_create_kunjung
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/config/theme/text_style.dart';
 
 class Kunjungan extends StatelessWidget {
   const Kunjungan({super.key});
@@ -24,6 +23,13 @@ class KunjunganView extends StatefulWidget {
 
 class _KunjunganViewState extends State<KunjunganView> {
   final List<KunjunganItem> listOfKunjungan = [
+    // !belum dimulai
+    KunjunganItem(
+      date: DateTime.now(),
+      distance: 5.84,
+      status: Status.belumDiMulai,
+      target: TargetOfKunjugan.anakStunting,
+    ),
     KunjunganItem(
       date: DateTime.now(),
       distance: 5.84,
@@ -32,9 +38,41 @@ class _KunjunganViewState extends State<KunjunganView> {
     ),
     KunjunganItem(
       date: DateTime.now(),
+      distance: 5.84,
+      status: Status.belumDiMulai,
+      target: TargetOfKunjugan.ibuHamil,
+    ),
+    // !berjalan
+    KunjunganItem(
+      date: DateTime.now(),
       distance: 4.84,
       status: Status.berjalan,
       target: TargetOfKunjugan.anakStunting,
+    ),
+    KunjunganItem(
+      date: DateTime.now(),
+      distance: 4.84,
+      status: Status.berjalan,
+      target: TargetOfKunjugan.anakTidakHadir,
+    ),
+    KunjunganItem(
+      date: DateTime.now(),
+      distance: 4.84,
+      status: Status.berjalan,
+      target: TargetOfKunjugan.ibuHamil,
+    ),
+    // !selesai
+    KunjunganItem(
+      date: DateTime.now(),
+      distance: 4.84,
+      status: Status.selesai,
+      target: TargetOfKunjugan.anakStunting,
+    ),
+    KunjunganItem(
+      date: DateTime.now(),
+      distance: 4.84,
+      status: Status.selesai,
+      target: TargetOfKunjugan.anakTidakHadir,
     ),
     KunjunganItem(
       date: DateTime.now(),
@@ -55,14 +93,16 @@ class _KunjunganViewState extends State<KunjunganView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
           child: ListView.builder(
             itemCount: listOfKunjungan.length,
             itemBuilder: (context, index) {
               // Ensure correct rendering of custom widgets
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: KunjunganItemWidget(item: listOfKunjungan[index]),
+                child: KunjunganItemWidget(
+                  item: listOfKunjungan[index],
+                ),
               );
             },
           ),

@@ -101,6 +101,19 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
       subItems: [
         Jobitems(label: 'Penyuluhan Isi Piring ku', status: false),
         Jobitems(label: 'Memberikan TTD (Tablet Tambah Darah)', status: false),
+        Jobitems(
+            label: 'Menjelaskan Pemeriksaan Ibu Hamil dan Ibu Nifas',
+            status: false),
+        Jobitems(
+            label:
+                'Menjelaskan bahwa ibu hamil perlu memantau berat badan, lingkar lengan dan tekanan darah dengan kurva Buku KIA',
+            status: false),
+        Jobitems(
+            label: 'Menjelaskan pemantauan tanda bahaya ibu hamil, ibu nifas',
+            status: false),
+        Jobitems(
+            label: 'Menjelaskan Penggunaan Buku KIA bagian ibu hamil, nifas',
+            status: false),
       ],
       isExpanded: false,
     ),
