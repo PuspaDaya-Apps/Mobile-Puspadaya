@@ -34,3 +34,6 @@ const String imageThropy = "assets/images/img_thropy.png";
 const String imageOnTheWay = "assets/images/image_on_the_way.png";
 const String imageDoneTask = "assets/images/image_done_task.png";
 const String imageCrossRoad = "assets/images/image_cross_road.png";
+const String imageMaintenance = "assets/images/image_maintenance.png";
+const String imageGrafikPerkembanganAnak =
+    "assets/images/grafik_perkembangan_anak.png";

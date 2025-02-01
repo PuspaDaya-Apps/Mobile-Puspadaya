@@ -93,7 +93,7 @@ class _KunjunganViewState extends State<KunjunganView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
           child: ListView.builder(
             itemCount: listOfKunjungan.length,
             itemBuilder: (context, index) {

@@ -1,17 +1,21 @@
 flutter_native_splash:
-  color: "#4bbcff"
+  background_image: assets/images/background_splash_screen.png
+  # color: "#4bbcff"
   # icon_background_color: "#FFFFFF"
-  image: assets/logo/logo_big_background.png
-  color_dark: "#4bbcff"
+  image: assets/logo/logo_small_background.png
+  background_image_dark: assets/images/background_splash_screen.png
+  # color_dark: "#4bbcff"
   # icon_background_color_dark: "#FFFFFF" 
-  image_dark: assets/logo/logo_big_background.png
+  image_dark: assets/logo/logo_small_background.png
   android: true
   ios: true
   
   android_12:
+    # background_image: assets/images/background_splash_screen.png
     color: "#4bbcff"
     # icon_background_color: "#FFFFFF"
     image: assets/logo/logo_big_background.png
+    # background_image_dark: assets/images/background_splash_screen.png
     color_dark: "#4bbcff"
     # icon_background_color_dark: "#FFFFFF" 
     image_dark: assets/logo/logo_big_background.png
