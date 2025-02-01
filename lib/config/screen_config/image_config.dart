@@ -5,6 +5,7 @@ const String dataNotFoundVector = 'assets/images/data_not_found_vector.png';
 const String logoutVector = 'assets/images/logout_vector.png';
 const String lostConnectionVector = 'assets/images/lost_connection_vector.png';
 const String pageNotFoundVector = 'assets/images/page_not_found_vector.png';
+const String pageUnderDevelopmentVector = 'assets/images/page_under_development_vector.png';
 const String logoBig = 'assets/logo/logo_big.png';
 const String logoSmall = 'assets/logo/logo_small.png';
 const String onBoarding1Image = 'assets/images/on_boarding1_image.png';
