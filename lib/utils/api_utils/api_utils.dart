@@ -81,9 +81,13 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua);
   }
 
-  Uri urlGetDetailOrangTua() {
+  Uri urlGetDetailOrangTua(String idAyah, String idIbu) {
     String urlGetDetailOrangTua = LinkApi.DETAILORANGTUAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetDetailOrangTua);
+    Map<String, String> parameterQuery = {
+      'ayah_id': idAyah,
+      'ibu_id': idIbu
+    };
+    return Uri.https(_baseUrlQuaryParameter,_apiVersion + urlGetDetailOrangTua, parameterQuery);
   }
 
   //!Anak
