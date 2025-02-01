@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_catatan.dart';
-import 'package:puspadaya/app/feature/detailPengukuranAnak/view/detail_data.dart';
+import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_catatan.dart';
+import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_data.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 

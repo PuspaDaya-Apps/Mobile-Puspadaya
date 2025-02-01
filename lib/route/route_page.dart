@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
+import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import '../app/feature/bebanKerja/view/beban_kerja.dart';
 import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
-import '../app/feature/createKehadiran/view/create_kehadiran.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
-import '../app/feature/createPengukuranAnak/view/create_pengukuran_anak.dart';
+import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
-import '../app/feature/detailKehadiran/view/detail_kehadiran.dart';
-import '../app/feature/detailPengukuranAnak/view/detail_pengukuran_anak.dart';
+import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
 import '../app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
 import '../app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
@@ -24,7 +24,7 @@ import '../app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import '../app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
 import '../app/feature/resetPassword/view/reset_password.dart';
-import '../app/feature/updatePengukuranAnak/view/update_pengukuran_anak.dart';
+import '../app/feature/pengukuranAnak/update/view/update_pengukuran_anak.dart';
 import '../app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
@@ -94,11 +94,11 @@ class MyRoute {
       // PENGUKURAN
       case CREATE_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKehadiran(), settings: settings);
+            builder: (context) => const CreateKehadiranScreen(), settings: settings);
 
       case DETAIL_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const DetailKehadiran(), settings: settings);
+            builder: (context) => const DetailKehadiranScreen(), settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
