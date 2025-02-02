@@ -62,17 +62,18 @@ import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
 
+import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
 
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case SPLASHSCREEN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const SplashScreen(), settings: settings);
       case SPLASHSCREEN:
         return MaterialPageRoute(
-            builder: (context) => const HomeWrapper(), settings: settings);
+            builder: (context) => const SplashScreen(), settings: settings);
+      // case SPLASHSCREEN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const HomeWrapper(), settings: settings);
 
       case ONBOARDING:
         return MaterialPageRoute(
