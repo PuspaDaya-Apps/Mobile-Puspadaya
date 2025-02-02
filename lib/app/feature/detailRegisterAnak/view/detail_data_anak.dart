@@ -9,15 +9,19 @@ import '../../../view/widget/primary_button_widget.dart';
 import 'detail_data_wali.dart';
 
 class DetailDataAnak extends StatelessWidget {
+  const DetailDataAnak({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailDataAnakView();
+  }
+}
+
+class DetailDataAnakView extends StatelessWidget {
   final List<String> disabilitas = [
     'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
   ];
-  DetailDataAnak({super.key});
+  DetailDataAnakView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI KK'),
+            InfoFieldWidget(text: '354635284658310023'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -49,7 +53,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI Nama'),
+            InfoFieldWidget(text: 'Zahra Hazza Khusnul Khotimah'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -85,7 +89,7 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TEMPAT LAHIR'),
+                      InfoFieldWidget(text: 'Subang'),
                     ],
                   ),
                 ),
@@ -103,7 +107,7 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TANGGAL LAHIR'),
+                      InfoFieldWidget(text: '18/05/2024'),
                     ],
                   ),
                 ),
@@ -123,7 +127,7 @@ class DetailDataAnak extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
-                        'Tanggal Lahir',
+                        'Tinggil Lahir',
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -213,7 +217,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Laki Laki'),
+            InfoFieldWidget(text: 'Perempuan'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),

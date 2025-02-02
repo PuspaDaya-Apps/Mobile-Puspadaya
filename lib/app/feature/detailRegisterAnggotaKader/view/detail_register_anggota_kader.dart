@@ -74,7 +74,7 @@ class _DetailRegisterAnggotaKaderViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Angaskaran Dian Ayu'),
+                InfoFieldWidget(text: 'Muhammad Kaivan Al Hakim'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -145,10 +145,10 @@ class _DetailRegisterAnggotaKaderViewState
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: 'Banyuwangi'),
+                      child: InfoFieldWidget(text: 'Jawa Timur'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Kabat'),
+                      child: InfoFieldWidget(text: 'Banyuwangi'),
                     ),
                   ],
                 ),
@@ -164,10 +164,14 @@ class _DetailRegisterAnggotaKaderViewState
                       child: InfoFieldWidget(text: 'Kabat'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Bunder'),
+                      child: InfoFieldWidget(text: 'Kabat'),
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(8),
+                ),
+                InfoFieldWidget(text: 'Bunder'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
