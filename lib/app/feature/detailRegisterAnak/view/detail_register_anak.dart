@@ -6,7 +6,8 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 
 class DetailRegisterAnak extends StatelessWidget {
-  const DetailRegisterAnak({super.key});
+  final String id;
+  const DetailRegisterAnak({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {

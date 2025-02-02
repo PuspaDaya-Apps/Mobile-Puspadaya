@@ -8,7 +8,7 @@ class CardAnakWidget extends StatelessWidget {
       {required this.nama,
       required this.nik,
       required this.gender,
-      this.tahun,
+      required this.tahun,
       required this.bulan,
       super.key,
       required this.onTap});
@@ -16,8 +16,8 @@ class CardAnakWidget extends StatelessWidget {
   final String nama;
   final String nik;
   final String gender;
-  final String? tahun;
-  final String bulan;
+  final int tahun;
+  final int bulan;
   final VoidCallback onTap;
 
   @override
@@ -131,16 +131,16 @@ class CardAnakWidget extends StatelessWidget {
                                           color: textPrimary10.withOpacity(0.7),
                                           fontWeight: FontWeight.w400),
                                       children: [
-                                        if (tahun != null)
+                                        if (tahun != 0)
                                           TextSpan(
-                                            text: tahun,
+                                            text: tahun.toString(),
                                             style: TextStyle(
                                               fontSize:
                                                   SizeConfig.calMultiplierText(
                                                       26),
                                             ),
                                           ),
-                                        if (tahun != null)
+                                        if (tahun != 0)
                                           TextSpan(
                                             text: ' Tahun ',
                                             style: TextStyle(
@@ -150,7 +150,7 @@ class CardAnakWidget extends StatelessWidget {
                                             ),
                                           ),
                                         TextSpan(
-                                            text: bulan,
+                                            text: bulan.toString(),
                                             style: TextStyle(
                                               fontSize:
                                                   SizeConfig.calMultiplierText(

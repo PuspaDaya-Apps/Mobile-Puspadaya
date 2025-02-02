@@ -6,7 +6,7 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_pengasuh_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
-import 'model/pengasuh_item_model.dart';
+import '../model/pengasuh_item_model.dart';
 
 class RegisterPengasuh extends StatelessWidget {
   const RegisterPengasuh({super.key});

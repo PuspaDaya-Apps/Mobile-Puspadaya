@@ -61,17 +61,18 @@ import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
 
+import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
 
 class MyRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      // case SPLASHSCREEN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const SplashScreen(), settings: settings);
       case SPLASHSCREEN:
         return MaterialPageRoute(
-            builder: (context) => const HomeWrapper(), settings: settings);
+            builder: (context) => const SplashScreen(), settings: settings);
+      // case SPLASHSCREEN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const HomeWrapper(), settings: settings);
 
       case ONBOARDING:
         return MaterialPageRoute(
@@ -127,11 +128,13 @@ class MyRoute {
       // PENGUKURAN
       case CREATE_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKehadiranScreen(), settings: settings);
+            builder: (context) => const CreateKehadiranScreen(),
+            settings: settings);
 
       case DETAIL_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const DetailKehadiranScreen(), settings: settings);
+            builder: (context) => const DetailKehadiranScreen(),
+            settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
@@ -277,8 +280,14 @@ class MyRoute {
           settings: settings,
         );
       case DETAIL_REGISTER_ORANG_TUA:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final ayahId = args['ayahId'] ?? '';
+        final ibuId = args['ibuId'] ?? '';
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterOrangTua(),
+          builder: (context) => DetailRegisterOrangTua(
+            ibuId: ibuId,
+            ayahId: ayahId,
+          ),
           settings: settings,
         );
 
@@ -300,8 +309,11 @@ class MyRoute {
           settings: settings,
         );
       case DETAIL_REGISTER_ANAK:
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterAnak(),
+          builder: (context) => DetailRegisterAnak(
+            id: id,
+          ),
           settings: settings,
         );
 

@@ -1,19 +1,25 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/card_orangtua_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/search_text_field_widget.dart';
-import 'model/orang_tua_item_model.dart';
+import '../bloc/register_orang_tua_bloc.dart';
+import '../model/orang_tua_item_model.dart';
 
 class RegisterOrangTua extends StatelessWidget {
   const RegisterOrangTua({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterOrangTuaView();
+    return BlocProvider(
+      create: (context) => RegisterOrangTuaBloc(),
+      child: const RegisterOrangTuaView(),
+    );
   }
 }
 
@@ -27,18 +33,14 @@ class RegisterOrangTuaView extends StatefulWidget {
 class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
   TextEditingController _searchController = TextEditingController();
 
-  List<OrangTuaItemModel> listOrangTua = [
-    OrangTuaItemModel(
-        husband: 'Heri Dharmawan',
-        wife: 'Tari Saputri',
-        initial: 'HD',
-        kk: '62080635261527'),
-    OrangTuaItemModel(
-        husband: 'Hermawan',
-        wife: 'Nensiana Puji Astuti',
-        initial: 'HM',
-        kk: '62080723287167'),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Trigger fetch event when the view is initialized
+    logger.d('trigger fetch');
+    context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,23 +95,45 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                 height: 12,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: listOrangTua.length,
-                  itemBuilder: (context, index) {
-                    OrangTuaItemModel orangTua = listOrangTua[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardOrangtuaWidget(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, DETAIL_REGISTER_ORANG_TUA);
+                child: BlocBuilder<RegisterOrangTuaBloc, RegisterOrangTuaState>(
+                  builder: (context, state) {
+                    if (state is RegisterOrangTuaLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is RegisterOrangTuaSuccess) {
+                      // Render your list of Orang Tua here
+                      return ListView.builder(
+                        itemCount: state.orangTuaList
+                            .length, // Ganti dengan data yang diambil
+                        itemBuilder: (context, index) {
+                          final orangTua = state.orangTuaList[index]; //
+                          // Ganti dengan data yang diambil
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardOrangtuaWidget(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  DETAIL_REGISTER_ORANG_TUA,
+                                  arguments: {
+                                    'ayahId': orangTua.ayahId,
+                                    'ibuId': orangTua.ibuId,
+                                  },
+                                );
+                              },
+                              kk: orangTua.kk,
+                              namaAyah: orangTua.husband,
+                              namaIbu: orangTua.wife,
+                              profile: orangTua.initial,
+                            ),
+                          );
                         },
-                        kk: orangTua.kk,
-                        namaAyah: orangTua.husband,
-                        namaIbu: orangTua.wife,
-                        profile: orangTua.initial,
-                      ),
-                    );
+                      );
+                    } else if (state is RegisterOrangTuaFailure) {
+                      return Center(child: Text('Error: ${state.error}'));
+                    }
+                    return Center(child: Text('No data available'));
                   },
                 ),
               )

@@ -21,7 +21,7 @@ class NetworkUtils {
           statusResponse == 401 ||
           statusResponse == 403 ||
           statusResponse == 400) {
-        return [statusResponse ,json.decode(bodyResponse)];
+        return [statusResponse, json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -30,7 +30,8 @@ class NetworkUtils {
     });
   }
 
-  Future<List<dynamic>> post(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> post(
+      Uri url, Map<String, String> header, String body) async {
     return http
         .post(url, headers: header, body: body)
         .then((http.Response response) {
@@ -49,7 +50,7 @@ class NetworkUtils {
           statusResponse == 400 ||
           statusResponse == 422 ||
           statusResponse == 409) {
-        return [statusResponse ,json.decode(bodyResponse)];
+        return [statusResponse, json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -87,7 +88,8 @@ class NetworkUtils {
   //   }
   // }
 
-  Future<List<dynamic>> put(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> put(
+      Uri url, Map<String, String> header, String body) async {
     return http.put(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -103,7 +105,7 @@ class NetworkUtils {
           statusResponse == 403 ||
           statusResponse == 400 ||
           statusResponse == 422) {
-        return [statusResponse ,json.decode(bodyResponse)];
+        return [statusResponse, json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
@@ -112,7 +114,8 @@ class NetworkUtils {
     });
   }
 
-   Future<List<dynamic>> patch(Uri url, Map<String, String> header, String body) async {
+  Future<List<dynamic>> patch(
+      Uri url, Map<String, String> header, String body) async {
     return http.patch(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
@@ -120,26 +123,26 @@ class NetworkUtils {
       debugPrint(bodyResponse);
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 200 ||
-         statusResponse == 201 ||
-         statusResponse == 202 ||
-         statusResponse == 206 ||
-         statusResponse == 401 ||
-         statusResponse == 403 ||
-         statusResponse == 400 ||
-         statusResponse == 422
-      ) {
-        return [statusResponse ,json.decode(bodyResponse)];
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 400 ||
+          statusResponse == 422) {
+        return [statusResponse, json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
-    }).catchError((dynamic error){
+    }).catchError((dynamic error) {
       throw Exception(error);
     });
   }
 
-  Future<List<dynamic>> delete(Uri url, Map<String, String> header, String body) async {
-    return http.delete(url,headers: header, body: body).then((response) {
+  Future<List<dynamic>> delete(
+      Uri url, Map<String, String> header, String body) async {
+    return http.delete(url, headers: header, body: body).then((response) {
       final String bodyResponse = response.body;
       final int statusResponse = response.statusCode;
 
@@ -153,7 +156,7 @@ class NetworkUtils {
           statusResponse == 401 ||
           statusResponse == 403 ||
           statusResponse == 400) {
-        return [statusResponse ,json.decode(bodyResponse)];
+        return [statusResponse, json.decode(bodyResponse)];
       } else {
         throw bodyResponse;
       }
