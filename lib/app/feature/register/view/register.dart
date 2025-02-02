@@ -157,7 +157,7 @@ class _RegisterViewState extends State<RegisterView> {
                       padding: const EdgeInsets.only(bottom: 12),
                       child: AnakItem(
                         color: goldPrimaryMain,
-                        name: 'Muhammad Kaivan Al Hakim',
+                        name: 'Muhammad Aril',
                         gender: 'Laki Laki',
                         month: 4,
                         nik: '362155482327263',
