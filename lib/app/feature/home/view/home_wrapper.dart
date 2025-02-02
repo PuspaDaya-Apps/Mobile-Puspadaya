@@ -14,13 +14,15 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
-import '../bloc/user_bloc.dart';
+import '../bloc/userBloc/user_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
+
     return BlocProvider(
       create: (context) => UserBloc(),
       child: MultiBlocListener(
@@ -35,7 +37,7 @@ class HomeScreen extends StatelessWidget {
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if(state is RefreshTokenFailed) {
-                Navigator.pushReplacementNamed(context, LOGIN);
+                authorizationBloc.add(AuthorizationFalseEvent());
               }
             }
           ),
