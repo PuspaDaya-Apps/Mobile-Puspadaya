@@ -8,3 +8,5 @@ sealed class UserState extends Equatable {
 }
 
 final class UserInitial extends UserState {}
+
+final class UserProccessState extends UserState {}
