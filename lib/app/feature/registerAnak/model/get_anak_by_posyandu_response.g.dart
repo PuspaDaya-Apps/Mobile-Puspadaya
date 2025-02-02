@@ -30,18 +30,18 @@ Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       id: json['id'] as String,
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
-      tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String),
       jenisKelamin: json['jenis_kelamin'] as String,
       usia: json['usia'] as String,
+      namaIbu: json['nama_ibu'] as String,
     );
 
 Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
       'id': instance.id,
       'nik': instance.nik,
       'nama_anak': instance.namaAnak,
-      'tanggal_lahir': instance.tanggalLahir.toIso8601String(),
       'jenis_kelamin': instance.jenisKelamin,
       'usia': instance.usia,
+      'nama_ibu': instance.namaIbu,
     };
 
 Links _$LinksFromJson(Map<String, dynamic> json) => Links(
