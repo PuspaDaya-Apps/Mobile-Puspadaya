@@ -32,18 +32,12 @@ class PosyanduModel {
   String id;
   @JsonKey(name: 'nama_posyandu')
   String namaPosyandu;
-  String alamat;
-  @JsonKey(name: 'dusun_id')
-  String dusunId;
-  @JsonKey(name: 'puskemas_id')
-  String puskemasId;
+  String? alamat;
 
   PosyanduModel({
     required this.id,
     required this.namaPosyandu,
-    required this.alamat,
-    required this.dusunId,
-    required this.puskemasId,
+    this.alamat,
   });
 
   factory PosyanduModel.fromJson(Map<String, dynamic> json) => _$PosyanduModelFromJson(json);
@@ -66,6 +60,7 @@ class RoleModel {
 
   Map<String, dynamic> toJson()=>_$RoleModelToJson(this);
 }
+
 
 CurrentUserModel _$CurrentUserModelFromJson(Map<String, dynamic> json) =>
     CurrentUserModel(
@@ -92,9 +87,7 @@ PosyanduModel _$PosyanduModelFromJson(Map<String, dynamic> json) =>
     PosyanduModel(
       id: json['id'] as String,
       namaPosyandu: json['nama_posyandu'] as String,
-      alamat: json['alamat'] as String,
-      dusunId: json['dusun_id'] as String,
-      puskemasId: json['puskemas_id'] as String,
+      alamat: json['alamat'] as String?,
     );
 
 Map<String, dynamic> _$PosyanduModelToJson(PosyanduModel instance) =>
@@ -102,8 +95,6 @@ Map<String, dynamic> _$PosyanduModelToJson(PosyanduModel instance) =>
       'id': instance.id,
       'nama_posyandu': instance.namaPosyandu,
       'alamat': instance.alamat,
-      'dusun_id': instance.dusunId,
-      'puskemas_id': instance.puskemasId,
     };
 
 RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
