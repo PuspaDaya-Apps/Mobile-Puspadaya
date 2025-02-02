@@ -36,10 +36,17 @@ class HelperCore {
 
     return Usia(tahun: tahun, bulan: bulan);
   }
+
   static String convertformatDateToIndonesian(DateTime dateTime) {
     // Format tanggal dengan format "dd MMMM yyyy"
     // Contoh: "01 Januari 2023"
     return DateFormat('dd MMMM yyyy', 'id_ID').format(dateTime);
+  }
+
+  static String formatDateYearMonthDay(DateTime date) {
+    // Format tanggal dengan format "dd MMMM yyyy"
+    // Contoh: "01 Januari 2023"
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 }
 

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:puspadaya/app/feature/registerOrangTua/model/get_orangtua_id_response.dart';
+import 'package:puspadaya/app/feature/registerOrangTua/model/get_all_orang_tua_response.dart';
 import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../utils/logger/logger.dart';
@@ -32,13 +32,13 @@ class RegisterOrangTuaBloc
             await RegisterOrangTuaApi().getDataAyahIbu(accesTokenValue);
         int statusCode = response[0] as int;
         logger.d('statusCode ${statusCode}');
-        final GetOrangtuaIdResponse getOrangtuaIdResponse =
-            GetOrangtuaIdResponse.fromJson(response[1]);
+        final GetAllOrangTuaResponse getAllOrangTuaResponse =
+            GetAllOrangTuaResponse.fromJson(response[1]);
         if (statusCode == 200) {
           List<OrangTuaItemModel> orangTuaList =
-              getOrangtuaIdResponse.data.map((data) {
+              getAllOrangTuaResponse.data.map((data) {
             return OrangTuaItemModel(
-              kk: data.nomorKartuKeluarga,
+              kk: data.ayah.kartuKeluarga.nomorKartuKeluarga,
               initial: HelperCore.convertNameToInitial(data.ayah.namaAyah),
               ayahId: data.ayah.id,
               ibuId: data.ibu.id,

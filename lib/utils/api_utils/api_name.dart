@@ -27,7 +27,7 @@ abstract class LinkApi {
 
   //!Orang Tua
   static const ORANGTUAURL = "/register/orang-tua";
-  static const DETAILORANGTUAURL = "/register/detail-orang-tua";
+  static const DETAILORANGTUAURL = "/register/orang-tua";
 
   //!Ibu Hamil
   static const IBUHAMILURL = "/ibu-hamil";

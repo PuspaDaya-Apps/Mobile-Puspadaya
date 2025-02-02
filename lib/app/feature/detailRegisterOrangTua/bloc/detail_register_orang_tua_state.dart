@@ -15,7 +15,8 @@ final class DetailRegisterOrangTuaSuccess extends DetailRegisterOrangTuaState {
   final GetOrangtuaDetailResponse getOrangTuaDetailResponse;
   // final String name;
 
-  const DetailRegisterOrangTuaSuccess({required this.getOrangTuaDetailResponse});
+  const DetailRegisterOrangTuaSuccess(
+      {required this.getOrangTuaDetailResponse});
   @override
   List<Object> get props => [getOrangTuaDetailResponse];
 }
