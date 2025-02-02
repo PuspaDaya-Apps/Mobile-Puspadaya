@@ -27,6 +27,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
 
+  final List<String> selectProvinsi = [
+    'Jawa Timur',
+    'Maluku',
+  ];
+
   final List<String> selectKabupaten = [
     'Banyuwangi',
     'Maluku',
@@ -48,10 +53,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   ];
 
   final List<String> selectGolDarah = [
-    'A',
-    'B',
-    'AB',
-    'O',
+    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+    'Tidak Tahu',
     '-',
   ];
   final List<String> disabilities = [
@@ -335,58 +346,58 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                   ),
                 ),
                 SizedBox(height: 20),
-                Expanded(
-                  child: Form(
-                    key: formkey,
-                    child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: _tabController,
-                      children: [
-                        DataAyah(
-                          onNext: _goToNextTab,
-                          kkAyahController: kkAyahController,
-                          nikAyahController: nikAyahController,
-                          namaAyahController: namaAyahController,
-                          tempatLahirAyahController: tempatLahirAyahController,
-                          tanggalLahirAyahController:
-                              tanggalLahirAyahController,
-                          selectKabupaten: selectKabupaten,
-                          selectKecamatan: selectKecamatan,
-                          selectDesa: selectDesa,
-                          selectDusun: selectDusun,
-                          selectGolDarah: selectGolDarah,
-                          disabilities: disabilities,
-                          alamatAyahController: alamatAyahController,
-                          teleponAyahController: teleponAyahController,
-                          rTAyahController: rTAyahController,
-                          rWAyahController: rWAyahController,
-                        ),
-                        DataIbu(
-                          onSubmit: _submitForm,
-                          navigateBack: _navigateBack,
-                          kkIbuController: kkIbuController,
-                          nikIbuController: nikIbuController,
-                          namaIbuController: namaIbuController,
-                          tempatLahirIbuController: tempatLahirIbuController,
-                          tanggalLahirIbuController: tanggalLahirIbuController,
-                          alamatIbuController: alamatIbuController,
-                          teleponIbuController: teleponIbuController,
-                          rTIbuController: rTIbuController,
-                          rWIbuController: rWIbuController,
-                          tanggalKelahiranAnakSebelumnyaIbuController:
-                              tanggalKelahiranAnakSebelumnyaIbuController,
-                          jumlahAnakIbuController: jumlahAnakIbuController,
-                          selectKabupaten: selectKabupaten,
-                          selectKecamatan: selectKecamatan,
-                          selectDesa: selectDesa,
-                          selectDusun: selectDusun,
-                          selectGolDarah: selectGolDarah,
-                          disabilities: disabilities,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: Form(
+                //     key: formkey,
+                //     child: TabBarView(
+                //       physics: NeverScrollableScrollPhysics(),
+                //       controller: _tabController,
+                //       children: [
+                //         DataAyah(
+                //           onNext: _goToNextTab,
+                //           kkAyahController: kkAyahController,
+                //           nikAyahController: nikAyahController,
+                //           namaAyahController: namaAyahController,
+                //           tempatLahirAyahController: tempatLahirAyahController,
+                //           tanggalLahirAyahController:
+                //               tanggalLahirAyahController,
+                //           selectKabupaten: selectKabupaten,
+                //           selectKecamatan: selectKecamatan,
+                //           selectDesa: selectDesa,
+                //           selectDusun: selectDusun,
+                //           selectGolDarah: selectGolDarah,
+                //           disabilities: disabilities,
+                //           alamatAyahController: alamatAyahController,
+                //           teleponAyahController: teleponAyahController,
+                //           rTAyahController: rTAyahController,
+                //           rWAyahController: rWAyahController, selectProvinsi: [],
+                //         ),
+                //         DataIbu(
+                //           onSubmit: _submitForm,
+                //           navigateBack: _navigateBack,
+                //           kkIbuController: kkIbuController,
+                //           nikIbuController: nikIbuController,
+                //           namaIbuController: namaIbuController,
+                //           tempatLahirIbuController: tempatLahirIbuController,
+                //           tanggalLahirIbuController: tanggalLahirIbuController,
+                //           alamatIbuController: alamatIbuController,
+                //           teleponIbuController: teleponIbuController,
+                //           rTIbuController: rTIbuController,
+                //           rWIbuController: rWIbuController,
+                //           tanggalKelahiranAnakSebelumnyaIbuController:
+                //               tanggalKelahiranAnakSebelumnyaIbuController,
+                //           jumlahAnakIbuController: jumlahAnakIbuController,
+                //           selectKabupaten: selectKabupaten,
+                //           selectKecamatan: selectKecamatan,
+                //           selectDesa: selectDesa,
+                //           selectDusun: selectDusun,
+                //           selectGolDarah: selectGolDarah,
+                //           disabilities: disabilities, selectProvinsi: [],
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

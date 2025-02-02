@@ -81,17 +81,10 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua);
   }
 
-  Uri urlGetDetailOrangTua(String idAyah, String idIbu) {
-    String urlGetDetailOrangTua = LinkApi.DETAILORANGTUAURL;
-    Map<String, String> parameterQuery = {
-      'ibu_id': idIbu,
-      'ayah_id': idAyah,
-    };
-    return Uri.http(
-      _baseUrlQuaryParameter,
-      _apiVersion + urlGetDetailOrangTua,
-      parameterQuery,
-    );
+  Uri urlGetDetailOrangTua(String idAyah) {
+    String urlGetDetailOrangTua = LinkApi.ORANGTUAURL;
+    return Uri.http(_baseUrlQuaryParameter,
+        _apiVersion + urlGetDetailOrangTua + '/${idAyah}');
   }
 
   //!Anak
@@ -294,5 +287,37 @@ class ApiUtils {
     String urlDeleteDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
     return Uri.parse(
         "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
+  }
+
+  //   alamat
+
+  // provinsi
+  Uri urlGetProvinsi() {
+    String urlGetProvinsi = LinkApi.PROVINSIURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetProvinsi);
+  }
+
+  // kabupaten
+  Uri urlGetKabupaten() {
+    String urlGetKabupaten = LinkApi.KABUPATENURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetKabupaten);
+  }
+
+  // kecamatan
+  Uri urlGetKecamatan() {
+    String urlGetKecamatan = LinkApi.KECAMATANURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetKecamatan);
+  }
+
+  // desa kelurahan
+  Uri urlGetDesaKelurahan() {
+    String urlGetDesaKelurahan = LinkApi.DESAURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetDesaKelurahan);
+  }
+
+  // dusun
+  Uri urlGetDusun() {
+    String urlGetDusun = LinkApi.DUSUNURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetDusun);
   }
 }
