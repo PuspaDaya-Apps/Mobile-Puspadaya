@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailBebanKerja/view/model/jobitem.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
@@ -8,6 +7,8 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+
+import 'model/JobItem.dart';
 
 class DetailBebanKerja extends StatelessWidget {
   const DetailBebanKerja({super.key});
