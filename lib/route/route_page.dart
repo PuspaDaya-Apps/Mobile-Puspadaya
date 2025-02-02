@@ -57,6 +57,7 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
@@ -140,12 +141,14 @@ class MyRoute {
 
       case DETAIL_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) => const DetailPengukuranAnak(),
+            builder: (context) =>  DetailPengukuranAnak(
+              pengukuranId: settings.arguments as String,
+            ),
             settings: settings);
 
       case UPDATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) => const UpdatePengukuranAnak(),
+            builder: (context) => UpdatePengukuranAnak(paket: settings.arguments as PaketToUpdatePengukuranAnakModel),
             settings: settings);
 
       case CREATE_PENGUKURAN_IBU_HAMIL:
