@@ -10,12 +10,16 @@ class CurrentUserModel {
   @JsonKey(name: 'nomor_telepon')
   String nomorTelepon;
   String email;
+  PosyanduModel posyandu;
+  RoleModel role;
 
   CurrentUserModel({
     required this.id,
     required this.namaLengkap,
     required this.nomorTelepon,
-    required this.email
+    required this.email,
+    required this.posyandu,
+    required this.role
   });
 
    factory CurrentUserModel.fromJson(Map<String, dynamic> json) => _$CurrentUserModelFromJson(json);
@@ -69,6 +73,9 @@ CurrentUserModel _$CurrentUserModelFromJson(Map<String, dynamic> json) =>
       namaLengkap: json['nama_lengkap'] as String,
       nomorTelepon: json['nomor_telepon'] as String,
       email: json['email'] as String,
+      posyandu:
+          PosyanduModel.fromJson(json['posyandu'] as Map<String, dynamic>),
+      role: RoleModel.fromJson(json['role'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CurrentUserModelToJson(CurrentUserModel instance) =>
@@ -77,6 +84,8 @@ Map<String, dynamic> _$CurrentUserModelToJson(CurrentUserModel instance) =>
       'nama_lengkap': instance.namaLengkap,
       'nomor_telepon': instance.nomorTelepon,
       'email': instance.email,
+      'posyandu': instance.posyandu,
+      'role': instance.role,
     };
 
 PosyanduModel _$PosyanduModelFromJson(Map<String, dynamic> json) =>
