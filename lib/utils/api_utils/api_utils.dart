@@ -87,7 +87,7 @@ class ApiUtils {
       'ayah_id': idAyah,
       'ibu_id': idIbu
     };
-    return Uri.https(_baseUrlQuaryParameter,_apiVersion + urlGetDetailOrangTua, parameterQuery);
+    return Uri.http(_baseUrlQuaryParameter,_apiVersion + urlGetDetailOrangTua, parameterQuery);
   }
 
   //!Anak
