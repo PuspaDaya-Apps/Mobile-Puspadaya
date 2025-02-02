@@ -30,28 +30,49 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> appStart (AppStartEvent event, Emitter<AuthenticationState> emit) async {
-    
-    await SharedPrefUtils().getOnBoarding().then((valueOnBoarding) async{
-      if (valueOnBoarding == null) {
-        emit(AuthenticationFirstTime());
+
+    bool? onBordingValue = await SharedPrefUtils().getOnBoarding();
+
+    if(onBordingValue == null) {
+      emit(AuthenticationFirstTime());
+    } else {
+      String? refreshTokenValue = await SharedPrefUtils().getRefreshToken();
+      
+      if (refreshTokenValue == null) {
+        emit(AuthenticationFalse());
       } else {
-        await SharedPrefUtils().getRefreshToken().then((valueRefreshToken) {
-          if (valueRefreshToken != null) {
-            RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(valueRefreshToken));
-
-            debugPrint(refreshTokenModel.refreshExpiredAt.toString());
-
-            if (refreshTokenModel.refreshExpiredAt.isBefore(DateTime.now())) {
-              emit(AuthenticationFalse());
-            } else {
-              emit(AuthenticationTrue());
-            }
-          } else {
-            emit(AuthenticationFalse());
-          }          
-        });
+        RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(jsonDecode(refreshTokenValue));
+        
+        if(refreshTokenModel.refreshExpiredAt.isBefore(DateTime.timestamp())) {
+          emit(AuthenticationFalse());
+        } else {
+          emit(AuthenticationTrue());
+        }
       }
-    });
+
+    }
+    
+    // await SharedPrefUtils().getOnBoarding().then((valueOnBoarding) async{
+    //   if (valueOnBoarding == null) {
+        
+    //   } else {
+    //     await SharedPrefUtils().getRefreshToken().then((valueRefreshToken) {
+    //       if (valueRefreshToken != null) {
+    //         RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(valueRefreshToken));
+
+    //         debugPrint(refreshTokenModel.refreshExpiredAt.toString());
+
+    //         if (refreshTokenModel.refreshExpiredAt.isBefore(DateTime.now())) {
+    //           emit(AuthenticationFalse());
+    //         } else {
+    //           emit(AuthenticationTrue());
+    //         }
+    //       } else {
+    //         emit(AuthenticationFalse());
+    //       }          
+    //     });
+    //   }
+    // });
   }
 
   Future<void> getAccesToken (GetAccesTokenEvent event, Emitter<AuthenticationState> emit) async {

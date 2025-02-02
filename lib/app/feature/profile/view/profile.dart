@@ -10,6 +10,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -31,6 +32,7 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
     final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -134,15 +136,35 @@ class _ProfileViewState extends State<ProfileView> {
                           Navigator.pushNamed(context, KEBIJAKAN_PRIVASI);
                         },
                       ),
-                      BlocListener<AuthenticationBloc, AuthenticationState>(
-                        listener: (context, state) {
-                          if(state is LogoutSuccess) {
-                            Navigator.pushReplacementNamed(context, LOGIN);
-                          }
-                          if(state is LogoutFailed) {
-                            debugPrint(state.error);
-                          }
-                        },
+                      MultiBlocListener(
+                        listeners: [
+                          BlocListener<AuthorizationBloc, AuthorizationState>(
+                            listener:(context, state) {
+                              debugPrint(state.toString());
+                              if(state is AuthorizationFalse) {
+                                Navigator.pushReplacementNamed(context, LOGIN);
+                              }
+                            }, 
+                          ),
+                          BlocListener<AuthenticationBloc, AuthenticationState>(
+                            listener: (context, state) {
+                              debugPrint(state.toString());
+                              if (state is AuthenticationFalse) {
+                                debugPrint(state.toString());
+                                authorizationBloc
+                                    .add(AuthorizationFalseEvent());
+                              }
+                              if (state is LogoutSuccess) {
+                                debugPrint(state.toString());
+                                authorizationBloc
+                                    .add(AuthorizationFalseEvent());
+                              }
+                              if (state is LogoutFailed) {
+                                debugPrint(state.error);
+                              }
+                            },
+                          ),
+                        ],
                         child: CardMenuProfile(
                           icon: FluentIcons.arrow_exit_20_filled,
                           title: "Logout",
