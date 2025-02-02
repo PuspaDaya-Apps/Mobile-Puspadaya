@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:puspadaya/app/view/screen/no_data_screen.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/beban_kader_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -6,12 +9,18 @@ import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../../../view/screen/error_server_screen.dart';
+import '../bloc/index_beban_kerja_bloc.dart';
+
 class BebanKerja extends StatelessWidget {
   const BebanKerja({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const BebanKerjaView();
+    return BlocProvider(
+      create: (context) => IndexBebanKerjaBloc(),
+      child: const BebanKerjaView(),
+    );
   }
 }
 
@@ -23,31 +32,19 @@ class BebanKerjaView extends StatefulWidget {
 }
 
 class _BebanKerjaViewState extends State<BebanKerjaView> {
+  
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<IndexBebanKerjaBloc>(context).add(
+      GetBebanKerjaEvent()
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
-    List<BebanKerjaItems> bebanKerja = [
-      BebanKerjaItems(
-        onTap: () {
-          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
-        },
-        place: 'Posyandu Mawar 8',
-        date: 'September 2024',
-      ),
-      BebanKerjaItems(
-        onTap: () {
-          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
-        },
-        place: 'Posyandu Mawar 8',
-        date: 'September 2024',
-      ),
-      BebanKerjaItems(
-        onTap: () {
-          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA);
-        },
-        place: 'Posyandu Mawar 8',
-        date: 'September 2024',
-      ),
-    ];
+    final indexBebanKerja = BlocProvider.of<IndexBebanKerjaBloc>(context);
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
@@ -58,35 +55,69 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
         },
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ListView.builder(
-            itemCount: bebanKerja.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 12),
-                padding: EdgeInsets.symmetric(vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: boxShadow(),
+        child: BlocConsumer<IndexBebanKerjaBloc, IndexBebanKerjaState>(
+          listener: (context, state) {
+
+          },
+          builder: (context, state) {
+            if(state is IndexBebanKerjaProcessState) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
                 ),
-                child: bebanKerja[index],
               );
-            },
-          ),
+            }
+            if(state is IndexBebanKerjaSuccessState) {
+              if(state.indexBebanKerjaResponseModel.data!.isEmpty) {
+                return const NoDataScreen();
+              } 
+               return Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.builder(
+                  itemCount: state.indexBebanKerjaResponseModel.data!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: boxShadow(),
+                      ),
+                      child: BebanKerjaItems(
+                        onTap: () {
+                          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA, arguments: state.indexBebanKerjaResponseModel.data![index].id).then((value) {
+                            if(value != null) {
+                              indexBebanKerja.add(GetBebanKerjaEvent());
+                            }
+                          });
+                        },
+                        place: state.posyandu,
+                        date: DateFormat('MMMM-y', 'id_ID').format(state.indexBebanKerjaResponseModel.data![index].bulan),
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+            return const ErrorServerScreen();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: bluePrimary40,
-        shape: CircleBorder(),
-        child: Icon(
+        shape: const CircleBorder(),
+        child: const Icon(
           size: 38,
           Icons.add,
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATE_BEBAN_KERJA);
+          Navigator.pushNamed(context, CREATE_BEBAN_KERJA).then((value) {
+            if(value != null) {
+              indexBebanKerja.add(GetBebanKerjaEvent());
+            }
+          });
         },
       ),
     );
