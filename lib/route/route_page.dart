@@ -16,8 +16,8 @@ import 'package:puspadaya/app/feature/registerAnggotaKader/view/register_anggota
 import 'package:puspadaya/app/feature/registerOrangTua/view/register_orang_tua.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_register_orang_tua.dart';
 import 'package:puspadaya/app/view/screen/feature_maintenance.dart';
-import '../app/feature/bebanKerja/view/beban_kerja.dart';
-import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
+import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
+import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
@@ -27,7 +27,7 @@ import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_k
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
 import '../app/feature/createRegisterPengasuh/view/create_register_pengasuh.dart';
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
-import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
+import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
 import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_stunting.dart';
 import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_tidak_hadir.dart';
