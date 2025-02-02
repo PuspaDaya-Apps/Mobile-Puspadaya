@@ -16,8 +16,13 @@ class PageNotFoundScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(pageNotFoundVector,
-                scale: SizeConfig.calMultiplierImage(200)),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(250),
+              child: Image.asset(
+                pageNotFoundVector,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Halaman Tidak Dapat Ditemukan',

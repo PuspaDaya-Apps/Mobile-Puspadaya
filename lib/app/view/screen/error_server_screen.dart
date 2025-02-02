@@ -4,8 +4,8 @@ import '../../../config/screen_config/image_config.dart';
 import '../../../config/screen_config/size_config.dart';
 import '../../../config/theme/pallet_color.dart';
 
-class LostConnectionScreen extends StatelessWidget {
-  const LostConnectionScreen({super.key});
+class ErrorServerScreen extends StatelessWidget {
+  const ErrorServerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +16,16 @@ class LostConnectionScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(lostConnectionVector,
-                scale: SizeConfig.calMultiplierImage(200)),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(250),
+              child: Image.asset(
+                lostConnectionVector,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
-              'Koneksi Terputus',
+              'Ada Kesalahan Saat Mengambil Data',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: textPrimary20,
