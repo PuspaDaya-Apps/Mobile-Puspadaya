@@ -184,7 +184,7 @@ class MyRoute {
 
       case DETAIL_BEBAN_KERJA:
         return MaterialPageRoute(
-            builder: (context) => const DetailBebanKerja(), settings: settings);
+            builder: (context) => DetailBebanKerja(bebanKerjaId: settings.arguments as String), settings: settings);
 
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(

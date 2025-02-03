@@ -57,7 +57,7 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
       body: SafeArea(
         child: BlocConsumer<IndexBebanKerjaBloc, IndexBebanKerjaState>(
           listener: (context, state) {
-
+            debugPrint(state.toString());
           },
           builder: (context, state) {
             if(state is IndexBebanKerjaProcessState) {
@@ -92,8 +92,8 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
                             }
                           });
                         },
-                        place: state.posyandu,
-                        date: DateFormat('MMMM-y', 'id_ID').format(state.indexBebanKerjaResponseModel.data![index].bulan),
+                        place: "Posyandu ${state.posyandu}",
+                        date: DateFormat('MMMM y', 'id_ID').format(state.indexBebanKerjaResponseModel.data![index].bulan),
                       ),
                     );
                   },

@@ -10,6 +10,7 @@ class IndexBebanKerjaApi {
 
     return await NetworkUtils().get(link, header).then((response) {
       debugPrint(response.toString());
+      debugPrint('test case');
       return response;
     });
   }
