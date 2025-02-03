@@ -13,15 +13,6 @@ class GetDetailAnakByIdResponse {
     required this.data,
   });
 
-  GetDetailAnakByIdResponse copyWith({
-    String? message,
-    Data? data,
-  }) =>
-      GetDetailAnakByIdResponse(
-        message: message ?? this.message,
-        data: data ?? this.data,
-      );
-
   factory GetDetailAnakByIdResponse.fromJson(Map<String, dynamic> json) =>
       _$GetDetailAnakByIdResponseFromJson(json);
 
@@ -140,10 +131,10 @@ class KartuKeluarga {
   final String id;
 
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final String createdAt;
 
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final String updatedAt;
 
   @JsonKey(name: "deleted_at")
   final dynamic deletedAt;
@@ -233,7 +224,7 @@ class Ibu {
   final KartuKeluarga kartuKeluarga;
 
   @JsonKey(name: "jenis_disabilitas")
-  final List<JenisDisabilitas>? jenisDisabilitas;
+  final List<dynamic>? jenisDisabilitas;
 
   Ibu({
     required this.id,
@@ -314,7 +305,7 @@ class Ayah {
   final KartuKeluargaOrangTua kartuKeluarga;
 
   @JsonKey(name: "jenis_disabilitas")
-  final List<JenisDisabilitas>? jenisDisabilitas;
+  final List<dynamic>? jenisDisabilitas;
 
   Ayah({
     required this.id,
@@ -452,7 +443,6 @@ class DisabilitasAnak {
 }
 
 // posyandu
-@JsonSerializable()
 @JsonSerializable()
 class Posyandu {
   @JsonKey(name: "id")

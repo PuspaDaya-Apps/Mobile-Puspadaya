@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:puspadaya/app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -33,16 +34,15 @@ class DetailRegisterAnakBloc
       );
       int statusCodeDetail = responseDetail[0] as int;
       logger.d(statusCodeDetail);
-      // logger.d('response code detail ${responseDetail[1]}');
+      print('response code detail ${responseDetail[1].toString()}');
       // logger.d('response code detail ${getOrangtuaDetailResponse}');
       if (statusCodeDetail == 200) {
-        final GetDetailAnakByIdResponse getOrangtuaDetailResponse =
-            GetDetailAnakByIdResponse.fromJson(responseDetail[1]);
-        logger.d(
-            'status code Detail is 200 ${getOrangtuaDetailResponse.data.namaAnak}');
+        final GetDetailAnakResponse getDetailAnakResponse =
+            GetDetailAnakResponse.fromJson(responseDetail[1]);
+        logger.d('status code Detail is 200 ${getDetailAnakResponse.data}');
         emit(
           DetailRegisterAnakSuccess(
-              getDetailRegisterAnakState: getOrangtuaDetailResponse),
+              getDetailRegisterAnak: getDetailAnakResponse),
         );
       }
     } catch (e) {

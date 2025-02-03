@@ -98,16 +98,33 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                   ),
                 ),
                 SizedBox(height: 20),
-                Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _tabController,
-                    children: [
-                      DetailDataAnak(),
-                      DetailDataKIA(),
-                    ],
-                  ),
-                ),
+                BlocBuilder<DetailRegisterAnakBloc, DetailRegisterAnakState>(
+                    builder: (context, state) {
+                  if (state is DetailRegisterAnakLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is DetailRegisterAnakFailure) {
+                    return Center(
+                      child: Text(state.error),
+                    );
+                  } else if (state is DetailRegisterAnakSuccess) {
+                    return Expanded(
+                      child: TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: [
+                          DetailDataAnak(
+                            detailResponse: state.getDetailRegisterAnak,
+                          ),
+                          DetailDataKIA(),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
               ],
             ),
           ),
