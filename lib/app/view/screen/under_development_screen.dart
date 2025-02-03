@@ -16,8 +16,13 @@ class PageNotFoundScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(pageUnderDevelopmentVector,
-                scale: SizeConfig.calMultiplierImage(200)),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(250),
+              child: Image.asset(
+                pageUnderDevelopmentVector,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Segera Datang',

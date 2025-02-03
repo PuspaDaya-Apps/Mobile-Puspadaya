@@ -35,6 +35,8 @@ class PengukuranAnakModel {
   String asiEksklusif;
   String mpasi;
   @JsonKey(name : 'anak_id')
+  String catatan;
+  String keluhan;
   String anakId;
 
   PengukuranAnakModel({
@@ -51,6 +53,8 @@ class PengukuranAnakModel {
     required this.alatLingkarKepalaId,
     required this.asiEksklusif,
     required this.mpasi,
+    required this.keluhan,
+    required this.catatan,
     required this.anakId,
   });
 
@@ -74,6 +78,8 @@ PengukuranAnakModel _$PengukuranAnakModelFromJson(Map<String, dynamic> json) =>
       alatLingkarKepalaId: json['alat_lingkar_kepala_id'] as String,
       asiEksklusif: json['asi_eksklusif'] as String,
       mpasi: json['mpasi'] as String,
+      keluhan: json['keluhan'] as String,
+      catatan: json['catatan'] as String,
       anakId: json['anak_id'] as String,
     );
 
@@ -93,5 +99,7 @@ Map<String, dynamic> _$PengukuranAnakModelToJson(
       'alat_lingkar_kepala_id': instance.alatLingkarKepalaId,
       'asi_eksklusif': instance.asiEksklusif,
       'mpasi': instance.mpasi,
+      'catatan': instance.catatan,
+      'keluhan': instance.keluhan,
       'anak_id': instance.anakId,
     };

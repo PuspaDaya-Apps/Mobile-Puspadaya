@@ -213,6 +213,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                     top: SizeConfig.calHeightMultiplier(20)),
                                 child: BlocConsumer<LoginBloc, LoginState>(
                                   listener: (context, state) {
+                                    debugPrint(state.toString());
                                     //login
                                     if (state is LoginFailedState) {
                                       debugPrint(state.error);

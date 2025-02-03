@@ -354,7 +354,7 @@ class UpdateRegisterIbuHamilViewState
                               title: 'Tinggi Badan',
                               hintText: 'contoh: 13,5',
                               unit: 'cm',
-                              tool: 'Microtoise',
+                              // tool: 'Microtoise',
                               controller: _heightController,
                             ),
                             SizedBox(
@@ -364,7 +364,7 @@ class UpdateRegisterIbuHamilViewState
                               title: 'Lingkar Lengan Atas',
                               hintText: 'contoh: 3,5',
                               unit: 'cm',
-                              tool: 'Pita Lila',
+                              // tool: 'Pita Lila',
                               controller: _upperArmCircumferenceController,
                             ),
                           ],
@@ -379,7 +379,7 @@ class UpdateRegisterIbuHamilViewState
                               title: 'Berat Badan',
                               hintText: 'contoh: 6,5',
                               unit: 'kg',
-                              tool: 'Timbangan Digital',
+                              // tool: 'Timbangan Digital',
                               controller: _weightController,
                             ),
                             SizedBox(
@@ -389,7 +389,7 @@ class UpdateRegisterIbuHamilViewState
                               title: 'Lingkar Kepala',
                               hintText: 'contoh: 6,5',
                               unit: 'cm',
-                              tool: 'Alat Ukur Lingkar Kepala',
+                              // tool: 'Alat Ukur Lingkar Kepala',
                               controller: _headCircumferenceController,
                             ),
                             // radio button
