@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -6,12 +7,14 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../model/get_orangtua_detail_response.dart';
 
 class DetailDataIbu extends StatelessWidget {
+  final GetOrangtuaDetailResponse getOrangtuaDetailResponse;
   final List<String> disabilitas = [
     'Tunanetra',
   ];
-  DetailDataIbu({super.key});
+  DetailDataIbu({super.key, required this.getOrangtuaDetailResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI KK'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.kartuKeluarga.nomorKartuKeluarga}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -43,7 +46,7 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI NIK'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.nik}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -56,7 +59,7 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI NAMA AYAH'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.namaIbu}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -79,7 +82,7 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TEMPAT LAHIR'),
+                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.tempatLahir}'),
                     ],
                   ),
                 ),
@@ -97,7 +100,7 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TANGGAL LAHIR'),
+                      InfoFieldWidget(text: '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ibu.tanggalLahir)}'),
                     ],
                   ),
                 ),
@@ -121,10 +124,10 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: 'Banyuwangi'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupatenKota.provinsi.namaProvinsi}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: 'Kabat'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota}'),
                 ),
               ],
             ),
@@ -137,13 +140,17 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: 'Kabat'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: 'Bunder'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.namaDesaKelurahan}'),
                 ),
               ],
             ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.namaDusun}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
@@ -153,17 +160,17 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '2'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.rt}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '14'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.rw}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Alamat Lengkap'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.alamat}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -176,11 +183,13 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '018123141232'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.nomorTelepon}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 8,
               children: [
                 Expanded(
                   child: Column(
@@ -196,7 +205,7 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'Implant'),
+                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.jenisKB}'),
                     ],
                   ),
                 ),
@@ -214,11 +223,14 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'A'),
+                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.golDarah}'),
                     ],
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
             ),
             const Text(
               'Tanggal kelahiran anak sebelumnya',
@@ -229,7 +241,7 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '21 Agustus 2023'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -243,45 +255,43 @@ class DetailDataIbu extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-              text: '2',
+              text: '${getOrangtuaDetailResponse.data.ibu.jumlahAnak}',
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
-            disabilitas != null && disabilitas.isNotEmpty
+            getOrangtuaDetailResponse.data.ibu.jenisDisabilitas != null &&
+                getOrangtuaDetailResponse.data.ibu.jenisDisabilitas!.isNotEmpty
                 ? ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    childrenPadding: EdgeInsets.zero,
-                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                    title: Text(
-                      'Disabilitas',
-                      style: AppTextStyles.primaryTextMedium.copyWith(
-                        fontSize: 14,
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: EdgeInsets.zero,
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              title: Text(
+                'Disabilitas',
+                style: AppTextStyles.primaryTextMedium.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              children: [
+                ...getOrangtuaDetailResponse.data.ibu.jenisDisabilitas!.map(
+                      (e) {
+                    return Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 4, bottom: 4),
+                        child: Text(
+                          e.namaDisabilitas, // Mengakses nama disabilitas
+                          style: AppTextStyles.primaryTextMedium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
-                    children: [
-                      ...disabilitas.map(
-                        (e) {
-                          return Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 4, bottom: 4),
-                              child: Text(
-                                e,
-                                style: AppTextStyles.primaryTextMedium.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
+                    );
+                  },
+                ).toList(), // Pastikan untuk mengonversi ke list
+              ],
+            )
                 : SizedBox.shrink(),
-            SizedBox(
-              height: SizeConfig.calHeightMultiplier(16),
-            ),
             ButtonPrimary(
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',

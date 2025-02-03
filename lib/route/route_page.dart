@@ -129,11 +129,13 @@ class MyRoute {
       // PENGUKURAN
       case CREATE_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKehadiranScreen(), settings: settings);
+            builder: (context) => const CreateKehadiranScreen(),
+            settings: settings);
 
       case DETAIL_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const DetailKehadiranScreen(), settings: settings);
+            builder: (context) => const DetailKehadiranScreen(),
+            settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
@@ -281,8 +283,14 @@ class MyRoute {
           settings: settings,
         );
       case DETAIL_REGISTER_ORANG_TUA:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final ayahId = args['ayahId'] ?? '';
+        final ibuId = args['ibuId'] ?? '';
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterOrangTua(),
+          builder: (context) => DetailRegisterOrangTua(
+            ibuId: ibuId,
+            ayahId: ayahId,
+          ),
           settings: settings,
         );
 
@@ -304,8 +312,11 @@ class MyRoute {
           settings: settings,
         );
       case DETAIL_REGISTER_ANAK:
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterAnak(),
+          builder: (context) => DetailRegisterAnak(
+            id: id,
+          ),
           settings: settings,
         );
 

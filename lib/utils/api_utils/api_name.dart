@@ -13,9 +13,9 @@ abstract class LinkApi {
   static const DUSUNURL = "/dusun";
 
   //!Auth
-  static const LOGINURL  = "/auth/login";
-  static const REFRESHTOKENURL  = "/auth/refresh-token";
-  static const LOGOUTURL  = "/auth/logout";
+  static const LOGINURL = "/auth/login";
+  static const REFRESHTOKENURL = "/auth/refresh-token";
+  static const LOGOUTURL = "/auth/logout";
   static const FORGOTPASSWORDURL = "/auth/forgot-password";
   static const RESETPASSWORDURL = "/auth/reset-password";
   static const VERIFYOTPURL = "/auth/verify-otp";
@@ -23,25 +23,25 @@ abstract class LinkApi {
 
   //!Users
   static const CURRENTUSRURL = "/users/current";
-  static const USERURL  = "/users";
-  
+  static const USERURL = "/users";
+
   //!Orang Tua
-  static const ORANGTUAURL  = "/register/orang-tua";
-  static const DETAILORANGTUAURL  = "/register/detail-orang-tua";
+  static const ORANGTUAURL = "/register/orang-tua";
+  static const DETAILORANGTUAURL = "/register/detail-orang-tua";
 
   //!Ibu Hamil
-  static const IBUHAMILURL  = "/ibu-hamil";
+  static const IBUHAMILURL = "/ibu-hamil";
 
   //!Anak
-  static const ANAKURL  = "/anak";
+  static const ANAKURL = "/anak";
   static const ANAKPOSYANDUURL = "/anak-posyandu";
 
   //!Pengasuh
-  static const PENGASUHURL  = "/pengasuh";
-  static const PENGASUHPOSYANDUURL  = "/pengasuh-posyandu";
+  static const PENGASUHURL = "/pengasuh";
+  static const PENGASUHPOSYANDUURL = "/pengasuh-posyandu";
 
   //!AlatUkurKader
-  static const ALATUKURKADERURL  = "/alat-ukur-kader";
+  static const ALATUKURKADERURL = "/alat-ukur-kader";
 
   //!Jadwal Posyandu
   static const JADWALPOSYANDU = "/jadwal-posyandu";

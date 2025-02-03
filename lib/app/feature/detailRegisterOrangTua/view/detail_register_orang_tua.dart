@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/view/detail_data_ayah.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/view/detail_data_ibu.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/appbar_widget.dart';
+import '../bloc/detail_register_orang_tua_bloc.dart';
 
 class DetailRegisterOrangTua extends StatelessWidget {
-  const DetailRegisterOrangTua({super.key});
+  final String ayahId;
+  final String ibuId;
+
+  const DetailRegisterOrangTua({
+    super.key,
+    required this.ibuId,
+    required this.ayahId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const DetailRegisterOrangTuaView();
+    return BlocProvider(
+      create: (context) => DetailRegisterOrangTuaBloc(),
+      child: DetailRegisterOrangTuaView(
+          ayahId: ayahId, ibuId: ibuId), // Kirim ke View
+    );
   }
 }
 
 class DetailRegisterOrangTuaView extends StatefulWidget {
-  const DetailRegisterOrangTuaView({super.key});
+  final String ayahId;
+  final String ibuId;
+  const DetailRegisterOrangTuaView(
+      {super.key, required this.ayahId, required this.ibuId});
 
   @override
   State<DetailRegisterOrangTuaView> createState() =>
@@ -28,6 +45,13 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
   @override
   void initState() {
     super.initState();
+    logger.d('trigger fetch');
+    logger.d('id ayah ${widget.ayahId}');
+    logger.d('id ibu ${widget.ibuId}');
+    context.read<DetailRegisterOrangTuaBloc>().add(
+          FeathingDetailRegisterOrangTua(
+              ayahId: widget.ayahId, ibuId: widget.ibuId),
+        );
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -39,7 +63,7 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: 'Tambah Data Orang Tua',
+        title: 'Detail Orang Tua',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -85,15 +109,30 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
                 ),
                 SizedBox(height: 20),
                 Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _tabController,
-                    children: [
-                      DetailDataAyah(),
-                      DetailDataIbu(),
-                    ],
+                  child: BlocBuilder<DetailRegisterOrangTuaBloc,
+                      DetailRegisterOrangTuaState>(
+                    builder: (context, state) {
+                      if (state is DetailRegisterOrangTuaLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (state is DetailRegisterOrangTuaSuccess) {
+                        return TabBarView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: _tabController,
+                          children: [
+                            DetailDataAyah(getOrangtuaDetailResponse: state.getOrangTuaDetailResponse),
+                            DetailDataIbu(
+                                getOrangtuaDetailResponse: state.getOrangTuaDetailResponse
+                                    ),
+                          ],
+                        );
+                      } else if (state is DetailRegisterOrangTuaFailure) {
+                        return Center(child: Text('Error: ${state.error}'),);
+                      }
+                      return Center(child: Text('No data available'));
+                    },
                   ),
-                ),
+                )
               ],
             ),
           ),
