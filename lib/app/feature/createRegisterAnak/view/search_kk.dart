@@ -1,29 +1,32 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_orangtua_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
+import '../../registerOrangTua/bloc/register_orang_tua_bloc.dart';
 import '../../registerOrangTua/model/orang_tua_item_model.dart';
 
-class SearchKartuKeluarga extends StatelessWidget {
+class SearchKartuKeluarga extends StatefulWidget {
+  SearchKartuKeluarga({super.key});
+
+  @override
+  State<SearchKartuKeluarga> createState() => _SearchKartuKeluargaState();
+}
+
+class _SearchKartuKeluargaState extends State<SearchKartuKeluarga> {
   TextEditingController _searchController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
+  }
 
   // List<OrangTuaItemModel> listOrangTua = [
-  //   OrangTuaItemModel(
-  //       husband: 'Heri Dharmawan',
-  //       wife: 'Tari Saputri',
-  //       initial: 'HD',
-  //       kk: '62080635261527',
-  //       id: '1'),
-  //   OrangTuaItemModel(
-  //       husband: 'Hermawan',
-  //       wife: 'Nensiana Puji Astuti',
-  //       initial: 'HM',
-  //       kk: '62080723287167',
-  //       id: '2'),
-  // ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,26 +80,44 @@ class SearchKartuKeluarga extends StatelessWidget {
               SizedBox(
                 height: 12,
               ),
-              // Expanded(
-              //   child: ListView.builder(
-              //     itemCount: listOrangTua.length,
-              //     itemBuilder: (context, index) {
-              //       OrangTuaItemModel orangTua = listOrangTua[index];
-              //       return Padding(
-              //         padding: const EdgeInsets.only(bottom: 10),
-              //         child: CardOrangtuaWidget(
-              //           onTap: () {
-              //             Navigator.pop(context, orangTua);
-              //           },
-              //           kk: orangTua.kk,
-              //           namaAyah: orangTua.husband,
-              //           namaIbu: orangTua.wife,
-              //           profile: orangTua.initial,
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // )
+              BlocBuilder<RegisterOrangTuaBloc, RegisterOrangTuaState>(
+                builder: (context, state) {
+                  logger.d(state);
+                  if (state is RegisterOrangTuaLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is RegisterOrangTuaFailure) {
+                    return Center(
+                      child: Text(state.error),
+                    );
+                  } else if (state is RegisterOrangTuaSuccess) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.orangTuaList.length,
+                        itemBuilder: (context, index) {
+                          OrangTuaItemModel orangTua =
+                              state.orangTuaList[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardOrangtuaWidget(
+                              onTap: () {
+                                Navigator.pop(context, orangTua);
+                              },
+                              kk: orangTua.kk,
+                              namaAyah: orangTua.husband,
+                              namaIbu: orangTua.wife,
+                              profile: orangTua.initial,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              )
             ],
           ),
         ),
