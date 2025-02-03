@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_catatan.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_data.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
+import '../bloc/hapusPengukuranAnakBloc/hapus_pengukuran_anak_bloc.dart';
+import '../bloc/detailPengukuranAnakBloc/detail_pengukuran_anak_bloc.dart';
+
 class DetailPengukuranAnak extends StatelessWidget {
-  const DetailPengukuranAnak({super.key});
+  const DetailPengukuranAnak({super.key, required this.pengukuranId});
+  final String pengukuranId;
 
   @override
   Widget build(BuildContext context) {
-    return const DetailPengukuranAnakView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailPengukuranAnakBloc(),
+        ),
+        BlocProvider(
+          create: (context) => HapusPengukuranAnakBloc(),
+        ),
+      ],
+      child: DetailPengukuranAnakView(pengukuranId: pengukuranId),
+    );
   }
 }
 
 class DetailPengukuranAnakView extends StatefulWidget {
-  const DetailPengukuranAnakView({super.key});
+  const DetailPengukuranAnakView({super.key, required this.pengukuranId});
+  final String pengukuranId;
 
   @override
   State<DetailPengukuranAnakView> createState() =>
@@ -28,6 +46,8 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<DetailPengukuranAnakBloc>(context)
+        .add(GetDetailPengukuranAnak(widget.pengukuranId));
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -52,67 +72,106 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height / 1.2,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(4),
+          child:
+              BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
+            listener: (context, state) {
+              debugPrint(state.toString());
+              if(state is DetailPengukuranAnakFailedState) {
+                debugPrint(state.error);
+              }
+              if(state is DetailPengukuanAnakTokenExpiredState) {
+                BlocProvider.of<AuthenticationBloc>(context).add(GetAccesTokenEvent());
+              }
+            },
+            builder: (context, state) {
+              if (state is DetailPengukuranAnakProcessState) {
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                    color: bluePrimaryMain,
+                  )),
+                );
+              }
+              if (state is DetailPengukuranAnakSuccesState) {
+                return Container(
+                  margin: const EdgeInsets.only(
+                      left: 20, right: 20, top: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height / 1.2,
                   decoration: BoxDecoration(
-                    color: backgroundWhite20,
-                    borderRadius: BorderRadius.circular(7),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: TabBar(
-                    isScrollable: false,
-                    padding: EdgeInsets.zero,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorAnimation: TabIndicatorAnimation.elastic,
-                    dividerHeight: 0,
-                    controller: _tabController,
-                    indicator: BoxDecoration(
-                      color: bluePrimaryMain,
-                      borderRadius: BorderRadius.circular(5),
-                    ), //
-                    unselectedLabelColor: textSecoundary,
-                    labelColor: Colors.white,
-
-                    onTap: (value) {
-                      setState(() {
-                        _tabController.animateTo(value);
-                      });
-                    },
-                    tabs: [
-                      Tab(
-                        text: 'Data',
-                      ),
-                      Tab(
-                        text: 'Catatan',
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
+                  child: Column(
                     children: [
-                      DetailData(),
-                      DetailCatatan(),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: backgroundWhite20,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: TabBar(
+                          isScrollable: false,
+                          padding: EdgeInsets.zero,
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          indicatorAnimation: TabIndicatorAnimation.elastic,
+                          dividerHeight: 0,
+                          controller: _tabController,
+                          indicator: BoxDecoration(
+                            color: bluePrimaryMain,
+                            borderRadius: BorderRadius.circular(5),
+                          ), //
+                          unselectedLabelColor: textSecoundary,
+                          labelColor: Colors.white,
+
+                          onTap: (value) {
+                            setState(() {
+                              _tabController.animateTo(value);
+                            });
+                          },
+                          tabs: const [
+                            Tab(
+                              text: 'Data',
+                            ),
+                            Tab(
+                              text: 'Catatan',
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: [
+                            DetailData(
+                                pengukuranId: widget.pengukuranId,
+                                detailPengukuranAnakResponseModel:
+                                    state.detailPengukuranAnakResponseModel),
+                            DetailCatatan(
+                              catatan: state.detailPengukuranAnakResponseModel.data!.catatan,
+                              keluhan: state.detailPengukuranAnakResponseModel.data!.keluhan
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
+                );
+              }
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: const ErrorServerScreen()
+              );
+            },
           ),
         ),
       ),

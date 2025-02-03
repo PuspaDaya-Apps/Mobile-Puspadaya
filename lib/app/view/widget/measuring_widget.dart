@@ -7,7 +7,7 @@ class MeasurementWidget extends StatelessWidget {
   final String title;
   final String hintText;
   final String unit;
-  final String? tool;
+  // final String? tool;
   final TextEditingController controller;
 
   const MeasurementWidget({
@@ -15,7 +15,7 @@ class MeasurementWidget extends StatelessWidget {
     required this.title,
     required this.hintText,
     required this.unit,
-    this.tool,
+    // this.tool,
     required this.controller,
   }) : super(key: key);
 
@@ -27,7 +27,7 @@ class MeasurementWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
           ),
         ),
@@ -41,13 +41,13 @@ class MeasurementWidget extends StatelessWidget {
               child: TextFieldWidget(
                 controller: controller,
                 hintText: hintText,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 obscureText: false,
                 isPasswordField: false,
                 validators: [],
               ),
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 6),
             Text(
               unit,
               style: AppTextStyles.primaryTextNormal.copyWith(
@@ -59,14 +59,14 @@ class MeasurementWidget extends StatelessWidget {
         SizedBox(
           height: SizeConfig.calHeightMultiplier(4),
         ),
-        tool != null
-            ? Text(
-                'Alat : $tool',
-                style: AppTextStyles.primaryTextNormal.copyWith(
-                  fontSize: 10,
-                ),
-              )
-            : SizedBox.shrink(),
+        // tool != null
+        //     ? Text(
+        //         'Alat : $tool',
+        //         style: AppTextStyles.primaryTextNormal.copyWith(
+        //           fontSize: 10,
+        //         ),
+        //       )
+        //     : const SizedBox.shrink(),
       ],
     );
   }

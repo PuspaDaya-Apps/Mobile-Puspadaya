@@ -84,14 +84,10 @@ class ApiUtils {
   Uri urlGetDetailOrangTua(String idAyah, String idIbu) {
     String urlGetDetailOrangTua = LinkApi.DETAILORANGTUAURL;
     Map<String, String> parameterQuery = {
-      'ibu_id': idIbu,
       'ayah_id': idAyah,
+      'ibu_id': idIbu
     };
-    return Uri.http(
-      _baseUrlQuaryParameter,
-      _apiVersion + urlGetDetailOrangTua,
-      parameterQuery,
-    );
+    return Uri.http(_baseUrlQuaryParameter,_apiVersion + urlGetDetailOrangTua, parameterQuery);
   }
 
   //!Anak
@@ -295,4 +291,31 @@ class ApiUtils {
     return Uri.parse(
         "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
   }
+
+  //!Pengukuran Ibu Hamil
+  Uri urlGetBebanKerjaItem() {
+    String urlGetBebanKerjaKader = LinkApi.TUGASKADERURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetBebanKerjaKader);
+  }
+
+  Uri urlGetListBebanKerja() {
+    String urlGetListBebanKerja = LinkApi.PENILAIANMANDIRIURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetListBebanKerja);
+  }
+
+  Uri urlPostDataBebanKerja() {
+    String urlPostDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlPostDataBebanKerja);
+  }
+
+  Uri urlGetDetailBebanKerja(String id) {
+    String urlGetDetailBebanKerja = LinkApi.PENILAIANMANDIRIURL;
+    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailBebanKerja/$id");
+  }
+
+  Uri urlDeleteDataBebanKerja(String id) {
+    String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
+    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
+  }
 }
+
