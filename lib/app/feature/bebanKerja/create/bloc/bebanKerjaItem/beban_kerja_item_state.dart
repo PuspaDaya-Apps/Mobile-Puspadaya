@@ -12,10 +12,11 @@ final class BebanKerjaItemInitial extends BebanKerjaItemState {}
 
 final class BebanKerjaItemProcessState extends BebanKerjaItemState {}
 
+// ignore: must_be_immutable
 final class BebanKerjaItemSuccessState extends BebanKerjaItemState {
-  final GetBebanKerjaItemResponseModel getBebanKerjaItemResponseModel;
+  List<Jobitems> item;
 
-  const BebanKerjaItemSuccessState(this.getBebanKerjaItemResponseModel);
+  BebanKerjaItemSuccessState(this.item);
 }
 
 final class BebanKerjaItemFailedState extends BebanKerjaItemState {

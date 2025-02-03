@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 // @JsonSerializable()
 class CreateBebanKerjaModel {
-  DateTime bulan;
+  String bulan;
   @JsonKey(name: 'tugas_dikerjakan')
   List<String> tugasDikerjakan;
 
@@ -21,7 +21,7 @@ class CreateBebanKerjaModel {
 CreateBebanKerjaModel _$CreateBebanKerjaModelFromJson(
         Map<String, dynamic> json) =>
     CreateBebanKerjaModel(
-      bulan: DateTime.parse(json['bulan'] as String),
+      bulan: json['bulan'] as String,
       tugasDikerjakan: (json['tugas_dikerjakan'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
@@ -30,6 +30,6 @@ CreateBebanKerjaModel _$CreateBebanKerjaModelFromJson(
 Map<String, dynamic> _$CreateBebanKerjaModelToJson(
         CreateBebanKerjaModel instance) =>
     <String, dynamic>{
-      'bulan': instance.bulan.toIso8601String(),
+      'bulan': instance.bulan,
       'tugas_dikerjakan': instance.tugasDikerjakan,
     };
