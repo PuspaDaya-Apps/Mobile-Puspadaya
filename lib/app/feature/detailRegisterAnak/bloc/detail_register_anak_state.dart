@@ -12,12 +12,12 @@ final class DetailRegisterAnakInitial extends DetailRegisterAnakState {}
 final class DetailRegisterAnakLoading extends DetailRegisterAnakState {}
 
 final class DetailRegisterAnakSuccess extends DetailRegisterAnakState {
-  final GetDetailAnakByIdResponse getDetailRegisterAnakState;
+  final GetDetailAnakResponse getDetailRegisterAnak;
   // final String name;
 
-  const DetailRegisterAnakSuccess({required this.getDetailRegisterAnakState});
+  const DetailRegisterAnakSuccess({required this.getDetailRegisterAnak});
   @override
-  List<Object> get props => [getDetailRegisterAnakState];
+  List<Object> get props => [getDetailRegisterAnak];
 }
 
 final class DetailRegisterAnakFailure extends DetailRegisterAnakState {

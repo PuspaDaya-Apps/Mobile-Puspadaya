@@ -80,19 +80,19 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
 KartuKeluarga _$KartuKeluargaFromJson(Map<String, dynamic> json) =>
     KartuKeluarga(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: json['created_at'] as String,
+      updatedAt: json['updated_at'] as String,
       deletedAt: json['deleted_at'],
       nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
-      ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
-      ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
+      ibu: Ibu.fromJson(json['ibu'] as dynamic),
+      ayah: Ayah.fromJson(json['ayah'] as dynamic),
     );
 
 Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
       'deleted_at': instance.deletedAt,
       'nomor_kartu_keluarga': instance.nomorKartuKeluarga,
       'ibu': instance.ibu,
@@ -121,9 +121,7 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
-      jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>?)
-          ?.map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      jenisDisabilitas: json['jenis_disabilitas'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
@@ -167,9 +165,7 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       kartuKeluarga: KartuKeluargaOrangTua.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
-      jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>?)
-          ?.map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      jenisDisabilitas: json['jenis_disabilitas'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
