@@ -33,10 +33,10 @@ class _DetailRegisterIbuHamilViewState
   bool _isExpanded = false;
 
   // Sample data for display
-  final String nama = "Nama Ibu Hamil";
+  final String nama = "Mentari Kumala Sari";
   final String usia = "28";
   final String nik = "213124123412";
-  final String namaSuami = "Nama Suami";
+  final String namaSuami = "Joko";
   final String tinggiBadan = "150 cm";
   final String beratBadan = "60 kg";
   final String lingkarKepala = "35 cm";
@@ -140,10 +140,10 @@ class _DetailRegisterIbuHamilViewState
                           spacing: 8,
                           children: [
                             Expanded(
-                              child: InfoFieldWidget(text: 'Banyuwangi'),
+                              child: InfoFieldWidget(text: 'Jawa Timur'),
                             ),
                             Expanded(
-                              child: InfoFieldWidget(text: 'Kabat'),
+                              child: InfoFieldWidget(text: 'Banyuwangi'),
                             ),
                           ],
                         ),
@@ -159,10 +159,14 @@ class _DetailRegisterIbuHamilViewState
                               child: InfoFieldWidget(text: 'Kabat'),
                             ),
                             Expanded(
-                              child: InfoFieldWidget(text: 'Bunder'),
+                              child: InfoFieldWidget(text: 'Kabat'),
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(8),
+                        ),
+                        InfoFieldWidget(text: 'Bunder'),
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
