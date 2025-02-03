@@ -27,14 +27,14 @@ class Data {
   @JsonKey(name: 'nama_tugas')
   String namaTugas;
   int bobot;
-  @JsonKey(name: 'tambah_tugas')
-  String tambahTugas;
+  @JsonKey(name: 'tipe_tugas')
+  String tipeTugas;
 
   Data({
     required this.id,
     required this.namaTugas,
     required this.bobot,
-    required this.tambahTugas
+    required this.tipeTugas
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -87,14 +87,14 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
       namaTugas: json['nama_tugas'] as String,
       bobot: (json['bobot'] as num).toInt(),
-      tambahTugas: json['tambah_tugas'] as String,
+      tipeTugas: json['tipe_tugas'] as String,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
       'nama_tugas': instance.namaTugas,
       'bobot': instance.bobot,
-      'tambah_tugas': instance.tambahTugas,
+      'tipe_tugas': instance.tipeTugas,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(

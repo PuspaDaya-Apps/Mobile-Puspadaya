@@ -8,9 +8,8 @@ sealed class CreateBebanKerjaEvent extends Equatable {
 }
 
 final class SendBebanKerjaEvent extends CreateBebanKerjaEvent {
-  final CreateBebanKerjaModel createBebanKerjaModel;
-
-  const SendBebanKerjaEvent (this.createBebanKerjaModel);
+  final List<Jobitems> item;
+  const SendBebanKerjaEvent (this.item);
 }
 
 final class NullErrorEvent extends CreateBebanKerjaEvent {}
