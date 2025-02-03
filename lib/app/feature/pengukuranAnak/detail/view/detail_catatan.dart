@@ -3,7 +3,13 @@ import 'package:puspadaya/app/view/widget/auto_size_text_info_field_widget.dart'
 import 'package:puspadaya/config/screen_config/size_config.dart';
 
 class DetailCatatan extends StatefulWidget {
-  const DetailCatatan({super.key});
+  const DetailCatatan({
+    super.key,
+    required this.catatan,
+    required this.keluhan
+  });
+  final String catatan;
+  final String keluhan;
 
   @override
   State<DetailCatatan> createState() => _DetailCatatanState();
@@ -28,8 +34,7 @@ class _DetailCatatanState extends State<DetailCatatan> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             AutoSizeTextInfoFieldWidget(
-              text:
-                  'Lorem ipsum odor amet, consectetuer adipiscing elit. Consectetur senectus litora praesent egestas curabitur felis pellentesque, ante dignissim? Placerat facilisis semper lectus diam in. Porttitor diam potenti lobortis consequat vitae natoque facilisi nostra. Egestas lacus ultrices tortor nascetur habitasse, rutrum pharetra in. Porta commodo taciti ipsum, penatibus viverra ridiculus natoque? Mi mus magna risus himenaeos sem. Dui scelerisque scelerisque viverra pretium mollis; mollis lobortis accumsan. Convallis lacinia porta parturient natoque pellentesque aliquet torquent non.',
+              text: widget.catatan
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
@@ -44,8 +49,7 @@ class _DetailCatatanState extends State<DetailCatatan> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             AutoSizeTextInfoFieldWidget(
-              text:
-                  'Lorem ipsum odor amet, consectetuer adipiscing elit. Consectetur senectus litora praesent egestas curabitur felis pellentesque, ante dignissim? Placerat facilisis semper lectus diam in. Porttitor diam potenti lobortis consequat vitae natoque facilisi nostra. Egestas lacus ultrices tortor nascetur habitasse, rutrum pharetra in. Porta commodo taciti ipsum, penatibus viverra ridiculus natoque? Mi mus magna risus himenaeos sem. Dui scelerisque scelerisque viverra pretium mollis; mollis lobortis accumsan. Convallis lacinia porta parturient natoque pellentesque aliquet torquent non.',
+              text: widget.keluhan
             ),
           ],
         ),
