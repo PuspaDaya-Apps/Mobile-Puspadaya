@@ -9,8 +9,23 @@ sealed class DetailBebanKerjaState extends Equatable {
 
 final class DetailBebanKerjaInitial extends DetailBebanKerjaState {}
 
-final class GetDetailBebanKerja extends DetailBebanKerjaEvent {
-  final String bebanKerjaId;
+final class DetailBebanKerjaProcessState extends DetailBebanKerjaState {}
 
-  const GetDetailBebanKerja(this.bebanKerjaId);
+final class DetailBebanKerjaSuccesState extends DetailBebanKerjaState {
+  final DateTime bulan;
+
+  final List<Jobitem> item;
+
+  const DetailBebanKerjaSuccesState({
+    required this.bulan,
+    required this.item
+  });
 }
+
+final class DetailBebanKerjaFailedState extends DetailBebanKerjaState {
+  final String error;
+
+  const DetailBebanKerjaFailedState(this.error);
+}
+
+final class DetailPengukuanAnakTokenExpiredState extends DetailBebanKerjaState {}
