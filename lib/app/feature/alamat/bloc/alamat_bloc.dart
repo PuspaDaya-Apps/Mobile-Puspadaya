@@ -24,6 +24,7 @@ class AlamatBloc extends Bloc<AlamatEvent, AlamatState> {
 
   Future<void> _onShowAllSection(
       ShowAllSectionEvent event, Emitter<AlamatState> emit) async {
+    emit(AlamatLoading());
     final accesTokenValue = await SharedPrefUtils().getAccessToken();
     logger.d(accesTokenValue);
 

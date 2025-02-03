@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/registerOrangTua/bloc/register_orang_tua_bloc.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -16,8 +17,9 @@ import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
-import '../../registerOrangTua/view/model/orang_tua_item_model.dart';
+import '../../registerOrangTua/model/orang_tua_item_model.dart';
 import '../cubit/search_kk_cubit.dart';
+import 'create_register_wali.dart';
 import 'search_kk.dart';
 
 class CreateRegisterAnak extends StatelessWidget {
@@ -28,6 +30,7 @@ class CreateRegisterAnak extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SearchKKCubit()),
+        BlocProvider(create: (context) => RegisterOrangTuaBloc()),
       ],
       child: CreateRegisterAnakView(),
     );
@@ -59,8 +62,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     'Status Kelahiran 2',
   ];
   final List<String> selectStatusOrangTuaAnak = [
-    'Status Orang Tua Anak 1',
-    'Status Orang Tua Anak 2',
+    'Orang Tua',
+    'Wali',
   ];
 
   final List<String> disabilities = [
@@ -160,7 +163,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: "Pengukuran Anak",
+        title: "Tambah Data Anak",
         onBackPressed: () => Navigator.pop(context),
       ),
       body: SafeArea(
@@ -538,6 +541,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             setState(() {
                               selectedStatusOrangTuaAnak = value;
                             });
+                            logger.d(
+                                'status orang tua anak $selectedStatusOrangTuaAnak');
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -591,6 +596,18 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           color: bluePrimaryMain,
                           mainButtonMessage: 'Simpan',
                           mainButton: () {
+                            if (selectedStatusOrangTuaAnak == 'Wali') {
+                              logger.d('go to wali');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return CreateRegisterWali();
+                                  },
+                                ),
+                              );
+                            }
+                            logger.d('go to simpan');
                             // if (_formKey.currentState!.validate()) {
                             //   print('Nama: ${_nameController.text}');
                             //   print('NIK: ${_nikController.text}');
@@ -644,7 +661,10 @@ class TextFormFieldSearch extends StatelessWidget {
         OrangTuaItemModel result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SearchKartuKeluarga(),
+            builder: (context) => BlocProvider(
+              create: (context) => RegisterOrangTuaBloc(),
+              child: SearchKartuKeluarga(),
+            ),
           ),
         );
         logger.d(result);
