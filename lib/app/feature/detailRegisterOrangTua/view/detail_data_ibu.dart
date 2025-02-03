@@ -33,7 +33,9 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.kartuKeluarga.nomorKartuKeluarga}'),
+            InfoFieldWidget(
+                text:
+                    '${getOrangtuaDetailResponse.data.ibu.kartuKeluarga.nomorKartuKeluarga}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -59,7 +61,7 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.namaIbu}'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.nama}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -82,7 +84,9 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.tempatLahir}'),
+                      InfoFieldWidget(
+                          text:
+                              '${getOrangtuaDetailResponse.data.ibu.tempatLahir}'),
                     ],
                   ),
                 ),
@@ -100,7 +104,9 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ibu.tanggalLahir)}'),
+                      InfoFieldWidget(
+                          text:
+                              '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ibu.tanggalLahir)}'),
                     ],
                   ),
                 ),
@@ -124,10 +130,14 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupatenKota.provinsi.namaProvinsi}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupaten.provinsi.namaProvinsi}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.kabupaten.namaKabupaten}'),
                 ),
               ],
             ),
@@ -140,17 +150,22 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.namaDesaKelurahan}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ibu.dusun.desaKelurahan.namaDesaKelurahan}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.dusun.namaDusun}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ibu.dusun.namaDusun}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
@@ -160,17 +175,20 @@ class DetailDataIbu extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.rt}'),
+                  child: InfoFieldWidget(
+                      text: '${getOrangtuaDetailResponse.data.ibu.rt}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.rw}'),
+                  child: InfoFieldWidget(
+                      text: '${getOrangtuaDetailResponse.data.ibu.rw}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.alamat}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ibu.alamat}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -183,7 +201,8 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.nomorTelepon}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ibu.nomorTelepon}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -205,7 +224,9 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.jenisKB}'),
+                      InfoFieldWidget(
+                          text:
+                              '${getOrangtuaDetailResponse.data.ibu.jenisKB}'),
                     ],
                   ),
                 ),
@@ -223,7 +244,9 @@ class DetailDataIbu extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.golDarah}'),
+                      InfoFieldWidget(
+                          text:
+                              '${getOrangtuaDetailResponse.data.ibu.golDarah}'),
                     ],
                   ),
                 ),
@@ -241,7 +264,9 @@ class DetailDataIbu extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'),
+            InfoFieldWidget(
+                text:
+                    '${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -261,36 +286,38 @@ class DetailDataIbu extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(16),
             ),
             getOrangtuaDetailResponse.data.ibu.jenisDisabilitas != null &&
-                getOrangtuaDetailResponse.data.ibu.jenisDisabilitas!.isNotEmpty
+                    getOrangtuaDetailResponse
+                        .data.ibu.jenisDisabilitas!.isNotEmpty
                 ? ExpansionTile(
-              tilePadding: EdgeInsets.zero,
-              childrenPadding: EdgeInsets.zero,
-              expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              title: Text(
-                'Disabilitas',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              children: [
-                ...getOrangtuaDetailResponse.data.ibu.jenisDisabilitas!.map(
-                      (e) {
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 4, bottom: 4),
-                        child: Text(
-                          e.namaDisabilitas, // Mengakses nama disabilitas
-                          style: AppTextStyles.primaryTextMedium.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
+                    tilePadding: EdgeInsets.zero,
+                    childrenPadding: EdgeInsets.zero,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                    title: Text(
+                      'Disabilitas',
+                      style: AppTextStyles.primaryTextMedium.copyWith(
+                        fontSize: 14,
                       ),
-                    );
-                  },
-                ).toList(), // Pastikan untuk mengonversi ke list
-              ],
-            )
+                    ),
+                    children: [
+                      ...getOrangtuaDetailResponse.data.ibu.jenisDisabilitas!
+                          .map(
+                        (e) {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4, bottom: 4),
+                              child: Text(
+                                e.namaDisabilitas, // Mengakses nama disabilitas
+                                style: AppTextStyles.primaryTextMedium.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(), // Pastikan untuk mengonversi ke list
+                    ],
+                  )
                 : SizedBox.shrink(),
             ButtonPrimary(
               color: goldPrimaryMain,

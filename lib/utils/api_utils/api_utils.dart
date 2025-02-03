@@ -81,13 +81,10 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua);
   }
 
-  Uri urlGetDetailOrangTua(String idAyah, String idIbu) {
-    String urlGetDetailOrangTua = LinkApi.DETAILORANGTUAURL;
-    Map<String, String> parameterQuery = {
-      'ayah_id': idAyah,
-      'ibu_id': idIbu
-    };
-    return Uri.http(_baseUrlQuaryParameter,_apiVersion + urlGetDetailOrangTua, parameterQuery);
+  Uri urlGetDetailOrangTua(String idAyah) {
+    String urlGetDetailOrangTua = LinkApi.ORANGTUAURL;
+    return Uri.http(_baseUrlQuaryParameter,
+        _apiVersion + urlGetDetailOrangTua + '/${idAyah}');
   }
 
   //!Anak
@@ -292,7 +289,38 @@ class ApiUtils {
         "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
   }
 
-  //!Pengukuran Ibu Hamil
+  //   alamat
+
+  // provinsi
+  Uri urlGetProvinsi() {
+    String urlGetProvinsi = LinkApi.PROVINSIURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetProvinsi);
+  }
+
+  // kabupaten
+  Uri urlGetKabupaten() {
+    String urlGetKabupaten = LinkApi.KABUPATENURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetKabupaten);
+  }
+
+  // kecamatan
+  Uri urlGetKecamatan() {
+    String urlGetKecamatan = LinkApi.KECAMATANURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetKecamatan);
+  }
+
+  // desa kelurahan
+  Uri urlGetDesaKelurahan() {
+    String urlGetDesaKelurahan = LinkApi.DESAURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetDesaKelurahan);
+  }
+
+  // dusun
+  Uri urlGetDusun() {
+    String urlGetDusun = LinkApi.DUSUNURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetDusun);
+
+  //!Beban Kerja
   Uri urlGetBebanKerjaItem() {
     String urlGetBebanKerjaKader = LinkApi.TUGASKADERURL;
     return Uri.parse(_baseUrl + _apiVersion + urlGetBebanKerjaKader);
@@ -316,6 +344,7 @@ class ApiUtils {
   Uri urlDeleteDataBebanKerja(String id) {
     String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
+
   }
 }
 

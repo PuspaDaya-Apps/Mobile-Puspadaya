@@ -9,19 +9,19 @@ sealed class CreateRegisterOrangTuaState extends Equatable {
 
 final class CreateRegisterOrangTuaInitial extends CreateRegisterOrangTuaState {}
 
-final class CreatePengukuranAnakProcessState
+final class CreateRegisterOrangTuaProcessState
     extends CreateRegisterOrangTuaState {}
 
-final class CreatePengukuranAnakSuccesState
+final class CreateRegisterOrangTuaSuccesState
     extends CreateRegisterOrangTuaState {
-  const CreatePengukuranAnakSuccesState();
+  const CreateRegisterOrangTuaSuccesState();
 }
 
-final class CreatePengukuranAnakFailedState
+final class CreateRegisterOrangTuaFailedState
     extends CreateRegisterOrangTuaState {
   final String error;
 
-  const CreatePengukuranAnakFailedState(this.error);
+  const CreateRegisterOrangTuaFailedState(this.error);
 }
 
 final class NullErrorState extends CreateRegisterOrangTuaState {

@@ -6,21 +6,21 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../model/get_detail_anak_response.dart';
 import 'detail_data_wali.dart';
 
 class DetailDataAnak extends StatelessWidget {
+  final GetDetailAnakResponse detailResponse;
   final List<String> disabilitas = [
     'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
   ];
-  DetailDataAnak({super.key});
+  DetailDataAnak({super.key, required this.detailResponse});
 
   @override
   Widget build(BuildContext context) {
+    bool hasDisabilities = (detailResponse.data!.disabilitasAnak != null &&
+            detailResponse.data!.disabilitasAnak!.isNotEmpty) ||
+        (disabilitas != null && disabilitas.isNotEmpty);
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -36,7 +36,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI KK'),
+            InfoFieldWidget(text: '${detailResponse.data!.nik}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -49,7 +49,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI Nama'),
+            InfoFieldWidget(text: '${detailResponse.data!.namaAnak}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -62,7 +62,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '2'),
+            InfoFieldWidget(text: '${detailResponse.data!.anakKe.toString()}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -85,7 +85,8 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TEMPAT LAHIR'),
+                      InfoFieldWidget(
+                          text: '${detailResponse.data!.tempatLahir}'),
                     ],
                   ),
                 ),
@@ -103,7 +104,8 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TANGGAL LAHIR'),
+                      InfoFieldWidget(
+                          text: '${detailResponse.data!.tanggalLahir}'),
                     ],
                   ),
                 ),
@@ -123,7 +125,7 @@ class DetailDataAnak extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
-                        'Tanggal Lahir',
+                        'Tinggi Lahir',
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -131,7 +133,8 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '21,41 CM'),
+                      InfoFieldWidget(
+                          text: '${detailResponse.data!.tinggiBadanLahir} CM'),
                     ],
                   ),
                 ),
@@ -149,7 +152,8 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '2,4 KG'),
+                      InfoFieldWidget(
+                          text: '${detailResponse.data!.beratBadanLahir} KG'),
                     ],
                   ),
                 ),
@@ -177,7 +181,9 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '5,9 CM'),
+                      InfoFieldWidget(
+                          text:
+                              '${detailResponse.data!.lingkarLenganAtasLahir} CM'),
                     ],
                   ),
                 ),
@@ -195,7 +201,9 @@ class DetailDataAnak extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '10,4 CM'),
+                      InfoFieldWidget(
+                          text:
+                              '${detailResponse.data!.lingkarKepalaLahir} CM'),
                     ],
                   ),
                 ),
@@ -213,7 +221,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Laki Laki'),
+            InfoFieldWidget(text: '${detailResponse.data!.jenisKelamin}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -226,7 +234,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Cesar'),
+            InfoFieldWidget(text: '${detailResponse.data!.caraLahir}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -239,7 +247,7 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Normal'),
+            InfoFieldWidget(text: '${detailResponse.data!.statusKelahiran}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -252,11 +260,11 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Orang Tua Wali'),
+            InfoFieldWidget(text: '${detailResponse.data!.statusOrangTua}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
-            disabilitas != null && disabilitas.isNotEmpty
+            hasDisabilities
                 ? ExpansionTile(
                     tilePadding: EdgeInsets.zero,
                     childrenPadding: EdgeInsets.zero,
@@ -268,8 +276,27 @@ class DetailDataAnak extends StatelessWidget {
                       ),
                     ),
                     children: [
-                      ...disabilitas.map(
-                        (e) {
+                      // If there are disabilities from detailResponse
+                      if (detailResponse.data!.disabilitasAnak != null &&
+                          detailResponse.data!.disabilitasAnak!.isNotEmpty)
+                        ...detailResponse.data!.disabilitasAnak!.map((e) {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4, bottom: 4),
+                              child: Text(
+                                e.namaDisabilitas!, // Accessing the name of the disability
+                                style: AppTextStyles.primaryTextMedium.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+
+                      // If there are disabilities from the disabilitas list
+                      if (disabilitas != null && disabilitas.isNotEmpty)
+                        ...disabilitas.map((e) {
                           return Align(
                             alignment: Alignment.centerLeft,
                             child: Padding(
@@ -282,26 +309,27 @@ class DetailDataAnak extends StatelessWidget {
                               ),
                             ),
                           );
-                        },
-                      ),
+                        }).toList(),
                     ],
                   )
                 : SizedBox.shrink(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Lihat Data Wali',
-              mainButton: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailDataWali(),
-                  ),
-                );
-              },
-            ),
+            detailResponse.data!.pengasuhAnak != null
+                ? ButtonPrimary(
+                    color: bluePrimaryMain,
+                    mainButtonMessage: 'Lihat Data Wali',
+                    mainButton: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailDataWali(),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
