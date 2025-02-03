@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     FlutterNativeSplash.remove();
-    Future.delayed(const Duration(seconds: 3)).then((value) async {
+    Future.delayed(const Duration(seconds: 3)).then((value) {
       BlocProvider.of<AuthenticationBloc>(context).add(AppStartEvent());
     });
   }
@@ -30,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
+        debugPrint(state.toString());
         if(state is AuthenticationFirstTime) {
           Navigator.pushReplacementNamed(context, ONBOARDING);
         }

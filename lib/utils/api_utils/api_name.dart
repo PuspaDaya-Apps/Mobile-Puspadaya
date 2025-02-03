@@ -54,4 +54,8 @@ abstract class LinkApi {
 
   //!Pengukuran Ibu Hamil
   static const PENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil";
+
+  //!Beban Kerja
+  static const TUGASKADERURL = "/tugas-kader";
+  static const PENILAIANMANDIRIURL = "/penilaian-mandiri";
 }

@@ -16,18 +16,18 @@ import 'package:puspadaya/app/feature/registerAnggotaKader/view/register_anggota
 import 'package:puspadaya/app/feature/registerOrangTua/view/register_orang_tua.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_register_orang_tua.dart';
 import 'package:puspadaya/app/view/screen/feature_maintenance.dart';
-import '../app/feature/bebanKerja/view/beban_kerja.dart';
-import '../app/feature/createBebanKerja/view/create_beban_kerja.dart';
+import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
+import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
-import '../app/feature/createPengukuranIbuHamil/view/create_pengukuran_ibu_hamil.dart';
+import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
 import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_kader.dart';
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
 import '../app/feature/createRegisterPengasuh/view/create_register_pengasuh.dart';
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
-import '../app/feature/detailBebanKerja/view/detail_beban_kerja.dart';
+import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
 import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_stunting.dart';
 import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_tidak_hadir.dart';
@@ -35,9 +35,9 @@ import '../app/feature/detailKunjunganBerjalan/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_stunting.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
-import '../app/feature/detailPengukuranIbuHamil/view/detail_pengukuran_ibu_hamil.dart';
-import '../app/feature/detailRiwayatBalita/view/detail_riwayat_balita.dart';
-import '../app/feature/detailRiwayatIbuHamil/view/detail_riwayat_tamu.dart';
+import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
+import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
+import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_tamu.dart';
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
@@ -52,11 +52,12 @@ import '../app/feature/registerIbuHamil/view/register_ibu_hamil.dart';
 import '../app/feature/registerPengasuh/view/register_pengasuh.dart';
 import '../app/feature/resetPassword/view/reset_password.dart';
 import '../app/feature/pengukuranAnak/update/view/update_pengukuran_anak.dart';
-import '../app/feature/updatePengukuranIbuHamil/view/update_pengukuran_ibu_hamil.dart';
+import '../app/feature/pengukuranIbuHamil/update/view/update_pengukuran_ibu_hamil.dart';
 import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
@@ -143,12 +144,14 @@ class MyRoute {
 
       case DETAIL_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) => const DetailPengukuranAnak(),
+            builder: (context) =>  DetailPengukuranAnak(
+              pengukuranId: settings.arguments as String,
+            ),
             settings: settings);
 
       case UPDATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) => const UpdatePengukuranAnak(),
+            builder: (context) => UpdatePengukuranAnak(paket: settings.arguments as PaketToUpdatePengukuranAnakModel),
             settings: settings);
 
       case CREATE_PENGUKURAN_IBU_HAMIL:
@@ -183,7 +186,7 @@ class MyRoute {
 
       case DETAIL_BEBAN_KERJA:
         return MaterialPageRoute(
-            builder: (context) => const DetailBebanKerja(), settings: settings);
+            builder: (context) => DetailBebanKerja(bebanKerjaId: settings.arguments as String), settings: settings);
 
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(

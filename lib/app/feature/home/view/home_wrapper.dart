@@ -11,49 +11,31 @@ import 'package:puspadaya/app/feature/profile/view/profile.dart';
 import 'package:puspadaya/config/theme/icon/home_menu_icon.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
-import '../../../../route/route_name.dart';
-import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
-import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
-import '../bloc/user_bloc.dart';
+import '../bloc/userBloc/user_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider(
       create: (context) => UserBloc(),
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<AuthorizationBloc, AuthorizationState>(
-            listener: (context, state) {
-              if(state is AuthorizationFalse) {
-                Navigator.pushReplacementNamed(context, LOGIN);
-              } 
-            }
-          ),
-          BlocListener<AuthenticationBloc, AuthenticationState>(
-            listener: (context, state) {
-      
-            }
-          ),
-        ],
-        child: const DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            duration: Duration(seconds: 2),
-            content: Text(
-              "Tekan Lagi Untuk Keluar",
-              style: TextStyle(
-                color: textPrimary10, 
-                fontSize: 12, 
-                fontWeight: FontWeight.w600
-              ),
-            )
-          ),
-          child: HomeWrapper(),
+      child: const DoubleBackToCloseApp(
+        snackBar: SnackBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          duration: Duration(seconds: 2),
+          content: Text(
+            "Tekan Lagi Untuk Keluar",
+            style: TextStyle(
+              color: textPrimary10, 
+              fontSize: 12, 
+              fontWeight: FontWeight.w600
+            ),
+          )
         ),
+        child: HomeWrapper(),
       ),
     );
   }

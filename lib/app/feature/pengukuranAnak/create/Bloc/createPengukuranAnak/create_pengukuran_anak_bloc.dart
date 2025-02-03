@@ -16,36 +16,35 @@ class CreatePengukuranAnakBloc extends Bloc<CreatePengukuranAnakEvent, CreatePen
     on<SendPengukuranAnakEvent>(pengukuranAnak);
 
     on<NullErrorEvent>((event, emit){
-      emit(const NullErrorState("Form pengukuran anak tidak boleh kosong"));
+      emit(const CreatePengukuranAnakNullErrorState("Form pengukuran anak tidak boleh kosong"));
     });
   }
 
   Future<void> pengukuranAnak (SendPengukuranAnakEvent event, Emitter<CreatePengukuranAnakState> emit) async {
     emit(CreatePengukuranAnakProcessState());
 
-    SharedPrefUtils().getAccessToken().then((accesTokenValue) async {
-      if(accesTokenValue == null) {
-        emit(TokenExpiredState());
+    String? accessToken = await SharedPrefUtils().getAccessToken();
 
-      } else {
-        try {
-          List<dynamic> response = await CreatePengukuranAnakApi().pengukuranAnakService(accesTokenValue, event.pengukuranAnakModel);
+    if(accessToken == null) {
+      emit(CreatePengukuranAnakTokenExpiredState());
+    } else {
+      try {
+        List<dynamic> response = await CreatePengukuranAnakApi().pengukuranAnakService(accessToken, event.pengukuranAnakModel);
 
-          int statusCode = response[0] as int;
-          final PengukuranAnakResponseModel pengukuranAnakResponseModel = PengukuranAnakResponseModel.fromJson(response[1]);
+        int statusCode = response[0] as int;
+        final PengukuranAnakResponseModel pengukuranAnakResponseModel = PengukuranAnakResponseModel.fromJson(response[1]);
 
-          if(statusCode == 200) {
-            emit(CreatePengukuranAnakSuccesState(pengukuranAnakResponseModel));
-          } else if (statusCode == 401) {
-            emit(TokenExpiredState());
-          } else {
-            emit(CreatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
-          }
-        } catch (error) {
-          emit(CreatePengukuranAnakFailedState(error.toString()));
+        if(statusCode == 201) {
+          emit(CreatePengukuranAnakSuccesState(pengukuranAnakResponseModel));
+        } else if (statusCode == 401) {
+          emit(CreatePengukuranAnakTokenExpiredState());
+        } else {
+          emit(CreatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
         }
+      } catch (error) {
+        emit(CreatePengukuranAnakFailedState(error.toString()));
       }
-    }); 
+    }
   }
 }
 
