@@ -7,18 +7,8 @@ sealed class DetailBebanKerjaEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class DetailBebanKerjaProcessState extends DetailBebanKerjaState {}
+final class GetDetailBebanKerja extends DetailBebanKerjaEvent {
+  final String bebanKerjaId;
 
-final class DetailBebanKerjaSuccesState extends DetailBebanKerjaState {
-  final DetailBebanKerjaResponseModel detailBebanKerjaResponseModel;
-
-  const DetailBebanKerjaSuccesState(this.detailBebanKerjaResponseModel);
+  const GetDetailBebanKerja(this.bebanKerjaId);
 }
-
-final class DetailBebanKerjaFailedState extends DetailBebanKerjaState {
-  final String error;
-
-  const DetailBebanKerjaFailedState(this.error);
-}
-
-final class DetailPengukuanAnakTokenExpiredState extends DetailBebanKerjaState {}

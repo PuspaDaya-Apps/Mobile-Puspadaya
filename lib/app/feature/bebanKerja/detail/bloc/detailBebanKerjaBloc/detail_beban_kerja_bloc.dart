@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:puspadaya/app/feature/bebanKerja/detail/view/model/JobItem.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../model/detail_beban_kerja_item_model.dart';
 import '../../model/detail_beban_kerja_response_model.dart';
 import '../../service/detail_beban_kerja_api.dart';
 
@@ -31,9 +33,79 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
         final DetailBebanKerjaResponseModel detailBebanKerjaResponseModel = DetailBebanKerjaResponseModel.fromJson(response[1]);
 
         if(statusCode == 200) {
+          //tempt data
+          List<Jobitem> administrasi = [];
+          List<Jobitem> keterampilanBayidanBalitaTugasLainnya = [];
+          List<Jobitem> keterampilanIbuHamilDanMenyusui = [];
+          List<Jobitem> tambahan = [];
+          List<Jobitem> tugasLainnya = [];
+
+          List<PenugasanKader> temp = detailBebanKerjaResponseModel.data!.penugasanKader!;
+
+          for (var value in temp) {
+            if(value.tugasKader.tipeTugas == "Administrasi") {
+              administrasi.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
+            if(value.tugasKader.tipeTugas == "Keterampilan Bayi dan Balita Tugas Lainnya") {
+              keterampilanBayidanBalitaTugasLainnya.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
+            if(value.tugasKader.tipeTugas == "Keterampilan Ibu Hamil dan Menyusui") {
+              keterampilanIbuHamilDanMenyusui.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
+            if(value.tugasKader.tipeTugas == "Tambahan") {
+              tambahan.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
+            if(value.tugasKader.tipeTugas == "Tugas Lainnya") {
+              tugasLainnya.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
+          }
+
           emit(DetailBebanKerjaSuccesState(
-            detailBebanKerjaResponseModel
+            bulan: detailBebanKerjaResponseModel.data!.bulan,
+            item: [
+              Jobitem(
+                label: "Administrasi",
+                subItems: administrasi
+              ),
+              Jobitem(
+                label: "Keterampilan Bayi dan Balita Tugas Lainnya",
+                subItems: keterampilanBayidanBalitaTugasLainnya
+              ),
+              Jobitem(
+                label: "Keterampilan Ibu Hamil dan Menyusui",
+                subItems: keterampilanIbuHamilDanMenyusui
+              ),
+              Jobitem(
+                label: "Tambahan",
+                subItems: tambahan
+              ),
+              Jobitem(
+                label: "Tugas Lainnya",
+                subItems: tugasLainnya
+              )
+            ]  
           ));
+
         } else if (statusCode == 401) {
           emit(DetailPengukuanAnakTokenExpiredState());
         } else {
