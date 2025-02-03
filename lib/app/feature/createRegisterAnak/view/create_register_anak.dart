@@ -17,7 +17,7 @@ import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
-import '../../registerOrangTua/view/model/orang_tua_item_model.dart';
+import '../../registerOrangTua/model/orang_tua_item_model.dart';
 import '../cubit/search_kk_cubit.dart';
 import 'create_register_wali.dart';
 import 'search_kk.dart';
