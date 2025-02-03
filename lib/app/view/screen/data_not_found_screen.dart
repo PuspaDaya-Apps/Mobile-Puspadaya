@@ -16,8 +16,13 @@ class DataNotFoundScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(dataNotFoundVector,
-                scale: SizeConfig.calMultiplierImage(200)),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(250),
+              child: Image.asset(
+                dataNotFoundVector,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Data Tidak Dapat Ditemukan',

@@ -23,10 +23,10 @@ final class CreatePengukuranAnakFailedState extends CreatePengukuranAnakState {
   const CreatePengukuranAnakFailedState(this.error);
 }
 
-final class NullErrorState extends CreatePengukuranAnakState {
+final class CreatePengukuranAnakNullErrorState extends CreatePengukuranAnakState {
   final String error;
 
-  const NullErrorState(this.error);
+  const CreatePengukuranAnakNullErrorState(this.error);
 }
 
-final class TokenExpiredState extends CreatePengukuranAnakState {}
+final class CreatePengukuranAnakTokenExpiredState extends CreatePengukuranAnakState {}

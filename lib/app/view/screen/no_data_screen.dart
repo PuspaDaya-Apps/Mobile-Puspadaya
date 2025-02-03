@@ -16,8 +16,13 @@ class NoDataScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(noDataVector,
-                scale: SizeConfig.calMultiplierImage(200)),
+            SizedBox(
+              width: SizeConfig.calWidthMultiplier(250),
+              child: Image.asset(
+                noDataVector,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
             Text(
               'Tidak Ada Data',

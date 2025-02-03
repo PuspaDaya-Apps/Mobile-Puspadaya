@@ -38,7 +38,7 @@ class _PengukuranViewState extends State<PengukuranView> {
     'Riwayat Ibu Hamil'
   ];
   String selectedMenu = "Kehadiran";
-  bool isSearching = false; // State variable to manage search bar visibility
+  // bool isSearching = false; // State variable to manage search bar visibility
   TextEditingController searchController =
       TextEditingController(); // Controller for the search bar
 
@@ -48,34 +48,41 @@ class _PengukuranViewState extends State<PengukuranView> {
       backgroundColor: backgroundWhite10,
       appBar: AppBar(
         backgroundColor: backgroundWhite10,
-        title: isSearching
-            ? AnimatedContainer(
-                duration: const Duration(milliseconds: 300), // Animation duration
-                curve: Curves.easeInOut, // Animation curve
-                width: isSearching
-                    ? double.infinity
-                    : 0, // Width changes based on search state
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.sizeOf(context).width / 48),
-                  child: SearchTextFieldWidget(
-                    controller: searchController,
-                    hintText: 'Cari Data',
-                  ),
-                ),
-              )
-            : AnimatedOpacity(
-                opacity: isSearching ? 0 : 1, // Fade out when searching
-                duration: const Duration(milliseconds: 300), // Animation duration
-                curve: Curves.easeInOut, // Animation curve
-                child: Text(
-                  'Pengukuran',
-                  style: AppTextStyles.primaryTextSemibold.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-        actions: _buildAppBarActions(),
+        title: Text(
+          'Pengukuran',
+          style: AppTextStyles.primaryTextSemibold.copyWith(
+            fontSize: 16,
+          ),
+        ),
+        // isSearching
+        //     ? AnimatedContainer(
+        //         duration: const Duration(milliseconds: 300), // Animation duration
+        //         curve: Curves.easeInOut, // Animation curve
+        //         width: isSearching
+        //             ? double.infinity
+        //             : 0, // Width changes based on search state
+        //         child: Padding(
+        //           padding: EdgeInsets.only(
+        //               left: MediaQuery.sizeOf(context).width / 48),
+        //           child: SearchTextFieldWidget(
+        //             controller: searchController,
+        //             hintText: 'Cari Data',
+        //           ),
+        //         ),
+        //       )
+        //     : 
+        //     AnimatedOpacity(
+        //         opacity: isSearching ? 0 : 1, // Fade out when searching
+        //         duration: const Duration(milliseconds: 300), // Animation duration
+        //         curve: Curves.easeInOut, // Animation curve
+        //         child: Text(
+        //           'Pengukuran',
+        //           style: AppTextStyles.primaryTextSemibold.copyWith(
+        //             fontSize: 16,
+        //           ),
+        //         ),
+        //       ),
+        // actions: _buildAppBarActions(),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: bluePrimary40,
@@ -114,7 +121,7 @@ class _PengukuranViewState extends State<PengukuranView> {
                 onChanged: (value) {
                   setState(() {
                     selectedMenu = value;
-                    isSearching = false; // Reset search state when menu changes
+                    // isSearching = false; // Reset search state when menu changes
                   });
                 },
                 items: pengukuranMenu,
@@ -130,29 +137,29 @@ class _PengukuranViewState extends State<PengukuranView> {
     );
   }
 
-  List<Widget> _buildAppBarActions() {
-    if (selectedMenu != 'Kehadiran') {
-      return [
-        Container(
-          margin: const EdgeInsets.only(right: 24),
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                isSearching = !isSearching; // Toggle search bar visibility
-                if (!isSearching) {
-                  searchController.clear(); // Clear search input when closing
-                }
-              });
-            },
-            child: Icon(
-              isSearching ? Icons.close : Icons.search,
-            ),
-          ),
-        ),
-      ];
-    }
-    return [];
-  }
+  // List<Widget> _buildAppBarActions() {
+  //   if (selectedMenu != 'Kehadiran') {
+  //     return [
+  //       Container(
+  //         margin: const EdgeInsets.only(right: 24),
+  //         child: GestureDetector(
+  //           onTap: () {
+  //             setState(() {
+  //               isSearching = !isSearching; // Toggle search bar visibility
+  //               if (!isSearching) {
+  //                 searchController.clear(); // Clear search input when closing
+  //               }
+  //             });
+  //           },
+  //           child: Icon(
+  //             isSearching ? Icons.close : Icons.search,
+  //           ),
+  //         ),
+  //       ),
+  //     ];
+  //   }
+  //   return [];
+  // }
 
   Widget _buildListItem() {
     switch (selectedMenu) {
