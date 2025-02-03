@@ -12,13 +12,15 @@ class ApiUtils {
   Map<String, String> header() =>
       {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  Map<String, String> headerWithToken(String token) => {
+  Map<String, String> headerWithToken(String token) =>
+      {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
 
-  Map<String, String> headerTokenForMultipart(String token) => {
+  Map<String, String> headerTokenForMultipart(String token) =>
+      {
         'Authorization': 'Bearer $token',
         'Content-Type': 'multipart/form-data',
       };
@@ -319,6 +321,7 @@ class ApiUtils {
   Uri urlGetDusun() {
     String urlGetDusun = LinkApi.DUSUNURL;
     return Uri.parse(_baseUrl + _apiVersion + urlGetDusun);
+  }
 
   //!Beban Kerja
   Uri urlGetBebanKerjaItem() {
@@ -344,7 +347,5 @@ class ApiUtils {
   Uri urlDeleteDataBebanKerja(String id) {
     String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
-
   }
 }
-
