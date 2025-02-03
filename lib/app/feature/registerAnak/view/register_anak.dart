@@ -1,11 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/registerAnak/view/model/anak_item_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/registerAnak/bloc/anak_by_posyandu_bloc.dart';
+import 'package:puspadaya/app/feature/registerAnak/model/anak_item_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/card_anak_widget.dart';
 
 class RegisterAnak extends StatelessWidget {
@@ -13,7 +16,10 @@ class RegisterAnak extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterAnakView();
+    return BlocProvider(
+      create: (context) => AnakByPosyanduBloc(),
+      child: const RegisterAnakView(),
+    );
   }
 }
 
@@ -27,21 +33,14 @@ class RegisterAnakView extends StatefulWidget {
 class RegisterAnakViewState extends State<RegisterAnakView> {
   TextEditingController _searchController = TextEditingController();
 
-  List<AnakItemModel> listAnak = [
-    AnakItemModel(
-      name: 'Muhammad Kaivan Al Hakim',
-      nik: '362155482327263',
-      gender: 'Laki Laki',
-      month: 11,
-    ),
-    AnakItemModel(
-      name: 'Muhammad Kaivan Al Hakim',
-      nik: '362155482327263',
-      gender: 'Laki Laki',
-      month: 11,
-      year: 4,
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Trigger fetch event when the view is initialized
+    logger.d('trigger fetch');
+    context.read<AnakByPosyanduBloc>().add(FetchAnak());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,23 +95,43 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                 height: 12,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: listAnak.length,
-                  itemBuilder: (context, index) {
-                    AnakItemModel anak = listAnak[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardAnakWidget(
-                        onTap: () {
-                          Navigator.pushNamed(context, DETAIL_REGISTER_ANAK);
+                child: BlocBuilder<AnakByPosyanduBloc, AnakByPosyanduState>(
+                  builder: (context, state) {
+                    if (state is AnakByPosyanduLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is AnakByPosyanduSuccess) {
+                      return ListView.builder(
+                        itemCount: state.anakItems.length,
+                        itemBuilder: (context, index) {
+                          AnakItemModel anak = state.anakItems[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardAnakWidget(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  DETAIL_REGISTER_ANAK,
+                                  arguments: anak.id,
+                                );
+                              },
+                              nama: anak.nama,
+                              nik: anak.nik,
+                              gender: anak.jenisKelamin,
+                              tahun: anak.year,
+                              bulan: anak.bulan,
+                            ),
+                          );
                         },
-                        nama: anak.name,
-                        nik: anak.nik,
-                        gender: anak.gender,
-                        tahun: anak.year != null ? anak.year.toString() : null,
-                        bulan: anak.month.toString(),
-                      ),
-                    );
+                      );
+                    } else if (state is AnakByPosyanduFailure) {
+                      return Center(
+                        child: Text('Error ${state.error}'),
+                      );
+                    } else {
+                      return Center(child: Text('No data available'));
+                    }
                   },
                 ),
               )

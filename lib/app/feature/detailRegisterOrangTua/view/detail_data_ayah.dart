@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/detailRegisterOrangTua/model/get_orangtua_detail_response.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
+import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../view/widget/info_field_widget.dart';
 
 class DetailDataAyah extends StatelessWidget {
-  final List<String> disabilitas = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-  DetailDataAyah({super.key});
+  final GetOrangtuaDetailResponse getOrangtuaDetailResponse;
+  DetailDataAyah({super.key, required this.getOrangtuaDetailResponse});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +30,7 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI KK'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.kartuKeluarga}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -48,7 +43,7 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI NIK'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.nik}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -61,7 +56,7 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'INI NAMA AYAH'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.namaAyah}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -84,7 +79,7 @@ class DetailDataAyah extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TEMPAT LAHIR'),
+                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.tempatLahir}'),
                     ],
                   ),
                 ),
@@ -102,7 +97,7 @@ class DetailDataAyah extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: 'INI TANGGAL LAHIR'),
+                      InfoFieldWidget(text: '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ayah.tanggalLahir)}'),
                     ],
                   ),
                 ),
@@ -126,10 +121,10 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: 'Banyuwangi'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupatenKota.provinsi.namaProvinsi}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: 'Kabat'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota}'),
                 ),
               ],
             ),
@@ -142,13 +137,17 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: 'Kabat'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: 'Bunder'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.namaDesaKelurahan}'),
                 ),
               ],
             ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.namaDusun}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
@@ -158,17 +157,17 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '2'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.rt}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '14'),
+                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.rw}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Alamat Lengkap'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.alamat}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -181,7 +180,7 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '018123141232'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.nomorTelepon}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -194,40 +193,41 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'A'),
+            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.golDarah}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
-            disabilitas != null && disabilitas.isNotEmpty
+            getOrangtuaDetailResponse.data.ayah.jenisDisabilitas != null &&
+                getOrangtuaDetailResponse.data.ayah.jenisDisabilitas!.isNotEmpty
                 ? ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    childrenPadding: EdgeInsets.zero,
-                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                    title: Text(
-                      'Disabilitas',
-                      style: AppTextStyles.primaryTextMedium.copyWith(
-                        fontSize: 14,
+              tilePadding: EdgeInsets.zero,
+              childrenPadding: EdgeInsets.zero,
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              title: Text(
+                'Disabilitas',
+                style: AppTextStyles.primaryTextMedium.copyWith(
+                  fontSize: 14,
+                ),
+              ),
+              children: [
+                ...getOrangtuaDetailResponse.data.ayah.jenisDisabilitas!.map(
+                      (e) {
+                    return Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 4, bottom: 4),
+                        child: Text(
+                          e.namaDisabilitas, // Mengakses nama disabilitas
+                          style: AppTextStyles.primaryTextMedium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
-                    children: [
-                      ...disabilitas.map(
-                        (e) {
-                          return Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 4, bottom: 4),
-                              child: Text(
-                                e,
-                                style: AppTextStyles.primaryTextMedium.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
+                    );
+                  },
+                ).toList(), // Pastikan untuk mengonversi ke list
+              ],
+            )
                 : SizedBox.shrink(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),

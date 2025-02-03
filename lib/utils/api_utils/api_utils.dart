@@ -2,59 +2,59 @@ part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
-  final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
-  final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  final String _baseUrl =
+      "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  final String _baseUrlQuaryParameter =
+      "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
 
-  //!Header 
-  Map<String, String> header() => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+  //!Header
+  Map<String, String> header() =>
+      {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
   Map<String, String> headerWithToken(String token) => {
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
 
   Map<String, String> headerTokenForMultipart(String token) => {
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'multipart/form-data',
-  };
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'multipart/form-data',
+      };
 
   //!Auth
-  Uri urlLogin(){
+  Uri urlLogin() {
     String urlLogin = LinkApi.LOGINURL;
     return Uri.parse(_baseUrl + _apiVersion + urlLogin);
   }
 
-  Uri urlRefreshToken(){
+  Uri urlRefreshToken() {
     String urlRefreshToken = LinkApi.REFRESHTOKENURL;
     return Uri.parse(_baseUrl + _apiVersion + urlRefreshToken);
   }
 
-  Uri urlLogout(){
+  Uri urlLogout() {
     String urlLogout = LinkApi.LOGOUTURL;
     return Uri.parse(_baseUrl + _apiVersion + urlLogout);
   }
 
-  Uri urlForgotPassword(){
+  Uri urlForgotPassword() {
     String urlForgotPassword = LinkApi.FORGOTPASSWORDURL;
     return Uri.parse(_baseUrl + _apiVersion + urlForgotPassword);
   }
 
-  Uri urlResetPassword(){
+  Uri urlResetPassword() {
     String urlResetPassword = LinkApi.RESETPASSWORDURL;
     return Uri.parse(_baseUrl + _apiVersion + urlResetPassword);
   }
 
-  Uri urlVerifyOTP(){
+  Uri urlVerifyOTP() {
     String urlVerifyOTP = LinkApi.VERIFYOTPURL;
     return Uri.parse(_baseUrl + _apiVersion + urlVerifyOTP);
   }
-  
-  Uri urlChangePassword(){
+
+  Uri urlChangePassword() {
     String urlChangePassword = LinkApi.CHANGEPASSWORDURL;
     return Uri.parse(_baseUrl + _apiVersion + urlChangePassword);
   }
@@ -188,7 +188,7 @@ class ApiUtils {
     String urlDeleteDataAlatUkurKader = LinkApi.ALATUKURKADERURL;
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataAlatUkurKader/$id");
   }
-  
+
   //!Jadwal Posyandu
   Uri urlGetListJadwalPosyandu() {
     String urlGetListJadwalPosyandu = LinkApi.JADWALPOSYANDU;
@@ -233,7 +233,8 @@ class ApiUtils {
 
   Uri urlDeleteDataKehadiranPosyandu(String id) {
     String urlDeleteDataKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id");
+    return Uri.parse(
+        "$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id");
   }
 
   //!Pengukuran Anak
@@ -275,17 +276,20 @@ class ApiUtils {
 
   Uri urlGetDetailPengukuranIbuHamil(String id) {
     String urlGetDetailPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id");
+    return Uri.parse(
+        "$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id");
   }
 
   Uri urlPatchDataPengukuranIbuHamil(String id) {
     String urlPatchDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id");
+    return Uri.parse(
+        "$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id");
   }
 
   Uri urlDeleteDataPengukuranIbuHamil(String id) {
     String urlDeleteDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
+    return Uri.parse(
+        "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
   }
 
   //!Pengukuran Ibu Hamil
@@ -314,3 +318,4 @@ class ApiUtils {
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
   }
 }
+
