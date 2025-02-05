@@ -13,8 +13,12 @@ final class CreatePengukuranAnakProcessState extends CreatePengukuranAnakState {
 
 final class CreatePengukuranAnakSuccesState extends CreatePengukuranAnakState {
   final PengukuranAnakResponseModel pengukuranAnakResponseModel;
+  final String statusGizi;
 
-  const CreatePengukuranAnakSuccesState(this.pengukuranAnakResponseModel);
+  const CreatePengukuranAnakSuccesState({
+    required this.pengukuranAnakResponseModel,
+    required this.statusGizi
+  });
 }
 
 final class CreatePengukuranAnakFailedState extends CreatePengukuranAnakState {
