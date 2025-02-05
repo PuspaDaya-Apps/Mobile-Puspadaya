@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
@@ -66,7 +67,8 @@ import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
 
 class MyRoute {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+
+   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case SPLASHSCREEN:
         return MaterialPageRoute(
