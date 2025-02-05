@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/route/route_name.dart';
+import 'package:puspadaya/app/feature/Kehadiran/create/view/list_data_tamu.dart';
+import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
-import '../../../../../config/theme/pallet_color.dart';
-import '../../../../../config/theme/text_style.dart';
-import '../../../../view/widget/alert_dialog_widget.dart';
-import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../../../view/widget/primary_button_widget.dart';
 import 'list_data_anak.dart';
 import 'list_data_ibu.dart';
-import 'list_data_tamu.dart';
 
-class DetailKehadiranScreen extends StatelessWidget {
-  const DetailKehadiranScreen({super.key});
+class UpdateKehadiran extends StatelessWidget {
+  const UpdateKehadiran({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const DetailKehadiranScreenView();
+    return const UpdateKehadiranView();
   }
 }
 
-class DetailKehadiranScreenView extends StatefulWidget {
-  const DetailKehadiranScreenView({super.key});
+class UpdateKehadiranView extends StatefulWidget {
+  const UpdateKehadiranView({super.key});
 
   @override
-  State<DetailKehadiranScreenView> createState() => _DetailKehadiranViewState();
+  State<UpdateKehadiranView> createState() => _CreateKehadiranViewState();
 }
 
-class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with SingleTickerProviderStateMixin {
-
+class _CreateKehadiranViewState extends State<UpdateKehadiranView>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   void initState() {
@@ -48,53 +45,18 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with Si
     _tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        child: Row(
-          spacing: 8,
-          children: [
-            Expanded(
-              child: ButtonPrimary(
-                color: goldPrimaryMain,
-                mainButtonMessage: 'Perbarui',
-                mainButton: () {
-                  Navigator.pushNamed(context, UPDATE_KEHADIRAN);
-                },
-              ),
-            ),
-            Expanded(
-              child: ButtonPrimary(
-                color: redPrimaryMain,
-                mainButtonMessage: 'Hapus',
-                mainButton: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialogWidget(
-                        title: 'Apakah Anda Yakin?',
-                        message:
-                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
-                        mainButton: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        image: imageDeleteItems,
-                        mainButtonMessage: 'Iya, Hapus Pengukuran',
-                        colorMainButton: redPrimaryMain,
-                        cancelButton: () {
-                          Navigator.pop(context);
-                        },
-                        cancelButtonMessage: 'Batalkan',
-                      );
-                    },
-                  );
-                },
-              ),
-            )
-          ],
+        child: ButtonPrimary(
+          color: bluePrimaryMain,
+          mainButtonMessage: 'Selesai',
+          mainButton: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       backgroundColor: Colors.white,

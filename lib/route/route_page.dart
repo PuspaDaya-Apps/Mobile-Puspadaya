@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
@@ -135,6 +136,11 @@ class MyRoute {
       case DETAIL_KEHADIRAN:
         return MaterialPageRoute(
             builder: (context) => const DetailKehadiranScreen(),
+            settings: settings);
+
+      case UPDATE_KEHADIRAN:
+        return MaterialPageRoute(
+            builder: (context) => const UpdateKehadiran(),
             settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
