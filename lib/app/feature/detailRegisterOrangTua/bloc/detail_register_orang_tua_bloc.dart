@@ -30,18 +30,19 @@ class DetailRegisterOrangTuaBloc
           await RegisterOrangTuaApi().getDetailAyahIbu(
         token: accesTokenValue!,
         ayahId: ayahId,
-        ibuId: ibuId,
       );
       int statusCodeDetail = responseDetail[0] as int;
+      logger.d(statusCodeDetail);
       // logger.d('response code detail ${responseDetail[1]}');
       // logger.d('response code detail ${getOrangtuaDetailResponse}');
       if (statusCodeDetail == 200) {
         final GetOrangtuaDetailResponse getOrangtuaDetailResponse =
             GetOrangtuaDetailResponse.fromJson(responseDetail[1]);
-        // logger.d(
-        //     'status code Detail is 200 ${getOrangtuaDetailResponse.data.ayah}');
+        logger.d(
+            'status code Detail is 200 ${getOrangtuaDetailResponse.data.ayah}');
         emit(
-          DetailRegisterOrangTuaSuccess(getOrangTuaDetailResponse: getOrangtuaDetailResponse),
+          DetailRegisterOrangTuaSuccess(
+              getOrangTuaDetailResponse: getOrangtuaDetailResponse),
         );
       }
     } catch (e) {

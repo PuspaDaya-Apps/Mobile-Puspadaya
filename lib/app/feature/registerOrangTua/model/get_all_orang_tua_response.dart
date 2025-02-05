@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'get_orangtua_id_response.g.dart';
+part 'get_all_orang_tua_response.g.dart';
 
 @JsonSerializable()
-class GetOrangtuaIdResponse {
+class GetAllOrangTuaResponse {
   @JsonKey(name: "message")
   final String message;
   @JsonKey(name: "data")
@@ -12,59 +12,49 @@ class GetOrangtuaIdResponse {
   @JsonKey(name: "links")
   final Links links;
 
-  GetOrangtuaIdResponse({
+  GetAllOrangTuaResponse({
     required this.message,
     required this.data,
     required this.meta,
     required this.links,
   });
 
-  GetOrangtuaIdResponse copyWith({
+  GetAllOrangTuaResponse copyWith({
     String? message,
     List<Datum>? data,
     Meta? meta,
     Links? links,
   }) =>
-      GetOrangtuaIdResponse(
+      GetAllOrangTuaResponse(
         message: message ?? this.message,
         data: data ?? this.data,
         meta: meta ?? this.meta,
         links: links ?? this.links,
       );
 
-  factory GetOrangtuaIdResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOrangtuaIdResponseFromJson(json);
+  factory GetAllOrangTuaResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAllOrangTuaResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GetOrangtuaIdResponseToJson(this);
+  Map<String, dynamic> toJson() => _$GetAllOrangTuaResponseToJson(this);
 }
 
 @JsonSerializable()
 class Datum {
-  @JsonKey(name: "id")
-  final String id;
-  @JsonKey(name: "nomor_kartu_keluarga")
-  final String nomorKartuKeluarga;
   @JsonKey(name: "ayah")
   final Ayah ayah;
   @JsonKey(name: "ibu")
   final Ibu ibu;
 
   Datum({
-    required this.id,
-    required this.nomorKartuKeluarga,
     required this.ayah,
     required this.ibu,
   });
 
   Datum copyWith({
-    String? id,
-    String? nomorKartuKeluarga,
     Ayah? ayah,
     Ibu? ibu,
   }) =>
       Datum(
-        id: id ?? this.id,
-        nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
         ayah: ayah ?? this.ayah,
         ibu: ibu ?? this.ibu,
       );
@@ -80,19 +70,24 @@ class Ayah {
   final String id;
   @JsonKey(name: "nama_ayah")
   final String namaAyah;
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluarga kartuKeluarga;
 
   Ayah({
     required this.id,
     required this.namaAyah,
+    required this.kartuKeluarga,
   });
 
   Ayah copyWith({
     String? id,
     String? namaAyah,
+    KartuKeluarga? kartuKeluarga,
   }) =>
       Ayah(
         id: id ?? this.id,
         namaAyah: namaAyah ?? this.namaAyah,
+        kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
       );
 
   factory Ayah.fromJson(Map<String, dynamic> json) => _$AyahFromJson(json);
@@ -101,24 +96,55 @@ class Ayah {
 }
 
 @JsonSerializable()
+class KartuKeluarga {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nomor_kartu_keluarga")
+  final String nomorKartuKeluarga;
+
+  KartuKeluarga({
+    required this.id,
+    required this.nomorKartuKeluarga,
+  });
+
+  KartuKeluarga copyWith({
+    String? nomorKartuKeluarga,
+  }) =>
+      KartuKeluarga(
+        id: id ?? this.id,
+        nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
+      );
+
+  factory KartuKeluarga.fromJson(Map<String, dynamic> json) =>
+      _$KartuKeluargaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KartuKeluargaToJson(this);
+}
+
+@JsonSerializable()
 class Ibu {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "nama_ibu")
   final String namaIbu;
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluarga kartuKeluarga;
 
   Ibu({
     required this.id,
     required this.namaIbu,
+    required this.kartuKeluarga,
   });
 
   Ibu copyWith({
     String? id,
     String? namaIbu,
+    KartuKeluarga? kartuKeluarga,
   }) =>
       Ibu(
         id: id ?? this.id,
         namaIbu: namaIbu ?? this.namaIbu,
+        kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
       );
 
   factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);

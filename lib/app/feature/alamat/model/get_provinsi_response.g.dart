@@ -1,63 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_orangtua_id_response.dart';
+part of 'get_provinsi_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetOrangtuaIdResponse _$GetOrangtuaIdResponseFromJson(
-        Map<String, dynamic> json) =>
-    GetOrangtuaIdResponse(
-      message: json['message'] as String,
+GetProvinsiResponse _$GetProvinsiResponseFromJson(Map<String, dynamic> json) =>
+    GetProvinsiResponse(
       data: (json['data'] as List<dynamic>)
           .map((e) => Datum.fromJson(e as Map<String, dynamic>))
           .toList(),
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
       links: Links.fromJson(json['links'] as Map<String, dynamic>),
+      message: json['message'] as String,
     );
 
-Map<String, dynamic> _$GetOrangtuaIdResponseToJson(
-        GetOrangtuaIdResponse instance) =>
+Map<String, dynamic> _$GetProvinsiResponseToJson(
+        GetProvinsiResponse instance) =>
     <String, dynamic>{
-      'message': instance.message,
       'data': instance.data,
       'meta': instance.meta,
       'links': instance.links,
+      'message': instance.message,
     };
 
 Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       id: json['id'] as String,
-      nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
-      ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
-      ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
+      namaProvinsi: json['nama_provinsi'] as String,
     );
 
 Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
       'id': instance.id,
-      'nomor_kartu_keluarga': instance.nomorKartuKeluarga,
-      'ayah': instance.ayah,
-      'ibu': instance.ibu,
-    };
-
-Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
-      id: json['id'] as String,
-      namaAyah: json['nama_ayah'] as String,
-    );
-
-Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama_ayah': instance.namaAyah,
-    };
-
-Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
-      id: json['id'] as String,
-      namaIbu: json['nama_ibu'] as String,
-    );
-
-Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama_ibu': instance.namaIbu,
+      'nama_provinsi': instance.namaProvinsi,
     };
 
 Links _$LinksFromJson(Map<String, dynamic> json) => Links(

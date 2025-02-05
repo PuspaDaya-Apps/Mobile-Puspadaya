@@ -30,7 +30,8 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.kartuKeluarga}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.kartuKeluarga}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -56,7 +57,8 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.namaAyah}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.namaAyah}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -79,7 +81,9 @@ class DetailDataAyah extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.tempatLahir}'),
+                      InfoFieldWidget(
+                          text:
+                              '${getOrangtuaDetailResponse.data.ayah.tempatLahir}'),
                     ],
                   ),
                 ),
@@ -97,7 +101,9 @@ class DetailDataAyah extends StatelessWidget {
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ayah.tanggalLahir)}'),
+                      InfoFieldWidget(
+                          text:
+                              '${HelperCore.convertformatDateToIndonesian(getOrangtuaDetailResponse.data.ayah.tanggalLahir)}'),
                     ],
                   ),
                 ),
@@ -121,10 +127,14 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupatenKota.provinsi.namaProvinsi}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupaten.provinsi.namaProvinsi}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.kabupaten.namaKabupaten}'),
                 ),
               ],
             ),
@@ -137,17 +147,22 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.kecamatan.namaKecamatan}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.namaDesaKelurahan}'),
+                  child: InfoFieldWidget(
+                      text:
+                          '${getOrangtuaDetailResponse.data.ayah.dusun.desaKelurahan.namaDesaKelurahan}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.dusun.namaDusun}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.dusun.namaDusun}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
@@ -157,17 +172,20 @@ class DetailDataAyah extends StatelessWidget {
               spacing: 8,
               children: [
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.rt}'),
+                  child: InfoFieldWidget(
+                      text: '${getOrangtuaDetailResponse.data.ayah.rt}'),
                 ),
                 Expanded(
-                  child: InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.rw}'),
+                  child: InfoFieldWidget(
+                      text: '${getOrangtuaDetailResponse.data.ayah.rw}'),
                 ),
               ],
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.alamat}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.alamat}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -180,7 +198,8 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.nomorTelepon}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.nomorTelepon}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -193,41 +212,44 @@ class DetailDataAyah extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '${getOrangtuaDetailResponse.data.ayah.golDarah}'),
+            InfoFieldWidget(
+                text: '${getOrangtuaDetailResponse.data.ayah.golDarah}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
             getOrangtuaDetailResponse.data.ayah.jenisDisabilitas != null &&
-                getOrangtuaDetailResponse.data.ayah.jenisDisabilitas!.isNotEmpty
+                    getOrangtuaDetailResponse
+                        .data.ayah.jenisDisabilitas!.isNotEmpty
                 ? ExpansionTile(
-              tilePadding: EdgeInsets.zero,
-              childrenPadding: EdgeInsets.zero,
-              expandedCrossAxisAlignment: CrossAxisAlignment.start,
-              title: Text(
-                'Disabilitas',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              children: [
-                ...getOrangtuaDetailResponse.data.ayah.jenisDisabilitas!.map(
-                      (e) {
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 4, bottom: 4),
-                        child: Text(
-                          e.namaDisabilitas, // Mengakses nama disabilitas
-                          style: AppTextStyles.primaryTextMedium.copyWith(
-                            fontSize: 14,
-                          ),
-                        ),
+                    tilePadding: EdgeInsets.zero,
+                    childrenPadding: EdgeInsets.zero,
+                    expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                    title: Text(
+                      'Disabilitas',
+                      style: AppTextStyles.primaryTextMedium.copyWith(
+                        fontSize: 14,
                       ),
-                    );
-                  },
-                ).toList(), // Pastikan untuk mengonversi ke list
-              ],
-            )
+                    ),
+                    children: [
+                      ...getOrangtuaDetailResponse.data.ayah.jenisDisabilitas!
+                          .map(
+                        (e) {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4, bottom: 4),
+                              child: Text(
+                                e.namaDisabilitas, // Mengakses nama disabilitas
+                                style: AppTextStyles.primaryTextMedium.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(), // Pastikan untuk mengonversi ke list
+                    ],
+                  )
                 : SizedBox.shrink(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),

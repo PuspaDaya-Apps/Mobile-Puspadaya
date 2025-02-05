@@ -116,18 +116,25 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
                         return Center(child: CircularProgressIndicator());
                       }
                       if (state is DetailRegisterOrangTuaSuccess) {
+                        final result = state.getOrangTuaDetailResponse;
                         return TabBarView(
                           physics: NeverScrollableScrollPhysics(),
                           controller: _tabController,
                           children: [
-                            DetailDataAyah(getOrangtuaDetailResponse: state.getOrangTuaDetailResponse),
-                            DetailDataIbu(
-                                getOrangtuaDetailResponse: state.getOrangTuaDetailResponse
-                                    ),
+                            DetailDataAyah(getOrangtuaDetailResponse: result),
+                            DetailDataIbu(getOrangtuaDetailResponse: result),
+                            // DetailDataAyah(
+                            //   getOrangtuaDetailResponse:
+                            //       state.getOrangTuaDetailResponse,
+                            // ),
+                            // DetailDataIbu(
+                            //   getOrangtuaDetailResponse:
+                            //       state.getOrangTuaDetailResponse,
+                            // ),
                           ],
                         );
                       } else if (state is DetailRegisterOrangTuaFailure) {
-                        return Center(child: Text('Error: ${state.error}'),);
+                        return Center(child: Text('Error: ${state.error}'));
                       }
                       return Center(child: Text('No data available'));
                     },

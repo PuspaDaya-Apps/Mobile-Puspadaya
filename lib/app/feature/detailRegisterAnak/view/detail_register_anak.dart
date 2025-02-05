@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/detailRegisterAnak/bloc/detail_register_anak_bloc.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/view/detail_data_anak.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/view/detail_data_kia.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/appbar_widget.dart';
 
 class DetailRegisterAnak extends StatelessWidget {
@@ -11,12 +14,18 @@ class DetailRegisterAnak extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DetailRegisterAnakView();
+    return BlocProvider(
+      create: (context) => DetailRegisterAnakBloc(),
+      child: DetailRegisterAnakView(
+        anakId: id,
+      ),
+    );
   }
 }
 
 class DetailRegisterAnakView extends StatefulWidget {
-  const DetailRegisterAnakView({super.key});
+  final String anakId;
+  const DetailRegisterAnakView({super.key, required this.anakId});
 
   @override
   State<DetailRegisterAnakView> createState() => _DetailRegisterAnakViewState();
@@ -32,6 +41,11 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
       length: 2,
       vsync: this,
     );
+    logger.d('trigger fetch');
+    logger.d('anak id ${widget.anakId}');
+    context
+        .read<DetailRegisterAnakBloc>()
+        .add(FeathingDetailRegisterAnak(anakId: widget.anakId));
   }
 
   @override
@@ -84,16 +98,33 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                   ),
                 ),
                 SizedBox(height: 20),
-                Expanded(
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _tabController,
-                    children: [
-                      DetailDataAnak(),
-                      DetailDataKIA(),
-                    ],
-                  ),
-                ),
+                BlocBuilder<DetailRegisterAnakBloc, DetailRegisterAnakState>(
+                    builder: (context, state) {
+                  if (state is DetailRegisterAnakLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is DetailRegisterAnakFailure) {
+                    return Center(
+                      child: Text(state.error),
+                    );
+                  } else if (state is DetailRegisterAnakSuccess) {
+                    return Expanded(
+                      child: TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: [
+                          DetailDataAnak(
+                            detailResponse: state.getDetailRegisterAnak,
+                          ),
+                          DetailDataKIA(),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
               ],
             ),
           ),

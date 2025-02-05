@@ -46,37 +46,37 @@ class Datum {
   final String nik;
   @JsonKey(name: "nama_anak")
   final String namaAnak;
-  @JsonKey(name: "tanggal_lahir")
-  final DateTime tanggalLahir;
   @JsonKey(name: "jenis_kelamin")
   final String jenisKelamin;
   @JsonKey(name: "usia")
   final String usia;
+  @JsonKey(name: "nama_ibu")
+  final String namaIbu;
 
   Datum({
     required this.id,
     required this.nik,
     required this.namaAnak,
-    required this.tanggalLahir,
     required this.jenisKelamin,
     required this.usia,
+    required this.namaIbu,
   });
 
   Datum copyWith({
     String? id,
     String? nik,
     String? namaAnak,
-    DateTime? tanggalLahir,
     String? jenisKelamin,
     String? usia,
+    String? namaIbu,
   }) =>
       Datum(
         id: id ?? this.id,
         nik: nik ?? this.nik,
         namaAnak: namaAnak ?? this.namaAnak,
-        tanggalLahir: tanggalLahir ?? this.tanggalLahir,
         jenisKelamin: jenisKelamin ?? this.jenisKelamin,
         usia: usia ?? this.usia,
+        namaIbu: namaIbu ?? this.namaIbu,
       );
 
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
