@@ -319,6 +319,7 @@ class ApiUtils {
   Uri urlGetDusun() {
     String urlGetDusun = LinkApi.DUSUNURL;
     return Uri.parse(_baseUrl + _apiVersion + urlGetDusun);
+  }
 
   //!Beban Kerja
   Uri urlGetBebanKerjaItem() {
@@ -344,7 +345,5 @@ class ApiUtils {
   Uri urlDeleteDataBebanKerja(String id) {
     String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
-
   }
 }
-
