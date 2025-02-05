@@ -50,7 +50,7 @@ class KunjunganItemWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          boxShadow: boxShadow(),
+          boxShadow: shadowSm,
           borderRadius: BorderRadius.circular(12),
           color: item.status == Status.belumDiMulai
               ? greenPrimaryMain

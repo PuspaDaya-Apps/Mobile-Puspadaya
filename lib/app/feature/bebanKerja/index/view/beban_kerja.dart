@@ -32,15 +32,12 @@ class BebanKerjaView extends StatefulWidget {
 }
 
 class _BebanKerjaViewState extends State<BebanKerjaView> {
-  
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<IndexBebanKerjaBloc>(context).add(
-      GetBebanKerjaEvent()
-    );
+    BlocProvider.of<IndexBebanKerjaBloc>(context).add(GetBebanKerjaEvent());
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final indexBebanKerja = BlocProvider.of<IndexBebanKerjaBloc>(context);
@@ -60,18 +57,18 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
             debugPrint(state.toString());
           },
           builder: (context, state) {
-            if(state is IndexBebanKerjaProcessState) {
+            if (state is IndexBebanKerjaProcessState) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: bluePrimaryMain,
                 ),
               );
             }
-            if(state is IndexBebanKerjaSuccessState) {
-              if(state.indexBebanKerjaResponseModel.data!.isEmpty) {
+            if (state is IndexBebanKerjaSuccessState) {
+              if (state.indexBebanKerjaResponseModel.data!.isEmpty) {
                 return const NoDataScreen();
-              } 
-               return Padding(
+              }
+              return Padding(
                 padding: const EdgeInsets.all(16),
                 child: ListView.builder(
                   itemCount: state.indexBebanKerjaResponseModel.data!.length,
@@ -82,18 +79,22 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        boxShadow: boxShadow(),
+                        boxShadow: shadowMd,
                       ),
                       child: BebanKerjaItems(
                         onTap: () {
-                          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA, arguments: state.indexBebanKerjaResponseModel.data![index].id).then((value) {
-                            if(value != null) {
+                          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA,
+                                  arguments: state.indexBebanKerjaResponseModel
+                                      .data![index].id)
+                              .then((value) {
+                            if (value != null) {
                               indexBebanKerja.add(GetBebanKerjaEvent());
                             }
                           });
                         },
                         place: "Posyandu ${state.posyandu}",
-                        date: DateFormat('MMMM y', 'id_ID').format(state.indexBebanKerjaResponseModel.data![index].bulan),
+                        date: DateFormat('MMMM y', 'id_ID').format(state
+                            .indexBebanKerjaResponseModel.data![index].bulan),
                       ),
                     );
                   },
@@ -114,7 +115,7 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
         ),
         onPressed: () {
           Navigator.pushNamed(context, CREATE_BEBAN_KERJA).then((value) {
-            if(value != null) {
+            if (value != null) {
               indexBebanKerja.add(GetBebanKerjaEvent());
             }
           });
