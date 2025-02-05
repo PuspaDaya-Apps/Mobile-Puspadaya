@@ -28,7 +28,7 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
-import '../../../../model/paketToScreen/paket_to_create_pengukuran_tamu_mode.dart';
+import '../../../../model/paketToScreen/paket_to_create_pengukuran_tamu_model.dart';
 
 class CreatePengukuranTamu extends StatelessWidget {
   const CreatePengukuranTamu({super.key});
@@ -122,7 +122,10 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
         appBar: PrimaryAppBar(
           title: "Pengukuran Tamu",
           // actions: [__buildChangeMeasuringToolsButton(context)],
-          onBackPressed: () => Navigator.pop(context),
+          onBackPressed: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
         ),
         body: SafeArea(
           child: SingleChildScrollView(
