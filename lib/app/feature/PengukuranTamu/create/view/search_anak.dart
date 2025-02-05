@@ -4,10 +4,13 @@ import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart'
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_content.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/info_field_widget.dart';
+import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
+import '../../../../../config/validator/validator.dart';
 import '../../../../view/widget/date_time_picker_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
 
@@ -30,33 +33,14 @@ class SearchAnakView extends StatefulWidget {
 class _SearchAnakViewState extends State<SearchAnakView> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _tempatController = TextEditingController();
-  final TextEditingController _tanggalController = TextEditingController();
+  final String date = HelperCore.convertformatDateToIndonesian( DateTime.now());
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      cancelText: "Batalkan",
-      confirmText: "OK",
-      currentDate: DateTime.now(),
-      helpText: "Pilih Tanggal",
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
-    }
-  }
 
   @override
   void dispose() {
     _searchController.dispose();
     _tempatController.dispose();
-    _tanggalController.dispose();
     super.dispose();
   }
 
@@ -112,19 +96,22 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                               children: [
                                 Text(
                                   'NIK : $nik',
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 14,
                                   ),
                                 ),
                                 Text(
                                   'Nama : $nama',
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 14,
                                   ),
                                 ),
                                 Text(
                                   'Nama Ibu : $namaIbu',
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 14,
                                   ),
                                 ),
@@ -137,44 +124,41 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 SizedBox(height: 16),
                                 Text(
                                   'Pengukuran Terakhir',
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 14,
                                   ),
                                 ),
-                                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Tempat',
                                   style: TextStyle(fontSize: 12),
                                 ),
-                                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(8)),
                                 TextFieldWidget(
                                   controller: _tempatController,
                                   hintText: "Tempat",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.text,
                                   obscureText: false,
+                                  validators: [
+                                    (value) => Validator.required(
+                                        value, "Kata sandi tidak boleh kosong"),
+                                  ],
                                 ),
-                                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Tanggal',
                                   style: TextStyle(fontSize: 12),
                                 ),
-                                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                                DateTimePickerWidget(
-                                  isDate: true,
-                                  controller: _tanggalController,
-                                  selectDate: () {
-                                    _selectDate(context);
-                                  },
-                                  hintText: "Pilih Tanggal Pengukuran",
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Tanggal harus dipilih";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(8)),
+                                InfoFieldWidget(text: '${date}'),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
                               ],
                             ),
                           ),
