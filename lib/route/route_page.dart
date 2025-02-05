@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
+import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
+import 'package:puspadaya/app/feature/PengukuranTamu/create/view/search_posyandu.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
@@ -17,6 +19,8 @@ import 'package:puspadaya/app/feature/registerAnggotaKader/view/register_anggota
 import 'package:puspadaya/app/feature/registerOrangTua/view/register_orang_tua.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_register_orang_tua.dart';
 import 'package:puspadaya/app/view/screen/feature_maintenance.dart';
+import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
+import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
@@ -140,8 +144,7 @@ class MyRoute {
 
       case UPDATE_KEHADIRAN:
         return MaterialPageRoute(
-            builder: (context) => const UpdateKehadiran(),
-            settings: settings);
+            builder: (context) => const UpdateKehadiran(), settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
@@ -150,15 +153,34 @@ class MyRoute {
 
       case DETAIL_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) =>  DetailPengukuranAnak(
-              pengukuranId: settings.arguments as String,
-            ),
+            builder: (context) => DetailPengukuranAnak(
+                  pengukuranId: settings.arguments as String,
+                ),
             settings: settings);
 
       case UPDATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
-            builder: (context) => UpdatePengukuranAnak(paket: settings.arguments as PaketToUpdatePengukuranAnakModel),
+            builder: (context) => UpdatePengukuranAnak(
+                paket: settings.arguments as PaketToUpdatePengukuranAnakModel),
             settings: settings);
+
+      // ? tamu
+      case CREATE_PENGUKURAN_TAMU:
+        return MaterialPageRoute(
+            builder: (context) => const SearchPosyandu(),
+            settings: settings);
+
+      case UPDATE_PENGUKURAN_TAMU:
+        return MaterialPageRoute(
+            builder: (context) => const UpdatePengukuranTamu(),
+            settings: settings);
+
+      case DETAIL_PENGUKURAN_TAMU:
+        final id = settings.arguments as String? ?? '';
+        return MaterialPageRoute(
+          builder: (context) => DetailPengukuranTamu(pengukuranId: id),
+          settings: settings,
+        );
 
       case CREATE_PENGUKURAN_IBU_HAMIL:
         return MaterialPageRoute(
@@ -192,7 +214,9 @@ class MyRoute {
 
       case DETAIL_BEBAN_KERJA:
         return MaterialPageRoute(
-            builder: (context) => DetailBebanKerja(bebanKerjaId: settings.arguments as String), settings: settings);
+            builder: (context) =>
+                DetailBebanKerja(bebanKerjaId: settings.arguments as String),
+            settings: settings);
 
       case CREATE_BEBAN_KERJA:
         return MaterialPageRoute(

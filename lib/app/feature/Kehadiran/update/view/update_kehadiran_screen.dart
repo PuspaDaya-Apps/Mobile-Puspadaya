@@ -56,6 +56,7 @@ class _CreateKehadiranViewState extends State<UpdateKehadiranView>
           mainButtonMessage: 'Selesai',
           mainButton: () {
             Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
       ),
