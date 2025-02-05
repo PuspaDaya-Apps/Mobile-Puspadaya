@@ -21,6 +21,7 @@ const String GANTI_KATA_SANDI = '/profile/ganti-kata-sandi';
 const String UBAH_PROFILE = '/profile/ubah-profile';
 const String CREATE_KEHADIRAN = '/pengukuran/kehadiran/create';
 const String DETAIL_KEHADIRAN = '/pengukuran/kehadiran/detail';
+const String UPDATE_KEHADIRAN = '/pengukuran/kehadiran/update';
 const String CREATE_PENGUKURAN_ANAK = '/pengukuran/anak/create';
 const String DETAIL_PENGUKURAN_ANAK = '/pengukuran/anak/detail';
 const String UPDATE_PENGUKURAN_ANAK = '/pengukuran/anak/update';
