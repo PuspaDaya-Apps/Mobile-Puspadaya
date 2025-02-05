@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/search_posyandu.dart';
@@ -71,7 +72,8 @@ import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
 
 class MyRoute {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+
+   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case SPLASHSCREEN:
         return MaterialPageRoute(
