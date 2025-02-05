@@ -35,7 +35,14 @@ class CreatePengukuranAnakBloc extends Bloc<CreatePengukuranAnakEvent, CreatePen
         final PengukuranAnakResponseModel pengukuranAnakResponseModel = PengukuranAnakResponseModel.fromJson(response[1]);
 
         if(statusCode == 201) {
-          emit(CreatePengukuranAnakSuccesState(pengukuranAnakResponseModel));
+          String statusGizi = "${pengukuranAnakResponseModel.data!.statusGizi.statusGizi}\n${pengukuranAnakResponseModel.data!.statusGizi.statusWasting}";
+
+
+          emit(CreatePengukuranAnakSuccesState(
+            pengukuranAnakResponseModel: pengukuranAnakResponseModel,
+            statusGizi: statusGizi
+          )
+        );
         } else if (statusCode == 401) {
           emit(CreatePengukuranAnakTokenExpiredState());
         } else {

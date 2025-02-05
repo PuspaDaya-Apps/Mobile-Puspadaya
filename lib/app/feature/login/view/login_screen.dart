@@ -14,7 +14,7 @@ import '../bloc/rememberMeCubit/remember_me_cubit.dart';
 import '../model/login_model.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -76,23 +76,23 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                             itemCount: image.length,
                             disableGesture: true,
                             options: CarouselOptions(
-                                viewportFraction: 1.0,
-                                autoPlay: true,
-                                pauseAutoPlayOnTouch: true,
-                                autoPlayAnimationDuration:
-                                    const Duration(seconds: 3),
-                                autoPlayInterval: const Duration(seconds: 8),
-                                autoPlayCurve: Curves.ease,
-                                enableInfiniteScroll: true,
-                                onScrolled: null,
-                                onPageChanged: null),
-                            itemBuilder: (context, index, realIndex) =>
-                                Image.asset(
-                                  image[index],
-                                  width: SizeConfig.calWidthMultiplier(335),
-                                  height: SizeConfig.calHeightMultiplier(250),
-                                  fit: BoxFit.contain,
-                                )),
+                              viewportFraction: 1.0,
+                              autoPlay: true,
+                              pauseAutoPlayOnTouch: true,
+                              autoPlayAnimationDuration:
+                                  const Duration(seconds: 3),
+                              autoPlayInterval: const Duration(seconds: 8),
+                              autoPlayCurve: Curves.ease,
+                              enableInfiniteScroll: true,
+                              onScrolled: null,
+                              onPageChanged: null),
+                          itemBuilder: (context, index, realIndex) =>
+                            Image.asset(
+                              image[index],
+                              width: SizeConfig.calWidthMultiplier(335),
+                              height: SizeConfig.calHeightMultiplier(250),
+                              fit: BoxFit.contain,
+                            )),
                       ),
                       Expanded(
                         child: Container(
@@ -109,8 +109,17 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                               topRight: Radius.circular(20)
                             )
                           ),
-                          child: BlocBuilder<RememberMeCubit, RememberMeState>(
+                          child: BlocConsumer<RememberMeCubit, RememberMeState>(
+                            listener: (context, accountState) {
+                              if (accountState is LoadAccountSuccessState) {
+                                debugPrint("buat ulang"); 
+                                usernameController = TextEditingController(text: accountState.loginModel.username);
+                                passwordController = TextEditingController(text: accountState.loginModel.password);
+                                ingatSaya = true; 
+                              }
+                            },
                             builder: (context, accountState) {
+                              debugPrint(accountState.toString()); 
                               if(accountState is LoadAccountProccessState) {
                                 return const Center(
                                   child: CircularProgressIndicator(
@@ -118,12 +127,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                   ),
                                 );
                               }
-                              if (accountState is LoadAccountSuccessState) {
-                                usernameController = TextEditingController(text: accountState.loginModel.username);
-                                passwordController = TextEditingController(text: accountState.loginModel.password);
-                                ingatSaya = true; 
-                              }
-                              debugPrint("buat ulang");                              return Column(
+                              return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -234,26 +238,30 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                         //login
                                         if (state is LoginFailedState) {
                                           debugPrint(state.error);
+                                          // SnackyController().showMessage((context) =>SnackyWidget().error(state.error));
                                         }
                                         if (state is LoginSuccessState) {
-                                          loginBloc.add(GetCurrentUserEvent(
-                                              state.accessToken));
+                                          loginBloc.add(GetCurrentUserEvent(state.accessToken));
                                         }
                                         if (state is NullErrorState) {
                                           debugPrint(state.error);
+                                          // SnackyController().showMessage((context) =>SnackyWidget().warning(state.error));
                                         }
-
                                         //getUser
                                         if (state is CurrentUserSuccesState) {
-                                          Navigator.pushReplacementNamed(
-                                              context, HOME);
+                                          // SnackyController().showMessage((context) =>SnackyWidget().succes("Login berhasil"));
+                                          Navigator.pushReplacementNamed(context, HOME);
                                         }
                                         if (state is CurrentUserFailedState) {
                                           debugPrint(state.error);
+                                          // SnackyController().showMessage((context) =>SnackyWidget().error(state.error));
                                         }
                                       },
                                       builder: (context, state) {
-                                        if (state is LoginProcessState) {
+                                        if (state is LoginProcessState ||
+                                        state is LoginSuccessState ||
+                                        State is CurrentUserProccesState
+                                        ) {
                                           return ElevatedButton(
                                               onPressed: null,
                                               style: ElevatedButton.styleFrom(
