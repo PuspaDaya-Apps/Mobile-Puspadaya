@@ -25,7 +25,7 @@ class DaftarKunjunganDetailItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: boxShadow(),
+        boxShadow: shadowSm,
       ),
       child: ListTile(
         onTap: onTap,
