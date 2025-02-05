@@ -39,7 +39,7 @@ class Ayah {
   @JsonKey(name: "tempat_lahir")
   final String tempatLahir;
   @JsonKey(name: "tanggal_lahir")
-  final DateTime tanggalLahir;
+  final String tanggalLahir;
   @JsonKey(name: "nomor_telepon")
   final String nomorTelepon;
   @JsonKey(name: "rt")
@@ -53,7 +53,7 @@ class Ayah {
   @JsonKey(name: "gol_darah")
   final String golDarah;
   @JsonKey(name: "jenis_disabilitas")
-  final List<JenisDisabilita> jenisDisabilitas;
+  final List<JenisDisabilitas> jenisDisabilitas;
 
   Ayah({
     required this.nomorKartuKeluarga,
@@ -75,14 +75,14 @@ class Ayah {
     String? nik,
     String? namaAyah,
     String? tempatLahir,
-    DateTime? tanggalLahir,
+    String? tanggalLahir,
     String? nomorTelepon,
     String? rt,
     String? rw,
     String? dusunId,
     String? alamat,
     String? golDarah,
-    List<JenisDisabilita>? jenisDisabilitas,
+    List<JenisDisabilitas>? jenisDisabilitas,
   }) =>
       Ayah(
         nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
@@ -105,25 +105,25 @@ class Ayah {
 }
 
 @JsonSerializable()
-class JenisDisabilita {
+class JenisDisabilitas {
   @JsonKey(name: "nama_disabilitas")
   final String namaDisabilitas;
 
-  JenisDisabilita({
+  JenisDisabilitas({
     required this.namaDisabilitas,
   });
 
-  JenisDisabilita copyWith({
+  JenisDisabilitas copyWith({
     String? namaDisabilitas,
   }) =>
-      JenisDisabilita(
+      JenisDisabilitas(
         namaDisabilitas: namaDisabilitas ?? this.namaDisabilitas,
       );
 
-  factory JenisDisabilita.fromJson(Map<String, dynamic> json) =>
-      _$JenisDisabilitaFromJson(json);
+  factory JenisDisabilitas.fromJson(Map<String, dynamic> json) =>
+      _$JenisDisabilitasFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JenisDisabilitaToJson(this);
+  Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
 }
 
 @JsonSerializable()
@@ -137,7 +137,7 @@ class Ibu {
   @JsonKey(name: "tempat_lahir")
   final String tempatLahir;
   @JsonKey(name: "tanggal_lahir")
-  final DateTime tanggalLahir;
+  final String tanggalLahir;
   @JsonKey(name: "rt")
   final String rt;
   @JsonKey(name: "rw")
@@ -153,11 +153,11 @@ class Ibu {
   @JsonKey(name: "jenis_kb")
   final String jenisKb;
   @JsonKey(name: "tanggal_melahirkan_sebelumnya")
-  final DateTime tanggalMelahirkanSebelumnya;
+  final String tanggalMelahirkanSebelumnya;
   @JsonKey(name: "jumlah_anak")
   final int jumlahAnak;
   @JsonKey(name: "jenis_disabilitas")
-  final List<JenisDisabilita> jenisDisabilitas;
+  final List<JenisDisabilitas> jenisDisabilitas;
 
   Ibu({
     required this.nomorKartuKeluarga,
@@ -182,7 +182,7 @@ class Ibu {
     String? nik,
     String? namaIbu,
     String? tempatLahir,
-    DateTime? tanggalLahir,
+    String? tanggalLahir,
     String? rt,
     String? rw,
     String? dusunId,
@@ -190,9 +190,9 @@ class Ibu {
     String? nomorTelepon,
     String? golDarah,
     String? jenisKb,
-    DateTime? tanggalMelahirkanSebelumnya,
+    String? tanggalMelahirkanSebelumnya,
     int? jumlahAnak,
-    List<JenisDisabilita>? jenisDisabilitas,
+    List<JenisDisabilitas>? jenisDisabilitas,
   }) =>
       Ibu(
         nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,

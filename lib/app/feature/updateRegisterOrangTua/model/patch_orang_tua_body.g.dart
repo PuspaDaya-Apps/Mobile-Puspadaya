@@ -31,7 +31,7 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       alamat: json['alamat'] as String,
       golDarah: json['gol_darah'] as String,
       jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>)
-          .map((e) => JenisDisabilita.fromJson(e as Map<String, dynamic>))
+          .map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as String,
       namaIbu: json['nama_ibu'] as String,
@@ -62,12 +62,12 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'jumlah_anak': instance.jumlahAnak,
     };
 
-JenisDisabilita _$JenisDisabilitaFromJson(Map<String, dynamic> json) =>
-    JenisDisabilita(
+JenisDisabilitas _$JenisDisabilitasFromJson(Map<String, dynamic> json) =>
+    JenisDisabilitas(
       namaDisabilitas: json['nama_disabilitas'] as String,
     );
 
-Map<String, dynamic> _$JenisDisabilitaToJson(JenisDisabilita instance) =>
+Map<String, dynamic> _$JenisDisabilitasToJson(JenisDisabilitas instance) =>
     <String, dynamic>{
       'nama_disabilitas': instance.namaDisabilitas,
     };

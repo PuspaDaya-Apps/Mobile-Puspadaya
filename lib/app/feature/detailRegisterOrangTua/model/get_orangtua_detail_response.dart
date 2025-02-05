@@ -43,20 +43,11 @@ class Ibu {
   @JsonKey(name: "id")
   final String id;
 
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-
   @JsonKey(name: "nik")
   final String nik;
 
-  @JsonKey(name: "nama_ibu")
-  final String namaIbu;
+  @JsonKey(name: "nama")
+  final String nama;
 
   @JsonKey(name: "tempat_lahir")
   final String tempatLahir;
@@ -91,9 +82,6 @@ class Ibu {
   @JsonKey(name: "jumlah_anak")
   final int jumlahAnak;
 
-  @JsonKey(name: "user_id")
-  final dynamic userId;
-
   @JsonKey(name: "posyandu")
   final Posyandu posyandu;
 
@@ -104,12 +92,9 @@ class Ibu {
   final List<JenisDisabilitas>? jenisDisabilitas;
 
   Ibu({
+    required this.nama,
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.nik,
-    required this.namaIbu,
     required this.tempatLahir,
     required this.tanggalLahir,
     required this.nomorTelepon,
@@ -121,7 +106,6 @@ class Ibu {
     required this.jenisKB,
     required this.tanggalMelahirkanSebelumnya,
     required this.jumlahAnak,
-    required this.userId,
     required this.posyandu,
     required this.kartuKeluarga,
     required this.jenisDisabilitas,
@@ -129,11 +113,8 @@ class Ibu {
 
   Ibu copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
     String? nik,
-    String? namaIbu,
+    String? nama,
     String? tempatLahir,
     DateTime? tanggalLahir,
     String? nomorTelepon,
@@ -145,18 +126,14 @@ class Ibu {
     String? jenisKB,
     String? tanggalMelahirkanSebelumnya,
     int? jumlahAnak,
-    dynamic userId,
     Posyandu? posyandu,
     KartuKeluarga? kartuKeluarga,
     List<JenisDisabilitas>? jenisDisabilitas,
   }) =>
       Ibu(
+        nama: nama ?? this.nama,
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         nik: nik ?? this.nik,
-        namaIbu: namaIbu ?? this.namaIbu,
         tempatLahir: tempatLahir ?? this.tempatLahir,
         tanggalLahir: tanggalLahir ?? this.tanggalLahir,
         nomorTelepon: nomorTelepon ?? this.nomorTelepon,
@@ -169,7 +146,6 @@ class Ibu {
         tanggalMelahirkanSebelumnya:
             tanggalMelahirkanSebelumnya ?? this.tanggalMelahirkanSebelumnya,
         jumlahAnak: jumlahAnak ?? this.jumlahAnak,
-        userId: userId ?? this.userId,
         posyandu: posyandu ?? this.posyandu,
         kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
         jenisDisabilitas: jenisDisabilitas ?? this.jenisDisabilitas,
@@ -185,19 +161,10 @@ class Ayah {
   @JsonKey(name: "id")
   final String id;
 
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-
   @JsonKey(name: "nik")
   final String nik;
 
-  @JsonKey(name: "nama_ayah")
+  @JsonKey(name: "nama")
   final String namaAyah;
 
   @JsonKey(name: "tempat_lahir")
@@ -218,29 +185,23 @@ class Ayah {
   @JsonKey(name: "dusun")
   final Dusun dusun;
 
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluarga kartuKeluarga;
+
+  @JsonKey(name: "posyandu")
+  final Posyandu posyandu;
+
   @JsonKey(name: "alamat")
   final String alamat;
 
   @JsonKey(name: "gol_darah")
   final String golDarah;
 
-  @JsonKey(name: "user_id")
-  final dynamic userId;
-
-  @JsonKey(name: "posyandu")
-  final Posyandu posyandu;
-
-  @JsonKey(name: "kartu_keluarga")
-  final KartuKeluarga kartuKeluarga;
-
   @JsonKey(name: "jenis_disabilitas")
   final List<JenisDisabilitas>? jenisDisabilitas;
 
   Ayah({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.nik,
     required this.namaAyah,
     required this.tempatLahir,
@@ -251,7 +212,6 @@ class Ayah {
     required this.dusun,
     required this.alamat,
     required this.golDarah,
-    required this.userId,
     required this.posyandu,
     required this.kartuKeluarga,
     required this.jenisDisabilitas,
@@ -284,9 +244,6 @@ class Ayah {
   }) {
     return Ayah(
       id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      deletedAt: deletedAt ?? this.deletedAt,
       nik: nik ?? this.nik,
       namaAyah: namaAyah ?? this.namaAyah,
       tempatLahir: tempatLahir ?? this.tempatLahir,
@@ -297,7 +254,6 @@ class Ayah {
       dusun: dusun ?? this.dusun,
       alamat: alamat ?? this.alamat,
       golDarah: golDarah ?? this.golDarah,
-      userId: userId ?? this.userId,
       posyandu: posyandu ?? this.posyandu,
       kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
       jenisDisabilitas: jenisDisabilitas ?? this.jenisDisabilitas,
@@ -309,20 +265,11 @@ class Ayah {
 class JenisDisabilitas {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_disabilitas")
+  @JsonKey(name: "nama")
   final String namaDisabilitas;
 
   JenisDisabilitas({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaDisabilitas,
   });
 
@@ -335,9 +282,6 @@ class JenisDisabilitas {
   }) =>
       JenisDisabilitas(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaDisabilitas: namaDisabilitas ?? this.namaDisabilitas,
       );
 
@@ -351,20 +295,11 @@ class JenisDisabilitas {
 class KartuKeluarga {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nomor_kartu_keluarga")
   final String nomorKartuKeluarga;
 
   KartuKeluarga({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.nomorKartuKeluarga,
   });
 
@@ -373,14 +308,10 @@ class KartuKeluarga {
     DateTime? createdAt,
     DateTime? updatedAt,
     dynamic deletedAt,
-    String? namaDisabilitas,
     String? nomorKartuKeluarga,
   }) =>
       KartuKeluarga(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
       );
 
@@ -394,39 +325,24 @@ class KartuKeluarga {
 class Posyandu {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_posyandu")
+  @JsonKey(name: "nama")
   final String namaPosyandu;
   @JsonKey(name: "alamat")
   final dynamic alamat;
 
   Posyandu({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaPosyandu,
     required this.alamat,
   });
 
   Posyandu copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
     String? namaPosyandu,
     dynamic alamat,
   }) =>
       Posyandu(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaPosyandu: namaPosyandu ?? this.namaPosyandu,
         alamat: alamat ?? this.alamat,
       );
@@ -441,39 +357,24 @@ class Posyandu {
 class Dusun {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_dusun")
+  @JsonKey(name: "nama")
   final String namaDusun;
   @JsonKey(name: "desa_kelurahan")
   final DesaKelurahan desaKelurahan;
 
   Dusun({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaDusun,
     required this.desaKelurahan,
   });
 
   Dusun copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
     String? namaDusun,
     DesaKelurahan? desaKelurahan,
   }) =>
       Dusun(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaDusun: namaDusun ?? this.namaDusun,
         desaKelurahan: desaKelurahan ?? this.desaKelurahan,
       );
@@ -487,22 +388,13 @@ class Dusun {
 class DesaKelurahan {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_desa_kelurahan")
+  @JsonKey(name: "nama")
   final String namaDesaKelurahan;
   @JsonKey(name: "kecamatan")
   final Kecamatan kecamatan;
 
   DesaKelurahan({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaDesaKelurahan,
     required this.kecamatan,
   });
@@ -517,9 +409,6 @@ class DesaKelurahan {
   }) =>
       DesaKelurahan(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaDesaKelurahan: namaDesaKelurahan ?? this.namaDesaKelurahan,
         kecamatan: kecamatan ?? this.kecamatan,
       );
@@ -534,41 +423,26 @@ class DesaKelurahan {
 class Kecamatan {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_kecamatan")
+  @JsonKey(name: "nama")
   final String namaKecamatan;
-  @JsonKey(name: "kabupaten_kota")
-  final KabupatenKota kabupatenKota;
+  @JsonKey(name: "kabupaten")
+  final Kabupaten kabupaten;
 
   Kecamatan({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaKecamatan,
-    required this.kabupatenKota,
+    required this.kabupaten,
   });
 
   Kecamatan copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
     String? namaKecamatan,
-    KabupatenKota? kabupatenKota,
+    Kabupaten? kabupaten,
   }) =>
       Kecamatan(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaKecamatan: namaKecamatan ?? this.namaKecamatan,
-        kabupatenKota: kabupatenKota ?? this.kabupatenKota,
+        kabupaten: kabupaten ?? this.kabupaten,
       );
 
   factory Kecamatan.fromJson(Map<String, dynamic> json) =>
@@ -578,85 +452,55 @@ class Kecamatan {
 }
 
 @JsonSerializable()
-class KabupatenKota {
+class Kabupaten {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_kabupaten_kota")
-  final String namaKabupatenKota;
+  @JsonKey(name: "nama")
+  final String namaKabupaten;
   @JsonKey(name: "provinsi")
   final Provinsi provinsi;
 
-  KabupatenKota({
+  Kabupaten({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.namaKabupatenKota,
+    required this.namaKabupaten,
     required this.provinsi,
   });
 
-  KabupatenKota copyWith({
+  Kabupaten copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
-    String? namaKabupatenKota,
+    String? namaKabupaten,
     Provinsi? provinsi,
   }) =>
-      KabupatenKota(
+      Kabupaten(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
-        namaKabupatenKota: namaKabupatenKota ?? this.namaKabupatenKota,
+        namaKabupaten: namaKabupaten ?? this.namaKabupaten,
         provinsi: provinsi ?? this.provinsi,
       );
 
-  factory KabupatenKota.fromJson(Map<String, dynamic> json) =>
-      _$KabupatenKotaFromJson(json);
+  factory Kabupaten.fromJson(Map<String, dynamic> json) =>
+      _$KabupatenFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KabupatenKotaToJson(this);
+  Map<String, dynamic> toJson() => _$KabupatenToJson(this);
 }
 
 @JsonSerializable()
 class Provinsi {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "nama_provinsi")
+  @JsonKey(name: "nama")
   final String namaProvinsi;
 
   Provinsi({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaProvinsi,
   });
 
   Provinsi copyWith({
     String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
     String? namaProvinsi,
   }) =>
       Provinsi(
         id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        deletedAt: deletedAt ?? this.deletedAt,
         namaProvinsi: namaProvinsi ?? this.namaProvinsi,
       );
 

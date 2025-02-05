@@ -10,14 +10,7 @@ import '../../updateRegisterAnak/view/update_register_data_wali.dart';
 
 class DetailDataWali extends StatelessWidget {
   DetailDataWali({super.key});
-  final List<String> disabilitas = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
+  final List<String> disabilitas = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +47,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Orang Tua Kandung'),
+                InfoFieldWidget(text: 'Nenek'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -67,7 +60,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'INI Nomor Kartu Keluarga'),
+                InfoFieldWidget(text: '1273638363718819271927'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -80,7 +73,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'INI NIK'),
+                InfoFieldWidget(text: '35647362544958499'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -93,7 +86,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'INI NAMA AYAH'),
+                InfoFieldWidget(text: 'Siti Aisyah'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -116,7 +109,7 @@ class DetailDataWali extends StatelessWidget {
                           SizedBox(
                             height: SizeConfig.calHeightMultiplier(8),
                           ),
-                          InfoFieldWidget(text: 'INI TEMPAT LAHIR'),
+                          InfoFieldWidget(text: 'Jakarta'),
                         ],
                       ),
                     ),
@@ -134,7 +127,7 @@ class DetailDataWali extends StatelessWidget {
                           SizedBox(
                             height: SizeConfig.calHeightMultiplier(8),
                           ),
-                          InfoFieldWidget(text: 'INI TANGGAL LAHIR'),
+                          InfoFieldWidget(text: '01/04/1969'),
                         ],
                       ),
                     ),
@@ -158,10 +151,10 @@ class DetailDataWali extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: 'Banyuwangi'),
+                      child: InfoFieldWidget(text: 'Jawa Timur'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Kabat'),
+                      child: InfoFieldWidget(text: 'Banyuwangi'),
                     ),
                   ],
                 ),
@@ -174,16 +167,20 @@ class DetailDataWali extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: 'Kabat'),
+                      child: InfoFieldWidget(text: 'Banyuwangi'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Bunder'),
+                      child: InfoFieldWidget(text: 'Rogojampi'),
                     ),
                   ],
                 ),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(8),
+                ),
+                InfoFieldWidget(text: 'Lemabang Kulon'),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -200,7 +197,8 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Alamat Lengkap'),
+                InfoFieldWidget(
+                    text: 'Jl. Jendaral Sudirman, Gg. Jembatan Ayu'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -213,7 +211,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '018123141232'),
+                InfoFieldWidget(text: '082123141232'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
@@ -226,7 +224,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'A'),
+                InfoFieldWidget(text: 'A+'),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),

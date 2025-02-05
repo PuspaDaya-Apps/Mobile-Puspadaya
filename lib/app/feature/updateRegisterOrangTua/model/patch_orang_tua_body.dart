@@ -53,7 +53,7 @@ class Ayah {
   @JsonKey(name: "gol_darah")
   final String golDarah;
   @JsonKey(name: "jenis_disabilitas")
-  final List<JenisDisabilita> jenisDisabilitas;
+  final List<JenisDisabilitas> jenisDisabilitas;
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "nama_ibu")
@@ -97,7 +97,7 @@ class Ayah {
     String? dusunId,
     String? alamat,
     String? golDarah,
-    List<JenisDisabilita>? jenisDisabilitas,
+    List<JenisDisabilitas>? jenisDisabilitas,
     String? id,
     String? namaIbu,
     String? jenisKb,
@@ -131,23 +131,23 @@ class Ayah {
 }
 
 @JsonSerializable()
-class JenisDisabilita {
+class JenisDisabilitas {
   @JsonKey(name: "nama_disabilitas")
   final String namaDisabilitas;
 
-  JenisDisabilita({
+  JenisDisabilitas({
     required this.namaDisabilitas,
   });
 
-  JenisDisabilita copyWith({
+  JenisDisabilitas copyWith({
     String? namaDisabilitas,
   }) =>
-      JenisDisabilita(
+      JenisDisabilitas(
         namaDisabilitas: namaDisabilitas ?? this.namaDisabilitas,
       );
 
-  factory JenisDisabilita.fromJson(Map<String, dynamic> json) =>
-      _$JenisDisabilitaFromJson(json);
+  factory JenisDisabilitas.fromJson(Map<String, dynamic> json) =>
+      _$JenisDisabilitasFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JenisDisabilitaToJson(this);
+  Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
 }

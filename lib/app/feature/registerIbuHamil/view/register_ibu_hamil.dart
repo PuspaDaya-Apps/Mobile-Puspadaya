@@ -29,12 +29,6 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
 
   List<IbuHamilItemModel> listOrangTua = [
     IbuHamilItemModel(
-      name: 'Muhammad Kaivan Al Hakim',
-      nik: '362155482327263',
-      month: 2,
-      week: 7,
-    ),
-    IbuHamilItemModel(
       name: 'Mentari Kumala Sari',
       nik: '362155482327263',
       month: 2,
@@ -42,12 +36,6 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
     ),
     IbuHamilItemModel(
       name: 'Dewi antasari',
-      nik: '362155482327263',
-      month: 2,
-      week: 7,
-    ),
-    IbuHamilItemModel(
-      name: 'Muhammad Kaivan Al Hakim',
       nik: '362155482327263',
       month: 2,
       week: 7,
