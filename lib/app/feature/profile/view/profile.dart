@@ -9,6 +9,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../../../config/theme/shadow.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
@@ -97,13 +98,7 @@ class _ProfileViewState extends State<ProfileView> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 30,
-                        offset: const Offset(0, 0),
-                        color: Colors.black.withValues(alpha: 0.1),
-                      ),
-                    ],
+                    boxShadow: shadowSm,
                   ),
                   child: Column(
                     spacing: SizeConfig.calHeightMultiplier(26),
@@ -139,12 +134,14 @@ class _ProfileViewState extends State<ProfileView> {
                       MultiBlocListener(
                         listeners: [
                           BlocListener<AuthorizationBloc, AuthorizationState>(
-                            listener:(context, state) {
+                            listener: (context, state) {
                               debugPrint(state.toString());
-                              if(state is AuthorizationFalse) {
-                                Navigator.pushReplacementNamed(context, LOGIN);
+                              if (state is AuthorizationFalse) {
+                                // Navigator.pushReplacementNamed(context, LOGIN);
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    LOGIN, (Route<dynamic> route) => false);
                               }
-                            }, 
+                            },
                           ),
                           BlocListener<AuthenticationBloc, AuthenticationState>(
                             listener: (context, state) {
@@ -185,6 +182,8 @@ class _ProfileViewState extends State<ProfileView> {
                                   },
                                   mainButton: () {
                                     authenticationBloc.add(LogoutEvent());
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        LOGIN, (Route<dynamic> route) => false);
                                   },
                                   cancelButtonMessage: 'Batalkan',
                                   mainButtonMessage: 'Iya, saya ingin keluar',
@@ -223,59 +222,43 @@ class CardMenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: const Color(0xff9491DE).withValues(
-                  alpha: 0.3,
-                ),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Icon(
-                  size: 22,
-                  color: const Color(0xff9491DE),
-                  icon,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 16,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 2,
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      color: Colors.black,
-                      fontSize: 13,
-                    ),
-                  ),
-                  Text(
-                    description,
-                    style: AppTextStyles.secoundaryTextNormal.copyWith(
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              color: colorChevron,
-              FluentIcons.chevron_right_24_regular,
-            ),
-          ],
+    return ListTile(
+      visualDensity: VisualDensity(vertical: -4, horizontal: -4),
+      contentPadding: EdgeInsets.zero,
+      leading: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: bluePrimaryMain.withValues(
+            alpha: 0.3,
+          ),
+          shape: BoxShape.circle,
         ),
+        child: Center(
+          child: Icon(
+            size: 22,
+            color: bluePrimaryMain,
+            icon,
+          ),
+        ),
+      ),
+      onTap: onTap,
+      title: Text(
+        title,
+        style: AppTextStyles.primaryTextMedium.copyWith(
+          color: Colors.black,
+          fontSize: 13,
+        ),
+      ),
+      subtitle: Text(
+        description,
+        style: AppTextStyles.secoundaryTextNormal.copyWith(
+          fontSize: 11,
+        ),
+      ),
+      trailing: Icon(
+        color: colorChevron,
+        FluentIcons.chevron_right_24_regular,
       ),
     );
   }

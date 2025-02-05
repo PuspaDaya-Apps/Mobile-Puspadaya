@@ -22,7 +22,8 @@ class IndexPengukuranTamuScreenView extends StatefulWidget {
       _IndexPengukuranTamuScreenViewState();
 }
 
-class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScreenView> {
+class _IndexPengukuranTamuScreenViewState
+    extends State<IndexPengukuranTamuScreenView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -33,17 +34,17 @@ class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScree
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            boxShadow: boxShadow(),
+            boxShadow: shadowSm,
           ),
           child: PengukuranTamuItems(
             onTap: () {
-              Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU);
+              Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU,arguments: '2');
             },
             name: "Ahmad Tamu",
             nik: "362155482327265",
             date: "08/10/2024",
             place: "Posyandu B",
-          )
+          ),
         );
       },
     );

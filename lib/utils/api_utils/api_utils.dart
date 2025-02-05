@@ -12,13 +12,15 @@ class ApiUtils {
   Map<String, String> header() =>
       {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  Map<String, String> headerWithToken(String token) => {
+  Map<String, String> headerWithToken(String token) =>
+      {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
 
-  Map<String, String> headerTokenForMultipart(String token) => {
+  Map<String, String> headerTokenForMultipart(String token) =>
+      {
         'Authorization': 'Bearer $token',
         'Content-Type': 'multipart/form-data',
       };
