@@ -30,21 +30,22 @@ class _IndexPengukuranTamuScreenViewState
       itemCount: 10,
       itemBuilder: (context, index) {
         return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: shadowSm,
-            ),
-            child: PengukuranTamuItems(
-              onTap: () {
-                Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU);
-              },
-              name: "Ahmad Tamu",
-              nik: "362155482327265",
-              date: "08/10/2024",
-              place: "Posyandu B",
-            ));
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: shadowSm,
+          ),
+          child: PengukuranTamuItems(
+            onTap: () {
+              Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU,arguments: '2');
+            },
+            name: "Ahmad Tamu",
+            nik: "362155482327265",
+            date: "08/10/2024",
+            place: "Posyandu B",
+          ),
+        );
       },
     );
   }
