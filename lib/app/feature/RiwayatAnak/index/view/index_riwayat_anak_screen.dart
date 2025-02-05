@@ -22,28 +22,28 @@ class IndexRiwayatAnakScreenView extends StatefulWidget {
       _IndexRiwayatAnakScreenViewState();
 }
 
-class _IndexRiwayatAnakScreenViewState extends State<IndexRiwayatAnakScreenView> {
+class _IndexRiwayatAnakScreenViewState
+    extends State<IndexRiwayatAnakScreenView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 10,
       itemBuilder: (context, index) {
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: boxShadow(),
-          ),
-          child: RiwayatAnakItems(
-            onTap: () {
-              Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
-            },
-            name: "Muhammad Kaivan Al Hakim",
-            nik: "362155482327263",
-            gender: 'Laki-Laki',
-          )
-        );
+            margin: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: shadowSm,
+            ),
+            child: RiwayatAnakItems(
+              onTap: () {
+                Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
+              },
+              name: "Muhammad Kaivan Al Hakim",
+              nik: "362155482327263",
+              gender: 'Laki-Laki',
+            ));
       },
     );
   }
