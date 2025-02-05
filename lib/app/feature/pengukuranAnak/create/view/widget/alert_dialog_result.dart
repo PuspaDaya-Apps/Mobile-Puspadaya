@@ -5,6 +5,8 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../../../../config/theme/pallet_color.dart';
+
 class AlertDialogResult extends StatelessWidget {
   final String nik;
   final String name;
@@ -92,7 +94,7 @@ class AlertDialogResult extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +106,26 @@ class AlertDialogResult extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      InfoFieldWidget(text: statusGizi),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: backgroundWhite10,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            textAlign: TextAlign.start,
+                            statusGizi,
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              color: textPrimary30,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
