@@ -1,13 +1,17 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/createRegisterAnak/model/create_anak_model.dart';
 import 'package:puspadaya/app/feature/registerOrangTua/bloc/register_orang_tua_bloc.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../model/paketToScreen/paket_to_create_anak_model.dart';
+import '../../../model/paketToScreen/paket_to_create_wali_model.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
@@ -16,8 +20,9 @@ import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
-import '../../pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../registerOrangTua/model/orang_tua_item_model.dart';
+import '../bloc/createAnakBloc/create_anak_bloc.dart';
 import '../cubit/search_kk_cubit.dart';
 import 'create_register_wali.dart';
 import 'search_kk.dart';
@@ -30,9 +35,9 @@ class CreateRegisterAnak extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SearchKKCubit()),
-        BlocProvider(create: (context) => RegisterOrangTuaBloc()),
+        BlocProvider(create: (context) => CreateAnakBloc()),
       ],
-      child: CreateRegisterAnakView(),
+      child: const CreateRegisterAnakView(),
     );
   }
 }
@@ -49,17 +54,17 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   bool _isExpanded = false;
 
   final List<String> selectGender = [
-    'Laki-Laki',
+    'Laki-laki',
     'Perempuan',
   ];
 
   final List<String> selectCaraLahir = [
-    'Normal',
-    'Cesar',
+    'normal',
+    'caesar',
   ];
   final List<String> selectStatusKelahiran = [
-    'Status Kelahiran 1',
-    'Status Kelahiran 2',
+    'normal',
+    'prematur',
   ];
   final List<String> selectStatusOrangTuaAnak = [
     'Orang Tua',
@@ -79,29 +84,30 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   List<bool> selectedDisabilitiesAnak = [];
   List<String> selectedDisabilityLabelsAnak = [];
 
-  TextEditingController _nomorKKController = TextEditingController();
-  TextEditingController _namaAyahController = TextEditingController();
-  TextEditingController _namaIbuController = TextEditingController();
-  TextEditingController _nikController = TextEditingController();
-  TextEditingController _namaController = TextEditingController();
-  TextEditingController _anakKeController = TextEditingController();
-  TextEditingController _tempatLahirController = TextEditingController();
-  TextEditingController _tanggalLahirController = TextEditingController();
-  TextEditingController _lingkarLenganController = TextEditingController();
-  TextEditingController _lingkarKepalaController = TextEditingController();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _heightController = TextEditingController();
-  TextEditingController _weightController = TextEditingController();
-  TextEditingController _upperArmCircumferenceController =
-      TextEditingController();
-  TextEditingController _headCircumferenceController = TextEditingController();
-  TextEditingController _catatanController = TextEditingController();
-  TextEditingController _keluhanController = TextEditingController();
+  TextEditingController nomorKKController = TextEditingController();
+  TextEditingController namaAyahController = TextEditingController();
+  TextEditingController namaIbuController = TextEditingController();
+  TextEditingController nikController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController anakKeController = TextEditingController();
+  TextEditingController tempatLahirController = TextEditingController();
+  TextEditingController tanggalLahirController = TextEditingController();
+  TextEditingController lingkarLenganController = TextEditingController();
+  TextEditingController lingkarKepalaController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController headCircumferenceController = TextEditingController();
+  TextEditingController catatanController = TextEditingController();
+  TextEditingController keluhanController = TextEditingController();
 
   String? selectedGender;
   String? selectedCaraLahir;
   String? selectedStatusKelahiran;
   String? selectedStatusOrangTuaAnak;
+
+  late PaketToCreateAnakModel paketToCreateAnakModel;
 
   void _toggleDisability(int index) {
     setState(() {
@@ -151,7 +157,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
 
     if (pickedDate != null) {
       setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
+        tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
       });
     }
   }
@@ -159,6 +165,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
+
+    final createAnakBloc = BlocProvider.of<CreateAnakBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -199,16 +207,65 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             style: TextStyle(fontSize: 12),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          BlocListener<SearchKKCubit, SearchKKState>(
-                            listener: (context, state) {
-                              if (state is SearchKKSelected) {
-                                _nomorKKController.text = state.nomorKK;
-                                _namaAyahController.text = state.namaAyah;
-                                _namaIbuController.text = state.namaIbu;
-                              }
+                          TextFormField(
+                            readOnly: true,
+                            validator: null,
+                            onTap: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SearchKartuKeluarga()),
+                              ).then((value) {
+                                if (value != null) {
+                                  setState(() {
+                                    paketToCreateAnakModel =
+                                        value as PaketToCreateAnakModel;
+                                    nomorKKController = TextEditingController(
+                                        text: paketToCreateAnakModel
+                                            .nomorKartuKeluarga);
+                                    namaAyahController = TextEditingController(
+                                        text: paketToCreateAnakModel.namaAyah);
+                                    namaIbuController = TextEditingController(
+                                        text: paketToCreateAnakModel.namaIbu);
+                                  });
+                                }
+                              });
                             },
-                            child: TextFormFieldSearch(
-                              controller: _nomorKKController,
+                            controller: nomorKKController,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            keyboardType: TextInputType.text,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(
+                                FluentIcons.search_24_regular,
+                              ),
+                              hintText: 'Nomor Kartu Keluarga',
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(color: Colors.grey),
+                              filled: true,
+                              fillColor: backgroundWhite10,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    width: 1, color: Colors.grey),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    width: 1, color: bluePrimaryMain),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    width: 1, color: Colors.red),
+                              ),
                             ),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -225,7 +282,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(8)),
                                 TextFieldWidget(
-                                  controller: _namaAyahController,
+                                  controller: namaAyahController,
                                   hintText: "Nama Ayah",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.text,
@@ -240,7 +297,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(8)),
                                 TextFieldWidget(
-                                  controller: _namaIbuController,
+                                  controller: namaIbuController,
                                   hintText: "Nama Ibu",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.text,
@@ -306,7 +363,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _nikController,
+                            controller: nikController,
                             hintText: 'NIK',
                             keyboardType: TextInputType.text,
                             obscureText: false,
@@ -322,7 +379,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _namaController,
+                            controller: namaController,
                             hintText: 'Nama',
                             keyboardType: TextInputType.text,
                             obscureText: false,
@@ -338,7 +395,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _anakKeController,
+                            controller: anakKeController,
                             hintText: 'Anak Ke',
                             keyboardType: TextInputType.text,
                             obscureText: false,
@@ -362,7 +419,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   TextFieldWidget(
-                                    controller: _tempatLahirController,
+                                    controller: tempatLahirController,
                                     hintText: 'Tempat Lahir',
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
@@ -388,7 +445,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   DateTimePickerWidget(
-                                    controller: _tanggalLahirController,
+                                    controller: tanggalLahirController,
                                     hintText: 'Tanggal Lahir',
                                     selectDate: () {
                                       _selectDate(context);
@@ -421,7 +478,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     title: 'Tinggi Lahir',
                                     hintText: 'contoh: 13,5',
                                     unit: 'cm',
-                                    controller: _heightController,
+                                    controller: heightController,
                                   ),
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
@@ -430,8 +487,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     title: 'Lingkar Lengan',
                                     hintText: 'contoh: 3,5',
                                     unit: 'cm',
-                                    controller:
-                                        _upperArmCircumferenceController,
+                                    controller: upperArmCircumferenceController,
                                   ),
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
@@ -448,7 +504,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     title: 'Berat Lahir',
                                     hintText: 'contoh: 6,5',
                                     unit: 'kg',
-                                    controller: _weightController,
+                                    controller: weightController,
                                   ),
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
@@ -457,7 +513,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     title: 'Lingkar Kepala',
                                     hintText: 'contoh: 6,5',
                                     unit: 'cm',
-                                    controller: _headCircumferenceController,
+                                    controller: headCircumferenceController,
                                   ),
                                 ],
                               ),
@@ -592,43 +648,117 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                        ButtonPrimary(
-                          color: bluePrimaryMain,
-                          mainButtonMessage: 'Simpan',
-                          mainButton: () {
-                            if (selectedStatusOrangTuaAnak == 'Wali') {
-                              logger.d('go to wali');
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return CreateRegisterWali();
-                                  },
-                                ),
-                              );
+                        BlocConsumer<CreateAnakBloc, CreateAnakState>(
+                          listener: (context, state) {
+                            debugPrint(state.toString());
+                            if(state is CreateAnakFailedState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .error(state.error));
                             }
-                            logger.d('go to simpan');
-                            // if (_formKey.currentState!.validate()) {
-                            //   print('Nama: ${_nameController.text}');
-                            //   print('NIK: ${_nikController.text}');
-                            //   print('Usia: ${_ageController.text}');
-                            //   print('Tempat Pengukuran: $selectedPosyandu');
-                            //   print('Posisi Pengukuran: $selectedPosition');
-                            //   print(
-                            //       'Tinggi Badan: ${_heightController.text} cm');
-                            //   print(
-                            //       'Lingkar Lengan Atas: ${_upperArmCircumferenceController.text} cm');
-                            //   print(
-                            //       'Berat Badan: ${_weightController.text} kg');
-                            //   print(
-                            //       'Lingkar Kepala: ${_headCircumferenceController.text} cm');
-                            //   print(
-                            //       'Asi Eksklusif: ${asiEksklusifValue == 1 ? 'Ya' : 'Tidak'}');
-                            //   print(
-                            //       'MPASI: ${mpasiValue == 1 ? 'Ya' : 'Tidak'}');
-                            //   print('Catatan: ${_catatanController.text}');
-                            //   print('Keluhan: ${_keluhanController.text}');
-                            // }
+                            if(state is CreateAnakTokenExpiredState) {
+
+                            }
+                            if(state is CreateAnakSuccessState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .success("Tambah Anak Berhasil"));
+                              Navigator.pop(context,1);
+                            }
+                             if(state is CreateAnakNullErrorState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .warning(state.error));
+                            }
+                          },
+                          builder: (context, state) {
+                            return ButtonPrimary(
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Simpan',
+                              mainButton: () {
+                                if (selectedStatusOrangTuaAnak == 'Wali') {
+                                  logger.d('go to wali');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return CreateRegisterWali(
+                                          paket: PaketToCreateWaliModel(
+                                            createAnakModel: CreateAnakModel(
+                                              kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+                                              nik: nikController.text,
+                                              anakKe: int.parse(anakKeController.text),
+                                              namaAnak: namaController.text,
+                                              tempatLahir: tempatLahirController.text,
+                                              tanggalLahir: tanggalLahirController.text,
+                                              beratBadanLahir: double.parse(weightController.text),
+                                              tinggiBadanLahir: double.parse(heightController.text),
+                                              lingkarKepalaLahir: double.parse(headCircumferenceController.text),
+                                              lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
+                                              caraLahir: selectedCaraLahir!,
+                                              jenisKelamin: selectedGender!,
+                                              statusKelahiran: selectedStatusKelahiran!,
+                                              disabilitasAnak: selectedDisabilityLabelsAnak,
+                                              statusOrangTua: selectedStatusOrangTuaAnak!,
+                                              pengasuh: null
+                                            ),
+                                            createAnakBloc: createAnakBloc
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  createAnakBloc.add(
+                                    CreateAnak(
+                                      CreateAnakModel(
+                                        kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+                                        nik: nikController.text,
+                                        anakKe: int.parse(anakKeController.text),
+                                        namaAnak: namaController.text,
+                                        tempatLahir: tempatLahirController.text,
+                                        tanggalLahir: tanggalLahirController.text,
+                                        beratBadanLahir: double.parse(weightController.text),
+                                        tinggiBadanLahir: double.parse(heightController.text),
+                                        lingkarKepalaLahir: double.parse(headCircumferenceController.text),
+                                        lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
+                                        caraLahir: selectedCaraLahir!,
+                                        jenisKelamin: selectedGender!,
+                                        statusKelahiran: selectedStatusKelahiran!,
+                                        disabilitasAnak: selectedDisabilityLabelsAnak,
+                                        statusOrangTua: selectedStatusOrangTuaAnak!,
+                                        pengasuh: null
+                                      )
+                                    )
+                                  );
+                                } 
+                                logger.d('go to simpan');
+                              },
+                            );
                           },
                         ),
                       ],
@@ -638,73 +768,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class TextFormFieldSearch extends StatelessWidget {
-  const TextFormFieldSearch({
-    super.key,
-    required this.controller,
-  });
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      readOnly: true,
-      validator: null,
-      onTap: () async {
-        OrangTuaItemModel result = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => RegisterOrangTuaBloc(),
-              child: SearchKartuKeluarga(),
-            ),
-          ),
-        );
-        logger.d(result);
-        if (result != null) {
-          // result harus berisi objek Balita
-          context
-              .read<SearchKKCubit>()
-              .selectKK(result.kk, result.husband, result.wife);
-          // Kembalikan data ke halaman sebelumnya
-          // Navigator.pop(context, result);
-        }
-      },
-      controller: controller,
-      style: Theme.of(context).textTheme.bodySmall,
-      keyboardType: TextInputType.text,
-      obscureText: false,
-      decoration: InputDecoration(
-        suffixIcon: Icon(
-          FluentIcons.search_24_regular,
-        ),
-        hintText: 'Nomor Kartu Keluarga',
-        hintStyle:
-            Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
-        filled: true,
-        fillColor: backgroundWhite10,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: bluePrimaryMain),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.red),
         ),
       ),
     );

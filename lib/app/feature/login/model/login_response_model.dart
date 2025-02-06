@@ -5,12 +5,16 @@ import 'package:json_annotation/json_annotation.dart';
 // @JsonSerializable()
 class LoginResponseModel {
   String message;
-  String? error;
+  @JsonKey(name: 'error')
+  String? errorString;
+  @JsonKey(name: 'errors')
+  Error? errorList;
   Data? data;
 
   LoginResponseModel({
     required this.message,
-    this.error,
+    this.errorString,
+    this.errorList,
     this.data
   });
 
@@ -45,10 +49,34 @@ class Data {
   Map<String, dynamic> toJson()=>_$DataToJson(this);
 }
 
+// @JsonSerializable()
+class Error {
+  String? username;
+  String? password;
+
+  Error({
+    this.username,
+    this.password
+  });
+
+  factory Error.fromJson(Map<String, dynamic> json) => _$ErrorFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$ErrorToJson(this);
+}
+
 LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
     LoginResponseModel(
       message: json['message'] as String,
-      error: json['error'] as String?,
+      errorString: json['error'] == null 
+          ? null
+          : json['error'] is String
+          ? json['error'] as String?
+          : null,
+      errorList: json['errors'] == null
+          ? null
+          : json['errors'] is List
+          ? Error.fromJson(json['errors'] as Map<String, dynamic>)
+          : null,
       data: json['data'] == null
           ? null
           : Data.fromJson(json['data'] as Map<String, dynamic>),
@@ -57,7 +85,8 @@ LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$LoginResponseModelToJson(LoginResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'error': instance.error,
+      'error': instance.errorString,
+      'errors': instance.errorList,
       'data': instance.data,
     };
 
@@ -75,4 +104,18 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'refresh_expired_at': instance.refreshExpiredAt.toIso8601String(),
       'access_token': instance.accessToken,
       'refresh_token': instance.refreshToken,
+    };
+
+Error _$ErrorFromJson(Map<String, dynamic> json) => Error(
+      username: json['username'][0] == Null
+          ? null
+          : json['username'][0] as String?,
+      password: json['password'][0] == Null
+          ? null
+          : json['password'][0] as String?,
+    );
+
+Map<String, dynamic> _$ErrorToJson(Error instance) => <String, dynamic>{
+      'username': instance.username,
+      'password': instance.password,
     };

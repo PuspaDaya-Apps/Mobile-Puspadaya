@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
@@ -7,6 +8,7 @@ import '../../../../../route/route_name.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/pengukuran_anak_items_widget.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../bloc/index_pengukuran_anak_bloc.dart';
 
@@ -56,6 +58,19 @@ class _IndexPengukuranAnakScreenViewState
           debugPrint(state.toString());
           if (state is IndexPengukuranAnakFailedState) {
             debugPrint(state.error);
+            showTopSnackBar(
+              Overlay.of(context),
+              animationDuration: const Duration(
+                milliseconds: 600
+              ),
+              displayDuration: const Duration(
+                milliseconds: 2200
+              ),
+              reverseAnimationDuration: const Duration(
+                milliseconds: 300
+              ),
+              TopSnackbarWidget().error(state.error)
+            );
           }
           if (state is IndexPengukuranAnakTokenExpiredState) {
             authenticationBloc.add(GetAccesTokenEvent());

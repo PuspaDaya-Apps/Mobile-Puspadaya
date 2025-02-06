@@ -7,10 +7,12 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 
 class SearchAnak extends StatelessWidget {
   const SearchAnak({super.key});
@@ -44,6 +46,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
 
   @override
   Widget build(BuildContext context) {
+    final getListAnakBloc = BlocProvider.of<GetListAnakBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -98,6 +102,27 @@ class _SearchAnakViewState extends State<SearchAnakView> {
           child: BlocConsumer<GetListAnakBloc, GetListAnakState>(
             listener: (context, state) {
               debugPrint(state.toString());
+              if (state is GetListAnakFailedState) {
+                debugPrint(state.error);
+                showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(
+                    milliseconds: 600
+                  ),
+                  displayDuration: const Duration(
+                    milliseconds: 2200
+                  ),
+                  reverseAnimationDuration: const Duration(
+                    milliseconds: 300
+                  ),
+                  TopSnackbarWidget().error(state.error)
+                );
+              }
+              if (state is GetListAnakTokenExpiredState) {
+                getListAnakBloc.add(
+                  GetListAnak()
+                );
+              }
             },
             builder: (context, state) {
               if(state is GetListAnakProccessState) {

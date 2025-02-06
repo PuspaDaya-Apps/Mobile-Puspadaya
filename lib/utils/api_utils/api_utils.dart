@@ -68,7 +68,7 @@ class ApiUtils {
   }
 
   //!Orang Tua
-  Uri urGetListOrangTua() {
+  Uri urlGetListOrangTua() {
     String urlGetListOrangTua = LinkApi.ORANGTUAURL;
     return Uri.parse(_baseUrl + _apiVersion + urlGetListOrangTua);
   }
@@ -78,15 +78,16 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPostDataOrangTua);
   }
 
-  Uri urlPatchDataOrangTua() {
+  Uri urlPatchDataOrangTua(String id) {
     String urlPatchDataOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua);
+    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataOrangTua/$id");
   }
 
   Uri urlGetDetailOrangTua(String idAyah) {
     String urlGetDetailOrangTua = LinkApi.ORANGTUAURL;
     return Uri.http(_baseUrlQuaryParameter,
-        _apiVersion + urlGetDetailOrangTua + '/${idAyah}');
+      '$_apiVersion$urlGetDetailOrangTua/$idAyah'
+    );
   }
 
   //!Anak
