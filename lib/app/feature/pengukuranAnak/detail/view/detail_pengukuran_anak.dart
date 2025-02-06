@@ -4,8 +4,10 @@ import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_catatan.
 import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_data.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../bloc/hapusPengukuranAnakBloc/hapus_pengukuran_anak_bloc.dart';
 import '../bloc/detailPengukuranAnakBloc/detail_pengukuran_anak_bloc.dart';
@@ -72,12 +74,24 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child:
-              BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
+          child: BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
             listener: (context, state) {
               debugPrint(state.toString());
               if(state is DetailPengukuranAnakFailedState) {
                 debugPrint(state.error);
+                showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(
+                    milliseconds: 600
+                  ),
+                  displayDuration: const Duration(
+                    milliseconds: 2200
+                  ),
+                  reverseAnimationDuration: const Duration(
+                    milliseconds: 300
+                  ),
+                  TopSnackbarWidget().error(state.error)
+                );
               }
               if(state is DetailPengukuanAnakTokenExpiredState) {
                 BlocProvider.of<AuthenticationBloc>(context).add(GetAccesTokenEvent());
