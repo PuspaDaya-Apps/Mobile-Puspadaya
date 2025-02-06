@@ -1,93 +1,37 @@
 import 'package:flutter/material.dart';
 
-List<BoxShadow> boxShadowSm() {
-  return [
-    BoxShadow(
-      blurRadius: 2,
-      offset: const Offset(0, 1),
-      color: Colors.black.withOpacity(0.05),
-    ),
-  ];
-}
+List<BoxShadow> shadowSm = [
+  BoxShadow(
+    color: Colors.black.withOpacity(0.05), // Transparansi rendah
+    blurRadius: 4,
+    spreadRadius: 1,
+    offset: Offset(0, 2),
+  ),
+];
 
-List<BoxShadow> boxShadow() {
-  return [
-    BoxShadow(
-      blurRadius: 3,
-      offset: const Offset(0, 1),
-      color: Colors.black.withOpacity(0.1),
-    ),
-    BoxShadow(
-      blurRadius: 2,
-      offset: const Offset(0, 1),
-      color: Colors.black.withOpacity(0.1),
-    ),
-  ];
-}
+List<BoxShadow> shadowMd = [
+  BoxShadow(
+    color: Colors.black.withOpacity(0.1), // Lebih terlihat dari sm
+    blurRadius: 8,
+    spreadRadius: 2,
+    offset: Offset(0, 4),
+  ),
+];
 
-List<BoxShadow> boxShadowMd() {
-  return [
-    BoxShadow(
-      blurRadius: 6,
-      offset: const Offset(0, 4),
-      color: Colors.black.withOpacity(0.1),
-    ),
-    BoxShadow(
-      blurRadius: 4,
-      offset: const Offset(0, 2),
-      color: Colors.black.withOpacity(0.1),
-    ),
-  ];
-}
+List<BoxShadow> shadowLg = [
+  BoxShadow(
+    color: Colors.black.withOpacity(0.15), // Shadow lebih kuat
+    blurRadius: 16,
+    spreadRadius: 4,
+    offset: Offset(0, 8),
+  ),
+];
 
-List<BoxShadow> boxShadowLg() {
-  return [
-    BoxShadow(
-      blurRadius: 15,
-      offset: const Offset(0, 10),
-      color: Colors.black.withOpacity(0.1),
-    ),
-    BoxShadow(
-      blurRadius: 6,
-      offset: const Offset(0, 4),
-      color: Colors.black.withOpacity(0.1),
-    ),
-  ];
-}
-
-List<BoxShadow> boxShadowXl() {
-  return [
-    BoxShadow(
-      blurRadius: 25,
-      offset: const Offset(0, 20),
-      color: Colors.black.withOpacity(0.1),
-    ),
-    BoxShadow(
-      blurRadius: 10,
-      offset: const Offset(0, 8),
-      color: Colors.black.withOpacity(0.1),
-    ),
-  ];
-}
-
-List<BoxShadow> boxShadow2xl() {
-  return [
-    BoxShadow(
-      blurRadius: 50,
-      offset: const Offset(0, 25),
-      color: Colors.black.withOpacity(0.25),
-    ),
-  ];
-}
-
-List<BoxShadow> boxShadowInner() {
-  return [
-    BoxShadow(
-      blurRadius: 4,
-      offset: const Offset(0, 2),
-      color: Colors.black.withOpacity(0.05),
-      spreadRadius: 0,
-      blurStyle: BlurStyle.inner,
-    ),
-  ];
-}
+List<BoxShadow> shadowXl = [
+  BoxShadow(
+    color: Colors.black.withOpacity(0.2), // Shadow tebal
+    blurRadius: 32,
+    spreadRadius: 8,
+    offset: Offset(0, 16),
+  ),
+];

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snacky/snacky.dart';
 
 import 'app/feature/authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import 'app/feature/authorization/bloc/blocAuthorization/authorization_bloc.dart';
@@ -29,9 +28,6 @@ class BuildApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return MaterialApp(
-      navigatorObservers: [
-        SnackyNavigationObserver(),
-      ],
       locale: const Locale('id', 'ID'), // Set default ke Indonesia
       supportedLocales: const [
         Locale('en', 'US'),

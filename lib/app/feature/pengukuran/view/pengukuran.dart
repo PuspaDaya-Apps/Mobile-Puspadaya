@@ -85,7 +85,7 @@ class _PengukuranViewState extends State<PengukuranView> {
         // actions: _buildAppBarActions(),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimary40,
+        backgroundColor: bluePrimaryMain,
         shape: const CircleBorder(),
         child: const Icon(
           size: 38,
@@ -106,6 +106,7 @@ class _PengukuranViewState extends State<PengukuranView> {
             case 'Pengukuran Tamu':
               Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
               break;
+
             default:
           }
         },

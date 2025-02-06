@@ -4,7 +4,9 @@ import 'package:puspadaya/config/theme/text_style.dart';
 
 class InfoFieldWidget extends StatelessWidget {
   final String text;
-  const InfoFieldWidget({super.key, required this.text});
+  final Color? color;
+
+  const InfoFieldWidget({super.key, required this.text, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class InfoFieldWidget extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           textAlign: TextAlign.start,
-          '${text}',
+          text,
           style: AppTextStyles.primaryTextNormal.copyWith(
-            color: textPrimary30,
+            color: color ?? textPrimary30, // Use color if not null, otherwise use textPrimary30
             fontSize: 12,
           ),
         ),

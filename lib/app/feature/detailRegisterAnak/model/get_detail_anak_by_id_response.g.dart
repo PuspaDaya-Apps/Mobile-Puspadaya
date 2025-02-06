@@ -84,8 +84,8 @@ KartuKeluarga _$KartuKeluargaFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] as String,
       deletedAt: json['deleted_at'],
       nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
-      ibu: Ibu.fromJson(json['ibu'] as dynamic),
-      ayah: Ayah.fromJson(json['ayah'] as dynamic),
+      ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
+      ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>

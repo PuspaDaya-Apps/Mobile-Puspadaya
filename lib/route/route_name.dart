@@ -21,14 +21,16 @@ const String GANTI_KATA_SANDI = '/profile/ganti-kata-sandi';
 const String UBAH_PROFILE = '/profile/ubah-profile';
 const String CREATE_KEHADIRAN = '/pengukuran/kehadiran/create';
 const String DETAIL_KEHADIRAN = '/pengukuran/kehadiran/detail';
+const String UPDATE_KEHADIRAN = '/pengukuran/kehadiran/update';
 const String CREATE_PENGUKURAN_ANAK = '/pengukuran/anak/create';
 const String DETAIL_PENGUKURAN_ANAK = '/pengukuran/anak/detail';
 const String UPDATE_PENGUKURAN_ANAK = '/pengukuran/anak/update';
 const String CREATE_PENGUKURAN_IBU_HAMIL = '/pengukuran/ibu-hamil/create';
 const String DETAIL_PENGUKURAN_IBU_HAMIL = '/pengukuran/ibu-hamil/detail';
 const String UPDATE_PENGUKURAN_IBU_HAMIL = '/pengukuran/ibu-hamil/update';
-const String CREATE_PENGUKURAN_TAMU = '/pengukuran/create-tamu';
-const String DETAIL_PENGUKURAN_TAMU = '/pengukuran/detail-tamu';
+const String CREATE_PENGUKURAN_TAMU = '/pengukuran/tamu/create';
+const String DETAIL_PENGUKURAN_TAMU = '/pengukuran/tamu/detail';
+const String UPDATE_PENGUKURAN_TAMU = '/pengukuran/tamu/update';
 const String DETAIL_RIWAYAT_ANAK = '/pengukuran/detail-riwayat-anak';
 const String DETAIL_RIWAYAT_IBU_HAMIL = '/pengukuran/detail-riwayat-ibu-hamil';
 const String BEBAN_KERJA = '/beban-kerja';
@@ -94,5 +96,26 @@ const String CREATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/create';
 const String DETAIL_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/detail';
 const String UPDATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/update';
 
+//! alat ukur
+const String ALAT_UKUR = '/alat-ukur';
+const String CREATE_ALAT_UKUR = '/alat-ukur/create';
+const String DETAIL_ALAT_UKUR = '/alat-ukur/detail';
+const String UPDATE_ALAT_UKUR = '/alat-ukur/upate';
+
+//! monitoring
+const String MONITORING = '/monitoring';
+const String DETAIL_MONITORING_STUNTING = '/monitoring/stunting';
+const String DETAIL_MONITORING_UNDER_WEIGHT = '/monitoring/under-weight';
+const String DETAIL_MONITORING_WASTING = '/monitoring/wasting';
+const String DETAIL_MONITORING_IBU_HAMIL = '/monitoring/ibu-hamil';
+
+//! parameter gizi
+const String PARAMETER_GIZI = '/parameter-gizi';
+
+//! laporan
+const String LAPORAN = '/laporan';
+
+//eppgb,
+const String EPPGBM = '/eppgbm';
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';

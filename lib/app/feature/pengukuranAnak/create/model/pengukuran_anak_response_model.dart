@@ -25,7 +25,7 @@ class Data {
   @JsonKey(name: 'status_stunting')
   String statusStunting;
   @JsonKey(name: 'status_gizi')
-  String statusGizi;
+  StatusGizi statusGizi;
 
   Data({
     required this.anak,
@@ -53,6 +53,23 @@ class Anak {
   Map<String, dynamic> toJson()=>_$AnakToJson(this);
 }
 
+// @JsonSerializable()
+class StatusGizi {
+  @JsonKey(name: 'status_gizi')
+  String statusGizi;
+  @JsonKey(name: 'status_wasting')
+  String statusWasting;
+
+  StatusGizi({
+    required this.statusGizi,
+    required this.statusWasting
+  });
+
+  factory StatusGizi.fromJson(Map<String, dynamic> json) => _$StatusGiziFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$StatusGiziToJson(this);
+}
+
 PengukuranAnakResponseModel _$PengukuranAnakResponseModelFromJson(
         Map<String, dynamic> json) =>
     PengukuranAnakResponseModel(
@@ -74,7 +91,8 @@ Map<String, dynamic> _$PengukuranAnakResponseModelToJson(
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       anak: Anak.fromJson(json['anak'] as Map<String, dynamic>),
       statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
+      statusGizi:
+          StatusGizi.fromJson(json['status_gizi'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -91,4 +109,15 @@ Anak _$AnakFromJson(Map<String, dynamic> json) => Anak(
 Map<String, dynamic> _$AnakToJson(Anak instance) => <String, dynamic>{
       'nama': instance.nama,
       'nik': instance.nik,
+    };
+
+StatusGizi _$StatusGiziFromJson(Map<String, dynamic> json) => StatusGizi(
+      statusGizi: json['status_gizi'] as String,
+      statusWasting: json['status_wasting'] as String,
+    );
+
+Map<String, dynamic> _$StatusGiziToJson(StatusGizi instance) =>
+    <String, dynamic>{
+      'status_gizi': instance.statusGizi,
+      'status_wasting': instance.statusWasting,
     };
