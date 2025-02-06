@@ -38,9 +38,15 @@ class CreateRegisterWali extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AlamatBloc(),
-      child: CreateRegisterWaliView(paket: paket,),
+    return MultiBlocProvider(
+        providers: [
+            BlocProvider(
+          create: (context) => AlamatBloc(),
+    
+        ),
+            BlocProvider.value(value: paket.createAnakBloc,),
+        ],
+              child: CreateRegisterWaliView(paket: paket,),
     );
   }
 }
@@ -184,7 +190,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
 
   @override
   Widget build(BuildContext context) {
-
+    final createAnakBloc = BlocProvider.of<CreateAnakBloc>(context);
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Tambah Data Wali',
@@ -221,7 +227,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                   child: Form(
                     key: _formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Status Hubungan Dengan Anak',
@@ -630,7 +636,6 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 TopSnackbarWidget()
                                     .success("Tambah Anak Berhasil"));
                               Navigator.pop(context);
-                              Navigator.pop(context,1);
                             }
                              if(state is CreateAnakNullErrorState) {
                               showTopSnackBar(
@@ -652,7 +657,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                               mainButtonMessage: 'Selanjutnya',
                               mainButton: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  context.read<CreateAnakBloc>().add(
+                                  createAnakBloc.add(
                                     CreateAnak(
                                       widget.paket.createAnakModel.copyWith(
                                         pengasuh: Pengasuh(

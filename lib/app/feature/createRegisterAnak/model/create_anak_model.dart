@@ -98,7 +98,7 @@ class CreateAnakModel {
 
 // @JsonSerializable()
 class Pengasuh {
-  @JsonKey(name: 'status hubungan')
+  @JsonKey(name: 'status_hubungan')
   String statusHubungan;
   String nik;
   @JsonKey(name: 'nama_pengasuh')
@@ -189,7 +189,7 @@ Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
     };
 
 Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
-      statusHubungan: json['status hubungan'] as String,
+      statusHubungan: json['status_hubungan'] as String,
       nik: json['nik'] as String,
       namaPengasuh: json['nama_pengasuh'] as String,
       tempatLahir: json['tempat_lahir'] as String,
@@ -207,7 +207,7 @@ Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
     );
 
 Map<String, dynamic> _$PengasuhToJson(Pengasuh instance) => <String, dynamic>{
-      'status hubungan': instance.statusHubungan,
+      'status_hubungan': instance.statusHubungan,
       'nik': instance.nik,
       'nama_pengasuh': instance.namaPengasuh,
       'tempat_lahir': instance.tempatLahir,
