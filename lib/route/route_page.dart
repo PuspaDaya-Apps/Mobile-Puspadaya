@@ -8,6 +8,7 @@ import 'package:puspadaya/app/feature/alatUkur/create/view/create_alat_ukur.dart
 import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
+import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
 import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_stunting.dart';
@@ -513,6 +514,13 @@ class MyRoute {
       case LAPORAN:
         return MaterialPageRoute(
           builder: (context) => const Laporan(),
+          settings: settings,
+        );
+
+        //! eppgbm
+      case EPPGBM:
+        return MaterialPageRoute(
+          builder: (context) => const E_PPGBM(),
           settings: settings,
         );
       // ! maintenance

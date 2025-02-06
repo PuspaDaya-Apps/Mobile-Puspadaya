@@ -191,6 +191,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
           Navigator.pop(context);
         },
       ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocBuilder<AlamatBloc, AlamatState>(
@@ -210,9 +211,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                 selectDesaKelurahan = state.desaKelurahan;
                 selectDusun = state.dusun;
                 return Container(
+                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Form(
                     key: _formKey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
                           'Status Hubungan Dengan Anak',
@@ -221,7 +228,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         DropdownWidget(
                           items: selectStatusHubunganDenganAnak,
-                          hint: 'Provinsi',
+                          hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
                           onChanged: (value) {
                             setState(() {
