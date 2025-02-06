@@ -11,6 +11,8 @@ class TextFieldWidget extends StatelessWidget {
   final VoidCallback? onToggleVisibility;
   // final FormFieldValidator<String>? validator;
   List<String? Function(String)>? validators;
+  final ValueSetter? valueSet;
+
   TextFieldWidget({
     super.key,
     required this.controller,
@@ -20,6 +22,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.isPasswordField,
     this.onToggleVisibility,
     this.validators,
+    this.valueSet
   });
 
   @override
@@ -69,6 +72,9 @@ class TextFieldWidget extends StatelessWidget {
               validators!,
             )
           : null, // Call validateField only if validators are provided
+      onChanged: (value) {
+        valueSet!(value);
+      },
     );
   }
 }
