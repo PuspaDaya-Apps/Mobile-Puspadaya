@@ -5,32 +5,28 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
-import '../../../../view/widget/info_field_widget.dart';
+import '../../../view/widget/info_field_widget.dart';
 
-class DetailRiwayatIbuHamil extends StatelessWidget {
+class DetailMonitoringIbuHamil extends StatelessWidget {
   final String id;
-
-  const DetailRiwayatIbuHamil({super.key, required this.id});
+  const DetailMonitoringIbuHamil({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return DetailRiwayatIbuHamilView(
-      id: id,
-    );
+    return DetailMonitoringIbuHamilView(id: id,);
   }
 }
 
-class DetailRiwayatIbuHamilView extends StatefulWidget {
+class DetailMonitoringIbuHamilView extends StatefulWidget {
   final String id;
-
-  const DetailRiwayatIbuHamilView({super.key, required this.id});
+  const DetailMonitoringIbuHamilView({super.key, required this.id});
 
   @override
-  State<DetailRiwayatIbuHamilView> createState() =>
-      _DetailRiwayatIbuHamilViewState();
+  State<DetailMonitoringIbuHamilView> createState() =>
+      _DetailMonitoringIbuHamilViewState();
 }
 
-class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
+class _DetailMonitoringIbuHamilViewState extends State<DetailMonitoringIbuHamilView> {
   bool _isExpanded = false;
 
   @override
@@ -38,7 +34,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Detail Riwayat Anak',
+        title: 'Detail Monitoring Wasting',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -62,7 +58,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 2.96
+                      ? sizeHeighofSingleForm * 2.65
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -88,22 +84,13 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: '4 Bulan'),
+                        InfoFieldWidget(text: '1 Bulan 4 Bulan'),
                         Visibility(
                           visible: _isExpanded,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
-                              const Text(
-                                'Posyandu',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Posyandu Melati 2'),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -124,7 +111,8 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                                   height: SizeConfig.calHeightMultiplier(8)),
                               InfoFieldWidget(text: 'Martio Hasyim Huda'),
                               SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
+                                height: SizeConfig.calHeightMultiplier(16),
+                              ),
                               const Text(
                                 textAlign: TextAlign.start,
                                 'Alamat',
@@ -214,6 +202,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                     ),
                   ),
                 ),
+
                 Container(
                   width: double.infinity,
                   height: 2,
