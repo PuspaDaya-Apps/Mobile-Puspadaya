@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
@@ -8,13 +10,16 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/textfield_password_login_widget.dart';
 import '../../../view/widget/textfield_username_login_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../lupaKataSandi/view/lupa_kata_sandi_screen.dart';
 import '../bloc/loginBloc/login_bloc.dart';
 import '../bloc/rememberMeCubit/remember_me_cubit.dart';
 import '../model/login_model.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key,});
+  const LoginScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,23 +81,23 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                             itemCount: image.length,
                             disableGesture: true,
                             options: CarouselOptions(
-                              viewportFraction: 1.0,
-                              autoPlay: true,
-                              pauseAutoPlayOnTouch: true,
-                              autoPlayAnimationDuration:
-                                  const Duration(seconds: 3),
-                              autoPlayInterval: const Duration(seconds: 8),
-                              autoPlayCurve: Curves.ease,
-                              enableInfiniteScroll: true,
-                              onScrolled: null,
-                              onPageChanged: null),
-                          itemBuilder: (context, index, realIndex) =>
-                            Image.asset(
-                              image[index],
-                              width: SizeConfig.calWidthMultiplier(335),
-                              height: SizeConfig.calHeightMultiplier(250),
-                              fit: BoxFit.contain,
-                            )),
+                                viewportFraction: 1.0,
+                                autoPlay: true,
+                                pauseAutoPlayOnTouch: true,
+                                autoPlayAnimationDuration:
+                                    const Duration(seconds: 3),
+                                autoPlayInterval: const Duration(seconds: 8),
+                                autoPlayCurve: Curves.ease,
+                                enableInfiniteScroll: true,
+                                onScrolled: null,
+                                onPageChanged: null),
+                            itemBuilder: (context, index, realIndex) =>
+                                Image.asset(
+                                  image[index],
+                                  width: SizeConfig.calWidthMultiplier(335),
+                                  height: SizeConfig.calHeightMultiplier(250),
+                                  fit: BoxFit.contain,
+                                )),
                       ),
                       Expanded(
                         child: Container(
@@ -103,24 +108,24 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                               right: SizeConfig.calWidthMultiplier(25),
                               left: SizeConfig.calWidthMultiplier(25)),
                           decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)
-                            )
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20))),
                           child: BlocConsumer<RememberMeCubit, RememberMeState>(
                             listener: (context, accountState) {
                               if (accountState is LoadAccountSuccessState) {
-                                debugPrint("buat ulang"); 
-                                usernameController = TextEditingController(text: accountState.loginModel.username);
-                                passwordController = TextEditingController(text: accountState.loginModel.password);
-                                ingatSaya = true; 
+                                debugPrint("buat ulang");
+                                usernameController = TextEditingController(
+                                    text: accountState.loginModel.username);
+                                passwordController = TextEditingController(
+                                    text: accountState.loginModel.password);
+                                ingatSaya = true;
                               }
                             },
                             builder: (context, accountState) {
-                              debugPrint(accountState.toString()); 
-                              if(accountState is LoadAccountProccessState) {
+                              debugPrint(accountState.toString());
+                              if (accountState is LoadAccountProccessState) {
                                 return const Center(
                                   child: CircularProgressIndicator(
                                     color: bluePrimaryMain,
@@ -131,101 +136,118 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        TextFieldUsernameLoginWidget(
-                                          key: const Key('Username'),
-                                          title: 'Username',
-                                          keyboard: TextInputType.number,
-                                          hintText: 'Masukan Nomor Telepon',
-                                          textController: usernameController,
-                                          errortext: null,
-                                        ),
-                                        SizedBox(
-                                          height: SizeConfig.calHeightMultiplier(15),
-                                        ),
-                                        TextFieldPasswordLoginWidget(
-                                          key: const Key('password'),
-                                          title: 'Kata Sandi',
-                                          keyboard: TextInputType.visiblePassword,
-                                          hintText: 'Masukan Kata Sandi',
-                                          textController: passwordController,
-                                          errortext: null,
-                                        ),
-                                        SizedBox(
-                                          height:SizeConfig.calHeightMultiplier(8)
-                                        ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                          // CheckboxLoginWidget(ingatSaya: ingatSaya),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 1.3,
-                                                  child: Checkbox(
-                                                    value: ingatSaya,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(5)
-                                                    ),
-                                                    side: const BorderSide(
-                                                      width: 1,
-                                                      color: stroke10
-                                                    ),
-                                                    activeColor: stroke10,
-                                                    checkColor: Colors.white,
-                                                    visualDensity: const VisualDensity(
-                                                      horizontal: -4,
-                                                      vertical: -4
-                                                    ),
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        ingatSaya = !ingatSaya;
-                                                      });
-                                                    }
+                                  Expanded(child:
+                                      BlocBuilder<LoginBloc, LoginState>(
+                                    builder: (context, state) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          TextFieldUsernameLoginWidget(
+                                            key: const Key('Username'),
+                                            title: 'Username',
+                                            keyboard: TextInputType.number,
+                                            hintText: 'Masukan Nomor Telepon',
+                                            textController: usernameController,
+                                            errortext: null,
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    15),
+                                          ),
+                                          TextFieldPasswordLoginWidget(
+                                            key: const Key('password'),
+                                            title: 'Kata Sandi',
+                                            keyboard:
+                                                TextInputType.visiblePassword,
+                                            hintText: 'Masukan Kata Sandi',
+                                            textController: passwordController,
+                                            errortext: null,
+                                          ),
+                                          SizedBox(
+                                              height: SizeConfig
+                                                  .calHeightMultiplier(8)),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              // CheckboxLoginWidget(ingatSaya: ingatSaya),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Transform.scale(
+                                                    scale: 1.3,
+                                                    child: Checkbox(
+                                                        value: ingatSaya,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5)),
+                                                        side: const BorderSide(
+                                                            width: 1,
+                                                            color: stroke10),
+                                                        activeColor: stroke10,
+                                                        checkColor:
+                                                            Colors.white,
+                                                        visualDensity:
+                                                            const VisualDensity(
+                                                                horizontal: -4,
+                                                                vertical: -4),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            ingatSaya =
+                                                                !ingatSaya;
+                                                          });
+                                                        }),
                                                   ),
-                                                ),
-                                                const SizedBox(width: 4),
-                                                Text('Ingat Saya',
-                                                  style: TextStyle(
-                                                    color: textPrimary10,
-                                                    fontSize: SizeConfig.calMultiplierText(12),
-                                                    fontWeight:FontWeight.w400
-                                                  )
-                                                )
-                                              ],
-                                            ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => const Center(
-                                                    child:LupaKataSandiScreen()
-                                                  )
-                                                );
-                                              },
-                                              child: Text(
-                                                'Lupa Kata Sandi?',
-                                                style: TextStyle(
-                                                  color: textUrgent,
-                                                  fontSize: SizeConfig.calMultiplierText(13),
-                                                  fontWeight: FontWeight.w500,
-                                                  decoration: TextDecoration.underline,
-                                                  decorationColor: textUrgent,
-                                                ),
-                                              )
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    )
-                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Text('Ingat Saya',
+                                                      style: TextStyle(
+                                                          color: textPrimary10,
+                                                          fontSize: SizeConfig
+                                                              .calMultiplierText(
+                                                                  12),
+                                                          fontWeight:
+                                                              FontWeight.w400))
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                  onTap: () async {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            const Center(
+                                                                child:
+                                                                    LupaKataSandiScreen()));
+                                                  },
+                                                  child: Text(
+                                                    'Lupa Kata Sandi?',
+                                                    style: TextStyle(
+                                                      color: textUrgent,
+                                                      fontSize: SizeConfig
+                                                          .calMultiplierText(
+                                                              13),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      decorationColor:
+                                                          textUrgent,
+                                                    ),
+                                                  ))
+                                            ],
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  )),
                                   Container(
                                     width: MediaQuery.sizeOf(context).width,
                                     height: SizeConfig.calHeightMultiplier(40),
@@ -238,30 +260,71 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                         //login
                                         if (state is LoginFailedState) {
                                           debugPrint(state.error);
-                                          // SnackyController().showMessage((context) =>SnackyWidget().error(state.error));
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 600),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .error(state.error));
                                         }
                                         if (state is LoginSuccessState) {
-                                          loginBloc.add(GetCurrentUserEvent(state.accessToken));
+                                          loginBloc.add(GetCurrentUserEvent(
+                                              state.accessToken));
                                         }
                                         if (state is NullErrorState) {
                                           debugPrint(state.error);
-                                          // SnackyController().showMessage((context) =>SnackyWidget().warning(state.error));
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 600),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .warning(state.error));
                                         }
                                         //getUser
                                         if (state is CurrentUserSuccesState) {
-                                          // SnackyController().showMessage((context) =>SnackyWidget().succes("Login berhasil"));
-                                          Navigator.pushReplacementNamed(context, HOME);
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 600),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .success("Login Berhasil"));
+                                          Navigator.pushReplacementNamed(
+                                              context, HOME);
                                         }
                                         if (state is CurrentUserFailedState) {
                                           debugPrint(state.error);
-                                          // SnackyController().showMessage((context) =>SnackyWidget().error(state.error));
+                                          showTopSnackBar(
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 600),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .error(state.error));
                                         }
                                       },
                                       builder: (context, state) {
                                         if (state is LoginProcessState ||
-                                        state is LoginSuccessState ||
-                                        State is CurrentUserProccesState
-                                        ) {
+                                            state is LoginSuccessState ||
+                                            State is CurrentUserProccesState) {
                                           return ElevatedButton(
                                               onPressed: null,
                                               style: ElevatedButton.styleFrom(
@@ -284,42 +347,44 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                       child: const CircularProgressIndicator())));
                                         }
                                         return ElevatedButton(
-                                          onPressed: () {
-                                            if (usernameController.text ==
-                                                    "" ||
-                                                passwordController.text ==
-                                                    "") {
-                                              loginBloc.add(NullErrorEvent());
-                                            } else {
-                                              loginBloc.add(SendLoginEvent(
-                                                  rememberAccount: ingatSaya,
-                                                  loginModel: LoginModel(
-                                                    username: usernameController.text,
-                                                    password:passwordController.text
-                                                  )
-                                                )
-                                              );
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: buttonPriamary,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10)
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: SizeConfig.calWidthMultiplier(10),
-                                              vertical: SizeConfig.calHeightMultiplier(10)
-                                            )
-                                          ),
-                                          child: Text(
-                                            'Login',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: SizeConfig.calMultiplierText(15),
-                                              fontWeight: FontWeight.w500
-                                            ),
-                                          )
-                                        );
+                                            onPressed: () {
+                                              if (usernameController.text ==
+                                                      "" ||
+                                                  passwordController.text ==
+                                                      "") {
+                                                loginBloc.add(NullErrorEvent());
+                                              } else {
+                                                loginBloc.add(SendLoginEvent(
+                                                    rememberAccount: ingatSaya,
+                                                    loginModel: LoginModel(
+                                                        username:
+                                                            usernameController
+                                                                .text,
+                                                        password:
+                                                            passwordController
+                                                                .text)));
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: buttonPriamary,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: SizeConfig
+                                                        .calWidthMultiplier(10),
+                                                    vertical: SizeConfig
+                                                        .calHeightMultiplier(
+                                                            10))),
+                                            child: Text(
+                                              'Login',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: SizeConfig
+                                                      .calMultiplierText(15),
+                                                  fontWeight: FontWeight.w500),
+                                            ));
                                       },
                                     ),
                                   ),
@@ -329,8 +394,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                           ),
                         ),
                       ),
-                    ]
-                  ),
+                    ]),
               ),
             ),
           );

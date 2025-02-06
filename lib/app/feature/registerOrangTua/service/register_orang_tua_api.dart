@@ -6,7 +6,7 @@ import '../../../../utils/network_utils/network_utils.dart';
 class RegisterOrangTuaApi {
   Future<List<dynamic>> getDataAyahIbu(String token) async {
     final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urGetListOrangTua();
+    final Uri url = ApiUtils().urlGetListOrangTua();
 
     try {
       final response = await NetworkUtils().get(url, header);

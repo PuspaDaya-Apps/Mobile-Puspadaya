@@ -106,20 +106,16 @@ class _RegisterViewState extends State<RegisterView> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return GridView.builder(
-                      shrinkWrap:
-                          true, // Membuat GridView menyesuaikan ukuran kontennya
-                      physics:
-                          NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
+                      shrinkWrap: true, // Membuat GridView menyesuaikan ukuran kontennya
+                      physics: const NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
                       itemCount: _menuItems.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         crossAxisSpacing: 32,
-                        childAspectRatio: 0.7,
+                        childAspectRatio: 0.65,
                         mainAxisSpacing: 0,
                         maxCrossAxisExtent: 80,
                       ),

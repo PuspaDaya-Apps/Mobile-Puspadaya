@@ -13,8 +13,10 @@ import 'package:puspadaya/app/view/widget/radio_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import '../../create/model/pengukuran_anak_model.dart';
 import '../bloc/update_pengukuran_anak_bloc.dart';
@@ -469,6 +471,19 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                         }
                         if(state is UpdatePengukuranAnakFailedState) {
                           debugPrint(state.error); 
+                           showTopSnackBar(
+                            Overlay.of(context),
+                            animationDuration: const Duration(
+                              milliseconds: 600
+                            ),
+                            displayDuration: const Duration(
+                              milliseconds: 2200
+                            ),
+                            reverseAnimationDuration: const Duration(
+                              milliseconds: 300
+                            ),
+                            TopSnackbarWidget().error(state.error)
+                          );
                         }
                       },
                       builder: (context, state) {
