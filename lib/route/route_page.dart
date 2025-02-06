@@ -8,11 +8,13 @@ import 'package:puspadaya/app/feature/alatUkur/create/view/create_alat_ukur.dart
 import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
+import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_stunting.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_under_weight.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_wasting.dart';
 import 'package:puspadaya/app/feature/monitoring/index/monitoring.dart';
+import 'package:puspadaya/app/feature/parameterGizi/view/parameter_gizi.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
@@ -499,6 +501,20 @@ class MyRoute {
           settings: settings,
         );
 
+
+      // ? paramter gizi
+
+      case PARAMETER_GIZI:
+        return MaterialPageRoute(
+          builder: (context) => const ParameterGizi(),
+          settings: settings,
+        );
+      //! laporan
+      case LAPORAN:
+        return MaterialPageRoute(
+          builder: (context) => const Laporan(),
+          settings: settings,
+        );
       // ! maintenance
       case FEATURE_MAINTENANCE:
         final feature =

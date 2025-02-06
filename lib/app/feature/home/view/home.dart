@@ -368,8 +368,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Parameter Gizi', // Kirimkan nama fitur sebagai argumen
+            PARAMETER_GIZI, // Kirimkan nama fitur sebagai argumen
           );
         },
       ),
@@ -391,8 +390,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Laporan', // Kirimkan nama fitur sebagai argumen
+            LAPORAN, // Kirimkan nama fitur sebagai argumen
           );
         },
       ),
