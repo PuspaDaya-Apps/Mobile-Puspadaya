@@ -114,5 +114,8 @@ const String PARAMETER_GIZI = '/parameter-gizi';
 
 //! laporan
 const String LAPORAN = '/laporan';
+
+//eppgb,
+const String EPPGBM = '/eppgbm';
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';
