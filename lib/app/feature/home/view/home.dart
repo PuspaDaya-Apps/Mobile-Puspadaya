@@ -321,7 +321,8 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     // Daftar item menu
     final List<Widget> _menuItems = [
       HomeMenuItems(
-        colorBackground: bluePrimary40, // Biru terang untuk Register
+        colorBackground: bluePrimary40,
+        // Biru terang untuk Register
         menuName: 'Register',
         iconMenu: FontAwesomeIcons.userPlus,
         colorIcon: bluePrimary40,
@@ -330,33 +331,28 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         },
       ),
       HomeMenuItems(
-        colorBackground: goldPrimary30, // Abu-abu untuk Alat Ukur (Netral)
+        colorBackground: goldPrimary30,
+        // Abu-abu untuk Alat Ukur (Netral)
         menuName: 'Alat Ukur',
         iconMenu: FontAwesomeIcons.rulerCombined,
         colorIcon: goldPrimary30,
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Alat Ukur', // Kirimkan nama fitur sebagai argumen
-          );
+          Navigator.pushNamed(context, ALAT_UKUR);
         },
       ),
       HomeMenuItems(
-        colorBackground: bluePrimaryMain, // Biru utama untuk Monitoring
+        colorBackground: bluePrimaryMain,
+        // Biru utama untuk Monitoring
         menuName: 'Monitoring',
         iconMenu: FontAwesomeIcons.chartLine,
         colorIcon: bluePrimaryMain,
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Monitoring', // Kirimkan nama fitur sebagai argumen
-          );
+          Navigator.pushNamed(context, MONITORING);
         },
       ),
       HomeMenuItems(
-        colorBackground: redPrimaryMain, // Merah untuk Faktor Resiko
+        colorBackground: redPrimaryMain,
+        // Merah untuk Faktor Resiko
         menuName: 'Faktor Resiko',
         iconMenu: iconFaktorResiko,
         colorIcon: redPrimaryMain,
@@ -369,20 +365,21 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         },
       ),
       HomeMenuItems(
-        colorBackground: greenPrimary50, // Hijau untuk Parameter Gizi
+        colorBackground: greenPrimary50,
+        // Hijau untuk Parameter Gizi
         menuName: 'Parameter Gizi',
         iconMenu: FontAwesomeIcons.utensils,
         colorIcon: greenPrimary50,
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Parameter Gizi', // Kirimkan nama fitur sebagai argumen
+            PARAMETER_GIZI, // Kirimkan nama fitur sebagai argumen
           );
         },
       ),
       HomeMenuItems(
-        colorBackground: purplePrimary50, // Ungu untuk Beban Kerja
+        colorBackground: purplePrimary50,
+        // Ungu untuk Beban Kerja
         menuName: 'Beban Kerja',
         iconMenu: FontAwesomeIcons.briefcase,
         colorIcon: purplePrimary50,
@@ -391,29 +388,28 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         },
       ),
       HomeMenuItems(
-        colorBackground:
-            goldPrimary50, // Emas untuk Laporan (Menandakan penting)
+        colorBackground: goldPrimary50,
+        // Emas untuk Laporan (Menandakan penting)
         menuName: 'Laporan',
         iconMenu: FontAwesomeIcons.print,
         colorIcon: goldPrimary50,
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Laporan', // Kirimkan nama fitur sebagai argumen
+            LAPORAN, // Kirimkan nama fitur sebagai argumen
           );
         },
       ),
       HomeMenuItems(
-        colorBackground: greenPrimary50, // Hijau tetap untuk e-PPGBM
+        colorBackground: greenPrimary50,
+        // Hijau tetap untuk e-PPGBM
         menuName: 'e-PPGBM',
         iconMenu: iconExcel,
         colorIcon: greenPrimary50,
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
-            arguments: 'e-PPGBM', // Kirimkan nama fitur sebagai argumen
+            EPPGBM,
           );
         },
       ),
