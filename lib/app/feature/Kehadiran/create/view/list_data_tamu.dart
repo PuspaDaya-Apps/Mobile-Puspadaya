@@ -5,8 +5,7 @@ import 'package:puspadaya/config/theme/shadow.dart';
 
 import '../../model/list_data_tamu_model.dart';
 
-
-class ListDataTamu extends StatefulWidget {
+class ListDataTamu extends SftatefulWidget {
   ListDataTamu({super.key});
 
   @override
@@ -14,8 +13,7 @@ class ListDataTamu extends StatefulWidget {
 }
 
 class _ListDataTamuState extends State<ListDataTamu> {
-  final List<ListDataTamuModel> listDataTamu = [
-  ];
+  final List<ListDataTamuModel> listDataTamu = [];
 
   Widget build(BuildContext context) {
     return Column(
@@ -44,12 +42,16 @@ class _ListDataTamuState extends State<ListDataTamu> {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           width: MediaQuery.sizeOf(context).width,
-          child:
-        OutlinedButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SearchPosyandu();
-          },));
-        }, child: Text('Tambah Kehadiran Tamu'),),
+          child: OutlinedButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return SearchPosyandu();
+                },
+              ));
+            },
+            child: Text('Tambah Kehadiran Tamu'),
+          ),
         )
       ],
     );
