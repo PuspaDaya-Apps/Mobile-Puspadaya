@@ -8,16 +8,18 @@ import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
 
 class DetailRiwayatBalita extends StatelessWidget {
-  const DetailRiwayatBalita({super.key});
+  final String id;
+  const DetailRiwayatBalita({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return const DetailRiwayatBalitaView();
+    return DetailRiwayatBalitaView(id: id,);
   }
 }
 
 class DetailRiwayatBalitaView extends StatefulWidget {
-  const DetailRiwayatBalitaView({super.key});
+  final String id;
+  const DetailRiwayatBalitaView({super.key, required this.id});
 
   @override
   State<DetailRiwayatBalitaView> createState() =>

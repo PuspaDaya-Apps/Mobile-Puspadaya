@@ -30,20 +30,21 @@ class _IndexRiwayatIbuHamilScreenViewState
       itemCount: 10,
       itemBuilder: (context, index) {
         return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: shadowSm,
-            ),
-            child: RiwayatIbuHamilItems(
-              onTap: () {
-                Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL);
-              },
-              name: "Siti Aminah",
-              nik: "362155482327264",
-              gestationalAge: "6 bulan",
-            ));
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: shadowSm,
+          ),
+          child: RiwayatIbuHamilItems(
+            onTap: () {
+              Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL);
+            },
+            name: "Siti Aminah",
+            nik: "362155482327264",
+            gestationalAge: "6 bulan",
+          ),
+        );
       },
     );
   }
