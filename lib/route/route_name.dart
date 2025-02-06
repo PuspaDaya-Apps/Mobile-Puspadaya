@@ -109,5 +109,10 @@ const String DETAIL_MONITORING_UNDER_WEIGHT = '/monitoring/under-weight';
 const String DETAIL_MONITORING_WASTING = '/monitoring/wasting';
 const String DETAIL_MONITORING_IBU_HAMIL = '/monitoring/ibu-hamil';
 
+//! parameter gizi
+const String PARAMETER_GIZI = '/parameter-gizi';
+
+//! laporan
+const String LAPORAN = '/laporan';
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';
