@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
@@ -204,7 +205,9 @@ class _DetailDataState extends State<DetailData> {
                   child: ButtonPrimary(
                     color: goldPrimaryMain,
                     mainButtonMessage: 'Perbarui',
-                    mainButton: () {},
+                    mainButton: () {
+                      Navigator.pushNamed(context, UPDATE_PENGUKURAN_TAMU);
+                    },
                   ),
                 ),
                 Expanded(
