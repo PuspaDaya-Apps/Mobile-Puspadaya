@@ -335,11 +335,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         iconMenu: FontAwesomeIcons.rulerCombined,
         colorIcon: goldPrimary30,
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Alat Ukur', // Kirimkan nama fitur sebagai argumen
-          );
+          Navigator.pushNamed(context, ALAT_UKUR);
         },
       ),
       HomeMenuItems(
@@ -348,11 +344,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         iconMenu: FontAwesomeIcons.chartLine,
         colorIcon: bluePrimaryMain,
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            FEATURE_MAINTENANCE,
-            arguments: 'Monitoring', // Kirimkan nama fitur sebagai argumen
-          );
+          Navigator.pushNamed(context, MONITORING);
         },
       ),
       HomeMenuItems(
