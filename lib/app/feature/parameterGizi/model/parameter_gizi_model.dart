@@ -27,7 +27,8 @@ class GetParamaterGizi {
         data: data ?? this.data,
       );
 
-  factory GetParamaterGizi.fromJson(Map<String, dynamic> json) => _$GetParamaterGiziFromJson(json);
+  factory GetParamaterGizi.fromJson(Map<String, dynamic> json) =>
+      _$GetParamaterGiziFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetParamaterGiziToJson(this);
 }

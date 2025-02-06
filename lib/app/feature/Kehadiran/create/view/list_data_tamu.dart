@@ -5,7 +5,7 @@ import 'package:puspadaya/config/theme/shadow.dart';
 
 import '../../model/list_data_tamu_model.dart';
 
-class ListDataTamu extends SftatefulWidget {
+class ListDataTamu extends StatefulWidget {
   ListDataTamu({super.key});
 
   @override
