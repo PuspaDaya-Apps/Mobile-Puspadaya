@@ -42,13 +42,14 @@ class _IndexPengukuranAnakScreenViewState
   @override
   Widget build(BuildContext context) {
     final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final indexPengukuranAnakBloc = BlocProvider.of<IndexPengukuranAnakBloc>(context);
+    final indexPengukuranAnakBloc =
+        BlocProvider.of<IndexPengukuranAnakBloc>(context);
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if(state is RefreshTokenValid) {
+        if (state is RefreshTokenValid) {
           indexPengukuranAnakBloc.add(GetPengukuranAnakEvent());
-        }    
+        }
       },
       child: BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
         listener: (context, state) {
@@ -62,9 +63,8 @@ class _IndexPengukuranAnakScreenViewState
         },
         builder: (context, state) {
           if (state is IndexPengukuranAnakProcessState ||
-              state is IndexPengukuranAnakInitial || 
-              state is IndexPengukuranAnakTokenExpiredState
-              ) {
+              state is IndexPengukuranAnakInitial ||
+              state is IndexPengukuranAnakTokenExpiredState) {
             return const Center(
                 child: CircularProgressIndicator(
               color: bluePrimaryMain,
@@ -78,31 +78,35 @@ class _IndexPengukuranAnakScreenViewState
               itemCount: state.indexPengukuranAnakResponseModel.data!.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: boxShadow(),
-                  ),
-                  child: PengukuranAnakItems(
-                    onTap: () {
-                      Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
-                          arguments: state.indexPengukuranAnakResponseModel
-                              .data![index].id).then((value) {
-                                if(value != null) {
-                                  indexPengukuranAnakBloc.add(GetPengukuranAnakEvent());
-                                }
-                              });
-                    },
-                    name: state.indexPengukuranAnakResponseModel.data![index]
-                        .namaAnak,
-                    nik: state
-                        .indexPengukuranAnakResponseModel.data![index].nik,
-                    date: state.indexPengukuranAnakResponseModel.data![index]
-                        .tanggalPengukuran,
-                    place: state.indexPengukuranAnakResponseModel.data![index]
-                        .tempatPengukuran,
-                  ));
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: shadowSm,
+                    ),
+                    child: PengukuranAnakItems(
+                      onTap: () {
+                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
+                                arguments: state
+                                    .indexPengukuranAnakResponseModel
+                                    .data![index]
+                                    .id)
+                            .then((value) {
+                          if (value != null) {
+                            indexPengukuranAnakBloc
+                                .add(GetPengukuranAnakEvent());
+                          }
+                        });
+                      },
+                      name: state.indexPengukuranAnakResponseModel.data![index]
+                          .namaAnak,
+                      nik: state
+                          .indexPengukuranAnakResponseModel.data![index].nik,
+                      date: state.indexPengukuranAnakResponseModel.data![index]
+                          .tanggalPengukuran,
+                      place: state.indexPengukuranAnakResponseModel.data![index]
+                          .tempatPengukuran,
+                    ));
               },
             );
           }

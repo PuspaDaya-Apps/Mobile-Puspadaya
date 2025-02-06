@@ -27,7 +27,7 @@ class AnakItem extends StatelessWidget {
       onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-            boxShadow: boxShadow(),
+            boxShadow: shadowSm,
             borderRadius: BorderRadius.circular(12),
             color: color // Default to bluePrimaryMain if none match
             ),

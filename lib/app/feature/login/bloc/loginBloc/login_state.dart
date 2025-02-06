@@ -7,14 +7,6 @@ sealed class LoginState extends Equatable {
   List<Object> get props => [];
 }
 
-final class LoadAccountSuccessState extends LoginState {
-  final LoginModel loginModel;
-
-  const LoadAccountSuccessState(this.loginModel);
-}
-
-final class LoadAccountFailedState extends LoginState {}
-
 final class LoginInitial extends LoginState {}
 
 final class NullErrorState extends LoginState {

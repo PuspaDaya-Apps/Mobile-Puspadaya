@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "15850015060",
+    "project_id": "puspadayaapp",
+    "storage_bucket": "puspadayaapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15850015060:android:a9fd18ad6a7c575c3e20c1",
+        "android_client_info": {
+          "package_name": "com.example.puspadaya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNrHTX24UN0KLUbeM2LWC72VwVq4AGVek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

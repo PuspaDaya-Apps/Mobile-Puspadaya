@@ -121,7 +121,7 @@ class _CreateKunjunganStuntingViewState
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
-                boxShadow: boxShadow(),
+                boxShadow: shadowSm,
               ),
               child: KunjunganStuntingItems(
                 onTap: () {

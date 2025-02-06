@@ -22,7 +22,8 @@ class IndexPengukuranIbuHamilScreenView extends StatefulWidget {
       _IndexPengukuranIbuHamilScreenViewState();
 }
 
-class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHamilScreenView> {
+class _IndexPengukuranIbuHamilScreenViewState
+    extends State<IndexPengukuranIbuHamilScreenView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -33,7 +34,7 @@ class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHa
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            boxShadow: boxShadow(),
+            boxShadow: shadowSm,
           ),
           child: PengukuranIbuHamilItems(
             onTap: () {
@@ -42,7 +43,7 @@ class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHa
             name: "Siti Aminah",
             nik: "362155482327264",
             date: "08/10/2024",
-          )
+          ),
         );
       },
     );
