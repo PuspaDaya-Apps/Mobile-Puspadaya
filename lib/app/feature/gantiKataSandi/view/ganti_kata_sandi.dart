@@ -71,7 +71,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _oldPasswordController,
-                    hintText: "********",
+                    hintText: "Masukan Kata Sandi Lama",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: !_isOldPasswordVisible,
                     onToggleVisibility: () {
@@ -98,7 +98,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _newPasswordController,
-                    hintText: "********",
+                    hintText: "Masukan Kata Sandi Baru",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: !_isNewPasswordVisible,
                     onToggleVisibility: () {
@@ -133,7 +133,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget(
                     controller: _confirmPasswordController,
-                    hintText: "********",
+                    hintText: "Masukan Konfirmasi Kata Sandi",
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: !_isConfirmPasswordVisible,
                     onToggleVisibility: () {
