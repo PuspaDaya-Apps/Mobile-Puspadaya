@@ -96,5 +96,26 @@ const String CREATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/create';
 const String DETAIL_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/detail';
 const String UPDATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/update';
 
+//! alat ukur
+const String ALAT_UKUR = '/alat-ukur';
+const String CREATE_ALAT_UKUR = '/alat-ukur/create';
+const String DETAIL_ALAT_UKUR = '/alat-ukur/detail';
+const String UPDATE_ALAT_UKUR = '/alat-ukur/upate';
+
+//! monitoring
+const String MONITORING = '/monitoring';
+const String DETAIL_MONITORING_STUNTING = '/monitoring/stunting';
+const String DETAIL_MONITORING_UNDER_WEIGHT = '/monitoring/under-weight';
+const String DETAIL_MONITORING_WASTING = '/monitoring/wasting';
+const String DETAIL_MONITORING_IBU_HAMIL = '/monitoring/ibu-hamil';
+
+//! parameter gizi
+const String PARAMETER_GIZI = '/parameter-gizi';
+
+//! laporan
+const String LAPORAN = '/laporan';
+
+//eppgb,
+const String EPPGBM = '/eppgbm';
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';

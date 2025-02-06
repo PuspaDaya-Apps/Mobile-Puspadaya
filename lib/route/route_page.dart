@@ -4,6 +4,18 @@ import 'package:page_transition/page_transition.dart';
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/search_posyandu.dart';
+import 'package:puspadaya/app/feature/alatUkur/create/view/create_alat_ukur.dart';
+import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
+import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
+import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
+import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
+import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_stunting.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_under_weight.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_wasting.dart';
+import 'package:puspadaya/app/feature/monitoring/index/monitoring.dart';
+import 'package:puspadaya/app/feature/parameterGizi/view/parameter_gizi.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
@@ -72,8 +84,7 @@ import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
 
 class MyRoute {
-
-   static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case SPLASHSCREEN:
         return MaterialPageRoute(
@@ -169,8 +180,7 @@ class MyRoute {
       // ? tamu
       case CREATE_PENGUKURAN_TAMU:
         return MaterialPageRoute(
-            builder: (context) => const SearchPosyandu(),
-            settings: settings);
+            builder: (context) => const SearchPosyandu(), settings: settings);
 
       case UPDATE_PENGUKURAN_TAMU:
         return MaterialPageRoute(
@@ -200,13 +210,17 @@ class MyRoute {
             settings: settings);
 
       case DETAIL_RIWAYAT_ANAK:
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-            builder: (context) => const DetailRiwayatBalita(),
+            builder: (context) => DetailRiwayatBalita(id: id,),
             settings: settings);
 
       case DETAIL_RIWAYAT_IBU_HAMIL:
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-            builder: (context) => const DetailRiwayatIbuHamil(),
+            builder: (context) => DetailRiwayatIbuHamil(
+                  id: id,
+                ),
             settings: settings);
 
       //beban kerja
@@ -399,6 +413,72 @@ class MyRoute {
           settings: settings,
         );
 
+      //? alat ukur
+      case ALAT_UKUR:
+        return MaterialPageRoute(
+          builder: (context) => const AlatUkur(),
+          settings: settings,
+        );
+
+      case CREATE_ALAT_UKUR:
+        return MaterialPageRoute(
+          builder: (context) => const CreateAlatUkur(),
+          settings: settings,
+        );
+
+      case DETAIL_ALAT_UKUR:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailAlatUkur(alatUkurId: id),
+          settings: settings,
+        );
+
+      case UPDATE_ALAT_UKUR:
+        return MaterialPageRoute(
+          builder: (context) => const UpdateAlatUkur(),
+          settings: settings,
+        );
+
+      // ?monitoring
+      case MONITORING:
+        return MaterialPageRoute(
+          builder: (context) => const Monitoring(),
+          settings: settings,
+        );
+
+      case DETAIL_MONITORING_STUNTING:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringStunting(id: id),
+          settings: settings,
+        );
+
+      case DETAIL_MONITORING_UNDER_WEIGHT:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringUnderWeight(id: id),
+          settings: settings,
+        );
+
+      case DETAIL_MONITORING_WASTING:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringWasting(id: id),
+          settings: settings,
+        );
+
+      case DETAIL_MONITORING_IBU_HAMIL:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringIbuHamil(id: id),
+          settings: settings,
+        );
+
       //? AnggotaKader
       case REGISTER_ANGGOTA_KADER:
         return MaterialPageRoute(
@@ -422,6 +502,27 @@ class MyRoute {
           settings: settings,
         );
 
+
+      // ? paramter gizi
+
+      case PARAMETER_GIZI:
+        return MaterialPageRoute(
+          builder: (context) => const ParameterGizi(),
+          settings: settings,
+        );
+      //! laporan
+      case LAPORAN:
+        return MaterialPageRoute(
+          builder: (context) => const Laporan(),
+          settings: settings,
+        );
+
+        //! eppgbm
+      case EPPGBM:
+        return MaterialPageRoute(
+          builder: (context) => const E_PPGBM(),
+          settings: settings,
+        );
       // ! maintenance
       case FEATURE_MAINTENANCE:
         final feature =
