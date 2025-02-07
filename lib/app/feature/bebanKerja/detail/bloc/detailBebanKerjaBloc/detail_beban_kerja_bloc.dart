@@ -33,12 +33,14 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
         final DetailBebanKerjaResponseModel detailBebanKerjaResponseModel = DetailBebanKerjaResponseModel.fromJson(response[1]);
 
         if(statusCode == 200) {
-          //tempt data
+          
+          //! tempt data
           List<Jobitem> administrasi = [];
-          List<Jobitem> keterampilanBayidanBalitaTugasLainnya = [];
+          List<Jobitem> keterampilanBayidanBalita = [];
           List<Jobitem> keterampilanIbuHamilDanMenyusui = [];
+          List<Jobitem> keterampilan = [];
           List<Jobitem> tambahan = [];
-          List<Jobitem> tugasLainnya = [];
+          List<Jobitem> tugasTambahan = [];
 
           List<PenugasanKader> temp = detailBebanKerjaResponseModel.data!.penugasanKader!;
 
@@ -50,8 +52,8 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
                 )
               );
             }
-            if(value.tugasKader.tipeTugas == "Keterampilan Bayi dan Balita Tugas Lainnya") {
-              keterampilanBayidanBalitaTugasLainnya.add(
+            if(value.tugasKader.tipeTugas == "Keterampilan Bayi dan Balita") {
+              keterampilanBayidanBalita.add(
                 Jobitem(
                   label: value.tugasKader.namaTugas
                 )
@@ -64,6 +66,13 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
                 )
               );
             }
+            if(value.tugasKader.tipeTugas == "Keterampilan") {
+              keterampilan.add(
+                Jobitem(
+                  label: value.tugasKader.namaTugas
+                )
+              );
+            }
             if(value.tugasKader.tipeTugas == "Tambahan") {
               tambahan.add(
                 Jobitem(
@@ -71,8 +80,8 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
                 )
               );
             }
-            if(value.tugasKader.tipeTugas == "Tugas Lainnya") {
-              tugasLainnya.add(
+            if(value.tugasKader.tipeTugas == "Tugas Tambahan") {
+              tugasTambahan.add(
                 Jobitem(
                   label: value.tugasKader.namaTugas
                 )
@@ -88,12 +97,16 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
                 subItems: administrasi
               ),
               Jobitem(
-                label: "Keterampilan Bayi dan Balita Tugas Lainnya",
-                subItems: keterampilanBayidanBalitaTugasLainnya
+                label: "Keterampilan Bayi dan Balita",
+                subItems: keterampilanBayidanBalita
               ),
               Jobitem(
                 label: "Keterampilan Ibu Hamil dan Menyusui",
                 subItems: keterampilanIbuHamilDanMenyusui
+              ),
+              Jobitem(
+                label: "Keterampilan",
+                subItems: keterampilan
               ),
               Jobitem(
                 label: "Tambahan",
@@ -101,10 +114,71 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
               ),
               Jobitem(
                 label: "Tugas Lainnya",
-                subItems: tugasLainnya
+                subItems: tugasTambahan
               )
             ]  
           ));
+
+          //! ||||||||||||||||||||||||||
+          // List<Jobitem> balita = [];
+          // List<Jobitem> ibuHamilDanMenyususui = [];
+          // List<Jobitem> kunjunganRumah = [];
+          // List<Jobitem> tugasTambahan = [];
+
+          // List<PenugasanKader> temp = detailBebanKerjaResponseModel.data!.penugasanKader!;
+
+          // for (var value in temp) {
+          //   if(value.jenisKompetensi == "Balita") {
+          //     balita.add(
+          //       Jobitem(
+          //         label: value.namakompetensi,
+          //       )
+          //     );
+          //   }
+          //   if(value.jenisKompetensi == "Ibu Hamil dan Menyusui") {
+          //     ibuHamilDanMenyususui.add(
+          //       Jobitem(
+          //         label: value.namakompetensi,
+          //       )
+          //     );
+          //   }
+          //   if(value.jenisKompetensi == "Kunjungan Rumah") {
+          //     kunjunganRumah.add(
+          //       Jobitem(
+          //         label: value.namakompetensi,
+          //       )
+          //     );
+          //   }
+          //   if(value.jenisKompetensi == "Tugas Tambahan") {
+          //     tugasTambahan.add(
+          //       Jobitem(
+          //         label: value.namakompetensi,
+          //       )
+          //     );
+          //   }
+          // } 
+
+          // emit(DetailBebanKerjaSuccesState(
+          //   bulan: detailBebanKerjaResponseModel.data!.bulan,
+          //   item: [
+          //     Jobitem(
+          //       label: "Balita", 
+          //       subItems: balita,
+          //     ),
+          //     Jobitem(
+          //       label: "Ibu Hamil dan Menyusui", 
+          //       subItems: ibuHamilDanMenyususui,
+          //     ),
+          //     Jobitem(
+          //       label: "Kunjungan Rumah ", 
+          //       subItems: kunjunganRumah,
+          //     ),
+          //     Jobitem(
+          //       label: "Tugas Tambahan", 
+          //       subItems: tugasTambahan,
+          //     ),
+          //   ]
+          // ));
 
         } else if (statusCode == 401) {
           emit(DetailPengukuanAnakTokenExpiredState());

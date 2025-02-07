@@ -24,17 +24,23 @@ class GetBebanKerjaItemResponseModel {
 // @JsonSerializable()
 class Data {
   String id;
-  @JsonKey(name: 'nama_tugas')
-  String namaTugas;
-  int bobot;
-  @JsonKey(name: 'tipe_tugas')
-  String tipeTugas;
+  @JsonKey(name: 'nama_kompetensi')
+  String namakompetensi;
+  String kategori;
+  @JsonKey(name: 'bobot_nilai')
+  int bobotNilai;
+  // @JsonKey(name: 'bobot_presentase_puspadaya')
+  // double bobotPresentasePuspadaya;
+  @JsonKey(name: 'jenis_kompetensi')
+  String jenisKompetensi;
 
   Data({
     required this.id,
-    required this.namaTugas,
-    required this.bobot,
-    required this.tipeTugas
+    required this.namakompetensi,
+    required this.bobotNilai,
+    // required this.bobotPresentasePuspadaya,
+    required this.kategori,
+    required this.jenisKompetensi
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -61,6 +67,7 @@ class Meta {
   Map<String, dynamic> toJson()=>_$MetaToJson(this);
 }
 
+
 GetBebanKerjaItemResponseModel _$GetBebanKerjaItemResponseModelFromJson(
         Map<String, dynamic> json) =>
     GetBebanKerjaItemResponseModel(
@@ -85,16 +92,21 @@ Map<String, dynamic> _$GetBebanKerjaItemResponseModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      namaTugas: json['nama_tugas'] as String,
-      bobot: (json['bobot'] as num).toInt(),
-      tipeTugas: json['tipe_tugas'] as String,
+      namakompetensi: json['nama_kompetensi'] as String,
+      bobotNilai: (json['bobot_nilai'] as num).toInt(),
+      // bobotPresentasePuspadaya:
+      //     (json['bobot_presentase_puspadaya'] as num).toDouble(),
+      kategori: json['kategori'] as String,
+      jenisKompetensi: json['jenis_kompetensi'] as String,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
-      'nama_tugas': instance.namaTugas,
-      'bobot': instance.bobot,
-      'tipe_tugas': instance.tipeTugas,
+      'nama_kompetensi': instance.namakompetensi,
+      'kategori': instance.kategori,
+      'bobot_nilai': instance.bobotNilai,
+      // 'bobot_presentase_puspadaya': instance.bobotPresentasePuspadaya,
+      'jenis_kompetensi': instance.jenisKompetensi,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
