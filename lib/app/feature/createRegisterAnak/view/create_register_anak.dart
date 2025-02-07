@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,6 +163,34 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
       });
     }
   }
+
+   //! copy
+  void _generateNIK() {
+    // Fixed prefix
+    String prefix = "12345";
+
+    // Generate 11 random digits
+    String randomDigits = _generateRandomDigits(11);
+
+    // Combine prefix and random digits
+    String nik = "$prefix$randomDigits";
+
+    // Set the generated NIK to the controller
+    nikController.text = nik;
+  }
+
+  String _generateRandomDigits(int length) {
+    Random random = Random();
+    StringBuffer randomDigits = StringBuffer();
+
+    for (int i = 0; i < length; i++) {
+      // Generate a random digit between 0 and 9
+      randomDigits.write(random.nextInt(10));
+    }
+
+    return randomDigits.toString();
+  }
+//!
 
   @override
   Widget build(BuildContext context) {
@@ -352,22 +382,46 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: 2,
                           color: Colors.black54,
                         ),
-                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                        const Text(
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),const Text(
                           'NIK',
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
-                        SizedBox(
-                          height: SizeConfig.calHeightMultiplier(8),
+                        // SizedBox(
+                        //   height: SizeConfig.calHeightMultiplier(8),
+                        // ),
+                        
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex:
+                                  7, // Adjust this value to make the TextField larger
+                              child: TextFieldWidget(
+                                controller: nikController,
+                                hintText: 'NIK',
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                isPasswordField: false,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                  Icons.refresh), // Use an appropriate icon
+                              color:
+                                  greenPrimaryMain, // Set the color of the icon
+                              onPressed: () {
+                                _generateNIK(); // Call the generate function
+                              },
+                              tooltip:
+                                  'Generate NIK', // Optional tooltip for accessibility
+                            ),
+                          ],
                         ),
-                        TextFieldWidget(
-                            controller: nikController,
-                            hintText: 'NIK',
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                            isPasswordField: false),
+                        //!
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
