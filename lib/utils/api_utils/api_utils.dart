@@ -12,15 +12,13 @@ class ApiUtils {
   Map<String, String> header() =>
       {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  Map<String, String> headerWithToken(String token) =>
-      {
+  Map<String, String> headerWithToken(String token) => {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       };
 
-  Map<String, String> headerTokenForMultipart(String token) =>
-      {
+  Map<String, String> headerTokenForMultipart(String token) => {
         'Authorization': 'Bearer $token',
         'Content-Type': 'multipart/form-data',
       };
@@ -78,9 +76,9 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPostDataOrangTua);
   }
 
-  Uri urlPatchDataOrangTua() {
+  Uri urlPatchDataOrangTua(String id) {
     String urlPatchDataOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua);
+    return Uri.parse(_baseUrl + _apiVersion + urlPatchDataOrangTua + '/${id}');
   }
 
   Uri urlGetDetailOrangTua(String idAyah) {

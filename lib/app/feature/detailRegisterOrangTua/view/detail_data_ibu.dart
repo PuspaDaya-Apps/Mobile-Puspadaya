@@ -10,7 +10,7 @@ import '../../../view/widget/primary_button_widget.dart';
 import '../model/get_orangtua_detail_response.dart';
 
 class DetailDataIbu extends StatelessWidget {
-  final GetOrangtuaDetailResponse getOrangtuaDetailResponse;
+  final GetOrangtuaDetailResponseModel getOrangtuaDetailResponse;
   final List<String> disabilitas = [
     'Tunanetra',
   ];
@@ -323,7 +323,8 @@ class DetailDataIbu extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ORANG_TUA);
+                Navigator.pushNamed(context, UPDATE_REGISTER_ORANG_TUA,
+                    arguments: getOrangtuaDetailResponse.data.ayah.id);
               },
             ),
           ],
