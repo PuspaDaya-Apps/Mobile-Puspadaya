@@ -212,7 +212,9 @@ class MyRoute {
       case DETAIL_RIWAYAT_ANAK:
         final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-            builder: (context) => DetailRiwayatBalita(id: id,),
+            builder: (context) => DetailRiwayatBalita(
+                  id: id,
+                ),
             settings: settings);
 
       case DETAIL_RIWAYAT_IBU_HAMIL:
@@ -324,17 +326,18 @@ class MyRoute {
         );
 
       case UPDATE_REGISTER_ORANG_TUA:
+        final ayahId = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterOrangTua(),
+          builder: (context) => UpdateRegisterOrangTua(
+            ayahId: ayahId,
+          ),
           settings: settings,
         );
+
       case DETAIL_REGISTER_ORANG_TUA:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final ayahId = args['ayahId'] ?? '';
-        final ibuId = args['ibuId'] ?? '';
+        final ayahId = settings.arguments as String? ?? '';
         return MaterialPageRoute(
           builder: (context) => DetailRegisterOrangTua(
-            ibuId: ibuId,
             ayahId: ayahId,
           ),
           settings: settings,
@@ -502,7 +505,6 @@ class MyRoute {
           settings: settings,
         );
 
-
       // ? paramter gizi
 
       case PARAMETER_GIZI:
@@ -517,7 +519,7 @@ class MyRoute {
           settings: settings,
         );
 
-        //! eppgbm
+      //! eppgbm
       case EPPGBM:
         return MaterialPageRoute(
           builder: (context) => const E_PPGBM(),

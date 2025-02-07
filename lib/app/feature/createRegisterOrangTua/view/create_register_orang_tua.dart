@@ -12,8 +12,6 @@ import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.d
 import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
     as DusunModel;
 
-import 'package:puspadaya/app/feature/createRegisterOrangTua/view/data_ayah.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/view/data_ibu.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
@@ -28,6 +26,7 @@ import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../alatUkur/detail/view/detail_alat_ukur.dart';
 import '../bloc/create_register_orang_tua_bloc.dart';
+import '../model/post_orang_tua_body.dart';
 
 class CreateRegisterOrangTua extends StatelessWidget {
   const CreateRegisterOrangTua({super.key});
@@ -38,6 +37,9 @@ class CreateRegisterOrangTua extends StatelessWidget {
       providers: [
         BlocProvider<AlamatBloc>(
           create: (BuildContext context) => AlamatBloc(),
+        ),
+        BlocProvider<CreateRegisterOrangTuaBloc>(
+          create: (BuildContext context) => CreateRegisterOrangTuaBloc(),
         ),
       ],
       child: CreateRegisterOrangTuaView(),
@@ -285,11 +287,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   }
 
   void _goToNextTab() {
-    if (formkey.currentState!.validate()) {
-      _tabController.animateTo(1); // Pindah ke tab Data Ibu
-    } else {
-      print("Form tidak valid");
-    }
+    _tabController.animateTo(1); // Pindah ke tab Data Ibu
   }
 
   void _navigateBack() {
@@ -306,1231 +304,1378 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           Navigator.pop(context);
         },
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height / 1.2,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: backgroundWhite20,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: TabBar(
-                    isScrollable: false,
-                    padding: EdgeInsets.zero,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorAnimation: TabIndicatorAnimation.elastic,
-                    dividerHeight: 0,
-                    controller: _tabController,
-                    indicator: BoxDecoration(
-                      color: bluePrimaryMain,
-                      borderRadius: BorderRadius.circular(5),
+      body:
+          BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
+        listener: (context, state) {
+          if (state is CreateRegisterOrangTuaSuccesState) {
+            Navigator.pop(context);
+          }
+        },
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height / 1.2,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: backgroundWhite20,
+                      borderRadius: BorderRadius.circular(7),
                     ),
-                    unselectedLabelColor: textSecoundary,
-                    labelColor: Colors.white,
-                    tabs: [
-                      Tab(text: 'Data Ayah'),
-                      Tab(text: 'Data Ibu'),
-                    ],
+                    child: TabBar(
+                      isScrollable: false,
+                      padding: EdgeInsets.zero,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorAnimation: TabIndicatorAnimation.elastic,
+                      dividerHeight: 0,
+                      controller: _tabController,
+                      indicator: BoxDecoration(
+                        color: bluePrimaryMain,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      unselectedLabelColor: textSecoundary,
+                      labelColor: Colors.white,
+                      tabs: [
+                        Tab(text: 'Data Ayah'),
+                        Tab(text: 'Data Ibu'),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                BlocBuilder<AlamatBloc, AlamatState>(
-                  buildWhen: (previous, current) => current is ShowAllSection,
-                  builder: (context, state) {
-                    if (state is ShowAllSection) {
-                      final List<ProvinsiModel.Datum> selectProvinsi =
-                          state.provinsi;
-                      final List<KabupatenModel.Datum> selectKabupaten =
-                          state.kabupaten;
-                      final List<KecamatanModel.Datum> selectKecamatan =
-                          state.kecamatan;
-                      final List<DesaKelurahanModel.Datum> selectDesaKelurahan =
-                          state.desaKelurahan;
-                      final List<DusunModel.Datum> selectDusun = state.dusun;
+                  SizedBox(height: 20),
+                  BlocBuilder<AlamatBloc, AlamatState>(
+                    buildWhen: (previous, current) => current is ShowAllSection,
+                    builder: (context, state) {
+                      if (state is ShowAllSection) {
+                        final List<ProvinsiModel.Datum> selectProvinsi =
+                            state.provinsi;
+                        final List<KabupatenModel.Datum> selectKabupaten =
+                            state.kabupaten;
+                        final List<KecamatanModel.Datum> selectKecamatan =
+                            state.kecamatan;
+                        final List<DesaKelurahanModel.Datum>
+                            selectDesaKelurahan = state.desaKelurahan;
+                        final List<DusunModel.Datum> selectDusun = state.dusun;
 
-                      return Expanded(
-                        child: Form(
-                          key: formkey,
-                          child: TabBarView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            controller: _tabController,
-                            children: [
-                              // !AYAH
-                              Container(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Nomor Kartu Keluarga',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: kkAyahController,
-                                        hintText:
-                                            'Masukan Nomor Kartu Keluarga',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Kartu keluarga harus terdiri atas 16 digit"),
-                                          (value) => Validator.required(value,
-                                              "Kartu Keluarga ayah tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'NIK',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: nikAyahController,
-                                        hintText: 'Masukan NIK',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.consistOf(
-                                              value,
-                                              16,
-                                              "NIK ayah harus terdiri atas 16 digit"),
-                                          (value) => Validator.required(value,
-                                              "NIK ayah tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Nama',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: namaAyahController,
-                                        hintText: 'Masukan Nama',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Nama ayah tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        spacing: 8,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Tempat Lahir',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                TextFieldWidget(
-                                                  controller:
-                                                      tempatLahirAyahController,
-                                                  hintText: 'Tempat Lahir',
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  obscureText: false,
-                                                  isPasswordField: false,
-                                                  validators: [
-                                                    (value) => Validator.required(
-                                                        value,
-                                                        "Tempat Lahir tidak boleh kosong"),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Tanggal Lahir',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                DateTimePickerWidget(
-                                                  controller:
-                                                      tanggalLahirAyahController,
-                                                  hintText: 'Tanggal Lahir',
-                                                  selectDate: () {
-                                                    _selectDateAyah(context);
-                                                  },
-                                                  isDate: true,
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return "Tanggal harus dipilih";
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Alamat',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          // provinsi
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return "Provinsi harus dipilih";
-                                                }
-                                                return null;
-                                              },
-                                              items: selectProvinsi
-                                                  .map((provinsi) =>
-                                                      provinsi.namaProvinsi)
-                                                  .toSet() // Menghilangkan duplikasi
-                                                  .toList(),
-                                              hint: 'Provinsi',
-                                              value: selectedProvinsiAyah,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedProvinsiAyah = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          // kabupaten
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return "Kabupaten harus dipilih";
-                                                }
-                                                return null;
-                                              },
-                                              items: selectKabupaten
-                                                  .map((kabupaten) => kabupaten
-                                                      .namaKabupatenKota)
-                                                  .toList(),
-                                              hint: 'Kabupaten',
-                                              value: selectedKabupatenAyah,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedKabupatenAyah = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          // kecamatan
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return "Kecamatan harus dipilih";
-                                                }
-                                                return null;
-                                              },
-                                              items: selectKecamatan
-                                                  .map((kecamatan) =>
-                                                      kecamatan.namaKecamatan)
-                                                  .toList(),
-                                              hint: 'Kecamatan',
-                                              value: selectedKecamatanAyah,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  logger.d(
-                                                      'selected Kecamatan id ${value}');
-                                                  // context
-                                                  //     .read<AlamatBloc>()
-                                                  //     .add(SelectKabupaten(selectedProvinsiId));
-                                                  selectedKecamatanAyah = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          // desa
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return "Desa harus dipilih";
-                                                }
-                                                return null;
-                                              },
-                                              items: selectDesaKelurahan
-                                                  .map((desa) =>
-                                                      desa.namaDesaKelurahan)
-                                                  .toList(),
-                                              hint: 'Desa',
-                                              value: selectedDesaAyah,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedDesaAyah = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      DropdownWidget(
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "Dusun harus dipilih";
-                                          }
-                                          return null;
-                                        },
-                                        items: selectDusun
-                                            .map((dusun) => dusun
-                                                .namaDusun) // Menampilkan Nama Dusun
-                                            .toList(),
-                                        hint: 'Dusun',
-                                        value: selectedDusunAyahId != null
-                                            ? selectDusun
-                                                .firstWhere(
-                                                  (dusun) =>
-                                                      dusun.id ==
-                                                      selectedDusunAyahId,
-                                                  orElse: () => selectDusun
-                                                      .first, // Handle jika tidak ditemukan
-                                                )
-                                                .namaDusun
-                                            : null, // Menampilkan nama sesuai ID yang dipilih
-                                        onChanged: (value) {
-                                          setState(() {
-                                            final selectedDusun =
-                                                selectDusun.firstWhere(
-                                              (dusun) =>
-                                                  dusun.namaDusun == value,
-                                              orElse: () => selectDusun
-                                                  .first, // Default jika tidak ditemukan
-                                            );
-
-                                            selectedDusunAyahId = selectedDusun
-                                                .id; // Simpan ID, bukan nama
-                                            logger.d(
-                                                'Selected Dusun ID: ${selectedDusunAyahId}');
-                                          });
-                                        },
-                                      ),
-
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: TextFieldWidget(
-                                              controller: rTAyahController,
-                                              hintText: 'RT',
-                                              isPasswordField: false,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              obscureText: false,
-                                              validators: [
-                                                (value) => Validator.required(
-                                                    value,
-                                                    "RT ayah harus terdiri atas 16 digit"),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: TextFieldWidget(
-                                              controller: rWAyahController,
-                                              hintText: 'RW',
-                                              isPasswordField: false,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              obscureText: false,
-                                              validators: [
-                                                (value) => Validator.required(
-                                                    value,
-                                                    "RW ayah harus terdiri atas 16 digit"),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: alamatAyahController,
-                                        hintText: 'Masukan alamat lengkap',
-                                        keyboardType: TextInputType.text,
-                                        obscureText: false,
-                                        isPasswordField: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Alamat tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Nomor Telepon (WA aktif)',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: teleponAyahController,
-                                        hintText: 'Masukan nomor telepon',
-                                        keyboardType: TextInputType.phone,
-                                        obscureText: false,
-                                        isPasswordField: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Nomor Telepon tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Golongan Darah',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      DropdownWidget(
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "Golongan harus dipilih";
-                                          }
-                                          return null;
-                                        },
-                                        items: selectGolDarah,
-                                        hint: 'Golongan Darah',
-                                        value: selectedGolDarahAyah,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            selectedGolDarahAyah = value;
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Disabilitas',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      // Tampilkan disabilitas yang dipilih
-                                      Column(
-                                        children: selectedDisabilityLabelsAyah
-                                            .map((label) {
-                                          return ListTile(
-                                            title: Text(
-                                              label,
-                                              style: AppTextStyles
-                                                  .primaryTextNormal
-                                                  .copyWith(
-                                                fontSize: 14,
+                        return Expanded(
+                          child: Form(
+                            key: formkey,
+                            child: TabBarView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: _tabController,
+                              children: [
+                                // !AYAH
+                                Container(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Nomor Kartu Keluarga',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: kkAyahController,
+                                          hintText:
+                                              'Masukan Nomor Kartu Keluarga',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Kartu keluarga harus terdiri atas 16 digit"),
+                                            (value) => Validator.required(value,
+                                                "Kartu Keluarga ayah tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'NIK',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: nikAyahController,
+                                          hintText: 'Masukan NIK',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.consistOf(
+                                                value,
+                                                16,
+                                                "NIK ayah harus terdiri atas 16 digit"),
+                                            (value) => Validator.required(value,
+                                                "NIK ayah tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Nama',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: namaAyahController,
+                                          hintText: 'Masukan Nama',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Nama ayah tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Tempat Lahir',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  TextFieldWidget(
+                                                    controller:
+                                                        tempatLahirAyahController,
+                                                    hintText: 'Tempat Lahir',
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    obscureText: false,
+                                                    isPasswordField: false,
+                                                    validators: [
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "Tempat Lahir tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            trailing: IconButton(
-                                              icon: Icon(Icons.delete,
-                                                  color: Colors.red),
-                                              onPressed: () {
-                                                _removeDisabilityAyah(label);
-                                              },
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      OutlineButton(
-                                        color: Colors.grey,
-                                        mainButtonMessage: 'Tambah Disabilitas',
-                                        mainButton: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return DialogDisabilitas(
-                                                disabilities: disabilities,
-                                                selectedDisabilities:
-                                                    selectedDisabilitiesAyah,
-                                                onToggleDisability:
-                                                    _toggleDisabilityAyah,
-                                                onAddCustomDisability:
-                                                    (String customDisability) {
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Tanggal Lahir',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  DateTimePickerWidget(
+                                                    controller:
+                                                        tanggalLahirAyahController,
+                                                    hintText: 'Tanggal Lahir',
+                                                    selectDate: () {
+                                                      _selectDateAyah(context);
+                                                    },
+                                                    isDate: true,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return "Tanggal harus dipilih";
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Alamat',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // provinsi
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Provinsi harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectProvinsi
+                                                    .map((provinsi) =>
+                                                        provinsi.namaProvinsi)
+                                                    .toSet() // Menghilangkan duplikasi
+                                                    .toList(),
+                                                hint: 'Provinsi',
+                                                value: selectedProvinsiAyah,
+                                                onChanged: (value) {
                                                   setState(() {
-                                                    disabilities
-                                                        .add(customDisability);
-                                                    selectedDisabilitiesAyah
-                                                        .add(true);
-                                                    selectedDisabilityLabelsAyah
-                                                        .add(customDisability);
+                                                    selectedProvinsiAyah =
+                                                        value;
                                                   });
                                                 },
+                                              ),
+                                            ),
+                                            // kabupaten
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Kabupaten harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectKabupaten
+                                                    .map((kabupaten) =>
+                                                        kabupaten
+                                                            .namaKabupatenKota)
+                                                    .toList(),
+                                                hint: 'Kabupaten',
+                                                value: selectedKabupatenAyah,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedKabupatenAyah =
+                                                        value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // kecamatan
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Kecamatan harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectKecamatan
+                                                    .map((kecamatan) =>
+                                                        kecamatan.namaKecamatan)
+                                                    .toList(),
+                                                hint: 'Kecamatan',
+                                                value: selectedKecamatanAyah,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    logger.d(
+                                                        'selected Kecamatan id ${value}');
+                                                    // context
+                                                    //     .read<AlamatBloc>()
+                                                    //     .add(SelectKabupaten(selectedProvinsiId));
+                                                    selectedKecamatanAyah =
+                                                        value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            // desa
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Desa harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectDesaKelurahan
+                                                    .map((desa) =>
+                                                        desa.namaDesaKelurahan)
+                                                    .toList(),
+                                                hint: 'Desa',
+                                                value: selectedDesaAyah,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedDesaAyah = value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        DropdownWidget(
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Dusun harus dipilih";
+                                            }
+                                            return null;
+                                          },
+                                          items: selectDusun
+                                              .map((dusun) => dusun
+                                                  .namaDusun) // Menampilkan Nama Dusun
+                                              .toList(),
+                                          hint: 'Dusun',
+                                          value: selectedDusunAyahId != null
+                                              ? selectDusun
+                                                  .firstWhere(
+                                                    (dusun) =>
+                                                        dusun.id ==
+                                                        selectedDusunAyahId,
+                                                    orElse: () => selectDusun
+                                                        .first, // Handle jika tidak ditemukan
+                                                  )
+                                                  .namaDusun
+                                              : null, // Menampilkan nama sesuai ID yang dipilih
+                                          onChanged: (value) {
+                                            setState(() {
+                                              final selectedDusun =
+                                                  selectDusun.firstWhere(
+                                                (dusun) =>
+                                                    dusun.namaDusun == value,
+                                                orElse: () => selectDusun
+                                                    .first, // Default jika tidak ditemukan
                                               );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      ButtonPrimary(
-                                        color: bluePrimaryMain,
-                                        mainButtonMessage: 'Selanjutnya',
-                                        mainButton: () {
-                                          _goToNextTab();
-                                        },
-                                      ),
-                                    ],
+
+                                              selectedDusunAyahId = selectedDusun
+                                                  .id; // Simpan ID, bukan nama
+                                              logger.d(
+                                                  'Selected Dusun ID: ${selectedDusunAyahId}');
+                                            });
+                                          },
+                                        ),
+
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: rTAyahController,
+                                                hintText: 'RT',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "RT ayah harus terdiri atas 16 digit"),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: rWAyahController,
+                                                hintText: 'RW',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "RW ayah harus terdiri atas 16 digit"),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: alamatAyahController,
+                                          hintText: 'Masukan alamat lengkap',
+                                          keyboardType: TextInputType.text,
+                                          obscureText: false,
+                                          isPasswordField: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Alamat tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Nomor Telepon (WA aktif)',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: teleponAyahController,
+                                          hintText: 'Masukan nomor telepon',
+                                          keyboardType: TextInputType.phone,
+                                          obscureText: false,
+                                          isPasswordField: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Nomor Telepon tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Golongan Darah',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        DropdownWidget(
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Golongan harus dipilih";
+                                            }
+                                            return null;
+                                          },
+                                          items: selectGolDarah,
+                                          hint: 'Golongan Darah',
+                                          value: selectedGolDarahAyah,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedGolDarahAyah = value;
+                                            });
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Disabilitas',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        // Tampilkan disabilitas yang dipilih
+                                        Column(
+                                          children: selectedDisabilityLabelsAyah
+                                              .map((label) {
+                                            return ListTile(
+                                              title: Text(
+                                                label,
+                                                style: AppTextStyles
+                                                    .primaryTextNormal
+                                                    .copyWith(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              trailing: IconButton(
+                                                icon: Icon(Icons.delete,
+                                                    color: Colors.red),
+                                                onPressed: () {
+                                                  _removeDisabilityAyah(label);
+                                                },
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        OutlineButton(
+                                          color: Colors.grey,
+                                          mainButtonMessage:
+                                              'Tambah Disabilitas',
+                                          mainButton: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return DialogDisabilitas(
+                                                  disabilities: disabilities,
+                                                  selectedDisabilities:
+                                                      selectedDisabilitiesAyah,
+                                                  onToggleDisability:
+                                                      _toggleDisabilityAyah,
+                                                  onAddCustomDisability: (String
+                                                      customDisability) {
+                                                    setState(() {
+                                                      disabilities.add(
+                                                          customDisability);
+                                                      selectedDisabilitiesAyah
+                                                          .add(true);
+                                                      selectedDisabilityLabelsAyah
+                                                          .add(
+                                                              customDisability);
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        ButtonPrimary(
+                                          color: bluePrimaryMain,
+                                          mainButtonMessage: 'Selanjutnya',
+                                          mainButton: () {
+                                            _goToNextTab();
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              //!IBU
-                              // Container(),
-                              Container(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Nomor Kartu Keluarga',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: kkIbuController,
-                                        hintText:
-                                            'Masukan Nomor Kartu Keluarga',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Kartu Keluarga harus terdiri atas 16 digit"),
-                                          (value) => Validator.required(value,
-                                              "Kartu Keluarga Ibu tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'NIK',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: nikIbuController,
-                                        hintText: 'Masukan NIK',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "NIk Ibu harus terdiri atas 16 digit"),
-                                          (value) => Validator.required(value,
-                                              "NIK Ibu tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Nama',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: namaIbuController,
-                                        hintText: 'Masukan Nama',
-                                        isPasswordField: false,
-                                        keyboardType: TextInputType.text,
-                                        obscureText: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Nama Ibu tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        spacing: 8,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Tempat Lahir',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                TextFieldWidget(
-                                                  controller:
-                                                      tempatLahirIbuController,
-                                                  hintText: 'Tempat Lahir',
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  obscureText: false,
-                                                  isPasswordField: false,
-                                                  validators: [
-                                                    (value) => Validator.required(
-                                                        value,
-                                                        "Nama Ibu tidak boleh kosong"),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Tanggal Lahir',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                DateTimePickerWidget(
-                                                  controller:
-                                                      tanggalLahirIbuController,
-                                                  hintText: 'Tanggal Lahir',
-                                                  selectDate: () {
-                                                    _selectDateIbu(context);
-                                                  },
-                                                  isDate: true,
-                                                  validator: (value) {
-                                                    if (value == null ||
-                                                        value.isEmpty) {
-                                                      return "Tanggal harus dipilih";
-                                                    }
-                                                    return null;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Alamat',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          // provinsi
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              items: selectProvinsi
-                                                  .map((provinsi) =>
-                                                      provinsi.namaProvinsi)
-                                                  .toList(),
-                                              hint: 'Provinsi',
-                                              value: selectedProvinsiIbu,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  // final selectedProvinsiId = selectProvinsi
-                                                  //     .firstWhere(
-                                                  //         (provinsi) => provinsi.namaProvinsi == value)
-                                                  //     .id;
-                                                  logger.d(
-                                                      'selected provinsi id ${value}');
-                                                  // context
-                                                  //     .read<AlamatBloc>()
-                                                  //     .add(SelectKabupaten(selectedProvinsiId));
-                                                  selectedProvinsiIbu = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          // kabupaten
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              items: selectKabupaten
-                                                  .map((kabupaten) => kabupaten
-                                                      .namaKabupatenKota)
-                                                  .toList(),
-                                              hint: 'Kabupaten',
-                                              value: selectedKabupatenIbu,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedKabupatenIbu = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          // kecamatan
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              items: selectKecamatan
-                                                  .map((kecamatan) =>
-                                                      kecamatan.namaKecamatan)
-                                                  .toList(),
-                                              hint: 'Kecamatan',
-                                              value: selectedKecamatanIbu,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  logger.d(
-                                                      'selected Kecamatan id ${value}');
-                                                  // context
-                                                  //     .read<AlamatBloc>()
-                                                  //     .add(SelectKabupaten(selectedProvinsiId));
-                                                  selectedKecamatanIbu = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          // desa
-                                          Expanded(
-                                            child: DropdownWidget(
-                                              items: selectDesaKelurahan
-                                                  .map((desa) =>
-                                                      desa.namaDesaKelurahan)
-                                                  .toList(),
-                                              hint: 'Desa',
-                                              value: selectedDesaIbu,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedDesaIbu = value;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      DropdownWidget(
-                                        items: selectDusun
-                                            .map((dusun) => dusun
-                                                .namaDusun) // Menampilkan Nama Dusun
-                                            .toList(),
-                                        hint: 'Dusun',
-                                        value: selectedDusunIbuId != null
-                                            ? selectDusun
-                                                .firstWhere(
-                                                  (dusun) =>
-                                                      dusun.id ==
-                                                      selectedDusunIbuId,
-                                                  orElse: () => selectDusun
-                                                      .first, // Handle jika tidak ditemukan
-                                                )
-                                                .namaDusun
-                                            : null, // Menampilkan nama sesuai ID yang dipilih
-                                        onChanged: (value) {
-                                          setState(() {
-                                            final selectedDusun =
-                                                selectDusun.firstWhere(
-                                              (dusun) =>
-                                                  dusun.namaDusun == value,
-                                              orElse: () => selectDusun
-                                                  .first, // Default jika tidak ditemukan
-                                            );
-
-                                            selectedDusunIbuId = selectedDusun
-                                                .id; // Simpan ID, bukan nama
-                                            logger.d(
-                                                'Selected Dusun ID: ${selectedDusunIbuId}');
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      Row(
-                                        spacing: 8,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: TextFieldWidget(
-                                              controller: rTIbuController,
-                                              hintText: 'RT',
-                                              isPasswordField: false,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              obscureText: false,
-                                              validators: [
-                                                (value) => Validator.required(
-                                                    value,
-                                                    "RT Ibu tidak boleh kosong"),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: TextFieldWidget(
-                                              controller: rWIbuController,
-                                              hintText: 'RW',
-                                              isPasswordField: false,
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              obscureText: false,
-                                              validators: [
-                                                (value) => Validator.required(
-                                                    value,
-                                                    "RW Ibu tidak boleh kosong"),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: alamatIbuController,
-                                        hintText: 'Masukan alamat lengkap',
-                                        keyboardType: TextInputType.text,
-                                        obscureText: false,
-                                        isPasswordField: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Alamat tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Nomor Telepon (WA aktif)',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: teleponIbuController,
-                                        hintText: 'Masukan nomor telepon',
-                                        keyboardType: TextInputType.phone,
-                                        obscureText: false,
-                                        isPasswordField: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Nomor Telepon tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        spacing: 8,
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Jenis KB',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                DropdownWidget(
-                                                  items: selectJenisKB,
-                                                  hint: 'Jenis KB',
-                                                  value: selectedJenisKBIbu,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      selectedJenisKBIbu =
-                                                          value;
-                                                    });
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'Golongan Darah',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(
-                                                            8)),
-                                                DropdownWidget(
-                                                  items: selectGolDarah,
-                                                  hint: 'Golongan Darah',
-                                                  value: selectedGolDarahIbu,
-                                                  onChanged: (value) {
-                                                    setState(() {
-                                                      selectedGolDarahIbu =
-                                                          value; // Update the selected value
-                                                      logger.d(
-                                                          'Selected Golongan Darah: ${selectedGolDarahIbu}');
-                                                    });
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Tanggal lahiran Anak Sebelumnya',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      DateTimePickerWidget(
-                                        isDate: true,
-                                        controller:
-                                            tanggalKelahiranAnakSebelumnyaIbuController,
-                                        selectDate: () {
-                                          _selectDateKelahiranSebelumnyaIbu(
-                                              context);
-                                        },
-                                        hintText:
-                                            "Tanggal Lahiran Anak Sebelumnya",
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "Tanggal harus dipilih";
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Jumlah Anak',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      TextFieldWidget(
-                                        controller: jumlahAnakIbuController,
-                                        hintText: 'Jumlah Anak',
-                                        keyboardType: TextInputType.number,
-                                        obscureText: false,
-                                        isPasswordField: false,
-                                        validators: [
-                                          (value) => Validator.required(value,
-                                              "Jumlah Anak tidak boleh kosong"),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      const Text(
-                                        'Disabilitas',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      // Tampilkan disabilitas yang dipilih
-                                      Column(
-                                        children: selectedDisabilityLabelsIbu
-                                            .map((label) {
-                                          return ListTile(
-                                            title: Text(
-                                              label,
-                                              style: AppTextStyles
-                                                  .primaryTextNormal
-                                                  .copyWith(
-                                                fontSize: 14,
+                                //!IBU
+                                // Container(),
+                                Container(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Nomor Kartu Keluarga',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: kkIbuController,
+                                          hintText:
+                                              'Masukan Nomor Kartu Keluarga',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Kartu Keluarga harus terdiri atas 16 digit"),
+                                            (value) => Validator.required(value,
+                                                "Kartu Keluarga Ibu tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'NIK',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: nikIbuController,
+                                          hintText: 'Masukan NIK',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "NIk Ibu harus terdiri atas 16 digit"),
+                                            (value) => Validator.required(value,
+                                                "NIK Ibu tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Nama',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: namaIbuController,
+                                          hintText: 'Masukan Nama',
+                                          isPasswordField: false,
+                                          keyboardType: TextInputType.text,
+                                          obscureText: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Nama Ibu tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Tempat Lahir',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  TextFieldWidget(
+                                                    controller:
+                                                        tempatLahirIbuController,
+                                                    hintText: 'Tempat Lahir',
+                                                    keyboardType:
+                                                        TextInputType.text,
+                                                    obscureText: false,
+                                                    isPasswordField: false,
+                                                    validators: [
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "Nama Ibu tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            trailing: IconButton(
-                                              icon: Icon(Icons.delete,
-                                                  color: Colors.red),
-                                              onPressed: () {
-                                                _removeDisabilityIbu(label);
-                                              },
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  8)),
-                                      OutlineButton(
-                                        color: Colors.grey,
-                                        mainButtonMessage: 'Tambah Disabilitas',
-                                        mainButton: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return DialogDisabilitas(
-                                                disabilities: disabilities,
-                                                selectedDisabilities:
-                                                    selectedDisabilitiesIbu,
-                                                onToggleDisability:
-                                                    _toggleDisabilityIbu,
-                                                onAddCustomDisability:
-                                                    (String customDisability) {
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Tanggal Lahir',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  DateTimePickerWidget(
+                                                    controller:
+                                                        tanggalLahirIbuController,
+                                                    hintText: 'Tanggal Lahir',
+                                                    selectDate: () {
+                                                      _selectDateIbu(context);
+                                                    },
+                                                    isDate: true,
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return "Tanggal harus dipilih";
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Alamat',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // provinsi
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Provinsi harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectProvinsi
+                                                    .map((provinsi) =>
+                                                        provinsi.namaProvinsi)
+                                                    .toList(),
+                                                hint: 'Provinsi',
+                                                value: selectedProvinsiIbu,
+                                                onChanged: (value) {
                                                   setState(() {
-                                                    disabilities
-                                                        .add(customDisability);
-                                                    selectedDisabilitiesIbu
-                                                        .add(true);
-                                                    selectedDisabilityLabelsIbu
-                                                        .add(customDisability);
+                                                    // final selectedProvinsiId = selectProvinsi
+                                                    //     .firstWhere(
+                                                    //         (provinsi) => provinsi.namaProvinsi == value)
+                                                    //     .id;
+                                                    logger.d(
+                                                        'selected provinsi id ${value}');
+                                                    // context
+                                                    //     .read<AlamatBloc>()
+                                                    //     .add(SelectKabupaten(selectedProvinsiId));
+                                                    selectedProvinsiIbu = value;
                                                   });
                                                 },
+                                              ),
+                                            ),
+                                            // kabupaten
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Kabupaten harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectKabupaten
+                                                    .map((kabupaten) =>
+                                                        kabupaten
+                                                            .namaKabupatenKota)
+                                                    .toList(),
+                                                hint: 'Kabupaten',
+                                                value: selectedKabupatenIbu,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedKabupatenIbu =
+                                                        value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // kecamatan
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Kecamatan harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectKecamatan
+                                                    .map((kecamatan) =>
+                                                        kecamatan.namaKecamatan)
+                                                    .toList(),
+                                                hint: 'Kecamatan',
+                                                value: selectedKecamatanIbu,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    logger.d(
+                                                        'selected Kecamatan id ${value}');
+                                                    // context
+                                                    //     .read<AlamatBloc>()
+                                                    //     .add(SelectKabupaten(selectedProvinsiId));
+                                                    selectedKecamatanIbu =
+                                                        value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            // desa
+                                            Expanded(
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Desa harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectDesaKelurahan
+                                                    .map((desa) =>
+                                                        desa.namaDesaKelurahan)
+                                                    .toList(),
+                                                hint: 'Desa',
+                                                value: selectedDesaIbu,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedDesaIbu = value;
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        DropdownWidget(
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Dusun harus dipilih";
+                                            }
+                                            return null;
+                                          },
+                                          items: selectDusun
+                                              .map((dusun) => dusun
+                                                  .namaDusun) // Menampilkan Nama Dusun
+                                              .toList(),
+                                          hint: 'Dusun',
+                                          value: selectedDusunIbuId != null
+                                              ? selectDusun
+                                                  .firstWhere(
+                                                    (dusun) =>
+                                                        dusun.id ==
+                                                        selectedDusunIbuId,
+                                                    orElse: () => selectDusun
+                                                        .first, // Handle jika tidak ditemukan
+                                                  )
+                                                  .namaDusun
+                                              : null, // Menampilkan nama sesuai ID yang dipilih
+                                          onChanged: (value) {
+                                            setState(() {
+                                              final selectedDusun =
+                                                  selectDusun.firstWhere(
+                                                (dusun) =>
+                                                    dusun.namaDusun == value,
+                                                orElse: () => selectDusun
+                                                    .first, // Default jika tidak ditemukan
                                               );
-                                            },
-                                          );
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  16)),
-                                      ButtonPrimary(
-                                        color: bluePrimaryMain,
-                                        mainButtonMessage: 'Simpan',
-                                        mainButton: () async {
-                                          // Validate the form
-                                          if (formkey.currentState!
-                                              .validate()) {
-                                          } else {
-                                            print("Form tidak valid");
-                                          }
-                                        },
-                                      ),
-                                      SizedBox(
-                                          height:
-                                              SizeConfig.calHeightMultiplier(
-                                                  20)),
-                                      Center(
-                                        child: GestureDetector(
-                                          onTap: _navigateBack,
-                                          child: Text(
-                                            'Kembali Ke data Ayah',
-                                            style: AppTextStyles
-                                                .secoundaryTextMedium
-                                                .copyWith(
-                                              fontSize: 16,
+
+                                              selectedDusunIbuId = selectedDusun
+                                                  .id; // Simpan ID, bukan nama
+                                              logger.d(
+                                                  'Selected Dusun ID: ${selectedDusunIbuId}');
+                                            });
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        Row(
+                                          spacing: 8,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: rTIbuController,
+                                                hintText: 'RT',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "RT Ibu tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: rWIbuController,
+                                                hintText: 'RW',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "RW Ibu tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: alamatIbuController,
+                                          hintText: 'Masukan alamat lengkap',
+                                          keyboardType: TextInputType.text,
+                                          obscureText: false,
+                                          isPasswordField: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Alamat tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Nomor Telepon (WA aktif)',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: teleponIbuController,
+                                          hintText: 'Masukan nomor telepon',
+                                          keyboardType: TextInputType.phone,
+                                          obscureText: false,
+                                          isPasswordField: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Nomor Telepon tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Jenis KB',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  DropdownWidget(
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return "Jenis KB harus dipilih";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    items: selectJenisKB,
+                                                    hint: 'Jenis KB',
+                                                    value: selectedJenisKBIbu,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedJenisKBIbu =
+                                                            value;
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'Golongan Darah',
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                  SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              8)),
+                                                  DropdownWidget(
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return "Golongan Darah harus dipilih";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    items: selectGolDarah,
+                                                    hint: 'Golongan Darah',
+                                                    value: selectedGolDarahIbu,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedGolDarahIbu =
+                                                            value; // Update the selected value
+                                                        logger.d(
+                                                            'Selected Golongan Darah: ${selectedGolDarahIbu}');
+                                                      });
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Tanggal lahiran Anak Sebelumnya',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        DateTimePickerWidget(
+                                          isDate: true,
+                                          controller:
+                                              tanggalKelahiranAnakSebelumnyaIbuController,
+                                          selectDate: () {
+                                            _selectDateKelahiranSebelumnyaIbu(
+                                                context);
+                                          },
+                                          hintText:
+                                              "Tanggal Lahiran Anak Sebelumnya",
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return "Tanggal harus dipilih";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Jumlah Anak',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: jumlahAnakIbuController,
+                                          hintText: 'Jumlah Anak',
+                                          keyboardType: TextInputType.number,
+                                          obscureText: false,
+                                          isPasswordField: false,
+                                          validators: [
+                                            (value) => Validator.required(value,
+                                                "Jumlah Anak tidak boleh kosong"),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Disabilitas',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        // Tampilkan disabilitas yang dipilih
+                                        Column(
+                                          children: selectedDisabilityLabelsIbu
+                                              .map((label) {
+                                            return ListTile(
+                                              title: Text(
+                                                label,
+                                                style: AppTextStyles
+                                                    .primaryTextNormal
+                                                    .copyWith(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                              trailing: IconButton(
+                                                icon: Icon(Icons.delete,
+                                                    color: Colors.red),
+                                                onPressed: () {
+                                                  _removeDisabilityIbu(label);
+                                                },
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
+                                        OutlineButton(
+                                          color: Colors.grey,
+                                          mainButtonMessage:
+                                              'Tambah Disabilitas',
+                                          mainButton: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return DialogDisabilitas(
+                                                  disabilities: disabilities,
+                                                  selectedDisabilities:
+                                                      selectedDisabilitiesIbu,
+                                                  onToggleDisability:
+                                                      _toggleDisabilityIbu,
+                                                  onAddCustomDisability: (String
+                                                      customDisability) {
+                                                    setState(() {
+                                                      disabilities.add(
+                                                          customDisability);
+                                                      selectedDisabilitiesIbu
+                                                          .add(true);
+                                                      selectedDisabilityLabelsIbu
+                                                          .add(
+                                                              customDisability);
+                                                    });
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    16)),
+                                        ButtonPrimary(
+                                          color: bluePrimaryMain,
+                                          mainButtonMessage: 'Simpan',
+                                          mainButton: () async {
+                                            // Validate the form
+                                            if (formkey.currentState!
+                                                .validate()) {
+                                              PostOrangTuaBody dataOrangTua =
+                                                  PostOrangTuaBody(
+                                                ayah: Ayah(
+                                                  alamat:
+                                                      alamatAyahController.text,
+                                                  nomorKartuKeluarga:
+                                                      kkAyahController.text,
+                                                  dusunId: selectedDusunAyahId!,
+                                                  golDarah:
+                                                      selectedGolDarahAyah!,
+                                                  namaAyah:
+                                                      namaAyahController.text,
+                                                  nik: nikAyahController.text,
+                                                  nomorTelepon:
+                                                      teleponAyahController
+                                                          .text,
+                                                  rt: rTAyahController.text,
+                                                  rw: rWAyahController.text,
+                                                  tempatLahir:
+                                                      tempatLahirAyahController
+                                                          .text,
+                                                  tanggalLahir:
+                                                      tanggalLahirAyahController
+                                                          .text,
+                                                  jenisDisabilitas:
+                                                      selectedDisabilityLabelsAyah
+                                                          .map((e) {
+                                                    return JenisDisabilitas(
+                                                        namaDisabilitas: e);
+                                                  }).toList(),
+                                                ),
+                                                ibu: Ibu(
+                                                  tanggalMelahirkanSebelumnya:
+                                                      tanggalKelahiranAnakSebelumnyaIbuController
+                                                          .text,
+                                                  jumlahAnak: int.parse(
+                                                      jumlahAnakIbuController
+                                                          .text),
+                                                  jenisKb: selectedJenisKBIbu!,
+                                                  alamat:
+                                                      alamatIbuController.text,
+                                                  nomorKartuKeluarga:
+                                                      kkIbuController.text,
+                                                  dusunId: selectedDusunIbuId!,
+                                                  golDarah:
+                                                      selectedGolDarahIbu!,
+                                                  namaIbu:
+                                                      namaIbuController.text,
+                                                  nik: nikIbuController.text,
+                                                  nomorTelepon:
+                                                      teleponIbuController.text,
+                                                  rt: rTIbuController.text,
+                                                  rw: rWIbuController.text,
+                                                  tempatLahir:
+                                                      tempatLahirIbuController
+                                                          .text,
+                                                  tanggalLahir:
+                                                      tanggalLahirIbuController
+                                                          .text,
+                                                  jenisDisabilitas:
+                                                      selectedDisabilityLabelsIbu
+                                                          .map((e) {
+                                                    return JenisDisabilitas(
+                                                        namaDisabilitas: e);
+                                                  }).toList(),
+                                                ),
+                                              );
+
+                                              context
+                                                  .read<
+                                                      CreateRegisterOrangTuaBloc>()
+                                                  .add(SendRegisterOrangTua(
+                                                      postOrangTuaBody:
+                                                          dataOrangTua));
+                                            } else {
+                                              print("Form tidak valid");
+                                            }
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    20)),
+                                        Center(
+                                          child: GestureDetector(
+                                            onTap: _navigateBack,
+                                            child: Text(
+                                              'Kembali Ke data Ayah',
+                                              style: AppTextStyles
+                                                  .secoundaryTextMedium
+                                                  .copyWith(
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }
-                    // Handle other states...
-                    return Container(); // Ganti dengan widget yang sesuai
-                  },
-                ),
-              ],
+                        );
+                      }
+                      // Handle other states...
+                      return Container(); // Ganti dengan widget yang sesuai
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
