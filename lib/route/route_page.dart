@@ -43,7 +43,6 @@ import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hami
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
 import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_kader.dart';
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
-import '../app/feature/createRegisterPengasuh/view/create_register_pengasuh.dart';
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
@@ -372,12 +371,6 @@ class MyRoute {
           builder: (context) => const RegisterPengasuh(),
           settings: settings,
         );
-      case CREATE_REGISTER_PENGASUH:
-        return MaterialPageRoute(
-          builder: (context) => const CreateRegisterPengasuh(),
-          settings: settings,
-        );
-
       case UPDATE_REGISTER_PENGASUH:
         return MaterialPageRoute(
           builder: (context) => const UpdateRegisterPengasuh(),

@@ -447,10 +447,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         DropdownWidget(
-                          items: selectDusun
-                              .map((dusun) =>
-                                  dusun.namaDusun) // Menampilkan Nama Dusun
-                              .toList(),
+                          items: selectDusun.map((dusun) => dusun.namaDusun).toList(), // Menampilkan Nama Dusun
                           hint: 'Dusun',
                           value: selectedDusunIdWali != null
                               ? selectDusun
@@ -635,7 +632,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                         milliseconds: 300),
                                 TopSnackbarWidget()
                                     .success("Tambah Anak Berhasil"));
-                              Navigator.pop(context);
+                              Navigator.pop(context,1);
                             }
                              if(state is CreateAnakNullErrorState) {
                               showTopSnackBar(
