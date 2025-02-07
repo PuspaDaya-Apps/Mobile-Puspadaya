@@ -17,6 +17,13 @@ class Validator {
     return null;
   }
 
+  static String? consistOf(String value, int consist, String message) {
+    if (value.length != consist) {
+      return message;
+    }
+    return null;
+  }
+
   static String? min(String value, int min, String message) {
     if (value.length < min) {
       return message;
