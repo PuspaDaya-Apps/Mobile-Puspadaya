@@ -319,97 +319,97 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocSelector<DetailRegisterOrangTuaBloc,
-              DetailRegisterOrangTuaState, GetOrangtuaDetailResponseModel?>(
-            selector: (state) {
-              if (state is DetailRegisterOrangTuaSuccess) {
-                return state.getOrangTuaDetailResponse;
-              }
-              return null;
-            },
-            builder: (context, detailData) {
-              if (detailData == null) {
-                return Center(
-                    child:
-                        CircularProgressIndicator()); // Jika data masih loading
-              }
-              ;
-              //? Set Data Ayah
-              if (kkAyahController.text.isEmpty) {
-                kkAyahController.text =
-                    detailData.data.ayah.kartuKeluarga.nomorKartuKeluarga;
-                nikAyahController.text = detailData.data.ayah.nik;
-                namaAyahController.text = detailData.data.ayah.namaAyah;
-                tempatLahirAyahController.text =
-                    detailData.data.ayah.tempatLahir;
-                tanggalLahirAyahController.text = DateFormat('yyyy-MM-dd')
-                    .format(detailData.data.ayah.tanggalLahir);
-                alamatAyahController.text = detailData.data.ayah.alamat;
-                teleponAyahController.text = detailData.data.ayah.nomorTelepon;
-                rTAyahController.text = detailData.data.ayah.rt;
-                rWAyahController.text = detailData.data.ayah.rw;
-                selectedProvinsiAyah = detailData.data.ayah.dusun.desaKelurahan
-                    .kecamatan.kabupaten.provinsi.namaProvinsi;
-                selectedKabupatenAyah = detailData.data.ayah.dusun.desaKelurahan
-                    .kecamatan.kabupaten.namaKabupaten;
-                selectedKecamatanAyah = detailData
-                    .data.ayah.dusun.desaKelurahan.kecamatan.namaKecamatan;
-                selectedDesaAyah =
-                    detailData.data.ayah.dusun.desaKelurahan.namaDesaKelurahan;
-                selectedDusunAyahId = detailData.data.ayah.dusun.id;
-                selectedGolDarahAyah = detailData.data.ayah.golDarah;
-                selectedDisabilityLabelsAyah = detailData
-                    .data.ayah.jenisDisabilitas!
-                    .map((e) => e.namaDisabilitas)
-                    .toList();
-              }
+          child: Container(
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height / 1.2,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: BlocSelector<DetailRegisterOrangTuaBloc,
+                DetailRegisterOrangTuaState, GetOrangtuaDetailResponseModel?>(
+              selector: (state) {
+                if (state is DetailRegisterOrangTuaSuccess) {
+                  return state.getOrangTuaDetailResponse;
+                }
+                return null;
+              },
+              builder: (context, detailData) {
+                if (detailData == null) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  ); // Jika data masih loading
+                }
+                ;
+                //? Set Data Ayah
+                if (kkAyahController.text.isEmpty) {
+                  kkAyahController.text =
+                      detailData.data.ayah.kartuKeluarga.nomorKartuKeluarga;
+                  nikAyahController.text = detailData.data.ayah.nik;
+                  namaAyahController.text = detailData.data.ayah.namaAyah;
+                  tempatLahirAyahController.text =
+                      detailData.data.ayah.tempatLahir;
+                  tanggalLahirAyahController.text = DateFormat('yyyy-MM-dd')
+                      .format(detailData.data.ayah.tanggalLahir);
+                  alamatAyahController.text = detailData.data.ayah.alamat;
+                  teleponAyahController.text =
+                      detailData.data.ayah.nomorTelepon;
+                  rTAyahController.text = detailData.data.ayah.rt;
+                  rWAyahController.text = detailData.data.ayah.rw;
+                  selectedProvinsiAyah = detailData.data.ayah.dusun
+                      .desaKelurahan.kecamatan.kabupaten.provinsi.namaProvinsi;
+                  selectedKabupatenAyah = detailData.data.ayah.dusun
+                      .desaKelurahan.kecamatan.kabupaten.namaKabupaten;
+                  selectedKecamatanAyah = detailData
+                      .data.ayah.dusun.desaKelurahan.kecamatan.namaKecamatan;
+                  selectedDesaAyah = detailData
+                      .data.ayah.dusun.desaKelurahan.namaDesaKelurahan;
+                  selectedDusunAyahId = detailData.data.ayah.dusun.id;
+                  selectedGolDarahAyah = detailData.data.ayah.golDarah;
+                  selectedDisabilityLabelsAyah = detailData
+                      .data.ayah.jenisDisabilitas!
+                      .map((e) => e.namaDisabilitas)
+                      .toList();
+                }
 
-              //? Set Data Ibu
-              if (kkIbuController.text.isEmpty) {
-                kkIbuController.text =
-                    detailData.data.ibu.kartuKeluarga.nomorKartuKeluarga;
-                nikIbuController.text = detailData.data.ibu.nik;
-                namaIbuController.text = detailData.data.ibu.nama;
-                tempatLahirIbuController.text = detailData.data.ibu.tempatLahir;
-                tanggalLahirIbuController.text = DateFormat('yyyy-MM-dd')
-                    .format(detailData.data.ibu.tanggalLahir);
-                alamatIbuController.text = detailData.data.ibu.alamat;
-                tanggalKelahiranAnakSebelumnyaIbuController.text =
-                    detailData.data.ibu.tanggalMelahirkanSebelumnya;
-                teleponIbuController.text = detailData.data.ibu.nomorTelepon;
-                rTIbuController.text = detailData.data.ibu.rt;
-                rWIbuController.text = detailData.data.ibu.rw;
-                jumlahAnakIbuController.text =
-                    detailData.data.ibu.jumlahAnak.toString();
-                selectedProvinsiIbu = detailData.data.ibu.dusun.desaKelurahan
-                    .kecamatan.kabupaten.provinsi.namaProvinsi;
-                selectedKabupatenIbu = detailData.data.ibu.dusun.desaKelurahan
-                    .kecamatan.kabupaten.namaKabupaten;
-                selectedKecamatanIbu = detailData
-                    .data.ibu.dusun.desaKelurahan.kecamatan.namaKecamatan;
-                selectedDesaIbu =
-                    detailData.data.ibu.dusun.desaKelurahan.namaDesaKelurahan;
-                selectedDusunIbuId = detailData.data.ibu.dusun.id;
-                selectedGolDarahIbu = detailData.data.ibu.golDarah;
-                selectedJenisKBIbu = detailData.data.ibu.jenisKB;
-                selectedDisabilityLabelsIbu = detailData
-                    .data.ibu.jenisDisabilitas!
-                    .map((e) => e.namaDisabilitas)
-                    .toList();
-              }
-
-              return Container(
-                margin:
-                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height / 1.2,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
+                //? Set Data Ibu
+                if (kkIbuController.text.isEmpty) {
+                  kkIbuController.text =
+                      detailData.data.ibu.kartuKeluarga.nomorKartuKeluarga;
+                  nikIbuController.text = detailData.data.ibu.nik;
+                  namaIbuController.text = detailData.data.ibu.nama;
+                  tempatLahirIbuController.text =
+                      detailData.data.ibu.tempatLahir;
+                  tanggalLahirIbuController.text = DateFormat('yyyy-MM-dd')
+                      .format(detailData.data.ibu.tanggalLahir);
+                  alamatIbuController.text = detailData.data.ibu.alamat;
+                  tanggalKelahiranAnakSebelumnyaIbuController.text =
+                      detailData.data.ibu.tanggalMelahirkanSebelumnya;
+                  teleponIbuController.text = detailData.data.ibu.nomorTelepon;
+                  rTIbuController.text = detailData.data.ibu.rt;
+                  rWIbuController.text = detailData.data.ibu.rw;
+                  jumlahAnakIbuController.text =
+                      detailData.data.ibu.jumlahAnak.toString();
+                  selectedProvinsiIbu = detailData.data.ibu.dusun.desaKelurahan
+                      .kecamatan.kabupaten.provinsi.namaProvinsi;
+                  selectedKabupatenIbu = detailData.data.ibu.dusun.desaKelurahan
+                      .kecamatan.kabupaten.namaKabupaten;
+                  selectedKecamatanIbu = detailData
+                      .data.ibu.dusun.desaKelurahan.kecamatan.namaKecamatan;
+                  selectedDesaIbu =
+                      detailData.data.ibu.dusun.desaKelurahan.namaDesaKelurahan;
+                  selectedDusunIbuId = detailData.data.ibu.dusun.id;
+                  selectedGolDarahIbu = detailData.data.ibu.golDarah;
+                  selectedJenisKBIbu = detailData.data.ibu.jenisKB;
+                  selectedDisabilityLabelsIbu = detailData
+                      .data.ibu.jenisDisabilitas!
+                      .map((e) => e.namaDisabilitas)
+                      .toList();
+                }
+                ;
+                return Column(
                   children: [
                     BlocListener<UpdateRegisterOrangTuaBloc,
                         UpdateRegisterOrangTuaState>(
@@ -1766,9 +1766,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                       },
                     ),
                   ],
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
