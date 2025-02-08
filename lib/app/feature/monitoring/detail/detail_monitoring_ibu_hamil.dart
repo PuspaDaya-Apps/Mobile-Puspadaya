@@ -6,27 +6,32 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../view/widget/info_field_widget.dart';
+import '../model/riwayat_monitoring_ibu_hamil_model.dart';
 
 class DetailMonitoringIbuHamil extends StatelessWidget {
-  final String id;
-  const DetailMonitoringIbuHamil({super.key, required this.id});
+  final RiwayatMonitoringIbuHamilModel detailMonitoring;
+  const DetailMonitoringIbuHamil({super.key, required this.detailMonitoring});
 
   @override
   Widget build(BuildContext context) {
-    return DetailMonitoringIbuHamilView(id: id,);
+    return DetailMonitoringIbuHamilView(
+      detailMonitoring: detailMonitoring,
+    );
   }
 }
 
 class DetailMonitoringIbuHamilView extends StatefulWidget {
-  final String id;
-  const DetailMonitoringIbuHamilView({super.key, required this.id});
+  final RiwayatMonitoringIbuHamilModel detailMonitoring;
+  const DetailMonitoringIbuHamilView(
+      {super.key, required this.detailMonitoring});
 
   @override
   State<DetailMonitoringIbuHamilView> createState() =>
       _DetailMonitoringIbuHamilViewState();
 }
 
-class _DetailMonitoringIbuHamilViewState extends State<DetailMonitoringIbuHamilView> {
+class _DetailMonitoringIbuHamilViewState
+    extends State<DetailMonitoringIbuHamilView> {
   bool _isExpanded = false;
 
   @override
@@ -202,7 +207,6 @@ class _DetailMonitoringIbuHamilViewState extends State<DetailMonitoringIbuHamilV
                     ),
                   ),
                 ),
-
                 Container(
                   width: double.infinity,
                   height: 2,

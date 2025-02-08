@@ -77,12 +77,10 @@ class _MonitoringViewState extends State<MonitoringView>
                     indicatorAnimation: TabIndicatorAnimation.elastic,
                     dividerHeight: 0,
                     controller: _tabController,
-                    indicator: BoxDecoration(
-                      color: bluePrimaryMain,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
                     unselectedLabelColor: textSecoundary,
-                    labelColor: Colors.white,
+                    indicatorColor: bluePrimaryMain,
+                    physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                    labelColor: bluePrimaryMain,
                     tabs: [
                       Tab(text: 'Stunting'),
                       Tab(text: 'Under Weight'),

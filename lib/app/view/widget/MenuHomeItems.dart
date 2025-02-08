@@ -50,7 +50,7 @@ class HomeMenuItems extends StatelessWidget {
             textAlign: TextAlign.center,
             menuName,
             style: AppTextStyles.primaryTextMedium.copyWith(
-              fontSize: 13,
+              fontSize: 11,
             ),
           ),
         ],
