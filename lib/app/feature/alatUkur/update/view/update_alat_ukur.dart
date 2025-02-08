@@ -93,8 +93,8 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
     },
     {
       'label': 'Kartu E terdiri dari 2 buah:\n'
-          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n84 mm, 17,6 mm.\n'
-          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n16,8 mm, 3,52 mm.',
+          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
+          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
       'isChecked': false,
       'isOther': false
     },
