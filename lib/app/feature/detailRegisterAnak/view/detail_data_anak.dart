@@ -6,15 +6,23 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../bloc/detail_register_anak_bloc.dart';
 import '../model/get_detail_anak_response.dart';
 import 'detail_data_wali.dart';
 
 class DetailDataAnak extends StatelessWidget {
+  final DetailRegisterAnakBloc detailRegisterAnakBloc;
+  final String anakId;
   final GetDetailAnakResponse detailResponse;
   final List<String> disabilitas = [
     'Tunanetra',
   ];
-  DetailDataAnak({super.key, required this.detailResponse});
+  DetailDataAnak({
+    super.key, 
+    required this.detailResponse,
+    required this.detailRegisterAnakBloc,
+    required this.anakId
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +345,11 @@ class DetailDataAnak extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK);
+                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK, arguments: detailResponse).then((value) {
+                  if(value != null) {
+                    detailRegisterAnakBloc.add(FeathingDetailRegisterAnak(anakId: anakId));
+                  }
+                });
               },
             ),
           ],
