@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_ibu_hamil.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/shadow.dart';
@@ -12,6 +13,7 @@ class DataIbuHamil extends StatelessWidget {
     return DataIbuHamilView();
   }
 }
+
 class DataIbuHamilView extends StatefulWidget {
   const DataIbuHamilView({super.key});
 
@@ -39,7 +41,13 @@ class _DataIbuHamilViewState extends State<DataIbuHamilView> {
           ),
           child: RiwayatIbuHamilItems(
             onTap: () {
-              Navigator.pushNamed(context,DETAIL_MONITORING_IBU_HAMIL,arguments: '1');
+              // Navigator.push(context, MaterialPageRoute(
+              //   builder: (context) {
+              //     return DetailMonitoringIbuHamil(
+              //       detailMonitoring: null,
+              //     );
+              //   },
+              // ));
             },
             name: "Siti Aminah",
             nik: "362155482327264",

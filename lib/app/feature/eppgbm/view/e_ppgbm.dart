@@ -30,17 +30,32 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
 
   // Daftar file yang ditampilkan
   List<FilesEPPGBMModel> files = [
-    FilesEPPGBMModel(url: 'https://example.com/file1.pdf', filename: 'file1.pdf'),
-    FilesEPPGBMModel(url: 'https://example.com/file2.pdf', filename: 'file2.pdf'),
-    FilesEPPGBMModel(url: 'https://example.com/file3.pdf', filename: 'file3.pdf'),
-    FilesEPPGBMModel(url: 'https://example.com/file4.pdf', filename: 'file4.pdf'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file1.pdf',
+        filename: 'Daftar Anak ASI Eksklusif'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file2.pdf',
+        filename: 'Daftar Anak Berdasarkan LILA'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file3.pdf',
+        filename: 'Daftar Anak Berdasarkan Status Gizi'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file4.pdf',
+        filename: 'Daftar Anak di Beri Vitamin A'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file4.pdf', filename: 'Daftar Anak Outlier'),
+    FilesEPPGBMModel(
+        url: 'https://example.com/file4.pdf',
+        filename: 'Daftar Anak Penerima Imunisasi'),
   ];
 
   // Fungsi untuk memilih semua item
   void toggleSelectAll(bool? value) {
     setState(() {
       selectedPilihSemua = value ?? false;
-      files = files.map((file) => file.copyWith(isChecked: selectedPilihSemua)).toList();
+      files = files
+          .map((file) => file.copyWith(isChecked: selectedPilihSemua))
+          .toList();
     });
   }
 
@@ -55,7 +70,7 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundWhite20,
+      backgroundColor: Colors.white,
       appBar: PrimaryAppBar(
         title: 'Laporan E-PPGBM',
         background: Colors.white,
@@ -68,11 +83,13 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
           color: bluePrimaryMain,
           mainButtonMessage: 'Download',
           mainButton: () {
-            List<FilesEPPGBMModel> selectedFiles = files.where((file) => file.isChecked).toList();
+            List<FilesEPPGBMModel> selectedFiles =
+                files.where((file) => file.isChecked).toList();
             if (selectedFiles.isNotEmpty) {
               DownloadUtils().downloadMultipleFiles(context, selectedFiles);
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Pilih minimal satu file!")));
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Pilih minimal satu file!")));
             }
           },
         ),
@@ -98,7 +115,7 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 1,
+                    childAspectRatio: 4 / 5,
                   ),
                   itemCount: files.length,
                   itemBuilder: (context, index) {
@@ -110,7 +127,9 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: files[index].isChecked ? Colors.blue : Colors.grey,
+                            color: files[index].isChecked
+                                ? bluePrimaryMain
+                                : stroke10,
                             width: 2,
                           ),
                           boxShadow: shadowSm,
@@ -123,13 +142,17 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
                             ),
                             Center(
                               child: Column(
+                                spacing: 12,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(iconExcel, width: 90, color: greenPrimaryMain),
+                                  Image.asset(iconExcel,
+                                      width: 90, color: greenPrimaryMain),
                                   Text(
+                                    textAlign: TextAlign.center,
                                     files[index].filename,
-                                    style: AppTextStyles.primaryTextMedium.copyWith(fontSize: 14),
-                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.primaryTextMedium
+                                        .copyWith(fontSize: 14),
+                                    overflow: TextOverflow.clip,
                                   ),
                                 ],
                               ),

@@ -3,30 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../view/widget/info_field_widget.dart';
+import '../model/riwayat_monitoring_anak_model.dart';
 
 class DetailMonitoringStunting extends StatelessWidget {
-  final String id;
-  const DetailMonitoringStunting({super.key, required this.id});
+  final RiwayatMonitoringAnakModel detailMonitoring;
+  const DetailMonitoringStunting({super.key, required this.detailMonitoring});
 
   @override
   Widget build(BuildContext context) {
-    return DetailMonitoringStuntingView(id: id,);
+    return DetailMonitoringStuntingView(
+      detailMonitoring: detailMonitoring,
+    );
   }
 }
 
 class DetailMonitoringStuntingView extends StatefulWidget {
-  final String id;
-  const DetailMonitoringStuntingView({super.key, required this.id});
+  final RiwayatMonitoringAnakModel detailMonitoring;
+  const DetailMonitoringStuntingView(
+      {super.key, required this.detailMonitoring});
 
   @override
   State<DetailMonitoringStuntingView> createState() =>
       _DetailMonitoringStuntingViewState();
 }
 
-class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingView> {
+class _DetailMonitoringStuntingViewState
+    extends State<DetailMonitoringStuntingView> {
   bool _isExpanded = false;
 
   @override
@@ -58,7 +64,7 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 2.98
+                      ? sizeHeighofSingleForm * 3.1
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -70,14 +76,15 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: '36501231921234'),
+                        InfoFieldWidget(text: widget.detailMonitoring.data.nik),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: 'Muhammad Joko Tarup'),
+                        InfoFieldWidget(
+                            text: widget.detailMonitoring.data.namaAnak),
                         Row(
                           spacing: 8,
                           children: [
@@ -85,13 +92,21 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   const Text(
                                     'Status Stunting',
                                     style: TextStyle(fontSize: 12),
                                   ),
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                                  InfoFieldWidget(text: 'Stunting',color: redPrimaryMain,),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(8)),
+                                  InfoFieldWidget(
+                                    text: widget
+                                        .detailMonitoring.data.statusStunting!,
+                                    color: redPrimaryMain,
+                                  ),
                                 ],
                               ),
                             ),
@@ -99,13 +114,19 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   const Text(
                                     'Umur',
                                     style: TextStyle(fontSize: 12),
                                   ),
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                                  InfoFieldWidget(text: '1 Tahun 4 Bulan'),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(8)),
+                                  InfoFieldWidget(
+                                      text:
+                                          '${HelperData().countYearFromDateTime(widget.detailMonitoring.data.tanggalLahir)} Tahun ${HelperData().countMonthFromDateTime(widget.detailMonitoring.data.tanggalLahir)} Bulan'),
                                 ],
                               ),
                             ),
@@ -125,7 +146,9 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: '1219382183772431223'),
+                              InfoFieldWidget(
+                                  text: widget.detailMonitoring.data
+                                      .kartuKeluarga.nomorKartuKeluarga),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
@@ -135,7 +158,9 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Martio Hasyim Huda'),
+                              InfoFieldWidget(
+                                  text: widget.detailMonitoring.data.orangTua
+                                      .ayah.namaAyah),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -144,7 +169,9 @@ class _DetailMonitoringStuntingViewState extends State<DetailMonitoringStuntingV
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Putri Erika Fatmawati'),
+                              InfoFieldWidget(
+                                  text: widget.detailMonitoring.data.orangTua
+                                      .ibu.namaIbu),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),

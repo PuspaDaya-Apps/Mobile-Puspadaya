@@ -450,37 +450,37 @@ class MyRoute {
           settings: settings,
         );
 
-      case DETAIL_MONITORING_STUNTING:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringStunting(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_STUNTING:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringStunting(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_UNDER_WEIGHT:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringUnderWeight(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_UNDER_WEIGHT:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringUnderWeight(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_WASTING:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringWasting(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_WASTING:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringWasting(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_IBU_HAMIL:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringIbuHamil(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_IBU_HAMIL:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringIbuHamil(id: id),
+      //     settings: settings,
+      //   );
 
       //? AnggotaKader
       case REGISTER_ANGGOTA_KADER:
