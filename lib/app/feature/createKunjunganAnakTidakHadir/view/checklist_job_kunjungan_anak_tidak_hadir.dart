@@ -141,11 +141,43 @@ class _CheckListJobKunjunganAnakTidakHadirViewState
   List<CheckboxKunjungan> listOfCheckbox = [
     CheckboxKunjungan(
       isChecked: false,
-      label: 'Pemberian Makanan Tambahan (PMT)',
+      label: 'Pengukuran di Rumah',
     ),
     CheckboxKunjungan(
       isChecked: false,
-      label: 'Manfaat PMT',
+      label: 'Penggunaan Buku KIA',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Isi Piringku',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Aktivitas Fisik',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Imunisasi',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Vitamin A',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Obat Cacing',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Stimulasi Perkembangan',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
+    ),
+    CheckboxKunjungan(
+      isChecked: false,
+      label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
     ),
     CheckboxKunjungan(
       isChecked: false,

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/feature/createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
+import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -16,6 +19,64 @@ class TimerKunjunganStunting extends StatefulWidget {
 }
 
 class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
+  Timer? _timer;
+  int _seconds = 0;
+  bool _isRunning = false;
+
+  // Format waktu menjadi MM:SS
+  String get formattedTime {
+    int minutes = _seconds ~/ 60;
+    int seconds = _seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  // Mulai atau hentikan timer
+  void _toggleTimer() {
+    if (_isRunning) {
+      _timer?.cancel();
+      _isRunning = false;
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialogWidget(
+              image: imageOnTheWay,
+              cancelButton: () {
+                Navigator.pop(context);
+              },
+              cancelButtonMessage: 'Kembali ke perjalanan',
+              title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
+              message:
+                  'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
+              mainButton: () {
+                Navigator.pop(context); // Tutup dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChecklistJobKunjunganAnak(),
+                  ),
+                );
+              },
+              mainButtonMessage: 'Iya, Saya Sudah Selesai',
+              colorMainButton: bluePrimaryMain);
+        },
+      );
+    } else {
+      _isRunning = true;
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          _seconds++;
+        });
+      });
+    }
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Pastikan timer dihentikan saat widget dihancurkan
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +182,7 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
                                 width:
                                     4), // Tambahkan jarak antar teks jika diperlukan
                             Text(
-                              "00.00",
+                              formattedTime,
                               style: AppTextStyles.primaryTextMedium.copyWith(
                                 fontSize: 28,
                               ),
@@ -205,6 +266,10 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
+                InfoFieldWidget(text: 'Dadapan'),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(8),
+                ),
                 Row(
                   spacing: 8,
                   children: [
@@ -226,18 +291,12 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
                   height: SizeConfig.calHeightMultiplier(20),
                 ),
                 ButtonPrimary(
-                  color: greenPrimaryMain,
-                  mainButtonMessage: 'Mulai',
-                  mainButton: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ChecklistJobKunjunganAnak();
-                        },
-                      ),
-                    );
-                  },
+                  color: _isRunning
+                      ? bluePrimaryMain
+                      : greenPrimaryMain, // Warna tombol
+                  mainButtonMessage:
+                      _isRunning ? 'Selesai' : 'Mulai', // Teks tombol
+                  mainButton: _toggleTimer, // Jalankan timer
                 ),
               ],
             ),

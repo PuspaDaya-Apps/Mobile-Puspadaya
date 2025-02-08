@@ -30,20 +30,23 @@ class _IndexRiwayatAnakScreenViewState
       itemCount: 10,
       itemBuilder: (context, index) {
         return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: shadowSm,
-            ),
-            child: RiwayatAnakItems(
-              onTap: () {
-                Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
-              },
-              name: "Muhammad Kaivan Al Hakim",
-              nik: "362155482327263",
-              gender: 'Laki-Laki',
-            ));
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: shadowSm,
+          ),
+          child: RiwayatAnakItems(
+            onTap: () {
+              Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK);
+            },
+            name: "Muhammad Kaivan Al Hakim",
+            nik: "362155482327263",
+            gender: 'Laki-Laki',
+            month: 2,
+            year: 1,
+          ),
+        );
       },
     );
   }
