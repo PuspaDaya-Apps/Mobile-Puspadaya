@@ -431,7 +431,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
             DataCell(Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Puput Palastri'))),
+                child: Text('Zaenab Hastuti'))),
             DataCell(
                 Align(alignment: Alignment.centerLeft, child: Text('pendek'))),
             DataCell(Align(
@@ -448,7 +448,8 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Diana Pudjiastuti'))),
             DataCell(
                 Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
             DataCell(Align(
@@ -465,7 +466,8 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('25'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Sadina Usada'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Ciaobella Wahyuni'))),
             DataCell(
                 Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
             DataCell(Align(
@@ -482,7 +484,8 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('24'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Farah Usada'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Olivia Zulaika'))),
             DataCell(Align(
                 alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
             DataCell(Align(
@@ -499,7 +502,8 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('29'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Padmi Rahimah'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Keisha Suartini'))),
             DataCell(Align(
                 alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
             DataCell(Align(
@@ -516,7 +520,8 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('23'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gita Adhita'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Dinda Suartini '))),
             DataCell(
                 Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
             DataCell(Align(
