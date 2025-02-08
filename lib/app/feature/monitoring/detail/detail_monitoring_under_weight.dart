@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -314,10 +315,202 @@ class _DetailMonitoringUnderWeightViewState
                     fontSize: 12,
                   ),
                 ),
+                DataTableRiwayatPengukuranUnderWeight(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class DataTableRiwayatPengukuranUnderWeight extends StatelessWidget {
+  const DataTableRiwayatPengukuranUnderWeight({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.sizeOf(context).height / 1.68,
+      child: DataTable2(
+        columnSpacing: 12,
+        horizontalMargin: 12,
+        minWidth: 960,
+        columns: [
+          DataColumn2(
+            size: ColumnSize.S,
+            fixedWidth: 32,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('No'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.L,
+            fixedWidth: 100,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Tanggal'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('BB(Kg)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('TB(cm)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Lila(cm)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('TP(cm)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.L,
+            fixedWidth: 200,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Petugas'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Stunting'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Under weight'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Wasting'),
+            ),
+            numeric: true,
+          ),
+        ],
+        rows: [
+          DataRow(cells: [
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('2024-11-24'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('95'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Nadine Novitasari'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('normal'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
+          ]),
+          DataRow(cells: [
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('2024-11-20'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('92'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Gizi Buruk'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('sangat kurus'))),
+          ]),
+          DataRow(cells: [
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('2024-11-15'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('29'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('92'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('25'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Yani Wulandari'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('sangat kurus'))),
+          ]),
+          DataRow(cells: [
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('2024-11-10'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('26'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('90'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('24'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Ade Yuniar'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Gizi Buruk'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
+          ]),
+          DataRow(cells: [
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('5'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('2024-11-05'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('31'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('97'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('29'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Kiandra Hassanah'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
+          ]),
+        ],
       ),
     );
   }
