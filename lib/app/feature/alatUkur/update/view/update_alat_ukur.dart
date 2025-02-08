@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../view/widget/appbar_widget.dart';
@@ -31,8 +32,34 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   final TextEditingController _merekAlatController = TextEditingController();
   final List<String> selectJenisAlat = [
     'Alat deteksi dini perkembangan (SDIDTK)',
-    'Timbangan Digital',
+    'Timbangan Injak Berat Badan Digital',
+    'Timbangan Injak Berat Badan Non-Digital',
+    'Timbangan Bayi Digital',
+    'Timbangan Bayi Non Digital',
+    'Timbangan Dacin',
+    'Alat Ukur Badan (Microtoise)',
+    'Alat Ukur Panjang Tinggi Badan (Stadiometer)',
+    'Papan Pengukur Panjang Badan',
+    'Pita Lingkar Lengan Atas',
+    'Alat Ukur Lingkar Kepala',
+    'Metline',
   ];
+  final Map<String, String> alatGambarMap = {
+    'Timbangan Injak Berat Badan Digital': imageTimbanganInjakBeratBadanDigital,
+    'Timbangan Injak Berat Badan Non-Digital':
+        imageTimbanganInjakBeratBadanNonDigital,
+    'Timbangan Bayi Digital': imageTimbanganBayiDigital,
+    'Timbangan Bayi Non Digital': imageTimbanganBayiNonDigital,
+    'Timbangan Dacin': imageTimbanganDacin,
+    'Alat Ukur Badan (Microtoise)': imageAlatUkurBadanMicrotoise,
+    'Alat Ukur Panjang Tinggi Badan (Stadiometer)':
+        imageAlatUkurPanjangTinggiBadanStadiometer,
+    'Papan Pengukur Panjang Badan': imagePapanPengukurPanjangBadan,
+    'Pita Lingkar Lengan Atas': imagePitLingkarLenganAtas,
+    'Alat Ukur Lingkar Kepala': imageAlatUkurLingkarKepala,
+    'Metline': imageMetline,
+  };
+
   final List<String> selectKondisiAlat = [
     'Baik',
     'Dimanfaatkan',
@@ -90,126 +117,67 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 selectedAlat == 'Alat deteksi dini perkembangan (SDIDTK)'
                     ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Alat Deteksi Dini (opsional)',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    Column(
-                      children: alatDeteksiDini.map((alat) {
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IntrinsicWidth(
-                              child: CheckboxListWidget(
-                                isChecked: alat['isChecked'],
-                                label: alat['label'],
-                                onChanged: (value) {
-                                  setState(() {
-                                    alat['isChecked'] = value!;
-                                    if (alat['isOther'] == true &&
-                                        !value) {
-                                      _otherController.clear();
-                                    }
-                                  });
-                                },
-                              ),
-                            ),
-                            if (alat['isOther'] == true &&
-                                alat['isChecked'] == true) ...[
-                              SizedBox(width: 4),
-                              Expanded(
-                                child: TextField(
-                                  enabled: alat['isChecked'],
-                                  controller: _otherController,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    // Menghilangkan outline
-                                    isDense: true,
-                                  ),
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            ],
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                )
-                    : selectedAlat == 'Timbangan Digital'
-                    ? Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Kriteria Alat',
-                            style: AppTextStyles.primaryTextMedium.copyWith(
-                              fontSize: 12,
-                            ),
+                          const Text(
+                            'Alat Deteksi Dini (opsional)',
+                            style: TextStyle(fontSize: 12),
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            '1.) Kuat dan tahan lama.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '2.) Mempunyai ketelitian 10 g atau 0,01 kg.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '3.) Kapasitas maksimal 20 kg.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '4.) Jika timbangan menggunakan baterai, \njenis dan ukuran baterai harus \ntersedia di daerah setempat.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                            // Removed overflow property to allow wrapping
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '5.) Mudah dimobilisasikan untuk kunjungan rumah.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '6.) Bukan merupakan timbangan pegas atau \nbaby scale manual.',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            '7.) Memiliki Standar Nasional Indonesia (SNI).',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 10,
-                            ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          Column(
+                            children: alatDeteksiDini.map((alat) {
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IntrinsicWidth(
+                                    child: CheckboxListWidget(
+                                      isChecked: alat['isChecked'],
+                                      label: alat['label'],
+                                      onChanged: (value) {
+                                        setState(() {
+                                          alat['isChecked'] = value!;
+                                          if (alat['isOther'] == true &&
+                                              !value) {
+                                            _otherController.clear();
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  if (alat['isOther'] == true &&
+                                      alat['isChecked'] == true) ...[
+                                    SizedBox(width: 4),
+                                    Expanded(
+                                      child: TextField(
+                                        enabled: alat['isChecked'],
+                                        controller: _otherController,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          // Menghilangkan outline
+                                          isDense: true,
+                                        ),
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              );
+                            }).toList(),
                           ),
                         ],
                       )
-                    ],
-                  ),
-                )
-                    : Container(),
+                    : alatGambarMap.containsKey(selectedAlat)
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                8), // Berikan border radius
+                            child: Image.asset(
+                              alatGambarMap[selectedAlat]!,
+                              height: 300,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Container(),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Merek Alat',
