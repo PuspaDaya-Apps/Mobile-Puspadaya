@@ -69,6 +69,27 @@ class _DataStuntingViewState extends State<DataStuntingView> {
     RiwayatMonitoringAnakModel.RiwayatMonitoringAnakModel(
       message: 'Riwayat pengukuran anak berhasil didapatkan',
       data: RiwayatMonitoringAnakModel.Data(
+        alamat: 'Jalan Raya Muncar No. 12',
+        dusun: RiwayatMonitoringAnakModel.Dusun(
+          id: '4',
+          nama: 'Dusun Krajan',
+          desaKelurahan: RiwayatMonitoringAnakModel.DesaKelurahan(
+            id: '4',
+            nama: 'Kedungrejo',
+            kecamatan: RiwayatMonitoringAnakModel.Kecamatan(
+              id: '4',
+              nama: 'Muncar',
+              kabupaten: RiwayatMonitoringAnakModel.Kabupaten(
+                id: '4',
+                nama: 'Banyuwangi',
+                provinsi: RiwayatMonitoringAnakModel.Provinsi(
+                    id: '4', nama: 'Jawa Timur'),
+              ),
+            ),
+          ),
+        ),
+        rt: '4',
+        rw: '4',
         id: '05b39865-0b67-4132-9e92-16e6a8438c24',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -114,13 +135,14 @@ class _DataStuntingViewState extends State<DataStuntingView> {
     RiwayatMonitoringAnakModel.RiwayatMonitoringAnakModel(
       message: 'Riwayat pengukuran anak berhasil didapatkan',
       data: RiwayatMonitoringAnakModel.Data(
+        alamat: 'Jalan Raya Soahuku No. 5,',
         id: 'a1b2c3d4-5678-9101-1121-314151617181',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         deletedAt: null,
         nik: '8010216784352688',
         namaAnak: 'Rizky Pratama',
-        tempatLahir: 'Maluku',
+        tempatLahir: 'Maluku Tengah',
         anakKe: 2,
         tanggalLahir: DateTime(2023, 5, 12),
         jenisKelamin: 'Laki-Laki',
@@ -154,6 +176,26 @@ class _DataStuntingViewState extends State<DataStuntingView> {
           ayah: RiwayatMonitoringAnakModel.Ayah(namaAyah: 'Andi Sulaiman'),
           ibu: RiwayatMonitoringAnakModel.Ibu(namaIbu: 'Siti Aminah'),
         ),
+        rt: '2',
+        rw: '2',
+        dusun: RiwayatMonitoringAnakModel.Dusun(
+          id: '1',
+          nama: 'Dusun Batu Merah',
+          desaKelurahan: RiwayatMonitoringAnakModel.DesaKelurahan(
+            id: '1',
+            nama: 'Soahuku',
+            kecamatan: RiwayatMonitoringAnakModel.Kecamatan(
+              id: '1',
+              nama: 'Amahai',
+              kabupaten: RiwayatMonitoringAnakModel.Kabupaten(
+                id: '1',
+                nama: 'Maluku Tengah',
+                provinsi: RiwayatMonitoringAnakModel.Provinsi(
+                    id: '1', nama: 'Maluku'),
+              ),
+            ),
+          ),
+        ),
       ),
     ),
     RiwayatMonitoringAnakModel.RiwayatMonitoringAnakModel(
@@ -165,7 +207,7 @@ class _DataStuntingViewState extends State<DataStuntingView> {
         deletedAt: null,
         nik: '8010216784352677',
         namaAnak: 'Nadia Kusuma',
-        tempatLahir: 'Maluku',
+        tempatLahir: 'Maluku Tengah',
         anakKe: 3,
         tanggalLahir: DateTime(2023, 3, 8),
         jenisKelamin: 'Perempuan',
@@ -199,18 +241,40 @@ class _DataStuntingViewState extends State<DataStuntingView> {
           ayah: RiwayatMonitoringAnakModel.Ayah(namaAyah: 'Fauzan Prasetyo'),
           ibu: RiwayatMonitoringAnakModel.Ibu(namaIbu: 'Dewi Lestari'),
         ),
+        rt: '3',
+        rw: '7',
+        alamat: 'Jalan Tanah Merah No. 10',
+        dusun: RiwayatMonitoringAnakModel.Dusun(
+          id: '2',
+          nama: 'Dusun Tanah Merah',
+          desaKelurahan: RiwayatMonitoringAnakModel.DesaKelurahan(
+            id: '2',
+            nama: 'Tulehu',
+            kecamatan: RiwayatMonitoringAnakModel.Kecamatan(
+              id: '2',
+              nama: 'Salahutu',
+              kabupaten: RiwayatMonitoringAnakModel.Kabupaten(
+                id: '2',
+                nama: 'Maluku Tengah',
+                provinsi: RiwayatMonitoringAnakModel.Provinsi(
+                    id: '1', nama: 'Maluku'),
+              ),
+            ),
+          ),
+        ),
       ),
     ),
     RiwayatMonitoringAnakModel.RiwayatMonitoringAnakModel(
       message: 'Riwayat pengukuran anak berhasil didapatkan',
       data: RiwayatMonitoringAnakModel.Data(
+        alamat: 'Jalan Wahai No. 15s',
         id: 'c3d4e5f6-7890-1112-1314-151617181920',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         deletedAt: null,
         nik: '8010216784352666',
         namaAnak: 'Aulia Rahman',
-        tempatLahir: 'Maluku',
+        tempatLahir: 'Maluku Tengah',
         anakKe: 4,
         tanggalLahir: DateTime(2023, 7, 20),
         jenisKelamin: 'Laki-Laki',
@@ -243,6 +307,26 @@ class _DataStuntingViewState extends State<DataStuntingView> {
         orangTua: RiwayatMonitoringAnakModel.OrangTua(
           ayah: RiwayatMonitoringAnakModel.Ayah(namaAyah: 'Rahmat Hidayat'),
           ibu: RiwayatMonitoringAnakModel.Ibu(namaIbu: 'Sri Wahyuni'),
+        ),
+        rt: '6',
+        rw: '3',
+        dusun: RiwayatMonitoringAnakModel.Dusun(
+          id: '3',
+          nama: 'Dusun Air Besar',
+          desaKelurahan: RiwayatMonitoringAnakModel.DesaKelurahan(
+            id: '3',
+            nama: 'Wahai',
+            kecamatan: RiwayatMonitoringAnakModel.Kecamatan(
+              id: '3',
+              nama: 'Seram Utara',
+              kabupaten: RiwayatMonitoringAnakModel.Kabupaten(
+                id: '3',
+                nama: 'Maluku Tengah',
+                provinsi: RiwayatMonitoringAnakModel.Provinsi(
+                    id: '3', nama: 'Maluku'),
+              ),
+            ),
+          ),
         ),
       ),
     ),
