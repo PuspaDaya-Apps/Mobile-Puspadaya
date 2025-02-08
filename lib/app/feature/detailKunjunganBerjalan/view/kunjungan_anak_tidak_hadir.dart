@@ -63,6 +63,7 @@ class _DetailKunjunganAnakTidakHadirOnGoingViewState
         .toList();
 
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: 'Detail Kunjungan Anak Tidak Hadir',
         background: Colors.white,
