@@ -1,19 +1,25 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../view/screen/error_server_screen.dart';
+import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_pengasuh_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
-import '../model/pengasuh_item_model.dart';
+import '../bloc/pengasuh_posyandu_bloc.dart';
 
 class RegisterPengasuh extends StatelessWidget {
   const RegisterPengasuh({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterPengasuhView();
+    return BlocProvider(
+      create: (context) => PengasuhPosyanduBloc(),
+      child: const RegisterPengasuhView(),
+    );
   }
 }
 
@@ -27,16 +33,13 @@ class RegisterPengasuhView extends StatefulWidget {
 class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
   TextEditingController _searchController = TextEditingController();
 
-  List<PengasuhItemModel> listPengasuh = [
-    PengasuhItemModel(
-        name: 'Siti Aisyah',
-        nik: '362155482327273',
-        child: 'Sancaka Adi Sanjaya'),
-    PengasuhItemModel(
-        name: 'Salsa Bilah Najma',
-        nik: '3621554011737627',
-        child: 'Ahmad Jaka '),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<PengasuhPosyanduBloc>(context)
+        .add(GetListPengasuh());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,22 +80,44 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                 height: 12,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: listPengasuh.length,
-                  itemBuilder: (context, index) {
-                    PengasuhItemModel pengasuh = listPengasuh[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardPengasuhWidget(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, DETAIL_REGISTER_PENGASUH);
+                child: BlocConsumer<PengasuhPosyanduBloc, PengasuhPosyanduState>(
+                  listener: (context, state) {
+                    
+                  },
+                  builder: (context, state) {
+                    if (state is PengasuhPosyanduLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: bluePrimaryMain,
+                        ),
+                      );
+                    }
+                    if (state is PengasuhPosyanduSuccess) {
+                      if (state.pengasuhResponseModel.data!.isEmpty) {
+                        return const NoDataScreen();
+                      }
+                      return ListView.builder(
+                        itemCount: state.pengasuhResponseModel.data!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardPengasuhWidget(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context, 
+                                  DETAIL_REGISTER_PENGASUH,
+                                  arguments: state.pengasuhResponseModel.data![index].id
+                                );
+                              },
+                              nama: state.pengasuhResponseModel.data![index].namaPengasuh,
+                              namaAnak: state.pengasuhResponseModel.data![index].anak.namaAnak,
+                              nik: state.pengasuhResponseModel.data![index].nik,
+                            ),
+                          );
                         },
-                        nama: pengasuh.name,
-                        namaAnak: pengasuh.child,
-                        nik: pengasuh.nik,
-                      ),
-                    );
+                      );
+                    }
+                    return const ErrorServerScreen();
                   },
                 ),
               )

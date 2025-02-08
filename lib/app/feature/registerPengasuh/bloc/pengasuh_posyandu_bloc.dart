@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../model/pengasuh_response_model.dart';
 import '../service/pengasuh_posyandu_api.dart';
 
 part 'pengasuh_posyandu_event.dart';
@@ -12,24 +13,33 @@ class PengasuhPosyanduBloc
     extends Bloc<PengasuhPosyanduEvent, PengasuhPosyanduState> {
   PengasuhPosyanduBloc() : super(PengasuhPosyanduInitial()) {
     on<PengasuhPosyanduEvent>((event, emit) {});
-    on<FecthPosyandu>(fetchingDataPengasuhPosyandu);
+    on<GetListPengasuh>(getListPengasuh);
   }
 
-  Future<void> fetchingDataPengasuhPosyandu(
-      FecthPosyandu event, Emitter<PengasuhPosyanduState> emit) async {
+  Future<void> getListPengasuh (GetListPengasuh event, Emitter<PengasuhPosyanduState> emit) async {
     emit(PengasuhPosyanduLoading());
-    final accesTokenValue = await SharedPrefUtils().getAccessToken();
-    logger.d(accesTokenValue);
-    if (accesTokenValue == null) {
-      emit(TokenExpiredState());
+
+    String? accessToken = await SharedPrefUtils().getAccessToken();
+
+    if(accessToken == null) {
+      emit(PengasuhPosyanduTokenExpiredState());
+    } else {
+      try {
+          List<dynamic> response = await PengasuhPosyanduApi().getPengasuhByPosyandu(accessToken);
+
+          int statusCode = response[0] as int;
+          final PengasuhResponseModel pengasuhResponseModel = PengasuhResponseModel.fromJson(response[1]);
+
+          if(statusCode == 200) {
+            emit(PengasuhPosyanduSuccess(pengasuhResponseModel));
+          } else if (statusCode == 401) {
+            emit(PengasuhPosyanduTokenExpiredState());
+          } else {
+            emit(PengasuhPosyanduFailure(pengasuhResponseModel.message));
+          }
+        } catch (error) {
+          emit(PengasuhPosyanduFailure(error.toString()));
+        }
     }
-    try {
-      List<dynamic> response =
-          await PengasuhPosyanduApi().getPengasuhByPosyandu(accesTokenValue!);
-      int statusCode = response[0] as int;
-      logger.d('statusCode ${statusCode}');
-      // final GetOrangtuaIdResponse getOrangtuaIdResponse =
-      //     GetOrangtuaIdResponse.fromJson(response[1]);
-    } catch (e) {}
   }
 }
