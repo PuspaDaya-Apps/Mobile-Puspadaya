@@ -69,9 +69,34 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
   String? selectedKondisiAlat;
   List<Map<String, dynamic>> alatDeteksiDini = [
     {'label': 'Kubus', 'isChecked': false, 'isOther': false},
-    {'label': 'Lonceng', 'isChecked': true, 'isOther': false},
-    {'label': 'Kartu Bergambar', 'isChecked': true, 'isOther': false},
-    {'label': 'Bola Ulir', 'isChecked': false, 'isOther': false},
+    {'label': 'Lonceng', 'isChecked': false, 'isOther': false},
+    {'label': 'Rattles atau kerincingan', 'isChecked': false, 'isOther': false},
+    {'label': 'Benang wol merah', 'isChecked': false, 'isOther': false},
+    {'label': 'Sapu tangan', 'isChecked': false, 'isOther': false},
+    {'label': 'Kartu bergambar', 'isChecked': false, 'isOther': false},
+    {'label': 'Cangkir plastik', 'isChecked': false, 'isOther': false},
+    {'label': 'Bola Tenis', 'isChecked': false, 'isOther': false},
+    {'label': 'Bola sepak bahan plastik', 'isChecked': false, 'isOther': false},
+    {'label': 'Botol ulir', 'isChecked': false, 'isOther': false},
+    {
+      'label': 'Pensil warna terdiri 6 warna',
+      'isChecked': false,
+      'isOther': false
+    },
+    {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
+    {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
+    {
+      'label': 'Kartu warna (merah, biru, putih, hijau,\nkuning)',
+      'isChecked': false,
+      'isOther': false
+    },
+    {
+      'label': 'Kartu E terdiri dari 2 buah:\n'
+          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n84 mm, 17,6 mm.\n'
+          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n16,8 mm, 3,52 mm.',
+      'isChecked': false,
+      'isOther': false
+    },
     {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
   ];
 
