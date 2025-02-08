@@ -38,6 +38,7 @@ import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
+import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
@@ -353,9 +354,12 @@ class MyRoute {
 
       case UPDATE_REGISTER_ANAK:
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterAnak(),
+          builder: (context) => UpdateRegisterAnak(
+            getDetailAnakResponse: settings.arguments as GetDetailAnakResponse,
+          ),
           settings: settings,
         );
+
       case DETAIL_REGISTER_ANAK:
         final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -12,18 +13,29 @@ import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../detailRegisterAnak/model/get_detail_anak_response.dart';
+import '../bloc/update_anak_bloc.dart';
+import '../model/update_anak_model.dart';
 
 class UpdateRegisterAnak extends StatelessWidget {
-  const UpdateRegisterAnak({super.key});
+  const UpdateRegisterAnak({super.key, required this.getDetailAnakResponse});
+  final GetDetailAnakResponse getDetailAnakResponse;
 
   @override
   Widget build(BuildContext context) {
-    return const UpdateRegisterAnakView();
+    return BlocProvider(
+      create: (context) => UpdateAnakBloc(),
+      child: UpdateRegisterAnakView(
+        getDetailAnakResponse: getDetailAnakResponse,
+      ),
+    );
   }
 }
 
 class UpdateRegisterAnakView extends StatefulWidget {
-  const UpdateRegisterAnakView({super.key});
+  const UpdateRegisterAnakView(
+      {super.key, required this.getDetailAnakResponse});
+  final GetDetailAnakResponse getDetailAnakResponse;
 
   @override
   State<UpdateRegisterAnakView> createState() => _UpdateRegisterAnakViewState();
@@ -33,21 +45,21 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   final _formKey = GlobalKey<FormState>();
 
   final List<String> selectGender = [
-    'Laki-Laki',
+    'Laki-laki',
     'Perempuan',
   ];
 
   final List<String> selectCaraLahir = [
-    'Normal',
-    'Cesar',
+    'normal',
+    'caesar',
   ];
   final List<String> selectStatusKelahiran = [
-    'Status Kelahiran 1',
-    'Status Kelahiran 2',
+    'normal',
+    'prematur',
   ];
   final List<String> selectStatusOrangTuaAnak = [
-    'Status Orang Tua Anak 1',
-    'Status Orang Tua Anak 2',
+    'Orang Tua',
+    'Wali',
   ];
 
   final List<String> disabilities = [
@@ -63,24 +75,17 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   List<bool> selectedDisabilitiesAnak = [];
   List<String> selectedDisabilityLabelsAnak = [];
 
-  TextEditingController _nomorKKController = TextEditingController();
-  TextEditingController _namaAyahController = TextEditingController();
-  TextEditingController _namaIbuController = TextEditingController();
-  TextEditingController _nikController = TextEditingController();
-  TextEditingController _namaController = TextEditingController();
-  TextEditingController _anakKeController = TextEditingController();
-  TextEditingController _tempatLahirController = TextEditingController();
-  TextEditingController _tanggalLahirController = TextEditingController();
-  TextEditingController _lingkarLenganController = TextEditingController();
-  TextEditingController _lingkarKepalaController = TextEditingController();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _heightController = TextEditingController();
-  TextEditingController _weightController = TextEditingController();
-  TextEditingController _upperArmCircumferenceController =
-      TextEditingController();
-  TextEditingController _headCircumferenceController = TextEditingController();
-  TextEditingController _catatanController = TextEditingController();
-  TextEditingController _keluhanController = TextEditingController();
+  TextEditingController nomorKKController = TextEditingController();
+  TextEditingController nikController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+  TextEditingController anakKeController = TextEditingController();
+  TextEditingController tempatLahirController = TextEditingController();
+  TextEditingController tanggalLahirController = TextEditingController();
+  TextEditingController lingkarLenganController = TextEditingController();
+  TextEditingController lingkarKepalaController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
 
   String? selectedGender;
   String? selectedCaraLahir;
@@ -114,6 +119,43 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     // Inisialisasi status checkbox dengan false
     selectedDisabilitiesAnak =
         List<bool>.from(List.filled(disabilities.length, false));
+
+    //! textcontroller
+    nomorKKController = TextEditingController(
+        text: widget
+            .getDetailAnakResponse.data!.kartuKeluarga!.nomorKartuKeluarga);
+    nikController =
+        TextEditingController(text: widget.getDetailAnakResponse.data!.nik);
+    namaController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.namaAnak);
+    anakKeController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.anakKe.toString());
+    tempatLahirController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.tempatLahir);
+    tanggalLahirController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.tanggalLahir);
+    lingkarLenganController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.lingkarLenganAtasLahir);
+    lingkarKepalaController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.lingkarKepalaLahir);
+    heightController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.tinggiBadanLahir);
+    weightController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.beratBadanLahir);
+
+    //! selected
+    selectedGender = widget.getDetailAnakResponse.data!.jenisKelamin;
+    selectedCaraLahir = widget.getDetailAnakResponse.data!.caraLahir;
+    selectedStatusKelahiran =
+        widget.getDetailAnakResponse.data!.statusKelahiran;
+    selectedStatusOrangTuaAnak =
+        widget.getDetailAnakResponse.data!.statusOrangTua;
+
+    if (widget.getDetailAnakResponse.data!.disabilitasAnak!.isNotEmpty) {
+      for (var value in widget.getDetailAnakResponse.data!.disabilitasAnak!) {
+        selectedDisabilityLabelsAnak.add(value.namaDisabilitas!);
+      }
+    }
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -135,13 +177,15 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
 
     if (pickedDate != null) {
       setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
+        tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final updateAnakBloc = BlocProvider.of<UpdateAnakBloc>(context);
+
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Perbarui Data Anak',
@@ -178,7 +222,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     height: SizeConfig.calHeightMultiplier(8),
                   ),
                   TextFieldWidget(
-                      controller: _nikController,
+                      controller: nikController,
                       hintText: 'NIK',
                       keyboardType: TextInputType.text,
                       obscureText: false,
@@ -194,7 +238,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     height: SizeConfig.calHeightMultiplier(8),
                   ),
                   TextFieldWidget(
-                      controller: _namaController,
+                      controller: namaController,
                       hintText: 'Nama',
                       keyboardType: TextInputType.text,
                       obscureText: false,
@@ -210,7 +254,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     height: SizeConfig.calHeightMultiplier(8),
                   ),
                   TextFieldWidget(
-                      controller: _anakKeController,
+                      controller: anakKeController,
                       hintText: 'Anak Ke',
                       keyboardType: TextInputType.text,
                       obscureText: false,
@@ -232,14 +276,14 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             TextFieldWidget(
-                              controller: _tempatLahirController,
+                              controller: tempatLahirController,
                               hintText: 'Tempat Lahir',
                               keyboardType: TextInputType.text,
                               obscureText: false,
                               isPasswordField: false,
                               validators: [
                                 (value) => Validator.required(
-                                    value, "Nama ayah tidak boleh kosong"),
+                                    value, "tempat lahir tidak boleh kosong"),
                               ],
                             ),
                           ],
@@ -256,7 +300,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
-                              controller: _tanggalLahirController,
+                              controller: tanggalLahirController,
                               hintText: 'Tanggal Lahir',
                               selectDate: () {
                                 _selectDate(context);
@@ -289,7 +333,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               title: 'Tinggi Lahir',
                               hintText: 'contoh: 13,5',
                               unit: 'cm',
-                              controller: _heightController,
+                              controller: heightController,
                             ),
                             SizedBox(
                               height: SizeConfig.calHeightMultiplier(16),
@@ -298,7 +342,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               title: 'Lingkar Lengan',
                               hintText: 'contoh: 3,5',
                               unit: 'cm',
-                              controller: _upperArmCircumferenceController,
+                              controller: lingkarLenganController,
                             ),
                             SizedBox(
                               height: SizeConfig.calHeightMultiplier(16),
@@ -315,7 +359,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               title: 'Berat Lahir',
                               hintText: 'contoh: 6,5',
                               unit: 'kg',
-                              controller: _weightController,
+                              controller: weightController,
                             ),
                             SizedBox(
                               height: SizeConfig.calHeightMultiplier(16),
@@ -324,7 +368,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               title: 'Lingkar Kepala',
                               hintText: 'contoh: 6,5',
                               unit: 'cm',
-                              controller: _headCircumferenceController,
+                              controller: lingkarKepalaController,
                             ),
                           ],
                         ),
@@ -421,7 +465,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                           ),
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
+                          icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
                             _removeDisability(label);
                           },
@@ -455,31 +499,40 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                  ButtonPrimary(
-                    color: bluePrimaryMain,
-                    mainButtonMessage: 'Simpan',
-                    mainButton: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   print('Nama: ${_nameController.text}');
-                      //   print('NIK: ${_nikController.text}');
-                      //   print('Usia: ${_ageController.text}');
-                      //   print('Tempat Pengukuran: $selectedPosyandu');
-                      //   print('Posisi Pengukuran: $selectedPosition');
-                      //   print(
-                      //       'Tinggi Badan: ${_heightController.text} cm');
-                      //   print(
-                      //       'Lingkar Lengan Atas: ${_upperArmCircumferenceController.text} cm');
-                      //   print(
-                      //       'Berat Badan: ${_weightController.text} kg');
-                      //   print(
-                      //       'Lingkar Kepala: ${_headCircumferenceController.text} cm');
-                      //   print(
-                      //       'Asi Eksklusif: ${asiEksklusifValue == 1 ? 'Ya' : 'Tidak'}');
-                      //   print(
-                      //       'MPASI: ${mpasiValue == 1 ? 'Ya' : 'Tidak'}');
-                      //   print('Catatan: ${_catatanController.text}');
-                      //   print('Keluhan: ${_keluhanController.text}');
-                      // }
+                  BlocConsumer<UpdateAnakBloc, UpdateAnakState>(
+                    listener: (context, state) {
+                      if (state is UpdateAnakSuccessState) {
+                        Navigator.pop(context,1);
+                      }
+                    },
+                    builder: (context, state) {
+                      return ButtonPrimary(
+                        color: bluePrimaryMain,
+                        mainButtonMessage: 'Simpan',
+                        mainButton: () {
+                          updateAnakBloc.add(
+                            UpdateAnak(
+                              id: widget.getDetailAnakResponse.data!.id!,
+                              updateAnakModel: UpdateAnakModel(
+                                nik: nikController.text, 
+                                namaAnak: namaController.text, 
+                                anakKe: int.parse(anakKeController.text), 
+                                tempatLahir: tempatLahirController.text, 
+                                tanggalLahir: tanggalLahirController.text, 
+                                jenisKelamin: selectedGender!, 
+                                beratBadanLahir: double.parse(weightController.text), 
+                                tinggiBadanLahir: double.parse(heightController.text), 
+                                lingkarKepalaLahir: double.parse(lingkarKepalaController.text), 
+                                lingkarLenganAtasLahir: double.parse(lingkarLenganController.text), 
+                                caraLahir: selectedCaraLahir!, 
+                                statusKelahiran: selectedStatusKelahiran!, 
+                                statusOrangTua: selectedStatusOrangTuaAnak!, 
+                                disabilitasAnak: selectedDisabilityLabelsAnak
+                              )
+                            )
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
