@@ -36,7 +36,7 @@ class _DetailMonitoringIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Monitoring Wasting',
@@ -63,7 +63,7 @@ class _DetailMonitoringIbuHamilViewState
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 2.65
+                      ? sizeHeighofSingleForm * 2.9
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -75,21 +75,24 @@ class _DetailMonitoringIbuHamilViewState
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: '36501231921234'),
+                        InfoFieldWidget(
+                            text: widget.detailMonitoring.data.ibuAnak.nik),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: 'Muhammad Joko Tarup'),
+                        InfoFieldWidget(
+                            text: widget.detailMonitoring.data.ibuAnak.nama),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Usia Kandungan',
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        InfoFieldWidget(text: '1 Bulan 4 Bulan'),
+                        InfoFieldWidget(
+                            text: widget.detailMonitoring.data.usiaKehamilan),
                         Visibility(
                           visible: _isExpanded,
                           child: Column(
@@ -104,7 +107,9 @@ class _DetailMonitoringIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: '1219382183772431223'),
+                              InfoFieldWidget(
+                                  text: widget.detailMonitoring.data.ibuAnak
+                                      .kartuKeluarga.nomorKk),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
@@ -114,7 +119,9 @@ class _DetailMonitoringIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Martio Hasyim Huda'),
+                              InfoFieldWidget(
+                                  text: widget
+                                      .detailMonitoring.data.ibuAnak.ayah.nama),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
@@ -132,10 +139,29 @@ class _DetailMonitoringIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Banyuwangi'),
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring
+                                            .data
+                                            .ibuAnak
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .kabupatenKota
+                                            .provinsi
+                                            .nama),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring
+                                            .data
+                                            .ibuAnak
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .kabupatenKota
+                                            .nama),
                                   )
                                 ],
                               ),
@@ -146,24 +172,20 @@ class _DetailMonitoringIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring
+                                            .data
+                                            .ibuAnak
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .nama),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Bunder'),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(8),
-                              ),
-                              Row(
-                                spacing: 8,
-                                children: [
-                                  Expanded(
-                                    child: InfoFieldWidget(text: '11'),
-                                  ),
-                                  Expanded(
-                                    child: InfoFieldWidget(text: '03'),
+                                    child: InfoFieldWidget(
+                                        text: widget.detailMonitoring.data
+                                            .ibuAnak.dusun.desaKelurahan.nama),
                                   )
                                 ],
                               ),
@@ -171,7 +193,31 @@ class _DetailMonitoringIbuHamilViewState
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
                               InfoFieldWidget(
-                                text: 'Jl. Jendaral Sudirman, Gg. Jembatan Ayu',
+                                  text: widget.detailMonitoring.data.ibuAnak
+                                      .dusun.nama),
+                              SizedBox(
+                                height: SizeConfig.calHeightMultiplier(8),
+                              ),
+                              Row(
+                                spacing: 8,
+                                children: [
+                                  Expanded(
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring.data.ibuAnak.rt),
+                                  ),
+                                  Expanded(
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring.data.ibuAnak.rw),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: SizeConfig.calHeightMultiplier(8),
+                              ),
+                              InfoFieldWidget(
+                                text: widget.detailMonitoring.data.alamat,
                               ),
                             ],
                           ),
@@ -192,7 +238,7 @@ class _DetailMonitoringIbuHamilViewState
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Detail Anak',
+                          'Detail Ibu Hamil',
                           style: AppTextStyles.primaryTextMedium.copyWith(
                             fontSize: 10,
                           ),

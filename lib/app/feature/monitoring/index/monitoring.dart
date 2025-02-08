@@ -72,7 +72,7 @@ class _MonitoringViewState extends State<MonitoringView>
                   child: TabBar(
                     tabAlignment: TabAlignment.center,
                     isScrollable: true,
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicatorAnimation: TabIndicatorAnimation.elastic,
                     dividerHeight: 0,

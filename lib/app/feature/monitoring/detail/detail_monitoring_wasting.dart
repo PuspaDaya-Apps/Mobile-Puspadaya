@@ -37,7 +37,7 @@ class _DetailMonitoringWastingViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Monitoring Wasting',
@@ -64,7 +64,7 @@ class _DetailMonitoringWastingViewState
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 3.1
+                      ? sizeHeighofSingleForm * 3.2
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -189,10 +189,27 @@ class _DetailMonitoringWastingViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Banyuwangi'),
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring
+                                            .data
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .kabupaten
+                                            .provinsi
+                                            .nama),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(
+                                        text: widget
+                                            .detailMonitoring
+                                            .data
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .kabupaten
+                                            .nama),
                                   )
                                 ],
                               ),
@@ -203,24 +220,14 @@ class _DetailMonitoringWastingViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(
+                                        text: widget.detailMonitoring.data.dusun
+                                            .desaKelurahan.kecamatan.nama),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Bunder'),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(8),
-                              ),
-                              Row(
-                                spacing: 8,
-                                children: [
-                                  Expanded(
-                                    child: InfoFieldWidget(text: '11'),
-                                  ),
-                                  Expanded(
-                                    child: InfoFieldWidget(text: '03'),
+                                    child: InfoFieldWidget(
+                                        text: widget.detailMonitoring.data.dusun
+                                            .desaKelurahan.nama),
                                   )
                                 ],
                               ),
@@ -228,7 +235,29 @@ class _DetailMonitoringWastingViewState
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
                               InfoFieldWidget(
-                                text: 'Jl. Jendaral Sudirman, Gg. Jembatan Ayu',
+                                  text:
+                                      widget.detailMonitoring.data.dusun.nama),
+                              SizedBox(
+                                height: SizeConfig.calHeightMultiplier(8),
+                              ),
+                              Row(
+                                spacing: 8,
+                                children: [
+                                  Expanded(
+                                    child: InfoFieldWidget(
+                                        text: widget.detailMonitoring.data.rt),
+                                  ),
+                                  Expanded(
+                                    child: InfoFieldWidget(
+                                        text: widget.detailMonitoring.data.rw),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: SizeConfig.calHeightMultiplier(8),
+                              ),
+                              InfoFieldWidget(
+                                text: widget.detailMonitoring.data.alamat,
                               ),
                             ],
                           ),
