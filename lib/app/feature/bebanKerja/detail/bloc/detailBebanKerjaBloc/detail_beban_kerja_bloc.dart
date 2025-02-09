@@ -23,7 +23,7 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
     String? accessToken = await SharedPrefUtils().getAccessToken();
 
     if(accessToken == null) {
-      emit(DetailPengukuanAnakTokenExpiredState());
+      emit(DetailBebanKerjaTokenExpiredState());
 
     } else {
       try {
@@ -181,7 +181,7 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
           ));
 
         } else if (statusCode == 401) {
-          emit(DetailPengukuanAnakTokenExpiredState());
+          emit(DetailBebanKerjaTokenExpiredState());
         } else {
           emit(DetailBebanKerjaFailedState(detailBebanKerjaResponseModel.message));
         }

@@ -14,9 +14,9 @@ class DetailDataAnak extends StatelessWidget {
   final DetailRegisterAnakBloc detailRegisterAnakBloc;
   final String anakId;
   final GetDetailAnakResponse detailResponse;
-  final List<String> disabilitas = [
-    'Tunanetra',
-  ];
+  // final List<String> disabilitas = [
+  //   'Tunanetra',
+  // ];
   DetailDataAnak({
     super.key, 
     required this.detailResponse,
@@ -27,8 +27,7 @@ class DetailDataAnak extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool hasDisabilities = (detailResponse.data!.disabilitasAnak != null &&
-            detailResponse.data!.disabilitasAnak!.isNotEmpty) ||
-        (disabilitas != null && disabilitas.isNotEmpty);
+            detailResponse.data!.disabilitasAnak!.isNotEmpty);
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -303,21 +302,21 @@ class DetailDataAnak extends StatelessWidget {
                         }).toList(),
 
                       // If there are disabilities from the disabilitas list
-                      if (disabilitas != null && disabilitas.isNotEmpty)
-                        ...disabilitas.map((e) {
-                          return Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 4, bottom: 4),
-                              child: Text(
-                                e,
-                                style: AppTextStyles.primaryTextMedium.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                      // if (disabilitas != null && disabilitas.isNotEmpty)
+                      //   ...disabilitas.map((e) {
+                      //     return Align(
+                      //       alignment: Alignment.centerLeft,
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 4, bottom: 4),
+                      //         child: Text(
+                      //           e,
+                      //           style: AppTextStyles.primaryTextMedium.copyWith(
+                      //             fontSize: 14,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   }).toList(),
                     ],
                   )
                 : SizedBox.shrink(),
