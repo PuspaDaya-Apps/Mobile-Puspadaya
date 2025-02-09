@@ -9,6 +9,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../utils/logger/logger.dart';
+import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/card_anak_widget.dart';
 
 class RegisterAnak extends StatelessWidget {
@@ -101,11 +102,15 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
               Expanded(
                 child: BlocBuilder<AnakByPosyanduBloc, AnakByPosyanduState>(
                   builder: (context, state) {
+                    debugPrint(state.toString());
                     if (state is AnakByPosyanduLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: bluePrimaryMain,
+                        ),
                       );
                     } else if (state is AnakByPosyanduSuccess) {
+                      debugPrint(state.anakItems.length.toString());
                       return ListView.builder(
                         itemCount: state.anakItems.length,
                         itemBuilder: (context, index) {
@@ -129,13 +134,9 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                           );
                         },
                       );
-                    } else if (state is AnakByPosyanduFailure) {
-                      return Center(
-                        child: Text('Error ${state.error}'),
-                      );
-                    } else {
-                      return Center(child: Text('No data available'));
-                    }
+                    } 
+                      return const ErrorServerScreen();
+                    
                   },
                 ),
               )
