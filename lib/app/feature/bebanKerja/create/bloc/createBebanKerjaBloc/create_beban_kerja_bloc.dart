@@ -48,8 +48,8 @@ class CreateBebanKerjaBloc extends Bloc<CreateBebanKerjaEvent, CreateBebanKerjaS
         List<dynamic> response = await CreateBebanKerjaApi().createBebanKerjaService(
           accessToken,
           CreateBebanKerjaModel(
-            bulan: DateFormat("y-MM", 'id_ID').format(DateTime(2024,02,20,12,23,21)),
-            // bulan: DateFormat("y-MM", 'id_ID').format(DateTime.now()),
+            // bulan: DateFormat("y-MM", 'id_ID').format(DateTime(2024,02,20,12,23,21)),
+            bulan: DateFormat("y-MM", 'id_ID').format(DateTime.now()),
             tugasDikerjakan: itemBebanKerjaId
           )
         );

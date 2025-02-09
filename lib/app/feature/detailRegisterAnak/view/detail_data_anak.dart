@@ -6,21 +6,28 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../bloc/detail_register_anak_bloc.dart';
 import '../model/get_detail_anak_response.dart';
 import 'detail_data_wali.dart';
 
 class DetailDataAnak extends StatelessWidget {
+  final DetailRegisterAnakBloc detailRegisterAnakBloc;
+  final String anakId;
   final GetDetailAnakResponse detailResponse;
-  final List<String> disabilitas = [
-    'Tunanetra',
-  ];
-  DetailDataAnak({super.key, required this.detailResponse});
+  // final List<String> disabilitas = [
+  //   'Tunanetra',
+  // ];
+  DetailDataAnak({
+    super.key, 
+    required this.detailResponse,
+    required this.detailRegisterAnakBloc,
+    required this.anakId
+  });
 
   @override
   Widget build(BuildContext context) {
     bool hasDisabilities = (detailResponse.data!.disabilitasAnak != null &&
-            detailResponse.data!.disabilitasAnak!.isNotEmpty) ||
-        (disabilitas != null && disabilitas.isNotEmpty);
+            detailResponse.data!.disabilitasAnak!.isNotEmpty);
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -295,21 +302,21 @@ class DetailDataAnak extends StatelessWidget {
                         }).toList(),
 
                       // If there are disabilities from the disabilitas list
-                      if (disabilitas != null && disabilitas.isNotEmpty)
-                        ...disabilitas.map((e) {
-                          return Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 4, bottom: 4),
-                              child: Text(
-                                e,
-                                style: AppTextStyles.primaryTextMedium.copyWith(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                      // if (disabilitas != null && disabilitas.isNotEmpty)
+                      //   ...disabilitas.map((e) {
+                      //     return Align(
+                      //       alignment: Alignment.centerLeft,
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 4, bottom: 4),
+                      //         child: Text(
+                      //           e,
+                      //           style: AppTextStyles.primaryTextMedium.copyWith(
+                      //             fontSize: 14,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   }).toList(),
                     ],
                   )
                 : SizedBox.shrink(),
@@ -337,7 +344,11 @@ class DetailDataAnak extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK);
+                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK, arguments: detailResponse).then((value) {
+                  if(value != null) {
+                    detailRegisterAnakBloc.add(FeathingDetailRegisterAnak(anakId: anakId));
+                  }
+                });
               },
             ),
           ],
