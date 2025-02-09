@@ -117,8 +117,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   void initState() {
     super.initState();
     // Inisialisasi status checkbox dengan false
-    selectedDisabilitiesAnak =
-        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesAnak = List<bool>.from(List.filled(disabilities.length, false));
 
     //! textcontroller
     nomorKKController = TextEditingController(
@@ -151,9 +150,18 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     selectedStatusOrangTuaAnak =
         widget.getDetailAnakResponse.data!.statusOrangTua;
 
+    debugPrint('Init state');
+    debugPrint(widget.getDetailAnakResponse.data!.disabilitasAnak!.length.toString());
     if (widget.getDetailAnakResponse.data!.disabilitasAnak!.isNotEmpty) {
+      debugPrint('not empty');
       for (var value in widget.getDetailAnakResponse.data!.disabilitasAnak!) {
+        debugPrint(disabilities.contains(value.namaDisabilitas!).toString());
         selectedDisabilityLabelsAnak.add(value.namaDisabilitas!);
+        if(disabilities.contains(value.namaDisabilitas!)) {
+          int index = disabilities.indexOf(value.namaDisabilitas!);
+          debugPrint(index.toString());
+          selectedDisabilitiesAnak[index] = true;
+        }
       }
     }
   }

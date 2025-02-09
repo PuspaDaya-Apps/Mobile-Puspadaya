@@ -382,7 +382,7 @@ class MyRoute {
         );
       case DETAIL_REGISTER_PENGASUH:
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterPengasuh(),
+          builder: (context) => DetailRegisterPengasuh(idPengasuh: settings.arguments as String),
           settings: settings,
         );
 

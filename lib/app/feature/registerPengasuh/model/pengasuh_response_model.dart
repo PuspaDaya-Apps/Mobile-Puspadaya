@@ -9,7 +9,9 @@ class PengasuhResponseModel {
   List<Data>? data;
 
   PengasuhResponseModel({
-    required this.message
+    required this.message,
+    this.error,
+    this.data
   });
 
   factory PengasuhResponseModel.fromJson(Map<String, dynamic> json) => _$PengasuhResponseModelFromJson(json);
@@ -69,16 +71,15 @@ class Dusun {
   Map<String, dynamic> toJson()=>_$DusunToJson(this);
 }
 
-
 PengasuhResponseModel _$PengasuhResponseModelFromJson(
         Map<String, dynamic> json) =>
     PengasuhResponseModel(
       message: json['message'] as String,
-    )
-      ..error = json['error'] as String?
-      ..data = (json['data'] as List<dynamic>?)
+      error: json['error'] as String?,
+      data: (json['data'] as List<dynamic>?)
           ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
-          .toList();
+          .toList(),
+    );
 
 Map<String, dynamic> _$PengasuhResponseModelToJson(
         PengasuhResponseModel instance) =>
