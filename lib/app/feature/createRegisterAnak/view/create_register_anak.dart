@@ -189,7 +189,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
 
     return randomDigits.toString();
   }
-
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
@@ -380,16 +379,16 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: 2,
                           color: Colors.black54,
                         ),
-                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                        const Text(
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),const Text(
                           'NIK',
                           style: TextStyle(
                             fontSize: 12,
                           ),
                         ),
-                        SizedBox(
-                          height: SizeConfig.calHeightMultiplier(8),
-                        ),
+                        // SizedBox(
+                        //   height: SizeConfig.calHeightMultiplier(8),
+                        // ),
+                        
                         Row(
                           spacing: 8,
                           crossAxisAlignment: CrossAxisAlignment.center,

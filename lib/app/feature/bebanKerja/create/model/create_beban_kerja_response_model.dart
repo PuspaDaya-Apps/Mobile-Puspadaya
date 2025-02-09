@@ -3,6 +3,8 @@
 // part 'create_beban_kerja_response_model.g.dart';
 
 // @JsonSerializable()
+import 'package:json_annotation/json_annotation.dart';
+
 class CreateBebanKerjaResponseModel {
   String message;
   String? error;
@@ -22,9 +24,12 @@ class CreateBebanKerjaResponseModel {
 // @JsonSerializable()
 class Data {
   String id;
-
+  @JsonKey(name: 'totalSkor')
+  int totalSkor;
+ 
   Data({
-    required this.id
+    required this.id,
+    required this.totalSkor
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -52,8 +57,10 @@ Map<String, dynamic> _$CreateBebanKerjaResponseModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
+      totalSkor: (json['total_skor'] as num).toInt(),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
+      'totalSkor': instance.totalSkor
     };

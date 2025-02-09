@@ -50,6 +50,8 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
 
   @override
   Widget build(BuildContext context) {
+    final detailRegisterAnakBloc = BlocProvider.of<DetailRegisterAnakBloc>(context);
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
@@ -116,6 +118,8 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                         children: [
                           DetailDataAnak(
                             detailResponse: state.getDetailRegisterAnak,
+                            detailRegisterAnakBloc: detailRegisterAnakBloc,
+                            anakId: widget.anakId,
                           ),
                           DetailDataKIA(),
                         ],
