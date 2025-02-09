@@ -64,6 +64,7 @@ class _DetailKunjunganAnakStuntingOnGoingViewState
         .toList();
 
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: 'Detail Kunjungan Anak Stunting',
         background: Colors.white,

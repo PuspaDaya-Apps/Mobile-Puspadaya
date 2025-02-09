@@ -65,10 +65,13 @@ class KunjunganStuntingItems extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width / 50,
                 ),
-                Text(
-                  "Ibu : ${parent}",
-                  style: AppTextStyles.primaryTextNormal.copyWith(
-                    fontSize: 12,
+                Expanded(
+                  child: Text(
+                    "Ibu : ${parent}",
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.primaryTextNormal.copyWith(
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ],

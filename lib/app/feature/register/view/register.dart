@@ -38,6 +38,10 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double itemHeight =
+        screenWidth / 0.65; // Calculate height based on aspect ratio
+
     final List<Widget> _menuItems = [
       HomeMenuItems(
         colorBackground: pinkPrimary70,
@@ -106,16 +110,19 @@ class _RegisterViewState extends State<RegisterView> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return GridView.builder(
-                      shrinkWrap: true, // Membuat GridView menyesuaikan ukuran kontennya
-                      physics: const NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
+                      shrinkWrap:
+                          true, // Membuat GridView menyesuaikan ukuran kontennya
+                      physics:
+                          NeverScrollableScrollPhysics(), // Menghindari scrolling dalam GridView
                       itemCount: _menuItems.length,
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         crossAxisSpacing: 32,
-                        childAspectRatio: 0.65,
+                        childAspectRatio: screenWidth / itemHeight, //0.65
                         mainAxisSpacing: 0,
                         maxCrossAxisExtent: 80,
                       ),

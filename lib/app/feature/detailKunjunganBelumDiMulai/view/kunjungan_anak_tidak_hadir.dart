@@ -63,6 +63,7 @@ class _DetailKunjunganAnakTidakHadirNotStartedViewState
         .toList();
 
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: 'Detail Kunjungan',
         background: Colors.white,

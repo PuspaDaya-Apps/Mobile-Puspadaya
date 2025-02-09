@@ -32,27 +32,27 @@ class _CreateKunjunganAnakTidakHadirViewState
   final List<Kunjunganstuntingitem> originalList = [
     Kunjunganstuntingitem(
       id: '1',
-      name: 'Aisyah Zahra Putri',
+      name: 'Thomas Aurealia',
       nik: '3621554011732625',
-      parent: 'Sri Wahyuni',
+      parent: 'Yusnizar Kasta',
     ),
     Kunjunganstuntingitem(
       id: '2',
-      name: 'Budi Santoso',
+      name: 'Sakti Rudiatin',
       nik: '3621554011732636',
-      parent: 'Agus Santoso',
+      parent: 'Dian Umaeroh',
     ),
     Kunjunganstuntingitem(
       id: '3',
-      name: 'Citra Dewi',
+      name: 'Permana Tilasnuari',
       nik: '3621554011732647',
-      parent: 'Mira Dewi',
+      parent: 'Nurmi Machmud',
     ),
     Kunjunganstuntingitem(
       id: '4',
-      name: 'Dian Kartika',
+      name: 'Silviana Kusuma',
       nik: '3621554011732658',
-      parent: 'Indah Kartika',
+      parent: 'Jesyca Khairani',
     ),
   ];
 

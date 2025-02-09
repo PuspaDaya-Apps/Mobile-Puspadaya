@@ -32,27 +32,27 @@ class _CreateKunjunganIbuHamilViewState
   final List<KunjuganIbuHamilItem> originalList = [
     KunjuganIbuHamilItem(
       id: '1',
-      name: 'Aisyah Zahra Putri',
+      name: 'Tessa Ivangkia',
       nik: '3621554011732625',
-      husband: 'Heri Dharmawan',
+      husband: 'Mustafid Sayoga',
     ),
     KunjuganIbuHamilItem(
       id: '2',
-      name: 'Budi Santoso',
+      name: 'Soraya Aprilicia',
       nik: '3621554011732636',
-      husband: 'Satria Xiao',
+      husband: 'Muhamad Aristy',
     ),
     KunjuganIbuHamilItem(
       id: '3',
-      name: 'Citra Dewi',
+      name: 'Fernanda Oktaviaman',
       nik: '3621554011732647',
-      husband: 'Bagas Adiputra Pratama',
+      husband: 'Cakra Yusdwindra',
     ),
     KunjuganIbuHamilItem(
       id: '4',
-      name: 'Dian Kartika',
+      name: 'Bella Riyadie',
       nik: '3621554011732658',
-      husband: 'Muhammad Rizky',
+      husband: 'Bimo Oktaviani',
     ),
   ];
 

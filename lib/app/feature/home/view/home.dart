@@ -11,6 +11,8 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
+import '../../../../config/theme/shadow.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
@@ -434,14 +436,14 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
             curve: Curves.easeInOut, // Kurva animasi
             height: _isExpanded
                 ? sizeHeighRowItemMenu * itemExpanedCol.toDouble() +
-                    MediaQuery.of(context).size.height / 50
+                    MediaQuery.of(context).size.height / 40
                 : sizeHeighRowItemMenu, // Tinggi menu saat diperluas/dikecilkan
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 0.60,
+                childAspectRatio: 0.62,
                 mainAxisSpacing: 16,
                 maxCrossAxisExtent: 80,
               ),
@@ -611,13 +613,7 @@ class GraphData extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 3,
-            offset: const Offset(0, 3),
-            color: Colors.black.withOpacity(0.3),
-          ),
-        ],
+        boxShadow: shadowSm,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
