@@ -152,7 +152,6 @@ class JenisDisabilitas {
   Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
 }
 
-
 PatchOrangTuaBody _$PatchOrangTuaBodyFromJson(Map<String, dynamic> json) =>
     PatchOrangTuaBody(
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),

@@ -40,19 +40,13 @@ class _CreateKunjunganStuntingViewState
       id: '2',
       name: 'Budi Santoso',
       nik: '3621554011732636',
-      parent: 'Agus Santoso',
+      parent: 'Tifany Novianti',
     ),
     Kunjunganstuntingitem(
       id: '3',
       name: 'Citra Dewi',
       nik: '3621554011732647',
       parent: 'Mira Dewi',
-    ),
-    Kunjunganstuntingitem(
-      id: '4',
-      name: 'Dian Kartika',
-      nik: '3621554011732658',
-      parent: 'Indah Kartika',
     ),
   ];
 

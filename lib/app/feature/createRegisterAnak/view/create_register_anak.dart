@@ -1,9 +1,10 @@
+import 'dart:math';
+
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/model/create_anak_model.dart';
 import 'package:puspadaya/app/feature/registerOrangTua/bloc/register_orang_tua_bloc.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -97,7 +98,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   TextEditingController ageController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController upperArmCircumferenceController =
+      TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
@@ -162,6 +164,32 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     }
   }
 
+  void _generateNIK() {
+    // Fixed prefix
+    String prefix = "12345";
+
+    // Generate 11 random digits
+    String randomDigits = _generateRandomDigits(11);
+
+    // Combine prefix and random digits
+    String nik = "$prefix$randomDigits";
+
+    // Set the generated NIK to the controller
+    nikController.text = nik;
+  }
+
+  String _generateRandomDigits(int length) {
+    Random random = Random();
+    StringBuffer randomDigits = StringBuffer();
+
+    for (int i = 0; i < length; i++) {
+      // Generate a random digit between 0 and 9
+      randomDigits.write(random.nextInt(10));
+    }
+
+    return randomDigits.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
@@ -215,7 +243,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const SearchKartuKeluarga()),
+                                        SearchKartuKeluarga()),
                               ).then((value) {
                                 if (value != null) {
                                   setState(() {
@@ -362,12 +390,35 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
-                            controller: nikController,
-                            hintText: 'NIK',
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                            isPasswordField: false),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex:
+                                  7, // Adjust this value to make the TextField larger
+                              child: TextFieldWidget(
+                                controller: nikController,
+                                hintText: 'NIK',
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                isPasswordField: false,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                  Icons.refresh), // Use an appropriate icon
+                              color:
+                                  greenPrimaryMain, // Set the color of the icon
+                              onPressed: () {
+                                _generateNIK(); // Call the generate function
+                              },
+                              tooltip:
+                                  'Generate NIK', // Optional tooltip for accessibility
+                            ),
+                          ],
+                        ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
@@ -651,48 +702,41 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         BlocConsumer<CreateAnakBloc, CreateAnakState>(
                           listener: (context, state) {
                             debugPrint(state.toString());
-                            if(state is CreateAnakFailedState) {
+                            if (state is CreateAnakFailedState) {
                               showTopSnackBar(
-                                Overlay.of(context),
-                                animationDuration: const Duration(
-                                    milliseconds: 600),
-                                displayDuration: const Duration(
-                                    milliseconds: 2200),
-                                reverseAnimationDuration:
-                                    const Duration(
-                                        milliseconds: 300),
-                                TopSnackbarWidget()
-                                    .error(state.error));
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget().error(state.error));
                             }
-                            if(state is CreateAnakTokenExpiredState) {
-
-                            }
-                            if(state is CreateAnakSuccessState) {
+                            if (state is CreateAnakTokenExpiredState) {}
+                            if (state is CreateAnakSuccessState) {
                               showTopSnackBar(
-                                Overlay.of(context),
-                                animationDuration: const Duration(
-                                    milliseconds: 600),
-                                displayDuration: const Duration(
-                                    milliseconds: 2200),
-                                reverseAnimationDuration:
-                                    const Duration(
-                                        milliseconds: 300),
-                                TopSnackbarWidget()
-                                    .success("Tambah Anak Berhasil"));
-                              Navigator.pop(context,1);
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget()
+                                      .success("Tambah Anak Berhasil"));
+                              Navigator.pop(context, 1);
                             }
-                             if(state is CreateAnakNullErrorState) {
+                            if (state is CreateAnakNullErrorState) {
                               showTopSnackBar(
-                                Overlay.of(context),
-                                animationDuration: const Duration(
-                                    milliseconds: 600),
-                                displayDuration: const Duration(
-                                    milliseconds: 2200),
-                                reverseAnimationDuration:
-                                    const Duration(
-                                        milliseconds: 300),
-                                TopSnackbarWidget()
-                                    .warning(state.error));
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget().warning(state.error));
                             }
                           },
                           builder: (context, state) {
@@ -708,54 +752,66 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                       builder: (context) {
                                         return CreateRegisterWali(
                                           paket: PaketToCreateWaliModel(
-                                            createAnakModel: CreateAnakModel(
-                                              kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
-                                              nik: nikController.text,
-                                              anakKe: int.parse(anakKeController.text),
-                                              namaAnak: namaController.text,
-                                              tempatLahir: tempatLahirController.text,
-                                              tanggalLahir: tanggalLahirController.text,
-                                              beratBadanLahir: double.parse(weightController.text),
-                                              tinggiBadanLahir: double.parse(heightController.text),
-                                              lingkarKepalaLahir: double.parse(headCircumferenceController.text),
-                                              lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
-                                              caraLahir: selectedCaraLahir!,
-                                              jenisKelamin: selectedGender!,
-                                              statusKelahiran: selectedStatusKelahiran!,
-                                              disabilitasAnak: selectedDisabilityLabelsAnak,
-                                              statusOrangTua: selectedStatusOrangTuaAnak!,
-                                              pengasuh: null
-                                            ),
-                                            createAnakBloc: createAnakBloc
-                                          ),
+                                              createAnakModel: CreateAnakModel(
+                                                  kartuKeluargaId:
+                                                      paketToCreateAnakModel
+                                                          .idKartuKeluarga,
+                                                  nik: nikController.text,
+                                                  anakKe: int.parse(
+                                                      anakKeController.text),
+                                                  namaAnak: namaController.text,
+                                                  tempatLahir:
+                                                      tempatLahirController
+                                                          .text,
+                                                  tanggalLahir:
+                                                      tanggalLahirController
+                                                          .text,
+                                                  beratBadanLahir: double.parse(
+                                                      weightController.text),
+                                                  tinggiBadanLahir: double.parse(
+                                                      heightController.text),
+                                                  lingkarKepalaLahir: double.parse(
+                                                      headCircumferenceController
+                                                          .text),
+                                                  lingkarLenganAtasLahir:
+                                                      double.parse(upperArmCircumferenceController.text),
+                                                  caraLahir: selectedCaraLahir!,
+                                                  jenisKelamin: selectedGender!,
+                                                  statusKelahiran: selectedStatusKelahiran!,
+                                                  disabilitasAnak: selectedDisabilityLabelsAnak,
+                                                  statusOrangTua: selectedStatusOrangTuaAnak!,
+                                                  pengasuh: null),
+                                              createAnakBloc: createAnakBloc),
                                         );
                                       },
                                     ),
                                   );
                                 } else {
-                                  createAnakBloc.add(
-                                    CreateAnak(
-                                      CreateAnakModel(
-                                        kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
-                                        nik: nikController.text,
-                                        anakKe: int.parse(anakKeController.text),
-                                        namaAnak: namaController.text,
-                                        tempatLahir: tempatLahirController.text,
-                                        tanggalLahir: tanggalLahirController.text,
-                                        beratBadanLahir: double.parse(weightController.text),
-                                        tinggiBadanLahir: double.parse(heightController.text),
-                                        lingkarKepalaLahir: double.parse(headCircumferenceController.text),
-                                        lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
-                                        caraLahir: selectedCaraLahir!,
-                                        jenisKelamin: selectedGender!,
-                                        statusKelahiran: selectedStatusKelahiran!,
-                                        disabilitasAnak: selectedDisabilityLabelsAnak,
-                                        statusOrangTua: selectedStatusOrangTuaAnak!,
-                                        pengasuh: null
-                                      )
-                                    )
-                                  );
-                                } 
+                                  createAnakBloc.add(CreateAnak(CreateAnakModel(
+                                      kartuKeluargaId: paketToCreateAnakModel
+                                          .idKartuKeluarga,
+                                      nik: nikController.text,
+                                      anakKe: int.parse(anakKeController.text),
+                                      namaAnak: namaController.text,
+                                      tempatLahir: tempatLahirController.text,
+                                      tanggalLahir: tanggalLahirController.text,
+                                      beratBadanLahir:
+                                          double.parse(weightController.text),
+                                      tinggiBadanLahir:
+                                          double.parse(heightController.text),
+                                      lingkarKepalaLahir: double.parse(
+                                          headCircumferenceController.text),
+                                      lingkarLenganAtasLahir: double.parse(
+                                          upperArmCircumferenceController.text),
+                                      caraLahir: selectedCaraLahir!,
+                                      jenisKelamin: selectedGender!,
+                                      statusKelahiran: selectedStatusKelahiran!,
+                                      disabilitasAnak:
+                                          selectedDisabilityLabelsAnak,
+                                      statusOrangTua:
+                                          selectedStatusOrangTuaAnak!,
+                                      pengasuh: null)));
+                                }
                                 logger.d('go to simpan');
                               },
                             );

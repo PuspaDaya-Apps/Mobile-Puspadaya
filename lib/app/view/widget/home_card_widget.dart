@@ -6,19 +6,19 @@ class HomeCard extends StatelessWidget {
   final String description;
   final String highlightText;
   final bool isPositive;
-  const HomeCard(
-      {super.key,
-      required this.title,
-      required this.number,
-      required this.description,
-      required this.highlightText,
-      required this.isPositive});
+  const HomeCard({
+    super.key,
+    required this.title,
+    required this.number,
+    required this.description,
+    required this.highlightText,
+    required this.isPositive,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 200,
-
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -38,7 +38,10 @@ class HomeCard extends StatelessWidget {
           Text(
             '${title}',
             style: TextStyle(
-                color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+              color: Colors.black,
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           SizedBox(
             height: 14,

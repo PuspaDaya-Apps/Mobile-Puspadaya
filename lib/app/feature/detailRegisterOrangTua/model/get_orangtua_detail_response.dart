@@ -2,22 +2,22 @@ import 'package:json_annotation/json_annotation.dart';
 part 'get_orangtua_detail_response.g.dart';
 
 @JsonSerializable()
-class GetOrangtuaDetailResponse {
+class GetOrangtuaDetailResponseModel {
   @JsonKey(name: "message")
   final String message;
 
   @JsonKey(name: "data")
   final Data data;
 
-  GetOrangtuaDetailResponse({
+  GetOrangtuaDetailResponseModel({
     required this.message,
     required this.data,
   });
 
-  factory GetOrangtuaDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOrangtuaDetailResponseFromJson(json);
+  factory GetOrangtuaDetailResponseModel.fromJson(Map<String, dynamic> json) =>
+      _$GetOrangtuaDetailResponseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GetOrangtuaDetailResponseToJson(this);
+  Map<String, dynamic> toJson() => _$GetOrangtuaDetailResponseModelToJson(this);
 }
 
 @JsonSerializable()

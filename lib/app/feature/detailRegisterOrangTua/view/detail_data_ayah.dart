@@ -10,7 +10,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../view/widget/info_field_widget.dart';
 
 class DetailDataAyah extends StatelessWidget {
-  final GetOrangtuaDetailResponse getOrangtuaDetailResponse;
+  final GetOrangtuaDetailResponseModel getOrangtuaDetailResponse;
   DetailDataAyah({super.key, required this.getOrangtuaDetailResponse});
 
   @override
@@ -31,7 +31,8 @@ class DetailDataAyah extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-                text: '${getOrangtuaDetailResponse.data.ayah.kartuKeluarga}'),
+                text:
+                    '${getOrangtuaDetailResponse.data.ayah.kartuKeluarga.nomorKartuKeluarga}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -258,7 +259,8 @@ class DetailDataAyah extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ORANG_TUA);
+                Navigator.pushNamed(context, UPDATE_REGISTER_ORANG_TUA,
+                    arguments: getOrangtuaDetailResponse.data.ayah.id);
               },
             ),
           ],

@@ -23,7 +23,8 @@ class DetailPengukuranTamuView extends StatefulWidget {
   final String pengukuranId;
 
   @override
-  State<DetailPengukuranTamuView> createState() => _DetailPengukuranTamuViewState();
+  State<DetailPengukuranTamuView> createState() =>
+      _DetailPengukuranTamuViewState();
 }
 
 class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
@@ -50,7 +51,7 @@ class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: 'Detail Pengukuran Anak',
+        title: 'Detail Pengukuran Tamu',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -100,7 +101,11 @@ class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
                   controller: _tabController,
                   children: const [
                     DetailData(),
-                    DetailCatatan(catatan: 'banyak',keluhan: 'ada',),
+                    DetailCatatan(
+                      catatan:
+                          'Harap Anak Diberikan Makanan Yang Tinggi Akan Zat Besi',
+                      keluhan: '-',
+                    ),
                   ],
                 ),
               ),

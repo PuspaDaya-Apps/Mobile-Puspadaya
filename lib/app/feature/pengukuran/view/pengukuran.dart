@@ -70,7 +70,7 @@ class _PengukuranViewState extends State<PengukuranView> {
         //           ),
         //         ),
         //       )
-        //     : 
+        //     :
         //     AnimatedOpacity(
         //         opacity: isSearching ? 0 : 1, // Fade out when searching
         //         duration: const Duration(milliseconds: 300), // Animation duration
@@ -84,33 +84,36 @@ class _PengukuranViewState extends State<PengukuranView> {
         //       ),
         // actions: _buildAppBarActions(),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimaryMain,
-        shape: const CircleBorder(),
-        child: const Icon(
-          size: 38,
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          switch (selectedMenu) {
-            case 'Kehadiran':
-              Navigator.pushNamed(context, CREATE_KEHADIRAN);
-              break;
-            case 'Pengukuran Anak':
-              Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
-              break;
-            case 'Pengukuran Ibu Hamil':
-              Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL);
-              break;
-            case 'Pengukuran Tamu':
-              Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
-              break;
+      floatingActionButton: selectedMenu == 'Riwayat Anak' ||
+              selectedMenu == 'Riwayat Ibu Hamil'
+          ? Container()
+          : FloatingActionButton(
+              backgroundColor: bluePrimaryMain,
+              shape: const CircleBorder(),
+              child: const Icon(
+                size: 38,
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                switch (selectedMenu) {
+                  case 'Kehadiran':
+                    Navigator.pushNamed(context, CREATE_KEHADIRAN);
+                    break;
+                  case 'Pengukuran Anak':
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
+                    break;
+                  case 'Pengukuran Ibu Hamil':
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL);
+                    break;
+                  case 'Pengukuran Tamu':
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
+                    break;
 
-            default:
-          }
-        },
-      ),
+                  default:
+                }
+              },
+            ),
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.only(left: 24, right: 24, top: 16),
