@@ -68,7 +68,7 @@ class _DataWastingViewState extends State<DataWastingView> {
         caraLahir: 'Normal',
         statusKelahiran: 'normal',
         statusStunting: 'normal',
-        statusGizi: 'gizi normal',
+        statusGizi: 'kurus',
         statusWasting: 'normal',
         statusOrangTua: 'Orang Tua',
         pengukuran: null,
