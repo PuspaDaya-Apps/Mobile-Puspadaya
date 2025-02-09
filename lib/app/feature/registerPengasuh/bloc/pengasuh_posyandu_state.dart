@@ -12,9 +12,9 @@ final class PengasuhPosyanduInitial extends PengasuhPosyanduState {}
 final class PengasuhPosyanduLoading extends PengasuhPosyanduState {}
 
 final class PengasuhPosyanduSuccess extends PengasuhPosyanduState {
-  const PengasuhPosyanduSuccess();
-  @override
-  List<Object> get props => [];
+  final PengasuhResponseModel pengasuhResponseModel;
+
+  const PengasuhPosyanduSuccess(this.pengasuhResponseModel);
 }
 
 final class PengasuhPosyanduFailure extends PengasuhPosyanduState {
@@ -26,10 +26,10 @@ final class PengasuhPosyanduFailure extends PengasuhPosyanduState {
   List<Object> get props => [error];
 }
 
-final class NullErrorState extends PengasuhPosyanduState {
+final class PengasuhPosyanduNullErrorState extends PengasuhPosyanduState {
   final String error;
 
-  const NullErrorState(this.error);
+  const PengasuhPosyanduNullErrorState(this.error);
 }
 
-final class TokenExpiredState extends PengasuhPosyanduState {}
+final class PengasuhPosyanduTokenExpiredState extends PengasuhPosyanduState {}

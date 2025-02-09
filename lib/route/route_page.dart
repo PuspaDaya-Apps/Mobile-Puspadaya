@@ -38,12 +38,12 @@ import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
+import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
 import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_kader.dart';
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
-import '../app/feature/createRegisterPengasuh/view/create_register_pengasuh.dart';
 import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
 import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
@@ -357,9 +357,12 @@ class MyRoute {
 
       case UPDATE_REGISTER_ANAK:
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterAnak(),
+          builder: (context) => UpdateRegisterAnak(
+            getDetailAnakResponse: settings.arguments as GetDetailAnakResponse,
+          ),
           settings: settings,
         );
+
       case DETAIL_REGISTER_ANAK:
         final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
@@ -375,12 +378,6 @@ class MyRoute {
           builder: (context) => const RegisterPengasuh(),
           settings: settings,
         );
-      case CREATE_REGISTER_PENGASUH:
-        return MaterialPageRoute(
-          builder: (context) => const CreateRegisterPengasuh(),
-          settings: settings,
-        );
-
       case UPDATE_REGISTER_PENGASUH:
         return MaterialPageRoute(
           builder: (context) => const UpdateRegisterPengasuh(),
@@ -388,7 +385,7 @@ class MyRoute {
         );
       case DETAIL_REGISTER_PENGASUH:
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterPengasuh(),
+          builder: (context) => DetailRegisterPengasuh(idPengasuh: settings.arguments as String),
           settings: settings,
         );
 

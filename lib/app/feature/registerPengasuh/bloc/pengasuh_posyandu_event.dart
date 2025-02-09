@@ -7,4 +7,4 @@ sealed class PengasuhPosyanduEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class FecthPosyandu extends PengasuhPosyanduEvent {}
+final class GetListPengasuh extends PengasuhPosyanduEvent {}
