@@ -45,6 +45,8 @@ class CreatePengukuranAnakBloc extends Bloc<CreatePengukuranAnakEvent, CreatePen
         );
         } else if (statusCode == 401) {
           emit(CreatePengukuranAnakTokenExpiredState());
+        } else if (statusCode == 404) {
+          emit(CreatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
         } else {
           emit(CreatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
         }
