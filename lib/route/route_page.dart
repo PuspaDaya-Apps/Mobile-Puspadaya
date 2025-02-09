@@ -385,7 +385,8 @@ class MyRoute {
         );
       case DETAIL_REGISTER_PENGASUH:
         return MaterialPageRoute(
-          builder: (context) => DetailRegisterPengasuh(idPengasuh: settings.arguments as String),
+          builder: (context) =>
+              DetailRegisterPengasuh(idPengasuh: settings.arguments as String),
           settings: settings,
         );
 
@@ -426,13 +427,13 @@ class MyRoute {
           settings: settings,
         );
 
-      case DETAIL_ALAT_UKUR:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailAlatUkur(alatUkurId: id),
-          settings: settings,
-        );
+      // case DETAIL_ALAT_UKUR:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailAlatUkur(alatUkurId: id),
+      //     settings: settings,
+      //   );
 
       case UPDATE_ALAT_UKUR:
         return MaterialPageRoute(
