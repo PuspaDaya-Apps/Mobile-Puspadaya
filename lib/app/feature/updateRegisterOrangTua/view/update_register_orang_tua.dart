@@ -71,7 +71,6 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   late TabController _tabController;
 
   final List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
     'A+',
     'A-',
     'B+',
@@ -92,11 +91,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
     "Autisme",
   ];
   final List<String> selectJenisKB = [
-    'Pil',
+    'PIL',
     'IUD',
-    'Suntik',
-    'Implant',
-    'Lainnya'
+    'SUINTIK',
+    'IMPLANT',
+    'LAINNYA'
   ];
 
   // Controller untuk Data Ayah dan Data Ibu

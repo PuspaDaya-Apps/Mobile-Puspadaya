@@ -237,7 +237,6 @@ class _IndexPengukuranIbuHamilScreenViewState
                   );
                 },
               ));
-              // Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL);
             },
             name: ibuHamil.data.ibuAnak.nama,
             nik: ibuHamil.data.ibuAnak.nik,
