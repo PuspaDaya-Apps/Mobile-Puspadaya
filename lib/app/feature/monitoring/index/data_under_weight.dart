@@ -68,7 +68,7 @@ class _DataUnderWeightViewState extends State<DataUnderWeightView> {
           caraLahir: 'Caesar',
           statusKelahiran: 'normal',
           statusStunting: 'pendek',
-          statusGizi: 'gizi normal',
+          statusGizi: 'gizi kurang',
           statusWasting: 'kurus',
           statusOrangTua: 'Orang Tua',
           pengukuran: null,
