@@ -21,8 +21,10 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../Bloc/createPengukuranAnak/create_pengukuran_anak_bloc.dart';
 
 class CreatePengukuranAnak extends StatelessWidget {
@@ -112,6 +114,21 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
         debugPrint(state.toString());
         if(state is AlatUkurAnakSuccessState) {
           alatUkur = state.alatUkurResponseModel.data![0].id;
+        }
+        if (state is AlatUkurAnakFailedState) {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(
+              milliseconds: 600
+            ),
+            displayDuration: const Duration(
+              milliseconds: 2200
+            ),
+            reverseAnimationDuration: const Duration(
+              milliseconds: 300
+            ),
+            TopSnackbarWidget().error(state.error)
+          );
         }
       },
       child: Scaffold(
@@ -573,6 +590,37 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         );
                                       },
                                     );
+                                }
+                                if(state is CreatePengukuranAnakFailedState) {
+                                  debugPrint(state.error);
+                                  showTopSnackBar(
+                                    Overlay.of(context),
+                                    animationDuration: const Duration(
+                                      milliseconds: 600
+                                    ),
+                                    displayDuration: const Duration(
+                                      milliseconds: 2200
+                                    ),
+                                    reverseAnimationDuration: const Duration(
+                                      milliseconds: 300
+                                    ),
+                                    TopSnackbarWidget().error(state.error)
+                                  );
+                                }
+                                if(state is CreatePengukuranAnakNullErrorState) {
+                                  showTopSnackBar(
+                                    Overlay.of(context),
+                                    animationDuration: const Duration(
+                                      milliseconds: 600
+                                    ),
+                                    displayDuration: const Duration(
+                                      milliseconds: 2200
+                                    ),
+                                    reverseAnimationDuration: const Duration(
+                                      milliseconds: 300
+                                    ),
+                                    TopSnackbarWidget().warning(state.error)
+                                  );
                                 }
                               },
                               child: ButtonPrimary(

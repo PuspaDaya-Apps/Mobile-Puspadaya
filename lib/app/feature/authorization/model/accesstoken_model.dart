@@ -7,13 +7,12 @@ class AccessTokenModel {
   @JsonKey(name: 'refresh-token')
   String refreshToken;
 
-  AccessTokenModel({
-    required this.refreshToken
-  });
+  AccessTokenModel({required this.refreshToken});
 
-   factory AccessTokenModel.fromJson(Map<String, dynamic> json) => _$AccessTokenModelFromJson(json);
+  factory AccessTokenModel.fromJson(Map<String, dynamic> json) =>
+      _$AccessTokenModelFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$AccessTokenModelToJson(this);
+  Map<String, dynamic> toJson() => _$AccessTokenModelToJson(this);
 }
 
 AccessTokenModel _$AccessTokenModelFromJson(Map<String, dynamic> json) =>
