@@ -52,4 +52,21 @@ class HelperData {
 
     return bulan;
   }
+
+  int countAge(DateTime tanggalLahir) {
+    // Tanggal saat ini
+    DateTime sekarang = DateTime.now();
+
+    // Hitung umur
+    int umur = sekarang.year - tanggalLahir.year;
+
+    // Periksa apakah sudah melewati tanggal lahir tahun ini
+    if (sekarang.month < tanggalLahir.month ||
+        (sekarang.month == tanggalLahir.month &&
+            sekarang.day < tanggalLahir.day)) {
+      umur--;
+    }
+
+    return umur;
+  }
 }

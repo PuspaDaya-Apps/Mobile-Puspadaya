@@ -55,7 +55,7 @@ import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.da
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
-import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_tamu.dart';
+import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
@@ -199,31 +199,31 @@ class MyRoute {
             builder: (context) => const CreatePengukuranIbuHamil(),
             settings: settings);
 
-      case DETAIL_PENGUKURAN_IBU_HAMIL:
-        return MaterialPageRoute(
-            builder: (context) => const DetailPengukuranIbuHamil(),
-            settings: settings);
+      // case DETAIL_PENGUKURAN_IBU_HAMIL:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const DetailPengukuranIbuHamil(),
+      //       settings: settings);
 
       case UPDATE_PENGUKURAN_IBU_HAMIL:
         return MaterialPageRoute(
             builder: (context) => const UpdatePengukuranIbuHamil(),
             settings: settings);
 
-      case DETAIL_RIWAYAT_ANAK:
-        final id = settings.arguments as String? ?? '';
-        return MaterialPageRoute(
-            builder: (context) => DetailRiwayatBalita(
-                  id: id,
-                ),
-            settings: settings);
+      // case DETAIL_RIWAYAT_ANAK:
+      //   final id = settings.arguments as String? ?? '';
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailRiwayatBalita(
+      //             id: id,
+      //           ),
+      //       settings: settings);
 
-      case DETAIL_RIWAYAT_IBU_HAMIL:
-        final id = settings.arguments as String? ?? '';
-        return MaterialPageRoute(
-            builder: (context) => DetailRiwayatIbuHamil(
-                  id: id,
-                ),
-            settings: settings);
+      // case DETAIL_RIWAYAT_IBU_HAMIL:
+      //   final id = settings.arguments as String? ?? '';
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailRiwayatIbuHamil(
+      //             id: id,
+      //           ),
+      //       settings: settings);
 
       //beban kerja
       case BEBAN_KERJA:

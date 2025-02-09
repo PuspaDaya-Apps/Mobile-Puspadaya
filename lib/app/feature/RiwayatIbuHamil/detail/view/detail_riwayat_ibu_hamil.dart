@@ -4,34 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../../monitoring/model/riwayat_monitoring_anak_model.dart';
+import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
 
-class DetailRiwayatBalita extends StatelessWidget {
-  final RiwayatMonitoringAnakModel detailRiwayatAnak;
-  const DetailRiwayatBalita({super.key, required this.detailRiwayatAnak});
+class DetailRiwayatIbuHamil extends StatelessWidget {
+  final RiwayatMonitoringIbuHamilModel riwayatIbuHamil;
+
+  const DetailRiwayatIbuHamil({super.key, required this.riwayatIbuHamil});
 
   @override
   Widget build(BuildContext context) {
-    return DetailRiwayatBalitaView(
-      detailRiwayatAnak: detailRiwayatAnak,
+    return DetailRiwayatIbuHamilView(
+      riwayatIbuHamil: riwayatIbuHamil,
     );
   }
 }
 
-class DetailRiwayatBalitaView extends StatefulWidget {
-  final RiwayatMonitoringAnakModel detailRiwayatAnak;
-  const DetailRiwayatBalitaView({super.key, required this.detailRiwayatAnak});
+class DetailRiwayatIbuHamilView extends StatefulWidget {
+  final RiwayatMonitoringIbuHamilModel riwayatIbuHamil;
+
+  const DetailRiwayatIbuHamilView({super.key, required this.riwayatIbuHamil});
 
   @override
-  State<DetailRiwayatBalitaView> createState() =>
-      _DetailRiwayatBalitaViewState();
+  State<DetailRiwayatIbuHamilView> createState() =>
+      _DetailRiwayatIbuHamilViewState();
 }
 
-class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
+class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
   bool _isExpanded = false;
 
   @override
@@ -39,7 +40,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Detail Riwayat Anak',
+        title: 'Detail Riwayat Ibu Hamil',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -63,7 +64,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 3.7
+                      ? sizeHeighofSingleForm * 2.96
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -76,7 +77,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         InfoFieldWidget(
-                            text: '${widget.detailRiwayatAnak.data.nik}'),
+                            text: widget.riwayatIbuHamil.data.ibuAnak.nik),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
@@ -84,16 +85,15 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         InfoFieldWidget(
-                            text: widget.detailRiwayatAnak.data.namaAnak),
+                            text: widget.riwayatIbuHamil.data.ibuAnak.nama),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
-                          'Umur',
+                          'Usia Kandungan',
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         InfoFieldWidget(
-                            text:
-                                '${HelperData().countYearFromDateTime(widget.detailRiwayatAnak.data.tanggalLahir)} Tahun ${HelperData().countMonthFromDateTime(widget.detailRiwayatAnak.data.tanggalLahir)} Bulan'),
+                            text: widget.riwayatIbuHamil.data.usiaKehamilan),
                         Visibility(
                           visible: _isExpanded,
                           child: Column(
@@ -109,7 +109,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
                               InfoFieldWidget(
-                                  text: widget.detailRiwayatAnak.data.posyandu
+                                  text: widget.riwayatIbuHamil.data.posyandu!
                                       .namaPosyandu),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
@@ -120,34 +120,22 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
                               InfoFieldWidget(
-                                  text: widget.detailRiwayatAnak.data
-                                      .kartuKeluarga.nomorKartuKeluarga),
+                                  text: widget.riwayatIbuHamil.data.ibuAnak
+                                      .kartuKeluarga.nomorKk),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
                               const Text(
-                                'Nama Ayah',
+                                'Nama Suami',
                                 style: TextStyle(fontSize: 12),
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
                               InfoFieldWidget(
-                                  text: widget.detailRiwayatAnak.data.orangTua
-                                      .ayah.namaAyah),
+                                  text: widget
+                                      .riwayatIbuHamil.data.ibuAnak.ayah.nama),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
-                              const Text(
-                                'Nama Ibu',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(
-                                  text: widget.detailRiwayatAnak.data.orangTua
-                                      .ibu.namaIbu),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16),
-                              ),
                               const Text(
                                 textAlign: TextAlign.start,
                                 'Alamat',
@@ -164,24 +152,26 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                   Expanded(
                                     child: InfoFieldWidget(
                                         text: widget
-                                            .detailRiwayatAnak
+                                            .riwayatIbuHamil
                                             .data
+                                            .ibuAnak
                                             .dusun
                                             .desaKelurahan
                                             .kecamatan
-                                            .kabupaten
+                                            .kabupatenKota
                                             .provinsi
                                             .nama),
                                   ),
                                   Expanded(
                                     child: InfoFieldWidget(
                                         text: widget
-                                            .detailRiwayatAnak
+                                            .riwayatIbuHamil
                                             .data
+                                            .ibuAnak
                                             .dusun
                                             .desaKelurahan
                                             .kecamatan
-                                            .kabupaten
+                                            .kabupatenKota
                                             .nama),
                                   )
                                 ],
@@ -195,8 +185,9 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                   Expanded(
                                     child: InfoFieldWidget(
                                         text: widget
-                                            .detailRiwayatAnak
+                                            .riwayatIbuHamil
                                             .data
+                                            .ibuAnak
                                             .dusun
                                             .desaKelurahan
                                             .kecamatan
@@ -204,8 +195,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                   ),
                                   Expanded(
                                     child: InfoFieldWidget(
-                                        text: widget.detailRiwayatAnak.data
-                                            .dusun.desaKelurahan.nama),
+                                        text: widget.riwayatIbuHamil.data
+                                            .ibuAnak.dusun.desaKelurahan.nama),
                                   )
                                 ],
                               ),
@@ -213,8 +204,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
                               InfoFieldWidget(
-                                  text:
-                                      widget.detailRiwayatAnak.data.dusun.nama),
+                                  text: widget
+                                      .riwayatIbuHamil.data.ibuAnak.dusun.nama),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
@@ -223,11 +214,13 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                 children: [
                                   Expanded(
                                     child: InfoFieldWidget(
-                                        text: widget.detailRiwayatAnak.data.rt),
+                                        text: widget
+                                            .riwayatIbuHamil.data.ibuAnak.rt),
                                   ),
                                   Expanded(
                                     child: InfoFieldWidget(
-                                        text: widget.detailRiwayatAnak.data.rw),
+                                        text: widget
+                                            .riwayatIbuHamil.data.ibuAnak.rw),
                                   )
                                 ],
                               ),
@@ -235,7 +228,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
                               InfoFieldWidget(
-                                text: widget.detailRiwayatAnak.data.alamat,
+                                text: widget.riwayatIbuHamil.data.alamat,
                               ),
                             ],
                           ),
@@ -277,14 +270,6 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                   color: Colors.black54,
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                Image(image: AssetImage(imageGrafikPerkembanganAnak)),
-                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
-                Container(
-                  width: double.infinity,
-                  height: 2,
-                  color: Colors.black54,
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Text(
                   'Riwayat Pengukuran',
                   style: AppTextStyles.primaryTextMedium.copyWith(
@@ -292,7 +277,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                   ),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                DataTableRiwayatAnak()
+                DataTableRiwayatIbuHamil()
               ],
             ),
           ),
@@ -302,8 +287,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
   }
 }
 
-class DataTableRiwayatAnak extends StatelessWidget {
-  const DataTableRiwayatAnak({super.key});
+class DataTableRiwayatIbuHamil extends StatelessWidget {
+  const DataTableRiwayatIbuHamil({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -312,11 +297,10 @@ class DataTableRiwayatAnak extends StatelessWidget {
       child: DataTable2(
         columnSpacing: 12,
         horizontalMargin: 12,
-        minWidth: 960,
+        minWidth: 900,
         columns: [
           DataColumn2(
             size: ColumnSize.S,
-            fixedWidth: 32,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('No'),
@@ -333,15 +317,16 @@ class DataTableRiwayatAnak extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            fixedWidth: 170,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text('BB(Kg)'),
+              child: Text('Usia Kehamilan'),
             ),
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TB(cm)'),
@@ -349,7 +334,15 @@ class DataTableRiwayatAnak extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('BB(Kg)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Lila(cm)'),
@@ -357,43 +350,43 @@ class DataTableRiwayatAnak extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text('TP(cm)'),
+              child: Text('TFU(cm)'),
             ),
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.L,
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('HB(g/dl)'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('TAK'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
+            label: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Tablet FE'),
+            ),
+            numeric: true,
+          ),
+          DataColumn2(
+            size: ColumnSize.M,
             fixedWidth: 200,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Petugas'),
-            ),
-            numeric: true,
-          ),
-          DataColumn2(
-            size: ColumnSize.M,
-            label: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Stunting'),
-            ),
-            numeric: true,
-          ),
-          DataColumn2(
-            size: ColumnSize.M,
-            label: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Under weight'),
-            ),
-            numeric: true,
-          ),
-          DataColumn2(
-            size: ColumnSize.M,
-            label: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Wasting'),
             ),
             numeric: true,
           ),
@@ -402,72 +395,74 @@ class DataTableRiwayatAnak extends StatelessWidget {
           DataRow(cells: [
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-24'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('95'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Nita Ardhi'))),
+                alignment: Alignment.centerLeft, child: Text('2024-01-15'))),
             DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
+                Align(alignment: Alignment.centerLeft, child: Text('5 bulan'))),
             DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
+                Align(alignment: Alignment.centerLeft, child: Text('170'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('65'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('35'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('20'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Azalea Melani'))),
           ]),
           DataRow(cells: [
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-20'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('92'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
+                alignment: Alignment.centerLeft, child: Text('2024-01-10'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
+                alignment: Alignment.centerLeft,
+                child: Text('4 bulan 1 minggu'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('168'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('63'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('34'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('19'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Buruk'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('sangat kurus'))),
+                alignment: Alignment.centerLeft,
+                child: Text('Anastasia Mandasari'))),
           ]),
           DataRow(cells: [
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-15'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
+                alignment: Alignment.centerLeft, child: Text('2024-01-05'))),
             DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('100'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
+                Align(alignment: Alignment.centerLeft, child: Text('4 bulan'))),
+            DataCell(
+                Align(alignment: Alignment.centerLeft, child: Text('165'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('61'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('33'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('18'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('11'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
             DataCell(Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Frisca Aurealia'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Normal'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('normal'))),
+                child: Text('Ellis Purnawati'))),
           ]),
           DataRow(cells: [
             DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-10'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('90'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('26'))),
+                alignment: Alignment.centerLeft, child: Text('2023-12-30'))),
             DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Siska Ardina'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
+                alignment: Alignment.centerLeft,
+                child: Text('3 bulan 3 minggu'))),
             DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
+                Align(alignment: Alignment.centerLeft, child: Text('162'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('59'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('10'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
+            DataCell(Align(
+                alignment: Alignment.centerLeft, child: Text('Cici Wahyuni '))),
           ]),
         ],
       ),
