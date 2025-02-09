@@ -41,7 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
       backgroundColor: backgroundWhite10,
       appBar: const PrimaryAppBar(
         background: backgroundWhite10,
-        title: "Profile",
+        title: "Profil",
         onBackPressed: null,
       ),
       body: SafeArea(
@@ -155,36 +155,30 @@ class _ProfileViewState extends State<ProfileView> {
                               }
                               if (state is LogoutSuccess) {
                                 debugPrint(state.toString());
-                                authorizationBloc.add(AuthorizationFalseEvent());
+                                authorizationBloc
+                                    .add(AuthorizationFalseEvent());
                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(
-                                    milliseconds: 600
-                                  ),
-                                  displayDuration: const Duration(
-                                    milliseconds: 2200
-                                  ),
-                                  reverseAnimationDuration: const Duration(
-                                    milliseconds: 300
-                                  ),
-                                  TopSnackbarWidget().success("Logout Berhasil")
-                                );
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget()
+                                        .success("Logout Berhasil"));
                               }
                               if (state is LogoutFailed) {
                                 debugPrint(state.error);
-                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(
-                                    milliseconds: 600
-                                  ),
-                                  displayDuration: const Duration(
-                                    milliseconds: 2200
-                                  ),
-                                  reverseAnimationDuration: const Duration(
-                                    milliseconds: 300
-                                  ),
-                                  TopSnackbarWidget().error(state.error)
-                                );
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget().error(state.error));
                               }
                             },
                           ),
