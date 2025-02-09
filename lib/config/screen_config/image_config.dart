@@ -62,3 +62,6 @@ const String imagePitLingkarLenganAtas =
 const String imageAlatUkurLingkarKepala =
     "assets/images/alat_ukur_lingkar_kepala.jpeg";
 const String imageMetline = "assets/images/metline.jpeg";
+
+const String imageSampleImportData =
+    "assets/images/image_sample_import_data.png";

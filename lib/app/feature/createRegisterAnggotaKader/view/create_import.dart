@@ -6,6 +6,9 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../../config/screen_config/image_config.dart';
+import '../../../../utils/logger/logger.dart';
+
 class CreateImport extends StatefulWidget {
   const CreateImport({super.key});
 
@@ -25,6 +28,7 @@ class _CreateImportState extends State<CreateImport> {
     );
 
     if (result != null) {
+      logger.d('file picked');
       setState(() {
         _fileName = result.files.single.name;
         _filePath = result.files.single.path;
@@ -33,8 +37,10 @@ class _CreateImportState extends State<CreateImport> {
   }
 
   void _uploadFile() {
+    logger.d('Upload file');
     // Logika untuk mengupload file ke server
     if (_filePath != null) {
+      logger.d('file not empty');
       // Implementasikan logika upload ke server di sini
       print('File $_fileName akan diupload ke server dari $_filePath');
     } else {
@@ -47,64 +53,136 @@ class _CreateImportState extends State<CreateImport> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text(
-                textAlign: TextAlign.center,
-                'Unggah Data Akun Kader (format: CSV atau XLSX)',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 16,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              'Unggah Data Akun Kader (format: CSV atau XLSX)',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 16,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          GestureDetector(
+            onTap: _pickFile,
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 8,
+                  children: [
+                    FaIcon(
+                      color: bluePrimary70,
+                      size: 32,
+                      FontAwesomeIcons.cloudArrowUp,
+                    ),
+                    Text(
+                      _fileName ?? 'Pilih File',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ],
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: _pickFile,
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 8,
-                    children: [
-                      FaIcon(
-                        color: bluePrimary70,
-                        size: 32,
-                        FontAwesomeIcons.cloudArrowUp,
-                      ),
-                      Text(
-                        _fileName ?? 'Pilih File',
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          ),
+          SizedBox(height: 16),
+          if (_fileName != null) ...[
+            Text(
+              'File yang dipilih: $_fileName',
+              style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 16),
-            if (_fileName != null) ...[
-              Text(
-                'File yang dipilih: $_fileName',
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-            SizedBox(height: 20),
-            ButtonPrimary(
-                color: bluePrimaryMain,
-                mainButtonMessage: 'Simpan',
-                mainButton: _uploadFile),
           ],
-        ),
+          SizedBox(height: 20),
+          ButtonPrimary(
+            color: bluePrimaryMain,
+            mainButtonMessage: 'Unggah',
+            mainButton: _uploadFile,
+          ),
+          SizedBox(height: 24),
+          Text(
+            'Panduan Langkah-Langkah Unggah Data Akun Kader Menggunakan File CSV/XLSX',
+          ),
+          SizedBox(height: 12),
+          Text(
+            '1. Siapkan Data dalam Format CSV atau XLSX',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Pastikan file yang akan diunggah memiliki format .csv atau .xlsx.',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 11,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            '2. Isi Data Sesuai Kolom yang Ditetapkan',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Kolom pertama: Nama (isi dengan nama lengkap).\nKolom kedua: No. Telepon (isi dengan format no_telepon).\nKolom ketiga: Email (isi dengan alamat email yang valid).',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 11,
+            ),
+          ),
+          SizedBox(height: 6),
+          Image(
+            image: AssetImage(imageSampleImportData),
+          ),
+          SizedBox(height: 12),
+          Text(
+            '3. Simpan File',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Setelah mengisi data, simpan file dalam format .csv atau .xlsx.',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 11,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            '4. Unggah File',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Klik pada area pilih file untuk mengunggah.',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 11,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            '5. Klik Tombol Unggah',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            'Klik pada tolbol unggah yang berada dibawah area pilih file.',
+            style: AppTextStyles.primaryTextNormal.copyWith(
+              fontSize: 11,
+            ),
+          ),
+        ],
       ),
     );
   }

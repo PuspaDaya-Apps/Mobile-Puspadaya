@@ -29,16 +29,16 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
 
   List<IbuHamilItemModel> listOrangTua = [
     IbuHamilItemModel(
-      name: 'Mentari Kumala Sari',
+      name: 'Hani Purnawati',
       nik: '362155482327263',
       month: 2,
       week: 7,
     ),
     IbuHamilItemModel(
-      name: 'Dewi antasari',
+      name: 'Aurora Yulianti',
       nik: '362155482327263',
-      month: 2,
-      week: 7,
+      month: 3,
+      week: 2,
     ),
   ];
   @override

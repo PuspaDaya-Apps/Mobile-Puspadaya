@@ -15,7 +15,8 @@ import 'package:puspadaya/utils/helper/helper_data.dart';
 
 class DetailPengukuranIbuHamil extends StatelessWidget {
   final RiwayatMonitoringIbuHamilModel detailPengukuranIbuHamil;
-  DetailPengukuranIbuHamil({super.key, required this.detailPengukuranIbuHamil});
+  const DetailPengukuranIbuHamil(
+      {super.key, required this.detailPengukuranIbuHamil});
 
   @override
   Widget build(BuildContext context) {

@@ -14,29 +14,37 @@ class ListDataAnak extends StatefulWidget {
 class _ListDataAnakState extends State<ListDataAnak> {
   final List<ListDataAnakModel> listDataAnak = [
     ListDataAnakModel(
-        isChecked: false,
-        nama: 'Muhammad Kaivan Al Hakim',
-        namaIbu: 'Ayu Putri Lestari'),
-    ListDataAnakModel(
-        isChecked: false, nama: 'Aisyah Zahra Putri', namaIbu: 'Tias Agaskara'),
+        isChecked: false, nama: 'Mila Nuraini', namaIbu: 'Tami Suartini S.Ked'),
     ListDataAnakModel(
         isChecked: false,
-        nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
-    ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
+        nama: 'Gilda Oliva Yuniar',
+        namaIbu: 'Rina Clara Mandasari S.Pd'),
     ListDataAnakModel(
         isChecked: false,
-        nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
-    ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
+        nama: 'Septi Ilsa Widiastuti',
+        namaIbu: 'Halima Fitria Nasyidah'),
     ListDataAnakModel(
         isChecked: false,
-        nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
+        nama: 'Raden Jumadi Irawan',
+        namaIbu: 'Widya Paulin Yulianti M.Pd'),
     ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
+        isChecked: false, nama: 'Darman Sitorus', namaIbu: 'Nova Padmasari'),
+    ListDataAnakModel(
+        isChecked: false,
+        nama: 'Johan Bakidin Napitupulu',
+        namaIbu: 'Paulin Winarsih'),
+    ListDataAnakModel(
+        isChecked: false,
+        nama: 'Adhiarja Taufan Januar',
+        namaIbu: 'Jasmin Riyanti S.Sos'),
+    ListDataAnakModel(
+        isChecked: false, nama: 'Dadi Damanik', namaIbu: 'Intan Palastri'),
+    ListDataAnakModel(
+        isChecked: false, nama: 'Kamidin Hakim', namaIbu: 'Maimunah Hastuti'),
+    ListDataAnakModel(
+        isChecked: false,
+        nama: 'Chandra Zulkarnain',
+        namaIbu: 'Gawati Andriani S.I.Kom'),
   ];
 
   Widget build(BuildContext context) {

@@ -15,28 +15,26 @@ class _ListDataAnakState extends State<ListDataAnak> {
   final List<ListDataAnakModel> listDataAnak = [
     ListDataAnakModel(
         isChecked: false,
-        nama: 'Muhammad Kaivan Al Hakim',
-        namaIbu: 'Ayu Putri Lestari'),
-    ListDataAnakModel(
-        isChecked: false, nama: 'Aisyah Zahra Putri', namaIbu: 'Tias Agaskara'),
+        nama: 'Cinthia Novitasari',
+        namaIbu: 'Tiara Zelda Hartati'),
     ListDataAnakModel(
         isChecked: false,
         nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
+        namaIbu: 'Natalia Paramita Zulaika'),
     ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
-    ListDataAnakModel(
-        isChecked: false,
-        nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
-    ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
+        isChecked: false, nama: 'Hamima Astuti', namaIbu: 'Irma Winda Melani'),
     ListDataAnakModel(
         isChecked: false,
-        nama: 'Bintang Harapan',
-        namaIbu: 'Putri Kumala Sari'),
+        nama: 'Sabrina Purnawati',
+        namaIbu: 'Jelita Namaga S.Pt'),
     ListDataAnakModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', namaIbu: 'Dewi Agustina'),
+        isChecked: false,
+        nama: 'Asmadi Hardiansyah',
+        namaIbu: 'Gasti Zizi Pratiwi S.Gz'),
+    ListDataAnakModel(
+        isChecked: false, nama: 'Wakiman Najmudin', namaIbu: 'Faizah Halimah'),
+    ListDataAnakModel(
+        isChecked: false, nama: 'Pangestu Nababan', namaIbu: 'Dalima Hassanah'),
   ];
 
   Widget build(BuildContext context) {
