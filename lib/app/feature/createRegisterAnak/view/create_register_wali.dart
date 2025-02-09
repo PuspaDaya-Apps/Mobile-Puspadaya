@@ -450,10 +450,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         DropdownWidget(
-                          items: selectDusun
-                              .map((dusun) =>
-                                  dusun.namaDusun) // Menampilkan Nama Dusun
-                              .toList(),
+                          items: selectDusun.map((dusun) => dusun.namaDusun).toList(), // Menampilkan Nama Dusun
                           hint: 'Dusun',
                           value: selectedDusunIdWali != null
                               ? selectDusun
@@ -624,16 +621,17 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             if (state is CreateAnakTokenExpiredState) {}
                             if (state is CreateAnakSuccessState) {
                               showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration:
-                                      const Duration(milliseconds: 600),
-                                  displayDuration:
-                                      const Duration(milliseconds: 2200),
-                                  reverseAnimationDuration:
-                                      const Duration(milliseconds: 300),
-                                  TopSnackbarWidget()
-                                      .success("Tambah Anak Berhasil"));
-                              Navigator.pop(context);
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .success("Tambah Anak Berhasil"));
+                              Navigator.pop(context,1);
                             }
                             if (state is CreateAnakNullErrorState) {
                               showTopSnackBar(

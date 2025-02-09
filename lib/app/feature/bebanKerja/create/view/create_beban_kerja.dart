@@ -12,8 +12,10 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/bebanKerjaItem/beban_kerja_item_bloc.dart';
 import '../bloc/createBebanKerjaBloc/create_beban_kerja_bloc.dart';
 
@@ -302,53 +304,63 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
                     ),
                     BlocConsumer<CreateBebanKerjaBloc, CreateBebanKerjaState>(
                       listener: (context, stateCreateBebanKerja) {
+                        if(stateCreateBebanKerja is CreateBebanKerjaSuccesState) {
+                           showDialog(
+                            barrierDismissible: false,
+                              context: context,
+                              builder: (context) {
+                                // int totalBobotBebanKerja = 0;
+
+                                // for (var value1 in state.item) {
+                                //   for (var value2 in value1.subItems!) {
+                                //     if (value2.status) {
+                                //       totalBobotBebanKerja += value2.bobot!;
+                                //     }
+                                //   }
+                                // }
+                                return ThropyAlert(
+                                  image: imageThropy,
+                                  title:
+                                      'Total Bobot Yang Anda Dapatkan ${stateCreateBebanKerja.createBebanKerjaResponseModel.data!.totalSkor}',
+                                  message:
+                                      'Terus pertahankan semangat dan konsistensi, karena setiap usaha kamu sangat berarti. Ayo, kita capai lebih tinggi lagi!',
+                                  mainButton: () {
+                                    Navigator.pop(context,1);
+                                  },
+                                  // cancelButton: () {
+                                  //   Navigator.pop(context);
+                                  // },
+                                  // cancelButtonMessage: 'Batalkan',
+                                  mainButtonMessage: "Simpan",
+                                  colorMainButton: bluePrimaryMain,
+                                );
+                              },
+                            ).then((value) {
+                              if(value != null) {
+                                Navigator.pop(context,1);
+                              }
+                            });
+                        }
+                        if(stateCreateBebanKerja is CreateBebanKerjaFailedState) {
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            animationDuration: const Duration(
+                                milliseconds: 600),
+                            displayDuration: const Duration(
+                                milliseconds: 2200),
+                            reverseAnimationDuration:
+                                const Duration(
+                                    milliseconds: 300),
+                            TopSnackbarWidget()
+                                .error(stateCreateBebanKerja.error));
+                        }
                       },
                       builder: (context, stateCreateBebanKerja) {
                         return ButtonPrimary(
                           color: bluePrimaryMain,
                           mainButtonMessage: 'Simpan',
                           mainButton: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                int totalBobotBebanKerja = 0;
-
-                                for (var value1 in state.item) {
-                                  for (var value2 in value1.subItems!) {
-                                    if (value2.status) {
-                                      totalBobotBebanKerja += value2.bobot!;
-                                    }
-                                  }
-                                }
-                                return BlocListener<CreateBebanKerjaBloc, CreateBebanKerjaState>(
-                                  bloc: createBebanKerjaBloc,
-                                  listener: (context, state) {
-                                    debugPrint(stateCreateBebanKerja.toString());
-                                    if (state is CreateBebanKerjaSuccesState) {
-                                      Navigator.pop(context);
-                                      Navigator.pop(context, 1);
-                                    }
-                                  },
-                                  child: ThropyAlert(
-                                    image: imageThropy,
-                                    title:
-                                        'Total Bobot Yang Anda Dapatkan $totalBobotBebanKerja',
-                                    message:
-                                        'Terus pertahankan semangat dan konsistensi, karena setiap usaha kamu sangat berarti. Ayo, kita capai lebih tinggi lagi!',
-                                    mainButton: () {
-                                      createBebanKerjaBloc
-                                          .add(SendBebanKerjaEvent(state.item));
-                                    },
-                                    cancelButton: () {
-                                      Navigator.pop(context);
-                                    },
-                                    cancelButtonMessage: 'Batalkan',
-                                    mainButtonMessage: "Simpan",
-                                    colorMainButton: bluePrimaryMain,
-                                  ),
-                                );
-                              },
-                            );
+                           createBebanKerjaBloc.add(SendBebanKerjaEvent(state.item));
                           },
                         );
                       },

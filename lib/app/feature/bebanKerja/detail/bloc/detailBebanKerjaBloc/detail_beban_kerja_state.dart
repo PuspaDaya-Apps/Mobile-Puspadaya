@@ -28,4 +28,4 @@ final class DetailBebanKerjaFailedState extends DetailBebanKerjaState {
   const DetailBebanKerjaFailedState(this.error);
 }
 
-final class DetailPengukuanAnakTokenExpiredState extends DetailBebanKerjaState {}
+final class DetailBebanKerjaTokenExpiredState extends DetailBebanKerjaState {}

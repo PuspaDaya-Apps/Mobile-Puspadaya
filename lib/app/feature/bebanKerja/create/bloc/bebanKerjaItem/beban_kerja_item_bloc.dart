@@ -32,102 +32,200 @@ class BebanKerjaItemBloc extends Bloc<BebanKerjaItemEvent, BebanKerjaItemState> 
         final GetBebanKerjaItemResponseModel getBebanKerjaItemResponseModel = GetBebanKerjaItemResponseModel.fromJson(response[1]);
 
         if(statusCode == 200) {
-          // temp
-          List<Jobitems> administrasi = [];
-          List<Jobitems> keterampilanBayidanBalitaTugasLainnya = [];
-          List<Jobitems> keterampilanIbuHamilDanMenyusui = [];
-          List<Jobitems> tambahan = [];
-          List<Jobitems> tugasLainnya = [];
+
+          //! temp
+          // List<Jobitems> administrasi = [];
+          // List<Jobitems> keterampilanBayidanBalita= [];
+          // List<Jobitems> keterampilanIbuHamilDanMenyusui = [];
+          // List<Jobitems> keterampilan = [];
+          // List<Jobitems> tambahan = [];
+          // List<Jobitems> tugasTambahan = [];
+
+          // List<Data> temp = getBebanKerjaItemResponseModel.data!;
+
+          // for (var value in temp) {
+          //   if(value.kategori == "Administrasi") {
+          //     administrasi.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          //   if(value.kategori == "Keterampilan Bayi dan Balita") {
+          //     keterampilanBayidanBalita.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          //   if(value.kategori == "Keterampilan Ibu Hamil dan Menyusui") {
+          //     keterampilanIbuHamilDanMenyusui.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          //   if(value.kategori == "Keterampilan") {
+          //     keterampilan.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          //   if(value.kategori == "Tambahan") {
+          //     tambahan.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          //   if(value.kategori == "Tugas Tambahan") {
+          //     tugasTambahan.add(
+          //       Jobitems(
+          //         id: value.id,
+          //         label: value.namakompetensi,
+          //         bobot: value.bobotNilai,
+          //         status: false,
+          //       )
+          //     );
+          //   }
+          // }
+
+          // emit(BebanKerjaItemSuccessState(
+          //   [
+          //     Jobitems(
+          //       label: "Administrasi", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: administrasi,
+          //     ),
+          //     Jobitems(
+          //       label: "Keterampilan Bayi dan Balita", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: keterampilanBayidanBalita,
+          //     ),
+          //     Jobitems(
+          //       label: "Keterampilan Ibu Hamil dan Menyusui", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: keterampilanIbuHamilDanMenyusui,
+          //     ),
+          //     Jobitems(
+          //       label: "Keterampilan", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: keterampilan,
+          //     ),
+          //     Jobitems(
+          //       label: "Tambahan", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: tambahan,
+          //     ),
+          //     Jobitems(
+          //       label: "Tugas Tambahan", 
+          //       status: false,
+          //       isExpanded: false,
+          //       subItems: tugasTambahan,
+          //     ),
+          //   ]
+          // ));
+
+          //!||||||||||||||||||||||||||||||| 
+          List<Jobitems> balita = [];
+          List<Jobitems> ibuHamilDanMenyususui = [];
+          List<Jobitems> kunjunganRumah = [];
+          List<Jobitems> tugasTambahan = [];
 
           List<Data> temp = getBebanKerjaItemResponseModel.data!;
 
           for (var value in temp) {
-            if(value.tipeTugas == "Administrasi") {
-              administrasi.add(
+            if(value.jenisKompetensi == "Balita") {
+              balita.add(
                 Jobitems(
                   id: value.id,
-                  label: value.namaTugas,
-                  bobot: value.bobot,
+                  label: value.namakompetensi,
+                  bobot: value.bobotNilai,
                   status: false,
                 )
               );
             }
-            if(value.tipeTugas == "Keterampilan Bayi dan Balita Tugas Lainnya") {
-              keterampilanBayidanBalitaTugasLainnya.add(
+            if(value.jenisKompetensi == "Ibu Hamil dan Menyusui") {
+              ibuHamilDanMenyususui.add(
                 Jobitems(
                   id: value.id,
-                  label: value.namaTugas,
-                  bobot: value.bobot,
+                  label: value.namakompetensi,
+                  bobot: value.bobotNilai,
                   status: false,
                 )
               );
             }
-            if(value.tipeTugas == "Keterampilan Ibu Hamil dan Menyusui") {
-              keterampilanIbuHamilDanMenyusui.add(
+            if(value.jenisKompetensi == "Kunjungan Rumah") {
+              kunjunganRumah.add(
                 Jobitems(
                   id: value.id,
-                  label: value.namaTugas,
-                  bobot: value.bobot,
+                  label: value.namakompetensi,
+                  bobot: value.bobotNilai,
                   status: false,
                 )
               );
             }
-            if(value.tipeTugas == "Tambahan") {
-              tambahan.add(
+            if(value.jenisKompetensi == "Tugas Tambahan") {
+              tugasTambahan.add(
                 Jobitems(
                   id: value.id,
-                  label: value.namaTugas,
-                  bobot: value.bobot,
+                  label: value.namakompetensi,
+                  bobot: value.bobotNilai,
                   status: false,
                 )
               );
             }
-            if(value.tipeTugas == "Tugas Lainnya") {
-              tugasLainnya.add(
-                Jobitems(
-                  id: value.id,
-                  label: value.namaTugas,
-                  bobot: value.bobot,
-                  status: false,
-                )
-              );
-            }
-          }
+          } 
 
-          emit(BebanKerjaItemSuccessState(
-            [
+          emit(BebanKerjaItemSuccessState([
               Jobitems(
-                label: "Administrasi", 
+                label: "Balita", 
                 status: false,
                 isExpanded: false,
-                subItems: administrasi,
+                subItems: balita,
               ),
               Jobitems(
-                label: "Keterampilan Bayi dan Balita Tugas Lainnya", 
+                label: "Ibu Hamil dan Menyusui", 
                 status: false,
                 isExpanded: false,
-                subItems: keterampilanBayidanBalitaTugasLainnya,
+                subItems: ibuHamilDanMenyususui,
               ),
               Jobitems(
-                label: "Keterampilan Ibu Hamil dan Menyusui", 
+                label: "Kunjungan Rumah ", 
                 status: false,
                 isExpanded: false,
-                subItems: keterampilanIbuHamilDanMenyusui,
+                subItems: kunjunganRumah,
               ),
               Jobitems(
-                label: "Tambahan", 
+                label: "Tugas Tambahan", 
                 status: false,
                 isExpanded: false,
-                subItems: tambahan,
-              ),
-              Jobitems(
-                label: "Tugas Lainnya", 
-                status: false,
-                isExpanded: false,
-                subItems: tugasLainnya,
+                subItems: tugasTambahan,
               ),
             ]
           ));
+        
         } else if (statusCode == 401) {
           emit(BebanKerjaItemTokenExpiredState());
         } else {

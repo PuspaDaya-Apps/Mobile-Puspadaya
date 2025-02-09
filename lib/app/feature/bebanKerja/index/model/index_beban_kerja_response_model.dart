@@ -47,12 +47,10 @@ class PenugasanKader {
   String id;
   DateTime bulan;
   @JsonKey(name: 'tugas_kader')
-  TugasKader tugasKader;
 
   PenugasanKader({
     required this.id,
     required this.bulan,
-    required this.tugasKader
   });
 
   factory PenugasanKader.fromJson(Map<String, dynamic> json) => _$PenugasanKaderFromJson(json);
@@ -60,26 +58,6 @@ class PenugasanKader {
   Map<String, dynamic> toJson()=>_$PenugasanKaderToJson(this);
 }
 
-// @JsonSerializable()
-class TugasKader {
-  String id;
-  @JsonKey(name: 'nama_tugas')
-  String namaTugas;
-  int bobot;
-  @JsonKey(name: 'tipe_tugas')
-  String tipeTugas;
-
-  TugasKader({
-    required this.id,
-    required this.namaTugas,
-    required this.bobot,
-    required this.tipeTugas
-  });
-
-  factory TugasKader.fromJson(Map<String, dynamic> json) => _$TugasKaderFromJson(json);
-
-  Map<String, dynamic> toJson()=>_$TugasKaderToJson(this);
-}
 
 // @JsonSerializable()
 class Meta {
@@ -142,30 +120,12 @@ PenugasanKader _$PenugasanKaderFromJson(Map<String, dynamic> json) =>
     PenugasanKader(
       id: json['id'] as String,
       bulan: DateTime.parse(json['bulan'] as String),
-      tugasKader:
-          TugasKader.fromJson(json['tugas_kader'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PenugasanKaderToJson(PenugasanKader instance) =>
     <String, dynamic>{
       'id': instance.id,
       'bulan': instance.bulan.toIso8601String(),
-      'tugas_kader': instance.tugasKader,
-    };
-
-TugasKader _$TugasKaderFromJson(Map<String, dynamic> json) => TugasKader(
-      id: json['id'] as String,
-      namaTugas: json['nama_tugas'] as String,
-      bobot: (json['bobot'] as num).toInt(),
-      tipeTugas: json['tipe_tugas'] as String,
-    );
-
-Map<String, dynamic> _$TugasKaderToJson(TugasKader instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'nama_tugas': instance.namaTugas,
-      'bobot': instance.bobot,
-      'tipe_tugas': instance.tipeTugas,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
