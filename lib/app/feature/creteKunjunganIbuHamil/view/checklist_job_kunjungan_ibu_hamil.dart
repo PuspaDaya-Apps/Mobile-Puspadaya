@@ -141,15 +141,11 @@ class _CheckListJobKunjunganIbuHamilViewState
   List<CheckboxKunjungan> listOfCheckbox = [
     CheckboxKunjungan(
       isChecked: false,
-      label: 'Pemberian Makanan Tambahan (PMT)',
+      label: 'Pemberian Makanan Tambahan',
     ),
     CheckboxKunjungan(
       isChecked: false,
-      label: 'Manfaat PMT',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Anak Tidak Berada di Rumah',
+      label: 'Ibu Tidak Berada di Rumah',
     ),
   ];
 

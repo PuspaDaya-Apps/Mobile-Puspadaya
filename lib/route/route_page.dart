@@ -55,7 +55,7 @@ import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.da
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
-import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_tamu.dart';
+import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
@@ -199,29 +199,31 @@ class MyRoute {
             builder: (context) => const CreatePengukuranIbuHamil(),
             settings: settings);
 
-      case DETAIL_PENGUKURAN_IBU_HAMIL:
-        return MaterialPageRoute(
-            builder: (context) => const DetailPengukuranIbuHamil(),
-            settings: settings);
+      // case DETAIL_PENGUKURAN_IBU_HAMIL:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const DetailPengukuranIbuHamil(),
+      //       settings: settings);
 
       case UPDATE_PENGUKURAN_IBU_HAMIL:
         return MaterialPageRoute(
             builder: (context) => const UpdatePengukuranIbuHamil(),
             settings: settings);
 
-      case DETAIL_RIWAYAT_ANAK:
-        final id = settings.arguments as String? ?? '';
-        return MaterialPageRoute(
-            builder: (context) => DetailRiwayatBalita(id: id,),
-            settings: settings);
+      // case DETAIL_RIWAYAT_ANAK:
+      //   final id = settings.arguments as String? ?? '';
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailRiwayatBalita(
+      //             id: id,
+      //           ),
+      //       settings: settings);
 
-      case DETAIL_RIWAYAT_IBU_HAMIL:
-        final id = settings.arguments as String? ?? '';
-        return MaterialPageRoute(
-            builder: (context) => DetailRiwayatIbuHamil(
-                  id: id,
-                ),
-            settings: settings);
+      // case DETAIL_RIWAYAT_IBU_HAMIL:
+      //   final id = settings.arguments as String? ?? '';
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailRiwayatIbuHamil(
+      //             id: id,
+      //           ),
+      //       settings: settings);
 
       //beban kerja
       case BEBAN_KERJA:
@@ -324,17 +326,18 @@ class MyRoute {
         );
 
       case UPDATE_REGISTER_ORANG_TUA:
+        final ayahId = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterOrangTua(),
+          builder: (context) => UpdateRegisterOrangTua(
+            ayahId: ayahId,
+          ),
           settings: settings,
         );
+
       case DETAIL_REGISTER_ORANG_TUA:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final ayahId = args['ayahId'] ?? '';
-        final ibuId = args['ibuId'] ?? '';
+        final ayahId = settings.arguments as String? ?? '';
         return MaterialPageRoute(
           builder: (context) => DetailRegisterOrangTua(
-            ibuId: ibuId,
             ayahId: ayahId,
           ),
           settings: settings,
@@ -447,37 +450,37 @@ class MyRoute {
           settings: settings,
         );
 
-      case DETAIL_MONITORING_STUNTING:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringStunting(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_STUNTING:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringStunting(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_UNDER_WEIGHT:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringUnderWeight(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_UNDER_WEIGHT:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringUnderWeight(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_WASTING:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringWasting(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_WASTING:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringWasting(id: id),
+      //     settings: settings,
+      //   );
 
-      case DETAIL_MONITORING_IBU_HAMIL:
-        final String id =
-            settings.arguments as String; // Cast directly to String
-        return MaterialPageRoute(
-          builder: (context) => DetailMonitoringIbuHamil(id: id),
-          settings: settings,
-        );
+      // case DETAIL_MONITORING_IBU_HAMIL:
+      //   final String id =
+      //       settings.arguments as String; // Cast directly to String
+      //   return MaterialPageRoute(
+      //     builder: (context) => DetailMonitoringIbuHamil(id: id),
+      //     settings: settings,
+      //   );
 
       //? AnggotaKader
       case REGISTER_ANGGOTA_KADER:
@@ -502,7 +505,6 @@ class MyRoute {
           settings: settings,
         );
 
-
       // ? paramter gizi
 
       case PARAMETER_GIZI:
@@ -517,7 +519,7 @@ class MyRoute {
           settings: settings,
         );
 
-        //! eppgbm
+      //! eppgbm
       case EPPGBM:
         return MaterialPageRoute(
           builder: (context) => const E_PPGBM(),

@@ -63,6 +63,7 @@ class _DetailKunjunganIbuHamilOnGoingViewState
         .toList();
 
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: 'Detail Kunjungan Ibu Hamil',
         background: Colors.white,
