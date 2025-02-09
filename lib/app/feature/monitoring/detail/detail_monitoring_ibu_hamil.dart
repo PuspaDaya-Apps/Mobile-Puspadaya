@@ -40,7 +40,7 @@ class _DetailMonitoringIbuHamilViewState
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Detail Monitoring Wasting',
+        title: 'Detail Monitoring Ibu Hamil',
         onBackPressed: () {
           Navigator.pop(context);
         },

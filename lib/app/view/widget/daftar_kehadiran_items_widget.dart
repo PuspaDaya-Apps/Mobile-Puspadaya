@@ -36,12 +36,25 @@ class DaftarKehadiranItems extends StatelessWidget {
                 color: bluePrimary50,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Text(
-                '$location, $date',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '$location',
+                    style: AppTextStyles.primaryTextMedium.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '$date',
+                    style: AppTextStyles.primaryTextMedium.copyWith(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
             RichText(

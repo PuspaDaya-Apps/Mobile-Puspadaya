@@ -55,10 +55,14 @@ class Data {
   final String alamat;
   @JsonKey(name: "ibu_anak")
   final IbuAnak ibuAnak;
+  @JsonKey(name: "posyandu")
+  final Posyandu? posyandu;
+
   @JsonKey(name: "pengukuran_ibu_hamil")
   final List<dynamic> pengukuranIbuHamil;
 
   Data({
+    this.posyandu,
     required this.alamat,
     required this.id,
     required this.createdAt,
@@ -82,6 +86,36 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+@JsonSerializable()
+class Posyandu {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final dynamic deletedAt;
+  @JsonKey(name: "nama_posyandu")
+  final String namaPosyandu;
+  @JsonKey(name: "alamat")
+  final dynamic alamat;
+
+  Posyandu({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaPosyandu,
+    required this.alamat,
+  });
+
+  factory Posyandu.fromJson(Map<String, dynamic> json) =>
+      _$PosyanduFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PosyanduToJson(this);
 }
 
 @JsonSerializable()
