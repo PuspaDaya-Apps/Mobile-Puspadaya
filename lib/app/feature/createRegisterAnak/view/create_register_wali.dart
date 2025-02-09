@@ -169,7 +169,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -207,8 +207,13 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
           child: BlocBuilder<AlamatBloc, AlamatState>(
             builder: (context, state) {
               if (state is AlamatLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: bluePrimaryMain,
+                    ),
+                  ),
                 );
               } else if (state is AlamatFailure) {
                 return Center(
@@ -291,7 +296,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           controller: _namaController,
                           hintText: 'Masukan Nama',
                           isPasswordField: false,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.text,
                           obscureText: false,
                           validators: [
                             (value) => Validator.required(

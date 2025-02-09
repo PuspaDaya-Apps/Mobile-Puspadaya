@@ -120,7 +120,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   Future<void> _selectDateAyah(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -199,7 +199,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   Future<void> _selectDateIbu(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -223,8 +223,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
-    DateTime initialDate = now; // Set initial date to the year 1945
-    DateTime firstDate = DateTime(2000); // Set the first date to the year 1945
+    DateTime initialDate =DateTime(2010); // Set initial date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -446,7 +446,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           controller: namaAyahController,
                                           hintText: 'Masukan Nama',
                                           isPasswordField: false,
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.text,
                                           obscureText: false,
                                           validators: [
                                             (value) => Validator.required(value,
