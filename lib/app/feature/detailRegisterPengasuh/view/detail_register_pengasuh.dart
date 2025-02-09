@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
+import '../../../../route/route_name.dart';
+import '../../../model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
@@ -54,6 +56,8 @@ class _DetailRegisterPengasuhViewState
 
   @override
   Widget build(BuildContext context) {
+    final detailPengasuhBloc =  BlocProvider.of<DetailPengasuhBloc>(context);
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
@@ -317,14 +321,20 @@ class _DetailRegisterPengasuhViewState
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return UpdateRegisterDataWali();
-                              },
-                            ),
-                          );
+                          Navigator.pushNamed(
+                            context, 
+                            UPDATE_REGISTER_PENGASUH, 
+                            arguments: PaketToUpdatePengasuhModel(
+                              idPengasuh: widget.idPengasuh, 
+                              detailPengasuhResponseModel: state.detailPengasuhResponseModel
+                            )
+                          ).then((value) {
+                            if(value != null) {
+                              detailPengasuhBloc.add(
+                                GetDetailPengasuh(widget.idPengasuh)
+                              );
+                            }
+                          });
                         },
                       ),
                     ],
