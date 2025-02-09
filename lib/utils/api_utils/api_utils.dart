@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+
+import 'parameter_query.dart';
+
 part 'api_name.dart';
 
 class ApiUtils {
@@ -66,9 +72,12 @@ class ApiUtils {
   }
 
   //!Orang Tua
-  Uri urlGetListOrangTua() {
+  Uri urlGetListOrangTua({String? search, int? page, int? limit}) {
     String urlGetListOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListOrangTua);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, limit
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListOrangTua, parameterQuery);
   }
 
   Uri urlPostDataOrangTua() {
@@ -88,9 +97,12 @@ class ApiUtils {
   }
 
   //!Anak
-  Uri urlGetListAnak() {
+  Uri urlGetListAnak({String? search, int? page, int? limit}) {
     String urlGetListAnak = LinkApi.ANAKURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListAnak);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListAnak, parameterQuery);
   }
 
   Uri urlPostDataAnak() {
@@ -98,9 +110,12 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlPostDataAnak);
   }
 
-  Uri urlGetAnakPosyandu() {
+  Uri urlGetAnakPosyandu({String? search, int? page, int? limit}) {
     String urlGetAnakPosyandu = LinkApi.ANAKPOSYANDUURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetAnakPosyandu);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetAnakPosyandu, parameterQuery);
   }
 
   Uri urlGetDetailAnak(String id) {
@@ -119,9 +134,12 @@ class ApiUtils {
   }
 
   //!Ibu Hamil
-  Uri urlGetListIbuHamil() {
+  Uri urlGetListIbuHamil({String? search, int? page, int? limit}) {
     String urlGetListIbuHamil = LinkApi.IBUHAMILURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListIbuHamil);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListIbuHamil, parameterQuery);
   }
 
   Uri urlPostDataIbuHamil() {
@@ -140,14 +158,22 @@ class ApiUtils {
   }
 
   //!Pengasuh
-  Uri urlGetListPengasuh() {
-    String urlGetListIbuHamil = LinkApi.IBUHAMILURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListIbuHamil);
+  Uri urlGetListPengasuh({String? search, int? page, int? limit}) {
+    String urlGetListPengasuh = LinkApi.PENGASUHURL;
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengasuh, parameterQuery);
+    // return Uri.parse(_baseUrl + _apiVersion + urlGetListPengasuh);
   }
 
-  Uri urlGetPengasuhPosyandu() {
+  Uri urlGetPengasuhPosyandu({String? search, int? page, int? limit}) {
     String urlGetPengasuhPosyandu = LinkApi.PENGASUHPOSYANDUURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetPengasuhPosyandu);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetPengasuhPosyandu, parameterQuery);
+    // return Uri.parse(_baseUrl + _apiVersion + urlGetPengasuhPosyandu);
   }
 
   Uri urlGetDetailPengasuh(String id) {
@@ -161,9 +187,12 @@ class ApiUtils {
   }
 
   //!Alat Ukur Kader
-  Uri urlGetListAlatUkurKader() {
+  Uri urlGetListAlatUkurKader({String? search, int? page, int? limit}) {
     String urlGetListAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListAlatUkurKader);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListAlatUkurKader, parameterQuery);
   }
 
   Uri urlPostDataAlatUkurKader() {
@@ -187,9 +216,12 @@ class ApiUtils {
   }
 
   //!Jadwal Posyandu
-  Uri urlGetListJadwalPosyandu() {
+  Uri urlGetListJadwalPosyandu({String? search, int? page, int? limit}) {
     String urlGetListJadwalPosyandu = LinkApi.JADWALPOSYANDU;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListJadwalPosyandu);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListJadwalPosyandu, parameterQuery);
   }
 
   Uri urlPostDataJadwalPosyandu() {
@@ -208,9 +240,12 @@ class ApiUtils {
   }
 
   //!Kehadiran Posyandu
-  Uri urlGetListKehadiranPosyandu() {
+  Uri urlGetListKehadiranPosyandu({String? search, int? page, int? limit}) {
     String urlGetListKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListKehadiranPosyandu);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListKehadiranPosyandu, parameterQuery);
   }
 
   Uri urlPostDataKehadiranPosyandu() {
@@ -235,9 +270,12 @@ class ApiUtils {
   }
 
   //!Pengukuran Anak
-  Uri urlGetListPengukuranAnak() {
+  Uri urlGetListPengukuranAnak({String? search, int? page, int? limit}) {
     String urlGetListPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListPengukuranAnak);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengukuranAnak, parameterQuery);
   }
 
   Uri urlPostDataPengukuranAnak() {
@@ -261,9 +299,12 @@ class ApiUtils {
   }
 
   //!Pengukuran Ibu Hamil
-  Uri urlGetListPengukuranIbuHamil() {
+  Uri urlGetListPengukuranIbuHamil({String? search, int? page, int? limit}) {
     String urlGetListPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListPengukuranIbuHamil);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengukuranIbuHamil, parameterQuery);
   }
 
   Uri urlPostDataPengukuranIbuHamil() {
@@ -292,33 +333,48 @@ class ApiUtils {
   //   alamat
 
   // provinsi
-  Uri urlGetProvinsi() {
+  Uri urlGetProvinsi({String? search, int? page, int? limit}) {
     String urlGetProvinsi = LinkApi.PROVINSIURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetProvinsi);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetProvinsi, parameterQuery);
   }
 
   // kabupaten
-  Uri urlGetKabupaten() {
+  Uri urlGetKabupaten({String? search, int? page, int? limit}) {
     String urlGetKabupaten = LinkApi.KABUPATENURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetKabupaten);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetKabupaten, parameterQuery);
   }
 
   // kecamatan
-  Uri urlGetKecamatan() {
+  Uri urlGetKecamatan({String? search, int? page, int? limit}) {
     String urlGetKecamatan = LinkApi.KECAMATANURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetKecamatan);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetKecamatan, parameterQuery);
   }
 
   // desa kelurahan
-  Uri urlGetDesaKelurahan() {
+  Uri urlGetDesaKelurahan({String? search, int? page, int? limit}) {
     String urlGetDesaKelurahan = LinkApi.DESAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetDesaKelurahan);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetDesaKelurahan, parameterQuery);
   }
 
   // dusun
-  Uri urlGetDusun() {
+  Uri urlGetDusun({String? search, int? page, int? limit}) {
     String urlGetDusun = LinkApi.DUSUNURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetDusun);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetDusun, parameterQuery);
   }
 
   //!Beban Kerja
@@ -327,9 +383,12 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlGetBebanKerjaKader);
   }
 
-  Uri urlGetListBebanKerja() {
+  Uri urlGetListBebanKerja({String? search, int? page, int? limit}) {
     String urlGetListBebanKerja = LinkApi.PENILAIANMANDIRIURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetListBebanKerja);
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListBebanKerja, parameterQuery);
   }
 
   Uri urlPostDataBebanKerja() {
