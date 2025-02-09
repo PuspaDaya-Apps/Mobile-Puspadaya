@@ -4,8 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/model/create_anak_model.dart';
-import 'package:puspadaya/app/feature/registerOrangTua/bloc/register_orang_tua_bloc.dart';
-
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
@@ -22,7 +21,6 @@ import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../registerOrangTua/model/orang_tua_item_model.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
 import '../cubit/search_kk_cubit.dart';
 import 'create_register_wali.dart';
@@ -189,6 +187,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
 
     return randomDigits.toString();
   }
+
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
@@ -379,7 +378,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           height: 2,
                           color: Colors.black54,
                         ),
-                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),const Text(
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                        const Text(
                           'NIK',
                           style: TextStyle(
                             fontSize: 12,
@@ -388,7 +388,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         // SizedBox(
                         //   height: SizeConfig.calHeightMultiplier(8),
                         // ),
-                        
+
                         Row(
                           spacing: 8,
                           crossAxisAlignment: CrossAxisAlignment.center,
