@@ -207,7 +207,7 @@ class _UpdateRegisterPengasuhViewState
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -312,7 +312,7 @@ class _UpdateRegisterPengasuhViewState
                         TextFieldWidget(
                             controller: _nikController,
                             hintText: 'Nomor Kartu keluarga',
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             obscureText: false,
                             isPasswordField: false),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -328,7 +328,7 @@ class _UpdateRegisterPengasuhViewState
                         TextFieldWidget(
                             controller: _nikController,
                             hintText: 'NIK',
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             obscureText: false,
                             isPasswordField: false),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -502,7 +502,7 @@ class _UpdateRegisterPengasuhViewState
                                 controller: _rTWaliController,
                                 hintText: 'RT',
                                 isPasswordField: false,
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [],
                               ),
@@ -512,7 +512,7 @@ class _UpdateRegisterPengasuhViewState
                                 controller: _rWWaliController,
                                 hintText: 'RW',
                                 isPasswordField: false,
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [],
                               ),
