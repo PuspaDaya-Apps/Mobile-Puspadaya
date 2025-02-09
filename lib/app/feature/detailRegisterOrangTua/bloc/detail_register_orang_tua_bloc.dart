@@ -24,8 +24,7 @@ class DetailRegisterOrangTuaBloc
     }
     try {
       String ayahId = event.ayahId;
-      String ibuId = event.ibuId;
-      logger.d('ayah = ${ayahId}, ibu = ${ibuId}');
+      logger.d('ayah = ${ayahId},');
       List<dynamic> responseDetail =
           await RegisterOrangTuaApi().getDetailAyahIbu(
         token: accesTokenValue!,
@@ -36,8 +35,8 @@ class DetailRegisterOrangTuaBloc
       // logger.d('response code detail ${responseDetail[1]}');
       // logger.d('response code detail ${getOrangtuaDetailResponse}');
       if (statusCodeDetail == 200) {
-        final GetOrangtuaDetailResponse getOrangtuaDetailResponse =
-            GetOrangtuaDetailResponse.fromJson(responseDetail[1]);
+        final GetOrangtuaDetailResponseModel getOrangtuaDetailResponse =
+            GetOrangtuaDetailResponseModel.fromJson(responseDetail[1]);
         logger.d(
             'status code Detail is 200 ${getOrangtuaDetailResponse.data.ayah}');
         emit(

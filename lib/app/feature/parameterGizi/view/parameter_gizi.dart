@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/dropdown_widget.dart'; // Assuming you have this file
 import 'package:data_table_2/data_table_2.dart';
+
+import '../cubit/parameter_gizi_cubit.dart';
 
 class ParameterGizi extends StatelessWidget {
   const ParameterGizi({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ParameterGiziView();
+    return BlocProvider(
+      create: (context) => ParameterGiziCubit(),
+      child: ParameterGiziView(),
+    );
   }
 }
 
@@ -77,6 +84,11 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                               setState(() {
                                 selectedJenisKelamin = value;
                               });
+                              // Trigger loading if both selections are made
+                              if (selectedSatuan != null) {
+                                context.read<ParameterGiziCubit>().selectGender(
+                                    selectedJenisKelamin!, selectedSatuan!);
+                              }
                             },
                           ),
                         ],
@@ -99,6 +111,11 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                               setState(() {
                                 selectedSatuan = value;
                               });
+                              // Trigger loading if both selections are made
+                              if (selectedJenisKelamin != null) {
+                                context.read<ParameterGiziCubit>().selectGender(
+                                    selectedJenisKelamin!, selectedSatuan!);
+                              }
                             },
                           ),
                         ],
@@ -107,114 +124,119 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                   ],
                 ),
                 SizedBox(height: 16),
-                ButtonPrimary(
-                  color: greenPrimaryMain,
-                  mainButtonMessage: 'Download',
-                  mainButton: () {},
-                ),
-                SizedBox(height: 16),
                 Center(
                   child: Text(
                     '${selectedSatuan ?? ' '} ${selectedSatuan == 'Tinggi Badan' ? '(Cm)' : selectedSatuan == 'Berat Badan' ? '(Kg)' : 'Silahkan Pilih Satuan'}',
                   ),
                 ),
                 SizedBox(height: 16),
-                // Set a fixed height for the DataTable2
-                Container(
-                  height: MediaQuery.sizeOf(context).height /
-                      2, // Set a height that fits your design
-                  child: DataTable2(
-                    columnSpacing: 12,
-                    horizontalMargin: 12,
-                    minWidth: 900,
-                    columns: const [
-                      DataColumn2(
-                        size: ColumnSize.S,
-                        label: Text('Day'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.S,
-                        label: Text('L'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('M'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('S'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD4neg'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD3neg'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD2neg'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD1neg'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD0'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD1'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD2'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD3'),
-                        numeric: true,
-                      ),
-                      DataColumn2(
-                        size: ColumnSize.M,
-                        label: Text('SD4'),
-                        numeric: true,
-                      ),
-                    ],
-                    rows: [
-                      DataRow(cells: [
-                        DataCell(
-                          Text('0')
-                        ),
-                        DataCell(Text(' 1')),
-                        DataCell(Text('49,8842')),
-                        DataCell(Text('0,03795')),
-                        DataCell(Text('42,312')),
-                        DataCell(Text('44,205')),
-                        DataCell(Text('46,098')),
-                        DataCell(Text('47,991')),
-                        DataCell(Text('49,884')),
-                        DataCell(Text('51,777')),
-                        DataCell(Text('53,67')),
-                        DataCell(Text('55,564')),
-                        DataCell(Text('57,457')),
-                      ]),
-                    ],
+                // Conditional rendering of the DataTable
+                if (selectedJenisKelamin != null && selectedSatuan != null)
+                  BlocBuilder<ParameterGiziCubit, ParameterGiziState>(
+                    builder: (context, state) {
+                      if (state is ParameterGiziLoading) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (state is ParameterGiziLoaded) {
+                        return Container(
+                          height: MediaQuery.sizeOf(context).height / 1.68,
+                          child: DataTable2(
+                            columnSpacing: 12,
+                            horizontalMargin: 12,
+                            minWidth: 900,
+                            columns: const [
+                              DataColumn2(
+                                size: ColumnSize.S,
+                                label: Text('Day'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.S,
+                                label: Text('L'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('M'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('S'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD4neg'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD3neg'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD2neg'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD1neg'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD0'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD1'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD2'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD3'),
+                                numeric: true,
+                              ),
+                              DataColumn2(
+                                size: ColumnSize.M,
+                                label: Text('SD4'),
+                                numeric: true,
+                              ),
+                            ],
+                            rows: state.data.data.map<DataRow>((item) {
+                              return DataRow(cells: [
+                                DataCell(Text(item.day.toString())),
+                                DataCell(Text(item.l.toString())),
+                                DataCell(Text(item.m.toString())),
+                                DataCell(Text(item.s.toString())),
+                                DataCell(Text(item.sd4Neg.toString())),
+                                DataCell(Text(item.sd3Neg.toString())),
+                                DataCell(Text(item.sd2Neg.toString())),
+                                DataCell(Text(item.sd1Neg.toString())),
+                                DataCell(Text(item.sd0.toString())),
+                                DataCell(Text(item.sd1.toString())),
+                                DataCell(Text(item.sd2.toString())),
+                                DataCell(Text(item.sd3.toString())),
+                                DataCell(Text(item.sd4.toString())),
+                              ]);
+                            }).toList(),
+                          ),
+                        );
+                      } else if (state is ParameterGiziError) {
+                        return Center(
+                          child: Text('Error loading data: ${state.message}'),
+                        );
+                      }
+                      return Container(); // Return an empty container if no state matches
+                    },
                   ),
-                ),
               ],
             ),
           ),

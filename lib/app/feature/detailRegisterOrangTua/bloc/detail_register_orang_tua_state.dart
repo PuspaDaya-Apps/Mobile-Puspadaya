@@ -12,7 +12,7 @@ final class DetailRegisterOrangTuaInitial extends DetailRegisterOrangTuaState {}
 final class DetailRegisterOrangTuaLoading extends DetailRegisterOrangTuaState {}
 
 final class DetailRegisterOrangTuaSuccess extends DetailRegisterOrangTuaState {
-  final GetOrangtuaDetailResponse getOrangTuaDetailResponse;
+  final GetOrangtuaDetailResponseModel getOrangTuaDetailResponse;
   // final String name;
 
   const DetailRegisterOrangTuaSuccess(

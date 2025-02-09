@@ -116,10 +116,7 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                                 Navigator.pushNamed(
                                   context,
                                   DETAIL_REGISTER_ORANG_TUA,
-                                  arguments: {
-                                    'ayahId': orangTua.ayahId,
-                                    'ibuId': orangTua.ibuId,
-                                  },
+                                  arguments: orangTua.ayahId,
                                 );
                               },
                               kk: orangTua.kk,

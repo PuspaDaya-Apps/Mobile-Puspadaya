@@ -1,20 +1,19 @@
-import 'dart:io';
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/utils/download_utils/download_utils.dart';
+import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../utils/logger/logger.dart';
-import 'package:http/http.dart' as http;
 import '../../../view/widget/alert_dialog_content.dart';
 import '../../../view/widget/card_rapor.dart';
 import '../../../view/widget/dropdown_widget.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'card_rapor_item_model.dart';
 
 class Laporan extends StatelessWidget {
   const Laporan({super.key});
@@ -52,7 +51,32 @@ class _LaporanViewState extends State<LaporanView> {
   List<String> selectTahun = ['2023', '2024', '2025'];
   String? selectedBulan;
   String? selectedTahun;
-
+  List<CardRaporItemModel> listRaporItem = [
+    CardRaporItemModel(
+      nama: 'Anak',
+      deskripsi: 'Unduh Rekapitulasi data Anak',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Anak',
+    ),
+    CardRaporItemModel(
+      nama: 'Posyandu',
+      deskripsi: 'Unduh Rekapitulasi data Posyandu',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Posyandu',
+    ),
+    CardRaporItemModel(
+      nama: 'Kader',
+      deskripsi: 'Unduh Rekapitulasi data Kader',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Kader',
+    ),
+    CardRaporItemModel(
+      nama: 'Kader',
+      deskripsi: 'Unduh Rekapitulasi data Desa',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Desa',
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,12 +92,13 @@ class _LaporanViewState extends State<LaporanView> {
         child: ListView.builder(
           itemCount: 4,
           itemBuilder: (context, index) {
+            CardRaporItemModel cardItem = listRaporItem[index];
             return Padding(
               padding:
                   const EdgeInsets.only(top: 6, bottom: 6, left: 16, right: 16),
               child: CardRaporWidget(
-                judulRapor: 'Anak',
-                deskripsiRapor: 'Unduh Rekapitulasi data Anak',
+                judulRapor: '${cardItem.nama}',
+                deskripsiRapor: '${cardItem.deskripsi}',
                 onTap: () {
                   showDialog(
                     context: context,
@@ -95,7 +120,8 @@ class _LaporanViewState extends State<LaporanView> {
                                 ),
                               ),
                               SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
+                                height: SizeConfig.calHeightMultiplier(16),
+                              ),
                               DropdownWidget(
                                 hint: "Pilih Bulan",
                                 value: selectedBulan,
@@ -132,7 +158,7 @@ class _LaporanViewState extends State<LaporanView> {
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Bulan harus dipilih'; // Error message for required field
+                                    return 'Tahun harus dipilih'; // Error message for required field
                                   }
                                   return null; // Return null if validation passes
                                 },
@@ -152,7 +178,10 @@ class _LaporanViewState extends State<LaporanView> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return PdfViewRapor(nama: 'Jurnal LLM', path: 'https://arxiv.org/pdf/2307.06435',);
+                                  return PdfViewRapor(
+                                    nama: '${cardItem.judulRapor}',
+                                    path: '${cardItem.url}',
+                                  );
                                 },
                               ),
                             );
@@ -177,7 +206,8 @@ class PdfViewRapor extends StatefulWidget {
   final String nama;
   final String path;
 
-  const PdfViewRapor({Key? key,required this.nama,required this.path}) : super(key: key);
+  const PdfViewRapor({Key? key, required this.nama, required this.path})
+      : super(key: key);
 
   @override
   _PdfViewRaporState createState() => _PdfViewRaporState();
@@ -186,6 +216,7 @@ class PdfViewRapor extends StatefulWidget {
 class _PdfViewRaporState extends State<PdfViewRapor> {
   late PdfViewerController _pdfViewerController;
   final GlobalKey<SfPdfViewerState> _pdfViewerStateKey = GlobalKey();
+  bool _isError = false; // Track if there is an error loading the PDF
 
   @override
   void initState() {
@@ -193,8 +224,6 @@ class _PdfViewRaporState extends State<PdfViewRapor> {
     logger.d('nama ${widget.nama}, path ${widget.path}');
     _pdfViewerController = PdfViewerController();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -206,29 +235,96 @@ class _PdfViewRaporState extends State<PdfViewRapor> {
           Navigator.pop(context);
         },
       ),
-      body: SfPdfViewer.network(
-        widget.path,
-        controller: _pdfViewerController,
-        key: _pdfViewerStateKey,
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: greenPrimaryMain,
-        shape: CircleBorder(),
-        child: Center(
-          child: Icon(
-            size: 24,
-            FluentIcons.arrow_download_24_filled,
-            // Corrected the usage of FontAwesome icon
-            color: Colors.white,
+      body: _isError
+          ? NotFoundPdfScreen()
+          : SfPdfViewer.network(
+              widget.path,
+              controller: _pdfViewerController,
+              key: _pdfViewerStateKey,
+              onDocumentLoadFailed: (details) {
+                setState(() {
+                  _isError = true; // Set error state to true
+                });
+                logger.e('Failed to load PDF: ${details.error}');
+              },
+            ),
+      floatingActionButton: !_isError
+          ? FloatingActionButton(
+              backgroundColor: greenPrimaryMain,
+              shape: CircleBorder(),
+              child: Center(
+                child: Icon(
+                  size: 24,
+                  FluentIcons.arrow_download_24_filled,
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () {
+                DownloadUtils().downloadAndSaveFile(
+                  context,
+                  '${widget.path}',
+                  '${widget.nama}.pdf',
+                );
+              },
+            )
+          : Container(),
+    );
+  }
+}
+
+class NotFoundPdfScreen extends StatelessWidget {
+  const NotFoundPdfScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: SizeConfig.calWidthMultiplier(250),
+                child: Image.asset(
+                  pageNotFoundVector,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+              SizedBox(height: SizeConfig.calHeightMultiplier(20)),
+              Text(
+                'Mohon Maaf, dokumen tidak berhasil ditemukan.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: textPrimary20,
+                  fontSize: SizeConfig.calMultiplierText(20),
+                  fontWeight: FontWeight.w600, // Slightly bolder for emphasis
+                ),
+              ),
+              SizedBox(height: SizeConfig.calHeightMultiplier(10)),
+              Text(
+                'Terdapat masalah saat mencoba mencari dokumen, atau coba lagi nanti',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color:
+                      textPrimary20.withOpacity(0.7), // Slightly lighter color
+                  fontSize: SizeConfig.calMultiplierText(
+                      16), // Smaller font size for the secondary message
+                  fontWeight: FontWeight.w400, // Normal weight
+                ),
+              ),
+              SizedBox(height: SizeConfig.calHeightMultiplier(30)),
+              ButtonPrimary(
+                  color: bluePrimaryMain,
+                  mainButtonMessage: 'Kembali',
+                  mainButton: () {
+                    Navigator.pop(context);
+                  })
+            ],
           ),
         ),
-        onPressed: () {
-          DownloadUtils().downloadAndSaveFile(
-            context,
-            '${widget.path}',
-            '${widget.nama}.pdf',
-          );
-        },
       ),
     );
   }

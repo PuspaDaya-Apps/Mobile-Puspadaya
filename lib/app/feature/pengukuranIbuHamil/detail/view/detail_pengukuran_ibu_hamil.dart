@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_measuring_widget.dart';
@@ -9,18 +10,25 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
+import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
+import 'package:puspadaya/utils/helper/helper_data.dart';
 
 class DetailPengukuranIbuHamil extends StatelessWidget {
-  const DetailPengukuranIbuHamil({super.key});
+  final RiwayatMonitoringIbuHamilModel detailPengukuranIbuHamil;
+  DetailPengukuranIbuHamil({super.key, required this.detailPengukuranIbuHamil});
 
   @override
   Widget build(BuildContext context) {
-    return const DetailPengukuranIbuHamilView();
+    return DetailPengukuranIbuHamilView(
+      detailPengukuranIbuHamil: detailPengukuranIbuHamil,
+    );
   }
 }
 
 class DetailPengukuranIbuHamilView extends StatefulWidget {
-  const DetailPengukuranIbuHamilView({super.key});
+  final RiwayatMonitoringIbuHamilModel detailPengukuranIbuHamil;
+  const DetailPengukuranIbuHamilView(
+      {super.key, required this.detailPengukuranIbuHamil});
 
   @override
   State<DetailPengukuranIbuHamilView> createState() =>
@@ -62,7 +70,8 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '354635284658310023'),
+                InfoFieldWidget(
+                    text: widget.detailPengukuranIbuHamil.data.ibuAnak.nik),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Nama Ibu Hamil',
@@ -73,7 +82,8 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Siti Aisyah'),
+                InfoFieldWidget(
+                    text: widget.detailPengukuranIbuHamil.data.ibuAnak.nama),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Usia Ibu Hamil',
@@ -84,7 +94,11 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '32 Tahun'),
+                InfoFieldWidget(
+                    text: HelperData()
+                        .countAge(widget
+                            .detailPengukuranIbuHamil.data.ibuAnak.tanggalLahir)
+                        .toString()),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Usia Kehamilan',
@@ -95,7 +109,8 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '8 Bulan'),
+                InfoFieldWidget(
+                    text: widget.detailPengukuranIbuHamil.data.usiaKehamilan),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Tempat Pengukuran',
@@ -106,7 +121,9 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Posyandu'),
+                InfoFieldWidget(
+                    text: widget
+                        .detailPengukuranIbuHamil.data.posyandu!.namaPosyandu),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Tanggal Pengukuran',
@@ -117,7 +134,9 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '18/09/2024'),
+                InfoFieldWidget(
+                    text: DateFormat('dd/MM/yyyy').format(widget
+                        .detailPengukuranIbuHamil.data.tanggalTerakhirHaid)),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   spacing: 8,
@@ -134,13 +153,15 @@ class _DetailPengukuranIbuHamilViewState
                             title: 'Tinggi Badan',
                             unit: 'cm',
                             tool: 'Microtoise',
-                            value: '158',
+                            value:
+                                '${widget.detailPengukuranIbuHamil.data.tinggiBadan}',
                           ),
                           InfoFieldMeasuringWidget(
                             title: 'Lengkar Lingan Atas',
                             unit: 'cm',
                             tool: 'Pita Lila',
-                            value: '18.8',
+                            value:
+                                '${widget.detailPengukuranIbuHamil.data.lingkarLenganAtas}',
                           ),
                         ],
                       ),
@@ -155,13 +176,15 @@ class _DetailPengukuranIbuHamilViewState
                             title: 'Berat Badan',
                             unit: 'kg',
                             tool: 'Timbangan digital',
-                            value: '54.9',
+                            value:
+                                '${widget.detailPengukuranIbuHamil.data.beratBadan}',
                           ),
                           InfoFieldMeasuringWidget(
                             title: 'Tinggi Fundus Uteri',
                             unit: 'cm',
                             tool: 'Metline',
-                            value: '50.8',
+                            value:
+                                '${widget.detailPengukuranIbuHamil.data.tinggiFundusUteri}',
                           ),
                         ],
                       ),
@@ -182,7 +205,9 @@ class _DetailPengukuranIbuHamilViewState
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: '14'),
+                      child: InfoFieldWidget(
+                          text:
+                              widget.detailPengukuranIbuHamil.data.hemoglobin),
                     ),
                     Text(
                       'g/dl',
@@ -202,7 +227,9 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '30/05/2024'),
+                InfoFieldWidget(
+                    text: DateFormat('dd/MM/yyyy').format(widget
+                        .detailPengukuranIbuHamil.data.tanggalPertamaHaid)),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Tanggal Terakhir Haid',
@@ -213,7 +240,9 @@ class _DetailPengukuranIbuHamilViewState
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '30/06/2024'),
+                InfoFieldWidget(
+                    text: DateFormat('dd/MM/yyyy').format(widget
+                        .detailPengukuranIbuHamil.data.tanggalTerakhirHaid)),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +261,9 @@ class _DetailPengukuranIbuHamilViewState
                               fontSize: 12,
                             ),
                           ),
-                          InfoFieldWidget(text: 'Iya'),
+                          InfoFieldWidget(
+                              text: widget.detailPengukuranIbuHamil.data
+                                  .terpaparAsapRokok),
                         ],
                       ),
                     ),
@@ -248,7 +279,10 @@ class _DetailPengukuranIbuHamilViewState
                               fontSize: 12,
                             ),
                           ),
-                          InfoFieldWidget(text: '2'),
+                          InfoFieldWidget(
+                              text: widget
+                                  .detailPengukuranIbuHamil.data.jumlahTabletFe
+                                  .toString()),
                         ],
                       ),
                     ),

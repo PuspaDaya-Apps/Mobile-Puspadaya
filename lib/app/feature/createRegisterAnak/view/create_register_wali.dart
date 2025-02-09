@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/logger/logger.dart';
-import '../../../model/paketToScreen/paket_to_create_wali_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -25,7 +24,7 @@ import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.d
     as DesaKelurahanModel;
 import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
     as DusunModel;
-
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamat_bloc.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
@@ -39,14 +38,17 @@ class CreateRegisterWali extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-            BlocProvider(
+      providers: [
+        BlocProvider(
           create: (context) => AlamatBloc(),
-    
         ),
-            BlocProvider.value(value: paket.createAnakBloc,),
-        ],
-              child: CreateRegisterWaliView(paket: paket,),
+        BlocProvider.value(
+          value: paket.createAnakBloc,
+        ),
+      ],
+      child: CreateRegisterWaliView(
+        paket: paket,
+      ),
     );
   }
 }
@@ -219,7 +221,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                 selectDesaKelurahan = state.desaKelurahan;
                 selectDusun = state.dusun;
                 return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -604,23 +607,19 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           bloc: widget.paket.createAnakBloc,
                           listener: (context, state) {
                             debugPrint(state.toString());
-                            if(state is CreateAnakFailedState) {
+                            if (state is CreateAnakFailedState) {
                               showTopSnackBar(
-                                Overlay.of(context),
-                                animationDuration: const Duration(
-                                    milliseconds: 600),
-                                displayDuration: const Duration(
-                                    milliseconds: 2200),
-                                reverseAnimationDuration:
-                                    const Duration(
-                                        milliseconds: 300),
-                                TopSnackbarWidget()
-                                    .error(state.error));
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget().error(state.error));
                             }
-                            if(state is CreateAnakTokenExpiredState) {
-
-                            }
-                            if(state is CreateAnakSuccessState) {
+                            if (state is CreateAnakTokenExpiredState) {}
+                            if (state is CreateAnakSuccessState) {
                               showTopSnackBar(
                                 Overlay.of(context),
                                 animationDuration: const Duration(
@@ -634,18 +633,16 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     .success("Tambah Anak Berhasil"));
                               Navigator.pop(context,1);
                             }
-                             if(state is CreateAnakNullErrorState) {
+                            if (state is CreateAnakNullErrorState) {
                               showTopSnackBar(
-                                Overlay.of(context),
-                                animationDuration: const Duration(
-                                    milliseconds: 600),
-                                displayDuration: const Duration(
-                                    milliseconds: 2200),
-                                reverseAnimationDuration:
-                                    const Duration(
-                                        milliseconds: 300),
-                                TopSnackbarWidget()
-                                    .warning(state.error));
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget().warning(state.error));
                             }
                           },
                           builder: (context, state) {
@@ -654,27 +651,30 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                               mainButtonMessage: 'Selanjutnya',
                               mainButton: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  createAnakBloc.add(
-                                    CreateAnak(
+                                  createAnakBloc.add(CreateAnak(
                                       widget.paket.createAnakModel.copyWith(
-                                        pengasuh: Pengasuh(
-                                          statusHubungan: selectedStatusHubunganDenganAnak!, 
-                                          nik: _nikController.text, 
-                                          namaPengasuh: _namaController.text, 
-                                          tempatLahir: _tempatLahirController.text, 
-                                          tanggalLahir: _tanggalLahirController.text, 
-                                          rt: _rTController.text, 
-                                          rw: _rWController.text, 
-                                          alamatLengkap: _alamatController.text, 
-                                          dusunId: selectedDusunIdWali!, 
-                                          noTelepon: _teleponController.text, 
-                                          golDarah: selectedGolDarahWali!, 
-                                          nomorKartuKeluarga: _kkController.text, 
-                                          disabilitasPengasuh: selectedDisabilityLabelsWali
-                                        )
-                                      )
-                                    )
-                                  );
+                                          pengasuh: Pengasuh(
+                                              statusHubungan:
+                                                  selectedStatusHubunganDenganAnak!,
+                                              nik: _nikController.text,
+                                              namaPengasuh:
+                                                  _namaController.text,
+                                              tempatLahir:
+                                                  _tempatLahirController.text,
+                                              tanggalLahir:
+                                                  _tanggalLahirController.text,
+                                              rt: _rTController.text,
+                                              rw: _rWController.text,
+                                              alamatLengkap:
+                                                  _alamatController.text,
+                                              dusunId: selectedDusunIdWali!,
+                                              noTelepon:
+                                                  _teleponController.text,
+                                              golDarah: selectedGolDarahWali!,
+                                              nomorKartuKeluarga:
+                                                  _kkController.text,
+                                              disabilitasPengasuh:
+                                                  selectedDisabilityLabelsWali))));
                                 } else {
                                   print("Form tidak valid");
                                 }
