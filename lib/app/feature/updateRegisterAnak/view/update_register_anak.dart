@@ -168,8 +168,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
-    DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime initialDate = DateTime(2023); // Set initial date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -264,7 +264,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                   TextFieldWidget(
                       controller: anakKeController,
                       hintText: 'Anak Ke',
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       obscureText: false,
                       isPasswordField: false),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -339,7 +339,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                           children: [
                             MeasurementWidget(
                               title: 'Tinggi Lahir',
-                              hintText: 'contoh: 13,5',
+                              hintText: 'contoh: 38.5',
                               unit: 'cm',
                               controller: heightController,
                             ),
@@ -348,7 +348,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Lengan',
-                              hintText: 'contoh: 3,5',
+                              hintText: 'contoh: 3.5',
                               unit: 'cm',
                               controller: lingkarLenganController,
                             ),
@@ -365,7 +365,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                           children: [
                             MeasurementWidget(
                               title: 'Berat Lahir',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 9.5',
                               unit: 'kg',
                               controller: weightController,
                             ),
@@ -374,7 +374,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Kepala',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'cm',
                               controller: lingkarKepalaController,
                             ),

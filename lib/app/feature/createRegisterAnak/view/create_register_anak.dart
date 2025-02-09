@@ -140,8 +140,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
-    DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime initialDate = DateTime(2023); // Set initial date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -260,7 +260,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             },
                             controller: nomorKKController,
                             style: Theme.of(context).textTheme.bodySmall,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             obscureText: false,
                             decoration: InputDecoration(
                               suffixIcon: const Icon(
@@ -447,7 +447,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         TextFieldWidget(
                             controller: anakKeController,
                             hintText: 'Anak Ke',
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             obscureText: false,
                             isPasswordField: false),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -526,7 +526,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 children: [
                                   MeasurementWidget(
                                     title: 'Tinggi Lahir',
-                                    hintText: 'contoh: 13,5',
+                                    hintText: 'contoh: 37.5',
                                     unit: 'cm',
                                     controller: heightController,
                                   ),
@@ -535,7 +535,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   ),
                                   MeasurementWidget(
                                     title: 'Lingkar Lengan',
-                                    hintText: 'contoh: 3,5',
+                                    hintText: 'contoh: 3.5',
                                     unit: 'cm',
                                     controller: upperArmCircumferenceController,
                                   ),
@@ -552,7 +552,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 children: [
                                   MeasurementWidget(
                                     title: 'Berat Lahir',
-                                    hintText: 'contoh: 6,5',
+                                    hintText: 'contoh: 9.5',
                                     unit: 'kg',
                                     controller: weightController,
                                   ),
@@ -561,7 +561,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   ),
                                   MeasurementWidget(
                                     title: 'Lingkar Kepala',
-                                    hintText: 'contoh: 6,5',
+                                    hintText: 'contoh: 6.5',
                                     unit: 'cm',
                                     controller: headCircumferenceController,
                                   ),
