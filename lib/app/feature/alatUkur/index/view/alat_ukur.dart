@@ -7,7 +7,7 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/card_alat_ukur_widget.dart';
 import '../../../../view/widget/search_text_field_widget.dart';
-import '../../model/alat_ukur_model.dart';
+import '../../model/alat_ukur_Item_model.dart';
 
 class AlatUkur extends StatelessWidget {
   const AlatUkur({super.key});
@@ -27,18 +27,78 @@ class AlatUkurView extends StatefulWidget {
 
 class _AlatUkurViewState extends State<AlatUkurView> {
   TextEditingController _searchController = TextEditingController();
-  List<AlatUkurModel> alatUkur = [
-    AlatUkurModel(
+  List<AlatUkurItemModel> alatUkur = [
+    AlatUkurItemModel(
       id: '1',
-      nama: 'timbangan 1',
-      merek: 'algalo',
-      kondisi: 'baik',
+      nama: 'Timbangan Injak Berat Badan Digital',
+      merek: 'Kenko',
+      kondisi: 'Baik',
     ),
-    AlatUkurModel(
+    AlatUkurItemModel(
       id: '2',
-      nama: 'timbangan 2',
-      merek: 'algalo 2',
-      kondisi: 'baik 2',
+      nama: 'Timbangan Injak Berat Badan Non-Digital',
+      merek: 'Krisbow',
+      kondisi: 'Baik',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Timbangan Bayi Digital',
+      merek: 'Krisbow',
+      kondisi: 'Baik',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Timbangan Bayi Non-Digital',
+      merek: 'Krisbow',
+      kondisi: 'Baik',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Timbangan Dacin',
+      merek: 'Kenko',
+      kondisi: 'Baik',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Alat Ukur Tinggi Badan (Microtoise)',
+      merek: 'Krisbow',
+      kondisi: 'Dimanfaatkan',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Alat Ukur Panjang & Tinggi Badan (Stadiometer)',
+      merek: 'Krisbow',
+      kondisi: 'Dimanfaatkan',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Papan Pengukur Panjang Badan',
+      merek: 'Krisbow',
+      kondisi: 'Rusak',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Pita Lingkar Lengan Atas (LILA) usia 6-59 bulan',
+      merek: 'Krisbow',
+      kondisi: 'Rusak',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Alat Ukur Lingkar Kepala',
+      merek: 'Krisbow',
+      kondisi: 'Rusak',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Metline',
+      merek: 'Krisbow',
+      kondisi: 'Rusak',
+    ),
+    AlatUkurItemModel(
+      id: '3',
+      nama: 'Alat Deteksi Dini Perkembangan (SDIDTK kit)',
+      merek: 'Libra',
+      kondisi: 'Dimanfaatkan',
     ),
   ];
 
@@ -104,9 +164,9 @@ class _AlatUkurViewState extends State<AlatUkurView> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 2, // Ganti dengan data yang diambil
+                  itemCount: alatUkur.length, // Ganti dengan data yang diambil
                   itemBuilder: (context, index) {
-                    final alatUkurItem = alatUkur[index]; //
+                    final AlatUkurItemModel alatUkurItem = alatUkur[index]; //
                     // Ganti dengan data yang diambil
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),

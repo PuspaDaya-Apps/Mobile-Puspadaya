@@ -76,7 +76,6 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-
                 Column(
                   children: alatDeteksiDini.map((alat) {
                     return Row(
@@ -86,19 +85,19 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                           child: CheckboxListWidget(
                             isChecked: alat['isChecked'],
                             label: alat['label'],
-                            onChanged: (value) {
-
-                            },
+                            onChanged: (value) {},
                           ),
                         ),
-                        if (alat['isOther'] == true &&alat['isChecked'] == true) ...[
+                        if (alat['isOther'] == true &&
+                            alat['isChecked'] == true) ...[
                           SizedBox(width: 4), // Jarak antara checkbox dan input
                           Expanded(
                             child: TextField(
                               enabled: alat['isChecked'],
                               controller: _otherController,
                               decoration: const InputDecoration(
-                                border: UnderlineInputBorder(), // Menghilangkan outline
+                                border:
+                                    UnderlineInputBorder(), // Menghilangkan outline
                                 isDense: true, // Memperkecil tinggi input
                               ),
                               style: TextStyle(fontSize: 14),
@@ -109,7 +108,6 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                     );
                   }).toList(),
                 ),
-
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Merek Alat',
@@ -183,6 +181,7 @@ class CheckboxListWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: Row(
+        spacing: 4,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Checkbox(

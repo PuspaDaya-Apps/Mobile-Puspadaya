@@ -48,29 +48,18 @@ class RiwayatAnakItems extends StatelessWidget {
               ),
             ),
             Row(
-              spacing: 4,
+              spacing: 8,
               children: [
-                Expanded(
+                Flexible(
+                  flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "NIK : ",
-                              style: AppTextStyles.primaryTextNormal.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                            TextSpan(
-                              text: nik,
-                              style: AppTextStyles.primaryTextNormal.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        'NIK : ${nik}',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 10,
                         ),
                       ),
                       Text(
@@ -82,59 +71,70 @@ class RiwayatAnakItems extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  height: 35, // Set a fixed height for the divider
-                  width: 2,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Usia',
-                          style: AppTextStyles.secoundaryTextNormal.copyWith(
-                            fontSize: 8,
-                          ),
+                Flexible(
+                  flex: 3,
+                  child: Row(
+                    spacing: 4,
+                    children: [
+                      Container(
+                        height: 35, // Set a fixed height for the divider
+                        width: 2,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(24),
                         ),
-                        RichText(
-                          text: TextSpan(
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextSpan(
-                                text: '2 ',
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 24,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Tahun ',
+                              Text(
+                                'Usia',
                                 style:
                                     AppTextStyles.secoundaryTextNormal.copyWith(
-                                  fontSize: 10,
+                                  fontSize: 8,
                                 ),
                               ),
-                              TextSpan(
-                                text: '11 ',
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 24,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Bulan',
-                                style:
-                                    AppTextStyles.secoundaryTextNormal.copyWith(
-                                  fontSize: 10,
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '${year} ',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Tahun ',
+                                      style: AppTextStyles.secoundaryTextNormal
+                                          .copyWith(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${month} ',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'Bulan',
+                                      style: AppTextStyles.secoundaryTextNormal
+                                          .copyWith(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],

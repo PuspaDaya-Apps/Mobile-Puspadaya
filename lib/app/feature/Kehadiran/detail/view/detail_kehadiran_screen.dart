@@ -29,8 +29,8 @@ class DetailKehadiranScreenView extends StatefulWidget {
   State<DetailKehadiranScreenView> createState() => _DetailKehadiranViewState();
 }
 
-class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with SingleTickerProviderStateMixin {
-
+class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   void initState() {
@@ -48,6 +48,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with Si
     _tabController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +77,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with Si
                       return AlertDialogWidget(
                         title: 'Apakah Anda Yakin?',
                         message:
-                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                            'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                         mainButton: () {
                           Navigator.pop(context);
                           Navigator.pop(context);
@@ -162,7 +163,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView> with Si
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
-                    InfoFieldWidget(text: '07.30'),
+                    InfoFieldWidget(text: '11.40'),
                   ],
                 ),
               ),
