@@ -5,7 +5,8 @@ const String dataNotFoundVector = 'assets/images/data_not_found_vector.png';
 const String logoutVector = 'assets/images/logout_vector.png';
 const String lostConnectionVector = 'assets/images/lost_connection_vector.png';
 const String pageNotFoundVector = 'assets/images/page_not_found_vector.png';
-const String pageUnderDevelopmentVector = 'assets/images/page_under_development_vector.png';
+const String pageUnderDevelopmentVector =
+    'assets/images/page_under_development_vector.png';
 const String logoBig = 'assets/logo/logo_big.png';
 const String logoSmall = 'assets/logo/logo_small.png';
 const String onBoarding1Image = 'assets/images/on_boarding1_image.png';
@@ -39,3 +40,25 @@ const String imageMaintenance = "assets/images/image_maintenance.png";
 const String imageOnProcces = "assets/images/image_on_prosses.png";
 const String imageGrafikPerkembanganAnak =
     "assets/images/grafik_perkembangan_anak.png";
+
+//! alat ukur
+const String imageTimbanganInjakBeratBadanDigital =
+    "assets/images/timbangan_injak_berat_badan_digital.jpeg";
+const String imageTimbanganInjakBeratBadanNonDigital =
+    "assets/images/timbangan_injak_berat_badan_non_digital.jpeg";
+const String imageTimbanganBayiDigital =
+    "assets/images/timbangan_bayi_digital.jpeg";
+const String imageTimbanganBayiNonDigital =
+    "assets/images/timbangan_bayi_non_digital.jpeg";
+const String imageTimbanganDacin = "assets/images/timbangan_dacin.jpeg";
+const String imageAlatUkurBadanMicrotoise =
+    "assets/images/alat_ukur_badan_microtoise.jpeg";
+const String imageAlatUkurPanjangTinggiBadanStadiometer =
+    "assets/images/alat_ukur_panjang_tinggi_badan_stadiometer.jpeg";
+const String imagePapanPengukurPanjangBadan =
+    'assets/images/papan_pengukur_panjang_badan.jpeg';
+const String imagePitLingkarLenganAtas =
+    "assets/images/pita_lingkar_lengan_atas.jpeg";
+const String imageAlatUkurLingkarKepala =
+    "assets/images/alat_ukur_lingkar_kepala.jpeg";
+const String imageMetline = "assets/images/metline.jpeg";

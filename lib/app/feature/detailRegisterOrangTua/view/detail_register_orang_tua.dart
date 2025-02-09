@@ -10,11 +10,9 @@ import '../bloc/detail_register_orang_tua_bloc.dart';
 
 class DetailRegisterOrangTua extends StatelessWidget {
   final String ayahId;
-  final String ibuId;
 
   const DetailRegisterOrangTua({
     super.key,
-    required this.ibuId,
     required this.ayahId,
   });
 
@@ -22,17 +20,14 @@ class DetailRegisterOrangTua extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DetailRegisterOrangTuaBloc(),
-      child: DetailRegisterOrangTuaView(
-          ayahId: ayahId, ibuId: ibuId), // Kirim ke View
+      child: DetailRegisterOrangTuaView(ayahId: ayahId), // Kirim ke View
     );
   }
 }
 
 class DetailRegisterOrangTuaView extends StatefulWidget {
   final String ayahId;
-  final String ibuId;
-  const DetailRegisterOrangTuaView(
-      {super.key, required this.ayahId, required this.ibuId});
+  const DetailRegisterOrangTuaView({super.key, required this.ayahId});
 
   @override
   State<DetailRegisterOrangTuaView> createState() =>
@@ -47,10 +42,8 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
     super.initState();
     logger.d('trigger fetch');
     logger.d('id ayah ${widget.ayahId}');
-    logger.d('id ibu ${widget.ibuId}');
     context.read<DetailRegisterOrangTuaBloc>().add(
-          FeathingDetailRegisterOrangTua(
-              ayahId: widget.ayahId, ibuId: widget.ibuId),
+          FeathingDetailRegisterOrangTua(ayahId: widget.ayahId),
         );
     _tabController = TabController(
       length: 2,

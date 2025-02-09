@@ -8,7 +8,8 @@ sealed class CreateRegisterOrangTuaEvent extends Equatable {
 }
 
 final class SendRegisterOrangTua extends CreateRegisterOrangTuaEvent {
-  const SendRegisterOrangTua();
+  final PostOrangTuaBody postOrangTuaBody;
+  const SendRegisterOrangTua({required this.postOrangTuaBody});
 }
 
 final class NullErrorEvent extends CreateRegisterOrangTuaEvent {}

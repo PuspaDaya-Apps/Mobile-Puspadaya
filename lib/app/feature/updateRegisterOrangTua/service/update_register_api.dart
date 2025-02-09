@@ -7,11 +7,11 @@ import '../../../../utils/logger/logger.dart';
 import '../../../../utils/network_utils/network_utils.dart';
 
 class UpdateRegisterOrangTuaApi {
-  Future<List<dynamic>> postRegisterOrangTua(
-      String token, String idAyah,  PatchOrangTuaBody postOrangtuaBody) async {
+  Future<List<dynamic>> patchRegisterOrangTua(
+      String token, PatchOrangTuaBody patchOrangtuaBody, String id) async {
     final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPatchDataOrangTua(idAyah);
-    final String body = json.encode(postOrangtuaBody.toJson());
+    final Uri link = ApiUtils().urlPatchDataOrangTua(id);
+    final String body = json.encode(patchOrangtuaBody.toJson());
 
     return await NetworkUtils().patch(link, header, body).then((response) {
       logger.d(response.toString());

@@ -6,15 +6,15 @@ part of 'get_orangtua_detail_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetOrangtuaDetailResponse _$GetOrangtuaDetailResponseFromJson(
+GetOrangtuaDetailResponseModel _$GetOrangtuaDetailResponseModelFromJson(
         Map<String, dynamic> json) =>
-    GetOrangtuaDetailResponse(
+    GetOrangtuaDetailResponseModel(
       message: json['message'] as String,
       data: Data.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$GetOrangtuaDetailResponseToJson(
-        GetOrangtuaDetailResponse instance) =>
+Map<String, dynamic> _$GetOrangtuaDetailResponseModelToJson(
+        GetOrangtuaDetailResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
       'data': instance.data,
