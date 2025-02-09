@@ -37,6 +37,14 @@ class _IndexPengukuranIbuHamilScreenViewState
         id: '1',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
+        posyandu: RiwayatMonitoringIbuHamilModel.Posyandu(
+          id: '1',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          deletedAt: DateTime.now(),
+          namaPosyandu: 'Posyandu Indah 10',
+          alamat: 'Gang Istana Indonesia 2',
+        ),
         deletedAt: null,
         usiaKehamilan: '1 Bulan',
         beratBadan: '58',
@@ -97,6 +105,14 @@ class _IndexPengukuranIbuHamilScreenViewState
       data: RiwayatMonitoringIbuHamilModel.Data(
         id: '2',
         createdAt: DateTime.now(),
+        posyandu: RiwayatMonitoringIbuHamilModel.Posyandu(
+          id: '1',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          deletedAt: DateTime.now(),
+          namaPosyandu: 'Posyandu Mawar 10',
+          alamat: 'Gang Kecambah No. 10',
+        ),
         updatedAt: DateTime.now(),
         deletedAt: null,
         usiaKehamilan: '1 Bulan',
@@ -152,10 +168,17 @@ class _IndexPengukuranIbuHamilScreenViewState
       ),
     ),
 
-    // Data 3 - Maluku
     RiwayatMonitoringIbuHamilModel.RiwayatMonitoringIbuHamilModel(
       message: 'Berhasil mendapatkan data ibu hamil',
       data: RiwayatMonitoringIbuHamilModel.Data(
+        posyandu: RiwayatMonitoringIbuHamilModel.Posyandu(
+          id: '1',
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+          deletedAt: DateTime.now(),
+          namaPosyandu: 'Posyandu Anggrek 2',
+          alamat: 'Jalan Sultan Hasanuddin 2',
+        ),
         id: '3',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -240,8 +263,9 @@ class _IndexPengukuranIbuHamilScreenViewState
             },
             name: ibuHamil.data.ibuAnak.nama,
             nik: ibuHamil.data.ibuAnak.nik,
-            date: DateFormat('dd/MM/yyyy')
-                .format(ibuHamil.data.tanggalTerakhirHaid),
+            date: DateFormat('dd/MM/yyyy').format(
+              ibuHamil.data.tanggalTerakhirHaid,
+            ),
           ),
         );
       },
