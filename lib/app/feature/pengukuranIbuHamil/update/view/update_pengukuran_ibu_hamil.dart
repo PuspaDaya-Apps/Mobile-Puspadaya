@@ -252,7 +252,7 @@ class _UpdatePengukuranIbuHamilViewState
                           children: [
                             MeasurementWidget(
                               title: 'Tinggi Badan',
-                              hintText: 'contoh: 13,5',
+                              hintText: 'contoh: 13.5',
                               unit: 'cm',
                               // tool: 'Microtoise',
                               controller: _heightController,
@@ -262,7 +262,7 @@ class _UpdatePengukuranIbuHamilViewState
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Lengan Atas',
-                              hintText: 'contoh: 3,5',
+                              hintText: 'contoh: 3.5',
                               unit: 'cm',
                               // tool: 'Pita Lila',
                               controller: _upperArmCircumferenceController,
@@ -277,7 +277,7 @@ class _UpdatePengukuranIbuHamilViewState
                           children: [
                             MeasurementWidget(
                               title: 'Berat Badan',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'kg',
                               // tool: 'Timbangan Digital',
                               controller: _weightController,
@@ -287,7 +287,7 @@ class _UpdatePengukuranIbuHamilViewState
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Kepala',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'cm',
                               // tool: 'Alat Ukur Lingkar Kepala',
                               controller: _headCircumferenceController,
