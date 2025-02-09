@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../model/paketToScreen/paket_to_create_wali_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -24,22 +26,35 @@ import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.d
 import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
     as DusunModel;
 
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamat_bloc.dart';
+import '../bloc/createAnakBloc/create_anak_bloc.dart';
+import '../model/create_anak_model.dart';
 
 class CreateRegisterWali extends StatelessWidget {
-  const CreateRegisterWali({super.key});
+  const CreateRegisterWali({super.key, required this.paket});
+
+  final PaketToCreateWaliModel paket;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AlamatBloc(),
-      child: CreateRegisterWaliView(),
+    return MultiBlocProvider(
+        providers: [
+            BlocProvider(
+          create: (context) => AlamatBloc(),
+    
+        ),
+            BlocProvider.value(value: paket.createAnakBloc,),
+        ],
+              child: CreateRegisterWaliView(paket: paket,),
     );
   }
 }
 
 class CreateRegisterWaliView extends StatefulWidget {
-  CreateRegisterWaliView({super.key});
+  const CreateRegisterWaliView({super.key, required this.paket});
+
+  final PaketToCreateWaliModel paket;
 
   @override
   State<CreateRegisterWaliView> createState() => _CreateRegisterWaliViewState();
@@ -90,14 +105,6 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
     'Tunadaksa',
     'Tunagharita',
     "Autisme",
-  ];
-
-  final List<String> selectJenisKB = [
-    'Pil',
-    'IUD',
-    'Suntik',
-    'Implant',
-    'Lainnya'
   ];
 
   final List<String> selectStatusHubunganDenganAnak = [
@@ -183,6 +190,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
 
   @override
   Widget build(BuildContext context) {
+    final createAnakBloc = BlocProvider.of<CreateAnakBloc>(context);
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Tambah Data Wali',
@@ -595,74 +603,86 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                        ButtonPrimary(
-                          color: bluePrimaryMain,
-                          mainButtonMessage: 'Selanjutnya',
-                          mainButton: () async {
-                            if (_formKey.currentState!.validate()) {
-                              // print('kk ${kkController.text}');
-                              // print('nik ${nikController.text}');
-                              // print('nama ${namaController.text}');
-                              // print('tempat ${tempatLahirController.text}');
-                              // print('tanggal ${tanggalLahirController.text}');
-                              // print('telepon ${teleponController.text}');
-                              // print('rt ${rTController.text}');
-                              // print('rw ${rWController.text}');
-                              // print('dusun ${widget.selectedDusunId}');
-                              // print('alamat ${alamatController.text}');
-                              // print('gol ${widget.selectedGolDarah}');
-                              // print(
-                              //     'disabilitas ${widget.selectedDisabilityLabels}');
-
-                              // // Create an instance of DataModel
-                              // PostOrangTuaBody. data = PostOrangTuaBody.(
-                              //   nomorKartuKeluarga: kkController.text,
-                              //   nik: nikController.text,
-                              //   nama: namaController.text,
-                              //   tempatLahir: tempatLahirController.text,
-                              //   tanggalLahir: tanggalLahirController
-                              //       .text, // Ensure this is a DateTime
-                              //   nomorTelepon: teleponController.text,
-                              //   rt: rTController.text,
-                              //   rw: rWController.text,
-                              //   dusunId: widget
-                              //       .selectedDusunId!, // Assuming this holds the selected dusun ID
-                              //   alamat: alamatController.text,
-                              //   golDarah: widget.selectedGolDarah!,
-                              //   jenisDisabilitas: widget.selectedDisabilityLabels
-                              //       .map((label) => PostOrangTuaBody.JenisDisabilitas(
-                              //           namaDisabilitas: label))
-                              //       .toList(),
-                              //   // jenisDisabilitas: widget.selectedDisabilityLabels
-                              //   //     .map((label) =>
-                              //   //         JenisDisabilitas(namaDisabilitas: label))
-                              //   //     .toList(),
-                              // );
-
-                              // // Check if data already exists in SharedPreferences
-                              // String? existingData =
-                              //     await SharedPrefUtils().getRegisterOrangTua();
-                              // if (existingData != null) {
-                              //   // If data exists, remove it
-                              //   await SharedPrefUtils().removeRegisterOrangTua();
-                              //   logger.d('Existing data removed: $existingData');
-                              // }
-
-                              // // Store the new data in SharedPreferences
-                              // String jsonData = jsonEncode(
-                              //     data.toJson()); // Convert to JSON string
-                              // await SharedPrefUtils().storedRegisterOrangTua(
-                              //     jsonData); // Save to SharedPreferences
-
-                              // // Optionally retrieve the data to verify it was saved correctly
-                              // String? retrievedData =
-                              //     await SharedPrefUtils().getRegisterOrangTua();
-                              // logger.d(
-                              //     'Retrieved Data: $retrievedData'); // Log the retrieved data
-                              // widget.onNext();
-                            } else {
-                              print("Form tidak valid");
+                        BlocConsumer<CreateAnakBloc, CreateAnakState>(
+                          bloc: widget.paket.createAnakBloc,
+                          listener: (context, state) {
+                            debugPrint(state.toString());
+                            if(state is CreateAnakFailedState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .error(state.error));
                             }
+                            if(state is CreateAnakTokenExpiredState) {
+
+                            }
+                            if(state is CreateAnakSuccessState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .success("Tambah Anak Berhasil"));
+                              Navigator.pop(context);
+                            }
+                             if(state is CreateAnakNullErrorState) {
+                              showTopSnackBar(
+                                Overlay.of(context),
+                                animationDuration: const Duration(
+                                    milliseconds: 600),
+                                displayDuration: const Duration(
+                                    milliseconds: 2200),
+                                reverseAnimationDuration:
+                                    const Duration(
+                                        milliseconds: 300),
+                                TopSnackbarWidget()
+                                    .warning(state.error));
+                            }
+                          },
+                          builder: (context, state) {
+                            return ButtonPrimary(
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Selanjutnya',
+                              mainButton: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  createAnakBloc.add(
+                                    CreateAnak(
+                                      widget.paket.createAnakModel.copyWith(
+                                        pengasuh: Pengasuh(
+                                          statusHubungan: selectedStatusHubunganDenganAnak!, 
+                                          nik: _nikController.text, 
+                                          namaPengasuh: _namaController.text, 
+                                          tempatLahir: _tempatLahirController.text, 
+                                          tanggalLahir: _tanggalLahirController.text, 
+                                          rt: _rTController.text, 
+                                          rw: _rWController.text, 
+                                          alamatLengkap: _alamatController.text, 
+                                          dusunId: selectedDusunIdWali!, 
+                                          noTelepon: _teleponController.text, 
+                                          golDarah: selectedGolDarahWali!, 
+                                          nomorKartuKeluarga: _kkController.text, 
+                                          disabilitasPengasuh: selectedDisabilityLabelsWali
+                                        )
+                                      )
+                                    )
+                                  );
+                                } else {
+                                  print("Form tidak valid");
+                                }
+                              },
+                            );
                           },
                         ),
                       ],

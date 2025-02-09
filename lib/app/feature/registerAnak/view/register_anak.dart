@@ -60,7 +60,11 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATE_REGISTER_ANAK);
+          Navigator.pushNamed(context, CREATE_REGISTER_ANAK).then((value) {
+            if(value != null) {
+              context.read<AnakByPosyanduBloc>().add(FetchAnak());
+            }
+          });
           // Add your navigation or functionality for adding new items
           print("Floating Action Button Pressed");
         },

@@ -8,8 +8,10 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
@@ -153,11 +155,36 @@ class _ProfileViewState extends State<ProfileView> {
                               }
                               if (state is LogoutSuccess) {
                                 debugPrint(state.toString());
-                                authorizationBloc
-                                    .add(AuthorizationFalseEvent());
+                                authorizationBloc.add(AuthorizationFalseEvent());
+                                showTopSnackBar(
+                                  Overlay.of(context),
+                                  animationDuration: const Duration(
+                                    milliseconds: 600
+                                  ),
+                                  displayDuration: const Duration(
+                                    milliseconds: 2200
+                                  ),
+                                  reverseAnimationDuration: const Duration(
+                                    milliseconds: 300
+                                  ),
+                                  TopSnackbarWidget().success("Logout Berhasil")
+                                );
                               }
                               if (state is LogoutFailed) {
                                 debugPrint(state.error);
+                                 showTopSnackBar(
+                                  Overlay.of(context),
+                                  animationDuration: const Duration(
+                                    milliseconds: 600
+                                  ),
+                                  displayDuration: const Duration(
+                                    milliseconds: 2200
+                                  ),
+                                  reverseAnimationDuration: const Duration(
+                                    milliseconds: 300
+                                  ),
+                                  TopSnackbarWidget().error(state.error)
+                                );
                               }
                             },
                           ),
