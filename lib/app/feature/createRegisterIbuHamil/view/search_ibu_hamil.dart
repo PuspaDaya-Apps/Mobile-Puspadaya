@@ -27,10 +27,16 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
   List<IbuHamilItemModel> listIbuHamil = [
     IbuHamilItemModel(
-      nama: 'nama ibu hamil',
-      namaSuami: 'Nama suami',
-      nik: '213124123412',
+      nama: 'Tami Usada',
+      namaSuami: 'Hendra Salahudin',
+      nik: '3321060508050001',
       usia: '28',
+    ),
+    IbuHamilItemModel(
+      nama: 'Violet Hasanah',
+      namaSuami: 'Lutfan Januar ',
+      nik: '3321062804100002',
+      usia: '26',
     ),
   ];
 

@@ -8,22 +8,23 @@ import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
+import '../../model/alat_ukur_Item_model.dart';
 
 class DetailAlatUkur extends StatelessWidget {
-  final String alatUkurId;
+  AlatUkurItemModel alatUkur;
 
-  const DetailAlatUkur({super.key, required this.alatUkurId});
+  DetailAlatUkur({super.key, required this.alatUkur});
 
   @override
   Widget build(BuildContext context) {
-    return DetailAlatUkurView(alatUkurId: alatUkurId);
+    return DetailAlatUkurView(alatUkur: alatUkur);
   }
 }
 
 class DetailAlatUkurView extends StatefulWidget {
-  final String alatUkurId;
+  AlatUkurItemModel alatUkur;
 
-  const DetailAlatUkurView({super.key, required this.alatUkurId});
+  DetailAlatUkurView({super.key, required this.alatUkur});
 
   @override
   State<DetailAlatUkurView> createState() => _DetailAlatUkurViewState();
@@ -69,59 +70,73 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                InfoFieldWidget(text: 'Timbangan 2'),
+                InfoFieldWidget(text: '${widget.alatUkur.nama}'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                const Text(
-                  'Alat Deteksi Dini (opsional)',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                Column(
-                  children: alatDeteksiDini.map((alat) {
-                    return Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IntrinsicWidth(
-                          child: CheckboxListWidget(
-                            isChecked: alat['isChecked'],
-                            label: alat['label'],
-                            onChanged: (value) {},
-                          ),
-                        ),
-                        if (alat['isOther'] == true &&
-                            alat['isChecked'] == true) ...[
-                          SizedBox(width: 4), // Jarak antara checkbox dan input
-                          Expanded(
-                            child: TextField(
-                              enabled: alat['isChecked'],
-                              controller: _otherController,
-                              decoration: const InputDecoration(
-                                border:
-                                    UnderlineInputBorder(), // Menghilangkan outline
-                                isDense: true, // Memperkecil tinggi input
-                              ),
-                              style: TextStyle(fontSize: 14),
+                if (widget.alatUkur.nama ==
+                    'Alat Deteksi Dini Perkembangan (SDIDTK kit)') ...[
+                  const Text(
+                    'Alat Deteksi Dini (opsional)',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                  Column(
+                    children: alatDeteksiDini.map((alat) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IntrinsicWidth(
+                            child: CheckboxListWidget(
+                              isChecked: alat['isChecked'],
+                              label: alat['label'],
+                              onChanged: (value) {},
                             ),
                           ),
+                          if (alat['isOther'] == true &&
+                              alat['isChecked'] == true) ...[
+                            const SizedBox(
+                                width: 4), // Jarak antara checkbox dan input
+                            Expanded(
+                              child: TextField(
+                                enabled: alat['isChecked'],
+                                controller: _otherController,
+                                decoration: const InputDecoration(
+                                  border:
+                                      UnderlineInputBorder(), // Menghilangkan outline
+                                  isDense: true, // Memperkecil tinggi input
+                                ),
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ),
+                          ],
                         ],
-                      ],
-                    );
-                  }).toList(),
-                ),
+                      );
+                    }).toList(),
+                  ),
+                ] else
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(8), // Berikan border radius
+                    child: Image.asset(
+                      widget.alatUkur.image!,
+                      height: 300,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Merek Alat',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                InfoFieldWidget(text: 'ALgaera'),
+                InfoFieldWidget(text: widget.alatUkur.merek),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Kondisi Alat',
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                InfoFieldWidget(text: 'Baik'),
+                InfoFieldWidget(text: widget.alatUkur.kondisi),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 ButtonPrimary(
                   color: goldPrimaryMain,

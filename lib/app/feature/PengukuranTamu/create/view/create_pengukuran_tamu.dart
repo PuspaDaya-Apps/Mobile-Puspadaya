@@ -162,9 +162,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                               'Asal Posyandu',
                               style: TextStyle(fontSize: 12),
                             ),
-                            SizedBox(
-                                height:
-                                SizeConfig.calHeightMultiplier(8)),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             InfoFieldWidget(text: 'Posyandu Mawar 8'),
                             SizedBox(
                               height: SizeConfig.calHeightMultiplier(16),
@@ -183,7 +181,6 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-
                                   const Text(
                                     'NIK',
                                     style: TextStyle(fontSize: 12),
@@ -193,7 +190,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                           SizeConfig.calHeightMultiplier(8)),
                                   InfoFieldWidget(text: '36501231921234'),
                                   SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16)),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   const Text(
                                     'Usia Anak',
                                     style: TextStyle(fontSize: 12),
@@ -285,7 +283,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                   children: [
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
-                                      hintText: 'contoh: 13,5',
+                                      hintText: 'contoh: 13.5',
                                       unit: 'cm',
                                       // tool: 'Microtoise',
                                       controller: heightController,
@@ -296,7 +294,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 3,5',
+                                      hintText: 'contoh: 3.5',
                                       unit: 'cm',
                                       // tool: 'Pita Lila',
                                       controller:
@@ -316,7 +314,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                   children: [
                                     MeasurementWidget(
                                       title: 'Berat Badan',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 6.5',
                                       unit: 'kg',
                                       // tool: 'Timbangan Digital',
                                       controller: weightController,
@@ -327,7 +325,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Kepala',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 6.5',
                                       unit: 'cm',
                                       // tool: 'Alat Ukur Lingkar Kepala',
                                       controller: headCircumferenceController,

@@ -69,7 +69,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
   TextEditingController upperArmCircumferenceController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
@@ -145,20 +145,14 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                       'NIK',
                       style: TextStyle(fontSize: 12),
                     ),
-                    SizedBox(
-                        height:
-                        SizeConfig.calHeightMultiplier(8)),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                     InfoFieldWidget(text: '36501231921234'),
-                    SizedBox(
-                        height:
-                        SizeConfig.calHeightMultiplier(16)),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                     const Text(
                       'Asal Posyandu',
                       style: TextStyle(fontSize: 12),
                     ),
-                    SizedBox(
-                        height:
-                        SizeConfig.calHeightMultiplier(8)),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                     InfoFieldWidget(text: 'Posyandu Mawar 8'),
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(16),
@@ -201,26 +195,23 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                             children: [
                               MeasurementWidget(
                                 title: 'Tinggi Badan',
-                                hintText: 'contoh: 13,5',
+                                hintText: 'contoh: 13.5',
                                 unit: 'cm',
                                 // tool: 'Microtoise',
                                 controller: heightController,
                               ),
                               SizedBox(
-                                height:
-                                SizeConfig.calHeightMultiplier(16),
+                                height: SizeConfig.calHeightMultiplier(16),
                               ),
                               MeasurementWidget(
                                 title: 'Lingkar Lengan Atas',
-                                hintText: 'contoh: 3,5',
+                                hintText: 'contoh: 3.5',
                                 unit: 'cm',
                                 // tool: 'Pita Lila',
-                                controller:
-                                upperArmCircumferenceController,
+                                controller: upperArmCircumferenceController,
                               ),
                               SizedBox(
-                                height:
-                                SizeConfig.calHeightMultiplier(16),
+                                height: SizeConfig.calHeightMultiplier(16),
                               ),
                             ],
                           ),
@@ -232,18 +223,17 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                             children: [
                               MeasurementWidget(
                                 title: 'Berat Badan',
-                                hintText: 'contoh: 6,5',
+                                hintText: 'contoh: 6.5',
                                 unit: 'kg',
                                 // tool: 'Timbangan Digital',
                                 controller: weightController,
                               ),
                               SizedBox(
-                                height:
-                                SizeConfig.calHeightMultiplier(16),
+                                height: SizeConfig.calHeightMultiplier(16),
                               ),
                               MeasurementWidget(
                                 title: 'Lingkar Kepala',
-                                hintText: 'contoh: 6,5',
+                                hintText: 'contoh: 6.5',
                                 unit: 'cm',
                                 // tool: 'Alat Ukur Lingkar Kepala',
                                 controller: headCircumferenceController,
@@ -263,8 +253,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                             children: [
                               Text(
                                 'Asi Ekskusif',
-                                style: AppTextStyles.primaryTextNormal
-                                    .copyWith(
+                                style: AppTextStyles.primaryTextNormal.copyWith(
                                   fontSize: 12,
                                 ),
                               ),
@@ -273,10 +262,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                               ),
                               // radio button
                               Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CustomRadioButton(
                                     value: 1,
@@ -289,8 +276,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                     label: 'Ya',
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.calHeightMultiplier(
-                                        16),
+                                    width: SizeConfig.calHeightMultiplier(16),
                                   ),
                                   CustomRadioButton(
                                     value: 0,
@@ -314,8 +300,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                             children: [
                               Text(
                                 'MPASI',
-                                style: AppTextStyles.primaryTextNormal
-                                    .copyWith(
+                                style: AppTextStyles.primaryTextNormal.copyWith(
                                   fontSize: 12,
                                 ),
                               ),
@@ -324,10 +309,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                               ),
                               // radio button
                               Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CustomRadioButton(
                                     value: 1,
@@ -340,8 +323,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                     label: 'Ya',
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.calHeightMultiplier(
-                                        16),
+                                    width: SizeConfig.calHeightMultiplier(16),
                                   ),
                                   CustomRadioButton(
                                     value: 0,
@@ -389,6 +371,11 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                       hintText: 'Masukan Keluhan',
                     ),
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    ButtonPrimary(
+                      color: bluePrimaryMain,
+                      mainButtonMessage: 'Simpan',
+                      mainButton: () {},
+                    ),
                   ],
                 ),
               ),
