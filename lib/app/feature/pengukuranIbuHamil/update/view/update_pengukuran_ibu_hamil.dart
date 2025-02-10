@@ -92,10 +92,10 @@ class _UpdatePengukuranIbuHamilViewState
   }
 
   final List<String> selectPosyandu = [
-    'Posyandu A',
-    'Posyandu B',
-    'Posyandu C',
-    'Posyandu D'
+    'Posyandu Mawar 1',
+    'Posyandu Anggrek 5',
+    'Posyandu Melati Indah',
+    'Posyandu Melati 3'
   ];
   @override
   Widget build(BuildContext context) {
