@@ -202,9 +202,15 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: [
-              ListDataAnak(),
-              ListDataIbu(),
-              ListDataTamu(),
+              ListDataAnak(
+                key: UniqueKey(),
+              ),
+              ListDataIbu(
+                key: UniqueKey(),
+              ),
+              ListDataTamu(
+                key: UniqueKey(),
+              ),
             ],
           ),
         )

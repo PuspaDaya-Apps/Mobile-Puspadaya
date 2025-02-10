@@ -28,7 +28,8 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
 
   @override
   void dispose() {
-    _searchController.dispose(); // Pastikan controller dibuang setelah tidak digunakan
+    _searchController
+        .dispose(); // Pastikan controller dibuang setelah tidak digunakan
     super.dispose();
   }
 
@@ -74,34 +75,48 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
           itemBuilder: (context, index) {
             ListDataTamuModel dataPosyanduItem = dataPosyandu[index];
             return Padding(
-              padding: const EdgeInsets.only(left: 16,right: 16,bottom: 4),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
               child: Card(
                 color: Colors.white,
-                shadowColor: Colors.black.withOpacity(0.1), // Bayangan lebih soft
+                shadowColor:
+                    Colors.black.withOpacity(0.1), // Bayangan lebih soft
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
 
                 child: ListTile(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return SearchAnak();
-                    },));
+                  onTap: () async {
+                    final selectedChild = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchAnak(),
+                      ),
+                    );
+                    if (selectedChild != null) {
+                      Navigator.pop(
+                        context,
+                        {
+                          'nama': selectedChild,
+                          'posyanduName': dataPosyanduItem.namaPosyandu,
+                        },
+                      );
+                    }
                   },
                   leading: Container(
                     padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: bluePrimaryMain.withValues(alpha: 0.3), // Warna latar belakang agar lebih menarik
+                      color: bluePrimaryMain.withValues(
+                          alpha:
+                              0.3), // Warna latar belakang agar lebih menarik
                       shape: BoxShape.circle, // Bentuk ikon bulat
                     ),
                     child: FaIcon(
                       size: 20,
                       FontAwesomeIcons.houseChimneyMedical,
-                          color: bluePrimaryMain,
+                      color: bluePrimaryMain,
                     ),
                   ),
-
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 10,
