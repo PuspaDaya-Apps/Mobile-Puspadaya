@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganSelesai/view/detail_kunjungan_selesai.dart';
+import 'package:puspadaya/app/feature/detailKunjunganSelesai/view/detail_kunjungan_selesai_anak_stunting.dart';
 import 'package:puspadaya/app/feature/kunjungan/model/Kunjungan.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
@@ -31,25 +31,18 @@ class _DetailKunjunganAnakStuntingDoneViewState
     extends State<DetailKunjunganAnakStuntingDoneView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554054732625",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Ajimat Megantara',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '3,1',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
-      id: '2',
-      name: 'Rahayu Putri Zahra',
-      status: Status.selesai,
-      distance: '5,1',
-    ),
-    DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554019876225",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Cayadi Saptono',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '1,7',
     ),
   ];
   @override
@@ -131,7 +124,7 @@ class _DetailKunjunganAnakStuntingDoneViewState
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
-                    InfoFieldWidget(text: '15 Menit 20 Detik'),
+                    InfoFieldWidget(text: '7 Menit 21 Detik'),
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(16),
                     ),
@@ -151,7 +144,7 @@ class _DetailKunjunganAnakStuntingDoneViewState
                       spacing: 8,
                       children: [
                         Expanded(
-                          child: InfoFieldWidget(text: '15 Menit 20 Detik'),
+                          child: InfoFieldWidget(text: '3.7 KM'),
                         ),
                         Text(
                           'KM',
@@ -207,7 +200,7 @@ class _DetailKunjunganAnakStuntingDoneViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganSelesai();
+                              return DetailKunjunganSelesaiAnakStunting();
                             },
                           ),
                         );

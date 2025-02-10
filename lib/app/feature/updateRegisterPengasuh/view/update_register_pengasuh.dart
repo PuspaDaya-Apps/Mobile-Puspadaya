@@ -180,7 +180,8 @@ class _UpdateRegisterPengasuhViewState
         .desaKelurahan.namaDesaKelurahan;
     selectedDusunDataWali =
         widget.paket.detailPengasuhResponseModel.data!.dusun.namaDusun;
-    selectedDusunIdDataWali = widget.paket.detailPengasuhResponseModel.data!.dusun.id; 
+    selectedDusunIdDataWali =
+        widget.paket.detailPengasuhResponseModel.data!.dusun.id;
     selectedGolDarahWali =
         widget.paket.detailPengasuhResponseModel.data!.golDarah;
 
@@ -483,7 +484,10 @@ class _UpdateRegisterPengasuhViewState
                                 onChanged: (value) {
                                   setState(() {
                                     selectedDusunDataWali = value;
-                                    selectedDusunIdDataWali= selectDusun.firstWhere((dusun) => dusun.namaDusun == value).id;
+                                    selectedDusunIdDataWali = selectDusun
+                                        .firstWhere(
+                                            (dusun) => dusun.namaDusun == value)
+                                        .id;
                                     debugPrint(selectedDusunIdDataWali);
                                   });
                                 },
@@ -619,8 +623,8 @@ class _UpdateRegisterPengasuhViewState
                         BlocConsumer<UpdatePengasuhBloc, UpdatePengasuhState>(
                           listener: (context, state) {
                             debugPrint(state.toString());
-                            if(state is UpdatePengasuhSuccessState) {
-                              Navigator.pop(context,1);
+                            if (state is UpdatePengasuhSuccessState) {
+                              Navigator.pop(context, 1);
                             }
                           },
                           builder: (context, state) {
@@ -628,26 +632,28 @@ class _UpdateRegisterPengasuhViewState
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
                               mainButton: () {
-                                updatePengasuhBloc.add(
-                                  UpdatePengasuh(
+                                updatePengasuhBloc.add(UpdatePengasuh(
                                     id: widget.paket.idPengasuh,
                                     updatePengasuhModel: UpdatePengasuhModel(
-                                      statusHubungan: selectedStatusHubunganDenganAnak!, 
-                                      nik: _nikController.text, 
-                                      namaPengasuh: _namaController.text, 
-                                      tempatLahir: _tempatLahirController.text, 
-                                      tanggalLahir: _tanggalLahirController.text, 
-                                      rt: _rTWaliController.text, 
-                                      rw: _rWWaliController.text, 
-                                      alamatLengkap: _alamatWaliController.text, 
-                                      dusunId: selectedDusunIdDataWali!, 
-                                      noTelepon: _teleponWaliController.text, 
-                                      golDarah: selectedGolDarahWali!, 
-                                      nomorKartuKeluarga: _nomorKKController.text, 
-                                      disabilitasPengasuh: selectedDisabilityLabelsAnak
-                                    )
-                                  )
-                                );
+                                        statusHubungan:
+                                            selectedStatusHubunganDenganAnak!,
+                                        nik: _nikController.text,
+                                        namaPengasuh: _namaController.text,
+                                        tempatLahir:
+                                            _tempatLahirController.text,
+                                        tanggalLahir:
+                                            _tanggalLahirController.text,
+                                        rt: _rTWaliController.text,
+                                        rw: _rWWaliController.text,
+                                        alamatLengkap:
+                                            _alamatWaliController.text,
+                                        dusunId: selectedDusunIdDataWali!,
+                                        noTelepon: _teleponWaliController.text,
+                                        golDarah: selectedGolDarahWali!,
+                                        nomorKartuKeluarga:
+                                            _nomorKKController.text,
+                                        disabilitasPengasuh:
+                                            selectedDisabilityLabelsAnak)));
                               },
                             );
                           },

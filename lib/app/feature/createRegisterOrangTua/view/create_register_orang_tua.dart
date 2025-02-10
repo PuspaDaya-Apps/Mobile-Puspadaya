@@ -60,7 +60,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
 
-  final List<String> selectGolDarah = [
+  List<String> selectGolDarah = [
     // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
     'A+',
     'A-',
@@ -223,7 +223,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
-    DateTime initialDate =DateTime(2010); // Set initial date to the year 1945
+    DateTime initialDate = DateTime(2010); // Set initial date to the year 1945
     DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
