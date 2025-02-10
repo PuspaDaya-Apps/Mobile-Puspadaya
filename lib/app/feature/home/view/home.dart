@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -12,13 +14,26 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
+import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
+import '../model/card_home_response_model.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const HomeView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CardDataHomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => JadwalPosyanduHomeBloc(),
+        ),
+      ],
+      child: const HomeView(),
+    );
   }
 }
 
@@ -30,6 +45,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<CardDataHomeBloc>(context).add(GetCardHome());
+    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +68,46 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(16),
               ),
-              CardListActivity(
-                date: DateTime.now(),
-                location: "Posyandu Mawar 6",
+              BlocConsumer<JadwalPosyanduHomeBloc, JadwalPosyanduHomeState>(
+                listener: (context, state) {
+                  debugPrint(state.toString());
+                },
+                builder: (context, state) {
+                  if (state is JadwalPosyanduHomeProcessState) {
+                    return Container (
+                      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(16),
+                        vertical: SizeConfig.calHeightMultiplier(12),
+                      ),
+                      width: double.infinity,
+                      height:80,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ),
+                    );
+                  }
+                  if (state is JadwalPosyanduHomeSuccessState) {
+                    if(state.jadwal == null) {
+                      return CardListActivity(
+                        date: DateTime.now(),
+                        location: "Posyandu Mawar 6",
+                      );
+                    }
+                    return  JadwalCard(
+                      date: state.jadwal!.tanggalPelaksanaan, 
+                      name: state.jadwal!.namaKegiatan, 
+                      timeStart: state.jadwal!.waktuMulai, 
+                      timeEnd: state.jadwal!.waktuSelesai, 
+                      location: state.jadwal!.lokasi
+                    );
+                  }
+                  return CardListActivity(
+                    date: DateTime.now(),
+                    location: "Posyandu Mawar 6",
+                  );
+                },
               ),
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(16),
@@ -57,7 +116,34 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(8),
               ),
-              CardCarousel(),
+              BlocConsumer<CardDataHomeBloc, CardDataHomeState>(
+                listener: (context, state) {
+                  debugPrint(state.toString());
+                },
+                builder: (context, state) {
+                  if(state is CardDataHomeProcessState) {
+                    return Container (
+                      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(16),
+                        vertical: SizeConfig.calHeightMultiplier(12),
+                      ),
+                      width: double.infinity,
+                      height: 80,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ),
+                    );
+                  }
+                  if(state is CardDataHomeSuccessState) {
+                    return CardCarousel(
+                      cardHomeResponseModel: state.cardDataHomeResponseModel,
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
               CardMessages(
                 title: "Anda telah berkunjung 4 kali bulan ini.",
                 message:
@@ -73,7 +159,12 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class CardCarousel extends StatelessWidget {
-  const CardCarousel({super.key});
+  const CardCarousel({
+    super.key,
+    required this.cardHomeResponseModel
+  });
+
+  final CardHomeResponseModel cardHomeResponseModel;
 
   @override
   Widget build(BuildContext context) {
@@ -92,38 +183,38 @@ class CardCarousel extends StatelessWidget {
               width: SizeConfig.calWidthMultiplier(18),
             ),
             HomeCard(
-              title: 'Jumlah Anak',
-              number: 40,
+              title: "Jumlah Anak",
+              number: cardHomeResponseModel.data!.jumlahAnak.jumlah,
               description: 'Jumlah Anak Meningkat ',
-              highlightText: '20%',
+              highlightText: '34%',
               isPositive: true,
             ),
             HomeCard(
-              title: 'Anak Stunting',
-              number: 4,
-              description: 'Jumlah Stunting Menurun ',
-              highlightText: '3%',
-              isPositive: true,
-            ),
-            HomeCard(
-              title: 'Balita Underweight',
-              number: 2,
-              description: 'Jumlah Underweight Meningkat ',
-              highlightText: '1%',
-              isPositive: true,
-            ),
-            HomeCard(
-              title: 'Anak Wasting',
-              number: 3,
-              description: 'Jumlah Wasting Menurun ',
+              title: "Jumlah Anak Stunting",
+              number: cardHomeResponseModel.data!.jumlahAnakStunting.jumlah,
+              description: 'Jumlah Stunting Meningkat ',
               highlightText: '2%',
               isPositive: true,
             ),
             HomeCard(
-              title: 'Ibu Hamil',
-              number: 2,
+              title: "Jumlah Anak Underweight",
+              number: cardHomeResponseModel.data!.jumlahAnakUnderweight.jumlah,
+              description: 'Jumlah Underweight Meningkat ',
+              highlightText: '5%',
+              isPositive: true,
+            ),
+            HomeCard(
+              title: "Jumlah Anak Wasting",
+              number: cardHomeResponseModel.data!.jumlahAnakWasting.jumlah,
+              description: 'Jumlah Wasting Menurun ',
+              highlightText: '4%',
+              isPositive: false,
+            ),
+            HomeCard(
+              title: "Jumlah Ibu Hamil",
+              number: cardHomeResponseModel.data!.jumlahIbuHamil.jumlah,
               description: 'Jumlah Ibu Hamil Meningkat ',
-              highlightText: '1%',
+              highlightText: '12%',
               isPositive: true,
             ),
             SizedBox(
@@ -170,8 +261,7 @@ class CardListActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:
-          EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
       padding: EdgeInsets.symmetric(
         horizontal: SizeConfig.calWidthMultiplier(16),
         vertical: SizeConfig.calHeightMultiplier(12),
@@ -198,7 +288,7 @@ class CardListActivity extends StatelessWidget {
                 spacing: 10,
                 children: [
                   Text(
-                    '${date.day.toString().padLeft(2, '0')}',
+                    DateFormat('d', 'id_ID').format(date),
                     style: AppTextStyles.primaryTextSemibold.copyWith(
                       color: Colors.white,
                       fontSize: 30,
@@ -209,7 +299,7 @@ class CardListActivity extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        '${months[date.month - 1]} ${date.year}',
+                        DateFormat('MMMM y', 'id_ID').format(date),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.normal,
@@ -217,7 +307,7 @@ class CardListActivity extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${days[date.weekday - 1]}',
+                        DateFormat('EEEE', 'id_ID').format(date),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.normal,
@@ -229,7 +319,7 @@ class CardListActivity extends StatelessWidget {
                 ],
               ),
               Text(
-                '${location}',
+                'location',
                 style: AppTextStyles.primaryTextMedium.copyWith(
                   fontSize: 12,
                   color: Colors.white,
@@ -244,6 +334,164 @@ class CardListActivity extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class JadwalCard extends StatelessWidget {
+  final DateTime date;
+  final String name;
+  final DateTime timeStart;
+  final DateTime timeEnd;
+  final String location;
+  final List<String> months = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember'
+  ];
+
+  final List<String> days = [
+    'Senin',
+    'Selasa',
+    'Rabu',
+    'Kamis',
+    "Jum'at",
+    'Sabtu',
+    'Minggu',
+  ];
+
+  JadwalCard({
+    super.key,
+    required this.date,
+    required this.name,
+    required this.timeStart,
+    required this.timeEnd,
+    required this.location,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+        padding: EdgeInsets.symmetric(
+          horizontal: SizeConfig.calWidthMultiplier(16),
+          vertical: SizeConfig.calHeightMultiplier(12),
+        ),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          color: bluePrimaryMain,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xffE4E6E9).withValues(alpha: 0.3),
+              blurRadius: 14,
+              offset: const Offset(0, 2),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DateCard(date),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    '${DateFormat('Hm', 'id_ID').format(timeStart)} - ${DateFormat('Hm', 'id_ID').format(timeEnd)}',
+                    style: TextStyle(
+                      color: textSecoundary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.calMultiplierText(16),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(color: Colors.white),
+            Text(
+              '${name}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            Row(
+              children: [
+                Image(
+                  height: 8,
+                  image: AssetImage(
+                    iconLocation,
+                  ),
+                ),
+                SizedBox(
+                  width: SizeConfig.calWidthMultiplier(4),
+                ),
+                Text(
+                  '${location}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.calMultiplierText(8),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row DateCard(DateTime date) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          DateFormat('d', 'id_ID').format(date),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: SizeConfig.calMultiplierText(30),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              DateFormat('MMMM y', 'id_ID').format(date), // Corrected month indexing
+              style: TextStyle(
+                fontSize: 11,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              DateFormat('EEEE', 'id_ID').format(date), // Corrected weekday indexing
+              style: TextStyle(
+                fontSize: 11,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -405,4 +405,10 @@ class ApiUtils {
     String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
     return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
   }
+
+  //!Dashboard
+  Uri urlGetDashboardKader() {
+    String urlGetDashboardKader = LinkApi.DASHBOARDKADER;
+    return Uri.parse(_baseUrl + _apiVersion + urlGetDashboardKader);
+  }
 }

@@ -58,4 +58,7 @@ abstract class LinkApi {
   //!Beban Kerja
   static const TUGASKADERURL = "/tugas-kader";
   static const PENILAIANMANDIRIURL = "/penilaian-mandiri";
+
+  //!Dashboard
+  static const DASHBOARDKADER = "/dashboard/posyandu";
 }
