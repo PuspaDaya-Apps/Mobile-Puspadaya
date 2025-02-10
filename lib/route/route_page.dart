@@ -112,7 +112,7 @@ class MyRoute {
 
       case HOME:
         return MaterialPageRoute(
-            builder: (context) => const HomeWrapper(), settings: settings);
+            builder: (context) => const HomeScreen(), settings: settings);
 
       // JADWAL
       case JADWAL:
