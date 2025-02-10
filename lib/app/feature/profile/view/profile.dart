@@ -11,21 +11,32 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../model/current_user_model.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  const Profile({
+    super.key,
+    required this.currentUserModel
+  });
+
+  final CurrentUserModel currentUserModel;
 
   @override
   Widget build(BuildContext context) {
-    return const ProfileView();
+    return ProfileView(currentUserModel: currentUserModel,);
   }
 }
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  const ProfileView({
+    super.key,
+    required this.currentUserModel
+  });
+
+  final CurrentUserModel currentUserModel;
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -75,14 +86,14 @@ class _ProfileViewState extends State<ProfileView> {
                           height: SizeConfig.calHeightMultiplier(12),
                         ),
                         Text(
-                          'Ayu Dewi',
+                          widget.currentUserModel.namaLengkap,
                           style: AppTextStyles.primaryTextSemibold.copyWith(
                             fontSize: 16,
                             color: Colors.white,
                           ),
                         ),
                         Text(
-                          '081234567890',
+                          widget.currentUserModel.nomorTelepon,
                           style: AppTextStyles.primaryTextNormal.copyWith(
                             fontSize: 12,
                             color: Colors.white,
