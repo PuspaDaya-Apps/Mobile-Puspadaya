@@ -61,7 +61,7 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
 
-  String selectedPosyandu = 'Posyandu A';
+  String selectedPosyandu = 'Posyandu Mawar 1';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
   String selectedUpperArmCircumference = 'Pita Lila';
@@ -338,6 +338,11 @@ class _CreateRegisterIbuHamilViewState
                     hint: 'Tempat Pengukuran',
                     items: selectPosyandu,
                     value: selectedPosyandu,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPosyandu = value;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
