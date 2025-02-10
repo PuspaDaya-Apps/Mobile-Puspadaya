@@ -35,7 +35,7 @@ class UpdatePengukuranIbuHamilView extends StatefulWidget {
 class _UpdatePengukuranIbuHamilViewState
     extends State<UpdatePengukuranIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
-  String selectedPosyandu = 'Posyandu A';
+  String selectedPosyandu = 'Posyandu Mawar 1';
   String selectedPosition = 'Terlentang';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
@@ -238,6 +238,11 @@ class _UpdatePengukuranIbuHamilViewState
                     hint: 'Tempat Pengukuran',
                     items: selectPosyandu,
                     value: selectedPosyandu,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPosyandu = value;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(

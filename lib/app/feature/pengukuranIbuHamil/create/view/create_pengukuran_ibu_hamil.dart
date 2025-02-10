@@ -263,6 +263,11 @@ class _CreatePengukuranIbuHamilViewState
                     hint: 'Tempat Pengukuran',
                     items: selectPosyandu,
                     value: selectedPosyandu,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPosyandu = value;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(

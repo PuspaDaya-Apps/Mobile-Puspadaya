@@ -109,7 +109,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                 ),
 
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 10,
