@@ -7,10 +7,12 @@ sealed class UserState extends Equatable {
   List<Object> get props => [];
 }
 
-final class UserInitial extends UserState {}
-
 final class UserProccessState extends UserState {}
 
-final class UserSuccessState extends UserState {}
+final class UserSuccessState extends UserState {
+  final CurrentUserModel currentUserModel;
+
+  const UserSuccessState(this.currentUserModel);
+}
 
 final class UserFailedState extends UserState {}
