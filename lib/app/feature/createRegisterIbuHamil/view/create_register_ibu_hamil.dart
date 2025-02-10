@@ -61,7 +61,7 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
 
-  String selectedPosyandu = 'Posyandu A';
+  String selectedPosyandu = 'Posyandu Mawar 1';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
   String selectedUpperArmCircumference = 'Pita Lila';
@@ -106,10 +106,10 @@ class _CreateRegisterIbuHamilViewState
   }
 
   final List<String> selectPosyandu = [
-    'Posyandu A',
-    'Posyandu B',
-    'Posyandu C',
-    'Posyandu D'
+    'Posyandu Mawar 1',
+    'Posyandu Anggrek 5',
+    'Posyandu Melati Indah',
+    'Posyandu Melati 3'
   ];
   @override
   Widget build(BuildContext context) {
@@ -338,6 +338,11 @@ class _CreateRegisterIbuHamilViewState
                     hint: 'Tempat Pengukuran',
                     items: selectPosyandu,
                     value: selectedPosyandu,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPosyandu = value;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
@@ -633,7 +638,7 @@ class TextFormFieldSearch extends StatelessWidget {
         suffixIcon: Icon(
           FluentIcons.search_24_regular,
         ),
-        hintText: 'Pilih Anak',
+        hintText: 'Pilih Ibu Hamil',
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,

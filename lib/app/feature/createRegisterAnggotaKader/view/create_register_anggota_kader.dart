@@ -41,7 +41,7 @@ class _CreateRegisterAnggotaKaderViewState
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: 'Tambah Data Orang Tua',
+        title: 'Tambah Data Anggota Kader',
         onBackPressed: () {
           Navigator.pop(context);
         },
