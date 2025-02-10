@@ -68,7 +68,7 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
               prefixIcon: Icon(
                 FluentIcons.search_24_regular,
               ),
-              hintText: 'Pilih Anak',
+              hintText: 'Pilih Ibu Hamil',
               hintStyle: Theme.of(context)
                   .textTheme
                   .bodySmall!
