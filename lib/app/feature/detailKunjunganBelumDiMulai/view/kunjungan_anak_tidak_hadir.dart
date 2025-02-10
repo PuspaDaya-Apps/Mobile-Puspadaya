@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
@@ -30,25 +30,25 @@ class _DetailKunjunganAnakTidakHadirNotStartedViewState
     extends State<DetailKunjunganAnakTidakHadirNotStartedView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554010091225",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Safina Nadine Susanti',
       status: Status.belumDiMulai,
-      distance: '5,1',
+      distance: '2,1',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554010097125",
       id: '2',
-      name: 'Rahayu Putri Zahra',
+      name: 'Hamima Rahayu',
       status: Status.belumDiMulai,
-      distance: '5,1',
+      distance: '3,6',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554011700112",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Aisyah Elvina Padmasari',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '0,6',
     ),
   ];
 
@@ -218,7 +218,7 @@ class _DetailKunjunganAnakTidakHadirNotStartedViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganBelumSelesai();
+                              return DetailKunjunganBelumSelesaiAnakTidakHadir();
                             },
                           ),
                         );

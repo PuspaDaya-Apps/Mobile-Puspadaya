@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBerjalan/view/detail_kunjungan_berjalan.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai_anak_tidak_hadir.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBerjalan/view/detail_kunjungan_berjalan_anak_stunting.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
@@ -31,25 +31,25 @@ class _DetailKunjunganAnakStuntingOnGoingViewState
     extends State<DetailKunjunganAnakStuntingOnGoingView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621009211732625",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Viktor Sitompul',
       status: Status.berjalan,
-      distance: '5,1',
+      distance: '2,1',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621009361732625",
       id: '2',
-      name: 'Rahayu Putri Zahra',
+      name: 'Asman Latupono',
       status: Status.berjalan,
-      distance: '5,1',
+      distance: '2,7',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621112781732625",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Puti Mulyani',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '1,3',
     ),
   ];
 
@@ -219,7 +219,7 @@ class _DetailKunjunganAnakStuntingOnGoingViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganBerjalan();
+                              return DetailKunjunganBerjalanAnakStunting();
                             },
                           ),
                         );

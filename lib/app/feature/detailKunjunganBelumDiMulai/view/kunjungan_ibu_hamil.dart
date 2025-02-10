@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/text_style.dart';
 import '../../../model/detailListKunjungan_model.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
 import '../../kunjungan/model/Kunjungan.dart';
+import 'detail_kunjungan_belum_selesai_ibu_hamil.dart';
 
 class DetailKunjunganIbuHamilNotStarted extends StatelessWidget {
   const DetailKunjunganIbuHamilNotStarted({super.key});
@@ -30,25 +32,25 @@ class _DetailKunjunganIbuHamilNotStartedViewState
     extends State<DetailKunjunganIbuHamilNotStartedView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621554012893625",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Raisa Lailasari',
       status: Status.belumDiMulai,
-      distance: '5,1',
+      distance: '2,3',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3612904411732625",
       id: '2',
-      name: 'Rahayu Putri Zahra',
+      name: 'Titi Yuniar',
       status: Status.belumDiMulai,
-      distance: '5,1',
+      distance: '0,9',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621511002932625",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Kasiyah Lestari',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '2,8',
     ),
   ];
 
@@ -214,11 +216,12 @@ class _DetailKunjunganIbuHamilNotStartedViewState
                   children: completedVisits.map((kunjungan) {
                     return DaftarKunjunganDetailItem(
                       onTap: () {
+                        logger.d('detail kunjungan belum selesai ibu hamil');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganBelumSelesai();
+                              return DetailKunjunganBelumSelesaiIbuHamil();
                             },
                           ),
                         );

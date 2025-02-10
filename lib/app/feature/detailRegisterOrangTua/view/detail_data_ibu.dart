@@ -53,7 +53,7 @@ class DetailDataIbu extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(16),
             ),
             const Text(
-              'Nama Ayah',
+              'Nama Ibu',
               style: TextStyle(
                 fontSize: 12,
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -8,7 +9,7 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 
-class DetailKunjunganBerjalan extends StatelessWidget {
+class DetailKunjunganBerjalanAnakStunting extends StatelessWidget {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
@@ -17,7 +18,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
     "Pemberian Makanan Tambahan (PMT)",
     "Pemberian Makanan Tambahan (PMT)",
   ];
-  DetailKunjunganBerjalan({super.key});
+  DetailKunjunganBerjalanAnakStunting({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         background: Colors.white,
-        title: 'Detail Kunjungan',
+        title: 'Detail Kunjungan Anak Stunting',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -64,7 +65,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Siti Aisyah'),
+                InfoFieldWidget(text: 'Puti Mulyani'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,7 +118,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '15 Menit 20 Detik'),
+                InfoFieldWidget(text: '13 Menit 20 Detik'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Jarak Tempuh',
@@ -128,7 +129,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '21,7 KM'),
+                InfoFieldWidget(text: '1,3 KM'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   textAlign: TextAlign.start,
@@ -229,12 +230,7 @@ class DetailKunjunganBerjalan extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) {
                           return BuktiKunjungan(
-                            imageUrls: [
-                              'https://picsum.photos/200/300',
-                              'https://picsum.photos/300/300',
-                              'https://picsum.photos/350/400',
-                              'https://picsum.photos/350/450',
-                            ],
+                            imageUrls: [imageBuktiStunting],
                           );
                         },
                       ),
