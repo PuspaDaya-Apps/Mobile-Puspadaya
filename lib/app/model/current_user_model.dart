@@ -12,6 +12,7 @@ class CurrentUserModel {
   String email;
   PosyanduModel posyandu;
   RoleModel role;
+  Provinsi provinsi;
 
   CurrentUserModel({
     required this.id,
@@ -19,7 +20,8 @@ class CurrentUserModel {
     required this.nomorTelepon,
     required this.email,
     required this.posyandu,
-    required this.role
+    required this.role,
+    required this.provinsi
   });
 
    factory CurrentUserModel.fromJson(Map<String, dynamic> json) => _$CurrentUserModelFromJson(json);
@@ -61,6 +63,21 @@ class RoleModel {
   Map<String, dynamic> toJson()=>_$RoleModelToJson(this);
 }
 
+// @JsonSerializable()
+class Provinsi {
+  String id;
+  @JsonKey(name: 'nama_provinsi')
+  String namaProvinsi;
+
+  Provinsi({
+    required this.id,
+    required this.namaProvinsi,
+  });
+
+  factory Provinsi.fromJson(Map<String, dynamic> json) => _$ProvinsiFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$ProvinsiToJson(this);
+}
 
 CurrentUserModel _$CurrentUserModelFromJson(Map<String, dynamic> json) =>
     CurrentUserModel(
@@ -71,6 +88,7 @@ CurrentUserModel _$CurrentUserModelFromJson(Map<String, dynamic> json) =>
       posyandu:
           PosyanduModel.fromJson(json['posyandu'] as Map<String, dynamic>),
       role: RoleModel.fromJson(json['role'] as Map<String, dynamic>),
+      provinsi: Provinsi.fromJson(json['provinsi'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CurrentUserModelToJson(CurrentUserModel instance) =>
@@ -81,6 +99,7 @@ Map<String, dynamic> _$CurrentUserModelToJson(CurrentUserModel instance) =>
       'email': instance.email,
       'posyandu': instance.posyandu,
       'role': instance.role,
+      'provinsi': instance.provinsi,
     };
 
 PosyanduModel _$PosyanduModelFromJson(Map<String, dynamic> json) =>
@@ -105,4 +124,14 @@ RoleModel _$RoleModelFromJson(Map<String, dynamic> json) => RoleModel(
 Map<String, dynamic> _$RoleModelToJson(RoleModel instance) => <String, dynamic>{
       'id': instance.id,
       'nama_role': instance.namaRole,
+    };
+
+Provinsi _$ProvinsiFromJson(Map<String, dynamic> json) => Provinsi(
+      id: json['id'] as String,
+      namaProvinsi: json['nama_provinsi'] as String,
+    );
+
+Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_provinsi': instance.namaProvinsi,
     };
