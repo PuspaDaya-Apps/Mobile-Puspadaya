@@ -82,7 +82,7 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
               Expanded(
                 child: BlocConsumer<PengasuhPosyanduBloc, PengasuhPosyanduState>(
                   listener: (context, state) {
-                    
+                    debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is PengasuhPosyanduLoading) {

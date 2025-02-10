@@ -114,8 +114,8 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
                                 Navigator.pop(
                                   context,
                                   PaketToCreateAnakModel(
-                                    idKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ayah.kartuKeluarga.id,
-                                    nomorKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ayah.kartuKeluarga.nomorKartuKeluarga,
+                                    idKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ibu.kartuKeluarga.id,
+                                    nomorKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ibu.kartuKeluarga.nomorKartuKeluarga,
                                     namaAyah: state.getListOrangTuaResponseModel.data![index].ayah.namaAyah,
                                     namaIbu: state.getListOrangTuaResponseModel.data![index].ibu.namaIbu
                                   ) 
