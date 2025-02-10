@@ -20,6 +20,7 @@ class NetworkUtils {
           statusResponse == 206 ||
           statusResponse == 401 ||
           statusResponse == 403 ||
+          statusResponse == 404 ||
           statusResponse == 400) {
         return [statusResponse, json.decode(bodyResponse)];
       } else {
@@ -47,6 +48,7 @@ class NetworkUtils {
           statusResponse == 206 ||
           statusResponse == 401 ||
           statusResponse == 403 ||
+          statusResponse == 404 ||
           statusResponse == 400 ||
           statusResponse == 422 ||
           statusResponse == 409) {
@@ -103,6 +105,7 @@ class NetworkUtils {
           statusResponse == 206 ||
           statusResponse == 401 ||
           statusResponse == 403 ||
+          statusResponse == 404 ||
           statusResponse == 400 ||
           statusResponse == 422) {
         return [statusResponse, json.decode(bodyResponse)];
@@ -129,6 +132,7 @@ class NetworkUtils {
           statusResponse == 206 ||
           statusResponse == 401 ||
           statusResponse == 403 ||
+          statusResponse == 404 ||
           statusResponse == 400 ||
           statusResponse == 422) {
         return [statusResponse, json.decode(bodyResponse)];
@@ -155,6 +159,7 @@ class NetworkUtils {
           statusResponse == 206 ||
           statusResponse == 401 ||
           statusResponse == 403 ||
+          statusResponse == 404 ||
           statusResponse == 400) {
         return [statusResponse, json.decode(bodyResponse)];
       } else {

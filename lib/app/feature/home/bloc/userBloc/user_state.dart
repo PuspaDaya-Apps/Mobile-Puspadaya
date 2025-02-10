@@ -10,3 +10,7 @@ sealed class UserState extends Equatable {
 final class UserInitial extends UserState {}
 
 final class UserProccessState extends UserState {}
+
+final class UserSuccessState extends UserState {}
+
+final class UserFailedState extends UserState {}
