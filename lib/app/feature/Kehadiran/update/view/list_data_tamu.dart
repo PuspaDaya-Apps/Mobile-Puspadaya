@@ -3,6 +3,7 @@ import 'package:puspadaya/app/feature/Kehadiran/create/view/search_posyandu.dart
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 
+import '../../../../../utils/logger/logger.dart';
 import '../../model/list_data_tamu_model.dart';
 
 class ListDataTamu extends StatefulWidget {
@@ -14,6 +15,18 @@ class ListDataTamu extends StatefulWidget {
 
 class _ListDataTamuState extends State<ListDataTamu> {
   final List<ListDataTamuModel> listDataTamu = [];
+
+  void _addNewTamu(String nama, String posyanduAsal) {
+    setState(() {
+      listDataTamu.add(
+        ListDataTamuModel(
+          namaPosyandu: posyanduAsal,
+          posyanduAsal: posyanduAsal,
+          nama: nama,
+        ),
+      );
+    });
+  }
 
   Widget build(BuildContext context) {
     return Column(
@@ -43,15 +56,20 @@ class _ListDataTamuState extends State<ListDataTamu> {
           margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           width: MediaQuery.sizeOf(context).width,
           child: OutlinedButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) {
-                    return SearchPosyandu();
-                  },
+                  builder: (context) => const SearchPosyandu(),
                 ),
               );
+              logger.d(result);
+              if (result != null && result is Map<String, dynamic>) {
+                _addNewTamu(
+                  result['nama']! as String,
+                  result['posyanduName'] as String,
+                );
+              }
             },
             child: Text('Tambah Kehadiran Tamu'),
           ),
