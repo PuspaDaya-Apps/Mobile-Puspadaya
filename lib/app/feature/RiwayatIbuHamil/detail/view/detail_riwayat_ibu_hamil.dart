@@ -64,7 +64,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 2.96
+                      ? sizeHeighofSingleForm * 3.3
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -249,7 +249,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Detail Anak',
+                          'Detail Ibu Hamil',
                           style: AppTextStyles.primaryTextMedium.copyWith(
                             fontSize: 10,
                           ),

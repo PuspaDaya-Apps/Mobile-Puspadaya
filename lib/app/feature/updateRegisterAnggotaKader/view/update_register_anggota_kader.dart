@@ -28,10 +28,10 @@ class _UpdateRegisterAnggotaKaderViewState
     extends State<UpdateRegisterAnggotaKaderView> {
   final formkey = GlobalKey<FormState>();
   final List<String> selectPosyandu = [
-    'Posyandu A',
-    'Posyandu B',
-    'Posyandu C',
-    'Posyandu D'
+    'Posyandu Mawar 1',
+    'Posyandu Anggrek 5',
+    'Posyandu Melati Indah',
+    'Posyandu Melati 3'
   ];
   final List<String> selectKabupaten = [
     'Banyuwangi',

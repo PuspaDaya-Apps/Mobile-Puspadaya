@@ -82,11 +82,11 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     "Autisme",
   ];
   final List<String> selectJenisKB = [
-    'Pil',
+    'PIL',
     'IUD',
-    'Suntik',
-    'Implant',
-    'Lainnya'
+    'SUINTIK',
+    'IMPLANT',
+    'LAINNYA'
   ];
 
   // Controller untuk Data Ayah dan Data Ibu
@@ -276,6 +276,11 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatBloc>().add(ShowAllSectionEvent());
+    // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
+    selectedDisabilitiesAyah =
+        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu =
+        List<bool>.from(List.filled(disabilities.length, false));
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
   }
 
@@ -870,6 +875,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           mainButtonMessage:
                                               'Tambah Disabilitas',
                                           mainButton: () {
+                                            logger.d("tambah disabilitas");
                                             showDialog(
                                               context: context,
                                               builder: (context) {

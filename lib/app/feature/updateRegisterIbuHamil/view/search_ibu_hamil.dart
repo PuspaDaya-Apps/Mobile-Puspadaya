@@ -26,10 +26,35 @@ class SearchIbuHamilView extends StatefulWidget {
 class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
   List<IbuHamilItemModel> listIbuHamil = [
+    /**
+     * Kania Lailasari
+Cinta Hartati
+Julia Haryanti
+Restu Hasanah
+Salsabila Pertiwi
+Oni Maryati
+Jamalia Pia Wahyuni
+Ella Hasanah
+Rahmi Uyainah
+Faizah Prastuti
+
+     */
     IbuHamilItemModel(
-      nama: 'nama ibu hamil',
-      namaSuami: 'Nama suami',
-      nik: '213124123412',
+      nama: 'Kania Lailasari',
+      namaSuami: 'Nrima Prasetya',
+      nik: '8081328761302945',
+      usia: '28',
+    ),
+    IbuHamilItemModel(
+      nama: 'Cinta Hartati',
+      namaSuami: 'Banawa Budiyanto',
+      nik: '80813200915882913',
+      usia: '28',
+    ),
+    IbuHamilItemModel(
+      nama: 'Restu Hasanah',
+      namaSuami: 'Lega Siregar',
+      nik: '8081320068131923',
       usia: '28',
     ),
   ];
