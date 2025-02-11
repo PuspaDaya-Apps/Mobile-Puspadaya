@@ -14,12 +14,18 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../model/current_user_model.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({
+    super.key,
+    required this.currentUserModel
+  });
+
+  final CurrentUserModel currentUserModel;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +38,19 @@ class Home extends StatelessWidget {
           create: (context) => JadwalPosyanduHomeBloc(),
         ),
       ],
-      child: const HomeView(),
+      child: HomeView(currentUserModel: currentUserModel),
     );
   }
 }
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({
+    super.key,
+    required this.currentUserModel
+  });
 
+  final CurrentUserModel currentUserModel;
+  
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -62,8 +73,8 @@ class _HomeViewState extends State<HomeView> {
           child: ListView(
             children: [
               ProfileSection(
-                name: 'Ayu Dewi',
-                role: 'Ketua Kader',
+                name: widget.currentUserModel.namaLengkap,
+                role: widget.currentUserModel.role.namaRole,
               ),
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(16),
@@ -92,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
                     if(state.jadwal == null) {
                       return CardListActivity(
                         date: DateTime.now(),
-                        location: "Posyandu Mawar 6",
+                        location: widget.currentUserModel.posyandu.namaPosyandu,
                       );
                     }
                     return  JadwalCard(
@@ -105,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
                   }
                   return CardListActivity(
                     date: DateTime.now(),
-                    location: "Posyandu Mawar 6",
+                    location: widget.currentUserModel.posyandu.namaPosyandu,
                   );
                 },
               ),
@@ -507,38 +518,36 @@ class ProfileSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: SizeConfig.calWidthMultiplier(12),
         children: [
-          Row(
-            spacing: SizeConfig.calWidthMultiplier(12),
-            children: [
-              Image(
-                image: AssetImage(userImageDefault),
-                height: SizeConfig.calMultiplierImage(50),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Selamat Datang ${name}',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      color: textPrimary10,
-                      fontSize: 12,
-                    ),
+          Image(
+            image: AssetImage(userImageDefault),
+            height: SizeConfig.calMultiplierImage(50),
+          ),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Selamat Datang ${name}',
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: AppTextStyles.primaryTextMedium.copyWith(
+                    color: textPrimary10,
+                    fontSize: 12,
                   ),
-                  Text(
-                    '${role}',
-                    style: TextStyle(
-                      color: textSecoundary,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 10,
-                    ),
+                ),
+                Text(
+                  '${role}',
+                  style: TextStyle(
+                    color: textSecoundary,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 10,
                   ),
-                ],
-              )
-            ],
+                ),
+              ],
+            ),
           ),
           GestureDetector(
             onTap: () {

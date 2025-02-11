@@ -11,7 +11,7 @@ import '../../../../route/route_name.dart';
 import '../../../view/widget/textfield_password_login_widget.dart';
 import '../../../view/widget/textfield_username_login_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../lupaKataSandi/view/lupa_kata_sandi_screen.dart';
+import 'lupa_kata_sandi_screen.dart';
 import '../bloc/loginBloc/login_bloc.dart';
 import '../bloc/rememberMeCubit/remember_me_cubit.dart';
 import '../model/login_model.dart';
