@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -7,18 +8,32 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'dart:async';
 import 'package:puspadaya/utils/logger/logger.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../login/model/lupa_kata_sandi_model.dart';
+import '../bloc/kode_otp_bloc.dart';
+import '../model/kode_otp_model.dart';
 
 class OtpScreen extends StatelessWidget {
-  const OtpScreen({super.key});
+  const OtpScreen({super.key, required this.nomorTelepon});
+
+  final String nomorTelepon;
 
   @override
   Widget build(BuildContext context) {
-    return OtpScreenView();
+    return BlocProvider(
+      create: (context) => KodeOtpBloc(),
+      child: OtpScreenView(
+        nomorTelepon: nomorTelepon,
+      ),
+    );
   }
 }
 
 class OtpScreenView extends StatefulWidget {
-  const OtpScreenView({super.key});
+  const OtpScreenView({super.key, required this.nomorTelepon});
+  final String nomorTelepon;
 
   @override
   State<OtpScreenView> createState() => _OtpScreenViewState();
@@ -29,7 +44,7 @@ class _OtpScreenViewState extends State<OtpScreenView> {
   final TextEditingController pinController = TextEditingController();
 
   late Timer _timer;
-  int _remainingSeconds = 90;
+  int _remainingSeconds = 900;
 
   @override
   void initState() {
@@ -44,18 +59,26 @@ class _OtpScreenViewState extends State<OtpScreenView> {
           _remainingSeconds--;
         } else {
           _timer.cancel();
+          showTopSnackBar(
+              Overlay.of(context),
+              animationDuration: const Duration(milliseconds: 600),
+              displayDuration: const Duration(milliseconds: 2200),
+              reverseAnimationDuration: const Duration(milliseconds: 300),
+              TopSnackbarWidget()
+                  .error("Waktu Pengisian Kode OTP Telah Berakhir "));
+          Navigator.pushReplacementNamed(context, LOGIN);
         }
       });
     });
   }
 
-  void resetTimer() {
-    _timer.cancel();
-    setState(() {
-      _remainingSeconds = 90;
-    });
-    startTimer();
-  }
+  // void resetTimer() {
+  //   setState(() {
+  //     _timer.cancel();
+  //     _remainingSeconds = 900;
+  //     startTimer();
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -71,6 +94,8 @@ class _OtpScreenViewState extends State<OtpScreenView> {
 
   @override
   Widget build(BuildContext context) {
+    final kodeOtpBloc = BlocProvider.of<KodeOtpBloc>(context);
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: AppBar(
@@ -95,15 +120,30 @@ class _OtpScreenViewState extends State<OtpScreenView> {
           horizontal: SizeConfig.calWidthMultiplier(20),
           vertical: SizeConfig.calHeightMultiplier(16),
         ),
-        child: ButtonPrimary(
-          color: bluePrimaryMain,
-          mainButton: () {
-            if (formKey.currentState!.validate()) {
-              logger.d(pinController.text);
-              Navigator.pushReplacementNamed(context, RESET_PASSWORD);
+        child: BlocConsumer<KodeOtpBloc, KodeOtpState>(
+          listener: (context, state) {
+            debugPrint(state.toString());
+            if (state is SendOTPSuccessState) {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, RESET_PASSWORD,
+                  arguments: pinController.text);
+            }
+            if (state is SendOTPFailedState) {
+              debugPrint(state.toString());
             }
           },
-          mainButtonMessage: 'Verifikasi Kode OTP',
+          builder: (context, state) {
+            return ButtonPrimary(
+              color: bluePrimaryMain,
+              mainButton: () {
+                if (formKey.currentState!.validate()) {
+                  logger.d(pinController.text);
+                  kodeOtpBloc.add(SendOTP(KodeOtpModel(kodeOtp: pinController.text)));
+                }
+              },
+              mainButtonMessage: 'Verifikasi Kode OTP',
+            );
+          },
         ),
       ),
       body: SafeArea(
@@ -137,16 +177,16 @@ class _OtpScreenViewState extends State<OtpScreenView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   RichText(
-                    text: const TextSpan(
+                    text: TextSpan(
                       text: '5 digit kode OTP sudah kami kirimkan ke ',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black54,
                         fontSize: 14,
                       ),
                       children: [
                         TextSpan(
-                          text: '+62864536252',
-                          style: TextStyle(
+                          text: widget.nomorTelepon,
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -213,16 +253,36 @@ class _OtpScreenViewState extends State<OtpScreenView> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      GestureDetector(
-                        child: Text(
-                          'Kirim Ulang',
-                          style: TextStyle(
-                            color: bluePrimary30,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onTap: resetTimer,
+                      BlocConsumer<KodeOtpBloc, KodeOtpState>(
+                        listener: (context, state) {
+                          debugPrint(state.toString());
+                          if(state is GetOTPSuccessState) {
+                            debugPrint('success get again');
+                            setState(() {
+                              _remainingSeconds = 900;
+                            });
+                          }
+                          if(state is GetOTPFailedState) {
+                            debugPrint(state.toString());
+                          }
+                        },
+                        builder: (context, state) {
+                          return GestureDetector(
+                            child: Text(
+                              'Kirim Ulang',
+                              style: TextStyle(
+                                color: bluePrimary30,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              kodeOtpBloc.add(GetOTP(
+                                LupaKataSandiModel(noTelepon: widget.nomorTelepon)
+                              ));
+                            }
+                          );
+                        },
                       ),
                     ],
                   ),

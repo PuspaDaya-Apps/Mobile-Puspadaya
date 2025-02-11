@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -6,17 +7,30 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/validator/validator.dart';
 
+import '../../../../route/route_name.dart';
+import '../bloc/reset_kata_sandi_bloc.dart';
+import '../model/reset_kata_sandi_model.dart';
+
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  const ResetPassword({super.key, required this.codeOTP});
+
+  final String codeOTP;
 
   @override
   Widget build(BuildContext context) {
-    return ResetPasswordView();
+    return BlocProvider(
+      create: (context) => ResetKataSandiBloc(),
+      child: ResetPasswordView(
+        codeOTP: codeOTP,
+      ),
+    );
   }
 }
 
 class ResetPasswordView extends StatefulWidget {
-  const ResetPasswordView({super.key});
+  const ResetPasswordView({super.key, required this.codeOTP});
+
+  final String codeOTP;
 
   @override
   State<ResetPasswordView> createState() => _ResetPasswordViewState();
@@ -24,21 +38,18 @@ class ResetPasswordView extends StatefulWidget {
 
 class _ResetPasswordViewState extends State<ResetPasswordView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  void handleSubmit() {
-    if (formKey.currentState?.validate() ?? false) {
-      // Lakukan aksi setelah validasi sukses
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Kata sandi berhasil diperbarui!')),
-      );
-    }
-  }
+  bool f1 = true;
+  bool f2 = true; 
 
   @override
   Widget build(BuildContext context) {
+    final resetKataSandiBloc = BlocProvider.of<ResetKataSandiBloc>(context);
+    
     return Scaffold(
       backgroundColor: backgroundWhite,
       appBar: AppBar(
@@ -110,8 +121,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       (value) => Validator.mustContainsSymbol(
                           value, 'Kata sandi harus mengandung simbol'),
                     ],
-                    obscureText: true,
-                    onToggleVisibility: () {},
+                    obscureText: f1,
+                    onToggleVisibility: () {
+                      setState(() {
+                        f1 = !f1;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                   Text(
@@ -138,14 +153,43 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       (value) => Validator.mustContainsSymbol(
                           value, 'Kata sandi harus mengandung simbol'),
                     ],
-                    obscureText: true,
-                    onToggleVisibility: () {},
+                    obscureText: f2,
+                    onToggleVisibility: () {
+                      setState(() {
+                        f2 = !f2;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(20)),
-                  ButtonPrimary(
-                    color: bluePrimaryMain,
-                    mainButtonMessage: "Ganti Kata Sandi",
-                    mainButton: handleSubmit,
+                  BlocConsumer<ResetKataSandiBloc, ResetKataSandiState>(
+                    listener: (context, state) {
+                      debugPrint(state.toString());
+                      if(state is ResetKataSandiSuccessState) {
+                        Navigator.pushReplacementNamed(context, LOGIN);
+                      }
+                      if(state is ResetKataSandiFailedState) {
+                        debugPrint(state.error);
+                      }
+                    },
+                    builder: (context, state) {
+                      return ButtonPrimary(
+                        color: bluePrimaryMain,
+                        mainButtonMessage: "Ganti Kata Sandi",
+                        mainButton: () {
+                          if (formKey.currentState?.validate() ?? false) {
+                            resetKataSandiBloc.add(
+                              ResetKataSandi(
+                                ResetKataSandiModel(
+                                  kodeOtp: widget.codeOTP, 
+                                  password: passwordController.text, 
+                                  confirmPassword: confirmPasswordController.text
+                                )
+                              )
+                            );
+                          }
+                        },
+                      );
+                    },
                   ),
                 ],
               ),

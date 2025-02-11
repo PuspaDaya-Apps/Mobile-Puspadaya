@@ -149,6 +149,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 // Navigator.pushReplacementNamed(context, LOGIN);
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     LOGIN, (Route<dynamic> route) => false);
+                                debugPrint('TO LOGIN');
+
                               }
                             },
                           ),
@@ -157,13 +159,11 @@ class _ProfileViewState extends State<ProfileView> {
                               debugPrint(state.toString());
                               if (state is AuthenticationFalse) {
                                 debugPrint(state.toString());
-                                authorizationBloc
-                                    .add(AuthorizationFalseEvent());
+                                authorizationBloc.add(AuthorizationFalseEvent());
                               }
                               if (state is LogoutSuccess) {
                                 debugPrint(state.toString());
-                                authorizationBloc
-                                    .add(AuthorizationFalseEvent());
+                                authorizationBloc.add(AuthorizationFalseEvent());
                                 showTopSnackBar(
                                     Overlay.of(context),
                                     animationDuration:

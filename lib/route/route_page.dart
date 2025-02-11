@@ -105,11 +105,15 @@ class MyRoute {
 
       case OTP:
         return MaterialPageRoute(
-            builder: (context) => const OtpScreen(), settings: settings);
+            builder: (context) => OtpScreen(
+              nomorTelepon: settings.arguments as String,
+            ), settings: settings);
 
       case RESET_PASSWORD:
         return MaterialPageRoute(
-            builder: (context) => const ResetPassword(), settings: settings);
+            builder: (context) => ResetPassword(
+              codeOTP: settings.arguments as String,
+            ), settings: settings);
 
       case HOME:
         return MaterialPageRoute(
