@@ -12,25 +12,33 @@ class ListDataIbu extends StatefulWidget {
 }
 
 class _ListDataIbuState extends State<ListDataIbu> {
-  final List<ListDataIbuModel> listDataIbu = [
+  List<ListDataIbuModel> listDataIbu = [
+    ListDataIbuModel(
+        isChecked: false, nama: 'Raina Laksmiwati', nik: '3621554282332633'),
+    ListDataIbuModel(
+        isChecked: false, nama: 'Zaenab Nasyidah', nik: '3621056421567845'),
+    ListDataIbuModel(
+        isChecked: false, nama: 'Yessi Sudiati', nik: '3621550987651090'),
     ListDataIbuModel(
         isChecked: false,
-        nama: 'Muhammad Kaivan Al Hakim',
-        nik: '362155428233263'),
+        nama: 'Zulaikha Ira Hassanah',
+        nik: '3621559812000995'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Aisyah Zahra Putri', nik: ' 362155428233263'),
+        isChecked: false, nama: 'Paris Yuni Lestari', nik: '362121006665558'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Bintang Harapan', nik: '362155428233263'),
+        isChecked: false,
+        nama: 'Laila Dian Yuliarti M.Farm',
+        nik: '3621550091238342'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', nik: ' 362155428233263'),
+        isChecked: false, nama: 'Salwa Handayani', nik: '3621557780346711'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Bintang Harapan', nik: '362155428233263'),
+        isChecked: false, nama: 'Iriana Suryatmi', nik: '3621550011274498'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', nik: ' 362155428233263'),
+        isChecked: false,
+        nama: 'Iriana Permata M.TI.',
+        nik: '3621550998765129'),
     ListDataIbuModel(
-        isChecked: false, nama: 'Bintang Harapan', nik: '362155428233263'),
-    ListDataIbuModel(
-        isChecked: false, nama: 'Kaizen Alfarizi', nik: ' 362155428233263'),
+        isChecked: false, nama: 'Cinthia Puspita', nik: '362150011298749'),
   ];
 
   Widget build(BuildContext context) {

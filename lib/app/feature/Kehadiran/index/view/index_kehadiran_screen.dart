@@ -32,7 +32,7 @@ class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
         tanggal: '21 Januari 2025'),
     ListKehadiranItemModel(
       durasi: '1 Jam 23 Menit',
-      lokasiPosyandu: 'Posyandu Mawar 2',
+      lokasiPosyandu: 'Posyandu Melati 4',
       status: 'Sedang Berjalan',
       tanggal: '21 Januari 2025',
     ),
@@ -44,7 +44,7 @@ class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
     ),
     ListKehadiranItemModel(
       durasi: '4 Jam 53 Menit',
-      lokasiPosyandu: 'Posyandu Anggrek 3',
+      lokasiPosyandu: 'Posyandu Melati 4',
       status: 'Selesai',
       tanggal: '20 Januari 2025',
     ),

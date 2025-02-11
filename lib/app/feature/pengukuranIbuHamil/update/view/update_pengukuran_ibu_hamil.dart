@@ -35,7 +35,7 @@ class UpdatePengukuranIbuHamilView extends StatefulWidget {
 class _UpdatePengukuranIbuHamilViewState
     extends State<UpdatePengukuranIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
-  String selectedPosyandu = 'Posyandu A';
+  String selectedPosyandu = 'Posyandu Mawar 1';
   String selectedPosition = 'Terlentang';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
@@ -92,10 +92,10 @@ class _UpdatePengukuranIbuHamilViewState
   }
 
   final List<String> selectPosyandu = [
-    'Posyandu A',
-    'Posyandu B',
-    'Posyandu C',
-    'Posyandu D'
+    'Posyandu Mawar 1',
+    'Posyandu Anggrek 5',
+    'Posyandu Melati Indah',
+    'Posyandu Melati 3'
   ];
   @override
   Widget build(BuildContext context) {
@@ -238,6 +238,11 @@ class _UpdatePengukuranIbuHamilViewState
                     hint: 'Tempat Pengukuran',
                     items: selectPosyandu,
                     value: selectedPosyandu,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPosyandu = value;
+                      });
+                    },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
@@ -252,7 +257,7 @@ class _UpdatePengukuranIbuHamilViewState
                           children: [
                             MeasurementWidget(
                               title: 'Tinggi Badan',
-                              hintText: 'contoh: 13,5',
+                              hintText: 'contoh: 13.5',
                               unit: 'cm',
                               // tool: 'Microtoise',
                               controller: _heightController,
@@ -262,7 +267,7 @@ class _UpdatePengukuranIbuHamilViewState
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Lengan Atas',
-                              hintText: 'contoh: 3,5',
+                              hintText: 'contoh: 3.5',
                               unit: 'cm',
                               // tool: 'Pita Lila',
                               controller: _upperArmCircumferenceController,
@@ -277,7 +282,7 @@ class _UpdatePengukuranIbuHamilViewState
                           children: [
                             MeasurementWidget(
                               title: 'Berat Badan',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'kg',
                               // tool: 'Timbangan Digital',
                               controller: _weightController,
@@ -287,7 +292,7 @@ class _UpdatePengukuranIbuHamilViewState
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Kepala',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'cm',
                               // tool: 'Alat Ukur Lingkar Kepala',
                               controller: _headCircumferenceController,
