@@ -118,7 +118,11 @@ class _LupaKataSandiScreenState extends State<LupaKataSandiScreen> {
                       debugPrint(state.toString());
                       if (state is LupaKataSandiSuccessState) {
                         Navigator.pop(context);
-                        Navigator.pushNamed(context, OTP);
+                        Navigator.pushNamed(
+                          context, 
+                          OTP,
+                          arguments: nomorTelponController.text
+                        );
                       }
                       if (state is LupaKataSandiFailedState) {
                         debugPrint(state.error);
