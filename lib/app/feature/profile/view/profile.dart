@@ -150,9 +150,9 @@ class _ProfileViewState extends State<ProfileView> {
                             listener: (context, state) {
                               debugPrint(state.toString());
                               if (state is AuthorizationFalse) {
-                                // Navigator.pushReplacementNamed(context, LOGIN);
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    LOGIN, (Route<dynamic> route) => false);
+                                Navigator.pushReplacementNamed(context, LOGIN);
+                                // Navigator.pushNamedAndRemoveUntil(context,
+                                //     LOGIN, (Route<dynamic> route) => false);
                               }
                             },
                           ),
@@ -220,8 +220,6 @@ class _ProfileViewState extends State<ProfileView> {
                                   },
                                   mainButton: () {
                                     authenticationBloc.add(LogoutEvent());
-                                    Navigator.pushNamedAndRemoveUntil(context,
-                                        LOGIN, (Route<dynamic> route) => false);
                                   },
                                   cancelButtonMessage: 'Batalkan',
                                   mainButtonMessage: 'Iya, saya ingin keluar',
