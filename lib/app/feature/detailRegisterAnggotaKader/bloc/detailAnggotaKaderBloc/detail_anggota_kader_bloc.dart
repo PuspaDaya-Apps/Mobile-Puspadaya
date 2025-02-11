@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../model/detail_anggota_kader_response_model.dart';
-import '../service/detail_anggota_kader_api.dart';
+import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../model/detail_anggota_kader_response_model.dart';
+import '../../service/detail_anggota_kader_api.dart';
 
 part 'detail_anggota_kader_event.dart';
 part 'detail_anggota_kader_state.dart';
@@ -16,7 +16,7 @@ class DetailAnggotaKaderBloc extends Bloc<DetailAnggotaKaderEvent, DetailAnggota
   }
 
   Future<void> getDetailAnggotaKader (GetDetailAnggotaKader event, Emitter<DetailAnggotaKaderState> emit) async {
-     emit(DetailAnggotaKaderProcessState());
+    emit(DetailAnggotaKaderProcessState());
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 

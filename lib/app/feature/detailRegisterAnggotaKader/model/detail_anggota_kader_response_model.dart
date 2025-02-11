@@ -34,7 +34,7 @@ class Data {
   String alamatLengkap;
   Posyandu posyandu;
   Role role;
-  Dusun dusun;
+  // Dusun dusun;
   
   Data({
     required this.id,
@@ -46,7 +46,7 @@ class Data {
     required this.alamatLengkap,
     required this.posyandu,
     required this.role,
-    required this.dusun
+    // required this.dusun
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -184,7 +184,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       alamatLengkap: json['alamat_lengkap'] as String,
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       role: Role.fromJson(json['role'] as Map<String, dynamic>),
-      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+      // dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -197,7 +197,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'alamat_lengkap': instance.alamatLengkap,
       'posyandu': instance.posyandu,
       'role': instance.role,
-      'dusun': instance.dusun,
+      // 'dusun': instance.dusun,
     };
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
