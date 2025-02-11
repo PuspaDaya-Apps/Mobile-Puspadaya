@@ -58,7 +58,7 @@ class _CreatePengukuranIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
 
-  String selectedPosyandu = 'Posyandu A';
+  String selectedPosyandu = 'Posyandu Mawar 1';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
   String selectedUpperArmCircumference = 'Pita Lila';

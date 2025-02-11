@@ -17,24 +17,20 @@ import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({
-    super.key,
-    required this.currentUserModel
-  });
+  const Profile({super.key, required this.currentUserModel});
 
   final CurrentUserModel currentUserModel;
 
   @override
   Widget build(BuildContext context) {
-    return ProfileView(currentUserModel: currentUserModel,);
+    return ProfileView(
+      currentUserModel: currentUserModel,
+    );
   }
 }
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({
-    super.key,
-    required this.currentUserModel
-  });
+  const ProfileView({super.key, required this.currentUserModel});
 
   final CurrentUserModel currentUserModel;
 
@@ -150,11 +146,11 @@ class _ProfileViewState extends State<ProfileView> {
                             listener: (context, state) {
                               debugPrint(state.toString());
                               if (state is AuthorizationFalse) {
-
                                 // Navigator.pushReplacementNamed(context, LOGIN);
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     LOGIN, (Route<dynamic> route) => false);
                                 debugPrint('TO LOGIN');
+
                               }
                             },
                           ),
@@ -214,6 +210,13 @@ class _ProfileViewState extends State<ProfileView> {
                                   },
                                   mainButton: () {
                                     authenticationBloc.add(LogoutEvent());
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          LOGIN,
+                                          (Route<dynamic> route) => false);
+                                    });
                                   },
                                   cancelButtonMessage: 'Batalkan',
                                   mainButtonMessage: 'Iya, saya ingin keluar',

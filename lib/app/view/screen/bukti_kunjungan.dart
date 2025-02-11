@@ -35,10 +35,12 @@ class BuktiKunjungan extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
+                  child: Image(
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height / 4,
-                    imageUrls[index],
+                    image: AssetImage(
+                      imageUrls[index],
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -1,23 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/pallet_color.dart';
+import '../../../../../config/screen_config/size_config.dart';
+import '../../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
+import '../../createKunjunganAnakTidakHadir/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
+import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
+import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
 
-class DetailKunjunganSelesai extends StatelessWidget {
+class DetailKunjunganBelumSelesaiAnakTidakHadir extends StatelessWidget {
+  // List<CheckboxKunjungan> listOfCheckbox = [
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Pengukuran di Rumah',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Penggunaan Buku KIA',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Isi Piringku',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Aktivitas Fisik',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Imunisasi',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Vitamin A',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Obat Cacing',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Stimulasi Perkembangan',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Anak Tidak Berada di Rumah',
+  //   ),
+  // ];
   List<String> job = [
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
+    "Pengukuran di Rumah",
+    "Stimulasi Perkembangan",
+    "Aktivitas Fisik",
+    "Pemantauan Tanda Bahaya Bayi dan Anak",
+    "Penggunaan Buku KIA",
   ];
-  DetailKunjunganSelesai({super.key});
+  DetailKunjunganBelumSelesaiAnakTidakHadir({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +74,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         background: Colors.white,
-        title: 'Detail Kunjungan',
+        title: 'Detail Kunjungan Anak Tidak Hadir',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -44,6 +93,21 @@ class DetailKunjunganSelesai extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Center(
+                  child: Image(
+                    width: 240,
+                    image: AssetImage(
+                      imageOnTheWay,
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
+                Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: 1,
+                  color: Colors.black54,
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                 const Text(
                   'NIK',
                   style: TextStyle(
@@ -53,7 +117,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '354635284658310023'),
+                InfoFieldWidget(text: '3621554011700112'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Nama',
@@ -64,7 +128,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Siti Aisyah'),
+                InfoFieldWidget(text: 'Aisyah Elvina Padmasari'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -117,7 +181,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '15 Menit 20 Detik'),
+                InfoFieldWidget(text: "2 Menit 20 Detik"),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Jarak Tempuh',
@@ -128,7 +192,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '21,7 KM'),
+                InfoFieldWidget(text: '0,6 KM'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   textAlign: TextAlign.start,
@@ -147,7 +211,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                       child: InfoFieldWidget(text: 'Banyuwangi'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Kabat'),
+                      child: InfoFieldWidget(text: 'Genteng'),
                     )
                   ],
                 ),
@@ -158,10 +222,10 @@ class DetailKunjunganSelesai extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: 'Kabat'),
+                      child: InfoFieldWidget(text: 'Setail'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: 'Bunder'),
+                      child: InfoFieldWidget(text: 'Setail'),
                     )
                   ],
                 ),
@@ -172,10 +236,10 @@ class DetailKunjunganSelesai extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Expanded(
-                      child: InfoFieldWidget(text: '11'),
+                      child: InfoFieldWidget(text: '02'),
                     ),
                     Expanded(
-                      child: InfoFieldWidget(text: '03'),
+                      child: InfoFieldWidget(text: '06'),
                     )
                   ],
                 ),
@@ -183,7 +247,7 @@ class DetailKunjunganSelesai extends StatelessWidget {
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
                 InfoFieldWidget(
-                  text: 'Jl. Jendaral Sudirman, Gg. Jembatan Ayu',
+                  text: 'Jl. KH Ahmad',
                 ),
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
@@ -230,12 +294,26 @@ class DetailKunjunganSelesai extends StatelessWidget {
                         builder: (context) {
                           return BuktiKunjungan(
                             imageUrls: [
-                              'https://picsum.photos/200/300',
-                              'https://picsum.photos/300/300',
-                              'https://picsum.photos/350/400',
-                              'https://picsum.photos/350/450',
+                              imageBuktiPengukuranDiRUmah,
                             ],
                           );
+                        },
+                      ),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(16),
+                ),
+                ButtonPrimary(
+                  color: goldPrimaryMain,
+                  mainButtonMessage: 'Perbarui ',
+                  mainButton: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return ChecklistJobKunjunganAnakTidakHadir();
                         },
                       ),
                     );

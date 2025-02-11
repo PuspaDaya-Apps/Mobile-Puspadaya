@@ -3,24 +3,19 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../../config/screen_config/size_config.dart';
-import '../../../../../config/theme/pallet_color.dart';
+import '../../../../config/screen_config/size_config.dart';
+import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
-import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
-import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
 
-class DetailKunjunganBelumSelesai extends StatelessWidget {
+class DetailKunjunganSelesaiAnakTidakHadir extends StatelessWidget {
   List<String> job = [
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
+    "Vitamin A",
+    "obat cacing",
+    "stimulasi perkembangan",
   ];
-  DetailKunjunganBelumSelesai({super.key});
+  DetailKunjunganSelesaiAnakTidakHadir({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         background: Colors.white,
-        title: 'Detail Kunjungan',
+        title: 'Detail Kunjungan Anak Tidak Hadir',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -47,21 +42,6 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(
-                  child: Image(
-                    width: 240,
-                    image: AssetImage(
-                      imageOnTheWay,
-                    ),
-                  ),
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
-                Container(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: 1,
-                  color: Colors.black54,
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                 const Text(
                   'NIK',
                   style: TextStyle(
@@ -82,7 +62,7 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Siti Aisyah'),
+                InfoFieldWidget(text: 'Dewi Lestari'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +115,7 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '15 Menit 20 Detik'),
+                InfoFieldWidget(text: '4 Menit 20 Detik'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Jarak Tempuh',
@@ -146,7 +126,7 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '21,7 KM'),
+                InfoFieldWidget(text: '6,8'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   textAlign: TextAlign.start,
@@ -247,30 +227,8 @@ class DetailKunjunganBelumSelesai extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) {
                           return BuktiKunjungan(
-                            imageUrls: [
-                              'https://picsum.photos/200/300',
-                              'https://picsum.photos/300/300',
-                              'https://picsum.photos/350/400',
-                              'https://picsum.photos/350/450',
-                            ],
+                            imageUrls: [imageBuktiPengukuranDiRUmah],
                           );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: SizeConfig.calHeightMultiplier(16),
-                ),
-                ButtonPrimary(
-                  color: goldPrimaryMain,
-                  mainButtonMessage: 'Perbarui ',
-                  mainButton: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return ChecklistJobKunjunganAnak();
                         },
                       ),
                     );

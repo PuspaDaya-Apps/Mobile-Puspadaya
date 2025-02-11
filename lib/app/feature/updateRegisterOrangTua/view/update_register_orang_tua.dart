@@ -70,7 +70,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
 
-  final List<String> selectGolDarah = [
+  List<String> selectGolDarah = [
+    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
     'A+',
     'A-',
     'B+',
@@ -93,7 +94,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final List<String> selectJenisKB = [
     'PIL',
     'IUD',
-    'SUINTIK',
+    'SUNTIK',
     'IMPLANT',
     'LAINNYA'
   ];
