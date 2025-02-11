@@ -75,6 +75,7 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
@@ -496,7 +497,9 @@ class MyRoute {
 
       case UPDATE_REGISTER_ANGGOTA_KADER:
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterAnggotaKader(),
+          builder: (context) => UpdateRegisterAnggotaKader(
+            paket: settings.arguments as PaketToUpdateAnggotaKaderModel,
+          ),
           settings: settings,
         );
       case DETAIL_REGISTER_ANGGOTA_KADER:
