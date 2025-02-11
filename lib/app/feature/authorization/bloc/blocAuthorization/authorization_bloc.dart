@@ -15,6 +15,7 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
       debugPrint("step 3");
       SharedPrefUtils().removeAccessToken();
       SharedPrefUtils().removeRefreshToken();
+      SharedPrefUtils().removeCurrentUser();
       emit(AuthorizationFalse());
     });
 
