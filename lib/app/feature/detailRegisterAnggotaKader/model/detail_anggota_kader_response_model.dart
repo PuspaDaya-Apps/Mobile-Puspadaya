@@ -84,77 +84,77 @@ class Role {
   Map<String, dynamic> toJson()=>_$RoleToJson(this);
 }
 
-// @JsonSerializable()
-class Dusun {
-  String id;
-  @JsonKey(name: 'nama_dusun')
-  String namaDusun;
-  @JsonKey(name: 'desa_kelurahan')
-  DesaKelurahan desaKelurahan;
+// // @JsonSerializable()
+// class Dusun {
+//   String id;
+//   @JsonKey(name: 'nama_dusun')
+//   String namaDusun;
+//   @JsonKey(name: 'desa_kelurahan')
+//   DesaKelurahan desaKelurahan;
 
-  Dusun({
-    required this.id,
-    required this.namaDusun,
-    required this.desaKelurahan
-  });
+//   Dusun({
+//     required this.id,
+//     required this.namaDusun,
+//     required this.desaKelurahan
+//   });
 
-  factory Dusun.fromJson(Map<String, dynamic> json) => _$DusunFromJson(json);
+//   factory Dusun.fromJson(Map<String, dynamic> json) => _$DusunFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$DusunToJson(this);
-}
+//   Map<String, dynamic> toJson()=>_$DusunToJson(this);
+// }
 
-// @JsonSerializable()
-class DesaKelurahan {
-  String id;
-  @JsonKey(name: 'nama_desa_kelurahan')
-  String namaDesaKelurahan;
-  Kecamatan kecamatan;
+// // @JsonSerializable()
+// class DesaKelurahan {
+//   String id;
+//   @JsonKey(name: 'nama_desa_kelurahan')
+//   String namaDesaKelurahan;
+//   Kecamatan kecamatan;
 
-  DesaKelurahan({
-    required this.id,
-    required this.namaDesaKelurahan,
-    required this.kecamatan
-  });
+//   DesaKelurahan({
+//     required this.id,
+//     required this.namaDesaKelurahan,
+//     required this.kecamatan
+//   });
 
-  factory DesaKelurahan.fromJson(Map<String, dynamic> json) => _$DesaKelurahanFromJson(json);
+//   factory DesaKelurahan.fromJson(Map<String, dynamic> json) => _$DesaKelurahanFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$DesaKelurahanToJson(this);
-}
+//   Map<String, dynamic> toJson()=>_$DesaKelurahanToJson(this);
+// }
 
-// @JsonSerializable()
-class Kecamatan {
-  String id;
-  @JsonKey(name: 'nama_kecamatan')
-  String namaKecamatan;
-  @JsonKey(name : 'kabupaten_kota')
-  KabupatenKota kabupatenKota;
+// // @JsonSerializable()
+// class Kecamatan {
+//   String id;
+//   @JsonKey(name: 'nama_kecamatan')
+//   String namaKecamatan;
+//   @JsonKey(name : 'kabupaten_kota')
+//   KabupatenKota kabupatenKota;
 
-  Kecamatan({
-    required this.id,
-    required this.namaKecamatan,
-    required this.kabupatenKota
-  });
+//   Kecamatan({
+//     required this.id,
+//     required this.namaKecamatan,
+//     required this.kabupatenKota
+//   });
 
-  factory Kecamatan.fromJson(Map<String, dynamic> json) => _$KecamatanFromJson(json);
+//   factory Kecamatan.fromJson(Map<String, dynamic> json) => _$KecamatanFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$KecamatanToJson(this);
-}
+//   Map<String, dynamic> toJson()=>_$KecamatanToJson(this);
+// }
 
-// @JsonSerializable()
-class KabupatenKota{
-  String id;
-  @JsonKey(name: 'nama_kabupaten_kota')
-  String namaKabupatenKota;
+// // @JsonSerializable()
+// class KabupatenKota{
+//   String id;
+//   @JsonKey(name: 'nama_kabupaten_kota')
+//   String namaKabupatenKota;
 
-  KabupatenKota({
-    required this.id,
-    required this.namaKabupatenKota
-  });
+//   KabupatenKota({
+//     required this.id,
+//     required this.namaKabupatenKota
+//   });
 
-  factory KabupatenKota.fromJson(Map<String, dynamic> json) => _$KabupatenKotaFromJson(json);
+//   factory KabupatenKota.fromJson(Map<String, dynamic> json) => _$KabupatenKotaFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$KabupatenKotaToJson(this);
-}
+//   Map<String, dynamic> toJson()=>_$KabupatenKotaToJson(this);
+// }
 
 DetailAnggotaKaderResponseModel _$DetailAnggotaKaderResponseModelFromJson(
         Map<String, dynamic> json) =>
@@ -218,54 +218,54 @@ Map<String, dynamic> _$RoleToJson(Role instance) => <String, dynamic>{
       'nama_role': instance.namaRole,
     };
 
-Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
-      id: json['id'] as String,
-      namaDusun: json['nama_dusun'] as String,
-      desaKelurahan: DesaKelurahan.fromJson(
-          json['desa_kelurahan'] as Map<String, dynamic>),
-    );
+// Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
+//       id: json['id'] as String,
+//       namaDusun: json['nama_dusun'] as String,
+//       desaKelurahan: DesaKelurahan.fromJson(
+//           json['desa_kelurahan'] as Map<String, dynamic>),
+//     );
 
-Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama_dusun': instance.namaDusun,
-      'desa_kelurahan': instance.desaKelurahan,
-    };
+// Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
+//       'id': instance.id,
+//       'nama_dusun': instance.namaDusun,
+//       'desa_kelurahan': instance.desaKelurahan,
+//     };
 
-DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
-    DesaKelurahan(
-      id: json['id'] as String,
-      namaDesaKelurahan: json['nama_desa_kelurahan'] as String,
-      kecamatan: Kecamatan.fromJson(json['kecamatan'] as Map<String, dynamic>),
-    );
+// DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
+//     DesaKelurahan(
+//       id: json['id'] as String,
+//       namaDesaKelurahan: json['nama_desa_kelurahan'] as String,
+//       kecamatan: Kecamatan.fromJson(json['kecamatan'] as Map<String, dynamic>),
+//     );
 
-Map<String, dynamic> _$DesaKelurahanToJson(DesaKelurahan instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'nama_desa_kelurahan': instance.namaDesaKelurahan,
-      'kecamatan': instance.kecamatan,
-    };
+// Map<String, dynamic> _$DesaKelurahanToJson(DesaKelurahan instance) =>
+//     <String, dynamic>{
+//       'id': instance.id,
+//       'nama_desa_kelurahan': instance.namaDesaKelurahan,
+//       'kecamatan': instance.kecamatan,
+//     };
 
-Kecamatan _$KecamatanFromJson(Map<String, dynamic> json) => Kecamatan(
-      id: json['id'] as String,
-      namaKecamatan: json['nama_kecamatan'] as String,
-      kabupatenKota: KabupatenKota.fromJson(
-          json['kabupaten_kota'] as Map<String, dynamic>),
-    );
+// Kecamatan _$KecamatanFromJson(Map<String, dynamic> json) => Kecamatan(
+//       id: json['id'] as String,
+//       namaKecamatan: json['nama_kecamatan'] as String,
+//       kabupatenKota: KabupatenKota.fromJson(
+//           json['kabupaten_kota'] as Map<String, dynamic>),
+//     );
 
-Map<String, dynamic> _$KecamatanToJson(Kecamatan instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama_kecamatan': instance.namaKecamatan,
-      'kabupaten_kota': instance.kabupatenKota,
-    };
+// Map<String, dynamic> _$KecamatanToJson(Kecamatan instance) => <String, dynamic>{
+//       'id': instance.id,
+//       'nama_kecamatan': instance.namaKecamatan,
+//       'kabupaten_kota': instance.kabupatenKota,
+//     };
 
-KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
-    KabupatenKota(
-      id: json['id'] as String,
-      namaKabupatenKota: json['nama_kabupaten_kota'] as String,
-    );
+// KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
+//     KabupatenKota(
+//       id: json['id'] as String,
+//       namaKabupatenKota: json['nama_kabupaten_kota'] as String,
+//     );
 
-Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'nama_kabupaten_kota': instance.namaKabupatenKota,
-    };
+// Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
+//     <String, dynamic>{
+//       'id': instance.id,
+//       'nama_kabupaten_kota': instance.namaKabupatenKota,
+//     };
