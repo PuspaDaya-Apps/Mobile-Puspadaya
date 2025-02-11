@@ -71,6 +71,35 @@ class ApiUtils {
     return Uri.parse(_baseUrl + _apiVersion + urlCurrentUser);
   }
 
+  //!anggota kader
+  Uri urlGetListAnggotaKader({String? search, int? page, int? limit}) {
+    String urlGetlListAnggotaKader = LinkApi.USERURL;
+    Map<String, dynamic> parameterQuery = parameterQueryHelper(
+      search, page, 1000
+    );
+    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetlListAnggotaKader, parameterQuery);
+  }
+
+  Uri urlPostDataAnggotaKader() {
+    String urlPostDataAnggotaKader = LinkApi.USERURL;
+    return Uri.parse(_baseUrl + _apiVersion + urlPostDataAnggotaKader);
+  }
+
+  Uri urlGetDetailAnggotaKader(String id) {
+    String urlGetDetailAnggotaKader = LinkApi.USERURL;
+    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailAnggotaKader/$id");
+  }
+
+  Uri urlPatchDataAnggotaKader(String id) {
+    String urlPatchDataAnggotaKader = LinkApi.USERURL;
+    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id");
+  }
+
+  Uri urlDeleteDataAnggotaKader(String id) {
+    String urlDeleteDataAnggotaKader = LinkApi.USERURL;
+    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataAnggotaKader/$id");
+  }
+
   //!Orang Tua
   Uri urlGetListOrangTua({String? search, int? page, int? limit}) {
     String urlGetListOrangTua = LinkApi.ORANGTUAURL;

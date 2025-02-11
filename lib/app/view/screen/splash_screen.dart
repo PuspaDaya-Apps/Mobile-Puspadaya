@@ -32,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (context, state) {
         debugPrint(state.toString());
         if(state is AuthenticationFirstTime) {
+          BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationFalseEvent());
           Navigator.pushReplacementNamed(context, ONBOARDING);
         }
         if(state is AuthenticationTrue) {
@@ -39,6 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacementNamed(context, HOME);
         }
         if(state is AuthenticationFalse) {
+          BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationFalseEvent());
           Navigator.pushReplacementNamed(context, LOGIN);
         }
       },
