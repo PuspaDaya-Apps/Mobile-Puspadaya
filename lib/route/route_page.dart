@@ -111,7 +111,9 @@ class MyRoute {
 
       case RESET_PASSWORD:
         return MaterialPageRoute(
-            builder: (context) => const ResetPassword(), settings: settings);
+            builder: (context) => ResetPassword(
+              codeOTP: settings.arguments as String,
+            ), settings: settings);
 
       case HOME:
         return MaterialPageRoute(
