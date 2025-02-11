@@ -74,7 +74,7 @@ class _DetailRegisterIbuHamilViewState
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   height: _isExpanded
-                      ? sizeHeighofSingleForm * 7.85
+                      ? sizeHeighofSingleForm * 8.9
                       : sizeHeighofSingleForm,
                   child: SingleChildScrollView(
                     physics: NeverScrollableScrollPhysics(),
