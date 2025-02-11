@@ -145,9 +145,7 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                                   arguments: state.indexAnggotaKaderResponseModel.data![index].id
                                 );
                               },
-                              email: state.indexAnggotaKaderResponseModel.data![index].email == null 
-                              ? "Tidak memiliki email"
-                              : state.indexAnggotaKaderResponseModel.data![index].email!,
+                              email: state.indexAnggotaKaderResponseModel.data![index].nomorTelepon,
                               profile: state.indexAnggotaKaderResponseModel.data![index].avatar,
                               nama: state.indexAnggotaKaderResponseModel.data![index].namaLengkap,
                             ),

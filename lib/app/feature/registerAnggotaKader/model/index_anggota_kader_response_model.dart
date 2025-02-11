@@ -29,13 +29,14 @@ class Data {
   String avatar;
   @JsonKey(name: 'nama_lengkap')
   String namaLengkap;
-  String? email;
+  @JsonKey(name: 'nomor_telepon')
+  String nomorTelepon;
 
   Data({
     required this.id,
     required this.avatar,
     required this.namaLengkap,
-    this.email,
+    required this.nomorTelepon,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -88,14 +89,14 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
       avatar: HelperCore.convertNameToInitial(json['nama_lengkap']) ,
       namaLengkap: json['nama_lengkap'] as String,
-      email: json['email'] as String?,
+      nomorTelepon: json['nomor_telepon'] as String,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
       'avatar': instance.avatar,
       'nama_lengkap': instance.namaLengkap,
-      'email': instance.email,
+      'nomor_telepon': instance.nomorTelepon,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
