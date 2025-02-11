@@ -23,20 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserBloc(),
-      child: const DoubleBackToCloseApp(
-        snackBar: SnackBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            duration: Duration(seconds: 2),
-            content: Text(
-              "Tekan Lagi Untuk Keluar",
-              style: TextStyle(
-                  color: textPrimary10,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600),
-            )),
-        child: HomeWrapper(),
-      ),
+      child: const HomeWrapper(),
     );
   }
 }
