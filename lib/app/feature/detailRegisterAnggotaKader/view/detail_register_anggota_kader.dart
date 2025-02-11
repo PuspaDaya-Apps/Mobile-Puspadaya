@@ -6,11 +6,13 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
+import '../../../model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/alert_dialog_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
-import '../bloc/detail_anggota_kader_bloc.dart';
+import '../bloc/detailAnggotaKaderBloc/detail_anggota_kader_bloc.dart';
+import '../bloc/hapusAnggotaKaderBloc/hapus_anggota_kader_bloc.dart';
 
 class DetailRegisterAnggotaKader extends StatelessWidget {
   const DetailRegisterAnggotaKader({super.key, required this.anggotakaderId});
@@ -19,8 +21,15 @@ class DetailRegisterAnggotaKader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DetailAnggotaKaderBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailAnggotaKaderBloc(),
+        ),
+        BlocProvider(
+          create: (context) => HapusAnggotaKaderBloc(),
+        ),
+      ],
       child: DetailRegisterAnggotaKaderView(anggotakaderId: anggotakaderId),
     );
   }
@@ -48,7 +57,10 @@ class _DetailRegisterAnggotaKaderViewState
 
   @override
   Widget build(BuildContext context) {
-    final detailAnggotaKaderBloc = BlocProvider.of<DetailAnggotaKaderBloc>(context);
+    final detailAnggotaKaderBloc =
+        BlocProvider.of<DetailAnggotaKaderBloc>(context);
+    final hapusAnggotaKaderBloc =
+        BlocProvider.of<HapusAnggotaKaderBloc>(context);
 
     return Scaffold(
       appBar: PrimaryAppBar(
@@ -62,17 +74,17 @@ class _DetailRegisterAnggotaKaderViewState
       body: SafeArea(
         child: BlocConsumer<DetailAnggotaKaderBloc, DetailAnggotaKaderState>(
           listener: (context, state) {
-            debugPrint(state. toString());
+            debugPrint(state.toString());
           },
           builder: (context, state) {
-            if(state is DetailAnggotaKaderProcessState) {
+            if (state is DetailAnggotaKaderProcessState) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: bluePrimaryMain,
                 ),
               );
             }
-            if(state is DetailAnggotaKaderSuccesState) {
+            if (state is DetailAnggotaKaderSuccesState) {
               return SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.all(20),
@@ -108,7 +120,9 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.namaLengkap),
+                      InfoFieldWidget(
+                          text: state.detailAnggotaKaderResponseModel.data!
+                              .namaLengkap),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -121,7 +135,9 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.nomorTelepon),
+                      InfoFieldWidget(
+                          text: state.detailAnggotaKaderResponseModel.data!
+                              .nomorTelepon),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -134,7 +150,9 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.tanggalLahir),
+                      InfoFieldWidget(
+                          text: state.detailAnggotaKaderResponseModel.data!
+                              .tanggalLahir),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -150,7 +168,9 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.posyandu.namaPosyandu),
+                      InfoFieldWidget(
+                          text: state.detailAnggotaKaderResponseModel.data!
+                              .posyandu.namaPosyandu),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -163,55 +183,84 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   spacing: 8,
+                      //   children: [
+                      //     Expanded(
+                      //       child: InfoFieldWidget(
+                      //           text: state
+                      //               .detailAnggotaKaderResponseModel
+                      //               .data!
+                      //               .dusun
+                      //               .desaKelurahan
+                      //               .kecamatan
+                      //               .kabupatenKota
+                      //               .namaKabupatenKota),
+                      //     ),
+                      //     Expanded(
+                      //       child: InfoFieldWidget(
+                      //           text: state
+                      //               .detailAnggotaKaderResponseModel
+                      //               .data!
+                      //               .dusun
+                      //               .desaKelurahan
+                      //               .kecamatan
+                      //               .namaKecamatan),
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: SizeConfig.calHeightMultiplier(8),
+                      // ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   spacing: 8,
+                      //   children: [
+                      //     Expanded(
+                      //       child: InfoFieldWidget(
+                      //           text: state
+                      //               .detailAnggotaKaderResponseModel
+                      //               .data!
+                      //               .dusun
+                      //               .desaKelurahan
+                      //               .namaDesaKelurahan),
+                      //     ),
+                      //     Expanded(
+                      //       child: InfoFieldWidget(
+                      //           text: state.detailAnggotaKaderResponseModel
+                      //               .data!.dusun.namaDusun),
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: SizeConfig.calHeightMultiplier(8),
+                      // ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailAnggotaKaderResponseModel.data!.rt),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.kecamatan.namaKecamatan),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailAnggotaKaderResponseModel.data!.rw),
                           ),
                         ],
                       ),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 8,
-                        children: [
-                          Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.namaDesaKelurahan),
-                          ),
-                          Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.dusun.namaDusun),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.calHeightMultiplier(8),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 8,
-                        children: [
-                          Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.rt),
-                          ),
-                          Expanded(
-                            child: InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.rw),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.calHeightMultiplier(8),
-                      ),
-                      InfoFieldWidget(text: state.detailAnggotaKaderResponseModel.data!.alamatLengkap),
+                      InfoFieldWidget(
+                          text: state.detailAnggotaKaderResponseModel.data!
+                              .alamatLengkap),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -220,12 +269,16 @@ class _DetailRegisterAnggotaKaderViewState
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
                           Navigator.pushNamed(
-                            context, 
-                            UPDATE_REGISTER_ANGGOTA_KADER,
-                            arguments: widget.anggotakaderId
-                          ).then((value) {
-                            if(value != null) {
-                              detailAnggotaKaderBloc.add(GetDetailAnggotaKader(widget.anggotakaderId));
+                                  context, UPDATE_REGISTER_ANGGOTA_KADER,
+                                  arguments: PaketToUpdateAnggotaKaderModel(
+                                    anggotaKaderId: widget.anggotakaderId, 
+                                    detailAnggotaKaderResponseModel: state.detailAnggotaKaderResponseModel
+                                  )
+                                )
+                              .then((value) {
+                            if (value != null) {
+                              detailAnggotaKaderBloc.add(
+                                  GetDetailAnggotaKader(widget.anggotakaderId));
                             }
                           });
                         },
@@ -233,28 +286,37 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
-                      ButtonPrimary(
-                        color: redPrimaryMain,
-                        mainButtonMessage: 'Hapus',
-                        mainButton: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialogWidget(
-                                title: 'Apakah Anda Yakin?',
-                                message:
-                                    'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
-                                mainButton: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
+                      BlocConsumer<HapusAnggotaKaderBloc, HapusAnggotaKaderState>(
+                        listener: (context, state) {
+                          debugPrint(state.toString());
+                          if(state is HapusAnggotaKaderSuccesState) {
+                            Navigator.pop(context,1);
+                          }
+                        },
+                        builder: (context, state) {
+                          return ButtonPrimary(
+                            color: redPrimaryMain,
+                            mainButtonMessage: 'Hapus',
+                            mainButton: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialogWidget(
+                                    title: 'Apakah Anda Yakin?',
+                                    message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                    mainButton: () {
+                                      hapusAnggotaKaderBloc.add(HapusDataAnggotaKader(widget.anggotakaderId));
+                                    },
+                                    image: imageDeleteItems,
+                                    mainButtonMessage:
+                                        'Iya, Hapus Anggoa Kader',
+                                    colorMainButton: redPrimaryMain,
+                                    cancelButton: () {
+                                      Navigator.pop(context);
+                                    },
+                                    cancelButtonMessage: 'Batalkan',
+                                  );
                                 },
-                                image: imageDeleteItems,
-                                mainButtonMessage: 'Iya, Hapus Anggoa Kader',
-                                colorMainButton: redPrimaryMain,
-                                cancelButton: () {
-                                  Navigator.pop(context);
-                                },
-                                cancelButtonMessage: 'Batalkan',
                               );
                             },
                           );

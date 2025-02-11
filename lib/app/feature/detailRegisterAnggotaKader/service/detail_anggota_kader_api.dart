@@ -15,4 +15,15 @@ class DetailAnggotaKaderApi{
       return response;
     });
   }
+
+  Future<List<dynamic>> deleteAnggotaKaderService (String token, String id) async {
+    final Map<String, String> header = ApiUtils().headerWithToken(token);
+    final Uri link = ApiUtils().urlDeleteDataAnggotaKader(id);
+    final String body = json.encode({});
+
+    return await NetworkUtils().delete(link, header, body).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
 }
