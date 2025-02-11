@@ -518,38 +518,36 @@ class ProfileSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: SizeConfig.calWidthMultiplier(12),
         children: [
-          Row(
-            spacing: SizeConfig.calWidthMultiplier(12),
-            children: [
-              Image(
-                image: AssetImage(userImageDefault),
-                height: SizeConfig.calMultiplierImage(50),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Selamat Datang ${name}',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      color: textPrimary10,
-                      fontSize: 12,
-                    ),
+          Image(
+            image: AssetImage(userImageDefault),
+            height: SizeConfig.calMultiplierImage(50),
+          ),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Selamat Datang ${name}',
+                  maxLines: 1,
+                  overflow: TextOverflow.clip,
+                  style: AppTextStyles.primaryTextMedium.copyWith(
+                    color: textPrimary10,
+                    fontSize: 12,
                   ),
-                  Text(
-                    '${role}',
-                    style: TextStyle(
-                      color: textSecoundary,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 10,
-                    ),
+                ),
+                Text(
+                  '${role}',
+                  style: TextStyle(
+                    color: textSecoundary,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 10,
                   ),
-                ],
-              )
-            ],
+                ),
+              ],
+            ),
           ),
           GestureDetector(
             onTap: () {
