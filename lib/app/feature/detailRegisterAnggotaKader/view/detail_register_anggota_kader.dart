@@ -245,13 +245,11 @@ class _DetailRegisterAnggotaKaderViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                                text: state
-                                    .detailAnggotaKaderResponseModel.data!.rt),
+                            text: state.detailAnggotaKaderResponseModel.data!.rt ?? "Tidak ada rt"),
                           ),
                           Expanded(
                             child: InfoFieldWidget(
-                                text: state
-                                    .detailAnggotaKaderResponseModel.data!.rw),
+                            text: state.detailAnggotaKaderResponseModel.data!.rw ?? "Tidak ada rw"),
                           ),
                         ],
                       ),
@@ -259,8 +257,7 @@ class _DetailRegisterAnggotaKaderViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: state.detailAnggotaKaderResponseModel.data!
-                              .alamatLengkap),
+                          text: state.detailAnggotaKaderResponseModel.data!.alamatLengkap ?? "Tidak ada alamat lengkap"),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -290,6 +287,7 @@ class _DetailRegisterAnggotaKaderViewState
                         listener: (context, state) {
                           debugPrint(state.toString());
                           if(state is HapusAnggotaKaderSuccesState) {
+                            Navigator.pop(context);
                             Navigator.pop(context,1);
                           }
                         },
@@ -309,7 +307,7 @@ class _DetailRegisterAnggotaKaderViewState
                                     },
                                     image: imageDeleteItems,
                                     mainButtonMessage:
-                                        'Iya, Hapus Anggoa Kader',
+                                        'Iya, Hapus Anggota Kader',
                                     colorMainButton: redPrimaryMain,
                                     cancelButton: () {
                                       Navigator.pop(context);

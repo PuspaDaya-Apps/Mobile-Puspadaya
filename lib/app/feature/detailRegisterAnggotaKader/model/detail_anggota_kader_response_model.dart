@@ -28,10 +28,10 @@ class Data {
   String nomorTelepon;
   @JsonKey(name: 'tanggal_lahir')
   String tanggalLahir;
-  String rt;
-  String rw;
+  String? rt;
+  String? rw;
   @JsonKey(name: 'alamat_lengkap')
-  String alamatLengkap;
+  String? alamatLengkap;
   Posyandu posyandu;
   Role role;
   // Dusun dusun;
@@ -41,9 +41,9 @@ class Data {
     required this.namaLengkap,
     required this.nomorTelepon,
     required this.tanggalLahir,
-    required this.rt,
-    required this.rw,
-    required this.alamatLengkap,
+    this.rt,
+    this.rw,
+    this.alamatLengkap,
     required this.posyandu,
     required this.role,
     // required this.dusun
@@ -179,9 +179,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       namaLengkap: json['nama_lengkap'] as String,
       nomorTelepon: json['nomor_telepon'] as String,
       tanggalLahir: json['tanggal_lahir'] as String,
-      rt: json['rt'] as String,
-      rw: json['rw'] as String,
-      alamatLengkap: json['alamat_lengkap'] as String,
+      rt: json['rt'] as String?,
+      rw: json['rw'] as String?,
+      alamatLengkap: json['alamat_lengkap'] as String?,
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       role: Role.fromJson(json['role'] as Map<String, dynamic>),
       // dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
