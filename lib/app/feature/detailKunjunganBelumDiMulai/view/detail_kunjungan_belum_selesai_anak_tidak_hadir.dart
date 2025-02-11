@@ -8,12 +8,63 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
+import '../../createKunjunganAnakTidakHadir/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
 import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
 import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
 
 class DetailKunjunganBelumSelesaiAnakTidakHadir extends StatelessWidget {
+  // List<CheckboxKunjungan> listOfCheckbox = [
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Pengukuran di Rumah',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Penggunaan Buku KIA',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Isi Piringku',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Aktivitas Fisik',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Imunisasi',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Vitamin A',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Obat Cacing',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Stimulasi Perkembangan',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
+  //   ),
+  //   CheckboxKunjungan(
+  //     isChecked: false,
+  //     label: 'Anak Tidak Berada di Rumah',
+  //   ),
+  // ];
   List<String> job = [
-    "Pemberian Makanan Tambahan (PMT)",
+    "Pengukuran di Rumah",
+    "Stimulasi Perkembangan",
+    "Aktivitas Fisik",
+    "Pemantauan Tanda Bahaya Bayi dan Anak",
+    "Penggunaan Buku KIA",
   ];
   DetailKunjunganBelumSelesaiAnakTidakHadir({super.key});
 
@@ -262,7 +313,7 @@ class DetailKunjunganBelumSelesaiAnakTidakHadir extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return ChecklistJobKunjunganAnak();
+                          return ChecklistJobKunjunganAnakTidakHadir();
                         },
                       ),
                     );

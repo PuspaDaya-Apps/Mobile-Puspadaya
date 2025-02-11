@@ -8,6 +8,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../model/detailListKunjungan_model.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+import '../../creteKunjunganIbuHamil/view/timer_kunjungan_ibu_hamil.dart';
 import '../../kunjungan/model/Kunjungan.dart';
 import 'detail_kunjungan_belum_selesai_ibu_hamil.dart';
 
@@ -172,7 +173,7 @@ class _DetailKunjunganIbuHamilNotStartedViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return TimerKunjunganStunting();
+                              return TimerKunjunganIbuHamil();
                             },
                           ),
                         );

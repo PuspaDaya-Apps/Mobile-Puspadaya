@@ -124,7 +124,7 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
-                    InfoFieldWidget(text: '07.30'),
+                    InfoFieldWidget(text: '13.30'),
                   ],
                 ),
               ),
