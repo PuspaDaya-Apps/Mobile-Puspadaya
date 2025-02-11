@@ -94,7 +94,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final List<String> selectJenisKB = [
     'PIL',
     'IUD',
-    'SUINTIK',
+    'SUNTIK',
     'IMPLANT',
     'LAINNYA'
   ];
