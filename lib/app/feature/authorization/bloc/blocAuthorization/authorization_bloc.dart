@@ -8,7 +8,7 @@ part 'authorization_event.dart';
 part 'authorization_state.dart';
 
 class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
-  AuthorizationBloc() : super(AuthorizationFalse()) {
+  AuthorizationBloc() : super(AuthorizationInit()) {
     on<AuthorizationEvent>((event, emit) {});
 
     on<AuthorizationFalseEvent>((event, emit) {
@@ -16,6 +16,7 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
       SharedPrefUtils().removeAccessToken();
       SharedPrefUtils().removeRefreshToken();
       SharedPrefUtils().removeCurrentUser();
+      debugPrint("step 4");
       emit(AuthorizationFalse());
     });
 
