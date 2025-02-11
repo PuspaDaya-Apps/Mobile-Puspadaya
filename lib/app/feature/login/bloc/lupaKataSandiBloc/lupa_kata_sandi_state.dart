@@ -23,5 +23,3 @@ final class LupaKataSandiFailedState extends LupaKataSandiState {
   const LupaKataSandiFailedState(this.error);
 }
 
-final class LupaKataSandiTokenExpiredState extends LupaKataSandiState {}
-

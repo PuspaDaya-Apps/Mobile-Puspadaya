@@ -28,8 +28,6 @@ class LupaKataSandiBloc extends Bloc<LupaKataSandiEvent, LupaKataSandiState> {
 
       if(statusCode == 200) {
         emit(LupaKataSandiSuccessState(lupaKataSandiResponseModel));
-      } else if (statusCode == 401) {
-        emit(LupaKataSandiTokenExpiredState());
       } else {
         emit(LupaKataSandiFailedState(lupaKataSandiResponseModel.message));
       }
