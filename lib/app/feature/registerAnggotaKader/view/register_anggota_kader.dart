@@ -6,6 +6,7 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/error_server_screen.dart';
+import '../../../view/screen/error_unauthorized_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
@@ -47,6 +48,7 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
   //     initial: 'IW',
   //   ),
   // ];
+  bool isKetuaKader = true;
   @override
   void initState() {
     super.initState();
@@ -67,25 +69,27 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
           Navigator.pop(context);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimaryMain,
-        shape: const CircleBorder(),
-        child: const Icon(
-          Icons.add,
-          size: 38,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, CREATE_REGISTER_ANGGOTA_KADER)
-              .then((value) {
-            if (value != null) {
-              indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
-            }
-          });
-          // Add your navigation or functionality for adding new items
-          // print("Floating Action Button Pressed");
-        },
-      ),
+      floatingActionButton: !isKetuaKader
+          ? FloatingActionButton(
+              backgroundColor: bluePrimaryMain,
+              shape: const CircleBorder(),
+              child: const Icon(
+                Icons.add,
+                size: 38,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, CREATE_REGISTER_ANGGOTA_KADER)
+                    .then((value) {
+                  if (value != null) {
+                    indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
+                  }
+                });
+                // Add your navigation or functionality for adding new items
+                // print("Floating Action Button Pressed");
+              },
+            )
+          : null,
       backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: Padding(
@@ -95,17 +99,22 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
               debugPrint(state.toString());
             },
             builder: (context, state) {
-              if(state is IndexAnggotaKaderProcessState) {
+              if (state is IndexAnggotaKaderProcessState) {
                 return const Center(
                   child: CircularProgressIndicator(
                     color: bluePrimaryMain,
                   ),
                 );
               }
-              if(state is IndexAnggotaKaderSuccessState) {
-                if(state.indexAnggotaKaderResponseModel.data!.isEmpty) {
+              if (state is IndexAnggotaKaderUnauthorizedException) {
+                isKetuaKader = false;
+                return ErrorUnauthorizedScreen(error: state.error);
+              }
+              if (state is IndexAnggotaKaderSuccessState) {
+                if (state.indexAnggotaKaderResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
+
                 return Column(
                   children: [
                     Row(
@@ -133,7 +142,8 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: state.indexAnggotaKaderResponseModel.data!.length,
+                        itemCount:
+                            state.indexAnggotaKaderResponseModel.data!.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -149,9 +159,12 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                                   }
                                 });
                               },
-                              email: state.indexAnggotaKaderResponseModel.data![index].nomorTelepon,
-                              profile: state.indexAnggotaKaderResponseModel.data![index].avatar,
-                              nama: state.indexAnggotaKaderResponseModel.data![index].namaLengkap,
+                              email: state.indexAnggotaKaderResponseModel
+                                  .data![index].nomorTelepon,
+                              profile: state.indexAnggotaKaderResponseModel
+                                  .data![index].avatar,
+                              nama: state.indexAnggotaKaderResponseModel
+                                  .data![index].namaLengkap,
                             ),
                           );
                         },

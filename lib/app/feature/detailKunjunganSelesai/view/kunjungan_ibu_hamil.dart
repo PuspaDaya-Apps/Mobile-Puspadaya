@@ -8,7 +8,8 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../kunjungan/model/Kunjungan.dart';
-import 'detail_kunjungan_selesai.dart';
+import 'detail_kunjungan_selesai_anak_stunting.dart';
+import 'detail_kunjungan_selesai_ibu_hamil.dart';
 
 class DetailKunjunganIbuHamilDone extends StatelessWidget {
   const DetailKunjunganIbuHamilDone({super.key});
@@ -31,25 +32,18 @@ class _DetailKunjunganIbuHamilDoneViewState
     extends State<DetailKunjunganIbuHamilDoneView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621124011732625",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Ayu Halimah',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '2,1',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
-      id: '2',
-      name: 'Rahayu Putri Zahra',
-      status: Status.selesai,
-      distance: '5,1',
-    ),
-    DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3621550192732625",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Clara Pratiwi',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '3,0',
     ),
   ];
   @override
@@ -131,7 +125,7 @@ class _DetailKunjunganIbuHamilDoneViewState
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
-                    InfoFieldWidget(text: '15 Menit 20 Detik'),
+                    InfoFieldWidget(text: '8 Menit 1 Detik'),
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(16),
                     ),
@@ -151,7 +145,7 @@ class _DetailKunjunganIbuHamilDoneViewState
                       spacing: 8,
                       children: [
                         Expanded(
-                          child: InfoFieldWidget(text: '15 Menit 20 Detik'),
+                          child: InfoFieldWidget(text: '5,1'),
                         ),
                         Text(
                           'KM',
@@ -207,7 +201,7 @@ class _DetailKunjunganIbuHamilDoneViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganSelesai();
+                              return DetailKunjunganSelesaiIbuHamil();
                             },
                           ),
                         );

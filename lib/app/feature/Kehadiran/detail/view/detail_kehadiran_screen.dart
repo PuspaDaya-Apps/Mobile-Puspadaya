@@ -83,7 +83,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
                           Navigator.pop(context);
                         },
                         image: imageDeleteItems,
-                        mainButtonMessage: 'Iya, Hapus Pengukuran',
+                        mainButtonMessage: 'Iya, Hapus Kehadiran',
                         colorMainButton: redPrimaryMain,
                         cancelButton: () {
                           Navigator.pop(context);
@@ -182,7 +182,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
           SizedBox(
             height: SizeConfig.calHeightMultiplier(8),
           ),
-          InfoFieldWidget(text: '-'),
+          InfoFieldWidget(text: '4 Jam 10 Menit'),
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),

@@ -106,7 +106,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 4.7;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 4.5;
 
     // final createPengukuranAnakBloc = BlocProvider.of<CreatePengukuranTamuBloc>(context);
 
@@ -172,7 +172,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                               style: TextStyle(fontSize: 12),
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(text: 'Muhammad Kaivan Al Hakim'),
+                            InfoFieldWidget(text: 'Dina Humaira Zulaika'),
                             SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16)),
                             Visibility(
