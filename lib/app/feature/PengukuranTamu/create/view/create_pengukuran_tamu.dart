@@ -162,9 +162,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                               'Asal Posyandu',
                               style: TextStyle(fontSize: 12),
                             ),
-                            SizedBox(
-                                height:
-                                SizeConfig.calHeightMultiplier(8)),
+                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             InfoFieldWidget(text: 'Posyandu Mawar 8'),
                             SizedBox(
                               height: SizeConfig.calHeightMultiplier(16),
@@ -174,7 +172,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                               style: TextStyle(fontSize: 12),
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(text: 'Muhammad Joko'),
+                            InfoFieldWidget(text: 'Muhammad Kaivan Al Hakim'),
                             SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16)),
                             Visibility(
@@ -183,7 +181,6 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-
                                   const Text(
                                     'NIK',
                                     style: TextStyle(fontSize: 12),
@@ -193,7 +190,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                           SizeConfig.calHeightMultiplier(8)),
                                   InfoFieldWidget(text: '36501231921234'),
                                   SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16)),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   const Text(
                                     'Usia Anak',
                                     style: TextStyle(fontSize: 12),
@@ -285,7 +283,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                   children: [
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
-                                      hintText: 'contoh: 13,5',
+                                      hintText: 'contoh: 13.5',
                                       unit: 'cm',
                                       // tool: 'Microtoise',
                                       controller: heightController,
@@ -296,7 +294,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 3,5',
+                                      hintText: 'contoh: 3.5',
                                       unit: 'cm',
                                       // tool: 'Pita Lila',
                                       controller:
@@ -316,7 +314,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                   children: [
                                     MeasurementWidget(
                                       title: 'Berat Badan',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 6.5',
                                       unit: 'kg',
                                       // tool: 'Timbangan Digital',
                                       controller: weightController,
@@ -327,7 +325,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Kepala',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 6.5',
                                       unit: 'cm',
                                       // tool: 'Alat Ukur Lingkar Kepala',
                                       controller: headCircumferenceController,
@@ -473,86 +471,59 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                             hintText: 'Masukan Keluhan',
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          // BlocListener<CreatePengukuranTamuBloc, CreatePengukuranTamuState>(
-                          //   listener: (context, state) {
-                          //     debugPrint(state.toString());
-                          //     if(state is CreatePengukuranTamuSuccesState) {
-                          //       Navigator.pop(context);
-                          //         showDialog(
-                          //           context: context,
-                          //           builder: (context) {
-                          //             return AlertDialogResult(
-                          //               nik: state.pengukuranAnakResponseModel.data!.anak.nik,
-                          //               name: state.pengukuranAnakResponseModel.data!.anak.nama,
-                          //               statusStunting: state.pengukuranAnakResponseModel.data!.statusStunting,
-                          //               statusGizi: state.pengukuranAnakResponseModel.data!.statusGizi,
-                          //               mainButton: () {
-                          //                 Navigator.pop(context);
-                          //                 Navigator.popAndPushNamed(context,CREATE_PENGUKURAN_ANAK);
-                          //               },
-                          //               mainButtonMessage:
-                          //                   'Tambah Pengukuran',
-                          //               cancelButton: () {
-                          //                 Navigator.pop(context);
-                          //                 Navigator.pop(context,1); // Tutup dialog AlertDialogResult
-                          //               },
-                          //               cancelButtonMessage: 'Selesai',
-                          //               colorMainButton: bluePrimaryMain,
-                          //             );
-                          //           },
-                          //         );
-                          //     }
-                          //   },
-                          //   child: ButtonPrimary(
-                          //     color: bluePrimaryMain,
-                          //     mainButtonMessage: 'Simpan',
-                          //     mainButton: () {
-                          //       showDialog(
-                          //         context: context,
-                          //         builder: (context) {
-                          //           return AlertDialogSave(
-                          //             cancelButton: () {
-                          //               Navigator.pop(context);
-                          //             },
-                          //             mainButton: () {
-                          //               // createPengukuranAnakBloc.add(
-                          //               //   SendPengukuranAnakEvent(
-                          //               //     PengukuranAnakModel(
-                          //               //       tempatPengukuran: selectedPosyandu,
-                          //               //       tanggalPengukuran: DateTime.now(),
-                          //               //       posisiBadan: selectedPosition,
-                          //               //       beratBadan: double.parse(weightController.text),
-                          //               //       alatBeratBadanId: alatUkur,
-                          //               //       tinggiBadan: double.parse(heightController.text),
-                          //               //       alatTinggiBadanId: alatUkur,
-                          //               //       lingkarLenganAtas: double.parse(upperArmCircumferenceController.text),
-                          //               //       alatLingkarLenganId: alatUkur,
-                          //               //       lingkarKepala: double.parse(headCircumferenceController.text),
-                          //               //       alatLingkarKepalaId: alatUkur,
-                          //               //       asiEksklusif: asiEksklusifValue == 1? "Iya" : "Tidak",
-                          //               //       mpasi: mpasiValue == 1? "Iya" : "Tidak",
-                          //               //       keluhan: keluhanController.text,
-                          //               //       catatan: catatanController.text,
-                          //               //       anakId: paket.id
-                          //               //     )
-                          //               //   )
-                          //               // );
-                          //             },
-                          //             cancelButtonMessage: 'Tidak',
-                          //             mainButtonMessage: 'Iya Simpan Data',
-                          //             colorMainButton: bluePrimaryMain,
-                          //             heighValue: heightController.text,
-                          //             weightValue: weightController.text,
-                          //             upperArmCircumference:
-                          //                 upperArmCircumferenceController.text,
-                          //             uterineFundalHeightValue:
-                          //                 headCircumferenceController.text,
-                          //           );
-                          //         },
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
+                          ButtonPrimary(
+                            color: bluePrimaryMain,
+                            mainButtonMessage: 'Simpan',
+                            mainButton: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialogSave(
+                                    cancelButton: () {
+                                      Navigator.pop(context);
+                                    },
+                                    mainButton: () {
+                                      logger.d('submit simpan');
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      // createPengukuranAnakBloc.add(
+                                      //   SendPengukuranAnakEvent(
+                                      //     PengukuranAnakModel(
+                                      //       tempatPengukuran: selectedPosyandu,
+                                      //       tanggalPengukuran: DateTime.now(),
+                                      //       posisiBadan: selectedPosition,
+                                      //       beratBadan: double.parse(weightController.text),
+                                      //       alatBeratBadanId: alatUkur,
+                                      //       tinggiBadan: double.parse(heightController.text),
+                                      //       alatTinggiBadanId: alatUkur,
+                                      //       lingkarLenganAtas: double.parse(upperArmCircumferenceController.text),
+                                      //       alatLingkarLenganId: alatUkur,
+                                      //       lingkarKepala: double.parse(headCircumferenceController.text),
+                                      //       alatLingkarKepalaId: alatUkur,
+                                      //       asiEksklusif: asiEksklusifValue == 1? "Iya" : "Tidak",
+                                      //       mpasi: mpasiValue == 1? "Iya" : "Tidak",
+                                      //       keluhan: keluhanController.text,
+                                      //       catatan: catatanController.text,
+                                      //       anakId: paket.id
+                                      //     )
+                                      //   )
+                                      // );
+                                    },
+                                    cancelButtonMessage: 'Tidak',
+                                    mainButtonMessage: 'Iya Simpan Data',
+                                    colorMainButton: bluePrimaryMain,
+                                    heighValue: heightController.text,
+                                    weightValue: weightController.text,
+                                    upperArmCircumference:
+                                        upperArmCircumferenceController.text,
+                                    uterineFundalHeightValue:
+                                        headCircumferenceController.text,
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

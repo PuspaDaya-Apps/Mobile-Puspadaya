@@ -130,6 +130,12 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                   ),
                 ),
                 SizedBox(height: 16),
+                if (selectedJenisKelamin != null && selectedSatuan != null)
+                  ButtonPrimary(
+                      color: greenPrimaryMain,
+                      mainButtonMessage: 'Download',
+                      mainButton: () {}),
+                SizedBox(height: 16),
                 // Conditional rendering of the DataTable
                 if (selectedJenisKelamin != null && selectedSatuan != null)
                   BlocBuilder<ParameterGiziCubit, ParameterGiziState>(

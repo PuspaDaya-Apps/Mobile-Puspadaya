@@ -129,7 +129,8 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
 
   @override
   Widget build(BuildContext context) {
-    final updatePengukuranAnakBloc = BlocProvider.of<UpdatePengukuranAnakBloc>(context);
+    final updatePengukuranAnakBloc =
+        BlocProvider.of<UpdatePengukuranAnakBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -201,7 +202,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
         //         ],
         //       ),
         //     ),
-          // ),
+        // ),
         // ],
         onBackPressed: () => Navigator.pop(context),
       ),
@@ -301,7 +302,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                           children: [
                             MeasurementWidget(
                               title: 'Tinggi Badan',
-                              hintText: 'contoh: 13,5',
+                              hintText: 'contoh: 13.5',
                               unit: 'cm',
                               // tool: 'Microtoise',
                               controller: heightController,
@@ -311,7 +312,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Lengan Atas',
-                              hintText: 'contoh: 3,5',
+                              hintText: 'contoh: 3.5',
                               unit: 'cm',
                               // tool: 'Pita Lila',
                               controller: upperArmCircumferenceController,
@@ -368,7 +369,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                           children: [
                             MeasurementWidget(
                               title: 'Berat Badan',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'kg',
                               // tool: 'Timbangan Digital',
                               controller: weightController,
@@ -378,7 +379,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                             ),
                             MeasurementWidget(
                               title: 'Lingkar Kepala',
-                              hintText: 'contoh: 6,5',
+                              hintText: 'contoh: 6.5',
                               unit: 'cm',
                               // tool: 'Alat Ukur Lingkar Kepala',
                               controller: headCircumferenceController,
@@ -464,26 +465,23 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                         idAlatUkur = state.alatUkurResponseModel.data![0].id;
                       }
                     },
-                    child: BlocConsumer<UpdatePengukuranAnakBloc, UpdatePengukuranAnakState>(
+                    child: BlocConsumer<UpdatePengukuranAnakBloc,
+                        UpdatePengukuranAnakState>(
                       listener: (context, state) {
-                        if(state is UpdatePengukuranAnakSuccesState) {
-                          Navigator.pop(context,1);
+                        if (state is UpdatePengukuranAnakSuccesState) {
+                          Navigator.pop(context, 1);
                         }
-                        if(state is UpdatePengukuranAnakFailedState) {
-                          debugPrint(state.error); 
-                           showTopSnackBar(
-                            Overlay.of(context),
-                            animationDuration: const Duration(
-                              milliseconds: 600
-                            ),
-                            displayDuration: const Duration(
-                              milliseconds: 2200
-                            ),
-                            reverseAnimationDuration: const Duration(
-                              milliseconds: 300
-                            ),
-                            TopSnackbarWidget().error(state.error)
-                          );
+                        if (state is UpdatePengukuranAnakFailedState) {
+                          debugPrint(state.error);
+                          showTopSnackBar(
+                              Overlay.of(context),
+                              animationDuration:
+                                  const Duration(milliseconds: 600),
+                              displayDuration:
+                                  const Duration(milliseconds: 2200),
+                              reverseAnimationDuration:
+                                  const Duration(milliseconds: 300),
+                              TopSnackbarWidget().error(state.error));
                         }
                       },
                       builder: (context, state) {
@@ -491,28 +489,33 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                           color: bluePrimaryMain,
                           mainButtonMessage: 'Simpan',
                           mainButton: () {
-                            updatePengukuranAnakBloc.add(SendUpdatePengukuranAnakEvent(
+                            updatePengukuranAnakBloc
+                                .add(SendUpdatePengukuranAnakEvent(
                               pengukuranId: widget.paket.pengukuranId,
                               pengukuranAnakModel: PengukuranAnakModel(
-                                tempatPengukuran: selectedPosyandu,
-                                posisiBadan: selectedPosition,
-                                alatBeratBadanId: idAlatUkur,
-                                alatLingkarKepalaId: idAlatUkur,
-                                alatLingkarLenganId: idAlatUkur,
-                                alatTinggiBadanId: idAlatUkur,
-                                beratBadan: double.parse(weightController.text),
-                                tinggiBadan: double.parse(heightController.text),
-                                lingkarKepala: double.parse(headCircumferenceController.text),
-                                lingkarLenganAtas: double.parse(upperArmCircumferenceController.text),
-                                asiEksklusif: asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
-                                mpasi: mpasiValue == 1 ? 'Iya' : 'Tidak',
-                                tanggalPengukuran: widget.paket.data.data!.tanggalPengukuran,
-                                catatan: catatanController.text,
-                                keluhan: keluhanController.text,
-                                anakId: widget.paket.data.data!.anak.id
-                              ),
-                              )
-                            );
+                                  tempatPengukuran: selectedPosyandu,
+                                  posisiBadan: selectedPosition,
+                                  alatBeratBadanId: idAlatUkur,
+                                  alatLingkarKepalaId: idAlatUkur,
+                                  alatLingkarLenganId: idAlatUkur,
+                                  alatTinggiBadanId: idAlatUkur,
+                                  beratBadan:
+                                      double.parse(weightController.text),
+                                  tinggiBadan:
+                                      double.parse(heightController.text),
+                                  lingkarKepala: double.parse(
+                                      headCircumferenceController.text),
+                                  lingkarLenganAtas: double.parse(
+                                      upperArmCircumferenceController.text),
+                                  asiEksklusif:
+                                      asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
+                                  mpasi: mpasiValue == 1 ? 'Iya' : 'Tidak',
+                                  tanggalPengukuran:
+                                      widget.paket.data.data!.tanggalPengukuran,
+                                  catatan: catatanController.text,
+                                  keluhan: keluhanController.text,
+                                  anakId: widget.paket.data.data!.anak.id),
+                            ));
                           },
                         );
                       },

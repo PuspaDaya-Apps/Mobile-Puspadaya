@@ -41,7 +41,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         onBackPressed: () => Navigator.pop(context),
-        title: "Ubah Profile",
+        title: "Ubah Profil",
       ),
       body: SafeArea(
         child: SingleChildScrollView(

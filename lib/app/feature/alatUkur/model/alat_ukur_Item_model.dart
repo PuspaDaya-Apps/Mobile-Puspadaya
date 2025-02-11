@@ -3,8 +3,10 @@ class AlatUkurItemModel {
   final String nama;
   final String merek;
   final String kondisi;
+  final String? image;
   AlatUkurItemModel(
-      {required this.id,
+      {this.image,
+      required this.id,
       required this.nama,
       required this.merek,
       required this.kondisi});
