@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../model/create_anggota_kader_model.dart';
@@ -32,17 +33,22 @@ class CreateAnggotaKaderBloc extends Bloc<CreateAnggotaKaderEvent, CreateAnggota
           response[1]
         );
 
+        // debugPrint(" dusun id : ${event.createAnggotaKaderModel.dusunId}");
+        debugPrint(" posyandu id : ${event.createAnggotaKaderModel.posyanduId}");
+
         if(statusCode == 201) {
           emit(CreateAnggotaKaderSuccessState(
             createAnggotaKaderResponseModel
           )
         );
+
         } else if (statusCode == 401) {
           emit(CreateAnggotaKaderTokenExpiredState());
         } else {
           emit(CreateAnggotaKaderFailedState(createAnggotaKaderResponseModel.message));
         }
       } catch (error) {
+        debugPrint(error.toString());
         emit(CreateAnggotaKaderFailedState(error.toString()));
       }
     }

@@ -26,19 +26,19 @@ import '../model/create_anggota_kader_model.dart';
 class CreateIndividu extends StatefulWidget {
   const CreateIndividu({
     super.key,
-    required this.selectProvinsi,
-    required this.selectKabupaten,
-    required this.selectKecamatan,
-    required this.selectDesaKelurahan,
-    required this.selectDusun,
+    // required this.selectProvinsi,
+    // required this.selectKabupaten,
+    // required this.selectKecamatan,
+    // required this.selectDesaKelurahan,
+    // required this.selectDusun,
     required this.currentUserModel
   });
 
-  final List<ProvinsiModel.Datum> selectProvinsi;
-  final List<KabupatenModel.Datum> selectKabupaten;
-  final List<KecamatanModel.Datum> selectKecamatan;
-  final List<DesaKelurahanModel.Datum> selectDesaKelurahan;
-  final List<DusunModel.Datum> selectDusun;
+  // final List<ProvinsiModel.Datum> selectProvinsi;
+  // final List<KabupatenModel.Datum> selectKabupaten;
+  // final List<KecamatanModel.Datum> selectKecamatan;
+  // final List<DesaKelurahanModel.Datum> selectDesaKelurahan;
+  // final List<DusunModel.Datum> selectDusun;
   
   final CurrentUserModel currentUserModel;
 
@@ -154,83 +154,83 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 style: TextStyle(fontSize: 12),
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-              Row(
-                spacing: 8,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: DropdownWidget(
-                      items: widget.selectKabupaten
-                          .map((kabupaten) => kabupaten.namaKabupatenKota)
-                          .toSet() // Menghilangkan duplikasi
-                          .toList(),
-                      hint: 'Kabupaten',
-                      value: selectedKabupaten,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedKabupaten = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: DropdownWidget(
-                      items: widget.selectKecamatan
-                          .map((kecamatan) => kecamatan.namaKecamatan)
-                          .toSet() // Menghilangkan duplikasi
-                          .toList(),
-                      hint: 'Kecamatan',
-                      value: selectedKecamatan,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedKecamatan = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-              Row(
-                spacing: 8,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: DropdownWidget(
-                      items: widget.selectDesaKelurahan
-                          .map((desaKelurahan) => desaKelurahan.namaDesaKelurahan)
-                          .toSet() // Menghilangkan duplikasi
-                          .toList(),
-                      hint: 'Desa',
-                      value: selectedDesa,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedDesa = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: DropdownWidget(
-                      items: widget.selectDusun
-                          .map((dusun) => dusun.namaDusun)
-                          .toSet() // Menghilangkan duplikasi
-                          .toList(),
-                      hint: 'Dusun',
-                      value: selectedDusun,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedDusun = value;
-                          selectedDusunId= widget.selectDusun.firstWhere((dusun) => dusun.namaDusun == value).id;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+              // Row(
+              //   spacing: 8,
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: DropdownWidget(
+              //         items: widget.selectKabupaten
+              //             .map((kabupaten) => kabupaten.namaKabupatenKota)
+              //             .toSet() // Menghilangkan duplikasi
+              //             .toList(),
+              //         hint: 'Kabupaten',
+              //         value: selectedKabupaten,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedKabupaten = value;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: DropdownWidget(
+              //         items: widget.selectKecamatan
+              //             .map((kecamatan) => kecamatan.namaKecamatan)
+              //             .toSet() // Menghilangkan duplikasi
+              //             .toList(),
+              //         hint: 'Kecamatan',
+              //         value: selectedKecamatan,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedKecamatan = value;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+              // Row(
+              //   spacing: 8,
+              //   crossAxisAlignment: CrossAxisAlignment.center,
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Expanded(
+              //       child: DropdownWidget(
+              //         items: widget.selectDesaKelurahan
+              //             .map((desaKelurahan) => desaKelurahan.namaDesaKelurahan)
+              //             .toSet() // Menghilangkan duplikasi
+              //             .toList(),
+              //         hint: 'Desa',
+              //         value: selectedDesa,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedDesa = value;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: DropdownWidget(
+              //         items: widget.selectDusun
+              //             .map((dusun) => dusun.namaDusun)
+              //             .toSet() // Menghilangkan duplikasi
+              //             .toList(),
+              //         hint: 'Dusun',
+              //         value: selectedDusun,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedDusun = value;
+              //             selectedDusunId= widget.selectDusun.firstWhere((dusun) => dusun.namaDusun == value).id;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: SizeConfig.calHeightMultiplier(8)),
               Row(
                 spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,7 +292,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                             rt: _rTController.text, 
                             rw: _rWController.text, 
                             alamatLengkap: _alamatController.text, 
-                            dusunId: selectedDusunId!, 
+                            // dusunId: selectedDusunId!, 
                             posyanduId: widget.currentUserModel.posyandu.id
                           )
                         ));

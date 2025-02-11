@@ -3,16 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/createRegisterAnggotaKader/view/create_import.dart';
 import 'package:puspadaya/app/feature/createRegisterAnggotaKader/view/create_individu.dart';
 import 'package:puspadaya/app/view/screen/error_server_screen.dart';
-import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
-    as ProvinsiModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kabupaten_response.dart'
-    as KabupatenModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kecamatan_response.dart'
-    as KecamatanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.dart'
-    as DesaKelurahanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
-    as DusunModel;
+// import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
+//     as ProvinsiModel;
+// import 'package:puspadaya/app/feature/alamat/model/get_kabupaten_response.dart'
+//     as KabupatenModel;
+// import 'package:puspadaya/app/feature/alamat/model/get_kecamatan_response.dart'
+//     as KecamatanModel;
+// import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.dart'
+//     as DesaKelurahanModel;
+// import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
+//     as DusunModel;
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/theme/pallet_color.dart';
@@ -34,9 +34,9 @@ class CreateRegisterAnggotaKader extends StatelessWidget {
         BlocProvider(
           create: (context) => CreateAnggotaKaderBloc(),
         ),
-        BlocProvider(
-          create: (context) => AlamatBloc(),
-        ),
+        // BlocProvider(
+        //   create: (context) => AlamatBloc(),
+        // ),
         BlocProvider(
           create: (context) => CurrentUserCubit(),
         ),
@@ -61,7 +61,7 @@ class _CreateRegisterAnggotaKaderViewState
 
   @override
   void initState() {
-    BlocProvider.of<AlamatBloc>(context).add(ShowAllSectionEvent());
+    // BlocProvider.of<AlamatBloc>(context).add(ShowAllSectionEvent());
     BlocProvider.of<CurrentUserCubit>(context).getCurrentUserModel();
     super.initState();
     _tabController = TabController(
@@ -84,7 +84,7 @@ class _CreateRegisterAnggotaKaderViewState
         },
       ),
       body: SafeArea(
-          child: BlocListener<AuthorizationBloc, AuthorizationState>(
+        child: BlocListener<AuthorizationBloc, AuthorizationState>(
         listener: (context, state) {
           debugPrint(state.toString());
           if(state is AuthorizationFalse) {
@@ -118,27 +118,28 @@ class _CreateRegisterAnggotaKaderViewState
               );
             }
             if (userState is CurrentUserSuccessState) {
-              return BlocConsumer<AlamatBloc, AlamatState>(
-                listener: (context, state) {
-                  debugPrint(state.toString());
-                },
-                builder: (context, state) {
-                  if (state is AlamatLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: bluePrimaryMain,
-                      ),
-                    );
-                  }
-                  if (state is ShowAllSection) {
-                    List<ProvinsiModel.Datum> selectProvinsi = state.provinsi;
-                    List<KabupatenModel.Datum> selectKabupaten =
-                        state.kabupaten;
-                    List<KecamatanModel.Datum> selectKecamatan =
-                        state.kecamatan;
-                    List<DesaKelurahanModel.Datum> selectDesaKelurahan =
-                        state.desaKelurahan;
-                    List<DusunModel.Datum> selectDusun = state.dusun;
+
+              // return BlocConsumer<AlamatBloc, AlamatState>(
+              //   listener: (context, state) {
+              //     debugPrint(state.toString());
+              //   },
+              //   builder: (context, state) {
+              //     if (state is AlamatLoading) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(
+              //           color: bluePrimaryMain,
+              //         ),
+              //       );
+              //     }
+              //     if (state is ShowAllSection) {
+                    // List<ProvinsiModel.Datum> selectProvinsi = state.provinsi;
+                    // List<KabupatenModel.Datum> selectKabupaten =
+                    //     state.kabupaten;
+                    // List<KecamatanModel.Datum> selectKecamatan =
+                    //     state.kecamatan;
+                    // List<DesaKelurahanModel.Datum> selectDesaKelurahan =
+                    //     state.desaKelurahan;
+                    // List<DusunModel.Datum> selectDusun = state.dusun;
 
                     return SingleChildScrollView(
                       child: Container(
@@ -175,7 +176,7 @@ class _CreateRegisterAnggotaKaderViewState
                                 ),
                                 unselectedLabelColor: textSecoundary,
                                 labelColor: Colors.white,
-                                tabs: [
+                                tabs: const [
                                   Tab(text: 'Individu'),
                                   Tab(text: 'Import'),
                                 ],
@@ -188,13 +189,12 @@ class _CreateRegisterAnggotaKaderViewState
                                 controller: _tabController,
                                 children: [
                                   CreateIndividu(
-                                    selectProvinsi: selectProvinsi,
-                                    selectKabupaten: selectKabupaten,
-                                    selectKecamatan: selectKecamatan,
-                                    selectDesaKelurahan: selectDesaKelurahan,
-                                    selectDusun: selectDusun,
-                                    currentUserModel:
-                                        userState.currentUserModel,
+                                    // selectProvinsi: selectProvinsi,
+                                    // selectKabupaten: selectKabupaten,
+                                    // selectKecamatan: selectKecamatan,
+                                    // selectDesaKelurahan: selectDesaKelurahan,
+                                    // selectDusun: selectDusun,
+                                    currentUserModel: userState.currentUserModel,
                                   ),
                                   CreateImport(),
                                 ],
@@ -204,10 +204,12 @@ class _CreateRegisterAnggotaKaderViewState
                         ),
                       ),
                     );
-                  }
-                  return const ErrorServerScreen();
-                },
-              );
+
+              //     }
+              //     return const ErrorServerScreen();
+              //   },
+              // );
+
             }
             return const ErrorServerScreen();
           },
