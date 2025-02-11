@@ -12,11 +12,10 @@ import '../../../view/screen/bukti_kunjungan.dart';
 class DetailKunjunganBerjalanAnakTidakHadir extends StatelessWidget {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
-    "Pemberian Makanan Tambahan (PMT)",
+    "isi piringku",
+    "aktivitas fisik",
+    "imunisasi",
+    "vitamin A"
   ];
   DetailKunjunganBerjalanAnakTidakHadir({super.key});
 

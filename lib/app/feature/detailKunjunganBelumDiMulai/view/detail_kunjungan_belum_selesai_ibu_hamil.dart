@@ -10,10 +10,11 @@ import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
 import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+import '../../creteKunjunganIbuHamil/view/checklist_job_kunjungan_ibu_hamil.dart';
 
 class DetailKunjunganBelumSelesaiIbuHamil extends StatelessWidget {
   List<String> job = [
-    "Pemberian Makanan Tambahan (PMT)",
+    "Pemberian Makanan Tambahan",
   ];
   DetailKunjunganBelumSelesaiIbuHamil({super.key});
 
@@ -262,7 +263,7 @@ class DetailKunjunganBelumSelesaiIbuHamil extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return ChecklistJobKunjunganAnak();
+                          return ChecklistJobKunjunganIbuHamil();
                         },
                       ),
                     );

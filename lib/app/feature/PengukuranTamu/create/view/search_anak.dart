@@ -33,9 +33,8 @@ class SearchAnakView extends StatefulWidget {
 class _SearchAnakViewState extends State<SearchAnakView> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _tempatController = TextEditingController();
-  final String date = HelperCore.convertformatDateToIndonesian( DateTime.now());
+  final String date = HelperCore.convertformatDateToIndonesian(DateTime.now());
   final _formKey = GlobalKey<FormState>();
-
 
   @override
   void dispose() {
@@ -47,10 +46,19 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   final List<ListDataAnakModel> dataPosyandu = [
     ListDataAnakModel(
       nik: '362155428233263',
-      namaIbu: 'Aisyah Zahra Putri',
-      nama: 'Muhammad Kaivan Al Hakim',
+      namaIbu: 'Tari Nasyiah',
+      nama: 'Dina Humaira Zulaika',
     ),
-    // Add more items as needed
+    ListDataAnakModel(
+      nik: '362101228233263',
+      namaIbu: 'Indah Mayasari S.Pd',
+      nama: 'Wirda Farida',
+    ),
+    ListDataAnakModel(
+      nik: '362155400933263',
+      namaIbu: 'Latika Oktaviani',
+      nama: 'Vicky Intan Rahayu',
+    ),
   ];
 
   @override

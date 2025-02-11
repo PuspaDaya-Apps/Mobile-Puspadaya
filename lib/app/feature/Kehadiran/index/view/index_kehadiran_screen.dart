@@ -26,27 +26,27 @@ class IndexKehadiranScreenView extends StatefulWidget {
 class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
   List<ListKehadiranItemModel> listKehadiran = [
     ListKehadiranItemModel(
-        durasi: '2 Jam 30 Menit',
+        durasi: '4 Jam 10 Menit',
         lokasiPosyandu: 'Posyandu Melati 4',
         status: 'Sedang Berjalan',
         tanggal: '21 Januari 2025'),
     ListKehadiranItemModel(
-      durasi: '1 Jam 23 Menit',
+      durasi: '4 Jam 11 Menit',
       lokasiPosyandu: 'Posyandu Melati 4',
       status: 'Sedang Berjalan',
-      tanggal: '21 Januari 2025',
+      tanggal: '15 Januari 2025',
     ),
     ListKehadiranItemModel(
-      durasi: '5 Jam 21 Menit',
+      durasi: '4 Jam 21 Menit',
       lokasiPosyandu: 'Posyandu Melati 4',
       status: 'Selesai',
-      tanggal: '19 Januari 2025',
+      tanggal: '10 Januari 2025',
     ),
     ListKehadiranItemModel(
       durasi: '4 Jam 53 Menit',
       lokasiPosyandu: 'Posyandu Melati 4',
       status: 'Selesai',
-      tanggal: '20 Januari 2025',
+      tanggal: '4 Januari 2025',
     ),
   ];
   @override
