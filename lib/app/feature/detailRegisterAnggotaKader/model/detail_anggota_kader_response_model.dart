@@ -26,6 +26,8 @@ class Data {
   String namaLengkap;
   @JsonKey(name: 'nomor_telepon')
   String nomorTelepon;
+  @JsonKey(name: 'tanggal_lahir')
+  String tanggalLahir;
   String rt;
   String rw;
   @JsonKey(name: 'alamat_lengkap')
@@ -38,6 +40,7 @@ class Data {
     required this.id,
     required this.namaLengkap,
     required this.nomorTelepon,
+    required this.tanggalLahir,
     required this.rt,
     required this.rw,
     required this.alamatLengkap,
@@ -175,6 +178,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
       namaLengkap: json['nama_lengkap'] as String,
       nomorTelepon: json['nomor_telepon'] as String,
+      tanggalLahir: json['tanggal_lahir'] as String,
       rt: json['rt'] as String,
       rw: json['rw'] as String,
       alamatLengkap: json['alamat_lengkap'] as String,
@@ -187,6 +191,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
       'nama_lengkap': instance.namaLengkap,
       'nomor_telepon': instance.nomorTelepon,
+      'tanggal_lahir': instance.tanggalLahir,
       'rt': instance.rt,
       'rw': instance.rw,
       'alamat_lengkap': instance.alamatLengkap,
