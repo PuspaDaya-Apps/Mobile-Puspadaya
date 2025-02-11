@@ -501,7 +501,9 @@ class MyRoute {
         );
       case DETAIL_REGISTER_ANGGOTA_KADER:
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterAnggotaKader(),
+          builder: (context) => DetailRegisterAnggotaKader(
+            anggotakaderId: settings.arguments as String,
+          ),
           settings: settings,
         );
 
