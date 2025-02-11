@@ -29,7 +29,7 @@ class LoginApi {
     });
   }
 
-  Future<List<dynamic>> lupaKataSandiService (String token, LupaKataSandiModel lupaKataSandiModel) async {
+  Future<List<dynamic>> lupaKataSandiService (LupaKataSandiModel lupaKataSandiModel) async {
     final Map<String, String> header = ApiUtils().header();
     final Uri link = ApiUtils().urlForgotPassword();
     final String body = jsonEncode(lupaKataSandiModel.toJson()); 

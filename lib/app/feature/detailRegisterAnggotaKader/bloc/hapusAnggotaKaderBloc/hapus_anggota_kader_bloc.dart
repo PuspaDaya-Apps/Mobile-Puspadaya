@@ -28,14 +28,14 @@ class HapusAnggotaKaderBloc extends Bloc<HapusAnggotaKaderEvent, HapusAnggotaKad
         List<dynamic> response = await DetailAnggotaKaderApi().deleteAnggotaKaderService(accessToken, event.anggotaKaderId);
 
         int statusCode = response[0] as int;
-        final HapusAnggotaKaderResponseModel hapusAnggotaKaderResponseModel = HapusAnggotaKaderResponseModel.fromJson(response[1]);
+        // final HapusAnggotaKaderResponseModel hapusAnggotaKaderResponseModel = HapusAnggotaKaderResponseModel.fromJson(response[1]);
 
         if(statusCode == 200) {
-          emit(HapusAnggotaKaderSuccesState(hapusAnggotaKaderResponseModel));
+          emit(HapusAnggotaKaderSuccesState());
         } else if (statusCode == 401) {
           emit(HapusAnggotaKaderTokenExpiredState());
         } else {
-          emit(HapusAnggotaKaderFailedState(hapusAnggotaKaderResponseModel.message));
+          emit(const HapusAnggotaKaderFailedState('ERROR SERVER'));
         }
       } catch (error) {
         emit(HapusAnggotaKaderFailedState(error.toString()));

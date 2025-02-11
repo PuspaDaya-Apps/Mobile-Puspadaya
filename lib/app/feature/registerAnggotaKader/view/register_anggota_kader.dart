@@ -150,11 +150,14 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                             child: CardAnggotakaderWidget(
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, DETAIL_REGISTER_ANGGOTA_KADER,
-                                    arguments: state
-                                        .indexAnggotaKaderResponseModel
-                                        .data![index]
-                                        .id);
+                                  context,
+                                  DETAIL_REGISTER_ANGGOTA_KADER,
+                                  arguments: state.indexAnggotaKaderResponseModel.data![index].id
+                                ).then((value) {
+                                  if(value != null) {
+                                     indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
+                                  }
+                                });
                               },
                               email: state.indexAnggotaKaderResponseModel
                                   .data![index].nomorTelepon,
