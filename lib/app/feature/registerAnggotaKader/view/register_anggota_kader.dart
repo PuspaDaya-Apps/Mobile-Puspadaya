@@ -143,7 +143,11 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                                   context,
                                   DETAIL_REGISTER_ANGGOTA_KADER,
                                   arguments: state.indexAnggotaKaderResponseModel.data![index].id
-                                );
+                                ).then((value) {
+                                  if(value != null) {
+                                     indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
+                                  }
+                                });
                               },
                               email: state.indexAnggotaKaderResponseModel.data![index].nomorTelepon,
                               profile: state.indexAnggotaKaderResponseModel.data![index].avatar,

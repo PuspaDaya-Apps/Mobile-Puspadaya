@@ -12,9 +12,9 @@ final class HapusAnggotaKaderInitial extends HapusAnggotaKaderState {}
 final class HapusAnggotaKaderProcessState extends HapusAnggotaKaderState {}
 
 final class HapusAnggotaKaderSuccesState extends HapusAnggotaKaderState {
-  final HapusAnggotaKaderResponseModel hapusAnggotaKaderResponseModel;
+  // final HapusAnggotaKaderResponseModel hapusAnggotaKaderResponseModel;
 
-  const HapusAnggotaKaderSuccesState(this.hapusAnggotaKaderResponseModel); 
+  // const HapusAnggotaKaderSuccesState(this.hapusAnggotaKaderResponseModel); 
 }
 
 final class HapusAnggotaKaderFailedState extends HapusAnggotaKaderState {
