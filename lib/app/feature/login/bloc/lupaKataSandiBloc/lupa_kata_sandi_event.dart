@@ -6,3 +6,9 @@ sealed class LupaKataSandiEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class SendLupakataSandi extends LupaKataSandiEvent {
+  final LupaKataSandiModel lupaKataSandiModel;
+
+  const SendLupakataSandi(this.lupaKataSandiModel);
+}

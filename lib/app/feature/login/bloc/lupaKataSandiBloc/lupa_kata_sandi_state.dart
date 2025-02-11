@@ -8,3 +8,20 @@ sealed class LupaKataSandiState extends Equatable {
 }
 
 final class LupaKataSandiInitial extends LupaKataSandiState {}
+
+final class LupaKataSandiProcessState extends LupaKataSandiState {}
+
+final class LupaKataSandiSuccessState extends LupaKataSandiState {
+  final LupaKataSandiResponseModel lupaKataSandiResponseModel;
+
+  const LupaKataSandiSuccessState(this.lupaKataSandiResponseModel);
+}
+
+final class LupaKataSandiFailedState extends LupaKataSandiState {
+  final String error;
+
+  const LupaKataSandiFailedState(this.error);
+}
+
+final class LupaKataSandiTokenExpiredState extends LupaKataSandiState {}
+

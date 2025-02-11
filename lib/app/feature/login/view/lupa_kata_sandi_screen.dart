@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
+import '../bloc/lupaKataSandiBloc/lupa_kata_sandi_bloc.dart';
+import '../model/lupa_kata_sandi_model.dart';
 
 // ignore: must_be_immutable
+class LupaKataSandiView extends StatelessWidget {
+  const LupaKataSandiView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LupaKataSandiBloc(),
+      child: const LupaKataSandiScreen(),
+    );
+  }
+}
+
 class LupaKataSandiScreen extends StatefulWidget {
   const LupaKataSandiScreen({super.key});
 
@@ -16,6 +32,8 @@ class _LupaKataSandiScreenState extends State<LupaKataSandiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final lupaKataSandiBloc = BlocProvider.of<LupaKataSandiBloc>(context);
+
     return Dialog(
       backgroundColor: Colors.white,
       insetPadding: EdgeInsets.zero,
@@ -95,26 +113,45 @@ class _LupaKataSandiScreenState extends State<LupaKataSandiScreen> {
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width,
                   height: SizeConfig.calHeightMultiplier(50),
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: nomorTelponController.text == ""
-                              ? bluePrimary90
-                              : bluePrimary20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: SizeConfig.calWidthMultiplier(10),
-                              vertical: SizeConfig.calHeightMultiplier(10))),
-                      child: Text(
-                        'Kirim',
-                        style: TextStyle(
-                            color: nomorTelponController.text == ""
-                                ? bluePrimary20
-                                : Colors.white,
-                            fontSize: SizeConfig.calMultiplierText(15),
-                            fontWeight: FontWeight.w600),
-                      )),
+                  child: BlocConsumer<LupaKataSandiBloc, LupaKataSandiState>(
+                    listener: (context, state) {
+                      debugPrint(state.toString());
+                      if (state is LupaKataSandiSuccessState) {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, OTP);
+                      }
+                      if (state is LupaKataSandiFailedState) {
+                        debugPrint(state.error);
+                      }
+                    },
+                    builder: (context, state) {
+                      return ElevatedButton(
+                          onPressed: () {
+                            lupaKataSandiBloc.add(SendLupakataSandi(
+                                LupaKataSandiModel(
+                                    noTelepon: nomorTelponController.text)));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: nomorTelponController.text == ""
+                                  ? bluePrimary90
+                                  : bluePrimary20,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.calWidthMultiplier(10),
+                                  vertical:
+                                      SizeConfig.calHeightMultiplier(10))),
+                          child: Text(
+                            'Kirim',
+                            style: TextStyle(
+                                color: nomorTelponController.text == ""
+                                    ? bluePrimary20
+                                    : Colors.white,
+                                fontSize: SizeConfig.calMultiplierText(15),
+                                fontWeight: FontWeight.w600),
+                          ));
+                    },
+                  ),
                 ),
               ],
             ),
