@@ -145,7 +145,7 @@ class _CheckListJobKunjunganAnakViewState
     ),
     CheckboxKunjungan(
       isChecked: false,
-      label: 'Manfaat PMT',
+      label: 'Penyuluhan PMT',
     ),
     CheckboxKunjungan(
       isChecked: false,

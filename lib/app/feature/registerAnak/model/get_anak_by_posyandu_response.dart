@@ -9,27 +9,23 @@ class GetAnakByPosyanduResponse {
   final List<Datum> data;
   @JsonKey(name: "meta")
   final Meta meta;
-  @JsonKey(name: "links")
-  final Links links;
+  // @JsonKey(name:
 
   GetAnakByPosyanduResponse({
     required this.message,
     required this.data,
     required this.meta,
-    required this.links,
   });
 
   GetAnakByPosyanduResponse copyWith({
     String? message,
     List<Datum>? data,
     Meta? meta,
-    Links? links,
   }) =>
       GetAnakByPosyanduResponse(
         message: message ?? this.message,
         data: data ?? this.data,
         meta: meta ?? this.meta,
-        links: links ?? this.links,
       );
 
   factory GetAnakByPosyanduResponse.fromJson(Map<String, dynamic> json) =>
@@ -82,47 +78,6 @@ class Datum {
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
 
   Map<String, dynamic> toJson() => _$DatumToJson(this);
-}
-
-@JsonSerializable()
-class Links {
-  @JsonKey(name: "first")
-  final String first;
-  @JsonKey(name: "last")
-  final String last;
-  @JsonKey(name: "current")
-  final String current;
-  @JsonKey(name: "next")
-  final String next;
-  @JsonKey(name: "previous")
-  final String previous;
-
-  Links({
-    required this.first,
-    required this.last,
-    required this.current,
-    required this.next,
-    required this.previous,
-  });
-
-  Links copyWith({
-    String? first,
-    String? last,
-    String? current,
-    String? next,
-    String? previous,
-  }) =>
-      Links(
-        first: first ?? this.first,
-        last: last ?? this.last,
-        current: current ?? this.current,
-        next: next ?? this.next,
-        previous: previous ?? this.previous,
-      );
-
-  factory Links.fromJson(Map<String, dynamic> json) => _$LinksFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LinksToJson(this);
 }
 
 @JsonSerializable()

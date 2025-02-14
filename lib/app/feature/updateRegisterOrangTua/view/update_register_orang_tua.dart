@@ -70,7 +70,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
 
-  final List<String> selectGolDarah = [
+  List<String> selectGolDarah = [
+    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
     'A+',
     'A-',
     'B+',
@@ -93,7 +94,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final List<String> selectJenisKB = [
     'PIL',
     'IUD',
-    'SUINTIK',
+    'SUNTIK',
     'IMPLANT',
     'LAINNYA'
   ];
@@ -492,8 +493,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             keyboardType: TextInputType.number,
                                             obscureText: false,
                                             validators: [
-                                              (value) => Validator.required(
+                                              (value) => Validator.consistOf(
                                                   value,
+                                                  16,
                                                   "Kartu keluarga harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
                                                   value,
@@ -830,7 +832,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   validators: [
                                                     (value) => Validator.required(
                                                         value,
-                                                        "RT ayah harus terdiri atas 16 digit"),
+                                                        "RT Tidak Boleh Kosong"),
                                                   ],
                                                 ),
                                               ),
@@ -845,7 +847,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   validators: [
                                                     (value) => Validator.required(
                                                         value,
-                                                        "RW ayah harus terdiri atas 16 digit"),
+                                                        "RW Tidak Boleh Kosong"),
                                                   ],
                                                 ),
                                               ),
@@ -1025,8 +1027,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             keyboardType: TextInputType.number,
                                             obscureText: false,
                                             validators: [
-                                              (value) => Validator.required(
+                                              (value) => Validator.consistOf(
                                                   value,
+                                                  16,
                                                   "Kartu Keluarga harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
                                                   value,
@@ -1050,8 +1053,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             keyboardType: TextInputType.number,
                                             obscureText: false,
                                             validators: [
-                                              (value) => Validator.required(
+                                              (value) => Validator.consistOf(
                                                   value,
+                                                  16,
                                                   "NIk Ibu harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
                                                   value,
@@ -1118,7 +1122,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                         (value) =>
                                                             Validator.required(
                                                                 value,
-                                                                "Nama Ibu tidak boleh kosong"),
+                                                                "Tempat Lahir tidak boleh kosong"),
                                                       ],
                                                     ),
                                                   ],

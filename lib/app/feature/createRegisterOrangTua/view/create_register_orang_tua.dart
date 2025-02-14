@@ -60,9 +60,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
 
-  final List<String> selectGolDarah = [
+  List<String> selectGolDarah = [
     // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A+',
+    'A',
     'A-',
     'B+',
     'B-',
@@ -84,7 +84,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final List<String> selectJenisKB = [
     'PIL',
     'IUD',
-    'SUINTIK',
+    'SUNTIK',
     'IMPLANT',
     'LAINNYA'
   ];
@@ -120,7 +120,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   Future<void> _selectDateAyah(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -199,7 +199,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   Future<void> _selectDateIbu(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -223,8 +223,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
-    DateTime initialDate = now; // Set initial date to the year 1945
-    DateTime firstDate = DateTime(2000); // Set the first date to the year 1945
+    DateTime initialDate = DateTime(2010); // Set initial date to the year 1945
+    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -402,7 +402,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           keyboardType: TextInputType.number,
                                           obscureText: false,
                                           validators: [
-                                            (value) => Validator.required(value,
+                                            (value) => Validator.consistOf(
+                                                value,
+                                                16,
                                                 "Kartu keluarga harus terdiri atas 16 digit"),
                                             (value) => Validator.required(value,
                                                 "Kartu Keluarga ayah tidak boleh kosong"),
@@ -451,7 +453,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           controller: namaAyahController,
                                           hintText: 'Masukan Nama',
                                           isPasswordField: false,
-                                          keyboardType: TextInputType.number,
+                                          keyboardType: TextInputType.text,
                                           obscureText: false,
                                           validators: [
                                             (value) => Validator.required(value,
@@ -743,7 +745,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 validators: [
                                                   (value) => Validator.required(
                                                       value,
-                                                      "RT ayah harus terdiri atas 16 digit"),
+                                                      "RT Tidak Boleh Kosong"),
                                                 ],
                                               ),
                                             ),
@@ -758,7 +760,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 validators: [
                                                   (value) => Validator.required(
                                                       value,
-                                                      "RW ayah harus terdiri atas 16 digit"),
+                                                      "RW Tidak Boleh Kosong"),
                                                 ],
                                               ),
                                             ),
@@ -944,7 +946,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           keyboardType: TextInputType.number,
                                           obscureText: false,
                                           validators: [
-                                            (value) => Validator.required(value,
+                                            (value) => Validator.consistOf(
+                                                value,
+                                                16,
                                                 "Kartu Keluarga harus terdiri atas 16 digit"),
                                             (value) => Validator.required(value,
                                                 "Kartu Keluarga Ibu tidak boleh kosong"),
@@ -969,7 +973,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           keyboardType: TextInputType.number,
                                           obscureText: false,
                                           validators: [
-                                            (value) => Validator.required(value,
+                                            (value) => Validator.consistOf(
+                                                value,
+                                                16,
                                                 "NIk Ibu harus terdiri atas 16 digit"),
                                             (value) => Validator.required(value,
                                                 "NIK Ibu tidak boleh kosong"),
@@ -1289,7 +1295,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 validators: [
                                                   (value) => Validator.required(
                                                       value,
-                                                      "RT Ibu tidak boleh kosong"),
+                                                      "RT tidak boleh kosong"),
                                                 ],
                                               ),
                                             ),
@@ -1304,7 +1310,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 validators: [
                                                   (value) => Validator.required(
                                                       value,
-                                                      "RW Ibu tidak boleh kosong"),
+                                                      "RW tidak boleh kosong"),
                                                 ],
                                               ),
                                             ),

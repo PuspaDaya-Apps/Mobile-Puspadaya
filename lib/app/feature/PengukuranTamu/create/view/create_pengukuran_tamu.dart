@@ -106,7 +106,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 4.7;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 4.5;
 
     // final createPengukuranAnakBloc = BlocProvider.of<CreatePengukuranTamuBloc>(context);
 
@@ -172,7 +172,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                               style: TextStyle(fontSize: 12),
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(text: 'Muhammad Joko'),
+                            InfoFieldWidget(text: 'Dina Humaira Zulaika'),
                             SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16)),
                             Visibility(
@@ -471,86 +471,59 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                             hintText: 'Masukan Keluhan',
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          // BlocListener<CreatePengukuranTamuBloc, CreatePengukuranTamuState>(
-                          //   listener: (context, state) {
-                          //     debugPrint(state.toString());
-                          //     if(state is CreatePengukuranTamuSuccesState) {
-                          //       Navigator.pop(context);
-                          //         showDialog(
-                          //           context: context,
-                          //           builder: (context) {
-                          //             return AlertDialogResult(
-                          //               nik: state.pengukuranAnakResponseModel.data!.anak.nik,
-                          //               name: state.pengukuranAnakResponseModel.data!.anak.nama,
-                          //               statusStunting: state.pengukuranAnakResponseModel.data!.statusStunting,
-                          //               statusGizi: state.pengukuranAnakResponseModel.data!.statusGizi,
-                          //               mainButton: () {
-                          //                 Navigator.pop(context);
-                          //                 Navigator.popAndPushNamed(context,CREATE_PENGUKURAN_ANAK);
-                          //               },
-                          //               mainButtonMessage:
-                          //                   'Tambah Pengukuran',
-                          //               cancelButton: () {
-                          //                 Navigator.pop(context);
-                          //                 Navigator.pop(context,1); // Tutup dialog AlertDialogResult
-                          //               },
-                          //               cancelButtonMessage: 'Selesai',
-                          //               colorMainButton: bluePrimaryMain,
-                          //             );
-                          //           },
-                          //         );
-                          //     }
-                          //   },
-                          //   child: ButtonPrimary(
-                          //     color: bluePrimaryMain,
-                          //     mainButtonMessage: 'Simpan',
-                          //     mainButton: () {
-                          //       showDialog(
-                          //         context: context,
-                          //         builder: (context) {
-                          //           return AlertDialogSave(
-                          //             cancelButton: () {
-                          //               Navigator.pop(context);
-                          //             },
-                          //             mainButton: () {
-                          //               // createPengukuranAnakBloc.add(
-                          //               //   SendPengukuranAnakEvent(
-                          //               //     PengukuranAnakModel(
-                          //               //       tempatPengukuran: selectedPosyandu,
-                          //               //       tanggalPengukuran: DateTime.now(),
-                          //               //       posisiBadan: selectedPosition,
-                          //               //       beratBadan: double.parse(weightController.text),
-                          //               //       alatBeratBadanId: alatUkur,
-                          //               //       tinggiBadan: double.parse(heightController.text),
-                          //               //       alatTinggiBadanId: alatUkur,
-                          //               //       lingkarLenganAtas: double.parse(upperArmCircumferenceController.text),
-                          //               //       alatLingkarLenganId: alatUkur,
-                          //               //       lingkarKepala: double.parse(headCircumferenceController.text),
-                          //               //       alatLingkarKepalaId: alatUkur,
-                          //               //       asiEksklusif: asiEksklusifValue == 1? "Iya" : "Tidak",
-                          //               //       mpasi: mpasiValue == 1? "Iya" : "Tidak",
-                          //               //       keluhan: keluhanController.text,
-                          //               //       catatan: catatanController.text,
-                          //               //       anakId: paket.id
-                          //               //     )
-                          //               //   )
-                          //               // );
-                          //             },
-                          //             cancelButtonMessage: 'Tidak',
-                          //             mainButtonMessage: 'Iya Simpan Data',
-                          //             colorMainButton: bluePrimaryMain,
-                          //             heighValue: heightController.text,
-                          //             weightValue: weightController.text,
-                          //             upperArmCircumference:
-                          //                 upperArmCircumferenceController.text,
-                          //             uterineFundalHeightValue:
-                          //                 headCircumferenceController.text,
-                          //           );
-                          //         },
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
+                          ButtonPrimary(
+                            color: bluePrimaryMain,
+                            mainButtonMessage: 'Simpan',
+                            mainButton: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialogSave(
+                                    cancelButton: () {
+                                      Navigator.pop(context);
+                                    },
+                                    mainButton: () {
+                                      logger.d('submit simpan');
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      // createPengukuranAnakBloc.add(
+                                      //   SendPengukuranAnakEvent(
+                                      //     PengukuranAnakModel(
+                                      //       tempatPengukuran: selectedPosyandu,
+                                      //       tanggalPengukuran: DateTime.now(),
+                                      //       posisiBadan: selectedPosition,
+                                      //       beratBadan: double.parse(weightController.text),
+                                      //       alatBeratBadanId: alatUkur,
+                                      //       tinggiBadan: double.parse(heightController.text),
+                                      //       alatTinggiBadanId: alatUkur,
+                                      //       lingkarLenganAtas: double.parse(upperArmCircumferenceController.text),
+                                      //       alatLingkarLenganId: alatUkur,
+                                      //       lingkarKepala: double.parse(headCircumferenceController.text),
+                                      //       alatLingkarKepalaId: alatUkur,
+                                      //       asiEksklusif: asiEksklusifValue == 1? "Iya" : "Tidak",
+                                      //       mpasi: mpasiValue == 1? "Iya" : "Tidak",
+                                      //       keluhan: keluhanController.text,
+                                      //       catatan: catatanController.text,
+                                      //       anakId: paket.id
+                                      //     )
+                                      //   )
+                                      // );
+                                    },
+                                    cancelButtonMessage: 'Tidak',
+                                    mainButtonMessage: 'Iya Simpan Data',
+                                    colorMainButton: bluePrimaryMain,
+                                    heighValue: heightController.text,
+                                    weightValue: weightController.text,
+                                    upperArmCircumference:
+                                        upperArmCircumferenceController.text,
+                                    uterineFundalHeightValue:
+                                        headCircumferenceController.text,
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

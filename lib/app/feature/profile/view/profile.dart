@@ -11,21 +11,28 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../model/current_user_model.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  const Profile({super.key, required this.currentUserModel});
+
+  final CurrentUserModel currentUserModel;
 
   @override
   Widget build(BuildContext context) {
-    return const ProfileView();
+    return ProfileView(
+      currentUserModel: currentUserModel,
+    );
   }
 }
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key});
+  const ProfileView({super.key, required this.currentUserModel});
+
+  final CurrentUserModel currentUserModel;
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -41,7 +48,7 @@ class _ProfileViewState extends State<ProfileView> {
       backgroundColor: backgroundWhite10,
       appBar: const PrimaryAppBar(
         background: backgroundWhite10,
-        title: "Profile",
+        title: "Profil",
         onBackPressed: null,
       ),
       body: SafeArea(
@@ -75,14 +82,14 @@ class _ProfileViewState extends State<ProfileView> {
                           height: SizeConfig.calHeightMultiplier(12),
                         ),
                         Text(
-                          'Ayu Dewi',
+                          widget.currentUserModel.namaLengkap,
                           style: AppTextStyles.primaryTextSemibold.copyWith(
                             fontSize: 16,
                             color: Colors.white,
                           ),
                         ),
                         Text(
-                          '081234567890',
+                          widget.currentUserModel.nomorTelepon,
                           style: AppTextStyles.primaryTextNormal.copyWith(
                             fontSize: 12,
                             color: Colors.white,
@@ -142,6 +149,8 @@ class _ProfileViewState extends State<ProfileView> {
                                 // Navigator.pushReplacementNamed(context, LOGIN);
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     LOGIN, (Route<dynamic> route) => false);
+                                debugPrint('TO LOGIN');
+
                               }
                             },
                           ),
@@ -150,41 +159,33 @@ class _ProfileViewState extends State<ProfileView> {
                               debugPrint(state.toString());
                               if (state is AuthenticationFalse) {
                                 debugPrint(state.toString());
-                                authorizationBloc
-                                    .add(AuthorizationFalseEvent());
+                                authorizationBloc.add(AuthorizationFalseEvent());
                               }
                               if (state is LogoutSuccess) {
                                 debugPrint(state.toString());
                                 authorizationBloc.add(AuthorizationFalseEvent());
                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(
-                                    milliseconds: 600
-                                  ),
-                                  displayDuration: const Duration(
-                                    milliseconds: 2200
-                                  ),
-                                  reverseAnimationDuration: const Duration(
-                                    milliseconds: 300
-                                  ),
-                                  TopSnackbarWidget().success("Logout Berhasil")
-                                );
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget()
+                                        .success("Logout Berhasil"));
                               }
                               if (state is LogoutFailed) {
                                 debugPrint(state.error);
-                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(
-                                    milliseconds: 600
-                                  ),
-                                  displayDuration: const Duration(
-                                    milliseconds: 2200
-                                  ),
-                                  reverseAnimationDuration: const Duration(
-                                    milliseconds: 300
-                                  ),
-                                  TopSnackbarWidget().error(state.error)
-                                );
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget().error(state.error));
                               }
                             },
                           ),
@@ -209,8 +210,13 @@ class _ProfileViewState extends State<ProfileView> {
                                   },
                                   mainButton: () {
                                     authenticationBloc.add(LogoutEvent());
-                                    Navigator.pushNamedAndRemoveUntil(context,
-                                        LOGIN, (Route<dynamic> route) => false);
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          LOGIN,
+                                          (Route<dynamic> route) => false);
+                                    });
                                   },
                                   cancelButtonMessage: 'Batalkan',
                                   mainButtonMessage: 'Iya, saya ingin keluar',

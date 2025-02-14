@@ -17,6 +17,7 @@ class ButtonPrimary extends StatelessWidget {
       onPressed: mainButton,
       child: Text(
         mainButtonMessage,
+        textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w500,

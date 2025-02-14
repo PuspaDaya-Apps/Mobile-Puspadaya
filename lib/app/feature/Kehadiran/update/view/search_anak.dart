@@ -40,25 +40,45 @@ class _SearchAnakViewState extends State<SearchAnakView> {
 
   final List<ListDataAnakModel> dataPosyandu = [
     ListDataAnakModel(
-      nik: '362155428233263',
-      namaIbu: 'Aisyah Zahra Putri',
-      nama: 'Muhammad Kaivan Al Hakim',
-    ),
+        nik: '362155423033263',
+        namaIbu: 'Diana Novitasari S.Pt',
+        nama: 'Eka Nasyidah'),
     ListDataAnakModel(
-      nik: '362155428233263',
-      namaIbu: 'Aisyah Zahra Putri',
-      nama: 'Muhammad Kaivan Al Hakim',
-    ),
+        nik: '362155428231364',
+        namaIbu: 'Yani Haryanti M.Pd',
+        nama: 'Vivi Purwanti'),
     ListDataAnakModel(
-      nik: '362155428233263',
-      namaIbu: 'Aisyah Zahra Putri',
-      nama: 'Muhammad Kaivan Al Hakim',
-    ),
+        nik: '362155428003265',
+        namaIbu: 'Ulya Lestari',
+        nama: 'Wira Tampubolon'),
     ListDataAnakModel(
-      nik: '362155428233263',
-      namaIbu: 'Aisyah Zahra Putri',
-      nama: 'Muhammad Kaivan Al Hakim',
-    ),
+        nik: '362155420123266',
+        namaIbu: 'Fitriani Wulandari S.Pd',
+        nama: 'Olivia Novitasari'),
+    ListDataAnakModel(
+        nik: '3621554280003267',
+        namaIbu: 'Zamira Wulandari',
+        nama: 'Widya Namaga'),
+    ListDataAnakModel(
+        nik: '362155421123268',
+        namaIbu: 'Salsabila Maryati',
+        nama: 'Padmi Yuliarti'),
+    ListDataAnakModel(
+        nik: '362155428969269',
+        namaIbu: 'Paramita Pratiwi',
+        nama: 'Kiandra Hariyah'),
+    ListDataAnakModel(
+        nik: '362155420103270',
+        namaIbu: 'Dalima Rahmawati',
+        nama: 'Cemani Firmansyah'),
+    ListDataAnakModel(
+        nik: '362155428112271',
+        namaIbu: 'Yunita Wulandari',
+        nama: 'Jamalia Hassanah'),
+    ListDataAnakModel(
+        nik: '362155421413272',
+        namaIbu: 'Raisa Ani Melani S.Sos',
+        nama: 'Rafi Utama'),
   ];
 
   @override
@@ -68,7 +88,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
       appBar: PrimaryAppBar(
         title: 'Pilih Anak',
         background: Colors.white,
-        onBackPressed: (){
+        onBackPressed: () {
           Navigator.pop(context);
         },
       ),
@@ -90,6 +110,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
 
                 child: ListTile(
                   onTap: () {
+                    // logger.d(dataSelected.nama);
+                    Navigator.pop(context, dataPosyanduItem.nama);
                   },
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -117,7 +139,6 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 color: Colors.white,
                               ),
                             ),
-
                             Text(
                               dataPosyanduItem.nik!,
                               style: AppTextStyles.primaryTextMedium.copyWith(

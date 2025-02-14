@@ -7,6 +7,7 @@ import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart'
 import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
@@ -109,7 +110,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                 ),
 
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    // logger.d(dataSelected.nama);
+                    Navigator.pop(context, dataPosyanduItem.nama);
+                  },
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 10,
