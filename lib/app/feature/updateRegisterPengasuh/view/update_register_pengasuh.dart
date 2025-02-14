@@ -7,6 +7,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
@@ -294,6 +295,12 @@ class _UpdateRegisterPengasuhViewState
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Status Hubungan harus dipilih";
+                            }
+                            return null;
+                          },
                           onChanged: (value) {
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
@@ -311,11 +318,16 @@ class _UpdateRegisterPengasuhViewState
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _nikController,
-                            hintText: 'Nomor Kartu keluarga',
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                            isPasswordField: false),
+                          controller: _nikController,
+                          hintText: 'Nomor Kartu keluarga',
+                          keyboardType: TextInputType.number,
+                          obscureText: false,
+                          isPasswordField: false,
+                          validators: [
+                            (value) => Validator.required(
+                                value, "Nomor KK tidak boleh kosong"),
+                          ],
+                        ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'NIK',
@@ -327,11 +339,16 @@ class _UpdateRegisterPengasuhViewState
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _nikController,
-                            hintText: 'NIK',
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                            isPasswordField: false),
+                          controller: _nikController,
+                          hintText: 'NIK',
+                          keyboardType: TextInputType.number,
+                          obscureText: false,
+                          isPasswordField: false,
+                          validators: [
+                            (value) => Validator.required(
+                                value, "NIK tidak boleh kosong"),
+                          ],
+                        ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
                           'Nama',
@@ -343,11 +360,16 @@ class _UpdateRegisterPengasuhViewState
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                            controller: _namaController,
-                            hintText: 'Nama',
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                            isPasswordField: false),
+                          controller: _namaController,
+                          hintText: 'Nama',
+                          keyboardType: TextInputType.text,
+                          obscureText: false,
+                          isPasswordField: false,
+                          validators: [
+                            (value) => Validator.required(
+                                value, "Nama tidak boleh kosong"),
+                          ],
+                        ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -374,7 +396,7 @@ class _UpdateRegisterPengasuhViewState
                                     isPasswordField: false,
                                     validators: [
                                       (value) => Validator.required(value,
-                                          "Nama ayah tidak boleh kosong"),
+                                          "Tempat Lahir tidak boleh kosong"),
                                     ],
                                   ),
                                 ],
@@ -424,6 +446,12 @@ class _UpdateRegisterPengasuhViewState
                           children: [
                             Expanded(
                               child: DropdownWidget(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Kabupaten harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 items: selectKabupaten
                                     .map((kabupaten) =>
                                         kabupaten.namaKabupatenKota)
@@ -440,6 +468,12 @@ class _UpdateRegisterPengasuhViewState
                             ),
                             Expanded(
                               child: DropdownWidget(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Kecamatan harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 items: selectKecamatan
                                     .map((kecamatan) => kecamatan.namaKecamatan)
                                     .toList(),
@@ -462,6 +496,12 @@ class _UpdateRegisterPengasuhViewState
                           children: [
                             Expanded(
                               child: DropdownWidget(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Desa harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 items: selectDesaKelurahan
                                     .map((desa) => desa.namaDesaKelurahan)
                                     .toList(),
@@ -480,6 +520,12 @@ class _UpdateRegisterPengasuhViewState
                                     .map((dusun) => dusun.namaDusun)
                                     .toList(),
                                 hint: 'Dusun',
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Dusun harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 value: selectedDusunDataWali,
                                 onChanged: (value) {
                                   setState(() {
@@ -508,7 +554,10 @@ class _UpdateRegisterPengasuhViewState
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [],
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RT tidak boleh kosong"),
+                                ],
                               ),
                             ),
                             Expanded(
@@ -518,7 +567,10 @@ class _UpdateRegisterPengasuhViewState
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [],
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RW tidak boleh kosong"),
+                                ],
                               ),
                             ),
                           ],
@@ -632,28 +684,36 @@ class _UpdateRegisterPengasuhViewState
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
                               mainButton: () {
-                                updatePengasuhBloc.add(UpdatePengasuh(
-                                    id: widget.paket.idPengasuh,
-                                    updatePengasuhModel: UpdatePengasuhModel(
-                                        statusHubungan:
-                                            selectedStatusHubunganDenganAnak!,
-                                        nik: _nikController.text,
-                                        namaPengasuh: _namaController.text,
-                                        tempatLahir:
-                                            _tempatLahirController.text,
-                                        tanggalLahir:
-                                            _tanggalLahirController.text,
-                                        rt: _rTWaliController.text,
-                                        rw: _rWWaliController.text,
-                                        alamatLengkap:
-                                            _alamatWaliController.text,
-                                        dusunId: selectedDusunIdDataWali!,
-                                        noTelepon: _teleponWaliController.text,
-                                        golDarah: selectedGolDarahWali!,
-                                        nomorKartuKeluarga:
-                                            _nomorKKController.text,
-                                        disabilitasPengasuh:
-                                            selectedDisabilityLabelsAnak)));
+                                if (_formKey.currentState!.validate()) {
+                                  updatePengasuhBloc.add(
+                                    UpdatePengasuh(
+                                      id: widget.paket.idPengasuh,
+                                      updatePengasuhModel: UpdatePengasuhModel(
+                                          statusHubungan:
+                                              selectedStatusHubunganDenganAnak!,
+                                          nik: _nikController.text,
+                                          namaPengasuh: _namaController.text,
+                                          tempatLahir:
+                                              _tempatLahirController.text,
+                                          tanggalLahir:
+                                              _tanggalLahirController.text,
+                                          rt: _rTWaliController.text,
+                                          rw: _rWWaliController.text,
+                                          alamatLengkap:
+                                              _alamatWaliController.text,
+                                          dusunId: selectedDusunIdDataWali!,
+                                          noTelepon:
+                                              _teleponWaliController.text,
+                                          golDarah: selectedGolDarahWali!,
+                                          nomorKartuKeluarga:
+                                              _nomorKKController.text,
+                                          disabilitasPengasuh:
+                                              selectedDisabilityLabelsAnak),
+                                    ),
+                                  );
+                                } else {
+                                  logger.d('form tidak valid');
+                                }
                               },
                             );
                           },
