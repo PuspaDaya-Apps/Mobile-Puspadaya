@@ -6,3 +6,5 @@ sealed class UserEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GetCurrentUser extends UserEvent {}

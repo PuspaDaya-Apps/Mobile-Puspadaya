@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai.dart';
+import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/detail_kunjungan_belum_selesai_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
@@ -8,6 +8,7 @@ import '../../../model/detailListKunjungan_model.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../creteKunjunganIbuHamil/view/timer_kunjungan_ibu_hamil.dart';
 import '../../kunjungan/model/Kunjungan.dart';
+import 'detil_kunjungan_berjalan_ibu_hamil.dart';
 
 class DetailKunjunganIbuHamilOnGoing extends StatelessWidget {
   const DetailKunjunganIbuHamilOnGoing({super.key});
@@ -30,25 +31,25 @@ class _DetailKunjunganIbuHamilOnGoingViewState
     extends State<DetailKunjunganIbuHamilOnGoingView> {
   List<DetailListkunjunganModel> listDaftarKunjungan = [
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3601234011732625",
       id: '1',
-      name: 'Siti Aisyah',
+      name: 'Vanya Puspita',
       status: Status.berjalan,
-      distance: '5,1',
+      distance: '2,1',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "3620742411732625",
       id: '2',
-      name: 'Rahayu Putri Zahra',
+      name: 'Ade Kusmawati',
       status: Status.berjalan,
-      distance: '5,1',
+      distance: '2,4',
     ),
     DetailListkunjunganModel(
-      nik: "3621554011732625",
+      nik: "36657567011732625",
       id: '3',
-      name: 'Indana Maya Zulfa',
+      name: 'Lintang Hastuti',
       status: Status.selesai,
-      distance: '5,1',
+      distance: '1,7',
     ),
   ];
 
@@ -218,7 +219,7 @@ class _DetailKunjunganIbuHamilOnGoingViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganBelumSelesai();
+                              return DetailKunjunganBerjalanIbuHamil();
                             },
                           ),
                         );

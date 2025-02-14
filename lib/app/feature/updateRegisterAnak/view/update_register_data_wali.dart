@@ -39,11 +39,17 @@ class _UpdateRegisterDataWaliViewState
     'Perempuan',
   ];
 
-  final List<String> selectGolDarah = [
-    'A',
-    'B',
-    'AB',
-    'O',
+  List<String> selectGolDarah = [
+    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-',
+    'Tidak Tahu',
     '-',
   ];
 

@@ -26,23 +26,23 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   final List<IbuHamilSearch> ibuHamilList = [
     IbuHamilSearch(
       name: "Kurma Melati Ayu Putri",
-      nik: "362155482327263",
+      nik: "362150091829412",
     ),
     IbuHamilSearch(
       name: "Mentari Kumala Sari",
-      nik: "362155482327263",
+      nik: "362159995437172",
     ),
     IbuHamilSearch(
       name: "Dewi antasari",
-      nik: "362155482327263",
+      nik: "362150001127392",
     ),
     IbuHamilSearch(
       name: "Adianti Ayu Lestari",
-      nik: "362155482327263",
+      nik: "362110373381020",
     ),
     IbuHamilSearch(
       name: "Della Marisa ",
-      nik: "362155482327263",
+      nik: "362150182631935",
     ),
   ];
   @override
@@ -68,7 +68,7 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
               prefixIcon: Icon(
                 FluentIcons.search_24_regular,
               ),
-              hintText: 'Pilih Anak',
+              hintText: 'Pilih Ibu Hamil',
               hintStyle: Theme.of(context)
                   .textTheme
                   .bodySmall!

@@ -75,6 +75,8 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
+import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
@@ -103,15 +105,19 @@ class MyRoute {
 
       case OTP:
         return MaterialPageRoute(
-            builder: (context) => const OtpScreen(), settings: settings);
+            builder: (context) => OtpScreen(
+              nomorTelepon: settings.arguments as String,
+            ), settings: settings);
 
       case RESET_PASSWORD:
         return MaterialPageRoute(
-            builder: (context) => const ResetPassword(), settings: settings);
+            builder: (context) => ResetPassword(
+              codeOTP: settings.arguments as String,
+            ), settings: settings);
 
       case HOME:
         return MaterialPageRoute(
-            builder: (context) => const HomeWrapper(), settings: settings);
+            builder: (context) => const HomeScreen(), settings: settings);
 
       // JADWAL
       case JADWAL:
@@ -380,7 +386,9 @@ class MyRoute {
         );
       case UPDATE_REGISTER_PENGASUH:
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterPengasuh(),
+          builder: (context) => UpdateRegisterPengasuh(
+            paketToUpdatePengasuhModel: settings.arguments as PaketToUpdatePengasuhModel,
+          ),
           settings: settings,
         );
       case DETAIL_REGISTER_PENGASUH:
@@ -494,12 +502,16 @@ class MyRoute {
 
       case UPDATE_REGISTER_ANGGOTA_KADER:
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterAnggotaKader(),
+          builder: (context) => UpdateRegisterAnggotaKader(
+            paket: settings.arguments as PaketToUpdateAnggotaKaderModel,
+          ),
           settings: settings,
         );
       case DETAIL_REGISTER_ANGGOTA_KADER:
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterAnggotaKader(),
+          builder: (context) => DetailRegisterAnggotaKader(
+            anggotakaderId: settings.arguments as String,
+          ),
           settings: settings,
         );
 

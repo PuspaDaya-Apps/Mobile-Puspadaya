@@ -68,8 +68,8 @@ class _DataWastingViewState extends State<DataWastingView> {
         caraLahir: 'Normal',
         statusKelahiran: 'normal',
         statusStunting: 'normal',
-        statusGizi: 'gizi normal',
-        statusWasting: 'normal',
+        statusGizi: 'kurus',
+        statusWasting: 'kurus',
         statusOrangTua: 'Orang Tua',
         pengukuran: null,
         posyandu: RiwayatMonitoringAnakModel.Posyandu(

@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/image_config.dart';
@@ -11,7 +10,7 @@ import '../../../../route/route_name.dart';
 import '../../../view/widget/textfield_password_login_widget.dart';
 import '../../../view/widget/textfield_username_login_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../lupaKataSandi/view/lupa_kata_sandi_screen.dart';
+import 'lupa_kata_sandi_screen.dart';
 import '../bloc/loginBloc/login_bloc.dart';
 import '../bloc/rememberMeCubit/remember_me_cubit.dart';
 import '../model/login_model.dart';
@@ -219,13 +218,14 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                 ],
                                               ),
                                               GestureDetector(
-                                                  onTap: () async {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            const Center(
-                                                                child:
-                                                                    LupaKataSandiScreen()));
+                                                onTap: () async {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                      const Center(
+                                                        child: LupaKataSandiView()
+                                                      )
+                                                    );
                                                   },
                                                   child: Text(
                                                     'Lupa Kata Sandi?',
