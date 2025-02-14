@@ -24,22 +24,21 @@ import '../bloc/createAnggotaKaderBloc/create_anggota_kader_bloc.dart';
 import '../model/create_anggota_kader_model.dart';
 
 class CreateIndividu extends StatefulWidget {
-  const CreateIndividu({
-    super.key,
-    // required this.selectProvinsi,
-    // required this.selectKabupaten,
-    // required this.selectKecamatan,
-    // required this.selectDesaKelurahan,
-    // required this.selectDusun,
-    required this.currentUserModel
-  });
+  const CreateIndividu(
+      {super.key,
+      // required this.selectProvinsi,
+      // required this.selectKabupaten,
+      // required this.selectKecamatan,
+      // required this.selectDesaKelurahan,
+      // required this.selectDusun,
+      required this.currentUserModel});
 
   // final List<ProvinsiModel.Datum> selectProvinsi;
   // final List<KabupatenModel.Datum> selectKabupaten;
   // final List<KecamatanModel.Datum> selectKecamatan;
   // final List<DesaKelurahanModel.Datum> selectDesaKelurahan;
   // final List<DusunModel.Datum> selectDusun;
-  
+
   final CurrentUserModel currentUserModel;
 
   @override
@@ -243,7 +242,10 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       isPasswordField: false,
                       keyboardType: TextInputType.number,
                       obscureText: false,
-                      validators: [],
+                      validators: [
+                        (value) =>
+                            Validator.required(value, "RT tidak boleh kosong"),
+                      ],
                     ),
                   ),
                   Expanded(
@@ -253,7 +255,10 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       isPasswordField: false,
                       keyboardType: TextInputType.number,
                       obscureText: false,
-                      validators: [],
+                      validators: [
+                        (value) =>
+                            Validator.required(value, "RW tidak boleh kosong"),
+                      ],
                     ),
                   ),
                 ],
@@ -274,31 +279,30 @@ class _CreateIndividuState extends State<CreateIndividu> {
               BlocConsumer<CreateAnggotaKaderBloc, CreateAnggotaKaderState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
-                  if(state is CreateAnggotaKaderSuccessState) {
-                    Navigator.pop(context,1);
+                  if (state is CreateAnggotaKaderSuccessState) {
+                    Navigator.pop(context, 1);
                   }
                 },
                 builder: (context, state) {
                   return ButtonPrimary(
-                    color: bluePrimaryMain,
-                    mainButtonMessage: 'Simpan',
-                    mainButton: () {
-                      if (formkey.currentState!.validate()) {
-                        BlocProvider.of<CreateAnggotaKaderBloc>(context).add(CreateAnggotaKader(
-                          CreateAnggotaKaderModel(
-                            namaLengkap: _namaController.text, 
-                            nomorTelepon: _nomorTeleponController.text, 
-                            tanggalLahir: _tanggalLahirController.text, 
-                            rt: _rTController.text, 
-                            rw: _rWController.text, 
-                            alamatLengkap: _alamatController.text, 
-                            // dusunId: selectedDusunId!, 
-                            posyanduId: widget.currentUserModel.posyandu.id
-                          )
-                        ));
-                      } 
-                    } // Panggil callback saat tombol ditekan
-                  );
+                      color: bluePrimaryMain,
+                      mainButtonMessage: 'Simpan',
+                      mainButton: () {
+                        if (formkey.currentState!.validate()) {
+                          BlocProvider.of<CreateAnggotaKaderBloc>(context).add(
+                              CreateAnggotaKader(CreateAnggotaKaderModel(
+                                  namaLengkap: _namaController.text,
+                                  nomorTelepon: _nomorTeleponController.text,
+                                  tanggalLahir: _tanggalLahirController.text,
+                                  rt: _rTController.text,
+                                  rw: _rWController.text,
+                                  alamatLengkap: _alamatController.text,
+                                  // dusunId: selectedDusunId!,
+                                  posyanduId:
+                                      widget.currentUserModel.posyandu.id)));
+                        }
+                      } // Panggil callback saat tombol ditekan
+                      );
                 },
               ),
             ],
