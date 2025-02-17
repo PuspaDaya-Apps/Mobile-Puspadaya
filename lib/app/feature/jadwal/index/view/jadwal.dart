@@ -11,8 +11,6 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../../../../../config/theme/text_style.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/pul_to_refresh.dart';
 

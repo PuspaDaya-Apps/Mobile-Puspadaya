@@ -11,12 +11,14 @@ class TextFieldWidget extends StatelessWidget {
   final bool obscureText;
   final bool isPasswordField;
   final VoidCallback? onToggleVisibility;
+  final bool? isEnable;
   // final FormFieldValidator<String>? validator;
   List<String? Function(String)>? validators;
   final ValueSetter? valueSet;
 
   TextFieldWidget(
       {super.key,
+      this.isEnable,
       required this.controller,
       required this.hintText,
       required this.keyboardType,
@@ -29,6 +31,7 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnable ?? true,
       controller: controller,
       style: Theme.of(context).textTheme.bodySmall,
       keyboardType: keyboardType,

@@ -12,6 +12,7 @@ import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
@@ -136,6 +137,17 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
     });
   }
 
+  bool _isGenerateWaliValid() {
+    return _tempatLahirController.text.isNotEmpty &&
+        _tanggalLahirController.text.isNotEmpty &&
+        selectedProvinsiWali !=
+            null && // Check if selectedProvinsiWali is not null
+        selectedKabupatenWali !=
+            null && // Check if selectedKabupatenWali is not null
+        selectedKecamatanWali !=
+            null; // Check if selectedDusunWaliId is not null
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
@@ -234,15 +246,49 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
-                          controller: _kkController,
-                          hintText: 'Masukan Nomor Kartu Keluarga',
-                          isPasswordField: false,
-                          keyboardType: TextInputType.number,
-                          obscureText: false,
-                          validators: [
-                            (value) => Validator.required(
-                                value, "Kartu Keluarga tidak boleh kosong"),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: TextFieldWidget(
+                                controller: _kkController,
+                                hintText: 'Masukan Nomor Kartu Keluarga',
+                                isPasswordField: false,
+                                keyboardType: TextInputType.number,
+                                obscureText: false,
+                                validators: [
+                                  (value) => Validator.required(value,
+                                      "Kartu Keluarga tidak boleh kosong"),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width /
+                                  3.4, // Atur lebar minimum untuk tombol
+                              child: GenerateButtonWidget(
+                                onPressed: () {
+                                  // Validasi sebelum mengizinkan generate
+                                  if (_isGenerateWaliValid()) {
+                                    // Logika untuk generate
+                                    print("Generate button pressed");
+                                  } else {
+                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                    showTopSnackBar(
+                                        Overlay.of(context),
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        displayDuration:
+                                            const Duration(milliseconds: 2200),
+                                        reverseAnimationDuration:
+                                            const Duration(milliseconds: 300),
+                                        TopSnackbarWidget().error(
+                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                  }
+                                },
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -251,15 +297,53 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
-                          controller: _nikController,
-                          hintText: 'Masukan NIK',
-                          isPasswordField: false,
-                          keyboardType: TextInputType.number,
-                          obscureText: false,
-                          validators: [
-                            (value) => Validator.required(
-                                value, "NIK tidak boleh kosong"),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              flex:
+                                  7, // Adjust this value to make the TextField larger
+                              child: TextFieldWidget(
+                                controller: _nikController,
+                                hintText: 'NIK',
+                                keyboardType: TextInputType.text,
+                                obscureText: false,
+                                isPasswordField: false,
+                                validators: [
+                                  (value) => Validator.consistOf(value, 16,
+                                      "NIk Wali harus terdiri atas 16 digit"),
+                                  (value) => Validator.required(
+                                      value, "NIK Wali tidak boleh kosong"),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width /
+                                  3.4, // Atur lebar minimum untuk tombol
+                              child: GenerateButtonWidget(
+                                onPressed: () {
+                                  // Validasi sebelum mengizinkan generate
+                                  if (_isGenerateWaliValid()) {
+                                    // Logika untuk generate
+                                    print("Generate button pressed");
+                                  } else {
+                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                    showTopSnackBar(
+                                        Overlay.of(context),
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        displayDuration:
+                                            const Duration(milliseconds: 2200),
+                                        reverseAnimationDuration:
+                                            const Duration(milliseconds: 300),
+                                        TopSnackbarWidget().error(
+                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                  }
+                                },
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
