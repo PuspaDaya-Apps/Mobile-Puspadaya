@@ -8,6 +8,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../createKunjunganStunting/view/model/CheckBoxKunjungan.dart';
@@ -138,67 +139,25 @@ class CheckListJobKunjunganAnakTidakHadirView extends StatefulWidget {
 
 class _CheckListJobKunjunganAnakTidakHadirViewState
     extends State<CheckListJobKunjunganAnakTidakHadirView> {
-  List<CheckboxKunjungan> listOfCheckbox = [
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Pengukuran di Rumah',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Penggunaan Buku KIA',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Isi Piringku',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Aktivitas Fisik',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Imunisasi',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Vitamin A',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Obat Cacing',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Stimulasi Perkembangan',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Anak Tidak Berada di Rumah',
-    ),
-  ];
-
   void _updateCheckbox(int index, bool? value) {
     setState(() {
-      if (index == listOfCheckbox.length - 1 && value == true) {
+      if (index == listOfCheckboxKunjunganAnakTidakHadir.length - 1 &&
+          value == true) {
         // If the last checkbox is selected, disable all other checkboxes
-        for (int i = 0; i < listOfCheckbox.length - 1; i++) {
-          listOfCheckbox[i].isChecked = false;
+        for (int i = 0;
+            i < listOfCheckboxKunjunganAnakTidakHadir.length - 1;
+            i++) {
+          listOfCheckboxKunjunganAnakTidakHadir[i].isChecked = false;
         }
-      } else if (index != listOfCheckbox.length - 1) {
+      } else if (index != listOfCheckboxKunjunganAnakTidakHadir.length - 1) {
         // If any other checkbox is selected, uncheck the last checkbox
-        listOfCheckbox[listOfCheckbox.length - 1].isChecked = false;
+        listOfCheckboxKunjunganAnakTidakHadir[
+                listOfCheckboxKunjunganAnakTidakHadir.length - 1]
+            .isChecked = false;
       }
 
       // Update the selected checkbox state
-      listOfCheckbox[index].isChecked = value ?? false;
+      listOfCheckboxKunjunganAnakTidakHadir[index].isChecked = value ?? false;
     });
   }
 
@@ -222,7 +181,7 @@ class _CheckListJobKunjunganAnakTidakHadirViewState
             ),
           ),
           const SizedBox(height: 10),
-          ...listOfCheckbox.asMap().entries.map((entry) {
+          ...listOfCheckboxKunjunganAnakTidakHadir.asMap().entries.map((entry) {
             int index = entry.key;
             CheckboxKunjungan item = entry.value;
 
@@ -230,10 +189,13 @@ class _CheckListJobKunjunganAnakTidakHadirViewState
               isChecked: item.isChecked,
               label: item.label,
               onChanged: (value) {
-                if (index == listOfCheckbox.length - 1 && value == true) {
+                if (index == listOfCheckboxKunjunganAnakTidakHadir.length - 1 &&
+                    value == true) {
                   // Disable other checkboxes if the last one is selected
-                  for (int i = 0; i < listOfCheckbox.length - 1; i++) {
-                    listOfCheckbox[i].isChecked = false;
+                  for (int i = 0;
+                      i < listOfCheckboxKunjunganAnakTidakHadir.length - 1;
+                      i++) {
+                    listOfCheckboxKunjunganAnakTidakHadir[i].isChecked = false;
                   }
                 }
                 _updateCheckbox(index, value);
