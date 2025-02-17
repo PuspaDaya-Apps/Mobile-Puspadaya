@@ -20,10 +20,7 @@ import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
 
 class Home extends StatelessWidget {
-  const Home({
-    super.key,
-    required this.currentUserModel
-  });
+  const Home({super.key, required this.currentUserModel});
 
   final CurrentUserModel currentUserModel;
 
@@ -44,13 +41,10 @@ class Home extends StatelessWidget {
 }
 
 class HomeView extends StatefulWidget {
-  const HomeView({
-    super.key,
-    required this.currentUserModel
-  });
+  const HomeView({super.key, required this.currentUserModel});
 
   final CurrentUserModel currentUserModel;
-  
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -85,14 +79,15 @@ class _HomeViewState extends State<HomeView> {
                 },
                 builder: (context, state) {
                   if (state is JadwalPosyanduHomeProcessState) {
-                    return Container (
-                      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.calWidthMultiplier(24)),
                       padding: EdgeInsets.symmetric(
                         horizontal: SizeConfig.calWidthMultiplier(16),
                         vertical: SizeConfig.calHeightMultiplier(12),
                       ),
                       width: double.infinity,
-                      height:80,
+                      height: 80,
                       alignment: Alignment.center,
                       child: const CircularProgressIndicator(
                         color: bluePrimaryMain,
@@ -100,19 +95,18 @@ class _HomeViewState extends State<HomeView> {
                     );
                   }
                   if (state is JadwalPosyanduHomeSuccessState) {
-                    if(state.jadwal == null) {
+                    if (state.jadwal == null) {
                       return CardListActivity(
                         date: DateTime.now(),
                         location: widget.currentUserModel.posyandu.namaPosyandu,
                       );
                     }
-                    return  JadwalCard(
-                      date: state.jadwal!.tanggalPelaksanaan, 
-                      name: state.jadwal!.namaKegiatan, 
-                      timeStart: state.jadwal!.waktuMulai, 
-                      timeEnd: state.jadwal!.waktuSelesai, 
-                      location: state.jadwal!.lokasi
-                    );
+                    return JadwalCard(
+                        date: state.jadwal!.tanggalPelaksanaan,
+                        name: state.jadwal!.namaKegiatan,
+                        timeStart: state.jadwal!.waktuMulai,
+                        timeEnd: state.jadwal!.waktuSelesai,
+                        location: state.jadwal!.lokasi);
                   }
                   return CardListActivity(
                     date: DateTime.now(),
@@ -132,9 +126,10 @@ class _HomeViewState extends State<HomeView> {
                   debugPrint(state.toString());
                 },
                 builder: (context, state) {
-                  if(state is CardDataHomeProcessState) {
-                    return Container (
-                      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+                  if (state is CardDataHomeProcessState) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.calWidthMultiplier(24)),
                       padding: EdgeInsets.symmetric(
                         horizontal: SizeConfig.calWidthMultiplier(16),
                         vertical: SizeConfig.calHeightMultiplier(12),
@@ -147,7 +142,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     );
                   }
-                  if(state is CardDataHomeSuccessState) {
+                  if (state is CardDataHomeSuccessState) {
                     return CardCarousel(
                       cardHomeResponseModel: state.cardDataHomeResponseModel,
                     );
@@ -170,10 +165,7 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class CardCarousel extends StatelessWidget {
-  const CardCarousel({
-    super.key,
-    required this.cardHomeResponseModel
-  });
+  const CardCarousel({super.key, required this.cardHomeResponseModel});
 
   final CardHomeResponseModel cardHomeResponseModel;
 
@@ -272,7 +264,8 @@ class CardListActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+      margin:
+          EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
       padding: EdgeInsets.symmetric(
         horizontal: SizeConfig.calWidthMultiplier(16),
         vertical: SizeConfig.calHeightMultiplier(12),
@@ -393,7 +386,8 @@ class JadwalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        margin:EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+        margin:
+            EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
         padding: EdgeInsets.symmetric(
           horizontal: SizeConfig.calWidthMultiplier(16),
           vertical: SizeConfig.calHeightMultiplier(12),
@@ -487,14 +481,16 @@ class JadwalCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              DateFormat('MMMM y', 'id_ID').format(date), // Corrected month indexing
+              DateFormat('MMMM y', 'id_ID')
+                  .format(date), // Corrected month indexing
               style: TextStyle(
                 fontSize: 11,
                 color: Colors.white,
               ),
             ),
             Text(
-              DateFormat('EEEE', 'id_ID').format(date), // Corrected weekday indexing
+              DateFormat('EEEE', 'id_ID')
+                  .format(date), // Corrected weekday indexing
               style: TextStyle(
                 fontSize: 11,
                 color: Colors.white,

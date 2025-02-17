@@ -59,9 +59,9 @@ import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
-import '../app/feature/jadwal/view/create_jadwal.dart';
-import '../app/feature/jadwal/view/edit_jadwal.dart';
-import '../app/feature/jadwal/view/jadwal.dart';
+import '../app/feature/jadwal/create/view/create_jadwal.dart';
+import '../app/feature/jadwal/edit/view/edit_jadwal.dart';
+import '../app/feature/jadwal/index/view/jadwal.dart';
 import '../app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import '../app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
@@ -106,14 +106,16 @@ class MyRoute {
       case OTP:
         return MaterialPageRoute(
             builder: (context) => OtpScreen(
-              nomorTelepon: settings.arguments as String,
-            ), settings: settings);
+                  nomorTelepon: settings.arguments as String,
+                ),
+            settings: settings);
 
       case RESET_PASSWORD:
         return MaterialPageRoute(
             builder: (context) => ResetPassword(
-              codeOTP: settings.arguments as String,
-            ), settings: settings);
+                  codeOTP: settings.arguments as String,
+                ),
+            settings: settings);
 
       case HOME:
         return MaterialPageRoute(
@@ -133,8 +135,12 @@ class MyRoute {
             builder: (context) => const CreateJadwal(), settings: settings);
 
       case EDIT_JADWAL:
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-            builder: (context) => const EditJadwal(), settings: settings);
+            builder: (context) => EditJadwal(
+                  id: id,
+                ),
+            settings: settings);
 
       // PROFILE
 
@@ -387,7 +393,8 @@ class MyRoute {
       case UPDATE_REGISTER_PENGASUH:
         return MaterialPageRoute(
           builder: (context) => UpdateRegisterPengasuh(
-            paketToUpdatePengasuhModel: settings.arguments as PaketToUpdatePengasuhModel,
+            paketToUpdatePengasuhModel:
+                settings.arguments as PaketToUpdatePengasuhModel,
           ),
           settings: settings,
         );
