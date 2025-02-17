@@ -1,7 +1,7 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:puspadaya/app/feature/jadwal/index/bloc/jadwal_index_bloc.dart';
 import 'package:puspadaya/app/feature/jadwal/index/model/get_all_jadwal_posyandu_model.dart'
     as GetAllJadwalPosyanduModel;
@@ -12,6 +12,7 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../../../config/theme/text_style.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/pul_to_refresh.dart';
 
@@ -35,19 +36,22 @@ class JadwalView extends StatefulWidget {
 }
 
 class _JadwalViewState extends State<JadwalView> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  late EasyRefreshController _controller;
   bool _isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _controller = EasyRefreshController(
+      controlFinishRefresh: true,
+      controlFinishLoad: true,
+    );
     context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
   }
 
   @override
   void dispose() {
-    _refreshController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -70,14 +74,14 @@ class _JadwalViewState extends State<JadwalView> {
       backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: PullToRefreshWidget(
-          refreshController: _refreshController,
-          onRefresh: () {
+          onRefresh: () async {
             logger.d('on refresh');
             context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
-            _refreshController.refreshCompleted();
+            _controller.finishRefresh();
           },
+          refreshController: _controller,
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: 24,
