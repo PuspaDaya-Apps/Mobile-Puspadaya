@@ -18,6 +18,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -59,35 +60,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     with SingleTickerProviderStateMixin {
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
-
-  List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-    'Tidak Tahu',
-    '-',
-  ];
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-  final List<String> selectJenisKB = [
-    'PIL',
-    'IUD',
-    'SUNTIK',
-    'IMPLANT',
-    'LAINNYA'
-  ];
 
   // Controller untuk Data Ayah dan Data Ibu
   // ? ayah controller

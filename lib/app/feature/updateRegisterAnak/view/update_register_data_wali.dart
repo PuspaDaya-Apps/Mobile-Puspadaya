@@ -6,6 +6,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -33,43 +34,6 @@ class UpdateRegisterDataWaliView extends StatefulWidget {
 class _UpdateRegisterDataWaliViewState
     extends State<UpdateRegisterDataWaliView> {
   final _formKey = GlobalKey<FormState>();
-
-  final List<String> selectGender = [
-    'Laki-Laki',
-    'Perempuan',
-  ];
-
-  List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-    'Tidak Tahu',
-    '-',
-  ];
-
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-
-  final List<String> selectStatusHubunganDenganAnak = [
-    'Nenek',
-    'Kakek',
-    'Paman',
-    'Bibi',
-    'Kakak',
-  ];
-
   final List<String> selectKabupaten = [
     'Banyuwangi',
     'Maluku',

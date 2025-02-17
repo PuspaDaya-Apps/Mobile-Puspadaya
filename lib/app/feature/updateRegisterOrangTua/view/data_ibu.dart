@@ -4,6 +4,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -94,43 +95,12 @@ class _DataIbuState extends State<DataIbu> {
     'Kecamatan 2',
   ];
 
-  final List<String> selectJenisKB = [
-    'Pil',
-    'IUD',
-    'Suntik',
-    'Implant',
-    'Lainnya'
-  ];
-
-  List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-    'Tidak Tahu',
-    '-',
-  ];
-
   String? selectedKabupaten;
   String? selectedKecamatan;
   String? selectedDesa;
   String? selectedDusun;
   String? selectedGolDarah;
   String? selectedJenisKB;
-
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilities = [];

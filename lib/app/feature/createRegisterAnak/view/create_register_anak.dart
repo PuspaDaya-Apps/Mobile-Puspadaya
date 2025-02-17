@@ -9,6 +9,7 @@ import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paket_to_create_anak_model.dart';
 import '../../../model/paketToScreen/paket_to_create_wali_model.dart';
@@ -51,33 +52,6 @@ class CreateRegisterAnakView extends StatefulWidget {
 class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   final _formKey = GlobalKey<FormState>();
   bool _isExpanded = false;
-
-  final List<String> selectGender = [
-    'Laki-laki',
-    'Perempuan',
-  ];
-
-  final List<String> selectCaraLahir = [
-    'normal',
-    'caesar',
-  ];
-  final List<String> selectStatusKelahiran = [
-    'normal',
-    'prematur',
-  ];
-  final List<String> selectStatusOrangTuaAnak = [
-    'Orang Tua',
-    'Wali',
-  ];
-
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAnak = [];
