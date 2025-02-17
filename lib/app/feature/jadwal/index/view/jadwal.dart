@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/jadwal/model/schadule.dart' as Schadule;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:puspadaya/app/feature/jadwal/index/bloc/jadwal_index_bloc.dart';
+import 'package:puspadaya/app/feature/jadwal/index/model/get_all_jadwal_posyandu_model.dart'
+    as GetAllJadwalPosyanduModel;
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../../../../utils/logger/logger.dart';
+import '../../../../view/widget/pul_to_refresh.dart';
 
 class Jadwal extends StatelessWidget {
   const Jadwal({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return JadwalView();
+    return BlocProvider(
+      create: (context) => JadwalIndexBloc(),
+      child: JadwalView(),
+    );
   }
 }
 
@@ -23,6 +35,22 @@ class JadwalView extends StatefulWidget {
 }
 
 class _JadwalViewState extends State<JadwalView> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  bool _isLoading = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,44 +69,85 @@ class _JadwalViewState extends State<JadwalView> {
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: SingleChildScrollView(
-          // Gunakan SingleChildScrollView
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: SizeConfig.calHeightMultiplier(12),
-                ),
-                Text(
-                  'Jadwal Posyandu',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
+        child: PullToRefreshWidget(
+          refreshController: _refreshController,
+          onRefresh: () {
+            logger.d('on refresh');
+            context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
+            _refreshController.refreshCompleted();
+          },
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: SizeConfig.calHeightMultiplier(12),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.calHeightMultiplier(18),
-                ),
-                CalenderView(),
-                SizedBox(
-                  height: SizeConfig.calHeightMultiplier(20),
-                ),
-
-                // ListView.builder(
-                //   // Gunakan ListView.builder jika kontennya dinamis
-                //   physics:
-                //       NeverScrollableScrollPhysics(), // Nonaktifkan scroll untuk ListView
-                //   shrinkWrap: true, // ListView tidak mengambil seluruh ruang
-                //   itemCount: 5, // Sesuaikan dengan jumlah jadwal
-                //   itemBuilder: (context, index) => JadwalCard(),
-                // ),
-              ],
+                  Text(
+                    'Jadwal Posyandu',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.calHeightMultiplier(18),
+                  ),
+                  BlocConsumer<JadwalIndexBloc, JadwalIndexState>(
+                    listener: (context, state) {
+                      // You can handle side effects here if needed
+                      if (state is JadwalIndexFailed) {
+                        // For example, show a snackbar with the error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(state.message)),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is JadwalIndexLoading) {
+                        return Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: MediaQuery.sizeOf(context).height / 1.15,
+                          child: Center(
+                            child: SpinKitThreeBounce(
+                              color: bluePrimaryMain,
+                              size: 50.0,
+                            ),
+                          ),
+                        );
+                      }
+                      if (state is JadwalIndexSuccess) {
+                        logger.d(state.data);
+                        // _isLoading = false;
+                        return CalenderView(
+                          jadwal: state.data.data,
+                        );
+                      }
+                      if (state is JadwalIndexFailed) {
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: TextStyle(
+                              color: textSecoundary,
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      }
+                      return Container(); // Return an empty container for other states
+                    },
+                  ),
+                  SizedBox(
+                    height: SizeConfig.calHeightMultiplier(20),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -88,6 +157,7 @@ class _JadwalViewState extends State<JadwalView> {
 }
 
 class JadwalCard extends StatelessWidget {
+  final String id;
   final DateTime date;
   final String name;
   final String timeStart;
@@ -120,6 +190,7 @@ class JadwalCard extends StatelessWidget {
 
   JadwalCard({
     super.key,
+    required this.id,
     required this.date,
     required this.name,
     required this.timeStart,
@@ -131,7 +202,11 @@ class JadwalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, EDIT_JADWAL);
+        Navigator.pushNamed(
+          context,
+          EDIT_JADWAL,
+          arguments: id,
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 8, top: 8),
@@ -253,7 +328,8 @@ class LocationCard extends StatelessWidget {
 }
 
 class CalenderView extends StatefulWidget {
-  const CalenderView({super.key});
+  List<GetAllJadwalPosyanduModel.Datum> jadwal;
+  CalenderView({super.key, required this.jadwal});
 
   @override
   _CalenderViewState createState() => _CalenderViewState();
@@ -262,53 +338,30 @@ class CalenderView extends StatefulWidget {
 class _CalenderViewState extends State<CalenderView> {
   DateTime? _selectedDay;
   DateTime _focusedDay = DateTime.now();
-  List<Schadule.Datum> schadules = [
-    Schadule.Datum(
-      id: "01",
-      name: 'Pengukuran Rutin',
-      time: DateTime.now().add(Duration(days: 5)),
-      location: "Posyandu Mawar 1",
-      timeStart: "07.30",
-      timeEnd: "13.00",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    ),
-    Schadule.Datum(
-      id: "02",
-      name: 'Pengukuran Rutin',
-      time: DateTime.now().add(Duration(days: 2)),
-      location: "Posyandu Mawar 1",
-      timeStart: "07.30",
-      timeEnd: "13.00",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    ),
-    Schadule.Datum(
-      id: "03",
-      name: 'Pengukuran Rutin',
-      time: DateTime.now().add(Duration(days: 2)),
-      location: "Posyandu Mawar 1",
-      timeStart: "07.30",
-      timeEnd: "13.00",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    ),
-    Schadule.Datum(
-      id: "04",
-      name: 'Pengukuran Rutin',
-      time: DateTime.now().add(Duration(days: 7)),
-      location: "Posyandu Mawar 1",
-      timeStart: "07.30",
-      timeEnd: "13.00",
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    ),
-  ];
-  // final ValueNotifier<List<Schadule.Datum>> _schadules =
-  //     ValueNotifier<List<Schadule.Datum>>([]);
-  List<Schadule.Datum> _getEventsForDay(DateTime day) {
-    return schadules.where((schedule) {
-      return isSameDay(schedule.time, day);
+  // List<GetAllJadwalPosyanduModel.Datum> schadules = [
+  //   GetAllJadwalPosyanduModel.Datum(
+  //     id: "01",
+  //     lokasi: 'Posyandu Mawar 1',
+  //     namaKegiatan: 'Pengukuran Rutin',
+  //     posyandu: GetAllJadwalPosyanduModel.Posyandu(
+  //       id: "01",
+  //       namaPosyandu: 'Mawar 1',
+  //       alamat: 'Jl. Mawar 1 No. 1',
+  //       createdAt: DateTime.now(),
+  //       updatedAt: DateTime.now(),
+  //     ),
+  //     tanggalPelaksanaan: DateTime.now().add(Duration(days: 5)),
+  //     waktuMulai: "07.30",
+  //     waktuSelesai: "13.00",
+  //     createdAt: DateTime.now(),
+  //     updatedAt: DateTime.now(),
+  //   ),
+  // ];
+  final ValueNotifier<List<GetAllJadwalPosyanduModel.Datum>> _schadules =
+      ValueNotifier<List<GetAllJadwalPosyanduModel.Datum>>([]);
+  List<GetAllJadwalPosyanduModel.Datum> _getEventsForDay(DateTime day) {
+    return widget.jadwal.where((schedule) {
+      return isSameDay(schedule.tanggalPelaksanaan, day);
     }).toList();
   }
 
@@ -441,11 +494,12 @@ class _CalenderViewState extends State<CalenderView> {
                 ? Column(
                     children: eventsForDay.map((schedule) {
                       return JadwalCard(
-                        date: schedule.time,
-                        name: schedule.name,
-                        timeStart: schedule.timeStart,
-                        timeEnd: schedule.timeEnd,
-                        location: schedule.location,
+                        id: schedule.id,
+                        date: schedule.tanggalPelaksanaan,
+                        name: schedule.namaKegiatan,
+                        timeStart: schedule.waktuMulai,
+                        timeEnd: schedule.waktuSelesai,
+                        location: schedule.lokasi,
                       );
                     }).toList(),
                   )

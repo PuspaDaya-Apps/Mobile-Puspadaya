@@ -1,8 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
-
 import '../../../../config/theme/pallet_color.dart';
 import '../../../model/paketToScreen/paket_to_create_anak_model.dart';
 import '../../../view/screen/error_server_screen.dart';
@@ -10,8 +8,7 @@ import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_orangtua_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
-import '../../registerOrangTua/bloc/register_orang_tua_bloc.dart';
-import '../../registerOrangTua/model/orang_tua_item_model.dart';
+
 import '../bloc/getListOrangTuaBloc/get_lis_orang_tua_bloc.dart';
 
 class SearchKartuKeluarga extends StatelessWidget {
@@ -60,22 +57,18 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
           child: BlocConsumer<GetLisOrangTuaBloc, GetLisOrangTuaState>(
             listener: (context, state) {
               debugPrint(state.toString());
-              if(state is GetListOrangTuaFailedState) {
-
-              }
+              if (state is GetListOrangTuaFailedState) {}
             },
             builder: (context, state) {
-              if(state is GetListOrangTuaProccessState
-              || state is GetListOrangTuaTokenExpiredState
-              ) {
+              if (state is GetListOrangTuaProccessState ||
+                  state is GetListOrangTuaTokenExpiredState) {
                 return const Center(
-                  child: CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  )
-                );
+                    child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                ));
               }
-              if(state is GetListOrangTuaSuccessState) {
-                if(state.getListOrangTuaResponseModel.data!.isEmpty){
+              if (state is GetListOrangTuaSuccessState) {
+                if (state.getListOrangTuaResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
                 return Column(
@@ -105,7 +98,8 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: state.getListOrangTuaResponseModel.data!.length,
+                        itemCount:
+                            state.getListOrangTuaResponseModel.data!.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
@@ -114,17 +108,37 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
                                 Navigator.pop(
                                   context,
                                   PaketToCreateAnakModel(
-                                    idKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ibu.kartuKeluarga.id,
-                                    nomorKartuKeluarga: state.getListOrangTuaResponseModel.data![index].ibu.kartuKeluarga.nomorKartuKeluarga,
-                                    namaAyah: state.getListOrangTuaResponseModel.data![index].ayah.namaAyah,
-                                    namaIbu: state.getListOrangTuaResponseModel.data![index].ibu.namaIbu
-                                  ) 
+                                    idKartuKeluarga: state
+                                        .getListOrangTuaResponseModel
+                                        .data![index]
+                                        .ibu
+                                        .kartuKeluarga
+                                        .id,
+                                    nomorKartuKeluarga: state
+                                        .getListOrangTuaResponseModel
+                                        .data![index]
+                                        .ibu
+                                        .kartuKeluarga
+                                        .nomorKartuKeluarga,
+                                    namaAyah: state.getListOrangTuaResponseModel
+                                        .data![index].ayah.namaAyah,
+                                    namaIbu: state.getListOrangTuaResponseModel
+                                        .data![index].ibu.namaIbu,
+                                  ),
                                 );
                               },
-                              kk: state.getListOrangTuaResponseModel.data![index].ayah.kartuKeluarga.nomorKartuKeluarga,
-                              namaAyah: state.getListOrangTuaResponseModel.data![index].ayah.namaAyah,
-                              namaIbu: state.getListOrangTuaResponseModel.data![index].ibu.namaIbu,
-                              profile: state.getListOrangTuaResponseModel.data![index].avatarOrangTua,
+                              kk: state
+                                  .getListOrangTuaResponseModel
+                                  .data![index]
+                                  .ayah
+                                  .kartuKeluarga
+                                  .nomorKartuKeluarga,
+                              namaAyah: state.getListOrangTuaResponseModel
+                                  .data![index].ayah.namaAyah,
+                              namaIbu: state.getListOrangTuaResponseModel
+                                  .data![index].ibu.namaIbu,
+                              profile: state.getListOrangTuaResponseModel
+                                  .data![index].avatarOrangTua,
                             ),
                           );
                         },

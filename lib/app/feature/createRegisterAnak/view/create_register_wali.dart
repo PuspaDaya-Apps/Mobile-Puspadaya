@@ -246,6 +246,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Kabupaten harus dipilih";
+                            }
+                            return null;
+                          },
                           onChanged: (value) {
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
@@ -265,8 +271,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           validators: [
-                            (value) => Validator.required(value,
-                                "Kartu Keluarga ayah tidak boleh kosong"),
+                            (value) => Validator.required(
+                                value, "Kartu Keluarga tidak boleh kosong"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -283,7 +289,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           obscureText: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "NIK ayah tidak boleh kosong"),
+                                value, "NIK tidak boleh kosong"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -300,7 +306,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           obscureText: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nama ayah tidak boleh kosong"),
+                                value, "Nama Wali tidak boleh kosong"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -329,7 +335,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     isPasswordField: false,
                                     validators: [
                                       (value) => Validator.required(value,
-                                          "Nama ayah tidak boleh kosong"),
+                                          "Tempat Lahir tidak boleh kosong"),
                                     ],
                                   ),
                                 ],
@@ -386,6 +392,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     .toList(),
                                 hint: 'Provinsi',
                                 value: selectedProvinsiWali,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Provinsi harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 onChanged: (value) {
                                   setState(() {
                                     selectedProvinsiWali = value;
@@ -402,6 +414,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     .toList(),
                                 hint: 'Kabupaten',
                                 value: selectedKabupatenWali,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Kabupaten harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 onChanged: (value) {
                                   setState(() {
                                     selectedKabupatenWali = value;
@@ -425,6 +443,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     .toList(),
                                 hint: 'Kecamatan',
                                 value: selectedKecamatanWali,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Kecamatan harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 onChanged: (value) {
                                   setState(() {
                                     logger.d('selected Kecamatan id ${value}');
@@ -439,6 +463,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             // desa
                             Expanded(
                               child: DropdownWidget(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Desa harus dipilih";
+                                  }
+                                  return null;
+                                },
                                 items: selectDesaKelurahan
                                     .map((desa) => desa.namaDesaKelurahan)
                                     .toList(),
@@ -455,10 +485,17 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         DropdownWidget(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Dusun harus dipilih";
+                            }
+                            return null;
+                          },
                           items: selectDusun
                               .map((dusun) => dusun.namaDusun)
                               .toList(), // Menampilkan Nama Dusun
                           hint: 'Dusun',
+
                           value: selectedDusunIdWali != null
                               ? selectDusun
                                   .firstWhere(
@@ -497,7 +534,10 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [],
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RT Tidak Boleh Kosong"),
+                                ],
                               ),
                             ),
                             Expanded(
@@ -507,7 +547,10 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [],
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RW Tidak Boleh Kosong"),
+                                ],
                               ),
                             ),
                           ],
@@ -550,6 +593,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         DropdownWidget(
                           items: selectGolDarah,
                           hint: 'Golongan Darah',
+                          validator: (value) {
+                            if (value == null) {
+                              return "Golongan Darah harus dipilih";
+                            }
+                            return null;
+                          },
                           value: selectedGolDarahWali,
                           onChanged: (value) {
                             setState(() {

@@ -69,27 +69,25 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
           Navigator.pop(context);
         },
       ),
-      floatingActionButton: !isKetuaKader
-          ? FloatingActionButton(
-              backgroundColor: bluePrimaryMain,
-              shape: const CircleBorder(),
-              child: const Icon(
-                Icons.add,
-                size: 38,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, CREATE_REGISTER_ANGGOTA_KADER)
-                    .then((value) {
-                  if (value != null) {
-                    indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
-                  }
-                });
-                // Add your navigation or functionality for adding new items
-                // print("Floating Action Button Pressed");
-              },
-            )
-          : null,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: bluePrimaryMain,
+        shape: const CircleBorder(),
+        child: const Icon(
+          Icons.add,
+          size: 38,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, CREATE_REGISTER_ANGGOTA_KADER)
+              .then((value) {
+            if (value != null) {
+              indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
+            }
+          });
+          // Add your navigation or functionality for adding new items
+          // print("Floating Action Button Pressed");
+        },
+      ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: Padding(
@@ -106,10 +104,6 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                   ),
                 );
               }
-              if (state is IndexAnggotaKaderUnauthorizedException) {
-                isKetuaKader = false;
-                return ErrorUnauthorizedScreen(error: state.error);
-              }
               if (state is IndexAnggotaKaderSuccessState) {
                 if (state.indexAnggotaKaderResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
@@ -125,7 +119,7 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                         Expanded(
                           child: SearchTextFieldWidget(
                             controller: _searchController,
-                            hintText: 'Cari Data Anak',
+                            hintText: 'Cari Data Kader',
                           ),
                         ),
                         GestureDetector(
@@ -150,12 +144,15 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                             child: CardAnggotakaderWidget(
                               onTap: () {
                                 Navigator.pushNamed(
-                                  context,
-                                  DETAIL_REGISTER_ANGGOTA_KADER,
-                                  arguments: state.indexAnggotaKaderResponseModel.data![index].id
-                                ).then((value) {
-                                  if(value != null) {
-                                     indexAnggotKaderBloc.add(GetListAnggotaKaderEvent());
+                                        context, DETAIL_REGISTER_ANGGOTA_KADER,
+                                        arguments: state
+                                            .indexAnggotaKaderResponseModel
+                                            .data![index]
+                                            .id)
+                                    .then((value) {
+                                  if (value != null) {
+                                    indexAnggotKaderBloc
+                                        .add(GetListAnggotaKaderEvent());
                                   }
                                 });
                               },
