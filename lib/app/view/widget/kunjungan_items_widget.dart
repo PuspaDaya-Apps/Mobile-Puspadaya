@@ -5,6 +5,7 @@ import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../../utils/constant/constanst.dart';
 import '../../../utils/logger/logger.dart';
 import '../screen/page_not_found_screen.dart';
 
@@ -18,29 +19,6 @@ class KunjunganItemWidget extends StatelessWidget {
     required this.item,
     super.key,
   });
-  List<String> days = [
-    "Senin",
-    "Selasa",
-    "Rabu",
-    "Kamis",
-    "Jum'at",
-    "Sabtu",
-    "Minggu"
-  ];
-  List<String> month = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "July",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +71,7 @@ class KunjunganItemWidget extends StatelessWidget {
                       child: Text(
                         style: AppTextStyles.primaryTextMedium
                             .copyWith(fontSize: 14, color: Colors.white),
-                        '${days[item.date.weekday - 1]}, ${item.date.day} ${month[item.date.month - 1]} ${item.date.year}',
+                        '${hari[item.date.weekday - 1]}, ${item.date.day} ${bulan[item.date.month - 1]} ${item.date.year}',
                       ),
                     ),
                     Row(

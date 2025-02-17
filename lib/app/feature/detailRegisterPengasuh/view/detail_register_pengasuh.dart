@@ -10,7 +10,6 @@ import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
-import '../../updateRegisterAnak/view/update_register_data_wali.dart';
 import '../bloc/detail_pengasuh_bloc.dart';
 
 class DetailRegisterPengasuh extends StatelessWidget {
@@ -39,24 +38,16 @@ class DetailRegisterPengasuhView extends StatefulWidget {
 
 class _DetailRegisterPengasuhViewState
     extends State<DetailRegisterPengasuhView> {
-  final List<String> disabilitas = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DetailPengasuhBloc>(context).add(GetDetailPengasuh(widget.idPengasuh));
+    BlocProvider.of<DetailPengasuhBloc>(context)
+        .add(GetDetailPengasuh(widget.idPengasuh));
   }
 
   @override
   Widget build(BuildContext context) {
-    final detailPengasuhBloc =  BlocProvider.of<DetailPengasuhBloc>(context);
+    final detailPengasuhBloc = BlocProvider.of<DetailPengasuhBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -73,17 +64,19 @@ class _DetailRegisterPengasuhViewState
             debugPrint(state.toString());
           },
           builder: (context, state) {
-            if(state is DetailPengasuhProcessState) {
+            if (state is DetailPengasuhProcessState) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: bluePrimaryMain,
                 ),
               );
             }
-            if(state is DetailPengasuhSuccesState) {
+            if (state is DetailPengasuhSuccesState) {
               return Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                margin:
+                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height / 1.2,
                 decoration: BoxDecoration(
@@ -104,7 +97,9 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.statusHubungan),
+                      InfoFieldWidget(
+                          text: state.detailPengasuhResponseModel.data!
+                              .statusHubungan),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -117,7 +112,9 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.kartuKeluarga.nomorKartuKeluarga),
+                      InfoFieldWidget(
+                          text: state.detailPengasuhResponseModel.data!
+                              .kartuKeluarga.nomorKartuKeluarga),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -130,7 +127,8 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.nik),
+                      InfoFieldWidget(
+                          text: state.detailPengasuhResponseModel.data!.nik),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -143,7 +141,9 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.namaPengasuh),
+                      InfoFieldWidget(
+                          text: state
+                              .detailPengasuhResponseModel.data!.namaPengasuh),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -166,7 +166,9 @@ class _DetailRegisterPengasuhViewState
                                 SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
-                                InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.tempatLahir),
+                                InfoFieldWidget(
+                                    text: state.detailPengasuhResponseModel
+                                        .data!.tempatLahir),
                               ],
                             ),
                           ),
@@ -184,7 +186,9 @@ class _DetailRegisterPengasuhViewState
                                 SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
-                                InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.tanggalLahir),
+                                InfoFieldWidget(
+                                    text: state.detailPengasuhResponseModel
+                                        .data!.tanggalLahir),
                               ],
                             ),
                           ),
@@ -208,10 +212,25 @@ class _DetailRegisterPengasuhViewState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailPengasuhResponseModel
+                                    .data!
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .kabupatenKota
+                                    .namaKabupatenKota),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.namaKecamatan),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailPengasuhResponseModel
+                                    .data!
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .namaKecamatan),
                           ),
                         ],
                       ),
@@ -224,10 +243,14 @@ class _DetailRegisterPengasuhViewState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.dusun.desaKelurahan.namaDesaKelurahan),
+                            child: InfoFieldWidget(
+                                text: state.detailPengasuhResponseModel.data!
+                                    .dusun.desaKelurahan.namaDesaKelurahan),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.dusun.namaDusun),
+                            child: InfoFieldWidget(
+                                text: state.detailPengasuhResponseModel.data!
+                                    .dusun.namaDusun),
                           ),
                         ],
                       ),
@@ -240,17 +263,23 @@ class _DetailRegisterPengasuhViewState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.rt),
+                            child: InfoFieldWidget(
+                                text:
+                                    state.detailPengasuhResponseModel.data!.rt),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.rw),
+                            child: InfoFieldWidget(
+                                text:
+                                    state.detailPengasuhResponseModel.data!.rw),
                           ),
                         ],
                       ),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.alamatLengkap),
+                      InfoFieldWidget(
+                          text: state
+                              .detailPengasuhResponseModel.data!.alamatLengkap),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -263,7 +292,9 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.user.nomorTelepon),
+                      InfoFieldWidget(
+                          text: state.detailPengasuhResponseModel.data!.user
+                              .nomorTelepon),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -276,11 +307,14 @@ class _DetailRegisterPengasuhViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.detailPengasuhResponseModel.data!.golDarah),
+                      InfoFieldWidget(
+                          text:
+                              state.detailPengasuhResponseModel.data!.golDarah),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
-                       state.detailPengasuhResponseModel.data!.disabilitasPengasuh.isNotEmpty
+                      state.detailPengasuhResponseModel.data!
+                              .disabilitasPengasuh.isNotEmpty
                           ? ExpansionTile(
                               tilePadding: EdgeInsets.zero,
                               childrenPadding: EdgeInsets.zero,
@@ -293,7 +327,9 @@ class _DetailRegisterPengasuhViewState
                                 ),
                               ),
                               children: [
-                                ...state.detailPengasuhResponseModel.data!.disabilitasPengasuh.map(
+                                ...state.detailPengasuhResponseModel.data!
+                                    .disabilitasPengasuh
+                                    .map(
                                   (e) {
                                     return Align(
                                       alignment: Alignment.centerLeft,
@@ -321,18 +357,15 @@ class _DetailRegisterPengasuhViewState
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
-                          Navigator.pushNamed(
-                            context, 
-                            UPDATE_REGISTER_PENGASUH, 
-                            arguments: PaketToUpdatePengasuhModel(
-                              idPengasuh: widget.idPengasuh, 
-                              detailPengasuhResponseModel: state.detailPengasuhResponseModel
-                            )
-                          ).then((value) {
-                            if(value != null) {
-                              detailPengasuhBloc.add(
-                                GetDetailPengasuh(widget.idPengasuh)
-                              );
+                          Navigator.pushNamed(context, UPDATE_REGISTER_PENGASUH,
+                                  arguments: PaketToUpdatePengasuhModel(
+                                      idPengasuh: widget.idPengasuh,
+                                      detailPengasuhResponseModel:
+                                          state.detailPengasuhResponseModel))
+                              .then((value) {
+                            if (value != null) {
+                              detailPengasuhBloc
+                                  .add(GetDetailPengasuh(widget.idPengasuh));
                             }
                           });
                         },
