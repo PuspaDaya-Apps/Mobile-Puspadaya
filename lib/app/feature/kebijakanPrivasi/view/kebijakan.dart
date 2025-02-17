@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
+import '../../../../utils/constant/constanst.dart';
+
 class KebijakanPrivasi extends StatelessWidget {
   const KebijakanPrivasi({super.key});
 
@@ -18,29 +20,6 @@ class KebijakanPrivasiView extends StatefulWidget {
 }
 
 class _KebijakanPrivasiViewState extends State<KebijakanPrivasiView> {
-  final List<Map<String, String>> policy = [
-    {
-      "title": "Puspadaya",
-      "desc":
-          "Kami di PUSPADAYA berkomitmen untuk menjaga privasi dan keamanan data Anda. Kebijakan ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi Anda saat menggunakan aplikasi kami.",
-    },
-    {
-      "title": "1. Pengumpulan Data",
-      "desc":
-          "Kami hanya mengumpulkan informasi yang diperlukan untuk menjalankan aplikasi, seperti data pribadi (misalnya, nama dan alamat email). Semua informasi yang kami kumpulkan digunakan untuk memberikan layanan terbaik bagi Anda.",
-    },
-    {
-      "title": "2. Penggunaan Data",
-      "desc":
-          "Data yang kami kumpulkan digunakan untuk meningkatkan pengalaman pengguna dan memberikan layanan yang lebih baik. Kami tidak akan menjual atau membagikan data pribadi Anda kepada pihak ketiga tanpa izin Anda, kecuali jika diwajibkan oleh hukum.",
-    },
-    {
-      "title": "3. Keamanan Data",
-      "desc":
-          "Kami menggunakan langkah-langkah keamanan yang sesuai untuk melindungi data Anda dari akses yang tidak sah, perubahan, atau pengungkapan.",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

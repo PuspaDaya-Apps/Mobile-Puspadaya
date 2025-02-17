@@ -7,6 +7,7 @@ import 'package:puspadaya/utils/download_utils/download_utils.dart';
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/alert_dialog_content.dart';
 import '../../../view/widget/card_rapor.dart';
@@ -33,22 +34,7 @@ class LaporanView extends StatefulWidget {
 
 class _LaporanViewState extends State<LaporanView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  List<String> selectBulan = [
-    'Januari',
-    'Februari',
-    'Maret',
-    'April',
-    'Mei',
-    'Juni',
-    'Juli',
-    'Agustus',
-    'September',
-    'Oktober',
-    'November',
-    'Desember',
-  ];
 
-  List<String> selectTahun = ['2023', '2024', '2025'];
   String? selectedBulan;
   String? selectedTahun;
   List<CardRaporItemModel> listRaporItem = [
@@ -137,7 +123,7 @@ class _LaporanViewState extends State<LaporanView> {
                                   }
                                   return null; // Return null if validation passes
                                 },
-                                items: selectBulan,
+                                items: bulan,
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../detailRegisterOrangTua/model/get_orangtua_detail_response.dart';
 import 'package:puspadaya/app/feature/alamat/bloc/alamat_bloc.dart';
 import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
@@ -69,35 +70,6 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
     with SingleTickerProviderStateMixin {
   final formkey = GlobalKey<FormState>();
   late TabController _tabController;
-
-  List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-    'Tidak Tahu',
-    '-',
-  ];
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-  final List<String> selectJenisKB = [
-    'PIL',
-    'IUD',
-    'SUNTIK',
-    'IMPLANT',
-    'LAINNYA'
-  ];
 
   // Controller untuk Data Ayah dan Data Ibu
   // ? ayah controller
