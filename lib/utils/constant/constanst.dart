@@ -1,3 +1,5 @@
+import '../../app/feature/createKunjunganStunting/view/model/CheckBoxKunjungan.dart';
+
 final List<String> selectGender = [
   'Laki-laki',
   'Perempuan',
@@ -107,4 +109,117 @@ List<String> selectTahun = [
   DateTime.now().year.toString(),
   (DateTime.now().year + 1).toString(),
   (DateTime.now().year + 2).toString(),
+];
+
+List<CheckboxKunjungan> listOfCheckboxKunjunganAnakTidakHadir = [
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pengukuran di Rumah',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Penggunaan Buku KIA',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Isi Piringku',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Aktivitas Fisik',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Imunisasi',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Vitamin A',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Obat Cacing',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Stimulasi Perkembangan',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Anak Tidak Berada di Rumah',
+  ),
+];
+
+List<CheckboxKunjungan> listOfCheckboxAnakStunting = [
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pemberian Makanan Tambahan (PMT)',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Penyuluhan PMT',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pengukuran di Rumah',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Penggunaan Buku KIA',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Isi Piringku',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Aktivitas Fisik',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Imunisasi',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Vitamin A',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Obat Cacing',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Stimulasi Perkembangan',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Hasil Penimbangan dan Pengukuran, Serta Tindak Lanjut nya',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pemantauan Tanda Bahaya Bayi dan Anak',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Anak Tidak Berada di Rumah',
+  ),
+];
+
+List<CheckboxKunjungan> listOfCheckboxIbuHamil = [
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Pemberian Makanan Tambahan',
+  ),
+  CheckboxKunjungan(
+    isChecked: false,
+    label: 'Ibu Tidak Berada di Rumah',
+  ),
 ];

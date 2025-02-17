@@ -8,6 +8,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../view/widget/alert_done_create_kunjungan.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
@@ -138,35 +139,21 @@ class CheckListJobKunjunganAnakView extends StatefulWidget {
 
 class _CheckListJobKunjunganAnakViewState
     extends State<CheckListJobKunjunganAnakView> {
-  List<CheckboxKunjungan> listOfCheckbox = [
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Pemberian Makanan Tambahan (PMT)',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Penyuluhan PMT',
-    ),
-    CheckboxKunjungan(
-      isChecked: false,
-      label: 'Anak Tidak Berada di Rumah',
-    ),
-  ];
-
   void _updateCheckbox(int index, bool? value) {
     setState(() {
-      if (index == listOfCheckbox.length - 1 && value == true) {
+      if (index == listOfCheckboxAnakStunting.length - 1 && value == true) {
         // If the last checkbox is selected, disable all other checkboxes
-        for (int i = 0; i < listOfCheckbox.length - 1; i++) {
-          listOfCheckbox[i].isChecked = false;
+        for (int i = 0; i < listOfCheckboxAnakStunting.length - 1; i++) {
+          listOfCheckboxAnakStunting[i].isChecked = false;
         }
-      } else if (index != listOfCheckbox.length - 1) {
+      } else if (index != listOfCheckboxAnakStunting.length - 1) {
         // If any other checkbox is selected, uncheck the last checkbox
-        listOfCheckbox[listOfCheckbox.length - 1].isChecked = false;
+        listOfCheckboxAnakStunting[listOfCheckboxAnakStunting.length - 1]
+            .isChecked = false;
       }
 
       // Update the selected checkbox state
-      listOfCheckbox[index].isChecked = value ?? false;
+      listOfCheckboxAnakStunting[index].isChecked = value ?? false;
     });
   }
 
@@ -190,7 +177,7 @@ class _CheckListJobKunjunganAnakViewState
             ),
           ),
           const SizedBox(height: 10),
-          ...listOfCheckbox.asMap().entries.map((entry) {
+          ...listOfCheckboxAnakStunting.asMap().entries.map((entry) {
             int index = entry.key;
             CheckboxKunjungan item = entry.value;
 
@@ -198,10 +185,13 @@ class _CheckListJobKunjunganAnakViewState
               isChecked: item.isChecked,
               label: item.label,
               onChanged: (value) {
-                if (index == listOfCheckbox.length - 1 && value == true) {
+                if (index == listOfCheckboxAnakStunting.length - 1 &&
+                    value == true) {
                   // Disable other checkboxes if the last one is selected
-                  for (int i = 0; i < listOfCheckbox.length - 1; i++) {
-                    listOfCheckbox[i].isChecked = false;
+                  for (int i = 0;
+                      i < listOfCheckboxAnakStunting.length - 1;
+                      i++) {
+                    listOfCheckboxAnakStunting[i].isChecked = false;
                   }
                 }
                 _updateCheckbox(index, value);
