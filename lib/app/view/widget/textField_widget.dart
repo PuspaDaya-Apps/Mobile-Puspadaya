@@ -15,17 +15,16 @@ class TextFieldWidget extends StatelessWidget {
   List<String? Function(String)>? validators;
   final ValueSetter? valueSet;
 
-  TextFieldWidget({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.keyboardType,
-    required this.obscureText,
-    required this.isPasswordField,
-    this.onToggleVisibility,
-    this.validators,
-    this.valueSet
-  });
+  TextFieldWidget(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.keyboardType,
+      required this.obscureText,
+      required this.isPasswordField,
+      this.onToggleVisibility,
+      this.validators,
+      this.valueSet});
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +39,20 @@ class TextFieldWidget extends StatelessWidget {
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
         filled: true,
         fillColor: backgroundWhite10,
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            width: 1,
+            color: Colors.red,
+          ),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(width: 1, color: greenPrimaryMain),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(width: 1, color: Colors.grey),
+          borderSide: const BorderSide(width: 1, color: stroke10),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -75,7 +81,10 @@ class TextFieldWidget extends StatelessWidget {
             )
           : null, // Call validateField only if validators are provided
       onChanged: (value) {
-        valueSet!(value);
+        if (valueSet != null) {
+          valueSet!(
+              value); // Gunakan valueSet untuk update eksternal tanpa mereset controller
+        }
       },
     );
   }

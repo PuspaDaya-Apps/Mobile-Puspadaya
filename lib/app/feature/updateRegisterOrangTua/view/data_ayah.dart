@@ -142,6 +142,8 @@ class _DataAyahState extends State<DataAyah> {
               keyboardType: TextInputType.number,
               obscureText: false,
               validators: [
+                (value) => Validator.consistOf(
+                    value, 16, "Kartu keluarga harus terdiri atas 16 digit"),
                 (value) => Validator.required(
                     value, "Kartu Keluarga ayah tidak boleh kosong"),
               ],
@@ -159,6 +161,8 @@ class _DataAyahState extends State<DataAyah> {
               keyboardType: TextInputType.number,
               obscureText: false,
               validators: [
+                (value) => Validator.consistOf(
+                    value, 16, "Nik harus terdiri atas 16 digit"),
                 (value) =>
                     Validator.required(value, "NIK ayah tidak boleh kosong"),
               ],
@@ -249,6 +253,12 @@ class _DataAyahState extends State<DataAyah> {
                   child: DropdownWidget(
                     items: widget.selectKabupaten,
                     hint: 'Kabupaten',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Kabupaten harus dipilih";
+                      }
+                      return null;
+                    },
                     value: widget.selectedKabupatenAyah,
                     onChanged: (value) {
                       setState(() {

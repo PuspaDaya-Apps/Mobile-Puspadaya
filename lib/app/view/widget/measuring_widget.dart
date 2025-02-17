@@ -7,11 +7,13 @@ class MeasurementWidget extends StatelessWidget {
   final String title;
   final String hintText;
   final String unit;
+  List<String? Function(String)>? validator;
   // final String? tool;
   final TextEditingController controller;
 
-  const MeasurementWidget({
+  MeasurementWidget({
     Key? key,
+    this.validator,
     required this.title,
     required this.hintText,
     required this.unit,
@@ -41,10 +43,11 @@ class MeasurementWidget extends StatelessWidget {
               child: TextFieldWidget(
                 controller: controller,
                 hintText: hintText,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 obscureText: false,
                 isPasswordField: false,
-                validators: [],
+                validators: validator ?? [],
               ),
             ),
             const SizedBox(width: 6),

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'package:puspadaya/app/feature/home/view/home.dart';
-import 'package:puspadaya/app/feature/jadwal/view/jadwal.dart';
+import 'package:puspadaya/app/feature/jadwal/index/view/jadwal.dart';
 import 'package:puspadaya/app/feature/kunjungan/view/kunjungan.dart';
 import 'package:puspadaya/app/feature/pengukuran/view/pengukuran.dart';
 import 'package:puspadaya/app/feature/profile/view/profile.dart';
@@ -49,13 +49,13 @@ class _HomeWrapperState extends State<HomeWrapper> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
-        debugPrint(state.toString()); 
-        if(state is UserFailedState) {
+        debugPrint(state.toString());
+        if (state is UserFailedState) {
           Navigator.pushReplacementNamed(context, LOGIN);
         }
       },
       builder: (context, state) {
-        if(state is UserProccessState) {
+        if (state is UserProccessState) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
@@ -64,7 +64,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
             ),
           );
         }
-        if(state is UserSuccessState) {
+        if (state is UserSuccessState) {
           final List<Widget> _widgetOptions = <Widget>[
             Home(
               currentUserModel: state.currentUserModel,
@@ -78,89 +78,87 @@ class _HomeWrapperState extends State<HomeWrapper> {
           ];
 
           return Scaffold(
-            bottomNavigationBar: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 20,
-                    color: Colors.black.withOpacity(0.1),
-                  ),
-                ],
-              ),
-              child: DoubleBackToCloseApp(
-                snackBar: const SnackBar(
-                  elevation: 0,
-                  backgroundColor:bluePrimaryMain,
-                  duration: Duration(seconds: 2),
-                  content: Text(
-                    "Tekan Lagi Untuk Keluar",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600
+              bottomNavigationBar: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 20,
+                      color: Colors.black.withOpacity(0.1),
                     ),
-                  )
+                  ],
                 ),
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-                    child: GNav(
-                      activeColor: Colors.white,
-                      iconSize: 24,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                      duration: const Duration(milliseconds: 400),
-                      tabBackgroundColor: bluePrimaryMain,
-                      color: Colors.grey.shade500,
-                      gap: 4,
-                      tabBorderRadius: 12,
-                      tabs: [
-                        GButton(
-                          padding: EdgeInsets.all(10),
-                          icon: HomeMenuIcon.home,
-                          iconSize: 22,
-                          text: 'Home',
-                        ),
-                        GButton(
-                          icon: HomeMenuIcon.measuring,
-                          padding: EdgeInsets.all(10),
-                          iconSize: 22,
-                          text: 'Pengukuran',
-                        ),
-                        GButton(
-                          padding: EdgeInsets.all(10),
-                          icon: HomeMenuIcon.visitation,
-                          iconSize: 22,
-                          text: 'Kunjungan',
-                        ),
-                        GButton(
-                          padding: EdgeInsets.all(10),
-                          iconSize: 22,
-                          icon: HomeMenuIcon.schadule,
-                          text: 'Jadwal Posyandu',
-                        ),
-                        GButton(
-                          padding: EdgeInsets.all(10),
-                          iconSize: 22,
-                          icon: HomeMenuIcon.profile,
-                          text: 'Profile',
-                        ),
-                      ],
-                      selectedIndex: _selectedIndex,
-                      onTabChange: (index) {
-                        setState(() {
-                          _selectedIndex = index;
-                        });
-                      },
+                child: DoubleBackToCloseApp(
+                  snackBar: const SnackBar(
+                      elevation: 0,
+                      backgroundColor: bluePrimaryMain,
+                      duration: Duration(seconds: 2),
+                      content: Text(
+                        "Tekan Lagi Untuk Keluar",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600),
+                      )),
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 15),
+                      child: GNav(
+                        activeColor: Colors.white,
+                        iconSize: 24,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 12),
+                        duration: const Duration(milliseconds: 400),
+                        tabBackgroundColor: bluePrimaryMain,
+                        color: Colors.grey.shade500,
+                        gap: 4,
+                        tabBorderRadius: 12,
+                        tabs: [
+                          GButton(
+                            padding: EdgeInsets.all(10),
+                            icon: HomeMenuIcon.home,
+                            iconSize: 22,
+                            text: 'Home',
+                          ),
+                          GButton(
+                            icon: HomeMenuIcon.measuring,
+                            padding: EdgeInsets.all(10),
+                            iconSize: 22,
+                            text: 'Pengukuran',
+                          ),
+                          GButton(
+                            padding: EdgeInsets.all(10),
+                            icon: HomeMenuIcon.visitation,
+                            iconSize: 22,
+                            text: 'Kunjungan',
+                          ),
+                          GButton(
+                            padding: EdgeInsets.all(10),
+                            iconSize: 22,
+                            icon: HomeMenuIcon.schadule,
+                            text: 'Jadwal Posyandu',
+                          ),
+                          GButton(
+                            padding: EdgeInsets.all(10),
+                            iconSize: 22,
+                            icon: HomeMenuIcon.profile,
+                            text: 'Profile',
+                          ),
+                        ],
+                        selectedIndex: _selectedIndex,
+                        onTabChange: (index) {
+                          setState(() {
+                            _selectedIndex = index;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            body: _widgetOptions[_selectedIndex]
-          );
-        } 
+              body: _widgetOptions[_selectedIndex]);
+        }
         return const Scaffold(
           body: Center(
             child: ErrorServerScreen(),
