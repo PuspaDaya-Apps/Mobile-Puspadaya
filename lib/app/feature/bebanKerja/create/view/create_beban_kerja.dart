@@ -48,108 +48,6 @@ class CreateBebanKerjaView extends StatefulWidget {
 class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
   DateTime date = DateTime.now();
 
-  // List<Jobitems> listOfJob = [
-  //   Jobitems(
-  //     label: 'Administrasi',
-  //     status: false,
-  //     subItems: [
-  //       Jobitems(label: 'Malakukan Komunikasi Efektif', status: false),
-  //       Jobitems(label: 'Pendaftaran ibu hamil', status: false),
-  //       Jobitems(label: 'Pendaftaran bayi dan balita', status: false),
-  //       Jobitems(
-  //         label: 'Pencatatan',
-  //         status: false,
-  //       ),
-  //       Jobitems(
-  //         label: 'Pencatatan dan pelaporan',
-  //         status: false,
-  //       ),
-  //     ],
-  //     isExpanded: false,
-  //   ),
-  //   Jobitems(
-  //     label: 'Keterampilan Bayi dan Balita Tugas Lainnya',
-  //     status: false,
-  //     subItems: [
-  //       Jobitems(label: 'Penyuluhan Imunisasi ', status: false),
-  //       Jobitems(
-  //           label:
-  //               'Penyuluhan hasil penimbangan dan pengukuran, serta tindak lanjutnya',
-  //           status: false),
-  //       Jobitems(label: 'Penyuluhan penggunaan buku KIA ', status: false),
-  //       Jobitems(label: 'Penyuluhan ASI eksklusif', status: false),
-  //       Jobitems(label: 'Penyuluhan MPASI ', status: false),
-  //       Jobitems(
-  //           label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
-  //           status: false),
-  //       Jobitems(label: 'Penimbangan dan pengukuran ', status: false),
-  //       Jobitems(label: 'Penyuluhan ASI eksklusif', status: false),
-  //       Jobitems(label: 'Penyuluhan MPASI', status: false),
-  //       Jobitems(
-  //           label: 'Penyuluhan pemantauan tanda bahaya bayi dan balita',
-  //           status: false),
-  //       Jobitems(label: 'Penimbangan dan pengukuran', status: false),
-  //       Jobitems(label: 'Penyuluhan vit A', status: false),
-  //       Jobitems(label: 'Penyuluhan obat cacing', status: false),
-  //       Jobitems(label: 'Penyuluhan stimulasi perkembangan', status: false),
-  //       Jobitems(label: 'Memberikan vit A', status: false),
-  //       Jobitems(label: 'Memberikan obat cacing', status: false),
-  //       Jobitems(label: 'Penimbangan dan pengukuran', status: false),
-  //       Jobitems(label: 'Penyuluhan vit A', status: false),
-  //       Jobitems(label: 'Penyuluhan obat cacing', status: false),
-  //     ],
-  //     isExpanded: false,
-  //   ),
-  //   Jobitems(
-  //     label: 'Keterampilan Ibu Hamil & Menyusui',
-  //     status: false,
-  //     subItems: [
-  //       Jobitems(label: 'Penyuluhan Isi Piring ku', status: false),
-  //       Jobitems(label: 'Memberikan TTD (Tablet Tambah Darah)', status: false),
-  //       Jobitems(
-  //           label: 'Menjelaskan Pemeriksaan Ibu Hamil dan Ibu Nifas',
-  //           status: false),
-  //       Jobitems(
-  //           label:
-  //               'Menjelaskan bahwa ibu hamil perlu memantau berat badan, lingkar lengan dan tekanan darah dengan kurva Buku KIA',
-  //           status: false),
-  //       Jobitems(
-  //           label: 'Menjelaskan pemantauan tanda bahaya ibu hamil, ibu nifas',
-  //           status: false),
-  //       Jobitems(
-  //           label: 'Menjelaskan Penggunaan Buku KIA bagian ibu hamil, nifas',
-  //           status: false),
-  //     ],
-  //     isExpanded: false,
-  //   ),
-  //   Jobitems(
-  //     label: 'Tambahan',
-  //     status: false,
-  //     subItems: [
-  //       Jobitems(label: 'Penyuluhan aktifitas fisik', status: false),
-  //       Jobitems(label: 'Penyuluhan KB', status: false),
-  //       Jobitems(
-  //           label: 'Penyuluhan manfaat PMT Ibu Hamil dan Balita',
-  //           status: false),
-  //       Jobitems(
-  //           label: 'Memberikan PMT untuk balita & ibu hamil', status: false),
-  //     ],
-  //     isExpanded: false,
-  //   ),
-  //   Jobitems(
-  //     label: 'Tugas Lainnya',
-  //     status: false,
-  //     subItems: [
-  //       Jobitems(label: 'Memasak & Menyiapkan PMT', status: false),
-  //       Jobitems(label: 'Negosisasi/Advokasi', status: false),
-  //       Jobitems(label: 'Presentasi', status: false),
-  //       Jobitems(label: 'Pelatihan, Jambore,', status: false),
-  //       Jobitems(label: 'Menghadiri Rapat/ Kegiatan', status: false),
-  //     ],
-  //     isExpanded: false,
-  //   ),
-  // ];
-
   @override
   void initState() {
     super.initState();
@@ -304,55 +202,56 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
                     ),
                     BlocConsumer<CreateBebanKerjaBloc, CreateBebanKerjaState>(
                       listener: (context, stateCreateBebanKerja) {
-                        if(stateCreateBebanKerja is CreateBebanKerjaSuccesState) {
-                           showDialog(
+                        if (stateCreateBebanKerja
+                            is CreateBebanKerjaSuccesState) {
+                          showDialog(
                             barrierDismissible: false,
-                              context: context,
-                              builder: (context) {
-                                // int totalBobotBebanKerja = 0;
+                            context: context,
+                            builder: (context) {
+                              // int totalBobotBebanKerja = 0;
 
-                                // for (var value1 in state.item) {
-                                //   for (var value2 in value1.subItems!) {
-                                //     if (value2.status) {
-                                //       totalBobotBebanKerja += value2.bobot!;
-                                //     }
-                                //   }
-                                // }
-                                return ThropyAlert(
-                                  image: imageThropy,
-                                  title:
-                                      'Total Bobot Yang Anda Dapatkan ${stateCreateBebanKerja.createBebanKerjaResponseModel.data!.totalSkor}',
-                                  message:
-                                      'Terus pertahankan semangat dan konsistensi, karena setiap usaha kamu sangat berarti. Ayo, kita capai lebih tinggi lagi!',
-                                  mainButton: () {
-                                    Navigator.pop(context,1);
-                                  },
-                                  // cancelButton: () {
-                                  //   Navigator.pop(context);
-                                  // },
-                                  // cancelButtonMessage: 'Batalkan',
-                                  mainButtonMessage: "Simpan",
-                                  colorMainButton: bluePrimaryMain,
-                                );
-                              },
-                            ).then((value) {
-                              if(value != null) {
-                                Navigator.pop(context,1);
-                              }
-                            });
+                              // for (var value1 in state.item) {
+                              //   for (var value2 in value1.subItems!) {
+                              //     if (value2.status) {
+                              //       totalBobotBebanKerja += value2.bobot!;
+                              //     }
+                              //   }
+                              // }
+                              return ThropyAlert(
+                                image: imageThropy,
+                                title:
+                                    'Total Bobot Yang Anda Dapatkan ${stateCreateBebanKerja.createBebanKerjaResponseModel.data!.totalSkor}',
+                                message:
+                                    'Terus pertahankan semangat dan konsistensi, karena setiap usaha kamu sangat berarti. Ayo, kita capai lebih tinggi lagi!',
+                                mainButton: () {
+                                  Navigator.pop(context, 1);
+                                },
+                                // cancelButton: () {
+                                //   Navigator.pop(context);
+                                // },
+                                // cancelButtonMessage: 'Batalkan',
+                                mainButtonMessage: "Simpan",
+                                colorMainButton: bluePrimaryMain,
+                              );
+                            },
+                          ).then((value) {
+                            if (value != null) {
+                              Navigator.pop(context, 1);
+                            }
+                          });
                         }
-                        if(stateCreateBebanKerja is CreateBebanKerjaFailedState) {
+                        if (stateCreateBebanKerja
+                            is CreateBebanKerjaFailedState) {
                           showTopSnackBar(
-                            Overlay.of(context),
-                            animationDuration: const Duration(
-                                milliseconds: 600),
-                            displayDuration: const Duration(
-                                milliseconds: 2200),
-                            reverseAnimationDuration:
-                                const Duration(
-                                    milliseconds: 300),
-                            TopSnackbarWidget()
-                                .error(stateCreateBebanKerja.error));
+                              Overlay.of(context),
+                              animationDuration:
+                                  const Duration(milliseconds: 600),
+                              displayDuration:
+                                  const Duration(milliseconds: 2200),
+                              reverseAnimationDuration:
+                                  const Duration(milliseconds: 300),
+                              TopSnackbarWidget()
+                                  .error(stateCreateBebanKerja.error));
                         }
                       },
                       builder: (context, stateCreateBebanKerja) {
@@ -360,7 +259,8 @@ class _CreateBebanKerjaViewState extends State<CreateBebanKerjaView> {
                           color: bluePrimaryMain,
                           mainButtonMessage: 'Simpan',
                           mainButton: () {
-                           createBebanKerjaBloc.add(SendBebanKerjaEvent(state.item));
+                            createBebanKerjaBloc
+                                .add(SendBebanKerjaEvent(state.item));
                           },
                         );
                       },

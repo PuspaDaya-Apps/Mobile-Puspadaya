@@ -7,6 +7,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../../../view/screen/error_server_screen.dart';
@@ -66,37 +67,6 @@ class UpdateRegisterPengasuhView extends StatefulWidget {
 class _UpdateRegisterPengasuhViewState
     extends State<UpdateRegisterPengasuhView> {
   final _formKey = GlobalKey<FormState>();
-
-  List<String> selectGolDarah = [
-    // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-',
-    'Tidak Tahu',
-    '-',
-  ];
-
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
-
-  final List<String> selectStatusHubunganDenganAnak = [
-    'Nenek',
-    'Kakek',
-    'Bibi',
-    'Paman',
-    'Kakak',
-  ];
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAnak = [];
