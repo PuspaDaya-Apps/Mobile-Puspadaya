@@ -20,6 +20,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
     on<AppStartEvent>(appStart);
 
+    on<ResetState>((event, emit) {
+      emit(AuthenticationInitial());
+    });
+
     on<OnBoardingDoneEvent>((event, emit) {
       SharedPrefUtils().storedOnBoarding();
     });
@@ -74,6 +78,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Future<void> logout (LogoutEvent event, Emitter<AuthenticationState> emit) async {
+    emit(LogoutProcess());
     
     await SharedPrefUtils().getAccessToken().then((valueAccessToken) async {
       if (valueAccessToken == null) {

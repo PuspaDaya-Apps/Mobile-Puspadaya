@@ -11,13 +11,13 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
   AuthorizationBloc() : super(AuthorizationInit()) {
     on<AuthorizationEvent>((event, emit) {});
 
-    on<AuthorizationFalseEvent>((event, emit) {
+    on<AuthorizationFalseEvent>((event, emit) async {
+      emit(AuthorizationInit());
       debugPrint("step 3");
       SharedPrefUtils().removeAccessToken();
       SharedPrefUtils().removeRefreshToken();
       SharedPrefUtils().removeCurrentUser();
       debugPrint("step 4");
-      emit(AuthorizationInit());
       emit(AuthorizationFalse());
     });
 

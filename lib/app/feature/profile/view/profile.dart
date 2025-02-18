@@ -146,11 +146,10 @@ class _ProfileViewState extends State<ProfileView> {
                             listener: (context, state) {
                               debugPrint(state.toString());
                               if (state is AuthorizationFalse) {
+                                debugPrint('TO LOGIN');
                                 // Navigator.pushReplacementNamed(context, LOGIN);
                                 Navigator.pushNamedAndRemoveUntil(context,
                                     LOGIN, (Route<dynamic> route) => false);
-                                debugPrint('TO LOGIN');
-
                               }
                             },
                           ),
