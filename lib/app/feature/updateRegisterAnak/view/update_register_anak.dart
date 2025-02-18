@@ -3,17 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../bloc/update_anak_bloc.dart';
 import '../model/update_anak_model.dart';
@@ -44,33 +48,6 @@ class UpdateRegisterAnakView extends StatefulWidget {
 
 class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   final _formKey = GlobalKey<FormState>();
-
-  final List<String> selectGender = [
-    'Laki-laki',
-    'Perempuan',
-  ];
-
-  final List<String> selectCaraLahir = [
-    'normal',
-    'caesar',
-  ];
-  final List<String> selectStatusKelahiran = [
-    'normal',
-    'prematur',
-  ];
-  final List<String> selectStatusOrangTuaAnak = [
-    'Orang Tua',
-    'Wali',
-  ];
-
-  final List<String> disabilities = [
-    'Tunanetra',
-    'Tunarungu',
-    'Tunawicara',
-    'Tunadaksa',
-    'Tunagharita',
-    "Autisme",
-  ];
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAnak = [];
@@ -234,13 +211,15 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                   ),
                   TextFieldWidget(
                     controller: nikController,
-                    hintText: 'NIK',
-                    keyboardType: TextInputType.text,
-                    obscureText: false,
+                    hintText: 'Masukan NIK',
                     isPasswordField: false,
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
                     validators: [
-                      (value) =>
-                          Validator.required(value, "NIK tidak boleh kosong"),
+                      (value) => Validator.consistOf(
+                          value, 16, "NIK Anak harus terdiri atas 16 digit"),
+                      (value) => Validator.required(
+                          value, "NIK Anak tidak boleh kosong"),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),

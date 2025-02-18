@@ -17,6 +17,7 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
@@ -80,6 +81,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   String? selectedCaraLahir;
   String? selectedStatusKelahiran;
   String? selectedStatusOrangTuaAnak;
+  String? selectedProvinsiIbu;
+  String? selectedKabupatenIbu;
+  String? selectedKecamatanIbu;
 
   late PaketToCreateAnakModel paketToCreateAnakModel;
 
@@ -162,6 +166,15 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     return randomDigits.toString();
   }
 
+  bool _isGenerateAnakValid() {
+    return tempatLahirController.text.isNotEmpty &&
+        tanggalLahirController.text.isNotEmpty &&
+        selectedProvinsiIbu != null && // Check if selectedProvinsi is not null
+        selectedKabupatenIbu !=
+            null && // Check if selectedKabupaten is not null
+        selectedKecamatanIbu != null; // Check if selectedKecamatan is not null
+  }
+
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
@@ -221,6 +234,18 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   setState(() {
                                     paketToCreateAnakModel =
                                         value as PaketToCreateAnakModel;
+                                    logger.d(
+                                        'provinsi ${paketToCreateAnakModel.provinsi}');
+                                    logger.d(
+                                        'kabupaten ${paketToCreateAnakModel.kabupaten}');
+                                    logger.d(
+                                        'kecamatan ${paketToCreateAnakModel.kecamatan}');
+                                    selectedProvinsiIbu =
+                                        paketToCreateAnakModel.provinsi;
+                                    selectedKabupatenIbu =
+                                        paketToCreateAnakModel.kabupaten;
+                                    selectedKecamatanIbu =
+                                        paketToCreateAnakModel.kecamatan;
                                     nomorKKController = TextEditingController(
                                         text: paketToCreateAnakModel
                                             .nomorKartuKeluarga);
@@ -282,6 +307,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(8)),
                                 TextFieldWidget(
+                                  isEnable: false,
                                   controller: namaAyahController,
                                   hintText: "Nama Ayah",
                                   isPasswordField: false,
@@ -301,6 +327,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 SizedBox(
                                     height: SizeConfig.calHeightMultiplier(8)),
                                 TextFieldWidget(
+                                  isEnable: false,
                                   controller: namaIbuController,
                                   hintText: "Nama Ibu",
                                   isPasswordField: false,
@@ -393,16 +420,37 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 ],
                               ),
                             ),
-                            IconButton(
-                              icon: Icon(
-                                  Icons.refresh), // Use an appropriate icon
-                              color:
-                                  greenPrimaryMain, // Set the color of the icon
-                              onPressed: () {
-                                _generateNIK(); // Call the generate function
-                              },
-                              tooltip:
-                                  'Generate NIK', // Optional tooltip for accessibility
+                            SizedBox(
+                              width: MediaQuery.sizeOf(context).width /
+                                  3.4, // Atur lebar minimum untuk tombol
+                              child: GenerateButtonWidget(
+                                onPressed: () {
+                                  logger
+                                      .d('isi provinsi ${selectedProvinsiIbu}');
+                                  logger.d(
+                                      'isi Kabupaten ${selectedKabupatenIbu}');
+                                  logger.d(
+                                      'isi Kecamatan ${selectedKecamatanIbu}');
+                                  // Validasi sebelum mengizinkan generate
+                                  if (_isGenerateAnakValid()) {
+                                    _generateNIK();
+                                    // Logika untuk generate
+                                    print("Generate button pressed");
+                                  } else {
+                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                    showTopSnackBar(
+                                        Overlay.of(context),
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        displayDuration:
+                                            const Duration(milliseconds: 2200),
+                                        reverseAnimationDuration:
+                                            const Duration(milliseconds: 300),
+                                        TopSnackbarWidget().error(
+                                            'Harap pilih data Orang tua dan isi Tempat Tanggal Lahir agar bisa generate NIK'));
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
