@@ -350,8 +350,7 @@ class ApiUtils {
         "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
   }
 
-  //   alamat
-
+  //! Master Data
   // provinsi
   String urlGetProvinsi({String? search, int? page, int? limit}) {
     String urlGetProvinsi = LinkApi.PROVINSIURL;
@@ -395,6 +394,15 @@ class ApiUtils {
     //   search, page, 1000
     // );
     return _baseUrl + _apiVersion + urlGetDusun;
+  }
+
+  // Jumlah Wilayah
+  String urlGetJumlahWilayah({String? search, int? page, int? limit}) {
+    String urlGetJumlahWilayah = LinkApi.JUMLAHWILAYAHURL;
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetJumlahWilayah;
   }
 
   //!Beban Kerja

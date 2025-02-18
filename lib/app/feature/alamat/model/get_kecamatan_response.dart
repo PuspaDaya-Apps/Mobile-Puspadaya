@@ -1,33 +1,27 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'get_kecamatan_response.g.dart';
-@JsonSerializable()
+
+// part 'get_kecamatan_response.g.dart';
+
+//@JsonSerializable()
 class GetKecamatanResponse {
-  @JsonKey(name: "data")
-  final List<Datum> data;
-  @JsonKey(name: "meta")
-  final Meta meta;
-  @JsonKey(name: "links")
-  final Links links;
-  @JsonKey(name: "message")
+  final List<Data>? data;
+  final Meta? meta;
   final String message;
 
   GetKecamatanResponse({
-    required this.data,
-    required this.meta,
-    required this.links,
+    this.data,
+    this.meta,
     required this.message,
   });
 
   GetKecamatanResponse copyWith({
-    List<Datum>? data,
+    List<Data>? data,
     Meta? meta,
-    Links? links,
     String? message,
   }) =>
       GetKecamatanResponse(
         data: data ?? this.data,
         meta: meta ?? this.meta,
-        links: links ?? this.links,
         message: message ?? this.message,
       );
 
@@ -36,41 +30,44 @@ class GetKecamatanResponse {
   Map<String, dynamic> toJson() => _$GetKecamatanResponseToJson(this);
 }
 
-@JsonSerializable()
-class Datum {
-  @JsonKey(name: "id")
+//@JsonSerializable()
+class Data{
   final String id;
   @JsonKey(name: "nama_kecamatan")
   final String namaKecamatan;
+  @JsonKey(name: "kode_kecamatan")
+  final String kodeKecamatan;
   @JsonKey(name: "kabupaten_kota")
   final KabupatenKota kabupatenKota;
 
-  Datum({
+  Data({
     required this.id,
     required this.namaKecamatan,
+    required this.kodeKecamatan,
     required this.kabupatenKota,
   });
 
-  Datum copyWith({
+  Data copyWith({
     String? id,
     String? namaKecamatan,
+    String? kodeKecamatan,
     KabupatenKota? kabupatenKota,
 
   }) =>
-      Datum(
+      Data(
         id: id ?? this.id,
         namaKecamatan: namaKecamatan ?? this.namaKecamatan,
+        kodeKecamatan: kodeKecamatan ?? this.kodeKecamatan,
         kabupatenKota: kabupatenKota ?? this.kabupatenKota,
       );
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatumToJson(this);
+  Map<String, dynamic> toJson() => _$DataToJson(this);
 }
 
-@JsonSerializable()
+//@JsonSerializable()
 class KabupatenKota {
-  @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "nama_kabupaten_kota")
   final String namaKabupatenKota;
@@ -94,56 +91,11 @@ class KabupatenKota {
   Map<String, dynamic> toJson() => _$KabupatenKotaToJson(this);
 }
 
-@JsonSerializable()
-class Links {
-  @JsonKey(name: "first")
-  final String first;
-  @JsonKey(name: "last")
-  final String last;
-  @JsonKey(name: "current")
-  final String current;
-  @JsonKey(name: "next")
-  final String next;
-  @JsonKey(name: "previous")
-  final String previous;
-
-  Links({
-    required this.first,
-    required this.last,
-    required this.current,
-    required this.next,
-    required this.previous,
-  });
-
-  Links copyWith({
-    String? first,
-    String? last,
-    String? current,
-    String? next,
-    String? previous,
-  }) =>
-      Links(
-        first: first ?? this.first,
-        last: last ?? this.last,
-        current: current ?? this.current,
-        next: next ?? this.next,
-        previous: previous ?? this.previous,
-      );
-
-  factory Links.fromJson(Map<String, dynamic> json) => _$LinksFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LinksToJson(this);
-}
-
-@JsonSerializable()
+//@JsonSerializable()
 class Meta {
-  @JsonKey(name: "itemsPerPage")
   final int itemsPerPage;
-  @JsonKey(name: "totalItems")
   final int totalItems;
-  @JsonKey(name: "currentPage")
   final int currentPage;
-  @JsonKey(name: "totalPages")
   final int totalPages;
 
   Meta({
@@ -170,3 +122,64 @@ class Meta {
 
   Map<String, dynamic> toJson() => _$MetaToJson(this);
 }
+
+GetKecamatanResponse _$GetKecamatanResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetKecamatanResponse(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meta: json['meta'] == null
+          ? null
+          : Meta.fromJson(json['meta'] as Map<String, dynamic>),
+      message: json['message'] as String,
+    );
+
+Map<String, dynamic> _$GetKecamatanResponseToJson(
+        GetKecamatanResponse instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'meta': instance.meta,
+      'message': instance.message,
+    };
+
+Data _$DataFromJson(Map<String, dynamic> json) => Data(
+      id: json['id'] as String,
+      namaKecamatan: json['nama_kecamatan'] as String,
+      kodeKecamatan: json['kode_kecamatan'] as String,
+      kabupatenKota: KabupatenKota.fromJson(
+          json['kabupaten_kota'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_kecamatan': instance.namaKecamatan,
+      'kode_kecamatan': instance.kodeKecamatan,
+      'kabupaten_kota': instance.kabupatenKota,
+    };
+
+KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
+    KabupatenKota(
+      id: json['id'] as String,
+      namaKabupatenKota: json['nama_kabupaten_kota'] as String,
+    );
+
+Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nama_kabupaten_kota': instance.namaKabupatenKota,
+    };
+
+Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
+      itemsPerPage: (json['itemsPerPage'] as num).toInt(),
+      totalItems: (json['totalItems'] as num).toInt(),
+      currentPage: (json['currentPage'] as num).toInt(),
+      totalPages: (json['totalPages'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
+      'itemsPerPage': instance.itemsPerPage,
+      'totalItems': instance.totalItems,
+      'currentPage': instance.currentPage,
+      'totalPages': instance.totalPages,
+    };
