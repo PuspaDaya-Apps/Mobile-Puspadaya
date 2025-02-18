@@ -5,10 +5,10 @@ import '../../../../../utils/network_utils/network_utils.dart';
 
 class IndexBebanKerjaApi {
   Future<List<dynamic>> indexBebanKerjaService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetListBebanKerja();
+    final String link = ApiUtils().urlGetListBebanKerja();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       debugPrint('test case');
       return response;

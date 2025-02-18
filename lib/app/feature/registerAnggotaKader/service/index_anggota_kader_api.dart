@@ -5,10 +5,10 @@ import '../../../../utils/network_utils/network_utils.dart';
 
 class IndexAnggotaKaderApi {
   Future<List<dynamic>> getListAnggotaKaderService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetListAnggotaKader();
+    final String link = ApiUtils().urlGetListAnggotaKader();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       return response;
     });

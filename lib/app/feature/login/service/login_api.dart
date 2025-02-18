@@ -9,32 +9,31 @@ import '../model/lupa_kata_sandi_model.dart';
 
 class LoginApi {
   Future<List<dynamic>> loginService (LoginModel loginModel) async {
-    final Map<String, String> header = ApiUtils().header();
-    final Uri link = ApiUtils().urlLogin();
+    debugPrint('api service');
+    final String link = ApiUtils().urlLogin();
     final String body = json.encode(loginModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils().post(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });
   }
   
   Future<List<dynamic>> getCurrentUserService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlCurrentUser();
+    final String link = ApiUtils().urlCurrentUser();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       return response;
     });
   }
 
   Future<List<dynamic>> lupaKataSandiService (LupaKataSandiModel lupaKataSandiModel) async {
-    final Map<String, String> header = ApiUtils().header();
-    final Uri link = ApiUtils().urlForgotPassword();
-    final String body = jsonEncode(lupaKataSandiModel.toJson()); 
+    final String link = ApiUtils().urlForgotPassword();
+    final String body = json.encode(lupaKataSandiModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils().post(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });

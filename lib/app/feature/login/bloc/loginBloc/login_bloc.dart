@@ -34,7 +34,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       List<dynamic> response = await LoginApi().loginService(event.loginModel);
 
       int statusCode = response[0] as int;
+      debugPrint(statusCode.toString());
       LoginResponseModel loginResponseModel = LoginResponseModel.fromJson(response[1]);
+      debugPrint(loginResponseModel.toString());
 
       if(statusCode == 200) {
         if(event.rememberAccount) {
@@ -52,6 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailedState(loginResponseModel.message));
       }
     } catch (error) {
+      debugPrint(error.toString());
       emit(LoginFailedState(error.toString()));
     }
   }

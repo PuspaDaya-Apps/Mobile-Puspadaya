@@ -9,11 +9,10 @@ class CreateJadwalPosyandu {
   Future<dynamic> createJadwalPosyandu(
       PostJadwalPosyanduModel postJadwalPosyanduModel,
       String accessToken) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(accessToken);
-    final Uri link = ApiUtils().urlPostDataJadwalPosyandu();
-
+    final String link = ApiUtils().urlPostDataJadwalPosyandu();
     final String body = json.encode(postJadwalPosyanduModel.toJson());
-    return await NetworkUtils().post(link, header, body).then((response) {
+
+    return await NetworkUtils(token: accessToken).post(link, body).then((response) {
       logger.d(response.toString());
       return response;
     });

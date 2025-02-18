@@ -94,7 +94,6 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                 );
               }
               if(state is DetailPengukuanAnakTokenExpiredState) {
-                BlocProvider.of<AuthenticationBloc>(context).add(GetAccesTokenEvent());
               }
             },
             builder: (context, state) {

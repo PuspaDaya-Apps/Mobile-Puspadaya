@@ -8,10 +8,11 @@ import '../../../../../utils/network_utils/network_utils.dart';
 
 class PatchJadwalPosyandu {
   Future<dynamic> getDetailJadwalPosyandu(String idJadwal, String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetDetailJadwalPosyandu(idJadwal);
+    final String link = ApiUtils().urlGetDetailJadwalPosyandu(idJadwal);
+    final Map<String, dynamic> parameterQuery = {};
     logger.d('uri ${link}}');
-    return await NetworkUtils().get(link, header).then((response) {
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       logger.d(response.toString());
       return response;
     });
@@ -19,11 +20,10 @@ class PatchJadwalPosyandu {
 
   Future<dynamic> patchJadwalPosyandu(String idJadwal, String accessToken,
       PatchJadwalPosyanduModel data) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(accessToken);
-    final Uri link = ApiUtils().urlPatchDataJadwalPosyandu(idJadwal);
+    final String link = ApiUtils().urlPatchDataJadwalPosyandu(idJadwal);
     final String body = json.encode(data.toJson());
 
-    return await NetworkUtils().patch(link, header, body).then((response) {
+    return await NetworkUtils(token: accessToken).patch(link, body).then((response) {
       logger.d(response.toString());
       return response;
     });
