@@ -14,6 +14,7 @@ import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
 
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
@@ -22,9 +23,11 @@ import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alatUkur/detail/view/detail_alat_ukur.dart';
 import '../bloc/create_register_orang_tua_bloc.dart';
 import '../model/post_orang_tua_body.dart';
@@ -271,6 +274,33 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     _tabController.animateTo(0);
   }
 
+// String? selectedProvinsiAyah;
+//   String? selectedKabupatenAyah;
+//   String? selectedKecamatanAyah;
+//   String? selectedDesaAyah;
+//   String? selectedDusunAyahId;
+
+  bool _isGenerateAyahValid() {
+    return tempatLahirAyahController.text.isNotEmpty &&
+        tanggalLahirAyahController.text.isNotEmpty &&
+        selectedProvinsiAyah !=
+            null && // Check if selectedProvinsiAyah is not null
+        selectedKabupatenAyah !=
+            null && // Check if selectedKabupatenAyah is not null
+        selectedKecamatanAyah !=
+            null; // Check if selectedDusunAyahId is not null
+  }
+
+  bool _isGenerateIbuValid() {
+    return tempatLahirIbuController.text.isNotEmpty &&
+        tanggalLahirIbuController.text.isNotEmpty &&
+        selectedProvinsiIbu !=
+            null && // Check if selectedProvinsiIbu is not null
+        selectedKabupatenIbu !=
+            null && // Check if selectedKabupatenIbu is not null
+        selectedKecamatanIbu != null; // Check if selectedDusunIbuId is not null
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -363,25 +393,75 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           style: TextStyle(fontSize: 12),
                                         ),
                                         SizedBox(
-                                            height:
-                                                SizeConfig.calHeightMultiplier(
-                                                    8)),
-                                        TextFieldWidget(
-                                          controller: kkAyahController,
-                                          hintText:
-                                              'Masukan Nomor Kartu Keluarga',
-                                          isPasswordField: false,
-                                          keyboardType: TextInputType.number,
-                                          obscureText: false,
-                                          validators: [
-                                            (value) => Validator.consistOf(
-                                                value,
-                                                16,
-                                                "Kartu keluarga harus terdiri atas 16 digit"),
-                                            (value) => Validator.required(value,
-                                                "Kartu Keluarga ayah tidak boleh kosong"),
+                                          height:
+                                              SizeConfig.calHeightMultiplier(8),
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              flex:
+                                                  3, // Mengatur lebar TextField
+                                              child: TextFieldWidget(
+                                                controller: kkAyahController,
+                                                hintText: 'Masukan Nomor KK',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.consistOf(
+                                                      value,
+                                                      16,
+                                                      "KK harus terdiri atas 16 digit"),
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "KK ayah tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+
+                                            // Button Generate
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  3.4, // Atur lebar minimum untuk tombol
+                                              child: GenerateButtonWidget(
+                                                onPressed: () {
+                                                  // Validasi sebelum mengizinkan generate
+                                                  if (_isGenerateAyahValid()) {
+                                                    // Logika untuk generate
+                                                    print(
+                                                        "Generate button pressed");
+                                                  } else {
+                                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                                    showTopSnackBar(
+                                                        Overlay.of(context),
+                                                        animationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        displayDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2200),
+                                                        reverseAnimationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                        TopSnackbarWidget().error(
+                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                  }
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
+
                                         SizedBox(
                                             height:
                                                 SizeConfig.calHeightMultiplier(
@@ -394,21 +474,68 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             height:
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
-                                        TextFieldWidget(
-                                          controller: nikAyahController,
-                                          hintText: 'Masukan NIK',
-                                          isPasswordField: false,
-                                          keyboardType: TextInputType.number,
-                                          obscureText: false,
-                                          validators: [
-                                            (value) => Validator.consistOf(
-                                                value,
-                                                16,
-                                                "NIK ayah harus terdiri atas 16 digit"),
-                                            (value) => Validator.required(value,
-                                                "NIK ayah tidak boleh kosong"),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: nikAyahController,
+                                                hintText: 'Masukan NIK',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.consistOf(
+                                                      value,
+                                                      16,
+                                                      "NIK ayah harus terdiri atas 16 digit"),
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "NIK ayah tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  3.4, // Atur lebar minimum untuk tombol
+                                              child: GenerateButtonWidget(
+                                                onPressed: () {
+                                                  // Validasi sebelum mengizinkan generate
+                                                  if (_isGenerateAyahValid()) {
+                                                    // Logika untuk generate
+                                                    print(
+                                                        "Generate button pressed");
+                                                  } else {
+                                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                                    showTopSnackBar(
+                                                        Overlay.of(context),
+                                                        animationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        displayDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2200),
+                                                        reverseAnimationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                        TopSnackbarWidget().error(
+                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                  }
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
+
                                         SizedBox(
                                             height:
                                                 SizeConfig.calHeightMultiplier(
@@ -534,26 +661,32 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           children: [
                                             // provinsi
                                             Expanded(
-                                              child: DropdownWidget(
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return "Provinsi harus dipilih";
-                                                  }
-                                                  return null;
-                                                },
-                                                items: selectProvinsi
-                                                    .map((provinsi) =>
-                                                        provinsi.namaProvinsi)
-                                                    .toSet() // Menghilangkan duplikasi
-                                                    .toList(),
-                                                hint: 'Provinsi',
-                                                value: selectedProvinsiAyah,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    selectedProvinsiAyah =
-                                                        value;
-                                                  });
+                                              child: BlocBuilder<AlamatCubit,
+                                                  AlamatState>(
+                                                builder: (context, state) {
+                                                  return DropdownWidget(
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return "Provinsi harus dipilih";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    items: selectProvinsi
+                                                        .map((provinsi) =>
+                                                            provinsi
+                                                                .namaProvinsi)
+                                                        .toSet() // Menghilangkan duplikasi
+                                                        .toList(),
+                                                    hint: 'Provinsi',
+                                                    value: selectedProvinsiAyah,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        selectedProvinsiAyah =
+                                                            value;
+                                                      });
+                                                    },
+                                                  );
                                                 },
                                               ),
                                             ),
@@ -910,20 +1043,65 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             height:
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
-                                        TextFieldWidget(
-                                          controller: kkIbuController,
-                                          hintText:
-                                              'Masukan Nomor Kartu Keluarga',
-                                          isPasswordField: false,
-                                          keyboardType: TextInputType.number,
-                                          obscureText: false,
-                                          validators: [
-                                            (value) => Validator.consistOf(
-                                                value,
-                                                16,
-                                                "Kartu Keluarga harus terdiri atas 16 digit"),
-                                            (value) => Validator.required(value,
-                                                "Kartu Keluarga Ibu tidak boleh kosong"),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: kkIbuController,
+                                                hintText: 'Masukan Nomor KK',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.consistOf(
+                                                      value,
+                                                      16,
+                                                      "KK harus terdiri atas 16 digit"),
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "KK Ibu tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  3.4, // Atur lebar minimum untuk tombol
+                                              child: GenerateButtonWidget(
+                                                onPressed: () {
+                                                  // Validasi sebelum mengizinkan generate
+                                                  if (_isGenerateIbuValid()) {
+                                                    // Logika untuk generate
+                                                    print(
+                                                        "Generate button pressed");
+                                                  } else {
+                                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                                    showTopSnackBar(
+                                                        Overlay.of(context),
+                                                        animationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        displayDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2200),
+                                                        reverseAnimationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                        TopSnackbarWidget().error(
+                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                  }
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
@@ -938,19 +1116,66 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             height:
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
-                                        TextFieldWidget(
-                                          controller: nikIbuController,
-                                          hintText: 'Masukan NIK',
-                                          isPasswordField: false,
-                                          keyboardType: TextInputType.number,
-                                          obscureText: false,
-                                          validators: [
-                                            (value) => Validator.consistOf(
-                                                value,
-                                                16,
-                                                "NIk Ibu harus terdiri atas 16 digit"),
-                                            (value) => Validator.required(value,
-                                                "NIK Ibu tidak boleh kosong"),
+
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          spacing: 8,
+                                          children: [
+                                            Expanded(
+                                              child: TextFieldWidget(
+                                                controller: nikIbuController,
+                                                hintText: 'Masukan NIK',
+                                                isPasswordField: false,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                obscureText: false,
+                                                validators: [
+                                                  (value) => Validator.consistOf(
+                                                      value,
+                                                      16,
+                                                      "NIk Ibu harus terdiri atas 16 digit"),
+                                                  (value) => Validator.required(
+                                                      value,
+                                                      "NIK Ibu tidak boleh kosong"),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width /
+                                                  3.4, // Atur lebar minimum untuk tombol
+                                              child: GenerateButtonWidget(
+                                                onPressed: () {
+                                                  // Validasi sebelum mengizinkan generate
+                                                  if (_isGenerateIbuValid()) {
+                                                    // Logika untuk generate
+                                                    print(
+                                                        "Generate button pressed");
+                                                  } else {
+                                                    // Tampilkan snackbar atau dialog jika form tidak valid
+                                                    showTopSnackBar(
+                                                        Overlay.of(context),
+                                                        animationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    600),
+                                                        displayDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2200),
+                                                        reverseAnimationDuration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    300),
+                                                        TopSnackbarWidget().error(
+                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                  }
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(

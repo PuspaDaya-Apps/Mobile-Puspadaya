@@ -37,6 +37,7 @@ Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
+      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
       id: json['id'] as String,
       namaAyah: json['nama_ayah'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
@@ -47,6 +48,7 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'id': instance.id,
       'nama_ayah': instance.namaAyah,
       'kartu_keluarga': instance.kartuKeluarga,
+      'dusun': instance.dusun,
     };
 
 KartuKeluarga _$KartuKeluargaFromJson(Map<String, dynamic> json) =>
@@ -62,6 +64,7 @@ Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
     };
 
 Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
+      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
       id: json['id'] as String,
       namaIbu: json['nama_ibu'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
@@ -72,6 +75,7 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'id': instance.id,
       'nama_ibu': instance.namaIbu,
       'kartu_keluarga': instance.kartuKeluarga,
+      'dusun': instance.dusun,
     };
 
 Links _$LinksFromJson(Map<String, dynamic> json) => Links(
@@ -102,4 +106,68 @@ Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
       'totalItems': instance.totalItems,
       'currentPage': instance.currentPage,
       'totalPages': instance.totalPages,
+    };
+
+Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
+      id: json['id'] as String,
+      namaDusun: json['nama_dusun'] as String,
+      desaKelurahan: DesaKelurahan.fromJson(
+          json['desa_kelurahan'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_dusun': instance.namaDusun,
+      'desa_kelurahan': instance.desaKelurahan,
+    };
+
+DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
+    DesaKelurahan(
+      id: json['id'] as String,
+      namaDesaKelurahan: json['nama_desa_kelurahan'] as String,
+      kecamatan: Kecamatan.fromJson(json['kecamatan'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DesaKelurahanToJson(DesaKelurahan instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nama_desa_kelurahan': instance.namaDesaKelurahan,
+      'kecamatan': instance.kecamatan,
+    };
+
+Kecamatan _$KecamatanFromJson(Map<String, dynamic> json) => Kecamatan(
+      id: json['id'] as String,
+      namaKecamatan: json['nama_kecamatan'] as String,
+      kabupatenKota: KabupatenKota.fromJson(
+          json['kabupaten_kota'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$KecamatanToJson(Kecamatan instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_kecamatan': instance.namaKecamatan,
+      'kabupaten_kota': instance.kabupatenKota,
+    };
+
+KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
+    KabupatenKota(
+      id: json['id'] as String,
+      namaKabupatenKota: json['nama_kabupaten_kota'] as String,
+      provinsi: Provinsi.fromJson(json['provinsi'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'nama_kabupaten_kota': instance.namaKabupatenKota,
+      'provinsi': instance.provinsi,
+    };
+
+Provinsi _$ProvinsiFromJson(Map<String, dynamic> json) => Provinsi(
+      id: json['id'] as String,
+      namaProvinsi: json['nama_provinsi'] as String,
+    );
+
+Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_provinsi': instance.namaProvinsi,
     };

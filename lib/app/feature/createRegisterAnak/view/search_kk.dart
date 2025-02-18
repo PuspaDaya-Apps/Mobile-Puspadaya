@@ -108,6 +108,16 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
                                 Navigator.pop(
                                   context,
                                   PaketToCreateAnakModel(
+                                    provinsi: state
+                                        .getListOrangTuaResponseModel
+                                        .data![index]
+                                        .ibu
+                                        .dusun
+                                        .desaKelurahan
+                                        .kecamatan
+                                        .kabupatenKota
+                                        .provinsi
+                                        .namaProvinsi,
                                     idKartuKeluarga: state
                                         .getListOrangTuaResponseModel
                                         .data![index]
@@ -124,6 +134,23 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
                                         .data![index].ayah.namaAyah,
                                     namaIbu: state.getListOrangTuaResponseModel
                                         .data![index].ibu.namaIbu,
+                                    kabupaten: state
+                                        .getListOrangTuaResponseModel
+                                        .data![index]
+                                        .ibu
+                                        .dusun
+                                        .desaKelurahan
+                                        .kecamatan
+                                        .kabupatenKota
+                                        .namaKabupatenKota,
+                                    kecamatan: state
+                                        .getListOrangTuaResponseModel
+                                        .data![index]
+                                        .ibu
+                                        .dusun
+                                        .desaKelurahan
+                                        .kecamatan
+                                        .namaKecamatan,
                                   ),
                                 );
                               },

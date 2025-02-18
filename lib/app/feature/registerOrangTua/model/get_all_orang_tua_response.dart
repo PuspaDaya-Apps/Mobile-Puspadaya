@@ -72,8 +72,11 @@ class Ayah {
   final String namaAyah;
   @JsonKey(name: "kartu_keluarga")
   final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "dusun")
+  final Dusun dusun;
 
   Ayah({
+    required this.dusun,
     required this.id,
     required this.namaAyah,
     required this.kartuKeluarga,
@@ -83,8 +86,10 @@ class Ayah {
     String? id,
     String? namaAyah,
     KartuKeluarga? kartuKeluarga,
+    Dusun? dusun,
   }) =>
       Ayah(
+        dusun: dusun ?? this.dusun,
         id: id ?? this.id,
         namaAyah: namaAyah ?? this.namaAyah,
         kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
@@ -111,7 +116,7 @@ class KartuKeluarga {
     String? nomorKartuKeluarga,
   }) =>
       KartuKeluarga(
-        id: id ?? this.id,
+        id: id,
         nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
       );
 
@@ -129,8 +134,11 @@ class Ibu {
   final String namaIbu;
   @JsonKey(name: "kartu_keluarga")
   final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "dusun")
+  final Dusun dusun;
 
   Ibu({
+    required this.dusun,
     required this.id,
     required this.namaIbu,
     required this.kartuKeluarga,
@@ -139,9 +147,11 @@ class Ibu {
   Ibu copyWith({
     String? id,
     String? namaIbu,
+    Dusun? dusun,
     KartuKeluarga? kartuKeluarga,
   }) =>
       Ibu(
+        dusun: dusun ?? this.dusun,
         id: id ?? this.id,
         namaIbu: namaIbu ?? this.namaIbu,
         kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
@@ -227,4 +237,105 @@ class Meta {
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 
   Map<String, dynamic> toJson() => _$MetaToJson(this);
+}
+
+@JsonSerializable()
+class Dusun {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nama_dusun")
+  final String namaDusun;
+  @JsonKey(name: "desa_kelurahan")
+  final DesaKelurahan desaKelurahan;
+
+  Dusun({
+    required this.id,
+    required this.namaDusun,
+    required this.desaKelurahan,
+  });
+
+  factory Dusun.fromJson(Map<String, dynamic> json) => _$DusunFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DusunToJson(this);
+}
+
+@JsonSerializable()
+class DesaKelurahan {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nama_desa_kelurahan")
+  final String namaDesaKelurahan;
+  @JsonKey(name: "kecamatan")
+  final Kecamatan kecamatan;
+
+  DesaKelurahan({
+    required this.id,
+    required this.namaDesaKelurahan,
+    required this.kecamatan,
+  });
+
+  factory DesaKelurahan.fromJson(Map<String, dynamic> json) =>
+      _$DesaKelurahanFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DesaKelurahanToJson(this);
+}
+
+@JsonSerializable()
+class Kecamatan {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nama_kecamatan")
+  final String namaKecamatan;
+  @JsonKey(name: "kabupaten_kota")
+  final KabupatenKota kabupatenKota;
+
+  Kecamatan({
+    required this.id,
+    required this.namaKecamatan,
+    required this.kabupatenKota,
+  });
+
+  factory Kecamatan.fromJson(Map<String, dynamic> json) =>
+      _$KecamatanFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KecamatanToJson(this);
+}
+
+@JsonSerializable()
+class KabupatenKota {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nama_kabupaten_kota")
+  final String namaKabupatenKota;
+  @JsonKey(name: "provinsi")
+  final Provinsi provinsi;
+
+  KabupatenKota({
+    required this.id,
+    required this.namaKabupatenKota,
+    required this.provinsi,
+  });
+
+  factory KabupatenKota.fromJson(Map<String, dynamic> json) =>
+      _$KabupatenKotaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KabupatenKotaToJson(this);
+}
+
+@JsonSerializable()
+class Provinsi {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "nama_provinsi")
+  final String namaProvinsi;
+
+  Provinsi({
+    required this.id,
+    required this.namaProvinsi,
+  });
+
+  factory Provinsi.fromJson(Map<String, dynamic> json) =>
+      _$ProvinsiFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProvinsiToJson(this);
 }

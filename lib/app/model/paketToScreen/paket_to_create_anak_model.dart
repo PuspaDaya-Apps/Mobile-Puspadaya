@@ -1,4 +1,7 @@
 class PaketToCreateAnakModel {
+  String provinsi;
+  String kabupaten;
+  String kecamatan;
   String idKartuKeluarga;
   String nomorKartuKeluarga;
   String namaAyah;
@@ -8,6 +11,9 @@ class PaketToCreateAnakModel {
     required this.idKartuKeluarga,
     required this.nomorKartuKeluarga,
     required this.namaAyah,
-    required this.namaIbu
+    required this.namaIbu,
+    required this.provinsi,
+    required this.kabupaten,
+    required this.kecamatan,
   });
 }
