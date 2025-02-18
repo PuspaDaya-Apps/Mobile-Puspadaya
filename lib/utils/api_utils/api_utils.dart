@@ -1,443 +1,434 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
-import 'parameter_query.dart';
-
 part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
-  final String _baseUrl =
-      "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
-  final String _baseUrlQuaryParameter =
-      "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
 
   //!Header
-  Map<String, String> header() =>
-      {'Content-Type': 'application/json', 'Accept': 'application/json'};
+  // Map<String, String> header() =>
+  //     {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  Map<String, String> headerWithToken(String token) => {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      };
+  // Map<String, String> headerWithToken(String token) => {
+  //       'Authorization': 'Bearer $token',
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json'
+  //     };
 
-  Map<String, String> headerTokenForMultipart(String token) => {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'multipart/form-data',
-      };
+  // Map<String, String> headerTokenForMultipart(String token) => {
+  //       'Authorization': 'Bearer $token',
+  //       'Content-Type': 'multipart/form-data',
+  //     };
 
   //!Auth
-  Uri urlLogin() {
+  String urlLogin() {
     String urlLogin = LinkApi.LOGINURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlLogin);
+    return _baseUrl + _apiVersion + urlLogin;
   }
 
-  Uri urlRefreshToken() {
+  String urlRefreshToken() {
     String urlRefreshToken = LinkApi.REFRESHTOKENURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlRefreshToken);
+    return _baseUrl + _apiVersion + urlRefreshToken;
   }
 
-  Uri urlLogout() {
+  String urlLogout() {
     String urlLogout = LinkApi.LOGOUTURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlLogout);
+    return _baseUrl + _apiVersion + urlLogout;
   }
 
-  Uri urlForgotPassword() {
+  String urlForgotPassword() {
     String urlForgotPassword = LinkApi.FORGOTPASSWORDURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlForgotPassword);
+    return _baseUrl + _apiVersion + urlForgotPassword;
   }
 
-  Uri urlResetPassword() {
+  String urlResetPassword() {
     String urlResetPassword = LinkApi.RESETPASSWORDURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlResetPassword);
+    return _baseUrl + _apiVersion + urlResetPassword;
   }
 
-  Uri urlVerifyOTP() {
+  String urlVerifyOTP() {
     String urlVerifyOTP = LinkApi.VERIFYOTPURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlVerifyOTP);
+    return _baseUrl + _apiVersion + urlVerifyOTP;
   }
 
-  Uri urlChangePassword() {
+  String urlChangePassword() {
     String urlChangePassword = LinkApi.CHANGEPASSWORDURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlChangePassword);
+    return _baseUrl + _apiVersion + urlChangePassword;
   }
 
   //!User
-  Uri urlCurrentUser() {
+  String urlCurrentUser() {
     String urlCurrentUser = LinkApi.CURRENTUSRURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlCurrentUser);
+    return _baseUrl + _apiVersion + urlCurrentUser;
   }
 
   //!anggota kader
-  Uri urlGetListAnggotaKader({String? search, int? page, int? limit}) {
+  String urlGetListAnggotaKader({String? search, int? page, int? limit}) {
     String urlGetlListAnggotaKader = LinkApi.USERURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetlListAnggotaKader, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetlListAnggotaKader;
   }
 
-  Uri urlPostDataAnggotaKader() {
+  String urlPostDataAnggotaKader() {
     String urlPostDataAnggotaKader = LinkApi.USERURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataAnggotaKader);
+    return _baseUrl + _apiVersion + urlPostDataAnggotaKader;
   }
 
-  Uri urlGetDetailAnggotaKader(String id) {
+  String urlGetDetailAnggotaKader(String id) {
     String urlGetDetailAnggotaKader = LinkApi.USERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailAnggotaKader/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailAnggotaKader/$id";
   }
 
-  Uri urlPatchDataAnggotaKader(String id) {
+  String urlPatchDataAnggotaKader(String id) {
     String urlPatchDataAnggotaKader = LinkApi.USERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id";
   }
 
-  Uri urlDeleteDataAnggotaKader(String id) {
+  String urlDeleteDataAnggotaKader(String id) {
     String urlDeleteDataAnggotaKader = LinkApi.USERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataAnggotaKader/$id");
+    return "$_baseUrl$_apiVersion$urlDeleteDataAnggotaKader/$id";
   }
 
   //!Orang Tua
-  Uri urlGetListOrangTua({String? search, int? page, int? limit}) {
+  String urlGetListOrangTua({String? search, int? page, int? limit}) {
     String urlGetListOrangTua = LinkApi.ORANGTUAURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, limit
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListOrangTua, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, limit
+    // );
+    return _baseUrl + _apiVersion + urlGetListOrangTua;
   }
 
-  Uri urlPostDataOrangTua() {
+  String urlPostDataOrangTua() {
     String urlPostDataOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataOrangTua);
+    return _baseUrl + _apiVersion + urlPostDataOrangTua;
   }
 
-  Uri urlPatchDataOrangTua(String id) {
+  String urlPatchDataOrangTua(String id) {
     String urlPatchDataOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataOrangTua/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataOrangTua/$id";
   }
 
-  Uri urlGetDetailOrangTua(String idAyah) {
+  String urlGetDetailOrangTua(String idAyah) {
     String urlGetDetailOrangTua = LinkApi.ORANGTUAURL;
-    return Uri.http(
-        _baseUrlQuaryParameter, '$_apiVersion$urlGetDetailOrangTua/$idAyah');
+    return '$_baseUrl$_apiVersion$urlGetDetailOrangTua/$idAyah';
   }
 
   //!Anak
-  Uri urlGetListAnak({String? search, int? page, int? limit}) {
+  String urlGetListAnak({String? search, int? page, int? limit}) {
     String urlGetListAnak = LinkApi.ANAKURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListAnak, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListAnak;
   }
 
-  Uri urlPostDataAnak() {
+  String urlPostDataAnak() {
     String urlPostDataAnak = LinkApi.ANAKURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataAnak);
+    return _baseUrl + _apiVersion + urlPostDataAnak;
   }
 
-  Uri urlGetAnakPosyandu({String? search, int? page, int? limit}) {
+  String urlGetAnakPosyandu({String? search, int? page, int? limit}) {
     String urlGetAnakPosyandu = LinkApi.ANAKPOSYANDUURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetAnakPosyandu, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetAnakPosyandu;
   }
 
-  Uri urlGetDetailAnak(String id) {
+  String urlGetDetailAnak(String id) {
     String urlGetDetailAnak = LinkApi.ANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailAnak/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailAnak/$id";
   }
 
-  Uri urlPatchDataAnak(String id) {
+  String urlPatchDataAnak(String id) {
     String urlPatchDataAnak = LinkApi.ANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataAnak/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataAnak/$id";
   }
 
-  Uri urlDeleteDataAnak(String id) {
+  String urlDeleteDataAnak(String id) {
     String urlDeleteDataAnak = LinkApi.ANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataAnak/$id");
+    return "$_baseUrl$_apiVersion$urlDeleteDataAnak/$id";
   }
 
   //!Ibu Hamil
-  Uri urlGetListIbuHamil({String? search, int? page, int? limit}) {
+  String urlGetListIbuHamil({String? search, int? page, int? limit}) {
     String urlGetListIbuHamil = LinkApi.IBUHAMILURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListIbuHamil, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListIbuHamil;
   }
 
-  Uri urlPostDataIbuHamil() {
+  String urlPostDataIbuHamil() {
     String urlPostDataIbuHamil = LinkApi.IBUHAMILURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataIbuHamil);
+    return _baseUrl + _apiVersion + urlPostDataIbuHamil;
   }
 
-  Uri urlGetDetailIbuHamil(String id) {
+  String urlGetDetailIbuHamil(String id) {
     String urlGetDetailIbuHamil = LinkApi.IBUHAMILURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailIbuHamil/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailIbuHamil/$id";
   }
 
-  Uri urlPatchDataIbuHamil(String id) {
+  String urlPatchDataIbuHamil(String id) {
     String urlPatchDataIbuHamil = LinkApi.IBUHAMILURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataIbuHamil/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataIbuHamil/$id";
   }
 
   //!Pengasuh
-  Uri urlGetListPengasuh({String? search, int? page, int? limit}) {
+  String urlGetListPengasuh({String? search, int? page, int? limit}) {
     String urlGetListPengasuh = LinkApi.PENGASUHURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengasuh, parameterQuery);
-    // return Uri.parse(_baseUrl + _apiVersion + urlGetListPengasuh);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListPengasuh;
+    // return _baseUrl + _apiVersion + urlGetListPengasuh);
   }
 
-  Uri urlGetPengasuhPosyandu({String? search, int? page, int? limit}) {
+  String urlGetPengasuhPosyandu({String? search, int? page, int? limit}) {
     String urlGetPengasuhPosyandu = LinkApi.PENGASUHPOSYANDUURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetPengasuhPosyandu, parameterQuery);
-    // return Uri.parse(_baseUrl + _apiVersion + urlGetPengasuhPosyandu);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetPengasuhPosyandu;
+    // return _baseUrl + _apiVersion + urlGetPengasuhPosyandu);
   }
 
-  Uri urlGetDetailPengasuh(String id) {
+  String urlGetDetailPengasuh(String id) {
     String urlGetDetailPengasuh = LinkApi.PENGASUHURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailPengasuh/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailPengasuh/$id";
   }
 
-  Uri urlPatchDataPengasuh(String id) {
+  String urlPatchDataPengasuh(String id) {
     String urlPatchDataPengasuh = LinkApi.PENGASUHURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataPengasuh/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataPengasuh/$id";
   }
 
   //!Alat Ukur Kader
-  Uri urlGetListAlatUkurKader({String? search, int? page, int? limit}) {
+  String urlGetListAlatUkurKader({String? search, int? page, int? limit}) {
     String urlGetListAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListAlatUkurKader, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListAlatUkurKader;
   }
 
-  Uri urlPostDataAlatUkurKader() {
+  String urlPostDataAlatUkurKader() {
     String urlPostDataAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataAlatUkurKader);
+    return _baseUrl + _apiVersion + urlPostDataAlatUkurKader;
   }
 
-  Uri urlGetDetailAlatUkurKader(String id) {
+  String urlGetDetailAlatUkurKader(String id) {
     String urlGetDetailAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailAlatUkurKader/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailAlatUkurKader/$id";
   }
 
-  Uri urlPatchDataAlatUkurKader(String id) {
+  String urlPatchDataAlatUkurKader(String id) {
     String urlPatchDataAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataAlatUkurKader/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataAlatUkurKader/$id";
   }
 
-  Uri urlDeleteDataAlatUkurKader(String id) {
+  String urlDeleteDataAlatUkurKader(String id) {
     String urlDeleteDataAlatUkurKader = LinkApi.ALATUKURKADERURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataAlatUkurKader/$id");
+    return "$_baseUrl$_apiVersion$urlDeleteDataAlatUkurKader/$id";
   }
 
   //!Jadwal Posyandu
-  Uri urlGetListJadwalPosyandu({String? search, int? page, int? limit}) {
+  String urlGetListJadwalPosyandu({String? search, int? page, int? limit}) {
     String urlGetListJadwalPosyandu = LinkApi.JADWALPOSYANDU;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListJadwalPosyandu, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListJadwalPosyandu;
   }
 
-  Uri urlPostDataJadwalPosyandu() {
+  String urlPostDataJadwalPosyandu() {
     String urlPostDataJadwalPosyandu = LinkApi.JADWALPOSYANDU;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataJadwalPosyandu);
+    return _baseUrl + _apiVersion + urlPostDataJadwalPosyandu;
   }
 
-  Uri urlPatchDataJadwalPosyandu(String id) {
+  String urlPatchDataJadwalPosyandu(String id) {
     String urlPatchDataJadwalPosyandu = LinkApi.JADWALPOSYANDU;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataJadwalPosyandu/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataJadwalPosyandu/$id";
   }
 
-  Uri urlGetDetailJadwalPosyandu(String id) {
+  String urlGetDetailJadwalPosyandu(String id) {
     String urlGetDetailJadwalPosyandu = LinkApi.JADWALPOSYANDU;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailJadwalPosyandu/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailJadwalPosyandu/$id";
   }
 
   //!Kehadiran Posyandu
-  Uri urlGetListKehadiranPosyandu({String? search, int? page, int? limit}) {
+  String urlGetListKehadiranPosyandu({String? search, int? page, int? limit}) {
     String urlGetListKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListKehadiranPosyandu, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListKehadiranPosyandu;
   }
 
-  Uri urlPostDataKehadiranPosyandu() {
+  String urlPostDataKehadiranPosyandu() {
     String urlPostDataKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataKehadiranPosyandu);
+    return _baseUrl + _apiVersion + urlPostDataKehadiranPosyandu;
   }
 
-  Uri urlGetDetailKehadiranPosyandu(String id) {
+  String urlGetDetailKehadiranPosyandu(String id) {
     String urlGetDetailKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailKehadiranPosyandu/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailKehadiranPosyandu/$id";
   }
 
-  Uri urlPatchDataKehadiranPosyandu(String id) {
+  String urlPatchDataKehadiranPosyandu(String id) {
     String urlPatchDataKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataKehadiranPosyandu/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataKehadiranPosyandu/$id";
   }
 
-  Uri urlDeleteDataKehadiranPosyandu(String id) {
+  String urlDeleteDataKehadiranPosyandu(String id) {
     String urlDeleteDataKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return Uri.parse(
-        "$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id");
+    return 
+        "$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id";
   }
 
   //!Pengukuran Anak
-  Uri urlGetListPengukuranAnak({String? search, int? page, int? limit}) {
+  String urlGetListPengukuranAnak({String? search, int? page, int? limit}) {
     String urlGetListPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengukuranAnak, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListPengukuranAnak;
   }
 
-  Uri urlPostDataPengukuranAnak() {
+  String urlPostDataPengukuranAnak() {
     String urlPostDataPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataPengukuranAnak);
+    return _baseUrl + _apiVersion + urlPostDataPengukuranAnak;
   }
 
-  Uri urlGetDetailPengukuranAnak(String id) {
+  String urlGetDetailPengukuranAnak(String id) {
     String urlGetDetailPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailPengukuranAnak/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailPengukuranAnak/$id";
   }
 
-  Uri urlPatchDataPengukuranAnak(String id) {
+  String urlPatchDataPengukuranAnak(String id) {
     String urlPatchDataPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlPatchDataPengukuranAnak/$id");
+    return "$_baseUrl$_apiVersion$urlPatchDataPengukuranAnak/$id";
   }
 
-  Uri urlDeleteDataPengukuranAnak(String id) {
+  String urlDeleteDataPengukuranAnak(String id) {
     String urlDeleteDataPengukuranAnak = LinkApi.PENGUKURANANAKURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataPengukuranAnak/$id");
+    return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranAnak/$id";
   }
 
   //!Pengukuran Ibu Hamil
-  Uri urlGetListPengukuranIbuHamil({String? search, int? page, int? limit}) {
+  String urlGetListPengukuranIbuHamil({String? search, int? page, int? limit}) {
     String urlGetListPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListPengukuranIbuHamil, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListPengukuranIbuHamil;
   }
 
-  Uri urlPostDataPengukuranIbuHamil() {
+  String urlPostDataPengukuranIbuHamil() {
     String urlPostDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataPengukuranIbuHamil);
+    return _baseUrl + _apiVersion + urlPostDataPengukuranIbuHamil;
   }
 
-  Uri urlGetDetailPengukuranIbuHamil(String id) {
+  String urlGetDetailPengukuranIbuHamil(String id) {
     String urlGetDetailPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse(
-        "$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id");
+    return 
+        "$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id";
   }
 
-  Uri urlPatchDataPengukuranIbuHamil(String id) {
+  String urlPatchDataPengukuranIbuHamil(String id) {
     String urlPatchDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse(
-        "$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id");
+    return 
+        "$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id";
   }
 
-  Uri urlDeleteDataPengukuranIbuHamil(String id) {
+  String urlDeleteDataPengukuranIbuHamil(String id) {
     String urlDeleteDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return Uri.parse(
-        "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id");
+    return 
+        "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
   }
 
   //   alamat
 
   // provinsi
-  Uri urlGetProvinsi({String? search, int? page, int? limit}) {
+  String urlGetProvinsi({String? search, int? page, int? limit}) {
     String urlGetProvinsi = LinkApi.PROVINSIURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetProvinsi, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetProvinsi;
   }
 
   // kabupaten
-  Uri urlGetKabupaten({String? search, int? page, int? limit}) {
+  String urlGetKabupaten({String? search, int? page, int? limit}) {
     String urlGetKabupaten = LinkApi.KABUPATENURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetKabupaten, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetKabupaten;
   }
 
   // kecamatan
-  Uri urlGetKecamatan({String? search, int? page, int? limit}) {
+  String urlGetKecamatan({String? search, int? page, int? limit}) {
     String urlGetKecamatan = LinkApi.KECAMATANURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetKecamatan, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetKecamatan;
   }
 
   // desa kelurahan
-  Uri urlGetDesaKelurahan({String? search, int? page, int? limit}) {
+  String urlGetDesaKelurahan({String? search, int? page, int? limit}) {
     String urlGetDesaKelurahan = LinkApi.DESAURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetDesaKelurahan, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetDesaKelurahan;
   }
 
   // dusun
-  Uri urlGetDusun({String? search, int? page, int? limit}) {
+  String urlGetDusun({String? search, int? page, int? limit}) {
     String urlGetDusun = LinkApi.DUSUNURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetDusun, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetDusun;
   }
 
   //!Beban Kerja
-  Uri urlGetBebanKerjaItem() {
+  String urlGetBebanKerjaItem() {
     String urlGetBebanKerjaKader = LinkApi.TUGASKADERURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetBebanKerjaKader);
+    return _baseUrl + _apiVersion + urlGetBebanKerjaKader;
   }
 
-  Uri urlGetListBebanKerja({String? search, int? page, int? limit}) {
+  String urlGetListBebanKerja({String? search, int? page, int? limit}) {
     String urlGetListBebanKerja = LinkApi.PENILAIANMANDIRIURL;
-    Map<String, dynamic> parameterQuery = parameterQueryHelper(
-      search, page, 1000
-    );
-    return Uri.http(_baseUrlQuaryParameter, _apiVersion + urlGetListBebanKerja, parameterQuery);
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListBebanKerja;
   }
 
-  Uri urlPostDataBebanKerja() {
+  String urlPostDataBebanKerja() {
     String urlPostDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
-    return Uri.parse(_baseUrl + _apiVersion + urlPostDataBebanKerja);
+    return _baseUrl + _apiVersion + urlPostDataBebanKerja;
   }
 
-  Uri urlGetDetailBebanKerja(String id) {
+  String urlGetDetailBebanKerja(String id) {
     String urlGetDetailBebanKerja = LinkApi.PENILAIANMANDIRIURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlGetDetailBebanKerja/$id");
+    return "$_baseUrl$_apiVersion$urlGetDetailBebanKerja/$id";
   }
 
-  Uri urlDeleteDataBebanKerja(String id) {
+  String urlDeleteDataBebanKerja(String id) {
     String urlDeleteDataBebanKerja = LinkApi.PENILAIANMANDIRIURL;
-    return Uri.parse("$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id");
+    return "$_baseUrl$_apiVersion$urlDeleteDataBebanKerja/$id";
   }
 
   //!Dashboard
-  Uri urlGetDashboardKader() {
+  String urlGetDashboardKader() {
     String urlGetDashboardKader = LinkApi.DASHBOARDKADER;
-    return Uri.parse(_baseUrl + _apiVersion + urlGetDashboardKader);
+    return _baseUrl + _apiVersion + urlGetDashboardKader;
   }
 }

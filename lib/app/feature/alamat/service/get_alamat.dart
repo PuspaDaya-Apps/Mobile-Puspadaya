@@ -5,11 +5,11 @@ import '../../../../utils/network_utils/network_utils.dart';
 class GetAlamat{
   // provinsi
   Future<List<dynamic>> getProvinsi(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetProvinsi();
+    final String url = ApiUtils().urlGetProvinsi();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {
@@ -20,11 +20,11 @@ class GetAlamat{
 
   // kabupaten
   Future<List<dynamic>> getKabupaten(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetKabupaten();
+    final String url = ApiUtils().urlGetKabupaten();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {
@@ -35,11 +35,11 @@ class GetAlamat{
 
   // kecamatan
   Future<List<dynamic>> getKecamatan(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetKecamatan();
+    final String url = ApiUtils().urlGetKecamatan();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {
@@ -50,11 +50,11 @@ class GetAlamat{
 
   // desaKelurahan
   Future<List<dynamic>> getDesaKelurahan(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetDesaKelurahan();
+    final String url = ApiUtils().urlGetDesaKelurahan();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {
@@ -65,11 +65,11 @@ class GetAlamat{
 
   // dusun
   Future<List<dynamic>> getDusun(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetDusun();
+    final String url = ApiUtils().urlGetDusun();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {

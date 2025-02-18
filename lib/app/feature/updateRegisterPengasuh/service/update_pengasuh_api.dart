@@ -8,11 +8,10 @@ import '../model/update_pengasuh_model.dart';
 
 class UpdatePengasuhApi {
   Future<List<dynamic>> updatePengasuhService (String token, String id, UpdatePengasuhModel updatePengasuhModel) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPatchDataPengasuh(id);
+    final String link = ApiUtils().urlPatchDataPengasuh(id);
     final String body = json.encode(updatePengasuhModel.toJson());
 
-   return await NetworkUtils().patch(link, header, body).then((response) {
+   return await NetworkUtils(token: token).patch(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });

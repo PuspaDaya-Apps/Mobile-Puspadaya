@@ -4,11 +4,11 @@ import '../../../../utils/network_utils/network_utils.dart';
 
 class PengasuhPosyanduApi {
   Future<List<dynamic>> getPengasuhByPosyandu(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetPengasuhPosyandu();
+    final String url = ApiUtils().urlGetPengasuhPosyandu();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {

@@ -5,11 +5,11 @@ import '../../../../utils/network_utils/network_utils.dart';
 
 class RegisterOrangTuaApi {
   Future<List<dynamic>> getDataAyahIbu(String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri url = ApiUtils().urlGetListOrangTua();
+    final String url = ApiUtils().urlGetListOrangTua();
+    final Map<String, dynamic> parameterQuery = {};
 
     try {
-      final response = await NetworkUtils().get(url, header);
+      final response = await NetworkUtils(token: token).get(url, parameterQuery);
       logger.d(response.toString());
       return response;
     } catch (e) {
