@@ -93,6 +93,44 @@ class SharedPrefUtils {
     debugPrint(a);
   }
 
+  //!Jumlah Wilayah
+  Future<void> storedJumlahWilayah(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.JUMLAHWILAYAH, value);
+  }
+
+  Future<String?> getJumlahWilayah() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.JUMLAHWILAYAH);
+  }
+
+  Future<void> removeJumlahWilayah() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.JUMLAHWILAYAH);
+
+    String? a = prefs.getString(SharedPrefName.JUMLAHWILAYAH);
+    debugPrint(a);
+  }
+
+   //!Data Wilayah
+  Future<void> storedDataWilayah(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.DATAWILAYAH, value);
+  }
+
+  Future<String?> getDataWilayah() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.DATAWILAYAH);
+  }
+
+  Future<void> removeDataWilayah() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.DATAWILAYAH);
+
+    String? a = prefs.getString(SharedPrefName.DATAWILAYAH);
+    debugPrint(a);
+  }
+
   //!RegisterOrangTuaAyah
   Future<void> storedRegisterOrangTuaAyah(String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

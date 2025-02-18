@@ -11,6 +11,7 @@ abstract class LinkApi {
   static const KECAMATANURL = "/kecamatan";
   static const DESAURL = "/desa-kelurahan";
   static const DUSUNURL = "/dusun";
+  static const JUMLAHWILAYAHURL = "/total-wilayah";
 
   //!Auth
   static const LOGINURL = "/auth/login";
