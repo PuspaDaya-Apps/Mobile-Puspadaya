@@ -661,7 +661,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           children: [
                                             // provinsi
                                             Expanded(
-                                              child: BlocBuilder<AlamatCubit,
+                                              child: BlocBuilder<AlamatBloc,
                                                   AlamatState>(
                                                 builder: (context, state) {
                                                   return DropdownWidget(
