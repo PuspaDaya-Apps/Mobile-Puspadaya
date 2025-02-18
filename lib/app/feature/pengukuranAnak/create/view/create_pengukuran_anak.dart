@@ -95,10 +95,26 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
 
   late String alatUkur;
 
+  bool? isAgeLessThanSixMonths;
+
   @override
   void initState() {
     super.initState();
     BlocProvider.of<AlatUkurAnakBloc>(context).add(GetAlatUkur());
+  }
+
+  bool isLessThanSixMonths(String age) {
+    final regex = RegExp(r'(\d+)\s*tahun\s*(\d+)?\s*bulan');
+
+    final match = regex.firstMatch(age);
+    if (match == null) return false; // Format tidak valid, default false
+
+    int years = int.parse(match.group(1) ?? '0');
+    int months = int.parse(match.group(2) ?? '0');
+
+    int totalMonths = (years * 12) + months;
+
+    return totalMonths < 6;
   }
 
   @override
@@ -191,6 +207,10 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             text: paket.nik);
                                         ageController = TextEditingController(
                                             text: paket.usia);
+                                        isAgeLessThanSixMonths =
+                                            isLessThanSixMonths(paket.usia);
+                                        logger.d(
+                                            'is usia kurang dari 6 bulan = ${isAgeLessThanSixMonths}');
                                       }
                                     });
                                   });
@@ -367,173 +387,184 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Row(
                             spacing: 8,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    MeasurementWidget(
-                                      title: 'Tinggi Badan',
-                                      hintText: 'contoh: 13.5',
-                                      unit: 'cm',
-                                      // tool: 'Microtoise',
-                                      controller: heightController,
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16),
-                                    ),
-                                    MeasurementWidget(
-                                      title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 3.5',
-                                      unit: 'cm',
-                                      // tool: 'Pita Lila',
-                                      controller:
-                                          upperArmCircumferenceController,
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16),
-                                    ),
-                                  ],
+                                child: MeasurementWidget(
+                                  title: 'Tinggi Badan',
+                                  hintText: 'contoh: 13.5',
+                                  unit: 'cm',
+                                  // tool: 'Microtoise',
+                                  controller: heightController,
                                 ),
                               ),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    MeasurementWidget(
-                                      title: 'Berat Badan',
-                                      hintText: 'contoh: 6.5',
-                                      unit: 'kg',
-                                      // tool: 'Timbangan Digital',
-                                      controller: weightController,
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16),
-                                    ),
-                                    MeasurementWidget(
-                                      title: 'Lingkar Kepala',
-                                      hintText: 'contoh: 6.5',
-                                      unit: 'cm',
-                                      // tool: 'Alat Ukur Lingkar Kepala',
-                                      controller: headCircumferenceController,
-                                    ),
-                                  ],
+                                child: MeasurementWidget(
+                                  title: 'Berat Badan',
+                                  hintText: 'contoh: 6.5',
+                                  unit: 'kg',
+                                  // tool: 'Timbangan Digital',
+                                  controller: weightController,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          isAgeLessThanSixMonths == false ||
+                                  isAgeLessThanSixMonths == null
+                              ? Row(
+                                  spacing: 8,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: MeasurementWidget(
+                                        title: 'Lingkar Kepala',
+                                        hintText: 'contoh: 6.5',
+                                        unit: 'cm',
+                                        // tool: 'Alat Ukur Lingkar Kepala',
+                                        controller: headCircumferenceController,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: MeasurementWidget(
+                                        title: 'Lingkar Lengan Atas',
+                                        hintText: 'contoh: 3.5',
+                                        unit: 'cm',
+                                        // tool: 'Pita Lila',
+                                        controller:
+                                            upperArmCircumferenceController,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                          isAgeLessThanSixMonths == false ||
+                                  isAgeLessThanSixMonths == null
+                              ? SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(16))
+                              : SizedBox.shrink(),
                           Row(
                             children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Asi Ekskusif',
-                                      style: AppTextStyles.primaryTextNormal
-                                          .copyWith(
-                                        fontSize: 12,
+                              isAgeLessThanSixMonths == true ||
+                                      isAgeLessThanSixMonths == null
+                                  ? Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Asi Ekskusif',
+                                            style: AppTextStyles
+                                                .primaryTextNormal
+                                                .copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8),
+                                          ),
+                                          // radio button
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CustomRadioButton(
+                                                value: 1,
+                                                groupValue: asiEksklusifValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    asiEksklusifValue = value;
+                                                  });
+                                                },
+                                                label: 'Ya',
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                    .calHeightMultiplier(16),
+                                              ),
+                                              CustomRadioButton(
+                                                value: 0,
+                                                groupValue: asiEksklusifValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    asiEksklusifValue = value;
+                                                  });
+                                                },
+                                                label: 'Tidak',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(8),
-                                    ),
-                                    // radio button
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CustomRadioButton(
-                                          value: 1,
-                                          groupValue: asiEksklusifValue!,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              asiEksklusifValue = value;
-                                            });
-                                          },
-                                          label: 'Ya',
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.calHeightMultiplier(
-                                              16),
-                                        ),
-                                        CustomRadioButton(
-                                          value: 0,
-                                          groupValue: asiEksklusifValue!,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              asiEksklusifValue = value;
-                                            });
-                                          },
-                                          label: 'Tidak',
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'MPASI',
-                                      style: AppTextStyles.primaryTextNormal
-                                          .copyWith(
-                                        fontSize: 12,
+                                    )
+                                  : SizedBox.shrink(),
+                              isAgeLessThanSixMonths == false ||
+                                      isAgeLessThanSixMonths == null
+                                  ? Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'MPASI',
+                                            style: AppTextStyles
+                                                .primaryTextNormal
+                                                .copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8),
+                                          ),
+                                          // radio button
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CustomRadioButton(
+                                                value: 1,
+                                                groupValue: mpasiValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    mpasiValue = value;
+                                                  });
+                                                },
+                                                label: 'Ya',
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                    .calHeightMultiplier(16),
+                                              ),
+                                              CustomRadioButton(
+                                                value: 0,
+                                                groupValue: mpasiValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    mpasiValue = value;
+                                                  });
+                                                },
+                                                label: 'Tidak',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(8),
-                                    ),
-                                    // radio button
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        CustomRadioButton(
-                                          value: 1,
-                                          groupValue: mpasiValue!,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              mpasiValue = value;
-                                            });
-                                          },
-                                          label: 'Ya',
-                                        ),
-                                        SizedBox(
-                                          width: SizeConfig.calHeightMultiplier(
-                                              16),
-                                        ),
-                                        CustomRadioButton(
-                                          value: 0,
-                                          groupValue: mpasiValue!,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              mpasiValue = value;
-                                            });
-                                          },
-                                          label: 'Tidak',
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                    )
+                                  : SizedBox.shrink(),
                             ],
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
