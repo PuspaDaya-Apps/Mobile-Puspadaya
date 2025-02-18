@@ -39,6 +39,9 @@ import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
+import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
+import '../app/feature/faktorResiko/index/view/index_parameter_faktor_resiko.dart';
+import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
@@ -542,6 +545,34 @@ class MyRoute {
           builder: (context) => const E_PPGBM(),
           settings: settings,
         );
+
+      //! faktor resiko
+
+      case ANAK_FAKTOR_RESIKO:
+        return MaterialPageRoute(
+          builder: (context) => const IndexAnakFaktorResiko(),
+          settings: settings,
+        );
+
+      case BULAN_FAKTOR_RESIKO:
+        final id = settings.arguments as String? ?? '';
+        return MaterialPageRoute(
+          builder: (context) => SelectBulan(id: id),
+          settings: settings,
+        );
+
+      case PARAMETER_FAKTOR_RESIKO:
+        final args = settings.arguments as Map<String, String>;
+        final id = args['id'] as String? ?? '';
+        final bulan = args['bulan'] as String? ?? '';
+        return MaterialPageRoute(
+          builder: (context) => IndexParameterFaktorResiko(
+            id: id,
+            bulan: bulan,
+          ),
+          settings: settings,
+        );
+
       // ! maintenance
       case FEATURE_MAINTENANCE:
         final feature =
