@@ -9,11 +9,10 @@ import '../../create/model/pengukuran_anak_model.dart';
 
 class UpdatePengukuranAnakApi {
     Future<List<dynamic>> updatePengukuranAnakService (String token, PengukuranAnakModel pengukuranAnakModel, String pengukuranId) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPatchDataPengukuranAnak(pengukuranId);
+    final String link = ApiUtils().urlPatchDataPengukuranAnak(pengukuranId);
     final String body = json.encode(pengukuranAnakModel.toJson());
 
-    return await NetworkUtils().patch(link, header, body).then((response) {
+    return await NetworkUtils(token: token).patch(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });

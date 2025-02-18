@@ -24,8 +24,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       SharedPrefUtils().storedOnBoarding();
     });
 
-    on<GetAccesTokenEvent>(getAccesToken);
-
     on<LogoutEvent>(logout);
   }
 
@@ -73,37 +71,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     //     });
     //   }
     // });
-  }
-
-  Future<void> getAccesToken (GetAccesTokenEvent event, Emitter<AuthenticationState> emit) async {
-   
-    await SharedPrefUtils().getRefreshToken().then((valueRefreshToken) async {
-      if (valueRefreshToken == null) {
-        emit(AuthenticationFalse());
-      } else {
-        RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(valueRefreshToken));
-
-        try {
-          List<dynamic> response = await AuthenticationApi().getAccesTokenService(
-            AccessTokenModel(refreshToken: refreshTokenModel.refreshToken)
-          );
-
-          int statusCode = response[0] as int;
-          AccessTokenResponseModel accessTokenResponseModel = AccessTokenResponseModel.fromJson(response[1]);
-
-          if(statusCode == 200) {
-            SharedPrefUtils().storedAccessToken(accessTokenResponseModel.data!.accessToken);
-            emit(RefreshTokenValid());
-          } else if (statusCode == 401) {
-            emit(AuthenticationFalse());
-          } else {
-            emit(RefreshTokenFailed(accessTokenResponseModel.message));
-          }
-        } catch (error) {
-          emit(RefreshTokenFailed(error.toString()));
-        }
-      }
-    });
   }
 
   Future<void> logout (LogoutEvent event, Emitter<AuthenticationState> emit) async {

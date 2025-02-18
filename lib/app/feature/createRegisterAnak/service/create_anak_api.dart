@@ -8,11 +8,10 @@ import '../../../../../utils/network_utils/network_utils.dart';
 
 class CreateAnakApi {
   Future<List<dynamic>> createAnakService (String token, CreateAnakModel createAnakModel) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPostDataAnak();
+    final String link = ApiUtils().urlPostDataAnak();
     final String body = json.encode(createAnakModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils(token: token).post(link, body).then((response) {
       debugPrint(response.toString());
       debugPrint('test case');
       return response;
@@ -20,10 +19,10 @@ class CreateAnakApi {
   }
 
   Future<List<dynamic>> getKartuKeluargaService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetListOrangTua();
+    final String link = ApiUtils().urlGetListOrangTua();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       debugPrint('test case');
       return response;

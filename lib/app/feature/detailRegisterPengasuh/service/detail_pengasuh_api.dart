@@ -5,13 +5,12 @@ import '../../../../../utils/network_utils/network_utils.dart';
 
 class DetailPengasuhApi {
   Future<List<dynamic>> detailPengasuh (String token, String id) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetDetailPengasuh(id);
+    final String link = ApiUtils().urlGetDetailPengasuh(id);
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       return response;
     });
   }
-
 }

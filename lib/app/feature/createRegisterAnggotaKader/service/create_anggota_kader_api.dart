@@ -8,11 +8,10 @@ import '../model/create_anggota_kader_model.dart';
 
 class CreateAnggotaKaderApi{
   Future<List<dynamic>> createAnggotaKaderService (String token, CreateAnggotaKaderModel createAnggotaKaderModel) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPostDataAnggotaKader();
+    final String link = ApiUtils().urlPostDataAnggotaKader();
     final String body = json.encode(createAnggotaKaderModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils(token: token).post(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });

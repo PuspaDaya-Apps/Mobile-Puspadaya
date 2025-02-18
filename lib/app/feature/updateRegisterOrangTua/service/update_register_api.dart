@@ -9,11 +9,10 @@ import '../../../../utils/network_utils/network_utils.dart';
 class UpdateRegisterOrangTuaApi {
   Future<List<dynamic>> patchRegisterOrangTua(
       String token, PatchOrangTuaBody patchOrangtuaBody, String id) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPatchDataOrangTua(id);
+    final String link = ApiUtils().urlPatchDataOrangTua(id);
     final String body = json.encode(patchOrangtuaBody.toJson());
 
-    return await NetworkUtils().patch(link, header, body).then((response) {
+    return await NetworkUtils(token: token).patch(link, body).then((response) {
       logger.d(response.toString());
       return response;
     });
