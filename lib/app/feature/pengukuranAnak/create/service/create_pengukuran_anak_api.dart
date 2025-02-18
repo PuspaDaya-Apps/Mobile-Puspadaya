@@ -8,21 +8,20 @@ import '../model/pengukuran_anak_model.dart';
 
 class CreatePengukuranAnakApi {
   Future<List<dynamic>> pengukuranAnakService (String token, PengukuranAnakModel pengukuranAnakModel) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlPostDataPengukuranAnak();
+    final String link = ApiUtils().urlPostDataPengukuranAnak();
     final String body = json.encode(pengukuranAnakModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils(token: token).post(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });
   }
 
   Future<List<dynamic>> getAnakService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetAnakPosyandu();
+    final String link = ApiUtils().urlGetAnakPosyandu();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       return response;
     });

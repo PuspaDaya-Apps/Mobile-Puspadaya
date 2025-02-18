@@ -15,14 +15,6 @@ final class AuthenticationTrue extends AuthenticationState {}
 
 final class AuthenticationFalse extends AuthenticationState {}
 
-final class RefreshTokenValid extends AuthenticationState {}
-
-final class RefreshTokenFailed extends AuthenticationState {
-  final String error;
-
-  const RefreshTokenFailed(this.error);
-}
-
 final class LogoutSuccess extends AuthenticationState {}
 
 final class LogoutFailed extends AuthenticationState {

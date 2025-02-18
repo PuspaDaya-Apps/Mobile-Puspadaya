@@ -49,9 +49,6 @@ class _IndexPengukuranAnakScreenViewState
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if (state is RefreshTokenValid) {
-          indexPengukuranAnakBloc.add(GetPengukuranAnakEvent());
-        }
       },
       child: BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
         listener: (context, state) {
@@ -73,7 +70,6 @@ class _IndexPengukuranAnakScreenViewState
             );
           }
           if (state is IndexPengukuranAnakTokenExpiredState) {
-            authenticationBloc.add(GetAccesTokenEvent());
           }
         },
         builder: (context, state) {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import '../../../../../utils/api_utils/api_utils.dart';
@@ -7,10 +5,10 @@ import '../../../../../utils/network_utils/network_utils.dart';
 
 class IndexPengukuranAnakApi {
   Future<List<dynamic>> getpengukuranAnakService (String token) async {
-    final Map<String, String> header = ApiUtils().headerWithToken(token);
-    final Uri link = ApiUtils().urlGetListPengukuranAnak();
+    final String link = ApiUtils().urlGetListPengukuranAnak();
+    final Map<String, dynamic> parameterQuery = {};
 
-    return await NetworkUtils().get(link, header).then((response) {
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
       return response;
     });

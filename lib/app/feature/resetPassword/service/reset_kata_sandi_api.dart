@@ -8,11 +8,10 @@ import '../model/reset_kata_sandi_model.dart';
 
 class ResetKataSandiApi {
   Future<List<dynamic>> resetKataSandiService (ResetKataSandiModel resetKataSandiModel) async {
-    final Map<String, String> header = ApiUtils().header();
-    final Uri link = ApiUtils().urlResetPassword();
-    final String body = json.encode(resetKataSandiModel.toJson()); 
+    final String link = ApiUtils().urlResetPassword();
+    final String body = json.encode(resetKataSandiModel.toJson());
 
-    return await NetworkUtils().post(link, header, body).then((response) {
+    return await NetworkUtils().post(link, body).then((response) {
       debugPrint(response.toString());
       return response;
     });
