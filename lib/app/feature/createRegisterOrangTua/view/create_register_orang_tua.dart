@@ -69,10 +69,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController =
-      TextEditingController();
-  final TextEditingController tanggalLahirAyahController =
-      TextEditingController();
+  final TextEditingController tempatLahirAyahController = TextEditingController();
+  final TextEditingController tanggalLahirAyahController = TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
