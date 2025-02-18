@@ -10,8 +10,9 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
-import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
 import 'package:puspadaya/utils/helper/helper_data.dart';
+
+import '../../../monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
 
 class DetailPengukuranIbuHamil extends StatelessWidget {
   final RiwayatMonitoringIbuHamilModel detailPengukuranIbuHamil;

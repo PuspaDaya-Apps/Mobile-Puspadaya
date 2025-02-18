@@ -69,4 +69,30 @@ class HelperData {
 
     return umur;
   }
+
+  /// Fungsi untuk mengekstrak jumlah tahun dari teks
+  int extractYears(String text) {
+    int years = 0;
+    List<String> parts = text.split(" ");
+
+    for (int i = 0; i < parts.length; i++) {
+      if (parts[i] == "tahun" && i > 0) {
+        years = int.tryParse(parts[i - 1]) ?? 0;
+      }
+    }
+    return years;
+  }
+
+  /// Fungsi untuk mengekstrak jumlah bulan dari teks
+  int extractMonths(String text) {
+    int months = 0;
+    List<String> parts = text.split(" ");
+
+    for (int i = 0; i < parts.length; i++) {
+      if (parts[i] == "bulan" && i > 0) {
+        months = int.tryParse(parts[i - 1]) ?? 0;
+      }
+    }
+    return months;
+  }
 }

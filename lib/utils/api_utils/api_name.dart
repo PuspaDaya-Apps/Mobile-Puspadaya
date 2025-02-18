@@ -61,4 +61,11 @@ abstract class LinkApi {
 
   //!Dashboard
   static const DASHBOARDKADER = "/dashboard/posyandu";
+
+  //! monitoring
+  static const MONITORINGANAKSTUNTING = '/monitoring/anak/stunting';
+  static const MONITORINGANAKUNDERWEIGHT = '/monitoring/anak/gizi';
+  static const MONITORINGANAKWASTING = '/monitoring/anak/wasting';
+  static const MONITORINGIBUHAMIL = '/monitoring/ibu-hamil';
+  static const MONITORINGANAK = '/monitoring/anak';
 }
