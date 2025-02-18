@@ -115,7 +115,13 @@ const String PARAMETER_GIZI = '/parameter-gizi';
 //! laporan
 const String LAPORAN = '/laporan';
 
-//eppgb,
+//! eppgb,
 const String EPPGBM = '/eppgbm';
+
+//! faktor resiko
+const String ANAK_FAKTOR_RESIKO = '/faktor-resiko';
+const String BULAN_FAKTOR_RESIKO = '/faktor-resiko/bulan';
+const String PARAMETER_FAKTOR_RESIKO = '/faktor-resiko/parameter';
+
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';

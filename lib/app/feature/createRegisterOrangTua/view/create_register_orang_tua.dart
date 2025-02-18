@@ -661,32 +661,26 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           children: [
                                             // provinsi
                                             Expanded(
-                                              child: BlocBuilder<AlamatCubit,
-                                                  AlamatState>(
-                                                builder: (context, state) {
-                                                  return DropdownWidget(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return "Provinsi harus dipilih";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    items: selectProvinsi
-                                                        .map((provinsi) =>
-                                                            provinsi
-                                                                .namaProvinsi)
-                                                        .toSet() // Menghilangkan duplikasi
-                                                        .toList(),
-                                                    hint: 'Provinsi',
-                                                    value: selectedProvinsiAyah,
-                                                    onChanged: (value) {
-                                                      setState(() {
-                                                        selectedProvinsiAyah =
-                                                            value;
-                                                      });
-                                                    },
-                                                  );
+                                              child: DropdownWidget(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Provinsi harus dipilih";
+                                                  }
+                                                  return null;
+                                                },
+                                                items: selectProvinsi
+                                                    .map((provinsi) =>
+                                                        provinsi.namaProvinsi)
+                                                    .toSet() // Menghilangkan duplikasi
+                                                    .toList(),
+                                                hint: 'Provinsi',
+                                                value: selectedProvinsiAyah,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedProvinsiAyah =
+                                                        value;
+                                                  });
                                                 },
                                               ),
                                             ),
