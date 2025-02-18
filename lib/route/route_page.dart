@@ -10,11 +10,11 @@ import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
 import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
 import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
-import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_ibu_hamil.dart';
-import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_stunting.dart';
-import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_under_weight.dart';
-import 'package:puspadaya/app/feature/monitoring/detail/detail_monitoring_wasting.dart';
-import 'package:puspadaya/app/feature/monitoring/index/monitoring.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_stunting.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_under_weight.dart';
+import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_wasting.dart';
+import 'package:puspadaya/app/feature/monitoring/index/view/monitoring.dart';
 import 'package:puspadaya/app/feature/parameterGizi/view/parameter_gizi.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
@@ -466,37 +466,37 @@ class MyRoute {
           settings: settings,
         );
 
-      // case DETAIL_MONITORING_STUNTING:
-      //   final String id =
-      //       settings.arguments as String; // Cast directly to String
-      //   return MaterialPageRoute(
-      //     builder: (context) => DetailMonitoringStunting(id: id),
-      //     settings: settings,
-      //   );
+      case DETAIL_MONITORING_STUNTING:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringStunting(id: id),
+          settings: settings,
+        );
 
-      // case DETAIL_MONITORING_UNDER_WEIGHT:
-      //   final String id =
-      //       settings.arguments as String; // Cast directly to String
-      //   return MaterialPageRoute(
-      //     builder: (context) => DetailMonitoringUnderWeight(id: id),
-      //     settings: settings,
-      //   );
+      case DETAIL_MONITORING_UNDER_WEIGHT:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringUnderWeight(id: id),
+          settings: settings,
+        );
 
-      // case DETAIL_MONITORING_WASTING:
-      //   final String id =
-      //       settings.arguments as String; // Cast directly to String
-      //   return MaterialPageRoute(
-      //     builder: (context) => DetailMonitoringWasting(id: id),
-      //     settings: settings,
-      //   );
+      case DETAIL_MONITORING_WASTING:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringWasting(id: id),
+          settings: settings,
+        );
 
-      // case DETAIL_MONITORING_IBU_HAMIL:
-      //   final String id =
-      //       settings.arguments as String; // Cast directly to String
-      //   return MaterialPageRoute(
-      //     builder: (context) => DetailMonitoringIbuHamil(id: id),
-      //     settings: settings,
-      //   );
+      case DETAIL_MONITORING_IBU_HAMIL:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailMonitoringIbuHamil(id: id),
+          settings: settings,
+        );
 
       //? AnggotaKader
       case REGISTER_ANGGOTA_KADER:

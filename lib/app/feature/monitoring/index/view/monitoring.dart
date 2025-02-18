@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:puspadaya/app/feature/monitoring/index/data_ibu_hamil.dart';
-import 'package:puspadaya/app/feature/monitoring/index/data_stunting.dart';
-import 'package:puspadaya/app/feature/monitoring/index/data_under_weight.dart';
-import 'package:puspadaya/app/feature/monitoring/index/data_wasting.dart';
+import 'package:puspadaya/app/feature/monitoring/index/view/data_ibu_hamil.dart';
+import 'package:puspadaya/app/feature/monitoring/index/view/data_stunting.dart';
+import 'package:puspadaya/app/feature/monitoring/index/view/data_under_weight.dart';
+import 'package:puspadaya/app/feature/monitoring/index/view/data_wasting.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
-import '../../../../utils/logger/logger.dart';
+import '../../../../../utils/logger/logger.dart';
 
 class Monitoring extends StatelessWidget {
   const Monitoring({super.key});
