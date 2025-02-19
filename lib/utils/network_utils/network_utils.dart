@@ -22,7 +22,7 @@ class NetworkUtils {
       BaseOptions(
         contentType: 'application/json',
         responseType: ResponseType.json,
-        validateStatus: (_) => true        
+        validateStatus: (status) => true        
       )
     );
   
