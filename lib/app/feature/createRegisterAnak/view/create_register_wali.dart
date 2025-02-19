@@ -23,6 +23,8 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
+import '../cubit/generate_kk_cubit.dart';
+import '../cubit/generate_nik_cubit.dart';
 import '../model/create_anak_model.dart';
 
 class CreateRegisterWali extends StatelessWidget {
@@ -34,6 +36,8 @@ class CreateRegisterWali extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => GenerateKkCubit()),
+        BlocProvider(create: (context) => GenerateNikCubit()),
         BlocProvider(
           create: (context) => AlamatSaveCubit(),
         ),
@@ -83,7 +87,6 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
 
   // Controller untuk Data Wali
   String? selectedStatusHubunganDenganAnak;
-
 
   String? selectedGolDarahWali;
 
@@ -138,8 +141,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
         _tanggalLahirController.text.isNotEmpty &&
         selectedKabupaten !=
             null && // Check if selectedKabupatenWali is not null
-        selectedKecamatan !=
-            null; // Check if selectedDusunWaliId is not null
+        selectedKecamatan != null; // Check if selectedDusunWaliId is not null
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -192,10 +194,11 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                     ),
                   ),
                 );
-              } 
+              }
               if (state is GetAlamatSuccessState) {
-                if(dataKabupatenKota.isEmpty) {
-                  dataKabupatenKota.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                if (dataKabupatenKota.isEmpty) {
+                  dataKabupatenKota
+                      .addAll(state.dataWilayahModel.provinsi.kabupatenKota);
                 }
 
                 return Container(
@@ -237,50 +240,66 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        Row(
-                          spacing: 8,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: TextFieldWidget(
-                                controller: _kkController,
-                                hintText: 'Masukan Nomor Kartu Keluarga',
-                                isPasswordField: false,
-                                keyboardType: TextInputType.number,
-                                obscureText: false,
-                                validators: [
-                                  (value) => Validator.required(value,
-                                      "Kartu Keluarga tidak boleh kosong"),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width /
-                                  3.4, // Atur lebar minimum untuk tombol
-                              child: GenerateButtonWidget(
-                                onPressed: () {
-                                  // Validasi sebelum mengizinkan generate
-                                  if (_isGenerateWaliValid()) {
-                                    // Logika untuk generate
-                                    print("Generate button pressed");
-                                  } else {
-                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                    showTopSnackBar(
-                                        Overlay.of(context),
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        displayDuration:
-                                            const Duration(milliseconds: 2200),
-                                        reverseAnimationDuration:
-                                            const Duration(milliseconds: 300),
-                                        TopSnackbarWidget().error(
-                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
+                        BlocConsumer<GenerateKkCubit, GenerateKkState>(
+                          listener: (context, state) {
+                            if (state is GenerateKKSuccess) {
+                              _kkController.text =
+                                  state.data.data.nomorKartuKeluarga;
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is GenerateKKLoading) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return Row(
+                              spacing: 8,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: TextFieldWidget(
+                                    controller: _kkController,
+                                    hintText: 'Masukan Nomor Kartu Keluarga',
+                                    isPasswordField: false,
+                                    keyboardType: TextInputType.number,
+                                    obscureText: false,
+                                    validators: [
+                                      (value) => Validator.required(value,
+                                          "Kartu Keluarga tidak boleh kosong"),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width /
+                                      3.4, // Atur lebar minimum untuk tombol
+                                  child: GenerateButtonWidget(
+                                    onPressed: () {
+                                      // Validasi sebelum mengizinkan generate
+                                      if (_isGenerateWaliValid()) {
+                                        // Logika untuk generate
+                                        print("Generate button pressed");
+                                      } else {
+                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                        showTopSnackBar(
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget().error(
+                                                'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
@@ -288,54 +307,74 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        Row(
-                          spacing: 8,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex:
-                                  7, // Adjust this value to make the TextField larger
-                              child: TextFieldWidget(
-                                controller: _nikController,
-                                hintText: 'NIK',
-                                keyboardType: TextInputType.number,
-                                obscureText: false,
-                                isPasswordField: false,
-                                validators: [
-                                  (value) => Validator.consistOf(value, 16,
-                                      "NIk Wali harus terdiri atas 16 digit"),
-                                  (value) => Validator.required(
-                                      value, "NIK Wali tidak boleh kosong"),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width /
-                                  3.4, // Atur lebar minimum untuk tombol
-                              child: GenerateButtonWidget(
-                                onPressed: () {
-                                  // Validasi sebelum mengizinkan generate
-                                  if (_isGenerateWaliValid()) {
-                                    // Logika untuk generate
-                                    print("Generate button pressed");
-                                  } else {
-                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                    showTopSnackBar(
-                                        Overlay.of(context),
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        displayDuration:
-                                            const Duration(milliseconds: 2200),
-                                        reverseAnimationDuration:
-                                            const Duration(milliseconds: 300),
-                                        TopSnackbarWidget().error(
-                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
+                        BlocConsumer<GenerateNikCubit, GenerateNikState>(
+                          listener: (context, state) {
+                            if (state is GenerateNikSuccess) {
+                              _nikController.text =
+                                  state.data.data.nomorIndukKeluarga;
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is GenerateNikLoading) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return Row(
+                              spacing: 8,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex:
+                                      7, // Adjust this value to make the TextField larger
+                                  child: TextFieldWidget(
+                                    controller: _nikController,
+                                    hintText: 'NIK',
+                                    keyboardType: TextInputType.text,
+                                    obscureText: false,
+                                    isPasswordField: false,
+                                    validators: [
+                                      (value) => Validator.consistOf(value, 16,
+                                          "NIk Wali harus terdiri atas 16 digit"),
+                                      (value) => Validator.required(
+                                          value, "NIK Wali tidak boleh kosong"),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width /
+                                      3.4, // Atur lebar minimum untuk tombol
+                                  child: GenerateButtonWidget(
+                                    onPressed: () {
+                                      // Validasi sebelum mengizinkan generate
+                                      if (_isGenerateWaliValid()) {
+                                        // Logika untuk generate
+                                        print("Generate button pressed");
+                                        context
+                                            .read<GenerateNikCubit>()
+                                            .getGenerateNik(_kkController.text,
+                                                _tanggalLahirController.text);
+                                      } else {
+                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                        showTopSnackBar(
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget().error(
+                                                'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
@@ -430,16 +469,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           children: [
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataKabupatenKota.isNotEmpty ? false : true,
-                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                ignoring:
+                                    dataKabupatenKota.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataKabupatenKota>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedKabupaten, // Ini bisa null
                                   hint: Text(
                                     "Kabupaten",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -481,9 +524,13 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Kabupaten",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
                                           color: Colors.grey,
                                         ),
                                     filled: true,
@@ -494,16 +541,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -511,16 +562,19 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             ),
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataKecamatan.isNotEmpty ? false : true,
+                                ignoring:
+                                    dataKecamatan.isNotEmpty ? false : true,
                                 child: DropdownButtonFormField2<DataKecamatan>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedKecamatan, // Ini bisa null
                                   hint: Text(
                                     "Kecamatan",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -548,7 +602,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     setState(() {
                                       selectedKecamatan = value;
                                       dataDesaKelurahan.clear();
-                                      dataDesaKelurahan.addAll(value!.desaKelurahan);
+                                      dataDesaKelurahan
+                                          .addAll(value!.desaKelurahan);
 
                                       //clear list
                                       dataDusun.clear();
@@ -561,11 +616,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Kecamatan",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -574,16 +633,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -599,16 +662,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           children: [
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataDesaKelurahan.isNotEmpty ? false : true,
-                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                ignoring:
+                                    dataDesaKelurahan.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataDesaKelurahan>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedDesa, // Ini bisa null
                                   hint: Text(
                                     "Desa",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -645,11 +712,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Desa",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -658,16 +729,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -678,13 +753,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 ignoring: dataDusun.isNotEmpty ? false : true,
                                 child: DropdownButtonFormField2<DataDusun>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedDusun, // Ini bisa null
                                   hint: Text(
                                     "Dusun",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -716,11 +793,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Dusun",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -729,16 +810,20 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -966,7 +1051,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                     ),
                   ),
                 );
-              } 
+              }
               return Container();
             },
           ),

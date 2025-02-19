@@ -7,7 +7,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
+import '../../../monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
 
 class DetailRiwayatIbuHamil extends StatelessWidget {
   final RiwayatMonitoringIbuHamilModel riwayatIbuHamil;

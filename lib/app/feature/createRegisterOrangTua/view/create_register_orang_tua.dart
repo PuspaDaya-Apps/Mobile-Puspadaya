@@ -32,6 +32,7 @@ import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../../alatUkur/detail/view/detail_alat_ukur.dart';
+import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
 import '../bloc/create_register_orang_tua_bloc.dart';
 import '../model/post_orang_tua_body.dart';
 
@@ -42,6 +43,8 @@ class CreateRegisterOrangTua extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => GenerateKkCubit()),
+        BlocProvider(create: (context) => GenerateNikCubit()),
         BlocProvider<AlamatSaveCubit>(
           create: (BuildContext context) => AlamatSaveCubit(),
         ),
@@ -72,8 +75,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController = TextEditingController();
-  final TextEditingController tanggalLahirAyahController = TextEditingController();
+  final TextEditingController tempatLahirAyahController =
+      TextEditingController();
+  final TextEditingController tanggalLahirAyahController =
+      TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -372,16 +377,18 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                       if (state is GetAlamatProccessState) {
                         return const Expanded(
                           child: Center(
-                            child: CircularProgressIndicator(
-                              color: bluePrimaryMain,
-                            )
-                          ),
+                              child: CircularProgressIndicator(
+                            color: bluePrimaryMain,
+                          )),
                         );
                       }
                       if (state is GetAlamatSuccessState) {
-                        if(dataKabupatenKotaAyah.isEmpty || dataKabupatenKotaIbu.isEmpty) {
-                          dataKabupatenKotaAyah.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
-                          dataKabupatenKotaIbu.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                        if (dataKabupatenKotaAyah.isEmpty ||
+                            dataKabupatenKotaIbu.isEmpty) {
+                          dataKabupatenKotaAyah.addAll(
+                              state.dataWilayahModel.provinsi.kabupatenKota);
+                          dataKabupatenKotaIbu.addAll(
+                              state.dataWilayahModel.provinsi.kabupatenKota);
                         }
 
                         return Expanded(
@@ -408,70 +415,91 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           height:
                                               SizeConfig.calHeightMultiplier(8),
                                         ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          spacing: 8,
-                                          children: [
-                                            Expanded(
-                                              flex:
-                                                  3, // Mengatur lebar TextField
-                                              child: TextFieldWidget(
-                                                controller: kkAyahController,
-                                                hintText: 'Masukan Nomor KK',
-                                                isPasswordField: false,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                obscureText: false,
-                                                validators: [
-                                                  (value) => Validator.consistOf(
-                                                      value,
-                                                      16,
-                                                      "KK harus terdiri atas 16 digit"),
-                                                  (value) => Validator.required(
-                                                      value,
-                                                      "KK ayah tidak boleh kosong"),
-                                                ],
-                                              ),
-                                            ),
+                                        BlocConsumer<GenerateKkCubit,
+                                            GenerateKkState>(
+                                          listener: (context, state) {
+                                            if (state is GenerateKKSuccess) {
+                                              kkAyahController.text = state
+                                                  .data.data.nomorKartuKeluarga;
+                                            }
+                                          },
+                                          builder: (context, state) {
+                                            if (state is GenerateKKLoading) {
+                                              return const Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
+                                            return Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              spacing: 8,
+                                              children: [
+                                                Expanded(
+                                                  flex:
+                                                      3, // Mengatur lebar TextField
+                                                  child: TextFieldWidget(
+                                                    controller:
+                                                        kkAyahController,
+                                                    hintText:
+                                                        'Masukan Nomor KK',
+                                                    isPasswordField: false,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    obscureText: false,
+                                                    validators: [
+                                                      (value) =>
+                                                          Validator.consistOf(
+                                                              value,
+                                                              16,
+                                                              "KK harus terdiri atas 16 digit"),
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "KK ayah tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ),
 
-                                            // Button Generate
-                                            SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width /
-                                                  3.4, // Atur lebar minimum untuk tombol
-                                              child: GenerateButtonWidget(
-                                                onPressed: () {
-                                                  // Validasi sebelum mengizinkan generate
-                                                  if (_isGenerateAyahValid()) {
-                                                    // Logika untuk generate
-                                                    print(
-                                                        "Generate button pressed");
-                                                  } else {
-                                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                                    showTopSnackBar(
-                                                        Overlay.of(context),
-                                                        animationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                        displayDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    2200),
-                                                        reverseAnimationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    300),
-                                                        TopSnackbarWidget().error(
-                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                                // Button Generate
+                                                SizedBox(
+                                                  width: MediaQuery.sizeOf(
+                                                              context)
+                                                          .width /
+                                                      3.4, // Atur lebar minimum untuk tombol
+                                                  child: GenerateButtonWidget(
+                                                    onPressed: () {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateAyahValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                        showTopSnackBar(
+                                                            Overlay.of(context),
+                                                            animationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        600),
+                                                            displayDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        2200),
+                                                            reverseAnimationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            TopSnackbarWidget()
+                                                                .error(
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
 
                                         SizedBox(
@@ -486,66 +514,95 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             height:
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          spacing: 8,
-                                          children: [
-                                            Expanded(
-                                              child: TextFieldWidget(
-                                                controller: nikAyahController,
-                                                hintText: 'Masukan NIK',
-                                                isPasswordField: false,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                obscureText: false,
-                                                validators: [
-                                                  (value) => Validator.consistOf(
-                                                      value,
-                                                      16,
-                                                      "NIK ayah harus terdiri atas 16 digit"),
-                                                  (value) => Validator.required(
-                                                      value,
-                                                      "NIK ayah tidak boleh kosong"),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width /
-                                                  3.4, // Atur lebar minimum untuk tombol
-                                              child: GenerateButtonWidget(
-                                                onPressed: () {
-                                                  // Validasi sebelum mengizinkan generate
-                                                  if (_isGenerateAyahValid()) {
-                                                    // Logika untuk generate
-                                                    print(
-                                                        "Generate button pressed");
-                                                  } else {
-                                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                                    showTopSnackBar(
-                                                        Overlay.of(context),
-                                                        animationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                        displayDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    2200),
-                                                        reverseAnimationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    300),
-                                                        TopSnackbarWidget().error(
-                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                        BlocConsumer<GenerateNikCubit,
+                                            GenerateNikState>(
+                                          listener: (context, state) {
+                                            if (state is GenerateNikSuccess) {
+                                              nikAyahController.text = state
+                                                  .data.data.nomorIndukKeluarga;
+                                            }
+                                          },
+                                          builder: (context, state) {
+                                            if (state is GenerateNikLoading) {
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                            return Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              spacing: 8,
+                                              children: [
+                                                Expanded(
+                                                  child: TextFieldWidget(
+                                                    controller:
+                                                        nikAyahController,
+                                                    hintText: 'Masukan NIK',
+                                                    isPasswordField: false,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    obscureText: false,
+                                                    validators: [
+                                                      (value) =>
+                                                          Validator.consistOf(
+                                                              value,
+                                                              16,
+                                                              "NIK ayah harus terdiri atas 16 digit"),
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "NIK ayah tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.sizeOf(
+                                                              context)
+                                                          .width /
+                                                      3.4, // Atur lebar minimum untuk tombol
+                                                  child: GenerateButtonWidget(
+                                                    onPressed: () {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateAyahValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                        context
+                                                            .read<
+                                                                GenerateNikCubit>()
+                                                            .getGenerateNik(
+                                                                nikAyahController
+                                                                    .text,
+                                                                tanggalLahirAyahController
+                                                                    .text);
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                        showTopSnackBar(
+                                                            Overlay.of(context),
+                                                            animationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        600),
+                                                            displayDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        2200),
+                                                            reverseAnimationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            TopSnackbarWidget()
+                                                                .error(
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
 
                                         SizedBox(
@@ -666,55 +723,80 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     8)),
                                         Row(
                                           spacing: 8,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataKabupatenKotaAyah.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                                ignoring: dataKabupatenKotaAyah
+                                                        .isNotEmpty
+                                                    ? false
+                                                    : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataKabupatenKota>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedKabupatenAyah, // Ini bisa null
+                                                  value:
+                                                      selectedKabupatenAyah, // Ini bisa null
                                                   hint: Text(
                                                     "Kabupaten",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataKabupatenKotaAyah.map((item) {
-                                                    return DropdownMenuItem<DataKabupatenKota>(
+                                                  items: dataKabupatenKotaAyah
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataKabupatenKota>(
                                                       value: item,
-                                                      child: Text(item.namaKabupatenKota),
+                                                      child: Text(item
+                                                          .namaKabupatenKota),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      selectedKabupatenAyah = value;
+                                                      selectedKabupatenAyah =
+                                                          value;
                                                       dataKecamatanAyah.clear();
-                                                      dataKecamatanAyah.addAll(value!.kecamatan);
+                                                      dataKecamatanAyah.addAll(
+                                                          value!.kecamatan);
                                                       //clear list
-                                                      dataDesaKelurahanAyah.clear();
+                                                      dataDesaKelurahanAyah
+                                                          .clear();
                                                       dataDusunAyah.clear();
 
                                                       //clear data
-                                                      selectedKecamatanAyah = null;
+                                                      selectedKecamatanAyah =
+                                                          null;
                                                       selectedDesaAyah = null;
                                                       selectedDusunAyah = null;
                                                     });
@@ -722,29 +804,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Kabupaten",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
                                                           color: Colors.grey,
                                                         ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -752,44 +868,67 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataKecamatanAyah.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataKecamatan>(
+                                                ignoring:
+                                                    dataKecamatanAyah.isNotEmpty
+                                                        ? false
+                                                        : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataKecamatan>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedKecamatanAyah, // Ini bisa null
+                                                  value:
+                                                      selectedKecamatanAyah, // Ini bisa null
                                                   hint: Text(
                                                     "Kecamatan",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataKecamatanAyah.map((item) {
-                                                    return DropdownMenuItem<DataKecamatan>(
+                                                  items: dataKecamatanAyah
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataKecamatan>(
                                                       value: item,
-                                                      child: Text(item.namaKecamatan),
+                                                      child: Text(
+                                                          item.namaKecamatan),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      selectedKecamatanAyah = value;
-                                                      dataDesaKelurahanAyah.clear();
-                                                      dataDesaKelurahanAyah.addAll(value!.desaKelurahan);
+                                                      selectedKecamatanAyah =
+                                                          value;
+                                                      dataDesaKelurahanAyah
+                                                          .clear();
+                                                      dataDesaKelurahanAyah
+                                                          .addAll(value!
+                                                              .desaKelurahan);
 
                                                       //clear list
                                                       dataDusunAyah.clear();
@@ -802,29 +941,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Kecamatan",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -832,52 +1005,77 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
                                         Row(
                                           spacing: 8,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataDesaKelurahanAyah.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                                ignoring: dataDesaKelurahanAyah
+                                                        .isNotEmpty
+                                                    ? false
+                                                    : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataDesaKelurahan>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedDesaAyah, // Ini bisa null
+                                                  value:
+                                                      selectedDesaAyah, // Ini bisa null
                                                   hint: Text(
                                                     "Desa",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataDesaKelurahanAyah.map((item) {
-                                                    return DropdownMenuItem<DataDesaKelurahan>(
+                                                  items: dataDesaKelurahanAyah
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataDesaKelurahan>(
                                                       value: item,
-                                                      child: Text(item.namaDesaKelurahan),
+                                                      child: Text(item
+                                                          .namaDesaKelurahan),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
                                                       selectedDesaAyah = value;
                                                       dataDusunAyah.clear();
-                                                      dataDusunAyah.addAll(value!.dusun);
+                                                      dataDusunAyah
+                                                          .addAll(value!.dusun);
 
                                                       //clear data
                                                       selectedDusunAyah = null;
@@ -886,29 +1084,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Desa",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -916,37 +1148,56 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataDusunAyah.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataDusun>(
+                                                ignoring:
+                                                    dataDusunAyah.isNotEmpty
+                                                        ? false
+                                                        : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataDusun>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedDusunAyah, // Ini bisa null
+                                                  value:
+                                                      selectedDusunAyah, // Ini bisa null
                                                   hint: Text(
                                                     "Dusun",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataDusunAyah.map((item) {
-                                                    return DropdownMenuItem<DataDusun>(
+                                                  items:
+                                                      dataDusunAyah.map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataDusun>(
                                                       value: item,
-                                                      child: Text(item.namaDusun),
+                                                      child:
+                                                          Text(item.namaDusun),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
@@ -957,29 +1208,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Dusun",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -987,7 +1272,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
                                         Row(
                                           spacing: 8,
                                           crossAxisAlignment:
@@ -1199,66 +1487,86 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             height:
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          spacing: 8,
-                                          children: [
-                                            Expanded(
-                                              child: TextFieldWidget(
-                                                controller: kkIbuController,
-                                                hintText: 'Masukan Nomor KK',
-                                                isPasswordField: false,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                obscureText: false,
-                                                validators: [
-                                                  (value) => Validator.consistOf(
-                                                      value,
-                                                      16,
-                                                      "KK harus terdiri atas 16 digit"),
-                                                  (value) => Validator.required(
-                                                      value,
-                                                      "KK Ibu tidak boleh kosong"),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width /
-                                                  3.4, // Atur lebar minimum untuk tombol
-                                              child: GenerateButtonWidget(
-                                                onPressed: () {
-                                                  // Validasi sebelum mengizinkan generate
-                                                  if (_isGenerateIbuValid()) {
-                                                    // Logika untuk generate
-                                                    print(
-                                                        "Generate button pressed");
-                                                  } else {
-                                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                                    showTopSnackBar(
-                                                        Overlay.of(context),
-                                                        animationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                        displayDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    2200),
-                                                        reverseAnimationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    300),
-                                                        TopSnackbarWidget().error(
-                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                        BlocConsumer<GenerateKkCubit,
+                                            GenerateKkState>(
+                                          listener: (context, state) {
+                                            if (state is GenerateKKSuccess) {
+                                              kkIbuController.text = state
+                                                  .data.data.nomorKartuKeluarga;
+                                            }
+                                          },
+                                          builder: (context, state) {
+                                            if (state is GenerateKKLoading) {
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            }
+                                            return Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              spacing: 8,
+                                              children: [
+                                                Expanded(
+                                                  child: TextFieldWidget(
+                                                    controller: kkIbuController,
+                                                    hintText:
+                                                        'Masukan Nomor KK',
+                                                    isPasswordField: false,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    obscureText: false,
+                                                    validators: [
+                                                      (value) =>
+                                                          Validator.consistOf(
+                                                              value,
+                                                              16,
+                                                              "KK harus terdiri atas 16 digit"),
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "KK Ibu tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.sizeOf(
+                                                              context)
+                                                          .width /
+                                                      3.4, // Atur lebar minimum untuk tombol
+                                                  child: GenerateButtonWidget(
+                                                    onPressed: () {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateIbuValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                        showTopSnackBar(
+                                                            Overlay.of(context),
+                                                            animationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        600),
+                                                            displayDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        2200),
+                                                            reverseAnimationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            TopSnackbarWidget()
+                                                                .error(
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                         SizedBox(
                                             height:
@@ -1273,66 +1581,95 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
 
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          spacing: 8,
-                                          children: [
-                                            Expanded(
-                                              child: TextFieldWidget(
-                                                controller: nikIbuController,
-                                                hintText: 'Masukan NIK',
-                                                isPasswordField: false,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                obscureText: false,
-                                                validators: [
-                                                  (value) => Validator.consistOf(
-                                                      value,
-                                                      16,
-                                                      "NIk Ibu harus terdiri atas 16 digit"),
-                                                  (value) => Validator.required(
-                                                      value,
-                                                      "NIK Ibu tidak boleh kosong"),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width /
-                                                  3.4, // Atur lebar minimum untuk tombol
-                                              child: GenerateButtonWidget(
-                                                onPressed: () {
-                                                  // Validasi sebelum mengizinkan generate
-                                                  if (_isGenerateIbuValid()) {
-                                                    // Logika untuk generate
-                                                    print(
-                                                        "Generate button pressed");
-                                                  } else {
-                                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                                    showTopSnackBar(
-                                                        Overlay.of(context),
-                                                        animationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    600),
-                                                        displayDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    2200),
-                                                        reverseAnimationDuration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    300),
-                                                        TopSnackbarWidget().error(
-                                                            'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                        BlocConsumer<GenerateNikCubit,
+                                            GenerateNikState>(
+                                          listener: (context, state) {
+                                            if (state is GenerateNikSuccess) {
+                                              nikIbuController.text = state
+                                                  .data.data.nomorIndukKeluarga;
+                                            }
+                                          },
+                                          builder: (context, state) {
+                                            if (state is GenerateNikLoading) {
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            }
+                                            return Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              spacing: 8,
+                                              children: [
+                                                Expanded(
+                                                  child: TextFieldWidget(
+                                                    controller:
+                                                        nikIbuController,
+                                                    hintText: 'Masukan NIK',
+                                                    isPasswordField: false,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    obscureText: false,
+                                                    validators: [
+                                                      (value) =>
+                                                          Validator.consistOf(
+                                                              value,
+                                                              16,
+                                                              "NIk Ibu harus terdiri atas 16 digit"),
+                                                      (value) => Validator.required(
+                                                          value,
+                                                          "NIK Ibu tidak boleh kosong"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.sizeOf(
+                                                              context)
+                                                          .width /
+                                                      3.4, // Atur lebar minimum untuk tombol
+                                                  child: GenerateButtonWidget(
+                                                    onPressed: () {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateIbuValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                        context
+                                                            .read<
+                                                                GenerateNikCubit>()
+                                                            .getGenerateNik(
+                                                                kkIbuController
+                                                                    .text,
+                                                                tanggalLahirIbuController
+                                                                    .text);
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                        showTopSnackBar(
+                                                            Overlay.of(context),
+                                                            animationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        600),
+                                                            displayDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        2200),
+                                                            reverseAnimationDuration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            TopSnackbarWidget()
+                                                                .error(
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                         SizedBox(
                                             height:
@@ -1452,55 +1789,80 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     8)),
                                         Row(
                                           spacing: 8,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataKabupatenKotaIbu.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                                ignoring: dataKabupatenKotaIbu
+                                                        .isNotEmpty
+                                                    ? false
+                                                    : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataKabupatenKota>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedKabupatenIbu, // Ini bisa null
+                                                  value:
+                                                      selectedKabupatenIbu, // Ini bisa null
                                                   hint: Text(
                                                     "Kabupaten",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataKabupatenKotaIbu.map((item) {
-                                                    return DropdownMenuItem<DataKabupatenKota>(
+                                                  items: dataKabupatenKotaIbu
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataKabupatenKota>(
                                                       value: item,
-                                                      child: Text(item.namaKabupatenKota),
+                                                      child: Text(item
+                                                          .namaKabupatenKota),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      selectedKabupatenIbu = value;
+                                                      selectedKabupatenIbu =
+                                                          value;
                                                       dataKecamatanIbu.clear();
-                                                      dataKecamatanIbu.addAll(value!.kecamatan);
+                                                      dataKecamatanIbu.addAll(
+                                                          value!.kecamatan);
                                                       //clear list
-                                                      dataDesaKelurahanIbu.clear();
+                                                      dataDesaKelurahanIbu
+                                                          .clear();
                                                       dataDusunIbu.clear();
 
                                                       //clear data
-                                                      selectedKecamatanIbu = null;
+                                                      selectedKecamatanIbu =
+                                                          null;
                                                       selectedDesaIbu = null;
                                                       selectedDusunIbu = null;
                                                     });
@@ -1508,29 +1870,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Kabupaten",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
                                                           color: Colors.grey,
                                                         ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -1538,44 +1934,67 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataKecamatanIbu.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataKecamatan>(
+                                                ignoring:
+                                                    dataKecamatanIbu.isNotEmpty
+                                                        ? false
+                                                        : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataKecamatan>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedKecamatanIbu, // Ini bisa null
+                                                  value:
+                                                      selectedKecamatanIbu, // Ini bisa null
                                                   hint: Text(
                                                     "Kecamatan",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataKecamatanIbu.map((item) {
-                                                    return DropdownMenuItem<DataKecamatan>(
+                                                  items: dataKecamatanIbu
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataKecamatan>(
                                                       value: item,
-                                                      child: Text(item.namaKecamatan),
+                                                      child: Text(
+                                                          item.namaKecamatan),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      selectedKecamatanIbu = value;
-                                                      dataDesaKelurahanIbu.clear();
-                                                      dataDesaKelurahanIbu.addAll(value!.desaKelurahan);
+                                                      selectedKecamatanIbu =
+                                                          value;
+                                                      dataDesaKelurahanIbu
+                                                          .clear();
+                                                      dataDesaKelurahanIbu
+                                                          .addAll(value!
+                                                              .desaKelurahan);
 
                                                       //clear list
                                                       dataDusunIbu.clear();
@@ -1588,29 +2007,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Kecamatan",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -1618,52 +2071,77 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
                                         Row(
                                           spacing: 8,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataDesaKelurahanIbu.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                                ignoring: dataDesaKelurahanIbu
+                                                        .isNotEmpty
+                                                    ? false
+                                                    : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataDesaKelurahan>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedDesaIbu, // Ini bisa null
+                                                  value:
+                                                      selectedDesaIbu, // Ini bisa null
                                                   hint: Text(
                                                     "Desa",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataDesaKelurahanIbu.map((item) {
-                                                    return DropdownMenuItem<DataDesaKelurahan>(
+                                                  items: dataDesaKelurahanIbu
+                                                      .map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataDesaKelurahan>(
                                                       value: item,
-                                                      child: Text(item.namaDesaKelurahan),
+                                                      child: Text(item
+                                                          .namaDesaKelurahan),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
                                                     setState(() {
                                                       selectedDesaIbu = value;
                                                       dataDusunIbu.clear();
-                                                      dataDusunIbu.addAll(value!.dusun);
+                                                      dataDusunIbu
+                                                          .addAll(value!.dusun);
 
                                                       //clear data
                                                       selectedDusunIbu = null;
@@ -1672,29 +2150,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Desa",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -1702,37 +2214,56 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                             Expanded(
                                               child: IgnorePointer(
-                                                ignoring: dataDusunIbu.isNotEmpty ? false : true,
-                                                child: DropdownButtonFormField2<DataDusun>(
+                                                ignoring:
+                                                    dataDusunIbu.isNotEmpty
+                                                        ? false
+                                                        : true,
+                                                child: DropdownButtonFormField2<
+                                                    DataDusun>(
                                                   isExpanded: true,
-                                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
                                                     fontSize: 12,
                                                   ),
-                                                  value: selectedDusunIbu, // Ini bisa null
+                                                  value:
+                                                      selectedDusunIbu, // Ini bisa null
                                                   hint: Text(
                                                     "Dusun",
-                                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                                    style: AppTextStyles
+                                                        .secoundaryTextNormal
+                                                        .copyWith(
                                                       fontSize: 12,
                                                     ),
                                                   ),
-                                                  buttonStyleData: const ButtonStyleData(
+                                                  buttonStyleData:
+                                                      const ButtonStyleData(
                                                     elevation: 0,
                                                   ),
-                                                  dropdownStyleData: DropdownStyleData(
+                                                  dropdownStyleData:
+                                                      DropdownStyleData(
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.grey),
-                                                      borderRadius: const BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
+                                                      border: Border.all(
+                                                          color: Colors.grey),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .only(
+                                                        bottomRight:
+                                                            Radius.circular(10),
+                                                        bottomLeft:
+                                                            Radius.circular(10),
                                                       ),
                                                       color: backgroundWhite10,
                                                     ),
                                                     elevation: 0,
                                                   ),
-                                                  items: dataDusunIbu.map((item) {
-                                                    return DropdownMenuItem<DataDusun>(
+                                                  items:
+                                                      dataDusunIbu.map((item) {
+                                                    return DropdownMenuItem<
+                                                        DataDusun>(
                                                       value: item,
-                                                      child: Text(item.namaDusun),
+                                                      child:
+                                                          Text(item.namaDusun),
                                                     );
                                                   }).toList(),
                                                   onChanged: (value) {
@@ -1743,29 +2274,63 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
-                                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 12),
                                                     hintText: "Dusun",
-                                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                        color: Colors.grey,
-                                                      ),
+                                                    hintStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                          color: Colors.grey,
+                                                        ),
                                                     filled: true,
-                                                    fillColor: backgroundWhite10,
+                                                    fillColor:
+                                                        backgroundWhite10,
                                                     border: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: BorderSide.none,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          BorderSide.none,
                                                     ),
-                                                    enabledBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    focusedBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.only(
-                                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                              topLeft: Radius
+                                                                  .circular(
+                                                                      10)),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  Colors.grey),
                                                     ),
-                                                    errorBorder: OutlineInputBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                                    errorBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              width: 1,
+                                                              color:
+                                                                  redPrimaryMain),
                                                     ),
                                                   ),
                                                 ),
@@ -1773,7 +2338,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             ),
                                           ],
                                         ),
-                                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
                                         Row(
                                           spacing: 8,
                                           crossAxisAlignment:
@@ -2081,7 +2649,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       alamatAyahController.text,
                                                   nomorKartuKeluarga:
                                                       kkAyahController.text,
-                                                  dusunId: selectedDusunAyah!.id,
+                                                  dusunId:
+                                                      selectedDusunAyah!.id,
                                                   golDarah:
                                                       selectedGolDarahAyah!,
                                                   namaAyah:

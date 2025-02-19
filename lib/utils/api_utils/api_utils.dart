@@ -4,7 +4,8 @@ part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
-  final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  final String _baseUrl =
+      "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
 
@@ -182,6 +183,18 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlPatchDataIbuHamil/$id";
   }
 
+  // ! detail monitoring ibu hamil
+  String urlGetDetailMonitoringIbuHamil(String id) {
+    String urlGetDetailMonitoringIbuHamil = LinkApi.MONITORINGIBUHAMIL;
+    return '$_baseUrl$_apiVersion$urlGetDetailMonitoringIbuHamil/$id';
+  }
+
+  // ! detail monitoring anak
+  String urlGetDetailMonitoringAnak(String id) {
+    String urlGetDetailMonitoringAnak = LinkApi.MONITORINGANAK;
+    return '$_baseUrl$_apiVersion$urlGetDetailMonitoringAnak/$id';
+  }
+
   //!Pengasuh
   String urlGetListPengasuh({String? search, int? page, int? limit}) {
     String urlGetListPengasuh = LinkApi.PENGASUHURL;
@@ -290,8 +303,7 @@ class ApiUtils {
 
   String urlDeleteDataKehadiranPosyandu(String id) {
     String urlDeleteDataKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;
-    return 
-        "$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id";
+    return "$_baseUrl$_apiVersion$urlDeleteDataKehadiranPosyandu/$id";
   }
 
   //!Pengukuran Anak
@@ -339,20 +351,17 @@ class ApiUtils {
 
   String urlGetDetailPengukuranIbuHamil(String id) {
     String urlGetDetailPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return 
-        "$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id";
+    return "$_baseUrl$_apiVersion$urlGetDetailPengukuranIbuHamil/$id";
   }
 
   String urlPatchDataPengukuranIbuHamil(String id) {
     String urlPatchDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return 
-        "$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id";
+    return "$_baseUrl$_apiVersion$urlPatchDataPengukuranIbuHamil/$id";
   }
 
   String urlDeleteDataPengukuranIbuHamil(String id) {
     String urlDeleteDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
-    return 
-        "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
+    return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
   }
 
   //! Master Data
@@ -443,5 +452,37 @@ class ApiUtils {
   String urlGetDashboardKader() {
     String urlGetDashboardKader = LinkApi.DASHBOARDKADER;
     return _baseUrl + _apiVersion + urlGetDashboardKader;
+  }
+
+  //! monitoring
+  //* index
+  //? stunting
+  String urlGetAllMonitoringAnakStunting() {
+    String urlGetAllMonitoringAnakStunting = LinkApi.MONITORINGANAKSTUNTING;
+    return _baseUrl + _apiVersion + urlGetAllMonitoringAnakStunting;
+  }
+
+  //? underWeight
+
+  String urlGetAllMonitoringAnakUnderWeight() {
+    String urlGetAllMonitoringAnakStunting = LinkApi.MONITORINGANAKUNDERWEIGHT;
+    return _baseUrl + _apiVersion + urlGetAllMonitoringAnakStunting;
+  }
+
+  //? wasting
+  String urlGetAllMonitoringAnakWasting() {
+    String urlGetAllMonitoringAnakStunting = LinkApi.MONITORINGANAKWASTING;
+    return _baseUrl + _apiVersion + urlGetAllMonitoringAnakStunting;
+  }
+
+  //
+  String urlGetGenerateNIK() {
+    String ulrGetGenerateNIK = LinkApi.GENERATENIK;
+    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
+  }
+
+  String urlGetGenerateKK() {
+    String ulrGetGenerateNIK = LinkApi.GENERATEKK;
+    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
   }
 }
