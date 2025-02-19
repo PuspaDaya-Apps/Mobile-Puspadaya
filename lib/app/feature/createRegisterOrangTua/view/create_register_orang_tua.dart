@@ -32,6 +32,7 @@ import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../../alatUkur/detail/view/detail_alat_ukur.dart';
+import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
 import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
 import '../bloc/create_register_orang_tua_bloc.dart';
 import '../model/post_orang_tua_body.dart';
