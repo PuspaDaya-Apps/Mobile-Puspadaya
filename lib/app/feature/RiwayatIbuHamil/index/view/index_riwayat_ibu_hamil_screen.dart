@@ -8,6 +8,7 @@ import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_ha
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../view/widget/riwayat_ibu_hamil_items_widget.dart';
+import '../../../monitoring/model/riwayat_monitoring_ibu_hamil_model.dart';
 
 class IndexRiwayatIbuHamilScreen extends StatelessWidget {
   const IndexRiwayatIbuHamilScreen({super.key});

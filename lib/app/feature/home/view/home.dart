@@ -628,7 +628,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         onTap: () {
           Navigator.pushNamed(
             context,
-            FEATURE_MAINTENANCE,
+            ANAK_FAKTOR_RESIKO,
             arguments: 'Faktor Resiko', // Kirimkan nama fitur sebagai argumen
           );
         },

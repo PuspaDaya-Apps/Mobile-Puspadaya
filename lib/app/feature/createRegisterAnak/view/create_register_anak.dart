@@ -24,6 +24,7 @@ import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
+import '../cubit/generate_nik_cubit.dart';
 import '../cubit/search_kk_cubit.dart';
 import 'create_register_wali.dart';
 import 'search_kk.dart';
@@ -35,6 +36,7 @@ class CreateRegisterAnak extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => GenerateNikCubit()),
         BlocProvider(create: (context) => SearchKKCubit()),
         BlocProvider(create: (context) => CreateAnakBloc()),
       ],
@@ -140,31 +142,11 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     }
   }
 
-  void _generateNIK() {
-    // Fixed prefix
-    String prefix = "12345";
-
-    // Generate 11 random digits
-    String randomDigits = _generateRandomDigits(11);
-
-    // Combine prefix and random digits
-    String nik = "$prefix$randomDigits";
-
-    // Set the generated NIK to the controller
-    nikController.text = nik;
-  }
-
-  String _generateRandomDigits(int length) {
-    Random random = Random();
-    StringBuffer randomDigits = StringBuffer();
-
-    for (int i = 0; i < length; i++) {
-      // Generate a random digit between 0 and 9
-      randomDigits.write(random.nextInt(10));
-    }
-
-    return randomDigits.toString();
-  }
+  // void _generateNIK(String nomorKK,Date tanggalLahir) {
+  //   context.read<GenerateNikCubit>().getGenerateNik(nomorKK, tanggalLahir);
+  //   // Set the generated NIK to the controller
+  //   nikController.text = nik;
+  // }
 
   bool _isGenerateAnakValid() {
     return tempatLahirController.text.isNotEmpty &&
@@ -394,65 +376,88 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             fontSize: 12,
                           ),
                         ),
-                        // SizedBox(
-                        //   height: SizeConfig.calHeightMultiplier(8),
-                        // ),
-
-                        Row(
-                          spacing: 8,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              flex:
-                                  7, // Adjust this value to make the TextField larger
-                              child: TextFieldWidget(
-                                controller: nikController,
-                                hintText: 'NIK',
-                                keyboardType: TextInputType.number,
-                                obscureText: false,
-                                isPasswordField: false,
-                                validators: [
-                                  (value) => Validator.consistOf(value, 16,
-                                      "NIk Anak harus terdiri atas 16 digit"),
-                                  (value) => Validator.required(
-                                      value, "NIK Anak tidak boleh kosong"),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width /
-                                  3.4, // Atur lebar minimum untuk tombol
-                              child: GenerateButtonWidget(
-                                onPressed: () {
-                                  logger
-                                      .d('isi provinsi ${selectedProvinsiIbu}');
-                                  logger.d(
-                                      'isi Kabupaten ${selectedKabupatenIbu}');
-                                  logger.d(
-                                      'isi Kecamatan ${selectedKecamatanIbu}');
-                                  // Validasi sebelum mengizinkan generate
-                                  if (_isGenerateAnakValid()) {
-                                    _generateNIK();
-                                    // Logika untuk generate
-                                    print("Generate button pressed");
-                                  } else {
-                                    // Tampilkan snackbar atau dialog jika form tidak valid
-                                    showTopSnackBar(
-                                        Overlay.of(context),
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        displayDuration:
-                                            const Duration(milliseconds: 2200),
-                                        reverseAnimationDuration:
-                                            const Duration(milliseconds: 300),
-                                        TopSnackbarWidget().error(
-                                            'Harap pilih data Orang tua dan isi Tempat Tanggal Lahir agar bisa generate NIK'));
-                                  }
-                                },
-                              ),
-                            ),
-                          ],
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(8),
+                        ),
+                        BlocConsumer<GenerateNikCubit, GenerateNikState>(
+                          listener: (context, state) {
+                            if (state is GenerateNikSuccess) {
+                              nikController.text =
+                                  state.data.data.nomorIndukKeluarga;
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is GenerateNikLoading) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return Row(
+                              spacing: 8,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex:
+                                      7, // Adjust this value to make the TextField larger
+                                  child: TextFieldWidget(
+                                    controller: nikController,
+                                    hintText: 'NIK',
+                                    keyboardType: TextInputType.text,
+                                    obscureText: false,
+                                    isPasswordField: false,
+                                    validators: [
+                                      (value) => Validator.consistOf(value, 16,
+                                          "NIk Anak harus terdiri atas 16 digit"),
+                                      (value) => Validator.required(
+                                          value, "NIK Anak tidak boleh kosong"),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width /
+                                      3.4, // Atur lebar minimum untuk tombol
+                                  child: GenerateButtonWidget(
+                                    onPressed: () {
+                                      logger.d(
+                                          'isi provinsi ${selectedProvinsiIbu}');
+                                      logger.d(
+                                          'isi Kabupaten ${selectedKabupatenIbu}');
+                                      logger.d(
+                                          'isi Kecamatan ${selectedKecamatanIbu}');
+                                      // Validasi sebelum mengizinkan generate
+                                      if (_isGenerateAnakValid()) {
+                                        logger.d(
+                                            'tanggal lahir : ${tanggalLahirController.text}');
+                                        logger.d(
+                                            'KK : ${nomorKKController.text}');
+                                        // Logika untuk generate
+                                        context
+                                            .read<GenerateNikCubit>()
+                                            .getGenerateNik(
+                                                nomorKKController.text,
+                                                tanggalLahirController.text);
+                                        print("Generate button pressed");
+                                      } else {
+                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                        showTopSnackBar(
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget().error(
+                                                'Harap pilih data Orang tua dan isi Tempat Tanggal Lahir agar bisa generate NIK'));
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(

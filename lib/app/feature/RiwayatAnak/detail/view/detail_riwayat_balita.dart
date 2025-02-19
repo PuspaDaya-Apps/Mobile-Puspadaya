@@ -8,6 +8,7 @@ import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
+import '../../../monitoring/model/get_detail_monitoring_anak.dart';
 import '../../../monitoring/model/riwayat_monitoring_anak_model.dart';
 
 class DetailRiwayatBalita extends StatelessWidget {

@@ -90,8 +90,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
 
   late PaketToCreatePengukuranAnakModel paket;
 
-  int? asiEksklusifValue = 0;
-  int? mpasiValue = 0;
+  String? asiEksklusifValue = '0';
+  String? mpasiValue = '0';
 
   late String alatUkur;
 
@@ -211,6 +211,20 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             isLessThanSixMonths(paket.usia);
                                         logger.d(
                                             'is usia kurang dari 6 bulan = ${isAgeLessThanSixMonths}');
+                                        // if (isAgeLessThanSixMonths == true) {
+                                        //   headCircumferenceController.text = '';
+                                        //   upperArmCircumferenceController.text =
+                                        //       '';
+                                        //   mpasiValue = '-';
+                                        // } else {
+                                        //   asiEksklusifValue = '-';
+                                        // }
+                                        logger.d(
+                                            'lingkar kepala ${headCircumferenceController.text}');
+                                        logger.d(
+                                            'lignkar lengan atas ${upperArmCircumferenceController.text}');
+                                        logger.d('mpasi ${mpasiValue}');
+                                        logger.d('asi eskulsif ${mpasiValue}');
                                       }
                                     });
                                   });
@@ -478,10 +492,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             children: [
                                               CustomRadioButton(
                                                 value: 1,
-                                                groupValue: asiEksklusifValue!,
+                                                groupValue: int.parse(
+                                                    asiEksklusifValue!),
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    asiEksklusifValue = value;
+                                                    asiEksklusifValue =
+                                                        value.toString();
                                                   });
                                                 },
                                                 label: 'Ya',
@@ -492,10 +508,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               ),
                                               CustomRadioButton(
                                                 value: 0,
-                                                groupValue: asiEksklusifValue!,
+                                                groupValue: int.parse(
+                                                    asiEksklusifValue!),
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    asiEksklusifValue = value;
+                                                    asiEksklusifValue =
+                                                        value.toString();
                                                   });
                                                 },
                                                 label: 'Tidak',
@@ -537,10 +555,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             children: [
                                               CustomRadioButton(
                                                 value: 1,
-                                                groupValue: mpasiValue!,
+                                                groupValue:
+                                                    int.parse(mpasiValue!),
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    mpasiValue = value;
+                                                    mpasiValue =
+                                                        value.toString();
                                                   });
                                                 },
                                                 label: 'Ya',
@@ -551,10 +571,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               ),
                                               CustomRadioButton(
                                                 value: 0,
-                                                groupValue: mpasiValue!,
+                                                groupValue:
+                                                    int.parse(mpasiValue!),
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    mpasiValue = value;
+                                                    mpasiValue =
+                                                        value.toString();
                                                   });
                                                 },
                                                 label: 'Tidak',
@@ -668,37 +690,58 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         Navigator.pop(context);
                                       },
                                       mainButton: () {
-                                        createPengukuranAnakBloc.add(
-                                            SendPengukuranAnakEvent(PengukuranAnakModel(
-                                                tempatPengukuran:
-                                                    selectedPosyandu,
-                                                tanggalPengukuran:
-                                                    DateTime.now(),
-                                                posisiBadan: selectedPosition,
-                                                beratBadan: double.parse(
-                                                    weightController.text),
-                                                alatBeratBadanId: alatUkur,
-                                                tinggiBadan: double.parse(
-                                                    heightController.text),
-                                                alatTinggiBadanId: alatUkur,
-                                                lingkarLenganAtas: double.parse(
-                                                    upperArmCircumferenceController
-                                                        .text),
-                                                alatLingkarLenganId: alatUkur,
-                                                lingkarKepala: double.parse(
-                                                    headCircumferenceController
-                                                        .text),
-                                                alatLingkarKepalaId: alatUkur,
-                                                asiEksklusif:
-                                                    asiEksklusifValue == 1
-                                                        ? "Iya"
-                                                        : "Tidak",
-                                                mpasi: mpasiValue == 1
-                                                    ? "Iya"
-                                                    : "Tidak",
-                                                keluhan: keluhanController.text,
-                                                catatan: catatanController.text,
-                                                anakId: paket.id)));
+                                        if (isAgeLessThanSixMonths == true) {
+                                          headCircumferenceController.text = '0';
+                                          upperArmCircumferenceController.text =
+                                              '0';
+                                          mpasiValue = '-';
+                                        } else {
+                                          asiEksklusifValue = '-';
+                                        }
+                                        logger.d(
+                                            'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
+                                        logger.d(
+                                            'asi ekslusif value ${asiEksklusifValue}');
+                                        logger.d('mpasi value ${mpasiValue}');
+                                        logger.d(
+                                            'value lingkar kelapa ${headCircumferenceController.text}');
+                                        logger.d(
+                                            'value lingkar lengan atas ${upperArmCircumferenceController.text}');
+                                        //  headCircumferenceController.text = '';
+                                        //   upperArmCircumferenceController.text =
+                                        //       '';
+                                        // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
+                                        createPengukuranAnakBloc.add(SendPengukuranAnakEvent(PengukuranAnakModel(
+                                            tempatPengukuran: selectedPosyandu,
+                                            tanggalPengukuran: DateTime.now(),
+                                            posisiBadan: selectedPosition,
+                                            beratBadan: double.parse(
+                                                weightController.text),
+                                            alatBeratBadanId: alatUkur,
+                                            tinggiBadan: double.parse(
+                                                heightController.text),
+                                            alatTinggiBadanId: alatUkur,
+                                            lingkarLenganAtas: double.parse(
+                                                upperArmCircumferenceController
+                                                    .text),
+                                            alatLingkarLenganId: alatUkur,
+                                            lingkarKepala: double.parse(
+                                                headCircumferenceController
+                                                    .text),
+                                            alatLingkarKepalaId: alatUkur,
+                                            asiEksklusif: asiEksklusifValue == 1
+                                                ? "Iya"
+                                                : (asiEksklusifValue == 0
+                                                    ? "Tidak"
+                                                    : "-"),
+                                            mpasi: mpasiValue == 1
+                                                ? "Iya"
+                                                : (mpasiValue == 0
+                                                    ? "Tidak"
+                                                    : "-"),
+                                            keluhan: keluhanController.text,
+                                            catatan: catatanController.text,
+                                            anakId: paket.id)));
                                       },
                                       cancelButtonMessage: 'Tidak',
                                       mainButtonMessage: 'Iya Simpan Data',
