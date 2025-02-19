@@ -15,6 +15,8 @@ final class AuthenticationTrue extends AuthenticationState {}
 
 final class AuthenticationFalse extends AuthenticationState {}
 
+final class LogoutProcess extends AuthenticationState {}
+
 final class LogoutSuccess extends AuthenticationState {}
 
 final class LogoutFailed extends AuthenticationState {

@@ -14,6 +14,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../../model/current_user_model.dart';
 import '../../../view/screen/error_server_screen.dart';
+import '../../alamat/bloc/alamatBloc/alamat_bloc.dart';
 import '../bloc/userBloc/user_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,8 +22,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AlamatBloc(),
+        ),
+      ],
       child: const HomeWrapper(),
     );
   }
@@ -43,128 +51,137 @@ class _HomeWrapperState extends State<HomeWrapper> {
   void initState() {
     super.initState();
     BlocProvider.of<UserBloc>(context).add(GetCurrentUser());
+    BlocProvider.of<AlamatBloc>(context).add(CheckAlamatEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
+    return BlocListener<AlamatBloc, AlamatState>(
       listener: (context, state) {
         debugPrint(state.toString());
-        if (state is UserFailedState) {
-          Navigator.pushReplacementNamed(context, LOGIN);
+        if(state is CheckAlamatPerbaruiDataState) {
+          BlocProvider.of<AlamatBloc>(context).add(GetAlamatEvent());
         }
       },
-      builder: (context, state) {
-        if (state is UserProccessState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(
-                color: bluePrimaryMain,
-              ),
-            ),
-          );
-        }
-        if (state is UserSuccessState) {
-          final List<Widget> _widgetOptions = <Widget>[
-            Home(
-              currentUserModel: state.currentUserModel,
-            ),
-            const Pengukuran(),
-            const Kunjungan(),
-            const Jadwal(),
-            Profile(
-              currentUserModel: state.currentUserModel,
-            ),
-          ];
-
-          return Scaffold(
-              bottomNavigationBar: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 20,
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                  ],
+      child: BlocConsumer<UserBloc, UserState>(
+        listener: (context, state) {
+          debugPrint(state.toString());
+          if (state is UserFailedState) {
+            Navigator.pushReplacementNamed(context, LOGIN);
+          }
+        },
+        builder: (context, state) {
+          if (state is UserProccessState) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
                 ),
-                child: DoubleBackToCloseApp(
-                  snackBar: const SnackBar(
-                      elevation: 0,
-                      backgroundColor: bluePrimaryMain,
-                      duration: Duration(seconds: 2),
-                      content: Text(
-                        "Tekan Lagi Untuk Keluar",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600),
-                      )),
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 15),
-                      child: GNav(
-                        activeColor: Colors.white,
-                        iconSize: 24,
+              ),
+            );
+          }
+          if (state is UserSuccessState) {
+            final List<Widget> _widgetOptions = <Widget>[
+              Home(
+                currentUserModel: state.currentUserModel,
+              ),
+              const Pengukuran(),
+              const Kunjungan(),
+              const Jadwal(),
+              Profile(
+                currentUserModel: state.currentUserModel,
+              ),
+            ];
+
+            return Scaffold(
+                bottomNavigationBar: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 20,
+                        color: Colors.black.withOpacity(0.1),
+                      ),
+                    ],
+                  ),
+                  child: DoubleBackToCloseApp(
+                    snackBar: const SnackBar(
+                        elevation: 0,
+                        backgroundColor: bluePrimaryMain,
+                        duration: Duration(seconds: 2),
+                        content: Text(
+                          "Tekan Lagi Untuk Keluar",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
+                        )),
+                    child: SafeArea(
+                      child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 12),
-                        duration: const Duration(milliseconds: 400),
-                        tabBackgroundColor: bluePrimaryMain,
-                        color: Colors.grey.shade500,
-                        gap: 4,
-                        tabBorderRadius: 12,
-                        tabs: [
-                          GButton(
-                            padding: EdgeInsets.all(10),
-                            icon: HomeMenuIcon.home,
-                            iconSize: 22,
-                            text: 'Home',
-                          ),
-                          GButton(
-                            icon: HomeMenuIcon.measuring,
-                            padding: EdgeInsets.all(10),
-                            iconSize: 22,
-                            text: 'Pengukuran',
-                          ),
-                          GButton(
-                            padding: EdgeInsets.all(10),
-                            icon: HomeMenuIcon.visitation,
-                            iconSize: 22,
-                            text: 'Kunjungan',
-                          ),
-                          GButton(
-                            padding: EdgeInsets.all(10),
-                            iconSize: 22,
-                            icon: HomeMenuIcon.schadule,
-                            text: 'Jadwal Posyandu',
-                          ),
-                          GButton(
-                            padding: EdgeInsets.all(10),
-                            iconSize: 22,
-                            icon: HomeMenuIcon.profile,
-                            text: 'Profile',
-                          ),
-                        ],
-                        selectedIndex: _selectedIndex,
-                        onTabChange: (index) {
-                          setState(() {
-                            _selectedIndex = index;
-                          });
-                        },
+                            horizontal: 20.0, vertical: 15),
+                        child: GNav(
+                          activeColor: Colors.white,
+                          iconSize: 24,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 12),
+                          duration: const Duration(milliseconds: 400),
+                          tabBackgroundColor: bluePrimaryMain,
+                          color: Colors.grey.shade500,
+                          gap: 4,
+                          tabBorderRadius: 12,
+                          tabs: [
+                            GButton(
+                              padding: EdgeInsets.all(10),
+                              icon: HomeMenuIcon.home,
+                              iconSize: 22,
+                              text: 'Home',
+                            ),
+                            GButton(
+                              icon: HomeMenuIcon.measuring,
+                              padding: EdgeInsets.all(10),
+                              iconSize: 22,
+                              text: 'Pengukuran',
+                            ),
+                            GButton(
+                              padding: EdgeInsets.all(10),
+                              icon: HomeMenuIcon.visitation,
+                              iconSize: 22,
+                              text: 'Kunjungan',
+                            ),
+                            GButton(
+                              padding: EdgeInsets.all(10),
+                              iconSize: 22,
+                              icon: HomeMenuIcon.schadule,
+                              text: 'Jadwal Posyandu',
+                            ),
+                            GButton(
+                              padding: EdgeInsets.all(10),
+                              iconSize: 22,
+                              icon: HomeMenuIcon.profile,
+                              text: 'Profile',
+                            ),
+                          ],
+                          selectedIndex: _selectedIndex,
+                          onTabChange: (index) {
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              body: _widgetOptions[_selectedIndex]);
-        }
-        return const Scaffold(
-          body: Center(
-            child: ErrorServerScreen(),
-          ),
-        );
-      },
+                body: _widgetOptions[_selectedIndex]);
+          }
+          return const Scaffold(
+            body: Center(
+              child: ErrorServerScreen(),
+            ),
+          );
+        },
+      ),
     );
   }
 }
