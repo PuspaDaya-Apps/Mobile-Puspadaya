@@ -68,4 +68,8 @@ abstract class LinkApi {
   static const MONITORINGANAKWASTING = '/monitoring/anak/wasting';
   static const MONITORINGIBUHAMIL = '/monitoring/ibu-hamil';
   static const MONITORINGANAK = '/monitoring/anak';
+
+  //!utils
+  static const GENERATENIK = '/utils/generate-nik';
+  static const GENERATEKK = '/utils/generate-nomor-kartu-keluarga';
 }

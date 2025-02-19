@@ -461,5 +461,15 @@ class ApiUtils {
     String urlGetAllMonitoringAnakStunting = LinkApi.MONITORINGANAKWASTING;
     return _baseUrl + _apiVersion + urlGetAllMonitoringAnakStunting;
   }
-  //? ibu hamil
+
+  //
+  String urlGetGenerateNIK() {
+    String ulrGetGenerateNIK = LinkApi.GENERATENIK;
+    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
+  }
+
+  String urlGetGenerateKK() {
+    String ulrGetGenerateNIK = LinkApi.GENERATEKK;
+    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
+  }
 }
