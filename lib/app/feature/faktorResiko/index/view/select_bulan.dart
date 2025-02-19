@@ -28,33 +28,13 @@ class SelectBulanView extends StatefulWidget {
 }
 
 class _SelectBulanViewState extends State<SelectBulanView> {
-  List<SelectBulanModel> itemBulan = [];
+  List<SelectBulanModel> itemBulan = [
+    SelectBulanModel(id: '1', namaBulan: 'February', tahun: '2025'),
+  ];
 
   @override
   void initState() {
     super.initState();
-    _generateMonths();
-  }
-
-  void _generateMonths() {
-    DateTime now = DateTime.now();
-    int currentYear = now.year;
-    int currentMonth = now.month;
-
-    // Generate months for the current year and the next year
-    for (int i = 0; i < 12; i++) {
-      DateTime monthDate = DateTime(currentYear, currentMonth + i);
-      String monthName = DateFormat('MMMM', 'id_ID').format(monthDate);
-      String monthId =
-          (i + 1).toString(); // You can customize this ID as needed
-
-      // Add the month to the list
-      itemBulan.add(SelectBulanModel(
-        id: monthId,
-        namaBulan: monthName,
-        tahun: monthDate.year.toString(),
-      ));
-    }
   }
 
   @override
@@ -76,13 +56,14 @@ class _SelectBulanViewState extends State<SelectBulanView> {
           color: Colors.white,
         ),
         onPressed: () {
-          // Navigator.pushNamed(context, CREATE_REGISTER_ANAK).then((value) {
-          //   if(value != null) {
-          //     context.read<AnakByPosyanduBloc>().add(FetchAnak());
-          //   }
-          // });
-          // Add your navigation or functionality for adding new items
-          print("Floating Action Button Pressed");
+          Navigator.pushNamed(
+            context,
+            PARAMETER_FAKTOR_RESIKO_CREATE,
+            arguments: {
+              'id': widget.id,
+              'bulan': '2',
+            },
+          );
         },
       ),
       backgroundColor: backgroundWhite10,
@@ -99,7 +80,7 @@ class _SelectBulanViewState extends State<SelectBulanView> {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  PARAMETER_FAKTOR_RESIKO,
+                  PARAMETER_FAKTOR_RESIKO_DETAIL,
                   arguments: {
                     'id': widget.id,
                     'bulan': bulan.id,
