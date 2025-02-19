@@ -8,3 +8,13 @@ sealed class AlamatSaveState extends Equatable {
 }
 
 final class AlamatSaveInitial extends AlamatSaveState {}
+
+final class GetAlamatProccessState extends AlamatSaveState {}
+
+final class GetAlamatSuccessState extends AlamatSaveState {
+  final DataWilayahModel dataWilayahModel;
+
+  const GetAlamatSuccessState(this.dataWilayahModel); 
+}
+
+final class GetAlamatFailedState extends AlamatSaveState {}
