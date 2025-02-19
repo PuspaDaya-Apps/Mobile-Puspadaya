@@ -1,80 +1,74 @@
 import '../../../../utils/api_utils/api_utils.dart';
-import '../../../../utils/logger/logger.dart';
 import '../../../../utils/network_utils/network_utils.dart';
 
-class GetAlamat{
+class GetAlamatApi{
   // provinsi
-  Future<List<dynamic>> getProvinsi(String token) async {
+  Future<List<dynamic>> getProvinsi(String token, int jumlah) async {
     final String url = ApiUtils().urlGetProvinsi();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': jumlah.toString()
+    };
 
-    try {
-      final response = await NetworkUtils(token: token).get(url, parameterQuery);
-      logger.d(response.toString());
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
       return response;
-    } catch (e) {
-      logger.e("Error fetching data: $e");
-      return [];
-    }
+    });
   }
 
   // kabupaten
-  Future<List<dynamic>> getKabupaten(String token) async {
+  Future<List<dynamic>> getKabupaten(String token, int jumlah) async {
     final String url = ApiUtils().urlGetKabupaten();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': jumlah.toString()
+    };
 
-    try {
-      final response = await NetworkUtils(token: token).get(url, parameterQuery);
-      logger.d(response.toString());
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
       return response;
-    } catch (e) {
-      logger.e("Error fetching data: $e");
-      return [];
-    }
+    });
   }
 
   // kecamatan
-  Future<List<dynamic>> getKecamatan(String token) async {
+  Future<List<dynamic>> getKecamatan(String token, int jumlah) async {
     final String url = ApiUtils().urlGetKecamatan();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': jumlah.toString()
+    };
 
-    try {
-      final response = await NetworkUtils(token: token).get(url, parameterQuery);
-      logger.d(response.toString());
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
       return response;
-    } catch (e) {
-      logger.e("Error fetching data: $e");
-      return [];
-    }
+    });
   }
 
   // desaKelurahan
-  Future<List<dynamic>> getDesaKelurahan(String token) async {
+  Future<List<dynamic>> getDesaKelurahan(String token, int jumlah) async {
     final String url = ApiUtils().urlGetDesaKelurahan();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': jumlah.toString()
+    };
 
-    try {
-      final response = await NetworkUtils(token: token).get(url, parameterQuery);
-      logger.d(response.toString());
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
       return response;
-    } catch (e) {
-      logger.e("Error fetching data: $e");
-      return [];
-    }
+    });
   }
 
   // dusun
-  Future<List<dynamic>> getDusun(String token) async {
+  Future<List<dynamic>> getDusun(String token, int jumlah) async {
     final String url = ApiUtils().urlGetDusun();
+    final Map<String, dynamic> parameterQuery = {
+      'limit': jumlah.toString()
+    };
+
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
+      return response;
+    });
+  }
+
+  // jumlah wilayah
+  Future<List<dynamic>> getJumlahWilayah(String token) async {
+    final String url = ApiUtils().urlGetJumlahWilayah();
     final Map<String, dynamic> parameterQuery = {};
 
-    try {
-      final response = await NetworkUtils(token: token).get(url, parameterQuery);
-      logger.d(response.toString());
+    return await NetworkUtils(token: token).get(url, parameterQuery).then((response) {
       return response;
-    } catch (e) {
-      logger.e("Error fetching data: $e");
-      return [];
-    }
+    });
   }
 }

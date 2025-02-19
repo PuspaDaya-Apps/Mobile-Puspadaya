@@ -52,8 +52,10 @@ class NetworkUtils {
         debugPrint('something error');
         if (e.response?.statusCode == 401) {
           debugPrint('access token refresh');
-          // await _handleUnauthorizedError();
+          await refreshToken();
         }
+
+        handler.next(e);
       },
     ));
   }
@@ -75,7 +77,7 @@ class NetworkUtils {
           final bodyResponse = response.data;
           final int statusResponse = response.statusCode!;
 
-          debugPrint(bodyResponse.toString());
+          debugPrint(bodyResponse['message'].toString());
           debugPrint(statusResponse.toString());
 
           if (statusResponse == 200 ||
@@ -114,7 +116,7 @@ class NetworkUtils {
 
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
-
+      
       if (statusResponse == 200 ||
           statusResponse == 201 ||
           statusResponse == 202 ||
@@ -143,14 +145,18 @@ class NetworkUtils {
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
 
-      debugPrint(bodyResponse.toString());
+      debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
+
+      if(statusResponse == 401) {
+        debugPrint('error test access token');
+      }
 
       if (statusResponse == 200 ||
           statusResponse == 201 ||
           statusResponse == 202 ||
           statusResponse == 206 ||
-          statusResponse == 401 ||
+          // statusResponse == 401 ||
           statusResponse == 403 ||
           statusResponse == 404 ||
           statusResponse == 400 ||
@@ -158,10 +164,10 @@ class NetworkUtils {
           statusResponse == 409) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
-      debugPrint('error exception');
+      debugPrint(e.toString());
       throw e.response!.statusMessage.toString();
     }
   }

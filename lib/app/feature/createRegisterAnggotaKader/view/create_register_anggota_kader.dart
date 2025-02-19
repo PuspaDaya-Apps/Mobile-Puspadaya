@@ -19,7 +19,7 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamat_bloc.dart';
+import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/createAnggotaKaderBloc/create_anggota_kader_bloc.dart';
 import '../bloc/currentUserCubit/current_user_cubit.dart';
@@ -34,9 +34,9 @@ class CreateRegisterAnggotaKader extends StatelessWidget {
         BlocProvider(
           create: (context) => CreateAnggotaKaderBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) => AlamatBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => AlamatSaveCubit(),
+        ),
         BlocProvider(
           create: (context) => CurrentUserCubit(),
         ),
@@ -61,9 +61,9 @@ class _CreateRegisterAnggotaKaderViewState
 
   @override
   void initState() {
-    // BlocProvider.of<AlamatBloc>(context).add(ShowAllSectionEvent());
-    BlocProvider.of<CurrentUserCubit>(context).getCurrentUserModel();
     super.initState();
+    BlocProvider.of<CurrentUserCubit>(context).getCurrentUserModel();
+    BlocProvider.of<AlamatSaveCubit>(context).getDataWilayah();
     _tabController = TabController(
       length: 2,
       vsync: this,
@@ -118,29 +118,19 @@ class _CreateRegisterAnggotaKaderViewState
               );
             }
             if (userState is CurrentUserSuccessState) {
-
-              // return BlocConsumer<AlamatBloc, AlamatState>(
-              //   listener: (context, state) {
-              //     debugPrint(state.toString());
-              //   },
-              //   builder: (context, state) {
-              //     if (state is AlamatLoading) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(
-              //           color: bluePrimaryMain,
-              //         ),
-              //       );
-              //     }
-              //     if (state is ShowAllSection) {
-                    // List<ProvinsiModel.Datum> selectProvinsi = state.provinsi;
-                    // List<KabupatenModel.Datum> selectKabupaten =
-                    //     state.kabupaten;
-                    // List<KecamatanModel.Datum> selectKecamatan =
-                    //     state.kecamatan;
-                    // List<DesaKelurahanModel.Datum> selectDesaKelurahan =
-                    //     state.desaKelurahan;
-                    // List<DusunModel.Datum> selectDusun = state.dusun;
-
+              return BlocConsumer<AlamatSaveCubit, AlamatSaveState>(
+                listener: (context, state) {
+                  debugPrint(state.toString());
+                },
+                builder: (context, state) {
+                  if (state is GetAlamatProccessState) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ),
+                    );
+                  }
+                  if (state is GetAlamatSuccessState) {
                     return SingleChildScrollView(
                       child: Container(
                         margin: EdgeInsets.only(
@@ -189,11 +179,7 @@ class _CreateRegisterAnggotaKaderViewState
                                 controller: _tabController,
                                 children: [
                                   CreateIndividu(
-                                    // selectProvinsi: selectProvinsi,
-                                    // selectKabupaten: selectKabupaten,
-                                    // selectKecamatan: selectKecamatan,
-                                    // selectDesaKelurahan: selectDesaKelurahan,
-                                    // selectDusun: selectDusun,
+                                    dataWilayahModel: state.dataWilayahModel,
                                     currentUserModel: userState.currentUserModel,
                                   ),
                                   CreateImport(),
@@ -204,12 +190,10 @@ class _CreateRegisterAnggotaKaderViewState
                         ),
                       ),
                     );
-
-              //     }
-              //     return const ErrorServerScreen();
-              //   },
-              // );
-
+                  }
+                  return const ErrorServerScreen();
+                },
+              );
             }
             return const ErrorServerScreen();
           },

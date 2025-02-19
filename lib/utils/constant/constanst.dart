@@ -29,15 +29,10 @@ final List<String> disabilities = [
 
 List<String> selectGolDarah = [
   // A+, A-, B+, B-, AB+, AB-, O+, O-, Tidak Tahu, -
-  'A+',
-  'A-',
-  'B+',
-  'B-',
-  'AB+',
-  'AB-',
-  'O+',
-  'O-',
-  'Tidak Tahu',
+  'A',
+  'B',
+  'AB',
+  'O',
   '-',
 ];
 

@@ -7,6 +7,8 @@ sealed class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ResetState extends AuthenticationEvent {}
+
 class AppStartEvent extends AuthenticationEvent {}
 
 class OnBoardingDoneEvent extends AuthenticationEvent {}

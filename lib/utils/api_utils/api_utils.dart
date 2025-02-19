@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 part 'api_name.dart';
 
 class ApiUtils {
@@ -85,7 +87,10 @@ class ApiUtils {
 
   String urlPatchDataAnggotaKader(String id) {
     String urlPatchDataAnggotaKader = LinkApi.USERURL;
-    return "$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id";
+    debugPrint("link id = $id");
+    debugPrint('$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id');
+    return '$_baseUrl$_apiVersion$urlPatchDataAnggotaKader/$id';
+    // return "$_baseUrl$_apiVersion$urlPatchDataPengukuranAnak/$id";
   }
 
   String urlDeleteDataAnggotaKader(String id) {
@@ -359,8 +364,7 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
   }
 
-  //   alamat
-
+  //! Master Data
   // provinsi
   String urlGetProvinsi({String? search, int? page, int? limit}) {
     String urlGetProvinsi = LinkApi.PROVINSIURL;
@@ -404,6 +408,15 @@ class ApiUtils {
     //   search, page, 1000
     // );
     return _baseUrl + _apiVersion + urlGetDusun;
+  }
+
+  // Jumlah Wilayah
+  String urlGetJumlahWilayah({String? search, int? page, int? limit}) {
+    String urlGetJumlahWilayah = LinkApi.JUMLAHWILAYAHURL;
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetJumlahWilayah;
   }
 
   //!Beban Kerja

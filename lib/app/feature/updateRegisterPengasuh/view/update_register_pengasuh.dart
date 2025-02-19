@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -9,6 +10,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../model/data_wilayah_model.dart';
 import '../../../model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
@@ -16,19 +18,8 @@ import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
-import '../../alamat/bloc/alamat_bloc.dart';
+import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../bloc/update_pengasuh_bloc.dart';
-
-import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
-    as ProvinsiModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kabupaten_response.dart'
-    as KabupatenModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kecamatan_response.dart'
-    as KecamatanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.dart'
-    as DesaKelurahanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
-    as DusunModel;
 
 import '../model/update_pengasuh_model.dart';
 
@@ -45,7 +36,7 @@ class UpdateRegisterPengasuh extends StatelessWidget {
           create: (context) => UpdatePengasuhBloc(),
         ),
         BlocProvider(
-          create: (context) => AlamatBloc(),
+          create: (context) => AlamatSaveCubit(),
         ),
       ],
       child: UpdateRegisterPengasuhView(
@@ -83,12 +74,17 @@ class _UpdateRegisterPengasuhViewState
   TextEditingController _alamatWaliController = TextEditingController();
 
   String? selectedStatusHubunganDenganAnak;
-  String? selectedKabupatenDataWali;
-  String? selectedKecamatanDataWali;
-  String? selectedDesaDataWali;
-  String? selectedDusunDataWali;
-  String? selectedDusunIdDataWali;
   String? selectedGolDarahWali;
+
+  List<DataKabupatenKota> dataKabupatenKota = [];
+  List<DataKecamatan> dataKecamatan = [];
+  List<DataDesaKelurahan> dataDesaKelurahan = [];
+  List<DataDusun> dataDusun = [];
+
+  DataKabupatenKota? selectedKabupaten;
+  DataKecamatan? selectedKecamatan;
+  DataDesaKelurahan? selectedDesa;
+  DataDusun? selectedDusun;
 
   void _toggleDisability(int index) {
     setState(() {
@@ -114,7 +110,7 @@ class _UpdateRegisterPengasuhViewState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AlamatBloc>(context).add(const ShowAllSectionEvent());
+    BlocProvider.of<AlamatSaveCubit>(context).getDataWilayah();
     // Inisialisasi status checkbox dengan false
     selectedDisabilitiesAnak =
         List<bool>.from(List.filled(disabilities.length, false));
@@ -140,19 +136,19 @@ class _UpdateRegisterPengasuhViewState
     _alamatWaliController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.alamatLengkap);
 
-    //! selected
+    // ! selected
     selectedStatusHubunganDenganAnak =
         widget.paket.detailPengasuhResponseModel.data!.statusHubungan;
-    selectedKabupatenDataWali = widget.paket.detailPengasuhResponseModel.data!
-        .dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota;
-    selectedKecamatanDataWali = widget.paket.detailPengasuhResponseModel.data!
-        .dusun.desaKelurahan.kecamatan.namaKecamatan;
-    selectedDesaDataWali = widget.paket.detailPengasuhResponseModel.data!.dusun
-        .desaKelurahan.namaDesaKelurahan;
-    selectedDusunDataWali =
-        widget.paket.detailPengasuhResponseModel.data!.dusun.namaDusun;
-    selectedDusunIdDataWali =
-        widget.paket.detailPengasuhResponseModel.data!.dusun.id;
+    // selectedKabupatenDataWali = widget.paket.detailPengasuhResponseModel.data!
+    //     .dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota;
+    // selectedKecamatanDataWali = widget.paket.detailPengasuhResponseModel.data!
+    //     .dusun.desaKelurahan.kecamatan.namaKecamatan;
+    // selectedDesaDataWali = widget.paket.detailPengasuhResponseModel.data!.dusun
+    //     .desaKelurahan.namaDesaKelurahan;
+    // selectedDusunDataWali =
+    //     widget.paket.detailPengasuhResponseModel.data!.dusun.namaDusun;
+    // selectedDusunIdDataWali =
+    //     widget.paket.detailPengasuhResponseModel.data!.dusun.id;
     selectedGolDarahWali =
         widget.paket.detailPengasuhResponseModel.data!.golDarah;
 
@@ -214,26 +210,30 @@ class _UpdateRegisterPengasuhViewState
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: BlocConsumer<AlamatBloc, AlamatState>(
+        child: BlocConsumer<AlamatSaveCubit, AlamatSaveState>(
           listener: (context, state) {
             debugPrint(state.toString());
           },
           builder: (context, state) {
-            if (state is AlamatLoading) {
+            if (state is GetAlamatProccessState) {
               return const Center(
                   child: CircularProgressIndicator(
                 color: bluePrimaryMain,
               ));
             }
-            if (state is ShowAllSection) {
-              final List<ProvinsiModel.Datum> selectProvinsi = state.provinsi;
-              final List<KabupatenModel.Datum> selectKabupaten =
-                  state.kabupaten;
-              final List<KecamatanModel.Datum> selectKecamatan =
-                  state.kecamatan;
-              final List<DesaKelurahanModel.Datum> selectDesaKelurahan =
-                  state.desaKelurahan;
-              final List<DusunModel.Datum> selectDusun = state.dusun;
+            if (state is GetAlamatSuccessState) {
+              if(dataKabupatenKota.isEmpty) {
+                dataKabupatenKota.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                selectedKabupaten = dataKabupatenKota.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.kabupatenKota.id);
+
+                dataKecamatan.addAll(selectedKabupaten!.kecamatan);
+                selectedKecamatan = dataKecamatan.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.id);
+                dataDesaKelurahan.addAll(selectedKecamatan!.desaKelurahan);
+                selectedDesa = dataDesaKelurahan.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.id);
+                dataDusun.addAll(selectedDesa!.dusun);
+                selectedDusun = dataDusun.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.id);
+              }
+              
               return Container(
                 margin:
                     EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
@@ -415,45 +415,164 @@ class _UpdateRegisterPengasuhViewState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: DropdownWidget(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Kabupaten harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                items: selectKabupaten
-                                    .map((kabupaten) =>
-                                        kabupaten.namaKabupatenKota)
-                                    .toSet() // Menghilangkan duplikasi
-                                    .toList(),
-                                hint: 'Kabupaten',
-                                value: selectedKabupatenDataWali,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedKabupatenDataWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataKabupatenKota.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKabupaten, // Ini bisa null
+                                  hint: Text(
+                                    "Kabupaten",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKabupatenKota.map((item) {
+                                    return DropdownMenuItem<DataKabupatenKota>(
+                                      value: item,
+                                      child: Text(item.namaKabupatenKota),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKabupaten = value;
+                                      dataKecamatan.clear();
+                                      dataKecamatan.addAll(value!.kecamatan);
+                                      //clear list
+                                      dataDesaKelurahan.clear();
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedKecamatan = null;
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Kabupaten",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             Expanded(
-                              child: DropdownWidget(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Kecamatan harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                items: selectKecamatan
-                                    .map((kecamatan) => kecamatan.namaKecamatan)
-                                    .toList(),
-                                hint: 'Kecamatan',
-                                value: selectedKecamatanDataWali,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedKecamatanDataWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataKecamatan.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataKecamatan>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKecamatan, // Ini bisa null
+                                  hint: Text(
+                                    "Kecamatan",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKecamatan.map((item) {
+                                    return DropdownMenuItem<DataKecamatan>(
+                                      value: item,
+                                      child: Text(item.namaKecamatan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKecamatan = value;
+                                      dataDesaKelurahan.clear();
+                                      dataDesaKelurahan.addAll(value!.desaKelurahan);
+
+                                      //clear list
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Kecamatan",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -465,48 +584,150 @@ class _UpdateRegisterPengasuhViewState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: DropdownWidget(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Desa harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                items: selectDesaKelurahan
-                                    .map((desa) => desa.namaDesaKelurahan)
-                                    .toList(),
-                                hint: 'Desa',
-                                value: selectedDesaDataWali,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDesaDataWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataDesaKelurahan.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDesa, // Ini bisa null
+                                  hint: Text(
+                                    "Desa",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDesaKelurahan.map((item) {
+                                    return DropdownMenuItem<DataDesaKelurahan>(
+                                      value: item,
+                                      child: Text(item.namaDesaKelurahan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDesa = value;
+                                      dataDusun.clear();
+                                      dataDusun.addAll(value!.dusun);
+
+                                      //clear data
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Desa",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             Expanded(
-                              child: DropdownWidget(
-                                items: selectDusun
-                                    .map((dusun) => dusun.namaDusun)
-                                    .toList(),
-                                hint: 'Dusun',
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Dusun harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                value: selectedDusunDataWali,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDusunDataWali = value;
-                                    selectedDusunIdDataWali = selectDusun
-                                        .firstWhere(
-                                            (dusun) => dusun.namaDusun == value)
-                                        .id;
-                                    debugPrint(selectedDusunIdDataWali);
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataDusun.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataDusun>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDusun, // Ini bisa null
+                                  hint: Text(
+                                    "Dusun",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDusun.map((item) {
+                                    return DropdownMenuItem<DataDusun>(
+                                      value: item,
+                                      child: Text(item.namaDusun),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDusun = value;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Dusun",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -671,7 +892,7 @@ class _UpdateRegisterPengasuhViewState
                                           rw: _rWWaliController.text,
                                           alamatLengkap:
                                               _alamatWaliController.text,
-                                          dusunId: selectedDusunIdDataWali!,
+                                          dusunId: selectedDusun!.id,
                                           noTelepon:
                                               _teleponWaliController.text,
                                           golDarah: selectedGolDarahWali!,

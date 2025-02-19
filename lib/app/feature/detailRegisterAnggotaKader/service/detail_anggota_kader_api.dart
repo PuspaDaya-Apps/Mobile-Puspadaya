@@ -7,6 +7,7 @@ import '../../../../utils/network_utils/network_utils.dart';
 
 class DetailAnggotaKaderApi{
   Future<List<dynamic>> getDetailAnggotaKaderService (String token, String id) async {
+    debugPrint("ini detail : $id");
     final String link = ApiUtils().urlGetDetailAnggotaKader(id);
     final Map<String, dynamic> parameterQuery = {};
 
