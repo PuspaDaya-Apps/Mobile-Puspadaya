@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
@@ -9,6 +10,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -16,19 +18,10 @@ import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
-import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
-    as ProvinsiModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kabupaten_response.dart'
-    as KabupatenModel;
-import 'package:puspadaya/app/feature/alamat/model/get_kecamatan_response.dart'
-    as KecamatanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_desa_kelurahan_response.dart'
-    as DesaKelurahanModel;
-import 'package:puspadaya/app/feature/alamat/model/get_dusun_response.dart'
-    as DusunModel;
+
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamat_bloc.dart';
+import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
 import '../model/create_anak_model.dart';
 
@@ -42,7 +35,7 @@ class CreateRegisterWali extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AlamatBloc(),
+          create: (context) => AlamatSaveCubit(),
         ),
         BlocProvider.value(
           value: paket.createAnakBloc,
@@ -65,11 +58,11 @@ class CreateRegisterWaliView extends StatefulWidget {
 }
 
 class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
-  List<ProvinsiModel.Datum> selectProvinsi = [];
-  List<KabupatenModel.Datum> selectKabupaten = [];
-  List<KecamatanModel.Datum> selectKecamatan = [];
-  List<DesaKelurahanModel.Datum> selectDesaKelurahan = [];
-  List<DusunModel.Datum> selectDusun = [];
+  // List<ProvinsiModel.Datum> selectProvinsi = [];
+  // List<KabupatenModel.Datum> selectKabupaten = [];
+  // List<KecamatanModel.Datum> selectKecamatan = [];
+  // List<DesaKelurahanModel.Datum> selectDesaKelurahan = [];
+  // List<DusunModel.Datum> selectDusun = [];
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nikController = TextEditingController();
@@ -90,17 +83,19 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
 
   // Controller untuk Data Wali
   String? selectedStatusHubunganDenganAnak;
-  String? selectedProvinsiWali;
 
-  String? selectedKabupatenWali;
-
-  String? selectedKecamatanWali;
-
-  String? selectedDesaWali;
-
-  String? selectedDusunIdWali;
 
   String? selectedGolDarahWali;
+
+  List<DataKabupatenKota> dataKabupatenKota = [];
+  List<DataKecamatan> dataKecamatan = [];
+  List<DataDesaKelurahan> dataDesaKelurahan = [];
+  List<DataDusun> dataDusun = [];
+
+  DataKabupatenKota? selectedKabupaten;
+  DataKecamatan? selectedKecamatan;
+  DataDesaKelurahan? selectedDesa;
+  DataDusun? selectedDusun;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesWali = [];
@@ -110,10 +105,11 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<AlamatSaveCubit>(context).getDataWilayah();
     //! ketika memilih kabupaten pastikan ada provinsi,
     selectedDisabilitiesWali =
         List<bool>.from(List.filled(disabilities.length, false));
-    context.read<AlamatBloc>().add(ShowAllSectionEvent());
+    // context.read<AlamatBloc>().add(ShowAllSectionEvent());
   }
 
   void _toggleDisability(int index) {
@@ -140,11 +136,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   bool _isGenerateWaliValid() {
     return _tempatLahirController.text.isNotEmpty &&
         _tanggalLahirController.text.isNotEmpty &&
-        selectedProvinsiWali !=
-            null && // Check if selectedProvinsiWali is not null
-        selectedKabupatenWali !=
+        selectedKabupaten !=
             null && // Check if selectedKabupatenWali is not null
-        selectedKecamatanWali !=
+        selectedKecamatan !=
             null; // Check if selectedDusunWaliId is not null
   }
 
@@ -175,6 +169,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   @override
   Widget build(BuildContext context) {
     final createAnakBloc = BlocProvider.of<CreateAnakBloc>(context);
+
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Tambah Data Wali',
@@ -186,9 +181,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocBuilder<AlamatBloc, AlamatState>(
+          child: BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
             builder: (context, state) {
-              if (state is AlamatLoading) {
+              if (state is GetAlamatProccessState) {
                 return SizedBox(
                   height: MediaQuery.sizeOf(context).height,
                   child: const Center(
@@ -197,16 +192,12 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                     ),
                   ),
                 );
-              } else if (state is AlamatFailure) {
-                return Center(
-                  child: Text(state.error),
-                );
-              } else if (state is ShowAllSection) {
-                selectProvinsi = state.provinsi;
-                selectKabupaten = state.kabupaten;
-                selectKecamatan = state.kecamatan;
-                selectDesaKelurahan = state.desaKelurahan;
-                selectDusun = state.dusun;
+              } 
+              if (state is GetAlamatSuccessState) {
+                if(dataKabupatenKota.isEmpty) {
+                  dataKabupatenKota.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                }
+
                 return Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
@@ -308,7 +299,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                               child: TextFieldWidget(
                                 controller: _nikController,
                                 hintText: 'NIK',
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.number,
                                 obscureText: false,
                                 isPasswordField: false,
                                 validators: [
@@ -437,48 +428,165 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // provinsi
                             Expanded(
-                              child: DropdownWidget(
-                                items: selectProvinsi
-                                    .map((provinsi) => provinsi.namaProvinsi)
-                                    .toSet() // Menghilangkan duplikasi
-                                    .toList(),
-                                hint: 'Provinsi',
-                                value: selectedProvinsiWali,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Provinsi harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedProvinsiWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataKabupatenKota.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKabupaten, // Ini bisa null
+                                  hint: Text(
+                                    "Kabupaten",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKabupatenKota.map((item) {
+                                    return DropdownMenuItem<DataKabupatenKota>(
+                                      value: item,
+                                      child: Text(item.namaKabupatenKota),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKabupaten = value;
+                                      dataKecamatan.clear();
+                                      dataKecamatan.addAll(value!.kecamatan);
+                                      //clear list
+                                      dataDesaKelurahan.clear();
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedKecamatan = null;
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Kabupaten",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            // kabupaten
                             Expanded(
-                              child: DropdownWidget(
-                                items: selectKabupaten
-                                    .map((kabupaten) =>
-                                        kabupaten.namaKabupatenKota)
-                                    .toList(),
-                                hint: 'Kabupaten',
-                                value: selectedKabupatenWali,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Kabupaten harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedKabupatenWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataKecamatan.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataKecamatan>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKecamatan, // Ini bisa null
+                                  hint: Text(
+                                    "Kecamatan",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKecamatan.map((item) {
+                                    return DropdownMenuItem<DataKecamatan>(
+                                      value: item,
+                                      child: Text(item.namaKecamatan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKecamatan = value;
+                                      dataDesaKelurahan.clear();
+                                      dataDesaKelurahan.addAll(value!.desaKelurahan);
+
+                                      //clear list
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Kecamatan",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -489,92 +597,155 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // kecamatan
                             Expanded(
-                              child: DropdownWidget(
-                                items: selectKecamatan
-                                    .map((kecamatan) => kecamatan.namaKecamatan)
-                                    .toList(),
-                                hint: 'Kecamatan',
-                                value: selectedKecamatanWali,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Kecamatan harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    logger.d('selected Kecamatan id ${value}');
-                                    // context
-                                    //     .read<AlamatBloc>()
-                                    //     .add(SelectKabupaten(selectedProvinsiId));
-                                    selectedKecamatanWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataDesaKelurahan.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDesa, // Ini bisa null
+                                  hint: Text(
+                                    "Desa",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDesaKelurahan.map((item) {
+                                    return DropdownMenuItem<DataDesaKelurahan>(
+                                      value: item,
+                                      child: Text(item.namaDesaKelurahan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDesa = value;
+                                      dataDusun.clear();
+                                      dataDusun.addAll(value!.dusun);
+
+                                      //clear data
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Desa",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            // desa
                             Expanded(
-                              child: DropdownWidget(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Desa harus dipilih";
-                                  }
-                                  return null;
-                                },
-                                items: selectDesaKelurahan
-                                    .map((desa) => desa.namaDesaKelurahan)
-                                    .toList(),
-                                hint: 'Desa',
-                                value: selectedDesaWali,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedDesaWali = value;
-                                  });
-                                },
+                              child: IgnorePointer(
+                                ignoring: dataDusun.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataDusun>(
+                                  isExpanded: true,
+                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDusun, // Ini bisa null
+                                  hint: Text(
+                                    "Dusun",
+                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDusun.map((item) {
+                                    return DropdownMenuItem<DataDusun>(
+                                      value: item,
+                                      child: Text(item.namaDusun),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDusun = value;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    hintText: "Dusun",
+                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                        color: Colors.grey,
+                                      ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Dusun harus dipilih";
-                            }
-                            return null;
-                          },
-                          items: selectDusun
-                              .map((dusun) => dusun.namaDusun)
-                              .toList(), // Menampilkan Nama Dusun
-                          hint: 'Dusun',
-
-                          value: selectedDusunIdWali != null
-                              ? selectDusun
-                                  .firstWhere(
-                                    (dusun) => dusun.id == selectedDusunIdWali,
-                                    orElse: () => selectDusun
-                                        .first, // Handle jika tidak ditemukan
-                                  )
-                                  .namaDusun
-                              : null, // Menampilkan nama sesuai ID yang dipilih
-                          onChanged: (value) {
-                            setState(() {
-                              final selectedDusun = selectDusun.firstWhere(
-                                (dusun) => dusun.namaDusun == value,
-                                orElse: () => selectDusun
-                                    .first, // Default jika tidak ditemukan
-                              );
-
-                              selectedDusunIdWali =
-                                  selectedDusun.id; // Simpan ID, bukan nama
-                              logger.d(
-                                  'Selected Dusun ID: ${selectedDusunIdWali}');
-                            });
-                          },
-                        ),
-
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         Row(
                           spacing: 8,
@@ -776,7 +947,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                               rw: _rWController.text,
                                               alamatLengkap:
                                                   _alamatController.text,
-                                              dusunId: selectedDusunIdWali!,
+                                              dusunId: selectedDusun!.id,
                                               noTelepon:
                                                   _teleponController.text,
                                               golDarah: selectedGolDarahWali!,
@@ -795,9 +966,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                     ),
                   ),
                 );
-              } else {
-                return Container();
-              }
+              } 
+              return Container();
             },
           ),
         ),

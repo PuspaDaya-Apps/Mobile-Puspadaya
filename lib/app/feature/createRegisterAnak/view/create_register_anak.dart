@@ -409,7 +409,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                               child: TextFieldWidget(
                                 controller: nikController,
                                 hintText: 'NIK',
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.number,
                                 obscureText: false,
                                 isPasswordField: false,
                                 validators: [

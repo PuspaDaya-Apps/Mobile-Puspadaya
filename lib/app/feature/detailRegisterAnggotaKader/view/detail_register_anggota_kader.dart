@@ -183,61 +183,61 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   spacing: 8,
-                      //   children: [
-                      //     Expanded(
-                      //       child: InfoFieldWidget(
-                      //           text: state
-                      //               .detailAnggotaKaderResponseModel
-                      //               .data!
-                      //               .dusun
-                      //               .desaKelurahan
-                      //               .kecamatan
-                      //               .kabupatenKota
-                      //               .namaKabupatenKota),
-                      //     ),
-                      //     Expanded(
-                      //       child: InfoFieldWidget(
-                      //           text: state
-                      //               .detailAnggotaKaderResponseModel
-                      //               .data!
-                      //               .dusun
-                      //               .desaKelurahan
-                      //               .kecamatan
-                      //               .namaKecamatan),
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: SizeConfig.calHeightMultiplier(8),
-                      // ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   spacing: 8,
-                      //   children: [
-                      //     Expanded(
-                      //       child: InfoFieldWidget(
-                      //           text: state
-                      //               .detailAnggotaKaderResponseModel
-                      //               .data!
-                      //               .dusun
-                      //               .desaKelurahan
-                      //               .namaDesaKelurahan),
-                      //     ),
-                      //     Expanded(
-                      //       child: InfoFieldWidget(
-                      //           text: state.detailAnggotaKaderResponseModel
-                      //               .data!.dusun.namaDusun),
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: SizeConfig.calHeightMultiplier(8),
-                      // ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 8,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailAnggotaKaderResponseModel
+                                    .data!
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .kabupatenKota
+                                    .namaKabupatenKota),
+                          ),
+                          Expanded(
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailAnggotaKaderResponseModel
+                                    .data!
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .namaKecamatan),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.calHeightMultiplier(8),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 8,
+                        children: [
+                          Expanded(
+                            child: InfoFieldWidget(
+                                text: state
+                                    .detailAnggotaKaderResponseModel
+                                    .data!
+                                    .dusun
+                                    .desaKelurahan
+                                    .namaDesaKelurahan),
+                          ),
+                          Expanded(
+                            child: InfoFieldWidget(
+                                text: state.detailAnggotaKaderResponseModel
+                                    .data!.dusun.namaDusun),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: SizeConfig.calHeightMultiplier(8),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,

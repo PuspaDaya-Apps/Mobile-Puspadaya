@@ -14,8 +14,8 @@ class UpdateAnggotaKaderModel {
   String rw;
   @JsonKey(name: 'alamat_lengkap')
   String alamatLengkap;
-  // @JsonKey(name: 'dusun_id')
-  // String dusunId;
+  @JsonKey(name: 'dusun_id')
+  String dusunId;
   // @JsonKey(name: 'posyandu_id')
   // String posyanduId;
 
@@ -26,7 +26,7 @@ class UpdateAnggotaKaderModel {
     required this.rt,
     required this.rw,
     required this.alamatLengkap,
-    // required this.dusunId,
+    required this.dusunId,
     // required this.posyanduId,
   });
 
@@ -44,7 +44,7 @@ UpdateAnggotaKaderModel _$UpdateAnggotaKaderModelFromJson(
       rt: json['rt'] as String,
       rw: json['rw'] as String,
       alamatLengkap: json['alamat_lengkap'] as String,
-      // dusunId: json['dusun_id'] as String,
+      dusunId: json['dusun_id'] as String,
       // posyanduId: json['posyandu_id'] as String,
     );
 
@@ -57,6 +57,6 @@ Map<String, dynamic> _$UpdateAnggotaKaderModelToJson(
       'rt': instance.rt,
       'rw': instance.rw,
       'alamat_lengkap': instance.alamatLengkap,
-      // 'dusun_id': instance.dusunId,
+      'dusun_id': instance.dusunId,
       // 'posyandu_id': instance.posyanduId,
     };
