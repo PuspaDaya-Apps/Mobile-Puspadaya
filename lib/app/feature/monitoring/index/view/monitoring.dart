@@ -77,7 +77,7 @@ class _MonitoringViewState extends State<MonitoringView>
                     indicatorAnimation: TabIndicatorAnimation.elastic,
                     dividerHeight: 0,
                     controller: _tabController,
-                    unselectedLabelColor: textSecoundary,
+                    unselectedLabelColor: textSecondary1,
                     indicatorColor: bluePrimaryMain,
                     physics: ScrollPhysics(parent: BouncingScrollPhysics()),
                     labelColor: bluePrimaryMain,

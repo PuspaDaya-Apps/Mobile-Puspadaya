@@ -80,8 +80,15 @@ const Color textPrimary20 = Color(0xFF181D27);
 const Color textPrimary30 = Color(0xFF212529);
 
 const Color fontGray1 = Color(0xff6a6a6a);
-const Color textSecoundary = Color(0xffA6A8A9);
-const Color textSeecoundary2 = Color(0xff909294);
+const Color textSecondary1 = Color(0xFF292B2C); // Paling gelap, hampir hitam
+const Color textSecondary2 =
+    Color(0xff38393A); // Gelap, tapi sedikit lebih soft
+const Color textSecondary3 =
+    Color(0xff505152); // Warna medium, masih cukup gelap
+const Color textSecondary4 = Color(0xff6A6B6C); // Lebih soft, abu-abu sedang
+const Color textSecondary5 =
+    Color(0xff858687); // Terang, tapi tetap dalam kategori sekunder
+
 const Color textThird = Color(0xff2f5f98);
 const Color textUrgent = Color(0xffdc3545);
 

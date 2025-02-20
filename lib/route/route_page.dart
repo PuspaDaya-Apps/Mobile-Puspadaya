@@ -39,7 +39,7 @@ import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
-import '../app/feature/faktorResiko/create/create_parameter_faktor_resiko.dart';
+import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/detail/detail_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';

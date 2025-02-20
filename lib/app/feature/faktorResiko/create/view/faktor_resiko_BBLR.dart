@@ -4,10 +4,10 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../config/screen_config/image_config.dart';
-import '../../../../config/theme/shadow.dart';
-import '../../../view/widget/alert_dialog_widget.dart';
-import '../index/model/pertanyaan_model.dart';
+import '../../../../../config/screen_config/image_config.dart';
+import '../../../../../config/theme/shadow.dart';
+import '../../../../view/widget/alert_dialog_widget.dart';
+import '../../index/model/pertanyaan_model.dart';
 
 class CreateFaktorResikoBBLR extends StatelessWidget {
   const CreateFaktorResikoBBLR({super.key});
@@ -72,6 +72,7 @@ class _CreateFaktorResikoBBLRViewState
       body: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
           return warningDialog(context);
         },
         child: SafeArea(

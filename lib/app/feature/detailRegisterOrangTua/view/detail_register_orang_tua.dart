@@ -92,7 +92,7 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
                       color: bluePrimaryMain,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    unselectedLabelColor: textSecoundary,
+                    unselectedLabelColor: textSecondary1,
                     labelColor: Colors.white,
                     tabs: [
                       Tab(text: 'Data Ayah'),
