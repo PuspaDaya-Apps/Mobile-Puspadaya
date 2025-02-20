@@ -85,7 +85,7 @@ class _LupaKataSandiScreenState extends State<LupaKataSandiScreen> {
                                 vertical: SizeConfig.calHeightMultiplier(9)),
                             hintText: 'Masukan Nomor Telpon',
                             hintStyle: TextStyle(
-                                color: textSecoundary,
+                                color: textSecondary1,
                                 fontSize: SizeConfig.calMultiplierText(13),
                                 fontWeight: FontWeight.w400),
                             errorText: null,
@@ -118,11 +118,8 @@ class _LupaKataSandiScreenState extends State<LupaKataSandiScreen> {
                       debugPrint(state.toString());
                       if (state is LupaKataSandiSuccessState) {
                         Navigator.pop(context);
-                        Navigator.pushNamed(
-                          context, 
-                          OTP,
-                          arguments: nomorTelponController.text
-                        );
+                        Navigator.pushNamed(context, OTP,
+                            arguments: nomorTelponController.text);
                       }
                       if (state is LupaKataSandiFailedState) {
                         debugPrint(state.error);

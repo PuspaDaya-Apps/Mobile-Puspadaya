@@ -51,7 +51,7 @@ class FeatureMaintenance extends StatelessWidget {
                 textAlign: TextAlign.center,
                 'Kami berusaha menghadirkannya segera. Terima kasih atas kesabaran dan dukungannya! 😊',
                 style: AppTextStyles.secoundaryTextNormal.copyWith(
-                  color: textSeecoundary2,
+                  color: textSecondary2,
                   fontSize: 14,
                 ),
               ),

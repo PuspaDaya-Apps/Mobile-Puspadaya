@@ -29,7 +29,7 @@ class JadwalIndexBloc extends Bloc<JadwalIndexEvent, JadwalIndexState> {
         int statusCode = response[0] as int;
         GetDataJadwalPosyandu jadwalPosyandu =
             GetDataJadwalPosyandu.fromJson(response[1]);
-        logger.d(jadwalPosyandu.data[0].namaKegiatan);
+        // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCode == 200) {
           logger.d('succes get data jadwal posyandu');
           emit(JadwalIndexSuccess(jadwalPosyandu));
