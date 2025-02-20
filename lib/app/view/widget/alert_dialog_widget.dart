@@ -90,7 +90,7 @@ class AlertDialogWidget extends StatelessWidget {
                 child: Text(
                   cancelButtonMessage!,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: Colors.grey.shade700,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

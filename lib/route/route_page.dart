@@ -428,8 +428,12 @@ class MyRoute {
         );
 
       case DETAIL_REGISTER_IBU_HAMIL:
+        final String id =
+            settings.arguments as String; // Cast directly to String
         return MaterialPageRoute(
-          builder: (context) => const DetailRegisterIbuHamil(),
+          builder: (context) => DetailRegisterIbuHamil(
+            id: id,
+          ),
           settings: settings,
         );
 
