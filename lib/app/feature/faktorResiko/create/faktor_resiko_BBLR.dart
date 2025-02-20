@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
@@ -58,6 +59,16 @@ class _CreateFaktorResikoBBLRViewState
         },
       ),
       backgroundColor: backgroundWhite10,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: ButtonPrimary(
+            color: greenPrimaryMain,
+            mainButtonMessage: 'Simpan',
+            mainButton: () {}),
+      ),
       body: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -141,7 +152,7 @@ Future<void> warningDialog(BuildContext context) {
           Navigator.pop(context); // Close the previous screen
         },
         image: logoutVector, // Ensure this variable is defined
-        mainButtonMessage: 'Kembali ke Faktor Resiko',
+        mainButtonMessage: 'Kembali',
         colorMainButton: greenPrimaryMain, // Ensure this variable is defined
         cancelButton: () {
           Navigator.pop(context);
