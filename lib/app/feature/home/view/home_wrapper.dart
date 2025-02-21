@@ -86,7 +86,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 currentUserModel: state.currentUserModel,
               ),
               const Pengukuran(),
-              const Kunjungan(),
+              const KunjunganScreen(),
               const Jadwal(),
               Profile(
                 currentUserModel: state.currentUserModel,

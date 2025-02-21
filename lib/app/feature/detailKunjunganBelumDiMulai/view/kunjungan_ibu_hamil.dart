@@ -36,14 +36,14 @@ class _DetailKunjunganIbuHamilNotStartedViewState
       nik: "3621554012893625",
       id: '1',
       name: 'Raisa Lailasari',
-      status: Status.belumDiMulai,
+      status: Status.selesai,
       distance: '2,3',
     ),
     DetailListkunjunganModel(
       nik: "3612904411732625",
       id: '2',
       name: 'Titi Yuniar',
-      status: Status.belumDiMulai,
+      status: Status.selesai,
       distance: '0,9',
     ),
     DetailListkunjunganModel(
@@ -59,7 +59,7 @@ class _DetailKunjunganIbuHamilNotStartedViewState
   Widget build(BuildContext context) {
     // Filter the ongoing and completed visits
     List<DetailListkunjunganModel> ongoingVisits = listDaftarKunjungan
-        .where((kunjungan) => kunjungan.status == Status.belumDiMulai)
+        .where((kunjungan) => kunjungan.status == Status.selesai)
         .toList();
     List<DetailListkunjunganModel> completedVisits = listDaftarKunjungan
         .where((kunjungan) => kunjungan.status == Status.selesai)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/kunjungan/model/Kunjungan.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
@@ -10,13 +11,20 @@ import '../../../utils/logger/logger.dart';
 import '../screen/page_not_found_screen.dart';
 
 class KunjunganItemWidget extends StatelessWidget {
-  // final Status status;
-  // final TargetOfKunjugan target;
+  final String id;
+  final String nama;
+  final Status status;
+  final TargetOfKunjugan target;
   // final double distance;
-  // final DateTime date;
-  KunjunganItem item;
-  KunjunganItemWidget({
-    required this.item,
+  final DateTime date;
+  // final KunjunganItem item;
+  const KunjunganItemWidget({
+    required this.id,
+    required this.nama,
+    required this.status,
+    required this.target,
+    required this.date,
+    // required this.item,
     super.key,
   });
 
@@ -30,11 +38,12 @@ class KunjunganItemWidget extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: shadowSm,
           borderRadius: BorderRadius.circular(12),
-          color: item.status == Status.belumDiMulai
-              ? greenPrimaryMain
-              : item.status == Status.berjalan
+          color: status == Status.berjalan
                   ? goldPrimaryMain
-                  : bluePrimaryMain, // Default to bluePrimaryMain if none match
+                  : bluePrimaryMain,
+          // item.status == Status.belumDiMulai
+          //     ? greenPrimaryMain
+          //     :  // Default to bluePrimaryMain if none match
         ),
         child: Row(
           children: [
@@ -43,8 +52,7 @@ class KunjunganItemWidget extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding:
-                    EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 16),
+                padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(12),
@@ -58,24 +66,27 @@ class KunjunganItemWidget extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: item.status == Status.belumDiMulai
-                              ? greenPrimaryMain
-                              : item.status == Status.berjalan
-                                  ? goldPrimaryMain
-                                  : bluePrimaryMain,
+                          color: status == Status.berjalan
+                                ? goldPrimaryMain
+                                : bluePrimaryMain,
+                          // item.status == Status.belumDiMulai
+                          //     ? greenPrimaryMain
+                          //     : item.status == Status.berjalan
+                          //         ? goldPrimaryMain
+                          //         : bluePrimaryMain,
                           borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 4,
                         horizontal: 12,
                       ),
                       child: Text(
+                        nama,
                         style: AppTextStyles.primaryTextMedium
-                            .copyWith(fontSize: 14, color: Colors.white),
-                        '${hari[item.date.weekday - 1]}, ${item.date.day} ${bulan[item.date.month - 1]} ${item.date.year}',
+                          .copyWith(fontSize: 14, color: Colors.white),
                       ),
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         // text
@@ -85,15 +96,16 @@ class KunjunganItemWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Target : ${item.target == TargetOfKunjugan.anakStunting ? 'Anak Stunting' : item.target == TargetOfKunjugan.anakTidakHadir ? 'Anak Tidak Hadir' : 'Ibu Hamil'}',
+                                DateFormat("d MMMM y").format(date),
+                                
                                 style:
-                                    AppTextStyles.secoundaryTextNormal.copyWith(
+                                    AppTextStyles.secoundaryTextMedium.copyWith(
                                   color: Colors.grey.shade600,
-                                  fontSize: 12,
+                                  fontSize: 12.5,
                                 ),
                               ),
                               Text(
-                                'Status : ${item.status == Status.belumDiMulai ? 'Belum Dimulai' : item.status == Status.berjalan ? 'Berjalan' : 'Selesai'}',
+                                status == Status.berjalan ? 'Berjalan' : 'Selesai',
                                 style:
                                     AppTextStyles.secoundaryTextNormal.copyWith(
                                   color: Colors.grey.shade600,
@@ -114,33 +126,36 @@ class KunjunganItemWidget extends StatelessWidget {
                         ),
                         // distance
                         Expanded(
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Jarak Tempuh',
-                                  style: AppTextStyles.secoundaryTextNormal
-                                      .copyWith(
-                                    color: Colors.grey.shade600,
-                                    fontSize: 12,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              children: [
+                                // Align(
+                                //   alignment: Alignment.centerLeft,
+                                //   child: Text(
+                                //     'Jarak Tempuh',
+                                //     style: AppTextStyles.secoundaryTextNormal
+                                //         .copyWith(
+                                //       color: Colors.grey.shade600,
+                                //       fontSize: 12,
+                                //     ),
+                                //   ),
+                                // ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    textAlign: TextAlign
+                                        .start, // Menyelaraskan teks ke kanan
+                                   '${target == TargetOfKunjugan.anakStunting ? 'Anak Stunting' : target == TargetOfKunjugan.anakTidakHadir ? 'Anak Tidak Hadir' : 'Ibu Hamil'}',
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
+                                      color: Colors.grey.shade600,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  textAlign: TextAlign
-                                      .end, // Menyelaraskan teks ke kanan
-                                  '${item.distance} KM',
-                                  style: AppTextStyles.secoundaryTextNormal
-                                      .copyWith(
-                                    color: Colors.grey.shade600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -156,57 +171,41 @@ class KunjunganItemWidget extends StatelessWidget {
   }
 
   void gateNavigatorKunjungan(BuildContext context) {
-    // ! anak stunting belum dimulai
-    if (item.status == Status.belumDiMulai &&
-        item.target == TargetOfKunjugan.anakStunting) {
-      Navigator.pushNamed(context, DETAIL_KUNJUNGAN_STUNTING_NOT_STARTED);
-      logger.d("Navigasi ke halaman untuk Anak Stunting yang belum dimulai");
-      // ! anak tidak hadir belum dimulai
-    } else if (item.status == Status.belumDiMulai &&
-        item.target == TargetOfKunjugan.anakTidakHadir) {
-      Navigator.pushNamed(
-          context, DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED);
-      logger.d("Navigasi ke halaman untuk Anak Tidak Hadir yang belum dimulai");
-      // ! ibu hamil belum dimulai
-    } else if (item.status == Status.belumDiMulai &&
-        item.target == TargetOfKunjugan.ibuHamil) {
-      Navigator.pushNamed(context, DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED);
-      logger.d("Navigasi ke halaman untuk Ibu Hamil yang belum dimulai");
-
+    
       // ! anak stunting sedang berjalan
-    } else if (item.status == Status.berjalan &&
-        item.target == TargetOfKunjugan.anakStunting) {
+    if (status == Status.berjalan &&
+        target == TargetOfKunjugan.anakStunting) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_STUNTING_ON_GOING);
       logger.d("Navigasi ke halaman untuk Anak Stunting yang sedang berjalan");
 
       // ! anak tidak hadir sedang berjalan
-    } else if (item.status == Status.berjalan &&
-        item.target == TargetOfKunjugan.anakTidakHadir) {
+    } else if (status == Status.berjalan &&
+        target == TargetOfKunjugan.anakTidakHadir) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_ON_GOING);
       logger
           .d("Navigasi ke halaman untuk Anak Tidak Hadir yang sedang berjalan");
 
       // ! ibu hamil sedang berjalan
-    } else if (item.status == Status.berjalan &&
-        item.target == TargetOfKunjugan.ibuHamil) {
+    } else if (status == Status.berjalan &&
+        target == TargetOfKunjugan.ibuHamil) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_IBU_HAMIL_ON_GOING);
       logger.d("Navigasi ke halaman untuk Ibu Hamil yang sedang berjalan");
 
       // ! anak stunting selesai
-    } else if (item.status == Status.selesai &&
-        item.target == TargetOfKunjugan.anakStunting) {
+    } else if (status == Status.selesai &&
+        target == TargetOfKunjugan.anakStunting) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_STUNTING_DONE);
       logger.d("Navigasi ke halaman untuk Anak Stunting yang sudah selesai");
 
       // ! anak tidak hadir selesai
-    } else if (item.status == Status.selesai &&
-        item.target == TargetOfKunjugan.anakTidakHadir) {
+    } else if (status == Status.selesai &&
+        target == TargetOfKunjugan.anakTidakHadir) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_DONE);
       logger.d("Navigasi ke halaman untuk Anak Tidak Hadir yang sudah selesai");
 
       //! ibu hamil selesai
-    } else if (item.status == Status.selesai &&
-        item.target == TargetOfKunjugan.ibuHamil) {
+    } else if (status == Status.selesai &&
+        target == TargetOfKunjugan.ibuHamil) {
       Navigator.pushNamed(context, DETAIL_KUNJUNGAN_IBU_HAMIL_DONE);
       logger.d("Navigasi ke halaman untuk Ibu Hamil yang sudah selesai");
     } else {

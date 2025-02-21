@@ -5,7 +5,6 @@ enum TargetOfKunjugan {
 }
 
 enum Status {
-  belumDiMulai,
   berjalan,
   selesai,
 }
