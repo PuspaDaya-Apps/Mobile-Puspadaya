@@ -1,4 +1,4 @@
-import '../../app/feature/createKunjunganStunting/view/model/CheckBoxKunjungan.dart';
+import '../../app/model/CheckBoxKunjungan.dart';
 
 final List<String> selectGender = [
   'Laki-laki',

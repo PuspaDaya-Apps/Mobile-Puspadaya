@@ -6,7 +6,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../model/detailListKunjungan_model.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
-import '../../creteKunjunganIbuHamil/view/timer_kunjungan_ibu_hamil.dart';
+import '../../kunjunganIbuHamil/detailCreateKunjungan/view/timer_kunjungan_ibu_hamil.dart';
 import '../../kunjungan/model/Kunjungan.dart';
 import 'detil_kunjungan_berjalan_ibu_hamil.dart';
 

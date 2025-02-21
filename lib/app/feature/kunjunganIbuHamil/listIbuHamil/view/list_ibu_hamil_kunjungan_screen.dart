@@ -1,62 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/createKunjunganAnakTidakHadir/view/timer_kunjungan_tidak_hadir.dart';
-import 'package:puspadaya/app/feature/createKunjunganStunting/view/model/KunjunganStuntingItem.dart';
-import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
+import 'package:puspadaya/app/view/widget/kunjungan_ibu_hamil_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class CreateKunjunganAnakTidakHadir extends StatelessWidget {
-  const CreateKunjunganAnakTidakHadir({super.key});
+import 'model/KunjuganIbuHamilItem.dart';
+import '../../detailCreateKunjungan/view/timer_kunjungan_ibu_hamil.dart';
+
+class ListIbuHamilKunjungan extends StatelessWidget {
+  const ListIbuHamilKunjungan({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CreateKunjunganAnakTidakHadirView();
+    return const ListIbuHamilKunjunganView();
   }
 }
 
-class CreateKunjunganAnakTidakHadirView extends StatefulWidget {
-  const CreateKunjunganAnakTidakHadirView({super.key});
+class ListIbuHamilKunjunganView extends StatefulWidget {
+  const ListIbuHamilKunjunganView({super.key});
 
   @override
-  State<CreateKunjunganAnakTidakHadirView> createState() =>
-      _CreateKunjunganAnakTidakHadirViewState();
+  State<ListIbuHamilKunjunganView> createState() =>
+      _ListIbuHamilKunjunganViewState();
 }
 
-class _CreateKunjunganAnakTidakHadirViewState
-    extends State<CreateKunjunganAnakTidakHadirView> {
-  final TextEditingController _searchController = TextEditingController();
+class _ListIbuHamilKunjunganViewState
+    extends State<ListIbuHamilKunjunganView> {
   bool isSearching = false;
+  TextEditingController _searchController = TextEditingController();
 
-  final List<Kunjunganstuntingitem> originalList = [
-    Kunjunganstuntingitem(
+  final List<KunjuganIbuHamilItem> originalList = [
+    KunjuganIbuHamilItem(
       id: '1',
-      name: 'Thomas Aurealia',
+      name: 'Tessa Ivangkia',
       nik: '3621554011732625',
-      parent: 'Yusnizar Kasta',
+      husband: 'Mustafid Sayoga',
     ),
-    Kunjunganstuntingitem(
+    KunjuganIbuHamilItem(
       id: '2',
-      name: 'Sakti Rudiatin',
+      name: 'Soraya Aprilicia',
       nik: '3621554011732636',
-      parent: 'Dian Umaeroh',
+      husband: 'Muhamad Aristy',
     ),
-    Kunjunganstuntingitem(
+    KunjuganIbuHamilItem(
       id: '3',
-      name: 'Permana Tilasnuari',
+      name: 'Fernanda Oktaviaman',
       nik: '3621554011732647',
-      parent: 'Nurmi Machmud',
+      husband: 'Cakra Yusdwindra',
     ),
-    Kunjunganstuntingitem(
+    KunjuganIbuHamilItem(
       id: '4',
-      name: 'Silviana Kusuma',
+      name: 'Bella Riyadie',
       nik: '3621554011732658',
-      parent: 'Jesyca Khairani',
+      husband: 'Bimo Oktaviani',
     ),
   ];
 
-  List<Kunjunganstuntingitem> filteredList = [];
+  List<KunjuganIbuHamilItem> filteredList = [];
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _CreateKunjunganAnakTidakHadirViewState
       filteredList = originalList.where((item) {
         return item.name.toLowerCase().contains(query) ||
             item.nik.contains(query) ||
-            item.parent.toLowerCase().contains(query);
+            item.nik.toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -103,7 +104,7 @@ class _CreateKunjunganAnakTidakHadirViewState
                 hintText: 'Cari Data',
               )
             : Text(
-                'Pilih Anak Tidak Hadir',
+                'Piih Ibu Hamil',
                 style: AppTextStyles.primaryTextSemibold.copyWith(
                   fontSize: 16,
                 ),
@@ -123,21 +124,20 @@ class _CreateKunjunganAnakTidakHadirViewState
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: shadowSm,
               ),
-              child: KunjunganStuntingItems(
+              child: KunjunganIbuHamilItem(
                 onTap: () {
-                  // Handle item click
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return TimerKunjunganTidakHadir();
+                        return TimerKunjunganIbuHamil();
                       },
                     ),
                   );
                 },
                 name: item.name,
                 nik: item.nik,
-                parent: item.parent,
+                husband: item.husband,
               ),
             );
           },

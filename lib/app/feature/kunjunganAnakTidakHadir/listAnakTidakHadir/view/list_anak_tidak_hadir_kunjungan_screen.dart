@@ -1,52 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/createKunjunganStunting/view/model/KunjunganStuntingItem.dart';
-import 'package:puspadaya/app/feature/createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class CreateKunjunganStunting extends StatelessWidget {
-  const CreateKunjunganStunting({super.key});
+import '../../detailCreateKunjungan/view/timer_kunjungan_tidak_hadir.dart';
+
+class ListAnakTidakHadirKunjungan extends StatelessWidget {
+  const ListAnakTidakHadirKunjungan({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CreateKunjunganStuntingView();
+    return const ListAnakTidakHadirKunjunganView();
   }
 }
 
-class CreateKunjunganStuntingView extends StatefulWidget {
-  const CreateKunjunganStuntingView({super.key});
+class ListAnakTidakHadirKunjunganView extends StatefulWidget {
+  const ListAnakTidakHadirKunjunganView({super.key});
 
   @override
-  State<CreateKunjunganStuntingView> createState() =>
-      _CreateKunjunganStuntingViewState();
+  State<ListAnakTidakHadirKunjunganView> createState() =>
+      _ListAnakTidakHadirKunjunganViewState();
 }
 
-class _CreateKunjunganStuntingViewState
-    extends State<CreateKunjunganStuntingView> {
+class _ListAnakTidakHadirKunjunganViewState
+    extends State<ListAnakTidakHadirKunjunganView> {
   final TextEditingController _searchController = TextEditingController();
   bool isSearching = false;
 
   final List<Kunjunganstuntingitem> originalList = [
     Kunjunganstuntingitem(
       id: '1',
-      name: 'Aisyah Zahra Putri',
+      name: 'Thomas Aurealia',
       nik: '3621554011732625',
-      parent: 'Sri Wahyuni',
+      parent: 'Yusnizar Kasta',
     ),
     Kunjunganstuntingitem(
       id: '2',
-      name: 'Budi Santoso',
+      name: 'Sakti Rudiatin',
       nik: '3621554011732636',
-      parent: 'Tifany Novianti',
+      parent: 'Dian Umaeroh',
     ),
     Kunjunganstuntingitem(
       id: '3',
-      name: 'Citra Dewi',
+      name: 'Permana Tilasnuari',
       nik: '3621554011732647',
-      parent: 'Mira Dewi',
+      parent: 'Nurmi Machmud',
+    ),
+    Kunjunganstuntingitem(
+      id: '4',
+      name: 'Silviana Kusuma',
+      nik: '3621554011732658',
+      parent: 'Jesyca Khairani',
     ),
   ];
 
@@ -97,7 +104,7 @@ class _CreateKunjunganStuntingViewState
                 hintText: 'Cari Data',
               )
             : Text(
-                'Piih Anak Stunting',
+                'Pilih Anak Tidak Hadir',
                 style: AppTextStyles.primaryTextSemibold.copyWith(
                   fontSize: 16,
                 ),
@@ -119,15 +126,15 @@ class _CreateKunjunganStuntingViewState
               ),
               child: KunjunganStuntingItems(
                 onTap: () {
+                  // Handle item click
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return TimerKunjunganStunting();
+                        return TimerKunjunganTidakHadir();
                       },
                     ),
                   );
-                  // Handle item click
                 },
                 name: item.name,
                 nik: item.nik,

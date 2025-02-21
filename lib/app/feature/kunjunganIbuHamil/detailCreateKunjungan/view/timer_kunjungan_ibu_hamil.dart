@@ -9,7 +9,7 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../view/widget/alert_dialog_widget.dart';
+import '../../../../view/widget/alert_dialog_widget.dart';
 import 'checklist_job_kunjungan_ibu_hamil.dart';
 
 class TimerKunjunganIbuHamil extends StatefulWidget {

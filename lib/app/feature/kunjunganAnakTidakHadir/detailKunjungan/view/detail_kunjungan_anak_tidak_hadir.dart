@@ -3,17 +3,19 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/pallet_color.dart';
-import '../../../view/widget/appbar_widget.dart';
-import '../../../view/widget/info_field_widget.dart';
-import '../../../view/screen/bukti_kunjungan.dart';
+import '../../../../../config/screen_config/size_config.dart';
+import '../../../../../config/theme/pallet_color.dart';
+import '../../../../view/widget/appbar_widget.dart';
+import '../../../../view/widget/info_field_widget.dart';
+import '../../../../view/screen/bukti_kunjungan.dart';
 
-class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
+class DetailKunjunganAnakTidakHadir extends StatelessWidget {
   List<String> job = [
-    "Pemberian Makanan Tambahan (PMT)",
+    "Vitamin A",
+    "obat cacing",
+    "stimulasi perkembangan",
   ];
-  DetailKunjunganSelesaiAnakStunting({super.key});
+  DetailKunjunganAnakTidakHadir({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         background: Colors.white,
-        title: 'Detail Kunjungan Anak Stunting',
+        title: 'Detail Kunjungan Anak Tidak Hadir',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -49,7 +51,7 @@ class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '3621554019876225'),
+                InfoFieldWidget(text: '354635284658310023'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Nama',
@@ -60,7 +62,7 @@ class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: 'Cayadi Saptono'),
+                InfoFieldWidget(text: 'Dewi Lestari'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,7 +126,7 @@ class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(8),
                 ),
-                InfoFieldWidget(text: '4,8'),
+                InfoFieldWidget(text: '6,8'),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   textAlign: TextAlign.start,
@@ -225,7 +227,7 @@ class DetailKunjunganSelesaiAnakStunting extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) {
                           return BuktiKunjungan(
-                            imageUrls: [imageBuktiStunting],
+                            imageUrls: [imageBuktiPengukuranDiRUmah],
                           );
                         },
                       ),

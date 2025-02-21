@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
+import 'package:puspadaya/app/feature/kunjunganAnakTidakHadir/detailCreateKunjungan/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -11,14 +10,17 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class TimerKunjunganStunting extends StatefulWidget {
-  const TimerKunjunganStunting({super.key});
+import '../../../../view/widget/alert_dialog_widget.dart';
+
+class TimerKunjunganTidakHadir extends StatefulWidget {
+  const TimerKunjunganTidakHadir({super.key});
 
   @override
-  State<TimerKunjunganStunting> createState() => _TimerKunjunganStuntingState();
+  State<TimerKunjunganTidakHadir> createState() =>
+      _TimerKunjunganTidakHadirState();
 }
 
-class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
+class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
   Timer? _timer;
   int _seconds = 0;
   bool _isRunning = false;
@@ -52,7 +54,8 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ChecklistJobKunjunganAnak(),
+                    builder: (context) =>
+                        const ChecklistJobKunjunganAnakTidakHadir(),
                   ),
                 );
               },
@@ -81,7 +84,7 @@ class _TimerKunjunganStuntingState extends State<TimerKunjunganStunting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Kunjungan Anak Stunting',
+        title: 'Kunjungan Anak Tidak Hadir',
         onBackPressed: () {
           Navigator.pop(context);
         },

@@ -3,17 +3,17 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/pallet_color.dart';
-import '../../../view/widget/appbar_widget.dart';
-import '../../../view/widget/info_field_widget.dart';
-import '../../../view/screen/bukti_kunjungan.dart';
+import '../../../../../config/screen_config/size_config.dart';
+import '../../../../../config/theme/pallet_color.dart';
+import '../../../../view/widget/appbar_widget.dart';
+import '../../../../view/widget/info_field_widget.dart';
+import '../../../../view/screen/bukti_kunjungan.dart';
 
-class DetailKunjunganSelesaiIbuHamil extends StatelessWidget {
+class DetailKunjunganIbuHamil extends StatelessWidget {
   List<String> job = [
     "Pemberian Makanan Tambahan",
   ];
-  DetailKunjunganSelesaiIbuHamil({super.key});
+  DetailKunjunganIbuHamil({super.key});
 
   @override
   Widget build(BuildContext context) {

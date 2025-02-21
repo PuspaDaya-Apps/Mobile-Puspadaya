@@ -36,8 +36,8 @@ import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
 import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
-import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
-import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
+import '../app/feature/kunjunganAnakTidakHadir/listAnakTidakHadir/view/list_anak_tidak_hadir_kunjungan_screen.dart';
+import '../app/feature/kunjunganAnakStunting/listAnakStunting/view/list_anak_stunting_kunjungan_screen.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/detail/detail_parameter_faktor_resiko.dart';
@@ -48,7 +48,7 @@ import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hami
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
 import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_kader.dart';
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
-import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
+import '../app/feature/kunjunganIbuHamil/listIbuHamil/view/list_ibu_hamil_kunjungan_screen.dart';
 import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
 import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_stunting.dart';
@@ -261,17 +261,17 @@ class MyRoute {
 
       case CREATE_KUNJUNGAN_STUNTING:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganStunting(),
+            builder: (context) => const ListAnakStuntingKunjungan(),
             settings: settings);
 
       case CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganAnakTidakHadir(),
+            builder: (context) => const ListAnakTidakHadirKunjungan(),
             settings: settings);
 
       case CREATE_KUNJUNGAN_IBU_HAMIL:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganIbuHamil(),
+            builder: (context) => const ListIbuHamilKunjungan(),
             settings: settings);
 
       // ! kunjungan detail
