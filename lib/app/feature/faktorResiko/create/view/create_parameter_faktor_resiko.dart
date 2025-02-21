@@ -108,15 +108,6 @@ class _CreateParameterFaktorResikoViewState
                   final answers = context
                       .read<IndexParameterFaktorResikoBloc>()
                       .dataQuisioner;
-
-                  // if (answers.isEmpty) {
-                  //   ScaffoldMessenger.of(context).showSnackBar(
-                  //     SnackBar(
-                  //         content: Text("Tidak ada jawaban yang disimpan")),
-                  //   );
-                  //   return;
-                  // }
-
                   // ✅ Log ke console untuk debugging
                   print(
                       "Jawaban yang disimpan: ${answers.map((e) => e.toJson()).toList()}");
@@ -183,6 +174,10 @@ class _CreateParameterFaktorResikoViewState
                   bool isDone = answers.any((answer) => parameter.pertanyaan
                       .any((q) => q.id == answer.pertanyaanId));
                   logger.d('jawaban yang diterima ${answers} ');
+
+                  bool isCompleteQuestion = parameter.isCompleted;
+                  if (isCompleteQuestion)
+                    return SizedBox(); // Jangan tampilkan jika sudah selesai
                   // if (parameter.pertanyaan[index].id ==
                   //     answers[index].pertanyaanId) ;
                   return Padding(
