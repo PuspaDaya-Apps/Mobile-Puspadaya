@@ -1,52 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:puspadaya/app/feature/faktorResiko/detail/faktor_resiko_asi_ekslusif.dart';
-import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 
-import '../../../../../config/theme/pallet_color.dart';
-import '../../../../../config/theme/shadow.dart';
-import '../../../../../config/theme/text_style.dart';
-import '../../../../view/widget/appbar_widget.dart';
-import '../../create/faktor_resiko_BBLR.dart';
-import '../../create/faktor_resiko_IMD.dart';
-import '../../create/faktor_resiko_asi_ekslusif.dart';
-import '../../create/faktor_resiko_imunisasi.dart';
-import '../../create/faktor_resiko_lahir_kembar.dart';
-import '../../detail/faktor_resiko_IMD.dart';
-import '../../detail/faktor_resiko_bblr.dart';
-import '../../detail/faktor_resiko_imunisasi.dart';
-import '../../detail/faktor_resiko_lahir_kembar.dart';
-import '../model/parameter_faktor_resiko_model.dart';
+import '../../../../config/theme/pallet_color.dart';
+import '../../../../config/theme/shadow.dart';
+import '../../../view/widget/alert_dialog_petunjuk_faktor_resiko.dart';
+import '../../../view/widget/appbar_widget.dart';
+import '../../../view/widget/primary_button_widget.dart';
+import '../create/view/faktor_resiko_BBLR.dart';
+import '../create/view/faktor_resiko_IMD.dart';
+import '../create/view/faktor_resiko_asi_ekslusif.dart';
+import '../create/view/faktor_resiko_imunisasi.dart';
+import '../create/view/faktor_resiko_lahir_kembar.dart';
+import '../index/model/parameter_faktor_resiko_model.dart';
+import 'faktor_resiko_IMD.dart';
+import 'faktor_resiko_asi_ekslusif.dart';
+import 'faktor_resiko_bblr.dart';
+import 'faktor_resiko_imunisasi.dart';
+import 'faktor_resiko_lahir_kembar.dart';
 
-class IndexParameterFaktorResiko extends StatelessWidget {
-  final String id;
+class DetailParameterFaktorResiko extends StatelessWidget {
+  final String anakId;
   final String bulan;
-  const IndexParameterFaktorResiko(
-      {super.key, required this.id, required this.bulan});
+  const DetailParameterFaktorResiko(
+      {super.key, required this.anakId, required this.bulan});
 
   @override
   Widget build(BuildContext context) {
-    return IndexParameterFaktorResikoView(
-      id: id,
+    return DetailParameterFaktoResikoView(
+      anakId: anakId,
       bulan: bulan,
     );
   }
 }
 
-class IndexParameterFaktorResikoView extends StatefulWidget {
-  final String id;
+class DetailParameterFaktoResikoView extends StatefulWidget {
+  final String anakId;
   final String bulan;
-  const IndexParameterFaktorResikoView(
-      {super.key, required this.id, required this.bulan});
+  const DetailParameterFaktoResikoView(
+      {super.key, required this.anakId, required this.bulan});
 
   @override
-  State<IndexParameterFaktorResikoView> createState() =>
-      _IndexParameterFaktorResikoViewState();
+  State<DetailParameterFaktoResikoView> createState() =>
+      _DetailParameterFaktoResikoViewState();
 }
 
-class _IndexParameterFaktorResikoViewState
-    extends State<IndexParameterFaktorResikoView> {
+class _DetailParameterFaktoResikoViewState
+    extends State<DetailParameterFaktoResikoView> {
   List<ParameterFaktorResikoModel> parameterFaktorResikoItem = [
     ParameterFaktorResikoModel(
       page: 'bblr',
@@ -66,7 +66,7 @@ class _IndexParameterFaktorResikoViewState
       page: 'lahir-kembar',
       judul: 'Lahir Kembar',
       keterangan: 'Lahir Kembar pada Anak',
-      status: true,
+      status: false,
       terakhirDiIsi: DateTime.now(),
     ),
     ParameterFaktorResikoModel(
@@ -80,10 +80,11 @@ class _IndexParameterFaktorResikoViewState
       page: 'asi-ekslusif',
       judul: 'Asi Ekslusif',
       keterangan: 'Asi Ekslusif pada Anak',
-      status: true,
+      status: false,
       terakhirDiIsi: DateTime.now(),
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -198,121 +199,34 @@ class _IndexParameterFaktorResikoViewState
   }
 }
 
-class AlertDialogPetunjuk extends StatelessWidget {
-  const AlertDialogPetunjuk({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: false,
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Colors.white,
-        ),
-        padding: EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Text(
-                textAlign: TextAlign.center,
-                'Petunjuk',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              "Di dalam halaman faktor resiko permasalahan gizi terdapat daftar resiko yang memiliki bentuk kotak dengan ikon penanda masing-masing.",
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            ExpansionTile(
-              collapsedShape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: stroke10,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: stroke10,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              leading: Icon(
-                FontAwesomeIcons.circleExclamation, // Font Awesome icon
-                color: goldPrimaryMain, // Icon color
-                size: 24,
-              ),
-              title: Text('BBLR'),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              'Jenis Jenis Ikon Penanda : ',
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              '1. Perlu diKerjakan',
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Icon(
-              FontAwesomeIcons.circleExclamation, // Font Awesome icon
-              color: goldPrimaryMain, // Icon color
-              size: 32,
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                fontSize: 12,
-              ),
-              'Faktor resiko dengan ikon ini memiliki arti bahwa faktor resiko tersebut perlu di kerjakan atau di isi',
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              '2. Sudah diKerjakan',
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Icon(
-              FontAwesomeIcons.circleCheck,
-              color: greenPrimaryMain,
-              size: 32,
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Text(
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                fontSize: 12,
-              ),
-              'Faktor resiko dengan ikon ini memiliki arti bahwa faktor resiko tersebut sudah selesai di kerjakan, dan anda perlu menunggu jangka waktu tertentu sesuai dengan faktor resiko nya untuk dapat dikerjakan kembali.',
-            )
-          ],
-        ),
-      ),
-    );
+void gateNavigatoToCreate(BuildContext context, String page) {
+  switch (page) {
+    case 'bblr':
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CreateFaktorResikoBBLR()));
+      break;
+    case 'imunisasi':
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CreateFaktorResikoImunisasi()));
+      break;
+    case 'lahir-kembar':
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CreateFaktorResikoLahirKembar()));
+      break;
+    case 'imd':
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CreateFaktorResikoIMD()));
+      break;
+    case 'asi-ekslusif':
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CreateFaktorResikoAsiEksklusif()));
+      break;
   }
 }
 
@@ -343,37 +257,6 @@ void gateNavigatoToDetail(BuildContext context, String page) {
           context,
           MaterialPageRoute(
               builder: (context) => DetailFaktorResikoAsiEksklusif()));
-      break;
-  }
-}
-
-void gateNavigatoToCreate(BuildContext context, String page) {
-  switch (page) {
-    case 'bblr':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CreateFaktorResikoBBLR()));
-      break;
-    case 'imunisasi':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoImunisasi()));
-      break;
-    case 'lahir-kembar':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoLahirKembar()));
-      break;
-    case 'imd':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CreateFaktorResikoIMD()));
-      break;
-    case 'asi-ekslusif':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoAsiEksklusif()));
       break;
   }
 }

@@ -72,7 +72,8 @@ class _CreateRegisterAnggotaKaderViewState
 
   @override
   Widget build(BuildContext context) {
-    final createAnggotaKaderBloc = BlocProvider.of<CreateAnggotaKaderBloc>(context);
+    final createAnggotaKaderBloc =
+        BlocProvider.of<CreateAnggotaKaderBloc>(context);
     final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
 
     return Scaffold(
@@ -84,10 +85,10 @@ class _CreateRegisterAnggotaKaderViewState
         },
       ),
       body: SafeArea(
-        child: BlocListener<AuthorizationBloc, AuthorizationState>(
+          child: BlocListener<AuthorizationBloc, AuthorizationState>(
         listener: (context, state) {
           debugPrint(state.toString());
-          if(state is AuthorizationFalse) {
+          if (state is AuthorizationFalse) {
             Navigator.pushReplacementNamed(context, LOGIN);
           }
         },
@@ -97,16 +98,12 @@ class _CreateRegisterAnggotaKaderViewState
             if (state is CurrentUserFailedState) {
               authorizationBloc.add(AuthorizationFalseEvent());
               showTopSnackBar(
-                Overlay.of(context),
-                animationDuration: const Duration(
-                    milliseconds: 600),
-                displayDuration: const Duration(
-                    milliseconds: 2200),
-                reverseAnimationDuration:
-                    const Duration(
-                        milliseconds: 300),
-                TopSnackbarWidget()
-                    .error('User tidak dapat ditemukan\n harap login kembali'));
+                  Overlay.of(context),
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget().error(
+                      'User tidak dapat ditemukan\n harap login kembali'));
             }
           },
           builder: (context, userState) {
@@ -164,7 +161,7 @@ class _CreateRegisterAnggotaKaderViewState
                                   color: bluePrimaryMain,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                unselectedLabelColor: textSecoundary,
+                                unselectedLabelColor: textSecondary1,
                                 labelColor: Colors.white,
                                 tabs: const [
                                   Tab(text: 'Individu'),
@@ -180,7 +177,8 @@ class _CreateRegisterAnggotaKaderViewState
                                 children: [
                                   CreateIndividu(
                                     dataWilayahModel: state.dataWilayahModel,
-                                    currentUserModel: userState.currentUserModel,
+                                    currentUserModel:
+                                        userState.currentUserModel,
                                   ),
                                   CreateImport(),
                                 ],
