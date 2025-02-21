@@ -9,7 +9,6 @@ class CardIbuHamilWidget extends StatelessWidget {
       {required this.nama,
       required this.nik,
       required this.bulan,
-      required this.minggu,
       super.key,
       required this.onTap});
 
@@ -17,7 +16,6 @@ class CardIbuHamilWidget extends StatelessWidget {
   final VoidCallback onTap;
   final String nik;
   final String bulan;
-  final String minggu;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +70,7 @@ class CardIbuHamilWidget extends StatelessWidget {
                       fontWeight: FontWeight.w400),
                 ),
                 Text(
-                  "Usia Kandungan : $bulan Bulan $minggu Minggu",
+                  "Usia Kandungan : $bulan ",
                   style: TextStyle(
                       color: textPrimary10.withOpacity(0.7),
                       fontSize: SizeConfig.calMultiplierText(12),

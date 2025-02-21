@@ -74,27 +74,20 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
+          child:
+              BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
             listener: (context, state) {
               debugPrint(state.toString());
-              if(state is DetailPengukuranAnakFailedState) {
+              if (state is DetailPengukuranAnakFailedState) {
                 debugPrint(state.error);
                 showTopSnackBar(
-                  Overlay.of(context),
-                  animationDuration: const Duration(
-                    milliseconds: 600
-                  ),
-                  displayDuration: const Duration(
-                    milliseconds: 2200
-                  ),
-                  reverseAnimationDuration: const Duration(
-                    milliseconds: 300
-                  ),
-                  TopSnackbarWidget().error(state.error)
-                );
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration: const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error));
               }
-              if(state is DetailPengukuanAnakTokenExpiredState) {
-              }
+              if (state is DetailPengukuanAnakTokenExpiredState) {}
             },
             builder: (context, state) {
               if (state is DetailPengukuranAnakProcessState) {
@@ -139,7 +132,7 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                             color: bluePrimaryMain,
                             borderRadius: BorderRadius.circular(5),
                           ), //
-                          unselectedLabelColor: textSecoundary,
+                          unselectedLabelColor: textSecondary1,
                           labelColor: Colors.white,
 
                           onTap: (value) {
@@ -169,9 +162,10 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                                 detailPengukuranAnakResponseModel:
                                     state.detailPengukuranAnakResponseModel),
                             DetailCatatan(
-                              catatan: state.detailPengukuranAnakResponseModel.data!.catatan,
-                              keluhan: state.detailPengukuranAnakResponseModel.data!.keluhan
-                            ),
+                                catatan: state.detailPengukuranAnakResponseModel
+                                    .data!.catatan,
+                                keluhan: state.detailPengukuranAnakResponseModel
+                                    .data!.keluhan),
                           ],
                         ),
                       ),
@@ -180,10 +174,9 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                 );
               }
               return SizedBox(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).width,
-                child: const ErrorServerScreen()
-              );
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: const ErrorServerScreen());
             },
           ),
         ),

@@ -1,11 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/card_ibuhamil_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../view/screen/data_not_found_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
+import '../bloc/get_index_ibu_hamil_bloc.dart';
 import 'model/ibu_hamil_item_model.dart';
 
 class RegisterIbuHamil extends StatelessWidget {
@@ -13,7 +16,10 @@ class RegisterIbuHamil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const RegisterIbuHamilView();
+    return BlocProvider(
+      create: (context) => GetIndexIbuHamilBloc(),
+      child: const RegisterIbuHamilView(),
+    );
   }
 }
 
@@ -27,20 +33,26 @@ class RegisterIbuHamilView extends StatefulWidget {
 class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
 
-  List<IbuHamilItemModel> listOrangTua = [
-    IbuHamilItemModel(
-      name: 'Hani Purnawati',
-      nik: '362155482327263',
-      month: 2,
-      week: 7,
-    ),
-    IbuHamilItemModel(
-      name: 'Aurora Yulianti',
-      nik: '362155482327263',
-      month: 3,
-      week: 2,
-    ),
-  ];
+  // List<IbuHamilItemModel> listOrangTua = [
+  //   IbuHamilItemModel(
+  //     name: 'Hani Purnawati',
+  //     nik: '362155482327263',
+  //     month: 2,
+  //     week: 7,
+  //   ),
+  //   IbuHamilItemModel(
+  //     name: 'Aurora Yulianti',
+  //     nik: '362155482327263',
+  //     month: 3,
+  //     week: 2,
+  //   ),
+  // ];
+  @override
+  void initState() {
+    context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,23 +107,46 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                 height: 12,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: listOrangTua.length,
-                  itemBuilder: (context, index) {
-                    IbuHamilItemModel orangTua = listOrangTua[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardIbuHamilWidget(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, DETAIL_REGISTER_IBU_HAMIL);
+                child: BlocBuilder<GetIndexIbuHamilBloc, GetIndexIbuHamilState>(
+                  builder: (context, state) {
+                    if (state is GetIndexIbuHamilLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is GetIndexIbuHamilFailed) {
+                      return Center(
+                        child: Text(
+                            'Gagal Mendapatkan Data Ibu Hamil ${state.message}'),
+                      );
+                    }
+                    if (state is GetIndexIbuHamilSuccess) {
+                      if (state.data.data.isEmpty) {
+                        return DataNotFoundScreen();
+                      }
+                      return ListView.builder(
+                        itemCount: state.data.data.length,
+                        itemBuilder: (context, index) {
+                          final orangTua = state.data.data[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardIbuHamilWidget(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  DETAIL_REGISTER_IBU_HAMIL,
+                                  arguments: orangTua.id,
+                                );
+                              },
+                              nama: orangTua.namaIbu,
+                              nik: orangTua.nik,
+                              bulan: orangTua.usiaKehamilan,
+                            ),
+                          );
                         },
-                        nama: orangTua.name,
-                        nik: orangTua.nik,
-                        bulan: orangTua.month.toString(),
-                        minggu: orangTua.week.toString(),
-                      ),
-                    );
+                      );
+                    }
+                    return Container();
                   },
                 ),
               )

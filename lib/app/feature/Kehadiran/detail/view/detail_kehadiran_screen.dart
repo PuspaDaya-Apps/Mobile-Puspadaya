@@ -226,7 +226,7 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
               color: bluePrimaryMain,
               borderRadius: BorderRadius.circular(5),
             ),
-            unselectedLabelColor: textSecoundary,
+            unselectedLabelColor: textSecondary1,
             labelColor: Colors.white,
             tabs: [
               Tab(text: 'Anak'),

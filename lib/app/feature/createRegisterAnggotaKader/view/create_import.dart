@@ -5,9 +5,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 
 class CreateImport extends StatefulWidget {
   const CreateImport({super.key});
@@ -134,10 +137,46 @@ class _CreateImportState extends State<CreateImport> {
             ),
           ),
           Text(
-            'Kolom pertama: Nama (isi dengan nama lengkap).\nKolom kedua: No. Telepon (isi dengan format no_telepon).\nKolom ketiga: Email (isi dengan alamat email yang valid).',
+            'Kolom pertama: Nama (isi dengan nama lengkap).\nKolom kedua: No. Telepon (isi dengan format no_telepon).\nKolom ketiga: tanggal lahir\nKolom ke 4 adalah RT\nKolom ke 5 adalah RW\nKolom terakhir adalah alamat lengkap kader',
             style: AppTextStyles.primaryTextNormal.copyWith(
               fontSize: 11,
             ),
+          ),
+          Row(
+            children: [
+              Text(
+                'Contoh Format Tabel: ',
+                style: AppTextStyles.primaryTextNormal.copyWith(
+                  fontSize: 12,
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  String url =
+                      "https://docs.google.com/spreadsheets/d/1HN60xTMfLqAqK_Px6_hyuX64ETegw7onKleHrwjlfDQ/edit?gid=1623751667#gid=1623751667";
+                  final Uri uri = Uri.parse(url);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  } else {
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        animationDuration: const Duration(milliseconds: 600),
+                        displayDuration: const Duration(milliseconds: 2200),
+                        reverseAnimationDuration:
+                            const Duration(milliseconds: 300),
+                        TopSnackbarWidget().error(
+                            'Gagal, terjadi permasalahn saat download file '));
+                  }
+                },
+                child: Text(
+                  style: AppTextStyles.primaryTextMedium.copyWith(
+                    color: bluePrimaryMain,
+                    fontSize: 12,
+                  ),
+                  'Download File Disini',
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 6),
           Image(
@@ -177,7 +216,7 @@ class _CreateImportState extends State<CreateImport> {
             ),
           ),
           Text(
-            'Klik pada tolbol unggah yang berada dibawah area pilih file.',
+            'Klik pada tombol unggah yang berada dibawah area pilih file.',
             style: AppTextStyles.primaryTextNormal.copyWith(
               fontSize: 11,
             ),

@@ -295,7 +295,7 @@ class CardListActivity extends StatelessWidget {
                     DateFormat('d', 'id_ID').format(date),
                     style: AppTextStyles.primaryTextSemibold.copyWith(
                       color: Colors.white,
-                      fontSize: 30,
+                      fontSize: 38,
                     ),
                   ),
                   Column(
@@ -306,29 +306,22 @@ class CardListActivity extends StatelessWidget {
                         DateFormat('MMMM y', 'id_ID').format(date),
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
                         ),
                       ),
                       Text(
                         DateFormat('EEEE', 'id_ID').format(date),
                         style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
                         ),
                       ),
                     ],
                   )
                 ],
               ),
-              Text(
-                'location',
-                style: AppTextStyles.primaryTextMedium.copyWith(
-                  fontSize: 12,
-                  color: Colors.white,
-                ),
-              )
             ],
           ),
           // line
@@ -421,7 +414,7 @@ class JadwalCard extends StatelessWidget {
                   child: Text(
                     '${DateFormat('Hm', 'id_ID').format(timeStart)} - ${DateFormat('Hm', 'id_ID').format(timeEnd)}',
                     style: TextStyle(
-                      color: textSecoundary,
+                      color: textSecondary1,
                       fontWeight: FontWeight.bold,
                       fontSize: SizeConfig.calMultiplierText(16),
                     ),
@@ -440,7 +433,7 @@ class JadwalCard extends StatelessWidget {
             Row(
               children: [
                 Image(
-                  height: 8,
+                  height: 12,
                   image: AssetImage(
                     iconLocation,
                   ),
@@ -452,7 +445,7 @@ class JadwalCard extends StatelessWidget {
                   '${location}',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: SizeConfig.calMultiplierText(8),
+                    fontSize: SizeConfig.calMultiplierText(12),
                   ),
                 )
               ],
@@ -465,7 +458,7 @@ class JadwalCard extends StatelessWidget {
 
   Row DateCard(DateTime date) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
@@ -473,7 +466,7 @@ class JadwalCard extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: SizeConfig.calMultiplierText(30),
+            fontSize: SizeConfig.calMultiplierText(38),
           ),
         ),
         const SizedBox(width: 8),
@@ -484,7 +477,8 @@ class JadwalCard extends StatelessWidget {
               DateFormat('MMMM y', 'id_ID')
                   .format(date), // Corrected month indexing
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
@@ -492,7 +486,8 @@ class JadwalCard extends StatelessWidget {
               DateFormat('EEEE', 'id_ID')
                   .format(date), // Corrected weekday indexing
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
             ),
@@ -529,7 +524,7 @@ class ProfileSection extends StatelessWidget {
                   'Selamat Datang ${name}',
                   maxLines: 1,
                   overflow: TextOverflow.clip,
-                  style: AppTextStyles.primaryTextMedium.copyWith(
+                  style: AppTextStyles.primaryTextSemibold.copyWith(
                     color: textPrimary10,
                     fontSize: 12,
                   ),
@@ -537,9 +532,9 @@ class ProfileSection extends StatelessWidget {
                 Text(
                   '${role}',
                   style: TextStyle(
-                    color: textSecoundary,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 10,
+                    color: textSecondary1,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
                   ),
                 ),
               ],
