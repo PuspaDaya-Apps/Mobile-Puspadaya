@@ -80,25 +80,43 @@ class _QuisionerParameterFaktorResikoViewState
           color: greenPrimaryMain,
           mainButtonMessage: 'Simpan Jawaban',
           mainButton: () {
-            if (isMultipleSelection) {
-              context.read<IndexParameterFaktorResikoBloc>().add(
-                    SelectAnswer(
-                      questionId: selectedIdPertanyaan,
-                      answerId: selectedJawabanMultiple,
-                      isMultipleChoice: isMultipleSelection,
-                    ),
-                  );
-            } else {
-              context.read<IndexParameterFaktorResikoBloc>().add(
-                    SelectAnswer(
-                      questionId: selectedIdPertanyaan,
-                      answerId: [selectedIdJawaban],
-                      isMultipleChoice: isMultipleSelection,
-                    ),
-                  );
-            }
-
-            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialogWidget(
+                    image: imageQuisioner,
+                    mainButton: () {
+                      if (isMultipleSelection) {
+                        context.read<IndexParameterFaktorResikoBloc>().add(
+                              SelectAnswer(
+                                questionId: selectedIdPertanyaan,
+                                answerId: selectedJawabanMultiple,
+                                isMultipleChoice: isMultipleSelection,
+                              ),
+                            );
+                      } else {
+                        context.read<IndexParameterFaktorResikoBloc>().add(
+                              SelectAnswer(
+                                questionId: selectedIdPertanyaan,
+                                answerId: [selectedIdJawaban],
+                                isMultipleChoice: isMultipleSelection,
+                              ),
+                            );
+                      }
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    cancelButtonMessage: 'Kembali ke faktor resiko',
+                    title: 'Apakah anda yakin dengan jawaban anda',
+                    message:
+                        'Pastikan jawaban yang Anda pilih sudah benar sebelum disimpan',
+                    cancelButton: () {
+                      Navigator.pop(context); // Tutup dialog
+                    },
+                    mainButtonMessage: 'Iya, Saya Sudah Yakin',
+                    colorMainButton: bluePrimaryMain);
+              },
+            );
           },
         ),
       ),
@@ -138,11 +156,23 @@ class _QuisionerParameterFaktorResikoViewState
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 12),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                12), // Ubah sesuai kebutuhan
+                            child: Image.network(
+                              widget.data.gambar,
+                              fit: BoxFit
+                                  .cover, // Agar gambar terisi dengan baik
+                              width: double.infinity, // Sesuaikan dengan desain
+                              height: 200, // Sesuaikan dengan desain
+                            ),
+                          ),
+                          SizedBox(height: 16),
                           Text(
                             isMultipleSelection
-                                ? "Anda hanya bisa memilih satu jawaban "
-                                : "Anda dapat memilih banyak pilihan",
+                                ? "Anda dapat memilih banyak pilihan"
+                                : "Anda hanya bisa memilih satu jawaban",
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           ),

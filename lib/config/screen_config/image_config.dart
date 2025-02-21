@@ -71,3 +71,4 @@ const String imageBuktiPengukuranDiRUmah =
     "assets/images/pengukuran_dirumah.jpeg";
 
 const String imageAlertWarning = "assets/images/alert_warning.png";
+const String imageQuisioner = "assets/images/image_quisioner.png";
