@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/faktorResiko/create/bloc/index_parameter_faktor_resiko_bloc.dart';
+import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
@@ -161,6 +162,9 @@ class _CreateParameterFaktorResikoViewState
               );
             }
             if (state is IndexParamterFaktorResikoSuccess) {
+              if (state.data.data.isEmpty) {
+                return DataNotFoundScreen();
+              }
               return ListView.builder(
                 itemCount: state.data.data.length,
                 itemBuilder: (context, index) {
