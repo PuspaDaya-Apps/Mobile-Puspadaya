@@ -11,8 +11,11 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../../utils/logger/logger.dart';
+import '../../../../view/screen/data_not_found_screen.dart';
 import '../../../../view/widget/pul_to_refresh.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 
 class Jadwal extends StatelessWidget {
   const Jadwal({super.key});
@@ -71,87 +74,93 @@ class _JadwalViewState extends State<JadwalView> {
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: PullToRefreshWidget(
-          onRefresh: () async {
-            logger.d('on refresh');
-            context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
-            _controller.finishRefresh();
+        child: BlocConsumer<JadwalIndexBloc, JadwalIndexState>(
+          listener: (context, state) {
+            // You can handle side effects here if needed
+            if (state is JadwalIndexFailed) {
+              // For example, show a snackbar with the error message
+              showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget().error(state.message));
+            }
           },
-          refreshController: _controller,
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(12),
+          builder: (context, state) {
+            if (state is JadwalIndexLoading) {
+              return Container(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height / 1.15,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
                   ),
-                  Text(
-                    'Jadwal Posyandu',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
+                ),
+              );
+            }
+            if (state is JadwalIndexFailed) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: TextStyle(
+                    color: textSecondary1,
+                    fontSize: 16,
+                  ),
+                ),
+              );
+            }
+            if (state is JadwalIndexSuccess) {
+              if (state.data.data.isEmpty) {
+                return DataNotFoundScreen();
+              }
+              return PullToRefreshWidget(
+                onRefresh: () async {
+                  logger.d('on refresh');
+                  context
+                      .read<JadwalIndexBloc>()
+                      .add(GetDataJadwalPosyanduEvent());
+                  _controller.finishRefresh();
+                },
+                refreshController: _controller,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(12),
+                        ),
+                        Text(
+                          'Jadwal Posyandu',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(18),
+                        ),
+                        CalenderView(
+                          jadwal: state.data.data,
+                        ),
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(20),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(18),
-                  ),
-                  BlocConsumer<JadwalIndexBloc, JadwalIndexState>(
-                    listener: (context, state) {
-                      // You can handle side effects here if needed
-                      if (state is JadwalIndexFailed) {
-                        // For example, show a snackbar with the error message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.message)),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is JadwalIndexLoading) {
-                        return Container(
-                          width: MediaQuery.sizeOf(context).width,
-                          height: MediaQuery.sizeOf(context).height / 1.15,
-                          child: Center(
-                            child: SpinKitThreeBounce(
-                              color: bluePrimaryMain,
-                              size: 50.0,
-                            ),
-                          ),
-                        );
-                      }
-                      if (state is JadwalIndexSuccess) {
-                        logger.d(state.data);
-                        // _isLoading = false;
-                        return CalenderView(
-                          jadwal: state.data.data,
-                        );
-                      }
-                      if (state is JadwalIndexFailed) {
-                        return Center(
-                          child: Text(
-                            state.message,
-                            style: TextStyle(
-                              color: textSecoundary,
-                              fontSize: 16,
-                            ),
-                          ),
-                        );
-                      }
-                      return Container(); // Return an empty container for other states
-                    },
-                  ),
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(20),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );
@@ -234,7 +243,7 @@ class JadwalCard extends StatelessWidget {
                   child: Text(
                     '${timeStart} - ${timeEnd}',
                     style: TextStyle(
-                      color: textSecoundary,
+                      color: textSecondary1,
                       fontWeight: FontWeight.bold,
                       fontSize: SizeConfig.calMultiplierText(16),
                     ),
@@ -269,7 +278,7 @@ class JadwalCard extends StatelessWidget {
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
-            fontSize: SizeConfig.calMultiplierText(30),
+            fontSize: SizeConfig.calMultiplierText(38),
           ),
         ),
         const SizedBox(width: 8),
@@ -279,14 +288,14 @@ class JadwalCard extends StatelessWidget {
             Text(
               '${months[date.month - 1]} ${date.year}', // Corrected month indexing
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 color: Colors.white,
               ),
             ),
             Text(
               '${days[date.weekday - 1]}', // Corrected weekday indexing
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 color: Colors.white,
               ),
             ),
@@ -309,7 +318,7 @@ class LocationCard extends StatelessWidget {
     return Row(
       children: [
         Image(
-          height: 8,
+          height: 12,
           image: AssetImage(
             iconLocation,
           ),
@@ -321,7 +330,7 @@ class LocationCard extends StatelessWidget {
           '${location}',
           style: TextStyle(
             color: Colors.white,
-            fontSize: SizeConfig.calMultiplierText(8),
+            fontSize: SizeConfig.calMultiplierText(12),
           ),
         )
       ],
@@ -510,7 +519,7 @@ class _CalenderViewState extends State<CalenderView> {
                     child: Text(
                       'Tidak ada jadwal untuk hari ini',
                       style: TextStyle(
-                        color: textSecoundary,
+                        color: textSecondary1,
                         fontSize: 16,
                       ),
                     ),

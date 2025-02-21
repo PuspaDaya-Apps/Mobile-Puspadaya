@@ -121,7 +121,8 @@ const String EPPGBM = '/eppgbm';
 //! faktor resiko
 const String ANAK_FAKTOR_RESIKO = '/faktor-resiko';
 const String BULAN_FAKTOR_RESIKO = '/faktor-resiko/bulan';
-const String PARAMETER_FAKTOR_RESIKO = '/faktor-resiko/parameter';
+const String PARAMETER_FAKTOR_RESIKO_CREATE = '/faktor-resiko/parameter/create';
+const String PARAMETER_FAKTOR_RESIKO_DETAIL = '/faktor-resiko/parameter/detail';
 
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';

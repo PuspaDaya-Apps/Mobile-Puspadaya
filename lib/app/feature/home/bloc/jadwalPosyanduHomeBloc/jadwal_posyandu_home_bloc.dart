@@ -36,18 +36,23 @@ class JadwalPosyanduHomeBloc
             JadwalHomeResponseModel.fromJson(response[1]);
 
         if (statusCode == 200) {
-          List<Data> dataTemp = cardHomeResponseModel.data!
-              .where((value) =>
-                  value.tanggalPelaksanaan.isAfter(DateTime.now()) ||
-                  value.tanggalPelaksanaan.isAtSameMomentAs(DateTime.now()))
-              .toList();
+          if (cardHomeResponseModel.data!.length > 1) {
+            List<Data> dataTemp = cardHomeResponseModel.data!
+                .where((value) =>
+                    value.tanggalPelaksanaan.isAfter(DateTime.now()) ||
+                    value.tanggalPelaksanaan.isAtSameMomentAs(DateTime.now()))
+                .toList();
 
-          dataTemp.sort(
-              (a, b) => a.tanggalPelaksanaan.compareTo(b.tanggalPelaksanaan));
+            dataTemp.sort(
+                (a, b) => a.tanggalPelaksanaan.compareTo(b.tanggalPelaksanaan));
 
-          logger.d('dataTemp ${dataTemp[1].tanggalPelaksanaan}');
-          emit(JadwalPosyanduHomeSuccessState(
-              dataTemp.isEmpty ? null : dataTemp[0]));
+            logger.d('dataTemp ${dataTemp[1].tanggalPelaksanaan}');
+            emit(JadwalPosyanduHomeSuccessState(
+                dataTemp.isEmpty ? null : dataTemp[0]));
+          } else {
+            emit(
+                JadwalPosyanduHomeSuccessState(cardHomeResponseModel.data![0]));
+          }
         } else if (statusCode == 401) {
           emit(JadwalPosyanduHomeTokenExpiredState());
         } else {

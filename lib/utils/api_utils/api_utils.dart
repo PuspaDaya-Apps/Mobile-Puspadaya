@@ -477,12 +477,38 @@ class ApiUtils {
 
   //
   String urlGetGenerateNIK() {
-    String ulrGetGenerateNIK = LinkApi.GENERATENIK;
-    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
+    String urlGetGenerateNIK = LinkApi.GENERATENIK;
+    return _baseUrl + _apiVersion + urlGetGenerateNIK;
   }
 
   String urlGetGenerateKK() {
-    String ulrGetGenerateNIK = LinkApi.GENERATEKK;
-    return _baseUrl + _apiVersion + ulrGetGenerateNIK;
+    String urlGetGenerateNIK = LinkApi.GENERATEKK;
+    return _baseUrl + _apiVersion + urlGetGenerateNIK;
+  }
+
+  //! faktor resiko
+  String urlGetFaktorResiko() {
+    String urlGetFaktorResiko = LinkApi.FAKTORRESIKO;
+    return _baseUrl + _apiVersion + urlGetFaktorResiko;
+  }
+
+  String urlPostFaktorResikoPertanyaann() {
+    String urlGetFaktorResiko = LinkApi.FAKTORRESIKO;
+    return _baseUrl + _apiVersion + urlGetFaktorResiko;
+  }
+
+  String urlGetFaktorResikoPertanyaan(String id) {
+    String urlGetFaktorResiko = LinkApi.FAKTORRESIKOPERTANYAAN;
+    return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}';
+  }
+
+  String urlGetRiwayatFaktorResiko(String id) {
+    String urlGetFaktorResiko = LinkApi.RIWAYATFAKTORRESIKO;
+    return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}';
+  }
+
+  String urlGetDetailRiwayatFaktorResiko(String id) {
+    String urlGetFaktorResiko = LinkApi.RIWAYATFAKTORRESIKO;
+    return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}/detail';
   }
 }

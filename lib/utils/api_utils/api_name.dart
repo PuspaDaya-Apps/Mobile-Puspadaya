@@ -73,4 +73,10 @@ abstract class LinkApi {
   //!utils
   static const GENERATENIK = '/utils/generate-nik';
   static const GENERATEKK = '/utils/generate-nomor-kartu-keluarga';
+
+  //! faktor resiko
+
+  static const FAKTORRESIKO = '/faktor-resiko';
+  static const FAKTORRESIKOPERTANYAAN = '/faktor-resiko/pertanyaan';
+  static const RIWAYATFAKTORRESIKO = '/faktor-resiko/riwayat';
 }

@@ -362,7 +362,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                         color: bluePrimaryMain,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      unselectedLabelColor: textSecoundary,
+                      unselectedLabelColor: textSecondary1,
                       labelColor: Colors.white,
                       tabs: [
                         Tab(text: 'Data Ayah'),
@@ -374,6 +374,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                   BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
                     // buildWhen: (previous, current) => current is ShowAllSection,
                     builder: (context, state) {
+                      logger.d('state is ${state.toString()}');
                       debugPrint(state.toString());
                       if (state is GetAlamatProccessState) {
                         return const Expanded(
@@ -384,6 +385,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                         );
                       }
                       if (state is GetAlamatSuccessState) {
+                        logger.d(
+                            'length data wilayah ${state.dataWilayahModel.provinsi.kabupatenKota.length}');
                         if (dataKabupatenKotaAyah.isEmpty ||
                             dataKabupatenKotaIbu.isEmpty) {
                           dataKabupatenKotaAyah.addAll(
@@ -418,14 +421,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                         ),
                                         BlocConsumer<GenerateKkCubit,
                                             GenerateKkState>(
-                                          listener: (context, state) {
-                                            if (state is GenerateKKSuccess) {
-                                              kkAyahController.text = state
+                                          listener: (context, stateKK) {
+                                            if (stateKK is GenerateKKSuccess) {
+                                              kkAyahController.text = stateKK
                                                   .data.data.nomorKartuKeluarga;
                                             }
                                           },
-                                          builder: (context, state) {
-                                            if (state is GenerateKKLoading) {
+                                          builder: (context, stateKK) {
+                                            if (stateKK is GenerateKKLoading) {
                                               return const Center(
                                                   child:
                                                       CircularProgressIndicator());
@@ -472,7 +475,27 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     onPressed: () {
                                                       // Validasi sebelum mengizinkan generate
                                                       if (_isGenerateAyahValid()) {
+                                                        logger.d(
+                                                            'provinsi id ayah ${state.dataWilayahModel.provinsi.id}');
+                                                        logger.d(
+                                                            'kabupaten id ayah ${selectedKabupatenAyah?.id}');
+                                                        logger.d(
+                                                            'kecamatan id ayah ${selectedKecamatanAyah?.id}');
                                                         // Logika untuk generate
+                                                        context
+                                                            .read<
+                                                                GenerateKkCubit>()
+                                                            .getGenerateKK(
+                                                                state
+                                                                    .dataWilayahModel
+                                                                    .provinsi
+                                                                    .id,
+                                                                selectedKabupatenAyah!
+                                                                    .id,
+                                                                selectedKecamatanAyah!
+                                                                    .id,
+                                                                tanggalLahirAyahController
+                                                                    .text);
                                                         print(
                                                             "Generate button pressed");
                                                       } else {
@@ -574,7 +597,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                             .read<
                                                                 GenerateNikCubit>()
                                                             .getGenerateNik(
-                                                                nikAyahController
+                                                                kkAyahController
                                                                     .text,
                                                                 tanggalLahirAyahController
                                                                     .text);
@@ -1490,14 +1513,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     8)),
                                         BlocConsumer<GenerateKkCubit,
                                             GenerateKkState>(
-                                          listener: (context, state) {
-                                            if (state is GenerateKKSuccess) {
-                                              kkIbuController.text = state
+                                          listener: (context, stateKK) {
+                                            if (stateKK is GenerateKKSuccess) {
+                                              kkIbuController.text = stateKK
                                                   .data.data.nomorKartuKeluarga;
                                             }
                                           },
-                                          builder: (context, state) {
-                                            if (state is GenerateKKLoading) {
+                                          builder: (context, stateKK) {
+                                            if (stateKK is GenerateKKLoading) {
                                               return Center(
                                                   child:
                                                       CircularProgressIndicator());
@@ -1540,8 +1563,29 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       // Validasi sebelum mengizinkan generate
                                                       if (_isGenerateIbuValid()) {
                                                         // Logika untuk generate
+                                                        logger.d(
+                                                            'provinsi id ibu ${state.dataWilayahModel.provinsi.id}');
+                                                        logger.d(
+                                                            'kabupaten id ibu ${selectedKabupatenIbu?.id}');
+                                                        logger.d(
+                                                            'kecataman id ibu ${selectedKecamatanIbu?.id}');
                                                         print(
                                                             "Generate button pressed");
+
+                                                        context
+                                                            .read<
+                                                                GenerateKkCubit>()
+                                                            .getGenerateKK(
+                                                                state
+                                                                    .dataWilayahModel
+                                                                    .provinsi
+                                                                    .id,
+                                                                selectedKabupatenIbu!
+                                                                    .id,
+                                                                selectedKecamatanIbu!
+                                                                    .id,
+                                                                tanggalLahirIbuController
+                                                                    .text);
                                                       } else {
                                                         // Tampilkan snackbar atau dialog jika form tidak valid
                                                         showTopSnackBar(
