@@ -8,7 +8,7 @@ part of 'post_pertanyaan_model.dart';
 
 PostPertanyaanModel _$PostPertanyaanModelFromJson(Map<String, dynamic> json) =>
     PostPertanyaanModel(
-      tanggalPeriode: DateTime.parse(json['tanggal_periode'] as String),
+      tanggalPeriode: json['tanggal_periode'] as String,
       anakId: json['anak_id'] as String,
       faktorResiko: (json['faktor_resiko'] as List<dynamic>)
           .map((e) => FaktorResiko.fromJson(e as Map<String, dynamic>))
@@ -18,7 +18,7 @@ PostPertanyaanModel _$PostPertanyaanModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PostPertanyaanModelToJson(
         PostPertanyaanModel instance) =>
     <String, dynamic>{
-      'tanggal_periode': instance.tanggalPeriode.toIso8601String(),
+      'tanggal_periode': instance.tanggalPeriode,
       'anak_id': instance.anakId,
       'faktor_resiko': instance.faktorResiko,
     };

@@ -568,12 +568,9 @@ class MyRoute {
 
       //? create parameter faktor resiko
       case PARAMETER_FAKTOR_RESIKO_CREATE:
-        final args = settings.arguments as Map<String, String>;
-        final id = args['id'] as String? ?? '';
-        final bulan = args['bulan'] as String? ?? '';
+        final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
           builder: (context) => CreateParameterFaktorResiko(
-            bulan: bulan,
             anakId: id,
           ),
           settings: settings,

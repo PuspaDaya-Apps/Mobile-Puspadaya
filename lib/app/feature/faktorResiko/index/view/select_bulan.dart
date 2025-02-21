@@ -59,10 +59,7 @@ class _SelectBulanViewState extends State<SelectBulanView> {
           Navigator.pushNamed(
             context,
             PARAMETER_FAKTOR_RESIKO_CREATE,
-            arguments: {
-              'id': widget.id,
-              'bulan': '2',
-            },
+            arguments: widget.id,
           );
         },
       ),
