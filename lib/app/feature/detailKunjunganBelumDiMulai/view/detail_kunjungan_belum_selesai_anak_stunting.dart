@@ -8,8 +8,8 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
-import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
-import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+import '../../kunjunganAnakStunting/detailCreateKunjungan/view/checklist_job_kunjungan_anak.dart';
+import '../../kunjunganAnakStunting/detailCreateKunjungan/view/timer_kunjungan_stunting.dart';
 
 class DetailKunjunganBelumSelesaiAnakStunting extends StatelessWidget {
   List<String> job = [

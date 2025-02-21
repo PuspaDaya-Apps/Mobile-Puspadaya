@@ -6,8 +6,8 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../model/detailListKunjungan_model.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
-import '../../createKunjunganAnakTidakHadir/view/timer_kunjungan_tidak_hadir.dart';
-import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+import '../../kunjunganAnakTidakHadir/detailCreateKunjungan/view/timer_kunjungan_tidak_hadir.dart';
+import '../../kunjunganAnakStunting/detailCreateKunjungan/view/timer_kunjungan_stunting.dart';
 import '../../kunjungan/model/Kunjungan.dart';
 
 class DetailKunjunganAnakTidakHadirNotStarted extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/detailKunjunganSelesai/view/detail_kunjungan_selesai_anak_stunting.dart';
+import 'package:puspadaya/app/feature/kunjunganAnakStunting/detailKunjungan/view/detail_kunjungan_anak_stunting.dart';
 import 'package:puspadaya/app/feature/kunjungan/model/Kunjungan.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
@@ -200,7 +200,7 @@ class _DetailKunjunganAnakStuntingDoneViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganSelesaiAnakStunting();
+                              return DetailKunjunganAnakStunting();
                             },
                           ),
                         );

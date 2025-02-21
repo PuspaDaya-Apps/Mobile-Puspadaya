@@ -8,21 +8,21 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
-import '../../../../utils/constant/constanst.dart';
-import '../../../view/widget/alert_confirm_create_kunjungan.dart';
-import '../../../view/widget/checkbox_list_widget.dart';
-import '../../createKunjunganStunting/view/model/CheckBoxKunjungan.dart';
+import '../../../../../utils/constant/constanst.dart';
+import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
+import '../../../../view/widget/alert_done_create_kunjungan.dart';
+import '../../../../view/widget/checkbox_list_widget.dart';
+import '../../../../model/CheckBoxKunjungan.dart';
 
-class ChecklistJobKunjunganIbuHamil extends StatefulWidget {
-  const ChecklistJobKunjunganIbuHamil({super.key});
+class PerbaruiKunjunganAnakStuntingScreen extends StatefulWidget {
+  const PerbaruiKunjunganAnakStuntingScreen({super.key});
 
   @override
-  State<ChecklistJobKunjunganIbuHamil> createState() =>
-      _ChecklistJobKunjunganIbuHamilState();
+  State<PerbaruiKunjunganAnakStuntingScreen> createState() =>
+      _PerbaruiKunjunganAnakStuntingScreenState();
 }
 
-class _ChecklistJobKunjunganIbuHamilState
-    extends State<ChecklistJobKunjunganIbuHamil> {
+class _PerbaruiKunjunganAnakStuntingScreenState extends State<PerbaruiKunjunganAnakStuntingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -115,7 +115,7 @@ class _ChecklistJobKunjunganIbuHamilState
           physics: const NeverScrollableScrollPhysics(),
           children: [
             // Halaman pertama
-            CheckListJobKunjunganIbuHamilView(
+            CheckListJobKunjunganAnakView(
               goToNext: _goToNextPage,
             ),
             // Halaman kedua
@@ -127,33 +127,33 @@ class _ChecklistJobKunjunganIbuHamilState
   }
 }
 
-class CheckListJobKunjunganIbuHamilView extends StatefulWidget {
+class CheckListJobKunjunganAnakView extends StatefulWidget {
   final VoidCallback goToNext;
 
-  CheckListJobKunjunganIbuHamilView({super.key, required this.goToNext});
+  CheckListJobKunjunganAnakView({super.key, required this.goToNext});
 
   @override
-  State<CheckListJobKunjunganIbuHamilView> createState() =>
-      _CheckListJobKunjunganIbuHamilViewState();
+  State<CheckListJobKunjunganAnakView> createState() =>
+      _CheckListJobKunjunganAnakViewState();
 }
 
-class _CheckListJobKunjunganIbuHamilViewState
-    extends State<CheckListJobKunjunganIbuHamilView> {
+class _CheckListJobKunjunganAnakViewState
+    extends State<CheckListJobKunjunganAnakView> {
   void _updateCheckbox(int index, bool? value) {
     setState(() {
-      if (index == listOfCheckboxIbuHamil.length - 1 && value == true) {
+      if (index == listOfCheckboxAnakStunting.length - 1 && value == true) {
         // If the last checkbox is selected, disable all other checkboxes
-        for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-          listOfCheckboxIbuHamil[i].isChecked = false;
+        for (int i = 0; i < listOfCheckboxAnakStunting.length - 1; i++) {
+          listOfCheckboxAnakStunting[i].isChecked = false;
         }
-      } else if (index != listOfCheckboxIbuHamil.length - 1) {
+      } else if (index != listOfCheckboxAnakStunting.length - 1) {
         // If any other checkbox is selected, uncheck the last checkbox
-        listOfCheckboxIbuHamil[listOfCheckboxIbuHamil.length - 1].isChecked =
-            false;
+        listOfCheckboxAnakStunting[listOfCheckboxAnakStunting.length - 1]
+            .isChecked = false;
       }
 
       // Update the selected checkbox state
-      listOfCheckboxIbuHamil[index].isChecked = value ?? false;
+      listOfCheckboxAnakStunting[index].isChecked = value ?? false;
     });
   }
 
@@ -177,7 +177,7 @@ class _CheckListJobKunjunganIbuHamilViewState
             ),
           ),
           const SizedBox(height: 10),
-          ...listOfCheckboxIbuHamil.asMap().entries.map((entry) {
+          ...listOfCheckboxAnakStunting.asMap().entries.map((entry) {
             int index = entry.key;
             CheckboxKunjungan item = entry.value;
 
@@ -185,11 +185,13 @@ class _CheckListJobKunjunganIbuHamilViewState
               isChecked: item.isChecked,
               label: item.label,
               onChanged: (value) {
-                if (index == listOfCheckboxIbuHamil.length - 1 &&
+                if (index == listOfCheckboxAnakStunting.length - 1 &&
                     value == true) {
                   // Disable other checkboxes if the last one is selected
-                  for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-                    listOfCheckboxIbuHamil[i].isChecked = false;
+                  for (int i = 0;
+                      i < listOfCheckboxAnakStunting.length - 1;
+                      i++) {
+                    listOfCheckboxAnakStunting[i].isChecked = false;
                   }
                 }
                 _updateCheckbox(index, value);
@@ -386,6 +388,9 @@ class _UploadImageState extends State<UploadImage> {
               color: bluePrimaryMain,
               mainButtonMessage: 'Upload Bukti',
               mainButton: () {
+                // for (var image in _images) {
+                //   logger.i(image.path);
+                // }
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -395,9 +400,6 @@ class _UploadImageState extends State<UploadImage> {
                     );
                   },
                 );
-                // for (var image in _images) {
-                //   logger.i(image.path);
-                // }
               },
             )
           ],

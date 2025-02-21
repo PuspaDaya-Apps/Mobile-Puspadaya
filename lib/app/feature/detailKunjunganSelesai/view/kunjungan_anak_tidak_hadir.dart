@@ -8,8 +8,8 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../kunjungan/model/Kunjungan.dart';
-import 'detail_kunjungan_selesai_anak_stunting.dart';
-import 'detail_kunjungan_selesai_anak_tidak_hadir.dart';
+import '../../kunjunganAnakStunting/detailKunjungan/view/detail_kunjungan_anak_stunting.dart';
+import '../../kunjunganAnakTidakHadir/detailKunjungan/view/detail_kunjungan_anak_tidak_hadir.dart';
 
 class DetailKunjunganAnakTidakHadirDone extends StatelessWidget {
   const DetailKunjunganAnakTidakHadirDone({super.key});
@@ -201,7 +201,7 @@ class _DetailKunjunganAnakTidakHadirDoneViewState
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return DetailKunjunganSelesaiAnakTidakHadir();
+                              return DetailKunjunganAnakTidakHadir();
                             },
                           ),
                         );

@@ -8,21 +8,21 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
-import '../../../../utils/constant/constanst.dart';
-import '../../../view/widget/alert_confirm_create_kunjungan.dart';
-import '../../../view/widget/checkbox_list_widget.dart';
-import '../../createKunjunganStunting/view/model/CheckBoxKunjungan.dart';
+import '../../../../../utils/constant/constanst.dart';
+import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
+import '../../../../view/widget/checkbox_list_widget.dart';
+import '../../../../model/CheckBoxKunjungan.dart';
 
-class ChecklistJobKunjunganAnakTidakHadir extends StatefulWidget {
-  const ChecklistJobKunjunganAnakTidakHadir({super.key});
+class PerbaruiKunjunganAnakTidakHadirScreen extends StatefulWidget {
+  const PerbaruiKunjunganAnakTidakHadirScreen({super.key});
 
   @override
-  State<ChecklistJobKunjunganAnakTidakHadir> createState() =>
-      _ChecklistJobKunjunganAnakTidakHadirState();
+  State<PerbaruiKunjunganAnakTidakHadirScreen> createState() =>
+      _PerbaruiKunjunganAnakTidakHadirScreenState();
 }
 
-class _ChecklistJobKunjunganAnakTidakHadirState
-    extends State<ChecklistJobKunjunganAnakTidakHadir> {
+class _PerbaruiKunjunganAnakTidakHadirScreenState
+    extends State<PerbaruiKunjunganAnakTidakHadirScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
