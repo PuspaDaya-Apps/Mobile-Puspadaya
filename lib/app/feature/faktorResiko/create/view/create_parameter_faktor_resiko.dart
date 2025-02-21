@@ -42,8 +42,6 @@ class CreateParameterFaktorResikoView extends StatefulWidget {
 
 class _CreateParameterFaktorResikoViewState
     extends State<CreateParameterFaktorResikoView> {
-  bool isAnswerQuisioner = true;
-
   @override
   void initState() {
     context
@@ -83,9 +81,13 @@ class _CreateParameterFaktorResikoViewState
           ),
         ],
         onBackPressed: () {
-          if (isAnswerQuisioner) {
+          if (context
+              .read<IndexParameterFaktorResikoBloc>()
+              .isAnswerQuisioner) {
+            // Jika ada jawaban, tampilkan dialog peringatan
             warningDialog(context);
           } else {
+            // Jika tidak ada jawaban, langsung keluar
             Navigator.pop(context);
           }
         },
@@ -127,7 +129,8 @@ class _CreateParameterFaktorResikoViewState
             )
           : null,
       body: PopScope(
-        canPop: !isAnswerQuisioner,
+        canPop:
+            !context.watch<IndexParameterFaktorResikoBloc>().isAnswerQuisioner,
         onPopInvokedWithResult: (didPop, result) async {
           if (didPop) return;
           return warningDialog(context);
