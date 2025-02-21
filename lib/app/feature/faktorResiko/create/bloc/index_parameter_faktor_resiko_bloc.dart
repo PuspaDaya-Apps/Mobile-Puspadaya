@@ -70,29 +70,35 @@ class IndexParameterFaktorResikoBloc extends Bloc<
     if (event.isMultipleChoice) {
       // ✅ Multiple Choice (Checklist)
       if (existingIndex != -1) {
+        // Ambil jawaban yang sudah ada
         List<String> updatedAnswers =
             List.from(dataQuisioner[existingIndex].jawabanId);
 
-        if (updatedAnswers.contains(event.answerId)) {
-          updatedAnswers.remove(event.answerId);
-        } else {
-          updatedAnswers.add(event.answerId);
+        // Tambah jawaban baru yang belum ada, hapus jika sudah ada
+        for (var answer in event.answerId) {
+          if (updatedAnswers.contains(answer)) {
+            updatedAnswers.remove(answer);
+          } else {
+            updatedAnswers.add(answer);
+          }
         }
 
+        // Update jawaban di list
         dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
             pertanyaanId: event.questionId, jawabanId: updatedAnswers);
       } else {
+        // Tambahkan sebagai jawaban baru
         dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: [event.answerId]));
+            pertanyaanId: event.questionId, jawabanId: event.answerId));
       }
     } else {
       // ✅ Single Choice (Radio Button)
       if (existingIndex != -1) {
         dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: [event.answerId]);
+            pertanyaanId: event.questionId, jawabanId: [event.answerId[0]]);
       } else {
         dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: [event.answerId]));
+            pertanyaanId: event.questionId, jawabanId: [event.answerId[0]]));
       }
     }
 
