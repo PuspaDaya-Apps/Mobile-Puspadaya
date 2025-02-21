@@ -9,12 +9,12 @@ class AppTextStyles {
 
   static TextStyle secoundaryText = const TextStyle(
     fontFamily: 'Poppins',
-    color: textSecoundary,
+    color: textSecondary1,
   );
 
   static TextStyle thridText = const TextStyle(
     fontFamily: 'Poppins',
-    color: textSecoundary,
+    color: textSecondary1,
   );
 
   static TextStyle urgentText = const TextStyle(

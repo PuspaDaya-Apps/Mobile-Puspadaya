@@ -241,14 +241,14 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         BlocConsumer<GenerateKkCubit, GenerateKkState>(
-                          listener: (context, state) {
-                            if (state is GenerateKKSuccess) {
+                          listener: (context, stateKK) {
+                            if (stateKK is GenerateKKSuccess) {
                               _kkController.text =
-                                  state.data.data.nomorKartuKeluarga;
+                                  stateKK.data.data.nomorKartuKeluarga;
                             }
                           },
-                          builder: (context, state) {
-                            if (state is GenerateKKLoading) {
+                          builder: (context, stateKK) {
+                            if (stateKK is GenerateKKLoading) {
                               return Center(
                                 child: CircularProgressIndicator(),
                               );
@@ -280,6 +280,14 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                       if (_isGenerateWaliValid()) {
                                         // Logika untuk generate
                                         print("Generate button pressed");
+                                        context
+                                            .read<GenerateKkCubit>()
+                                            .getGenerateKK(
+                                                state.dataWilayahModel.provinsi
+                                                    .id,
+                                                selectedKabupaten!.id,
+                                                selectedKecamatan!.id,
+                                                _tanggalLahirController.text);
                                       } else {
                                         // Tampilkan snackbar atau dialog jika form tidak valid
                                         showTopSnackBar(

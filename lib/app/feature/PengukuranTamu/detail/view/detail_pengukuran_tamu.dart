@@ -84,7 +84,7 @@ class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
                     color: bluePrimaryMain,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  unselectedLabelColor: textSecoundary,
+                  unselectedLabelColor: textSecondary1,
                   labelColor: Colors.white,
                   onTap: (value) {
                     _tabController.animateTo(value);

@@ -69,3 +69,5 @@ const String imageBuktiStunting = "assets/images/anak_stunting.jpeg";
 const String imageBuktiIbuHamil = "assets/images/ibu_hamil.jpeg";
 const String imageBuktiPengukuranDiRUmah =
     "assets/images/pengukuran_dirumah.jpeg";
+
+const String imageAlertWarning = "assets/images/alert_warning.png";

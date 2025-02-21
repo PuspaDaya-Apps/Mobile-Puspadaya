@@ -50,7 +50,8 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
 
   @override
   Widget build(BuildContext context) {
-    final detailRegisterAnakBloc = BlocProvider.of<DetailRegisterAnakBloc>(context);
+    final detailRegisterAnakBloc =
+        BlocProvider.of<DetailRegisterAnakBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -91,7 +92,7 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                       color: bluePrimaryMain,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    unselectedLabelColor: textSecoundary,
+                    unselectedLabelColor: textSecondary1,
                     labelColor: Colors.white,
                     tabs: [
                       Tab(text: 'Data Anak'),
