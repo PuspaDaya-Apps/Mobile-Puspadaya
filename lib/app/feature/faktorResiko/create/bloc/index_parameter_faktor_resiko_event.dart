@@ -16,7 +16,7 @@ final class FetchFaktorResikoById extends IndexParameterFaktorResikoEvent {
 
 class SelectAnswer extends IndexParameterFaktorResikoEvent {
   final String questionId;
-  final String answerId;
+  final List<String> answerId;
   final bool
       isMultipleChoice; // Tambahkan informasi apakah ini multiple atau single selection
 
