@@ -18,4 +18,7 @@ abstract class SharedPrefName {
   // !create Register Orang Tua Ayah
   static const REGISTER_ORANG_TUA_AYAH = "RegisterOrangTuaAyah";
   static const REGISTER_ORANG_TUA_IBU = "RegisterOrangTuaIbu";
+
+  // !Faktor Resiko
+  static const FAKTOR_RESIKO = "FaktorResiko";
 }

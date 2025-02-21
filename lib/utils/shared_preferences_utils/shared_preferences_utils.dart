@@ -112,7 +112,7 @@ class SharedPrefUtils {
     debugPrint(a);
   }
 
-   //!Data Wilayah
+  //!Data Wilayah
   Future<void> storedDataWilayah(String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(SharedPrefName.DATAWILAYAH, value);
@@ -167,5 +167,26 @@ class SharedPrefUtils {
 
     String? a = prefs.getString(SharedPrefName.REGISTER_ORANG_TUA_IBU);
     debugPrint(a);
+  }
+
+  //!FaktorResiko
+  //! Simpan daftar jawaban faktor resiko ke SharedPreferences
+  Future<void> storedFaktorResiko(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString(SharedPrefName.FAKTOR_RESIKO, value);
+  }
+
+  //! Ambil daftar jawaban faktor resiko dari SharedPreferences
+  //! Ambil faktor resiko dalam bentuk String JSON
+  Future<String?> getFaktorResiko() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.FAKTOR_RESIKO);
+  }
+
+  //! Hapus faktor resiko dari SharedPreferences
+  Future<void> removeFaktorResiko() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(SharedPrefName.FAKTOR_RESIKO);
   }
 }

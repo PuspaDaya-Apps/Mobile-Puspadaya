@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'get_index_pertanyaan_model.g.dart';
 
+enum SelectType { radio, checkbox }
+
 @JsonSerializable()
 class GetIndexPertanyaanModel {
   @JsonKey(name: "message")
@@ -60,11 +62,14 @@ class Pertanyaan {
   final String id;
   @JsonKey(name: "nama_pertanyaan")
   final String namaPertanyaan;
+  @JsonKey(name: "select_type")
+  final SelectType selectType;
   @JsonKey(name: "pilihan_pertanyaan")
   final List<PilihanPertanyaan> pilihanPertanyaan;
 
   Pertanyaan({
     required this.id,
+    required this.selectType,
     required this.namaPertanyaan,
     required this.pilihanPertanyaan,
   });
@@ -81,22 +86,10 @@ class PilihanPertanyaan {
   final String id;
   @JsonKey(name: "nama_pilihan")
   final String namaPilihan;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
-  @JsonKey(name: "is_correct")
-  final dynamic isCorrect;
 
   PilihanPertanyaan({
     required this.id,
     required this.namaPilihan,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.isCorrect,
   });
 
   factory PilihanPertanyaan.fromJson(Map<String, dynamic> json) =>

@@ -4,7 +4,7 @@ part 'post_pertanyaan_model.g.dart';
 @JsonSerializable()
 class PostPertanyaanModel {
   @JsonKey(name: "tanggal_periode")
-  final DateTime tanggalPeriode;
+  final String tanggalPeriode;
   @JsonKey(name: "anak_id")
   final String anakId;
   @JsonKey(name: "faktor_resiko")

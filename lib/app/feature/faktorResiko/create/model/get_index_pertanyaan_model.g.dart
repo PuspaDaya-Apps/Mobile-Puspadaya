@@ -50,6 +50,7 @@ Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
 
 Pertanyaan _$PertanyaanFromJson(Map<String, dynamic> json) => Pertanyaan(
       id: json['id'] as String,
+      selectType: $enumDecode(_$SelectTypeEnumMap, json['select_type']),
       namaPertanyaan: json['nama_pertanyaan'] as String,
       pilihanPertanyaan: (json['pilihan_pertanyaan'] as List<dynamic>)
           .map((e) => PilihanPertanyaan.fromJson(e as Map<String, dynamic>))
@@ -60,25 +61,23 @@ Map<String, dynamic> _$PertanyaanToJson(Pertanyaan instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nama_pertanyaan': instance.namaPertanyaan,
+      'select_type': _$SelectTypeEnumMap[instance.selectType]!,
       'pilihan_pertanyaan': instance.pilihanPertanyaan,
     };
+
+const _$SelectTypeEnumMap = {
+  SelectType.radio: 'radio',
+  SelectType.checkbox: 'checkbox',
+};
 
 PilihanPertanyaan _$PilihanPertanyaanFromJson(Map<String, dynamic> json) =>
     PilihanPertanyaan(
       id: json['id'] as String,
       namaPilihan: json['nama_pilihan'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
-      isCorrect: json['is_correct'],
     );
 
 Map<String, dynamic> _$PilihanPertanyaanToJson(PilihanPertanyaan instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nama_pilihan': instance.namaPilihan,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
-      'is_correct': instance.isCorrect,
     };

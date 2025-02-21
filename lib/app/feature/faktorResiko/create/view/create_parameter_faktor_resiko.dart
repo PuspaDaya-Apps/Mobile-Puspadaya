@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/faktorResiko/create/bloc/index_parameter_faktor_resiko_bloc.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
-import '../../../../../config/theme/shadow.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/alert_dialog_petunjuk_faktor_resiko.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
+import '../../../../view/widget/parameter_faktor_resiko_item.dart';
 import '../../../../view/widget/primary_button_widget.dart';
-import '../../index/model/parameter_faktor_resiko_model.dart';
-import 'faktor_resiko_BBLR.dart';
-import 'faktor_resiko_IMD.dart';
-import 'faktor_resiko_asi_ekslusif.dart';
-import 'faktor_resiko_imunisasi.dart';
-import 'faktor_resiko_lahir_kembar.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
+import 'quisioner_parameter_faktor_resiko.dart';
 
 class CreateParameterFaktorResiko extends StatelessWidget {
   final String anakId;
-  final String bulan;
-  const CreateParameterFaktorResiko(
-      {super.key, required this.anakId, required this.bulan});
+  const CreateParameterFaktorResiko({super.key, required this.anakId});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,6 @@ class CreateParameterFaktorResiko extends StatelessWidget {
       create: (context) => IndexParameterFaktorResikoBloc(),
       child: CreateParameterFaktorResikoView(
         anakId: anakId,
-        bulan: bulan,
       ),
     );
   }
@@ -38,9 +33,7 @@ class CreateParameterFaktorResiko extends StatelessWidget {
 
 class CreateParameterFaktorResikoView extends StatefulWidget {
   final String anakId;
-  final String bulan;
-  const CreateParameterFaktorResikoView(
-      {super.key, required this.anakId, required this.bulan});
+  const CreateParameterFaktorResikoView({super.key, required this.anakId});
 
   @override
   State<CreateParameterFaktorResikoView> createState() =>
@@ -50,45 +43,21 @@ class CreateParameterFaktorResikoView extends StatefulWidget {
 class _CreateParameterFaktorResikoViewState
     extends State<CreateParameterFaktorResikoView> {
   bool isAnswerQuisioner = true;
-  List<ParameterFaktorResikoModel> parameterFaktorResikoItem = [
-    ParameterFaktorResikoModel(
-      page: 'bblr',
-      judul: 'BBLR',
-      keterangan: 'BBLR pada Anak, (diisi 1 kali)',
-      status: false,
-      terakhirDiIsi: DateTime.now(),
-    ),
-    ParameterFaktorResikoModel(
-      page: 'imunisasi',
-      judul: 'imunisasi',
-      keterangan: 'imunisasi pada anak, (diisi 3 bulan sekali)',
-      status: false,
-      terakhirDiIsi: DateTime.now(),
-    ),
-    ParameterFaktorResikoModel(
-      page: 'lahir-kembar',
-      judul: 'Lahir Kembar',
-      keterangan: 'Lahir Kembar pada Anak, (diisi 1 kali)',
-      status: false,
-      terakhirDiIsi: DateTime.now(),
-    ),
-    ParameterFaktorResikoModel(
-      page: 'imd',
-      judul: 'IMD',
-      keterangan: 'IMD pada Anak, (diisi 1 kali)',
-      status: false,
-      terakhirDiIsi: DateTime.now(),
-    ),
-    ParameterFaktorResikoModel(
-      page: 'asi-ekslusif',
-      judul: 'Asi Ekslusif',
-      keterangan: 'Asi Ekslusif pada Anak, (diisi 1 kali)',
-      status: false,
-      terakhirDiIsi: DateTime.now(),
-    ),
-  ];
+
+  @override
+  void initState() {
+    context
+        .read<IndexParameterFaktorResikoBloc>()
+        .add(FetchFaktorResikoById(widget.anakId));
+    logger.d(
+        'jawaban yang telah diisi ${context.read<IndexParameterFaktorResikoBloc>().dataQuisioner}');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final indexParameterFaktorResiko =
+        BlocProvider.of<IndexParameterFaktorResikoBloc>(context);
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Faktor Resiko Permasalahan Gizi',
@@ -122,7 +91,9 @@ class _CreateParameterFaktorResikoViewState
         },
       ),
       backgroundColor: backgroundWhite10,
-      bottomNavigationBar: isAnswerQuisioner
+      bottomNavigationBar: context
+              .watch<IndexParameterFaktorResikoBloc>()
+              .isAnswerQuisioner
           ? Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -132,6 +103,23 @@ class _CreateParameterFaktorResikoViewState
                 color: bluePrimaryMain,
                 mainButtonMessage: 'Simpan Pendataan',
                 mainButton: () {
+                  final answers = context
+                      .read<IndexParameterFaktorResikoBloc>()
+                      .dataQuisioner;
+
+                  // if (answers.isEmpty) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //         content: Text("Tidak ada jawaban yang disimpan")),
+                  //   );
+                  //   return;
+                  // }
+
+                  // ✅ Log ke console untuk debugging
+                  print(
+                      "Jawaban yang disimpan: ${answers.map((e) => e.toJson()).toList()}");
+                  context.read<IndexParameterFaktorResikoBloc>().add(
+                      SendAnswerQuestion(anakId: widget.anakId, data: answers));
                   // simpan pendataan
                   // Navigator.pop(context);
                 },
@@ -144,112 +132,91 @@ class _CreateParameterFaktorResikoViewState
           if (didPop) return;
           return warningDialog(context);
         },
-        child: ListView.builder(
-          itemCount: parameterFaktorResikoItem.length,
-          itemBuilder: (context, index) {
-            ParameterFaktorResikoModel parameter =
-                parameterFaktorResikoItem[index];
-            return Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 5, top: 5, left: 16, right: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: shadowSm,
-                ),
-                child: ExpansionTile(
-                  collapsedShape: RoundedRectangleBorder(
-                    side: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide.none,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  leading: parameter.status
-                      ? Icon(
-                          FontAwesomeIcons.circleCheck,
-                          color: greenPrimaryMain,
-                          size: 24,
-                        )
-                      : Icon(
-                          FontAwesomeIcons
-                              .circleExclamation, // Font Awesome icon
-                          color: goldPrimaryMain, // Icon color
-                          size: 24,
-                        ),
-                  title: Text(parameter.judul),
-                  childrenPadding:
-                      EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 16),
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft, // Align text to the left
-                      child: Text(
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                        ),
-                        'Terakhir Diisi : ${DateFormat('d MMMM y', 'id_ID').format(parameter.terakhirDiIsi)}',
-                      ),
+        child: BlocConsumer<IndexParameterFaktorResikoBloc,
+            IndexParameterFaktorResikoState>(
+          listener: (context, state) {
+            if (state is IndexParameterFaktorResikoSendSucces) {
+              showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget()
+                      .success('Berhasil Menambah Faktor Resiko'));
+              Navigator.pop(context);
+            }
+            if (state is IndexParamterFaktorResikoSendFailed) {
+              showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget().error('${state.message}'));
+            }
+          },
+          builder: (context, state) {
+            if (state is IndexParamterFaktorResikoLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is IndexParamterFaktorResikoFailed) {
+              return Center(
+                child: Text(
+                    'Error Ketika Mendapatakan Data Paramter Faktor Resiko ${state.message}'),
+              );
+            }
+            if (state is IndexParamterFaktorResikoSuccess) {
+              return ListView.builder(
+                itemCount: state.data.data.length,
+                itemBuilder: (context, index) {
+                  GetIndexPertanyaanModel.Datum parameter =
+                      state.data.data[index];
+                  final answers = context
+                      .read<IndexParameterFaktorResikoBloc>()
+                      .dataQuisioner; // Berisi daftar jawaban yang dipilih
+
+                  // ✅ Cek apakah ada pertanyaan yang sudah dijawab
+                  bool isDone = answers.any((answer) => parameter.pertanyaan
+                      .any((q) => q.id == answer.pertanyaanId));
+                  logger.d('jawaban yang diterima ${answers} ');
+                  // if (parameter.pertanyaan[index].id ==
+                  //     answers[index].pertanyaanId) ;
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 5, top: 5, left: 16, right: 16),
+                    child: ParameterFaktorResikoItem(
+                      isDone: isDone,
+                      status: isDone,
+                      judul: parameter.namaFaktorResiko,
+                      keterangan: parameter.keterangan,
+                      terakhirDiisi: parameter.lastCompleted,
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return QuisionerParameterFaktorResiko(
+                                data: parameter,
+                                bloc: indexParameterFaktorResiko,
+                              );
+                            },
+                          ),
+                        );
+                        context
+                            .read<IndexParameterFaktorResikoBloc>()
+                            .add(FetchFaktorResikoById(widget.anakId));
+                      },
                     ),
-                    SizedBox(height: 8),
-                    Container(
-                      alignment: Alignment.centerLeft, // Align text to the left
-                      child: Text(
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                        ),
-                        'Keterangan : ${parameter.keterangan}',
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    ButtonPrimary(
-                      color: greenPrimaryMain,
-                      mainButton: () =>
-                          gateNavigatoToCreate(context, parameter.page),
-                      mainButtonMessage: 'Lakukan Pendataan',
-                    ),
-                  ],
-                ),
-              ),
-            );
+                  );
+                },
+              );
+            }
+            return Container();
           },
         ),
       ),
     );
-  }
-}
-
-void gateNavigatoToCreate(BuildContext context, String page) {
-  switch (page) {
-    case 'bblr':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CreateFaktorResikoBBLR()));
-      break;
-    case 'imunisasi':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoImunisasi()));
-      break;
-    case 'lahir-kembar':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoLahirKembar()));
-      break;
-    case 'imd':
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CreateFaktorResikoIMD()));
-      break;
-    case 'asi-ekslusif':
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CreateFaktorResikoAsiEksklusif()));
-      break;
   }
 }
 

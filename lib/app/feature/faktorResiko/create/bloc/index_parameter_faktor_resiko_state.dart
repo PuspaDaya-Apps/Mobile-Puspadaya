@@ -32,3 +32,28 @@ final class TokenExpiredState extends IndexParameterFaktorResikoState {}
 
 final class IndexParamterFaktorResikoSendSuccess
     extends IndexParameterFaktorResikoState {}
+
+//! select state
+final class IndexParamterFaktorResikoUpdated
+    extends IndexParameterFaktorResikoState {
+  List<PostPertanyaanModel.FaktorResiko>
+      answers; // Menyimpan jawaban dengan format {questionId: answerId}
+
+  IndexParamterFaktorResikoUpdated(this.answers);
+
+  @override
+  List<Object> get props => [answers];
+}
+
+//! send state to servear\
+final class IndexParameterFaktorResikoSendLoading
+    extends IndexParameterFaktorResikoState {}
+
+final class IndexParameterFaktorResikoSendSucces
+    extends IndexParameterFaktorResikoState {}
+
+final class IndexParamterFaktorResikoSendFailed
+    extends IndexParameterFaktorResikoState {
+  final String message;
+  IndexParamterFaktorResikoSendFailed(this.message);
+}
