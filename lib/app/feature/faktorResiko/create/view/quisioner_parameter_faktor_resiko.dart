@@ -49,6 +49,17 @@ class _QuisionerParameterFaktorResikoViewState
     extends State<QuisionerParameterFaktorResikoView> {
   String selectedIdPertanyaan = '';
   String selectedIdJawaban = '';
+  List<String> selectedJawabanMultiple = []; // Untuk multiple choice
+  late bool isMultipleSelection;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (widget.data.pertanyaan.isNotEmpty) {
+  //     isMultipleSelection = widget.data.pertanyaan.first.selectType ==
+  //         GetIndexPertanyaanModel.SelectType.checkbox;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +81,7 @@ class _QuisionerParameterFaktorResikoViewState
                   SelectAnswer(
                     questionId: selectedIdPertanyaan,
                     answerId: selectedIdJawaban,
-                    isMultipleChoice: false,
+                    isMultipleChoice: isMultipleSelection,
                   ),
                 );
 
@@ -99,6 +110,11 @@ class _QuisionerParameterFaktorResikoViewState
                 padding: EdgeInsets.all(24),
                 child: Column(
                   children: widget.data.pertanyaan.map((pertanyaan) {
+                    isMultipleSelection = pertanyaan.selectType ==
+                        GetIndexPertanyaanModel.SelectType.checkbox;
+                    logger.d('is multiple selection = ${isMultipleSelection}');
+                    // bool isMultipleSelection = isMultipleChoice;
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -116,65 +132,9 @@ class _QuisionerParameterFaktorResikoViewState
                               fontSize: 12, fontWeight: FontWeight.normal),
                         ),
                         SizedBox(height: 10),
-                        Column(
-                          children: pertanyaan.pilihanPertanyaan
-                              .map((opsiPertanyaan) {
-                            bool isSelected = (selectedIdPertanyaan ==
-                                        pertanyaan.id &&
-                                    selectedIdJawaban == opsiPertanyaan.id) ||
-                                selectedAnswers.any((e) =>
-                                    e.pertanyaanId == pertanyaan.id &&
-                                    e.jawabanId.contains(opsiPertanyaan.id));
-
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  logger.d(
-                                      'selected Id Pertanyaan ${pertanyaan.id}');
-                                  logger.d(
-                                      'selected Pertanyaan ${pertanyaan.namaPertanyaan}');
-                                  logger.d(
-                                      'selected id jawaban ${opsiPertanyaan.id}');
-                                  logger.d(
-                                      'selected jawaban ${opsiPertanyaan.namaPilihan}');
-                                  selectedIdPertanyaan = pertanyaan.id;
-                                  selectedIdJawaban = opsiPertanyaan.id;
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 12),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color:
-                                        isSelected ? Colors.blue : Colors.grey,
-                                    width: 1.5,
-                                  ),
-                                  color: isSelected
-                                      ? Colors.blue.withOpacity(0.2)
-                                      : Color(0xFFFAFAFA),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 16),
-                                child: Row(
-                                  children: [
-                                    SizedBox(width: 10),
-                                    Text(
-                                      opsiPertanyaan.namaPilihan,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: isSelected
-                                            ? Colors.blue
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
+                        !isMultipleSelection
+                            ? _buildSingleChoice(pertanyaan, selectedAnswers)
+                            : _buildMultipleChoice(pertanyaan, selectedAnswers),
                         SizedBox(height: 20),
                       ],
                     );
@@ -187,28 +147,105 @@ class _QuisionerParameterFaktorResikoViewState
       ),
     );
   }
-}
 
-Future<void> warningDialog(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialogWidget(
-        title: 'Apakah Anda Yakin Ingin Keluar Dari Faktor Resiko?',
-        message: 'Progress jawaban yang anda isi akan terhapus',
-        mainButton: () {
-          // Close the dialog
-          Navigator.pop(context); // Close the previous screen
-        },
-        image: logoutVector, // Ensure this variable is defined
-        mainButtonMessage: 'Kembali',
-        colorMainButton: greenPrimaryMain, // Ensure this variable is defined
-        cancelButton: () {
-          Navigator.pop(context);
-          Navigator.pop(context); // Close the dialog
-        },
-        cancelButtonMessage: 'Keluar',
-      );
-    },
-  );
+  /// 🔹 Handle untuk Radio Button (Single Choice)
+  Column _buildSingleChoice(GetIndexPertanyaanModel.Pertanyaan pertanyaan,
+      List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
+    return Column(
+      children: pertanyaan.pilihanPertanyaan.map((opsiPertanyaan) {
+        bool isSelected = (selectedIdPertanyaan == pertanyaan.id &&
+                selectedIdJawaban == opsiPertanyaan.id) ||
+            selectedAnswers.any((e) =>
+                e.pertanyaanId == pertanyaan.id &&
+                e.jawabanId.contains(opsiPertanyaan.id));
+
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedIdPertanyaan = pertanyaan.id;
+              selectedIdJawaban = opsiPertanyaan.id;
+              selectedJawabanMultiple
+                  .clear(); // Pastikan hanya satu jawaban dipilih
+            });
+          },
+          child: _buildOptionItem(opsiPertanyaan.namaPilihan, isSelected),
+        );
+      }).toList(),
+    );
+  }
+
+  /// 🔹 Handle untuk Checkbox (Multiple Choice)
+  Column _buildMultipleChoice(GetIndexPertanyaanModel.Pertanyaan pertanyaan,
+      List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
+    return Column(
+      children: pertanyaan.pilihanPertanyaan.map((opsiPertanyaan) {
+        bool isSelected = selectedJawabanMultiple.contains(opsiPertanyaan.id) ||
+            selectedAnswers.any((e) =>
+                e.pertanyaanId == pertanyaan.id &&
+                e.jawabanId.contains(opsiPertanyaan.id));
+
+        return GestureDetector(
+          onTap: () {
+            setState(() {
+              if (selectedJawabanMultiple.contains(opsiPertanyaan.id)) {
+                selectedJawabanMultiple.remove(opsiPertanyaan.id);
+              } else {
+                selectedJawabanMultiple.add(opsiPertanyaan.id);
+              }
+              selectedIdPertanyaan = pertanyaan.id;
+            });
+          },
+          child: _buildOptionItem(opsiPertanyaan.namaPilihan, isSelected),
+        );
+      }).toList(),
+    );
+  }
+
+  /// 🔹 Widget untuk Tampilan Pilihan (Digunakan di Checkbox & Radio)
+  Widget _buildOptionItem(String title, bool isSelected) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: isSelected ? Colors.blue : Colors.grey,
+          width: 1.5,
+        ),
+        color: isSelected ? Colors.blue.withOpacity(0.2) : Color(0xFFFAFAFA),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 16,
+          color: isSelected ? Colors.blue : Colors.black,
+        ),
+      ),
+    );
+  }
+
+  Future<void> warningDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialogWidget(
+          title: 'Apakah Anda Yakin Ingin Keluar Dari Faktor Resiko?',
+          message: 'Progress jawaban yang anda isi akan terhapus',
+          mainButton: () {
+            // Close the dialog
+            Navigator.pop(context); // Close the previous screen
+          },
+          image: logoutVector, // Ensure this variable is defined
+          mainButtonMessage: 'Kembali',
+          colorMainButton: greenPrimaryMain, // Ensure this variable is defined
+          cancelButton: () {
+            Navigator.pop(context);
+            Navigator.pop(context); // Close the dialog
+          },
+          cancelButtonMessage: 'Keluar',
+        );
+      },
+    );
+  }
 }
