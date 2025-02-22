@@ -40,7 +40,8 @@ import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
-import '../app/feature/faktorResiko/detail/detail_parameter_faktor_resiko.dart';
+import '../app/feature/faktorResiko/detail/view/detail_riwayat_parameter_faktor_resiko.dart';
+import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
@@ -579,12 +580,10 @@ class MyRoute {
       //? detil parameter faktor resiko
 
       case PARAMETER_FAKTOR_RESIKO_DETAIL:
-        final args = settings.arguments as Map<String, String>;
-        final id = args['id'] as String? ?? '';
-        final bulan = args['bulan'] as String? ?? '';
+        final args = settings.arguments as Map<String, dynamic>?; // Ubah ke Map
+        final id = args?['id'] as String? ?? ''; // Ambil nilai 'id' dari map
         return MaterialPageRoute(
-          builder: (context) => DetailParameterFaktorResiko(
-            bulan: bulan,
+          builder: (context) => RiwayatParameterFaktorResiko(
             anakId: id,
           ),
           settings: settings,

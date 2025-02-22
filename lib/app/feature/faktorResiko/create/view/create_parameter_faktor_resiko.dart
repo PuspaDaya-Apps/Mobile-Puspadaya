@@ -115,7 +115,7 @@ class _CreateParameterFaktorResikoViewState
                   context.read<IndexParameterFaktorResikoBloc>().add(
                       SendAnswerQuestion(anakId: widget.anakId, data: answers));
                   // simpan pendataan
-                  // Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
             )
@@ -188,6 +188,7 @@ class _CreateParameterFaktorResikoViewState
                     padding: const EdgeInsets.only(
                         bottom: 5, top: 5, left: 16, right: 16),
                     child: ParameterFaktorResikoItem(
+                      isRiwayat: false,
                       isDone: isDone,
                       status: isDone,
                       judul: parameter.namaFaktorResiko,
@@ -232,7 +233,7 @@ Future<void> warningDialog(BuildContext context) {
             'Jika anda sudah mengisi lalu tidak mengklik Simpan Pendataan, maka progress akan hilang dan data tidak akan tersimpan.',
         mainButton: () {
           // Close the dialog
-          Navigator.pop(context); // Close the previous screen
+          Navigator.pop(context, true); // Close the previous screen
         },
         image: imageAlertWarning, // Ensure this variable is defined
         mainButtonMessage: 'Kembali',
