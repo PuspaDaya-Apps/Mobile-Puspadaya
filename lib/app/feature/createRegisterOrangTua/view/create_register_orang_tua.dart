@@ -283,6 +283,35 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     super.dispose();
   }
 
+  bool validateAyah() {
+    // Validasi semua field di bagian Ayah
+    bool isValid = kkAyahController.text.isNotEmpty &&
+        nikAyahController.text.isNotEmpty &&
+        namaAyahController.text.isNotEmpty &&
+        tempatLahirAyahController.text.isNotEmpty &&
+        tanggalLahirAyahController.text.isNotEmpty &&
+        alamatAyahController.text.isNotEmpty &&
+        teleponAyahController.text.isNotEmpty &&
+        rTAyahController.text.isNotEmpty &&
+        rWAyahController.text.isNotEmpty &&
+        selectedKabupatenAyah != null &&
+        selectedKecamatanAyah != null &&
+        selectedDesaAyah != null &&
+        selectedDusunAyah != null &&
+        selectedGolDarahAyah != null;
+    logger.d(
+        'Validasi Data Ayah: KK: ${kkAyahController.text}, NIK: ${nikAyahController.text}, Nama: ${namaAyahController.text}, Tempat Lahir: ${tempatLahirAyahController.text}, Tanggal Lahir: ${tanggalLahirAyahController.text}, Alamat: ${alamatAyahController.text}, Telepon: ${teleponAyahController.text}, RT: ${rTAyahController.text}, RW: ${rWAyahController.text}, Kabupaten: ${selectedKabupatenAyah?.namaKabupatenKota}, Kecamatan: ${selectedKecamatanAyah?.namaKecamatan}, Desa: ${selectedDesaAyah?.namaDesaKelurahan}, Dusun: ${selectedDusunAyah?.namaDusun}, Golongan Darah: ${selectedGolDarahAyah}');
+
+    if (isValid) {
+      logger.d('Validasi Data Ayah Berhasil'); // Pindah ke tab Data Ibu
+      return true;
+    } else {
+      logger.d('Validasi Data Ayah Gagal, lengkapi data terlebih dahulu');
+
+      return false;
+    }
+  }
+
   void _goToNextTab() {
     logger.d('Go To Data Ibu');
 
@@ -2844,86 +2873,124 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                         ButtonPrimary(
                                           color: bluePrimaryMain,
                                           mainButtonMessage: 'Simpan',
-                                          mainButton: () async {
-                                            // Validate the form
-                                            if (formkey.currentState!
-                                                .validate()) {
-                                              PostOrangTuaBody dataOrangTua =
-                                                  PostOrangTuaBody(
-                                                ayah: Ayah(
-                                                  alamat:
-                                                      alamatAyahController.text,
-                                                  nomorKartuKeluarga:
-                                                      kkAyahController.text,
-                                                  dusunId:
-                                                      selectedDusunAyah!.id,
-                                                  golDarah:
-                                                      selectedGolDarahAyah!,
-                                                  namaAyah:
-                                                      namaAyahController.text,
-                                                  nik: nikAyahController.text,
-                                                  nomorTelepon:
-                                                      teleponAyahController
-                                                          .text,
-                                                  rt: rTAyahController.text,
-                                                  rw: rWAyahController.text,
-                                                  tempatLahir:
-                                                      tempatLahirAyahController
-                                                          .text,
-                                                  tanggalLahir:
-                                                      tanggalLahirAyahController
-                                                          .text,
-                                                  jenisDisabilitas:
-                                                      selectedDisabilityLabelsAyah
-                                                          .map((e) {
-                                                    return JenisDisabilitas(
-                                                        namaDisabilitas: e);
-                                                  }).toList(),
-                                                ),
-                                                ibu: Ibu(
-                                                  tanggalMelahirkanSebelumnya:
-                                                      tanggalKelahiranAnakSebelumnyaIbuController
-                                                          .text,
-                                                  jumlahAnak: int.parse(
-                                                      jumlahAnakIbuController
-                                                          .text),
-                                                  jenisKb: selectedJenisKBIbu!,
-                                                  alamat:
-                                                      alamatIbuController.text,
-                                                  nomorKartuKeluarga:
-                                                      kkIbuController.text,
-                                                  dusunId: selectedDusunIbu!.id,
-                                                  golDarah:
-                                                      selectedGolDarahIbu!,
-                                                  namaIbu:
-                                                      namaIbuController.text,
-                                                  nik: nikIbuController.text,
-                                                  nomorTelepon:
-                                                      teleponIbuController.text,
-                                                  rt: rTIbuController.text,
-                                                  rw: rWIbuController.text,
-                                                  tempatLahir:
-                                                      tempatLahirIbuController
-                                                          .text,
-                                                  tanggalLahir:
-                                                      tanggalLahirIbuController
-                                                          .text,
-                                                  jenisDisabilitas:
-                                                      selectedDisabilityLabelsIbu
-                                                          .map((e) {
-                                                    return JenisDisabilitas(
-                                                        namaDisabilitas: e);
-                                                  }).toList(),
-                                                ),
-                                              );
+                                          mainButton: () {
+                                            bool isValidAllDataAyah =
+                                                validateAyah();
+                                            logger.d(isValidAllDataAyah);
+                                            if (isValidAllDataAyah) {
+                                              print('Form valid');
+                                              // Validate the form
+                                              if (formkey.currentState!
+                                                  .validate()) {
+                                                PostOrangTuaBody dataOrangTua =
+                                                    PostOrangTuaBody(
+                                                  ayah: Ayah(
+                                                    alamat: alamatAyahController
+                                                        .text,
+                                                    nomorKartuKeluarga:
+                                                        kkAyahController.text,
+                                                    dusunId:
+                                                        selectedDusunAyah!.id,
+                                                    golDarah:
+                                                        selectedGolDarahAyah!,
+                                                    namaAyah:
+                                                        namaAyahController.text,
+                                                    nik: nikAyahController.text,
+                                                    nomorTelepon:
+                                                        teleponAyahController
+                                                            .text,
+                                                    rt: rTAyahController.text,
+                                                    rw: rWAyahController.text,
+                                                    tempatLahir:
+                                                        tempatLahirAyahController
+                                                            .text,
+                                                    tanggalLahir:
+                                                        tanggalLahirAyahController
+                                                            .text,
+                                                    jenisDisabilitas:
+                                                        selectedDisabilityLabelsAyah
+                                                            .map((e) {
+                                                      return JenisDisabilitas(
+                                                          namaDisabilitas: e);
+                                                    }).toList(),
+                                                  ),
+                                                  ibu: Ibu(
+                                                    tanggalMelahirkanSebelumnya:
+                                                        tanggalKelahiranAnakSebelumnyaIbuController
+                                                            .text,
+                                                    jumlahAnak: int.parse(
+                                                        jumlahAnakIbuController
+                                                            .text),
+                                                    jenisKb:
+                                                        selectedJenisKBIbu!,
+                                                    alamat: alamatIbuController
+                                                        .text,
+                                                    nomorKartuKeluarga:
+                                                        kkIbuController.text,
+                                                    dusunId:
+                                                        selectedDusunIbu!.id,
+                                                    golDarah:
+                                                        selectedGolDarahIbu!,
+                                                    namaIbu:
+                                                        namaIbuController.text,
+                                                    nik: nikIbuController.text,
+                                                    nomorTelepon:
+                                                        teleponIbuController
+                                                            .text,
+                                                    rt: rTIbuController.text,
+                                                    rw: rWIbuController.text,
+                                                    tempatLahir:
+                                                        tempatLahirIbuController
+                                                            .text,
+                                                    tanggalLahir:
+                                                        tanggalLahirIbuController
+                                                            .text,
+                                                    jenisDisabilitas:
+                                                        selectedDisabilityLabelsIbu
+                                                            .map((e) {
+                                                      return JenisDisabilitas(
+                                                          namaDisabilitas: e);
+                                                    }).toList(),
+                                                  ),
+                                                );
 
-                                              context
-                                                  .read<
-                                                      CreateRegisterOrangTuaBloc>()
-                                                  .add(SendRegisterOrangTua(
-                                                      postOrangTuaBody:
-                                                          dataOrangTua));
+                                                context
+                                                    .read<
+                                                        CreateRegisterOrangTuaBloc>()
+                                                    .add(SendRegisterOrangTua(
+                                                        postOrangTuaBody:
+                                                            dataOrangTua));
 
+                                                showTopSnackBar(
+                                                    Overlay.of(context),
+                                                    animationDuration:
+                                                        const Duration(
+                                                            milliseconds: 600),
+                                                    displayDuration:
+                                                        const Duration(
+                                                            milliseconds: 2200),
+                                                    reverseAnimationDuration:
+                                                        const Duration(
+                                                            milliseconds: 300),
+                                                    TopSnackbarWidget().success(
+                                                        'Berhasil Membuat Data Register Orang Tua'));
+                                              } else {
+                                                print("Form tidak valid");
+                                                showTopSnackBar(
+                                                    Overlay.of(context),
+                                                    animationDuration:
+                                                        const Duration(
+                                                            milliseconds: 600),
+                                                    displayDuration:
+                                                        const Duration(
+                                                            milliseconds: 2200),
+                                                    reverseAnimationDuration:
+                                                        const Duration(
+                                                            milliseconds: 300),
+                                                    TopSnackbarWidget().error(
+                                                        'Terdapat data yang kosong pada data Ayah, harap di cek kembali'));
+                                              }
+                                            } else {
                                               showTopSnackBar(
                                                   Overlay.of(context),
                                                   animationDuration:
@@ -2935,10 +3002,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   reverseAnimationDuration:
                                                       const Duration(
                                                           milliseconds: 300),
-                                                  TopSnackbarWidget().success(
-                                                      'Berhasil Membuat Data Register Orang Tua'));
-                                            } else {
-                                              print("Form tidak valid");
+                                                  TopSnackbarWidget().error(
+                                                      'Terdapat data Ayah yang kosong, harap di cek kembali'));
                                             }
                                           },
                                         ),

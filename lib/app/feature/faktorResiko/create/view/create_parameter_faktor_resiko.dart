@@ -16,6 +16,7 @@ import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
 import 'quisioner_parameter_faktor_resiko.dart';
+import 'special/create_imuniasi_faktor_resiko.dart';
 
 class CreateParameterFaktorResiko extends StatelessWidget {
   final String anakId;
@@ -203,17 +204,34 @@ class _CreateParameterFaktorResikoViewState
                       keterangan: parameter.keterangan,
                       terakhirDiisi: parameter.lastCompleted,
                       onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return QuisionerParameterFaktorResiko(
-                                data: parameter,
-                                bloc: indexParameterFaktorResiko,
-                              );
-                            },
-                          ),
-                        );
+                        logger
+                            .d('judul parameter ${parameter.namaFaktorResiko}');
+                        if (parameter.namaFaktorResiko == "Imunisasi") {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CreateImuniasiFaktorResiko(
+                                  data: parameter,
+                                  bloc: indexParameterFaktorResiko,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return QuisionerParameterFaktorResiko(
+                                  data: parameter,
+                                  bloc: indexParameterFaktorResiko,
+                                );
+                              },
+                            ),
+                          );
+                        }
+
                         context
                             .read<IndexParameterFaktorResikoBloc>()
                             .add(FetchFaktorResikoById(widget.anakId));
