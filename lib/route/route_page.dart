@@ -80,12 +80,15 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
+import '../app/feature/detailRegisterIbuHamil/model/get_detail_ibu_hamil_model.dart'
+    as GetDetailIbuHamilModel;
 
 import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
@@ -423,8 +426,11 @@ class MyRoute {
         );
 
       case UPDATE_REGISTER_IBU_HAMIL:
+        final data = settings.arguments as PaketToUpdateRegisterIbuHamil;
         return MaterialPageRoute(
-          builder: (context) => const UpdateRegisterIbuHamil(),
+          builder: (context) => UpdateRegisterIbuHamil(
+            data: data,
+          ),
           settings: settings,
         );
 

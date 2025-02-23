@@ -115,6 +115,14 @@ class _CreateParameterFaktorResikoViewState
                   context.read<IndexParameterFaktorResikoBloc>().add(
                       SendAnswerQuestion(anakId: widget.anakId, data: answers));
                   // simpan pendataan
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .success('Berhasil Membuat Data Faktor Resiko'));
                   Navigator.pop(context, true);
                 },
               ),
