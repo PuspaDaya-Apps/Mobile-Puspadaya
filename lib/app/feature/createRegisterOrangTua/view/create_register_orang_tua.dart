@@ -284,12 +284,99 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   }
 
   void _goToNextTab() {
-    _tabController.animateTo(1); // Pindah ke tab Data Ibu
+    logger.d('Go To Data Ibu');
+
+    // Validasi semua field di bagian Ayah
+    bool isValid = kkAyahController.text.isNotEmpty &&
+        nikAyahController.text.isNotEmpty &&
+        namaAyahController.text.isNotEmpty &&
+        tempatLahirAyahController.text.isNotEmpty &&
+        tanggalLahirAyahController.text.isNotEmpty &&
+        alamatAyahController.text.isNotEmpty &&
+        teleponAyahController.text.isNotEmpty &&
+        rTAyahController.text.isNotEmpty &&
+        rWAyahController.text.isNotEmpty &&
+        selectedKabupatenAyah != null &&
+        selectedKecamatanAyah != null &&
+        selectedDesaAyah != null &&
+        selectedDusunAyah != null &&
+        selectedGolDarahAyah != null;
+
+    if (isValid) {
+      logger.d('Validasi Data Ayah Berhasil, pindah ke Data Ibu');
+      _tabController.animateTo(1); // Pindah ke tab Data Ibu
+    } else {
+      logger.d('Validasi Data Ayah Gagal, lengkapi data terlebih dahulu');
+      showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget()
+              .error('Terdapat data yang kosong, harap di cek kembali'));
+    }
   }
 
   void _navigateBack() {
     _tabController.animateTo(0);
   }
+
+  //! validate formKeyController
+  // ? Ayah
+  final GlobalKey<FormFieldState> kkAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> nikAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> alamatAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> teleponAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rtAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rwAyahKey = GlobalKey<FormFieldState>();
+
+// ? Ibu
+  final GlobalKey<FormFieldState> kkIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> nikIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> alamatIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> teleponIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rtIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rwIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jumlahAnakIbuKey =
+      GlobalKey<FormFieldState>();
+//!selected
+// ? Ayah
+  final GlobalKey<FormFieldState> selectedKabupatenAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahAyahKey =
+      GlobalKey<FormFieldState>();
+
+// ? Ibu
+  final GlobalKey<FormFieldState> selectedKabupatenIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedJenisKBIbuKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahIbuKey =
+      GlobalKey<FormFieldState>();
 
 // String? selectedProvinsiAyah;
 //   String? selectedKabupatenAyah;
@@ -444,6 +531,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   flex:
                                                       3, // Mengatur lebar TextField
                                                   child: TextFieldWidget(
+                                                    key: kkAyahKey,
                                                     controller:
                                                         kkAyahController,
                                                     hintText:
@@ -568,6 +656,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     CircularProgressIndicator(),
                                               );
                                             }
+
                                             return Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
@@ -577,6 +666,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                               children: [
                                                 Expanded(
                                                   child: TextFieldWidget(
+                                                    key: nikAyahKey,
                                                     controller:
                                                         nikAyahController,
                                                     hintText: 'Masukan NIK',
@@ -603,21 +693,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       3.4, // Atur lebar minimum untuk tombol
                                                   child: GenerateButtonWidget(
                                                     onPressed: () {
-                                                      // Validasi sebelum mengizinkan generate
-                                                      if (_isGenerateAyahValid()) {
-                                                        // Logika untuk generate
-                                                        print(
-                                                            "Generate button pressed");
-                                                        context
-                                                            .read<
-                                                                GenerateNikCubit>()
-                                                            .getGenerateNik(
-                                                                kkAyahController
-                                                                    .text,
-                                                                tanggalLahirAyahController
-                                                                    .text);
-                                                      } else {
-                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                      if (kkAyahController
+                                                          .text.isEmpty) {
                                                         showTopSnackBar(
                                                             Overlay.of(context),
                                                             animationDuration:
@@ -634,7 +711,42 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                                    'KK Harus Diisi Terlebih Dahulu'));
+                                                      } else {
+                                                        // Validasi sebelum mengizinkan generate
+                                                        if (_isGenerateAyahValid()) {
+                                                          // Logika untuk generate
+                                                          print(
+                                                              "Generate button pressed");
+                                                          context
+                                                              .read<
+                                                                  GenerateNikCubit>()
+                                                              .getGenerateNik(
+                                                                  kkAyahController
+                                                                      .text,
+                                                                  tanggalLahirAyahController
+                                                                      .text);
+                                                        } else {
+                                                          // Tampilkan snackbar atau dialog jika form tidak valid
+                                                          showTopSnackBar(
+                                                              Overlay.of(
+                                                                  context),
+                                                              animationDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          600),
+                                                              displayDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          2200),
+                                                              reverseAnimationDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                              TopSnackbarWidget()
+                                                                  .error(
+                                                                      'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                        }
                                                       }
                                                     },
                                                   ),
@@ -657,6 +769,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
                                         TextFieldWidget(
+                                          key: namaAyahKey,
                                           controller: namaAyahController,
                                           hintText: 'Masukan Nama',
                                           isPasswordField: false,
@@ -695,6 +808,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                           .calHeightMultiplier(
                                                               8)),
                                                   TextFieldWidget(
+                                                    key: tempatLahirAyahKey,
                                                     controller:
                                                         tempatLahirAyahController,
                                                     hintText: 'Tempat Lahir',
@@ -728,6 +842,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                           .calHeightMultiplier(
                                                               8)),
                                                   DateTimePickerWidget(
+                                                    key: tanggalLahirAyahKey,
                                                     controller:
                                                         tanggalLahirAyahController,
                                                     hintText: 'Tanggal Lahir',
@@ -812,6 +927,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ),
                                                     elevation: 0,
                                                   ),
+                                                  key: selectedKabupatenAyahKey,
                                                   items: dataKabupatenKotaAyah
                                                       .map((item) {
                                                     return DropdownMenuItem<
@@ -977,6 +1093,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       selectedDusunAyah = null;
                                                     });
                                                   },
+                                                  key: selectedKecamatanAyahKey,
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
@@ -1120,6 +1237,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       selectedDusunAyah = null;
                                                     });
                                                   },
+                                                  key: selectedDesaAyahKey,
                                                   onSaved: (value) {},
                                                   validator: null,
                                                   decoration: InputDecoration(
@@ -1230,6 +1348,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ),
                                                     elevation: 0,
                                                   ),
+                                                  key: selectedDusunAyahKey,
                                                   items:
                                                       dataDusunAyah.map((item) {
                                                     return DropdownMenuItem<
@@ -1324,6 +1443,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           children: [
                                             Expanded(
                                               child: TextFieldWidget(
+                                                key: rtAyahKey,
                                                 controller: rTAyahController,
                                                 hintText: 'RT',
                                                 isPasswordField: false,
@@ -1341,6 +1461,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                               child: TextFieldWidget(
                                                 controller: rWAyahController,
                                                 hintText: 'RW',
+                                                key: rwAyahKey,
                                                 isPasswordField: false,
                                                 keyboardType:
                                                     TextInputType.number,
@@ -1363,6 +1484,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           hintText: 'Masukan alamat lengkap',
                                           keyboardType: TextInputType.text,
                                           obscureText: false,
+                                          key: alamatAyahKey,
                                           isPasswordField: false,
                                           validators: [
                                             (value) => Validator.required(value,
@@ -1386,6 +1508,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           hintText: 'Masukan nomor telepon',
                                           keyboardType: TextInputType.phone,
                                           obscureText: false,
+                                          key: teleponAyahKey,
                                           isPasswordField: false,
                                           validators: [
                                             (value) => Validator.required(value,
@@ -1405,6 +1528,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
                                         DropdownWidget(
+                                          key: selectedGolDarahAyahKey,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -1658,9 +1782,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             }
                                             return Row(
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               spacing: 8,
                                               children: [
                                                 Expanded(
@@ -1691,21 +1815,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       3.4, // Atur lebar minimum untuk tombol
                                                   child: GenerateButtonWidget(
                                                     onPressed: () {
-                                                      // Validasi sebelum mengizinkan generate
-                                                      if (_isGenerateIbuValid()) {
-                                                        // Logika untuk generate
-                                                        print(
-                                                            "Generate button pressed");
-                                                        context
-                                                            .read<
-                                                                GenerateNikCubit>()
-                                                            .getGenerateNik(
-                                                                kkIbuController
-                                                                    .text,
-                                                                tanggalLahirIbuController
-                                                                    .text);
-                                                      } else {
-                                                        // Tampilkan snackbar atau dialog jika form tidak valid
+                                                      if (kkIbuController
+                                                          .text.isEmpty) {
                                                         showTopSnackBar(
                                                             Overlay.of(context),
                                                             animationDuration:
@@ -1722,7 +1833,42 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                                    'KK Harus Diisi Terlebih Dahulu'));
+                                                      } else {
+                                                        // Validasi sebelum mengizinkan generate
+                                                        if (_isGenerateIbuValid()) {
+                                                          // Logika untuk generate
+                                                          print(
+                                                              "Generate button pressed");
+                                                          context
+                                                              .read<
+                                                                  GenerateNikCubit>()
+                                                              .getGenerateNik(
+                                                                  kkIbuController
+                                                                      .text,
+                                                                  tanggalLahirIbuController
+                                                                      .text);
+                                                        } else {
+                                                          // Tampilkan snackbar atau dialog jika form tidak valid
+                                                          showTopSnackBar(
+                                                              Overlay.of(
+                                                                  context),
+                                                              animationDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          600),
+                                                              displayDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          2200),
+                                                              reverseAnimationDuration:
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          300),
+                                                              TopSnackbarWidget()
+                                                                  .error(
+                                                                      'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                        }
                                                       }
                                                     },
                                                   ),

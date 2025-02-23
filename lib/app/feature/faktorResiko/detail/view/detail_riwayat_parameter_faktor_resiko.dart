@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import '../../../../../config/theme/pallet_color.dart';
 import '../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
 
@@ -59,11 +60,11 @@ class DetailRiwayatParameterFaktorResiko extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: isSelected ? Colors.blue : Colors.grey,
+                          color: isSelected ? greenPrimaryMain : Colors.grey,
                           width: 1.5,
                         ),
                         color: isSelected
-                            ? Colors.blue.withOpacity(0.2)
+                            ? greenPrimaryMain.withOpacity(0.2)
                             : Color(0xFFFAFAFA),
                         borderRadius: BorderRadius.circular(20),
                       ),

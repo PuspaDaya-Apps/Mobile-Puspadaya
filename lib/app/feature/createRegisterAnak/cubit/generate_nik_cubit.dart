@@ -34,6 +34,12 @@ class GenerateNikCubit extends Cubit<GenerateNikState> {
           emit(GenerateNikSuccess(
             data: dataGenerateNik,
           ));
+        } else if (statusCode == 400) {
+          emit(
+            GenerateNikFailed(
+              message: 'Gagal Membuat Generate NIK',
+            ),
+          );
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {
