@@ -2988,7 +2988,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                         const Duration(
                                                             milliseconds: 300),
                                                     TopSnackbarWidget().error(
-                                                        'Terdapat data yang kosong pada data Ayah, harap di cek kembali'));
+                                                        'Terdapat data yang kosong pada data Ibu, harap di cek kembali'));
                                               }
                                             } else {
                                               showTopSnackBar(
