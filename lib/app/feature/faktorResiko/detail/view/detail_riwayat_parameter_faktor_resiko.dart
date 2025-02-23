@@ -17,6 +17,7 @@ class DetailRiwayatParameterFaktorResiko extends StatelessWidget {
           Navigator.pop(context);
         },
       ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(

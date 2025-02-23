@@ -65,7 +65,13 @@ class _DetailMonitoringStuntingViewState
           child: BlocBuilder<DetailDataStuntingBloc, DetailDataStuntingState>(
             builder: (context, state) {
               if (state is DetailDataStuntingLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
               if (state is DetailDataStuntingFailed) {
                 return Center(

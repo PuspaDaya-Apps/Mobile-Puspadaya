@@ -11,7 +11,6 @@ import '../../../../view/widget/alert_dialog_petunjuk_faktor_resiko.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/parameter_faktor_resiko_item.dart';
 import '../../../../view/widget/primary_button_widget.dart';
-import '../faktor_resiko_lahir_kembar.dart';
 import 'detail_riwayat_parameter_faktor_resiko.dart';
 
 class RiwayatParameterFaktorResiko extends StatelessWidget {

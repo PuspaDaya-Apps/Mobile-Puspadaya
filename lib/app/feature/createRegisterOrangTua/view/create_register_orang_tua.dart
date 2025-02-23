@@ -545,6 +545,21 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                               nikAyahController.text = state
                                                   .data.data.nomorIndukKeluarga;
                                             }
+                                            if (state is GenerateNikFailed) {
+                                              showTopSnackBar(
+                                                  Overlay.of(context),
+                                                  animationDuration:
+                                                      const Duration(
+                                                          milliseconds: 600),
+                                                  displayDuration:
+                                                      const Duration(
+                                                          milliseconds: 2200),
+                                                  reverseAnimationDuration:
+                                                      const Duration(
+                                                          milliseconds: 300),
+                                                  TopSnackbarWidget().error(
+                                                      'Harap Isi KK terlebih Dahulu'));
+                                            }
                                           },
                                           builder: (context, state) {
                                             if (state is GenerateNikLoading) {
@@ -2762,6 +2777,20 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                   .add(SendRegisterOrangTua(
                                                       postOrangTuaBody:
                                                           dataOrangTua));
+
+                                              showTopSnackBar(
+                                                  Overlay.of(context),
+                                                  animationDuration:
+                                                      const Duration(
+                                                          milliseconds: 600),
+                                                  displayDuration:
+                                                      const Duration(
+                                                          milliseconds: 2200),
+                                                  reverseAnimationDuration:
+                                                      const Duration(
+                                                          milliseconds: 300),
+                                                  TopSnackbarWidget().success(
+                                                      'Berhasil Membuat Data Register Orang Tua'));
                                             } else {
                                               print("Form tidak valid");
                                             }

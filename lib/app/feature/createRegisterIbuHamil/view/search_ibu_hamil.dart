@@ -1,10 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/registerOrangTua/model/get_all_orang_tua_response.dart';
+import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_tambah_ibu_hamil_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
+import '../bloc/create_register_ibu_hamil_bloc.dart';
 import 'model/ibu_hamil_item_model.dart';
 
 class SearchIbuHamil extends StatelessWidget {
@@ -12,7 +16,10 @@ class SearchIbuHamil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SearchIbuHamilView();
+    return BlocProvider(
+      create: (context) => CreateRegisterIbuHamilBloc(),
+      child: const SearchIbuHamilView(),
+    );
   }
 }
 
@@ -25,20 +32,11 @@ class SearchIbuHamilView extends StatefulWidget {
 
 class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
-  List<IbuHamilItemModel> listIbuHamil = [
-    IbuHamilItemModel(
-      nama: 'Tami Usada',
-      namaSuami: 'Hendra Salahudin',
-      nik: '3321060508050001',
-      usia: '28',
-    ),
-    IbuHamilItemModel(
-      nama: 'Violet Hasanah',
-      namaSuami: 'Lutfan Januar ',
-      nik: '3321062804100002',
-      usia: '26',
-    ),
-  ];
+  @override
+  void initState() {
+    context.read<CreateRegisterIbuHamilBloc>().add(FetchSearchIbuHamil());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,22 +76,52 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
               ),
               const SizedBox(height: 12),
               Expanded(
-                child: ListView.builder(
-                  itemCount: listIbuHamil.length, // Use listIbuHamil
-                  itemBuilder: (context, index) {
-                    IbuHamilItemModel ibuHamil =
-                        listIbuHamil[index]; // Access the list correctly
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardTambahIbuHamil(
-                        nama: ibuHamil.nama,
-                        namaSuami: ibuHamil.namaSuami,
-                        nik: ibuHamil.nik,
-                        onTap: () {
-                          Navigator.pop(context, ibuHamil);
+                child: BlocBuilder<CreateRegisterIbuHamilBloc,
+                    CreateRegisterIbuHamilState>(
+                  builder: (context, state) {
+                    if (state is CreateRegisterIbuHamilLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is CreateRegisterIbuHamilFailed) {
+                      return Center(
+                        child: Text(
+                            'Gagal Mendapatkan Ibu Hamil ${state.message}'),
+                      );
+                    }
+                    if (state is CreateRegisterIbuHamilSuccess) {
+                      if (state.data.data.isEmpty) {
+                        return DataNotFoundScreen();
+                      }
+
+                      return ListView.builder(
+                        itemCount: state.data.data.length, // Use listIbuHamil
+                        itemBuilder: (context, index) {
+                          final ibuHamil = state.data.data[index];
+                          // GetAllOrangTuaResponse ibuHamil = state.data.data[index] as GetAllOrangTuaResponse; // Access the list correctly
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardTambahIbuHamil(
+                              nama: ibuHamil.ibu.namaIbu,
+                              namaSuami: ibuHamil.ayah.namaAyah,
+                              nik: ibuHamil.ibu.nik,
+                              onTap: () {
+                                IbuHamilItemModel paketToCreatRegisterIbuHamil =
+                                    IbuHamilItemModel(
+                                  ibuId: ibuHamil.ibu.id,
+                                  usia: ibuHamil.ibu.usiaIbu.toString(),
+                                  nama: ibuHamil.ibu.namaIbu,
+                                  namaSuami: ibuHamil.ayah.namaAyah,
+                                  nik: ibuHamil.ibu.nik,
+                                );
+                                Navigator.pop(
+                                    context, paketToCreatRegisterIbuHamil);
+                              },
+                            ),
+                          );
                         },
-                      ),
-                    );
+                      );
+                    }
+                    return Container();
                   },
                 ),
               ),

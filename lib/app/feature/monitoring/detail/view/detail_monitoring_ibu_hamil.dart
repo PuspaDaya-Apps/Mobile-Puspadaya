@@ -64,8 +64,12 @@ class _DetailMonitoringIbuHamilViewState
           child: BlocBuilder<DetailDataIbuHamilBloc, DetailDataIbuHamilState>(
               builder: (context, state) {
             if (state is DetailDataIBuHamilLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             } else if (state is DetailDataIbuHamilFailed) {
               return Center(
