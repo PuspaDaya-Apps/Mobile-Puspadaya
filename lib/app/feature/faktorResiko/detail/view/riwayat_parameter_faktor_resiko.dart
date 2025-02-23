@@ -12,6 +12,7 @@ import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/parameter_faktor_resiko_item.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import 'detail_riwayat_parameter_faktor_resiko.dart';
+import 'special/detail_imunisasi_faktor_resiko.dart';
 
 class RiwayatParameterFaktorResiko extends StatelessWidget {
   final String anakId;
@@ -105,16 +106,29 @@ class _RiwayatParameterFaktorResikoViewState
                     keterangan: parameter.keterangan,
                     terakhirDiisi: parameter.lastCompleted,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DetailRiwayatParameterFaktorResiko(
-                              data: parameter,
-                            );
-                          },
-                        ),
-                      );
+                      if (parameter.namaFaktorResiko == 'Imunisasi') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DetailImunisasiFaktorResiko(
+                                data: parameter,
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DetailRiwayatParameterFaktorResiko(
+                                data: parameter,
+                              );
+                            },
+                          ),
+                        );
+                      }
                     },
                     isRiwayat: true,
                   ),
