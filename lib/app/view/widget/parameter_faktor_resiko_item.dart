@@ -15,9 +15,11 @@ class ParameterFaktorResikoItem extends StatelessWidget {
     required this.terakhirDiisi,
     required this.onTap,
     required this.isDone,
+    required this.isRiwayat,
   });
 
   final bool isDone;
+  final bool isRiwayat;
   final bool status;
   final VoidCallback onTap;
   final String judul;
@@ -78,13 +80,19 @@ class ParameterFaktorResikoItem extends StatelessWidget {
             ),
           ),
           SizedBox(height: 16),
-          !isDone
-              ? ButtonPrimary(
+          !isRiwayat
+              ? !isDone
+                  ? ButtonPrimary(
+                      color: greenPrimaryMain,
+                      mainButton: onTap,
+                      mainButtonMessage: 'Lakukan Pendataan',
+                    )
+                  : Container()
+              : ButtonPrimary(
                   color: greenPrimaryMain,
                   mainButton: onTap,
-                  mainButtonMessage: 'Lakukan Pendataan',
+                  mainButtonMessage: 'Detail Jawaban',
                 )
-              : Container(),
         ],
       ),
     );

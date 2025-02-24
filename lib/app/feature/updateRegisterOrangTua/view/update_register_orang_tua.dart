@@ -2480,6 +2480,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               // Validate the form
                                               if (formkey.currentState!
                                                   .validate()) {
+                                                debugPrint("Data Ayah");
+
+                                                debugPrint("Data Ibu");
                                                 PatchOrangTua.PatchOrangTuaBody
                                                     dataOrangTua = PatchOrangTua
                                                         .PatchOrangTuaBody(

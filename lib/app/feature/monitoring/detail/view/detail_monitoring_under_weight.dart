@@ -66,7 +66,13 @@ class _DetailMonitoringUnderWeightViewState
               DetailDataUnderWeightState>(
             builder: (context, state) {
               if (state is DetailDataUnderWeightLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
               if (state is DetailDataUnderWeightFailed) {
                 return Center(

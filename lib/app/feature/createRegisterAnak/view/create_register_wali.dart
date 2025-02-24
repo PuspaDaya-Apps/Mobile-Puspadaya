@@ -224,7 +224,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           value: selectedStatusHubunganDenganAnak,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Kabupaten harus dipilih";
+                              return "Status Hubungan harus dipilih";
                             }
                             return null;
                           },

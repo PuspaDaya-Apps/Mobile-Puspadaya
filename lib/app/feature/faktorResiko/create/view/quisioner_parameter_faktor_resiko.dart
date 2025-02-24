@@ -72,20 +72,51 @@ class _QuisionerParameterFaktorResikoViewState
         },
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
         padding: EdgeInsets.all(24),
         child: ButtonPrimary(
           color: greenPrimaryMain,
           mainButtonMessage: 'Simpan Jawaban',
           mainButton: () {
-            context.read<IndexParameterFaktorResikoBloc>().add(
-                  SelectAnswer(
-                    questionId: selectedIdPertanyaan,
-                    answerId: selectedIdJawaban,
-                    isMultipleChoice: isMultipleSelection,
-                  ),
-                );
-
-            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialogWidget(
+                    image: imageQuisioner,
+                    mainButton: () {
+                      if (isMultipleSelection) {
+                        context.read<IndexParameterFaktorResikoBloc>().add(
+                              SelectAnswer(
+                                questionId: selectedIdPertanyaan,
+                                answerId: selectedJawabanMultiple,
+                                isMultipleChoice: isMultipleSelection,
+                              ),
+                            );
+                      } else {
+                        context.read<IndexParameterFaktorResikoBloc>().add(
+                              SelectAnswer(
+                                questionId: selectedIdPertanyaan,
+                                answerId: [selectedIdJawaban],
+                                isMultipleChoice: isMultipleSelection,
+                              ),
+                            );
+                      }
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                    cancelButtonMessage: 'Kembali ke faktor resiko',
+                    title: 'Apakah anda yakin dengan jawaban anda',
+                    message:
+                        'Pastikan jawaban yang Anda pilih sudah benar sebelum disimpan',
+                    cancelButton: () {
+                      Navigator.pop(context); // Tutup dialog
+                    },
+                    mainButtonMessage: 'Iya, Saya Sudah Yakin',
+                    colorMainButton: bluePrimaryMain);
+              },
+            );
           },
         ),
       ),
@@ -97,51 +128,67 @@ class _QuisionerParameterFaktorResikoViewState
           return warningDialog(context);
         },
         child: SafeArea(
-          child: BlocBuilder<IndexParameterFaktorResikoBloc,
-              IndexParameterFaktorResikoState>(
-            builder: (context, state) {
-              List<PostPertanyaanModel.FaktorResiko> selectedAnswers = [];
+          child: SingleChildScrollView(
+            child: BlocBuilder<IndexParameterFaktorResikoBloc,
+                IndexParameterFaktorResikoState>(
+              builder: (context, state) {
+                List<PostPertanyaanModel.FaktorResiko> selectedAnswers = [];
 
-              if (state is IndexParamterFaktorResikoUpdated) {
-                selectedAnswers = state.answers;
-              }
+                if (state is IndexParamterFaktorResikoUpdated) {
+                  selectedAnswers = state.answers;
+                }
 
-              return Container(
-                padding: EdgeInsets.all(24),
-                child: Column(
-                  children: widget.data.pertanyaan.map((pertanyaan) {
-                    isMultipleSelection = pertanyaan.selectType ==
-                        GetIndexPertanyaanModel.SelectType.checkbox;
-                    logger.d('is multiple selection = ${isMultipleSelection}');
-                    // bool isMultipleSelection = isMultipleChoice;
+                return Container(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    children: widget.data.pertanyaan.map((pertanyaan) {
+                      isMultipleSelection = pertanyaan.selectType ==
+                          GetIndexPertanyaanModel.SelectType.checkbox;
+                      logger
+                          .d('is multiple selection = ${isMultipleSelection}');
+                      // bool isMultipleSelection = isMultipleChoice;
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          pertanyaan.namaPertanyaan,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          pertanyaan.selectType == "checkbox"
-                              ? "Anda dapat memilih banyak pilihan"
-                              : "Anda hanya bisa memilih satu jawaban",
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.normal),
-                        ),
-                        SizedBox(height: 10),
-                        !isMultipleSelection
-                            ? _buildSingleChoice(pertanyaan, selectedAnswers)
-                            : _buildMultipleChoice(pertanyaan, selectedAnswers),
-                        SizedBox(height: 20),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              );
-            },
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            pertanyaan.namaPertanyaan,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 12),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                12), // Ubah sesuai kebutuhan
+                            child: Image.network(
+                              widget.data.gambar,
+                              fit: BoxFit
+                                  .cover, // Agar gambar terisi dengan baik
+                              width: double.infinity, // Sesuaikan dengan desain
+                              height: 200, // Sesuaikan dengan desain
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Text(
+                            isMultipleSelection
+                                ? "Anda dapat memilih banyak pilihan"
+                                : "Anda hanya bisa memilih satu jawaban",
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.normal),
+                          ),
+                          SizedBox(height: 10),
+                          !isMultipleSelection
+                              ? _buildSingleChoice(pertanyaan, selectedAnswers)
+                              : _buildMultipleChoice(
+                                  pertanyaan, selectedAnswers),
+                          SizedBox(height: 20),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),

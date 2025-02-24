@@ -65,7 +65,13 @@ class _DetailMonitoringWastingViewState
           child: BlocBuilder<DetailDataWastingBloc, DetailDataWastingState>(
             builder: (context, state) {
               if (state is DetailDataWastingLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
               if (state is DetailDataWastingFailed) {
                 return Center(
