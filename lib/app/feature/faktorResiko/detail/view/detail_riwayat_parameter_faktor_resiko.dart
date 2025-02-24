@@ -74,7 +74,7 @@ class DetailRiwayatParameterFaktorResiko extends StatelessWidget {
                         jawaban.namaPilihan,
                         style: TextStyle(
                           fontSize: 16,
-                          color: isSelected ? Colors.blue : Colors.black,
+                          color: isSelected ? greenPrimaryMain : Colors.black,
                         ),
                       ),
                     );

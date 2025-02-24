@@ -127,8 +127,9 @@ class DetailImunisasiFaktorResiko extends StatelessWidget {
                                 vaksin['vaksin']!,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color:
-                                      isSelected ? Colors.blue : Colors.black,
+                                  color: isSelected
+                                      ? greenPrimaryMain
+                                      : Colors.black,
                                 ),
                               ),
                             );
