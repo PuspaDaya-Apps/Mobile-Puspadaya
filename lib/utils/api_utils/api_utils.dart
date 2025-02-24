@@ -13,11 +13,11 @@ class ApiUtils {
   // Map<String, String> header() =>
   //     {'Content-Type': 'application/json', 'Accept': 'application/json'};
 
-  // Map<String, String> headerWithToken(String token) => {
-  //       'Authorization': 'Bearer $token',
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json'
-  //     };
+  Map<String, String> headerWithToken(String token) => {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
 
   // Map<String, String> headerTokenForMultipart(String token) => {
   //       'Authorization': 'Bearer $token',
@@ -510,5 +510,74 @@ class ApiUtils {
   String urlGetDetailRiwayatFaktorResiko(String id) {
     String urlGetFaktorResiko = LinkApi.RIWAYATFAKTORRESIKO;
     return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}/detail';
+  }
+
+   //! tugas kunjungan
+  String urlGetDataTugasKunjugan() {
+    String urlGetDataTugasKunjugan = LinkApi.TUGASKUNJUNGANURL;
+    return _baseUrl + _apiVersion + urlGetDataTugasKunjugan;
+  }
+
+  //! file upload
+  String urlPostDataFileUpload() {
+    String urlPostDataFileUpload = LinkApi.FILEUPLOADURL;
+    return _baseUrl + _apiVersion + urlPostDataFileUpload;
+  }
+
+  //! kunjungan
+  String urlGetListKunjungan() {
+    String urlGetListKunjungan = LinkApi.KUNJUNGANURL;
+    return _baseUrl + _apiVersion + urlGetListKunjungan;
+  }
+
+  String urlPostKunjungan() {
+    String urlPostKunjungan = LinkApi.KUNJUNGANURL;
+    return _baseUrl + _apiVersion + urlPostKunjungan;
+  }
+
+  String urlGetDataAnakStuntingKunjungan() {
+    String urlGetDataAnakStuntingKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetDataAnakStuntingKunjungan/anak-stunting";
+  }
+
+  String urlGetDataAnakTidakHadirKunjungan() {
+    String urlGetDataAnakTidakHadirKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetDataAnakTidakHadirKunjungan/anak-tidak-hadir";
+  }
+
+  String urlGetDataIbuHamilKunjungan() {
+    String urlGetDataIbuHamilKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetDataIbuHamilKunjungan/ibu-hamil";
+  }
+
+  String urlGetDetailKunjunganAnak(String id) {
+    String urlGetDetailKunjunganAnak = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetDetailKunjunganAnak/$id/anak";
+  }
+
+  String urlGetDetailKunjunganIbuHamil(String id) {
+    String urlGetDetailKunjunganIbuHamil = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetDetailKunjunganIbuHamil/$id/ibu-hamil";
+  }
+
+  String urlPostTugasBuktiKunjungan() {
+    String urlPostTugasBuktiKunjungan = LinkApi.TUGASBUKTIKUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlPostTugasBuktiKunjungan";
+  }
+
+  String urlPatchDataKunjungan(String id) {
+    String urlPatchDataKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlPatchDataKunjungan/$id";
+  }
+
+  String urlDeleteDataKunjungan(String id) {
+    String urlDeleteDataKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlDeleteDataKunjungan/$id";
+  }
+
+  //! download E-PPGBM
+  String urlDonwloadEPPGBM() {
+    String urlDonwloadEPPGBM = LinkApi.DOWNLOADEPPGBM;
+    return _baseUrl + _apiVersion + urlDonwloadEPPGBM;
   }
 }

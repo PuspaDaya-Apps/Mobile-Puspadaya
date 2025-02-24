@@ -7,4 +7,18 @@ sealed class IndexKunjunganState extends Equatable {
   List<Object> get props => [];
 }
 
-final class IndexKunjunganInitial extends IndexKunjunganState {}
+final class IndexKunjunganProccessState extends IndexKunjunganState {}
+
+final class IndexKunjunganSuccessState extends IndexKunjunganState {
+  final KunjunganResponseModel kunjunganResponseModel;
+
+  const IndexKunjunganSuccessState(this.kunjunganResponseModel);
+}
+
+final class IndexKunjunganFailedState extends IndexKunjunganState {
+  final String error;
+
+  const IndexKunjunganFailedState(this.error);
+}
+
+final class IndexKunjunganTokenExpiredState extends IndexKunjunganState {}

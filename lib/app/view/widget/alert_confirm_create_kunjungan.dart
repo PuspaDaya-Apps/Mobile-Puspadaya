@@ -11,8 +11,13 @@ import 'alert_done_create_kunjungan.dart';
 class AlertConfirmCreateKunjungan extends StatelessWidget {
   final String totalDistance;
   final String totalDuration;
+
+  final VoidCallback kunjunganLagi;
+  final VoidCallback selesai;
+
   const AlertConfirmCreateKunjungan(
-      {super.key, required this.totalDistance, required this.totalDuration});
+    {super.key, required this.totalDistance, required this.totalDuration, required this.kunjunganLagi, required this.selesai}
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +94,7 @@ class AlertConfirmCreateKunjungan extends StatelessWidget {
                     ),
                     const Text(
                       textAlign: TextAlign.start,
-                      'Jarak Tempu Saat Ini',
+                      'Jarak Tempuh Saat Ini',
                       style: TextStyle(
                         fontSize: 12,
                       ),
@@ -121,12 +126,7 @@ class AlertConfirmCreateKunjungan extends StatelessWidget {
               ),
               ButtonPrimary(
                 mainButtonMessage: 'Lanjutkan Kunjungan',
-                mainButton: () {
-                  Navigator.of(context)
-                    ..pop()
-                    ..pop()
-                    ..pop();
-                },
+                mainButton: kunjunganLagi,
                 color: greenPrimaryMain,
               ),
               SizedBox(
@@ -138,36 +138,37 @@ class AlertConfirmCreateKunjungan extends StatelessWidget {
               ),
               ButtonPrimary(
                 mainButtonMessage: 'Selesai',
-                mainButton: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDoneCreateKunjungan(
-                        totalDistance: totalDistance,
-                        totalDuration: totalDuration,
-                      );
-                    },
-                  );
-                },
+                mainButton: selesai,
+                // () {
+                //   Navigator.pop(context);
+                //   showDialog(
+                //     context: context,
+                //     builder: (context) {
+                //       return AlertDoneCreateKunjungan(
+                //         totalDistance: totalDistance,
+                //         totalDuration: totalDuration,
+                //       );
+                //     },
+                //   );
+                // },
                 color: bluePrimaryMain,
               ),
-              SizedBox(
-                height: SizeConfig.calHeightMultiplier(12),
-              ),
+              // SizedBox(
+              //   height: SizeConfig.calHeightMultiplier(12),
+              // ),
               // Tampilkan cancel button hanya jika keduanya tidak null
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Batalkan',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //   },
+              //   child: Text(
+              //     'Batalkan',
+              //     style: TextStyle(
+              //       color: Colors.grey,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),
