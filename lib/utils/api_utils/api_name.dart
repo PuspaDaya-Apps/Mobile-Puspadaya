@@ -70,13 +70,25 @@ abstract class LinkApi {
   static const MONITORINGIBUHAMIL = '/monitoring/ibu-hamil';
   static const MONITORINGANAK = '/monitoring/anak';
 
+  //! Kunjungan
+  static const KUNJUNGANURL = '/kunjungan-kader';
+  static const TUGASBUKTIKUNJUNGANURL = '/kunjungan-kader/kunjungan-tugas';
+
+  //! Tugas Kunjungan
+  static const TUGASKUNJUNGANURL = '/tugas-kunjungan';
+
+  //! File Upload
+  static const FILEUPLOADURL = '/file-upload/upload';
+
   //!utils
   static const GENERATENIK = '/utils/generate-nik';
   static const GENERATEKK = '/utils/generate-nomor-kartu-keluarga';
 
   //! faktor resiko
-
   static const FAKTORRESIKO = '/faktor-resiko';
   static const FAKTORRESIKOPERTANYAAN = '/faktor-resiko/pertanyaan';
   static const RIWAYATFAKTORRESIKO = '/faktor-resiko/riwayat';
+
+  //! donwload E-PPGBM
+  static const DOWNLOADEPPGBM = "/export-data";
 }

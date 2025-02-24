@@ -9,7 +9,10 @@ import '../../app/feature/eppgbm/view/files_eppgbm_model.dart';
 import '../../config/screen_config/image_config.dart';
 import '../../config/screen_config/size_config.dart';
 import '../../config/theme/text_style.dart';
+import '../../route/route_name.dart';
+import '../api_utils/api_utils.dart';
 import '../logger/logger.dart';
+import '../shared_preferences_utils/shared_preferences_utils.dart';
 
 class DownloadUtils {
   Future<void> downloadAndSaveFile(
@@ -71,27 +74,48 @@ class DownloadUtils {
   Future<void> downloadMultipleFiles(
       BuildContext context, List<FilesEPPGBMModel> files) async {
     try {
-      if (Platform.isAndroid) {
-        if (await Permission.storage.request().isDenied ||
-            await Permission.manageExternalStorage.request().isDenied) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Izin penyimpanan ditolak')));
-          return;
-        }
-      }
+      // if (Platform.isAndroid) {
+      //   if (await Permission.storage.request().isDenied ||
+      //       await Permission.manageExternalStorage.request().isDenied) {
+      //     ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(content: Text('Izin penyimpanan ditolak')));
+      //     return;
+      //   }
+      // }
 
       ValueNotifier<double> progress = ValueNotifier(0.0);
       showLoadingDialog(context, progress);
 
-      String path = await ExternalPath.getExternalStoragePublicDirectory(
-          ExternalPath.DIRECTORY_DOWNLOADS);
+      String? accessToken = await SharedPrefUtils().getAccessToken();
+
+      if(accessToken == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Gagal Mengambil Token')));
+          Navigator.pushReplacementNamed(context, LOGIN);
+      }
+
+      Map<String, String> header = ApiUtils().headerWithToken(accessToken!); 
+      // String path = await ExternalPath.getExternalStoragePublicDirectory(
+      //     ExternalPath.DIRECTORY_DOWNLOADS);
+      String path = '/storage/emulated/0/Download';
+      var dirDownloadExists = true;
+      dirDownloadExists = await Directory(path).exists();
+      if (!dirDownloadExists) {
+        path = '/storage/emulated/0/Download';
+        dirDownloadExists = await Directory(path).exists();
+        if (!dirDownloadExists) {
+          await Directory(path).create(recursive: true);
+          logger.i(path);
+        }
+      }
+
       int totalFiles = files.length;
 
       for (int i = 0; i < totalFiles; i++) {
         var file = files[i];
-        String filePath = '$path/${file.filename}';
+        String filePath = '$path/${file.filename}.xlsx';
 
-        var response = await http.get(Uri.parse(file.url));
+        var response = await http.get(Uri.parse(file.url),headers: header);
         if (response.statusCode == 200) {
           File saveFile = File(filePath);
           await saveFile.writeAsBytes(response.bodyBytes);

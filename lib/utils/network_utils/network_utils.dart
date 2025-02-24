@@ -172,6 +172,45 @@ class NetworkUtils {
     }
   }
 
+  Future<List<dynamic>> postFormData (String url, FormData body) async {
+    debugPrint("start connection");
+    try {
+      final response = await dio.post(
+        url,
+        data: body
+      );
+      debugPrint(" procces connection");
+
+      final bodyResponse = response.data;
+      final int statusResponse = response.statusCode!;
+
+      debugPrint(bodyResponse['message'].toString());
+      debugPrint(statusResponse.toString());
+
+      if(statusResponse == 401) {
+        debugPrint('error test access token');
+      }
+
+      if (statusResponse == 200 ||
+          statusResponse == 201 ||
+          statusResponse == 202 ||
+          statusResponse == 206 ||
+          // statusResponse == 401 ||
+          statusResponse == 403 ||
+          statusResponse == 404 ||
+          statusResponse == 400 ||
+          statusResponse == 422 ||
+          statusResponse == 409) {
+        return [statusResponse, json.decode(json.encode(bodyResponse))];
+      } else {
+        throw bodyResponse['message'].toString();
+      }
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+      throw e.response!.statusMessage.toString();
+    }
+  }
+
   Future<List<dynamic>> put (String url, String body) async {
     try {
       final response = await dio.put(
@@ -264,6 +303,36 @@ class NetworkUtils {
       throw e.response!.statusMessage.toString();
     }
   }
+
+  // Future<List<dynamic>> donwloadFile  (String url, String body) async {
+  //   try {
+  //     final response = await dio.download(
+  //       url,
+  //       data: body
+  //     );
+
+  //       final bodyResponse = response.data;
+  //       final int statusResponse = response.statusCode!;
+
+  //       debugPrint(bodyResponse.toString());
+  //       debugPrint(statusResponse.toString());
+
+  //       if (statusResponse == 200 ||
+  //           statusResponse == 201 ||
+  //           statusResponse == 202 ||
+  //           statusResponse == 206 ||
+  //           statusResponse == 401 ||
+  //           statusResponse == 403 ||
+  //           statusResponse == 404 ||
+  //           statusResponse == 400 ) {
+  //       return [statusResponse, json.decode(json.encode(bodyResponse))];
+  //     } else {
+  //       return [statusResponse, json.decode(json.encode(bodyResponse))];
+  //     }
+  //   } on DioException catch (e) {
+  //     throw e.response!.statusMessage.toString();
+  //   }
+  // }
 
   // Future<dynamic> postMultiPart(Uri url, Map<String, String> header, Map<String, String> form, XFile? file) async {
   //   final http.MultipartRequest request = http.MultipartRequest("POST", url)

@@ -392,6 +392,18 @@ class _UploadImageState extends State<UploadImage> {
                     return AlertConfirmCreateKunjungan(
                       totalDistance: '5,4',
                       totalDuration: "12 Menit 14 Detik",
+                      kunjunganLagi: () {
+                        Navigator.of(context)
+                          ..pop()
+                          ..pop()
+                          ..pop(1);
+                      },
+                      selesai: () {
+                        Navigator.of(context)
+                          ..pop()
+                          ..pop()
+                          ..pop(0);
+                      },
                     );
                   },
                 );

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/kunjunganAnakTidakHadir/detailCreateKunjungan/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
+import 'package:puspadaya/app/feature/kunjunganAnakTidakHadir/formTugasKunjungan/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -33,45 +33,42 @@ class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
   }
 
   // Mulai atau hentikan timer
-  void _toggleTimer() {
-    if (_isRunning) {
-      _timer?.cancel();
-      _isRunning = false;
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialogWidget(
-              image: imageOnTheWay,
-              cancelButton: () {
-                Navigator.pop(context);
-              },
-              cancelButtonMessage: 'Kembali ke perjalanan',
-              title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
-              message:
-                  'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
-              mainButton: () {
-                Navigator.pop(context); // Tutup dialog
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const ChecklistJobKunjunganAnakTidakHadir(),
-                  ),
-                );
-              },
-              mainButtonMessage: 'Iya, Saya Sudah Selesai',
-              colorMainButton: bluePrimaryMain);
-        },
-      );
-    } else {
-      _isRunning = true;
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          _seconds++;
-        });
+  // void _toggleTimer() {
+  //   if (_isRunning) {
+  //     _timer?.cancel();
+  //     _isRunning = false;
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialogWidget(
+  //           image: imageOnTheWay,
+  //           cancelButton: () {
+  //             Navigator.pop(context);
+  //           },
+  //           cancelButtonMessage: 'Kembali ke perjalanan',
+  //           title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
+  //           message:
+  //               'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
+  //           mainButton: ,
+  //           mainButtonMessage: 'Iya, Saya Sudah Selesai',
+  //           colorMainButton: bluePrimaryMain);
+  //       },
+  //     );
+  //   } else {
+      
+  //   }
+  //   setState(() {});
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
       });
-    }
-    setState(() {});
+    });
   }
 
   @override
@@ -299,7 +296,16 @@ class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
                       : greenPrimaryMain, // Warna tombol
                   mainButtonMessage:
                       _isRunning ? 'Selesai' : 'Mulai', // Teks tombol
-                  mainButton: _toggleTimer, // Jalankan timer
+                  mainButton: () {
+                    Navigator.pop(context); // Tutup dialog
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const ChecklistJobKunjunganAnakTidakHadir(),
+                      ),
+                    );
+                  },// Jalankan timer
                 ),
               ],
             ),

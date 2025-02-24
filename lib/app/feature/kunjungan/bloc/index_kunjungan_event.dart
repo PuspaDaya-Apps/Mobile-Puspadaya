@@ -6,3 +6,5 @@ sealed class IndexKunjunganEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GetDataKunjungan extends IndexKunjunganEvent {}

@@ -10,7 +10,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
 import '../../../../view/widget/alert_dialog_widget.dart';
-import 'checklist_job_kunjungan_ibu_hamil.dart';
+import '../../formTugasKunjungan/view/checklist_job_kunjungan_ibu_hamil.dart';
 
 class TimerKunjunganIbuHamil extends StatefulWidget {
   const TimerKunjunganIbuHamil({super.key});
@@ -32,44 +32,55 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
   }
 
   // Mulai atau hentikan timer
-  void _toggleTimer() {
-    if (_isRunning) {
-      _timer?.cancel();
-      _isRunning = false;
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialogWidget(
-              image: imageOnTheWay,
-              cancelButton: () {
-                Navigator.pop(context);
-              },
-              cancelButtonMessage: 'Kembali ke perjalanan',
-              title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
-              message:
-                  'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
-              mainButton: () {
-                Navigator.pop(context); // Tutup dialog
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ChecklistJobKunjunganIbuHamil(),
-                  ),
-                );
-              },
-              mainButtonMessage: 'Iya, Saya Sudah Selesai',
-              colorMainButton: bluePrimaryMain);
-        },
-      );
-    } else {
-      _isRunning = true;
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          _seconds++;
-        });
+  // void _toggleTimer() {
+  //   if (_isRunning) {
+  //     _timer?.cancel();
+  //     _isRunning = false;
+  //     showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialogWidget(
+  //             image: imageOnTheWay,
+  //             cancelButton: () {
+  //               Navigator.pop(context);
+  //             },
+  //             cancelButtonMessage: 'Kembali ke perjalanan',
+  //             title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
+  //             message:
+  //                 'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
+  //             mainButton: () {
+  //               Navigator.pop(context); // Tutup dialog
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) => const ChecklistJobKunjunganIbuHamil(),
+  //                 ),
+  //               );
+  //             },
+  //             mainButtonMessage: 'Iya, Saya Sudah Selesai',
+  //             colorMainButton: bluePrimaryMain);
+  //       },
+  //     );
+  //   } else {
+  //     _isRunning = true;
+  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //       setState(() {
+  //         _seconds++;
+  //       });
+  //     });
+  //   }
+  //   setState(() {});
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds++;
       });
-    }
-    setState(() {});
+    });
   }
 
   @override
@@ -297,7 +308,16 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
                       : greenPrimaryMain, // Warna tombol
                   mainButtonMessage:
                       _isRunning ? 'Selesai' : 'Mulai', // Teks tombol
-                  mainButton: _toggleTimer, // Jalankan timer
+                  mainButton: () {
+                    Navigator.pop(context); // Tutup dialog
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const ChecklistJobKunjunganIbuHamil(),
+                      ),
+                    );
+                  }, // Jalankan timer
                 ),
               ],
             ),
