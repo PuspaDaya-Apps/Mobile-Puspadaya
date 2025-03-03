@@ -10,7 +10,7 @@ import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 
 class DetailKunjunganBerjalanAnakTidakHadir extends StatelessWidget {
-  List<String> job = [
+  final List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
     "isi piringku",
     "aktivitas fisik",

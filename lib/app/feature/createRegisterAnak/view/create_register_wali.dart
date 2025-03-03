@@ -9,7 +9,6 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
-import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
@@ -161,12 +160,10 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

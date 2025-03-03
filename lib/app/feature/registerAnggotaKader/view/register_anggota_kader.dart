@@ -6,13 +6,10 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/error_server_screen.dart';
-import '../../../view/screen/error_unauthorized_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/index_anggota_kader_bloc.dart';
-import 'model/anggota_kader_item_model.dart';
-
 class RegisterAnggotaKader extends StatelessWidget {
   const RegisterAnggotaKader({super.key});
 

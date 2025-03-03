@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
@@ -336,7 +333,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                               children: [
                                 CustomRadioButton(
                                   value: 1,
-                                  groupValue: asiEksklusifValue!,
+                                  groupValue: asiEksklusifValue,
                                   onChanged: (value) {
                                     setState(() {
                                       asiEksklusifValue = value;
@@ -349,7 +346,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                 ),
                                 CustomRadioButton(
                                   value: 0,
-                                  groupValue: asiEksklusifValue!,
+                                  groupValue: asiEksklusifValue,
                                   onChanged: (value) {
                                     setState(() {
                                       asiEksklusifValue = value;
@@ -403,7 +400,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                               children: [
                                 CustomRadioButton(
                                   value: 1,
-                                  groupValue: mpasiValue!,
+                                  groupValue: mpasiValue,
                                   onChanged: (value) {
                                     setState(() {
                                       mpasiValue = value;
@@ -414,7 +411,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                 const SizedBox(width: 16),
                                 CustomRadioButton(
                                   value: 0,
-                                  groupValue: mpasiValue!,
+                                  groupValue: mpasiValue,
                                   onChanged: (value) {
                                     setState(() {
                                       mpasiValue = value;

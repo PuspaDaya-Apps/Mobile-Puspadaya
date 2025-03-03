@@ -12,14 +12,14 @@ final class GetIndexIbuHamilInitial extends GetIndexIbuHamilState {}
 final class GetIndexIbuHamilLoading extends GetIndexIbuHamilState {}
 
 final class GetIndexIbuHamilSuccess extends GetIndexIbuHamilState {
-  GetIndexIbuHamilModel data;
+  final GetIndexIbuHamilModel data;
   GetIndexIbuHamilSuccess(this.data);
   @override
   List<Object> get props => [data];
 }
 
 final class GetIndexIbuHamilFailed extends GetIndexIbuHamilState {
-  String message;
+  final String message;
   GetIndexIbuHamilFailed(this.message);
   @override
   List<Object> get props => [message];

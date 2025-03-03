@@ -5,7 +5,6 @@ import 'package:puspadaya/app/feature/registerOrangTua/model/get_all_orang_tua_r
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../../registerIbuHamil/model/get_index_ibu_hamil_model.dart';
 import '../model/error_post_ibu_hamil_model.dart';
 import '../service/create_ibu_hamil.dart';
 

@@ -8,7 +8,6 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/daftar_kunjungan_detail_item.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../kunjungan/model/Kunjungan.dart';
-import 'detail_kunjungan_selesai_anak_stunting.dart';
 import 'detail_kunjungan_selesai_ibu_hamil.dart';
 
 class DetailKunjunganIbuHamilDone extends StatelessWidget {

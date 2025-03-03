@@ -11,7 +11,6 @@ import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/card_select_bulan_widget.dart';
 import '../../../../view/widget/pul_to_refresh.dart';
 import '../bloc/riwayat_faktor_resiko_bloc.dart';
-import '../model/select_bulan_model.dart';
 
 class SelectBulan extends StatelessWidget {
   final String id;

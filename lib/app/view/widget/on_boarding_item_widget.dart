@@ -10,9 +10,9 @@ class OnBoardingItemWidget extends StatelessWidget {
       required this.title,
       required this.description});
 
-  String image;
-  String title;
-  String description;
+  final String image;
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {

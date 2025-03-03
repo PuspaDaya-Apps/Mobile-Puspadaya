@@ -13,7 +13,7 @@ class TextFieldWidget extends StatelessWidget {
   final VoidCallback? onToggleVisibility;
   final bool? isEnable;
   // final FormFieldValidator<String>? validator;
-  List<String? Function(String)>? validators;
+  final List<String? Function(String)>? validators;
   final ValueSetter? valueSet;
 
   TextFieldWidget(

@@ -1,7 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -10,9 +9,7 @@ import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
-import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
-import '../../../view/widget/alert_choose_measuring_tools_widget.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/auto_size_text_field_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
@@ -23,13 +20,8 @@ import '../../../view/widget/radio_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../createRegisterIbuHamil/model/post_ibu_hamil_model.dart';
-import '../../detailRegisterIbuHamil/model/get_detail_ibu_hamil_model.dart'
-    as GetDetailIbuHamilModel;
 import '../../pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import '../bloc/update_register_ibu_hamil_bloc.dart';
-import '../cubit/search_ibu_hamil_cubit.dart';
-import 'model/ibu_hamil_item_model.dart';
-import 'search_ibu_hamil.dart';
 
 class UpdateRegisterIbuHamil extends StatelessWidget {
   final PaketToUpdateRegisterIbuHamil data;
@@ -99,12 +91,10 @@ class UpdateRegisterIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _firstDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _firstDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateLastHaid(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -118,12 +108,10 @@ class UpdateRegisterIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _lastDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _lastDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   final List<String> selectPosyandu = [
     'Posyandu Mawar 1',
@@ -402,6 +390,7 @@ class UpdateRegisterIbuHamilViewState
                         if (value == null) {
                           return 'Pilih Tempat Pengukuran';
                         }
+                        return null;
                       },
                     ),
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),

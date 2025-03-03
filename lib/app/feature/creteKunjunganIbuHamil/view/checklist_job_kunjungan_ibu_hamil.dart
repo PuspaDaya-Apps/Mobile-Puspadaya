@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/alert_confirm_create_kunjungan.dart';

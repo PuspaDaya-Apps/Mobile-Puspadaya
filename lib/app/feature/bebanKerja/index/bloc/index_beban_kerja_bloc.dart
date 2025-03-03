@@ -7,7 +7,6 @@ import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../model/current_user_model.dart';
-import '../../../login/model/get_current_user_response_model.dart';
 import '../model/index_beban_kerja_response_model.dart';
 import '../service/index_beban_kerja_api.dart';
 

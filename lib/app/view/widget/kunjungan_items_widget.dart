@@ -14,7 +14,7 @@ class KunjunganItemWidget extends StatelessWidget {
   // final TargetOfKunjugan target;
   // final double distance;
   // final DateTime date;
-  KunjunganItem item;
+  final KunjunganItem item;
   KunjunganItemWidget({
     required this.item,
     super.key,
