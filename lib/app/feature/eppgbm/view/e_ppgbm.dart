@@ -5,6 +5,7 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import '../../../../utils/api_utils/api_utils.dart';
 import '../../../../utils/download_utils/download_utils.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import 'files_eppgbm_model.dart';
@@ -31,22 +32,21 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
   // Daftar file yang ditampilkan
   List<FilesEPPGBMModel> files = [
     FilesEPPGBMModel(
-        url: 'https://example.com/file1.pdf',
-        filename: 'Daftar Anak ASI Eksklusif'),
+        url: "${ApiUtils().urlDonwloadEPPGBM()}/identitas-balita",
+        filename: 'Data Identitas Balita'),
     FilesEPPGBMModel(
-        url: 'https://example.com/file2.pdf',
-        filename: 'Daftar Anak Berdasarkan LILA'),
+        url: "${ApiUtils().urlDonwloadEPPGBM()}/pengukuran-balita",
+        filename: 'Data Pengukuran Balita'),
     FilesEPPGBMModel(
-        url: 'https://example.com/file3.pdf',
-        filename: 'Daftar Anak Berdasarkan Status Gizi'),
+        url: "${ApiUtils().urlDonwloadEPPGBM()}/tindakan-balita",
+        filename: 'Data Tindakan Balita'),
     FilesEPPGBMModel(
-        url: 'https://example.com/file4.pdf',
-        filename: 'Daftar Anak di Beri Vitamin A'),
+        url: "${ApiUtils().urlDonwloadEPPGBM()}/imunisasi-balita",
+        filename: 'Data Imunisasi Balita'),
     FilesEPPGBMModel(
-        url: 'https://example.com/file4.pdf', filename: 'Daftar Anak Outlier'),
-    FilesEPPGBMModel(
-        url: 'https://example.com/file4.pdf',
-        filename: 'Daftar Anak Penerima Imunisasi'),
+        url: "${ApiUtils().urlDonwloadEPPGBM()}/ukur-ibu-hamil-anc",
+        filename: 'Data Ukur Ibu Hamil Anc'),
+      
   ];
 
   // Fungsi untuk memilih semua item

@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/kunjungan/model/Kunjungan.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/kunjungan/view/widget/alert_create_kunjungan.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class Kunjungan extends StatelessWidget {
-  const Kunjungan({super.key});
+import '../../../../route/route_name.dart';
+import '../../../view/screen/error_server_screen.dart';
+import '../../../view/screen/no_data_screen.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/index_kunjungan_bloc.dart';
+
+class KunjunganScreen extends StatelessWidget {
+  const KunjunganScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const KunjunganView();
+    return BlocProvider(
+      create: (context) => IndexKunjunganBloc(),
+      child: const KunjunganView(),
+    );
   }
 }
 
@@ -22,90 +32,106 @@ class KunjunganView extends StatefulWidget {
 }
 
 class _KunjunganViewState extends State<KunjunganView> {
-  final List<KunjunganItem> listOfKunjungan = [
-    // !belum dimulai
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 10)),
-      distance: 5.84,
-      status: Status.belumDiMulai,
-      target: TargetOfKunjugan.anakStunting,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 8)),
-      distance: 2.84,
-      status: Status.belumDiMulai,
-      target: TargetOfKunjugan.anakTidakHadir,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 20)),
-      distance: 1.84,
-      status: Status.belumDiMulai,
-      target: TargetOfKunjugan.ibuHamil,
-    ),
-    // !berjalan
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 15)),
-      distance: 4.04,
-      status: Status.berjalan,
-      target: TargetOfKunjugan.anakStunting,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 12)),
-      distance: 0.2,
-      status: Status.berjalan,
-      target: TargetOfKunjugan.anakTidakHadir,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 7)),
-      distance: 0.94,
-      status: Status.berjalan,
-      target: TargetOfKunjugan.ibuHamil,
-    ),
-    // !selesai
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 18)),
-      distance: 1.04,
-      status: Status.selesai,
-      target: TargetOfKunjugan.anakStunting,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 5)),
-      distance: 1.2,
-      status: Status.selesai,
-      target: TargetOfKunjugan.anakTidakHadir,
-    ),
-    KunjunganItem(
-      date: DateTime.now().subtract(Duration(days: 3)),
-      distance: 1.42,
-      status: Status.selesai,
-      target: TargetOfKunjugan.ibuHamil,
-    ),
-  ];
+  // bool kunjungan = true;
+ 
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+  }
 
   @override
   Widget build(BuildContext context) {
+    final indexKunjunganBloc = BlocProvider.of<IndexKunjunganBloc>(context);
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
-      appBar: PrimaryAppBar(
+      appBar: const PrimaryAppBar(
         title: 'Kunjungan',
         background: backgroundWhite10,
         onBackPressed: null,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: ListView.builder(
-            itemCount: listOfKunjungan.length,
-            itemBuilder: (context, index) {
-              // Ensure correct rendering of custom widgets
+        child: BlocConsumer<IndexKunjunganBloc, IndexKunjunganState>(
+          listener: (context, state) {
+            debugPrint(state.toString());
+          },
+          builder: (context, state) {
+            if (state is IndexKunjunganProccessState) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                )
+              );
+            }
+            if(state is IndexKunjunganSuccessState) {
+              if(state.kunjunganResponseModel.data!.isEmpty) {
+                return const NoDataScreen();
+              }
+              // for(var value in state.kunjunganResponseModel.data!){
+              //   if(value.statusKunjungan == "Sedang Berjalan") {
+              //     kunjungan = false;
+              //   }
+              // }
+
               return Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: KunjunganItemWidget(
-                  item: listOfKunjungan[index],
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: ListView.builder(
+                  itemCount: state.kunjunganResponseModel.data!.length,
+                  itemBuilder: (context, index) {
+                    debugPrint(state.kunjunganResponseModel.data!.length.toString());
+                    debugPrint(index.toString());
+                    // Ensure correct rendering of custom widgets
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: KunjunganItemWidget(
+                       kunjungan: state.kunjunganResponseModel.data![index],
+                       refresData: () {
+                        if (state.kunjunganResponseModel.data![index].statusKunjungan == "Selesai") {
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
+                            Navigator.pushNamed(context, DETAIL_ANAK_STUNTING_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                              }
+                            });
+                          }
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
+
+                          }
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
+
+                          }
+                        } else {
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
+                            Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                                if(value == 1) {
+                                  Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
+                                  if(value != null) {
+                                    indexKunjunganBloc.add(GetDataKunjungan());
+                                  }
+                                });
+                                }
+                              }
+                            });
+                          }
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
+
+                          }
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
+
+                          }
+                        }
+                       },
+                      ),
+                    );
+                  },
                 ),
               );
-            },
-          ),
+            }
+            return const ErrorServerScreen();
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -117,12 +143,42 @@ class _KunjunganViewState extends State<KunjunganView> {
           color: Colors.white,
         ),
         onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertCreateKunjungan();
-            },
-          );
+          // if(kunjungan) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertCreateKunjungan(
+                  indexKunjunganBloc: indexKunjunganBloc,
+                );
+              },
+            ).then((valueCreate) {
+              if(valueCreate == 1) {
+                Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
+                  if(value != null) {
+                    indexKunjunganBloc.add(GetDataKunjungan());
+                  }
+                });
+              }
+              if(valueCreate == 2) {
+                Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
+                  if(value != null) {
+                    indexKunjunganBloc.add(GetDataKunjungan());
+                  }
+                });
+              }
+              if(valueCreate == 3) {
+                Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
+                    if(value != null) {
+                      indexKunjunganBloc.add(GetDataKunjungan());
+                    }
+                  });
+              }
+            });
+          // } else {
+           
+          // }   
+          
+          
           // Add your navigation or functionality for adding new items
           print("Floating Action Button Pressed");
         },

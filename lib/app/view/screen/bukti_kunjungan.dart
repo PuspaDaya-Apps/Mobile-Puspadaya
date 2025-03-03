@@ -38,7 +38,27 @@ class BuktiKunjungan extends StatelessWidget {
                   child: Image(
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height / 4,
-                    image: AssetImage(
+                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                      if(wasSynchronouslyLoaded) {
+                        return child;
+                      } else {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          child: frame != null ? child : SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: MediaQuery.sizeOf(context).height / 4,
+                          ),
+                        );
+                      }
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.warning_amber_rounded,
+                        size: MediaQuery.sizeOf(context).width / 2,
+                        color: Colors.red,
+                      );
+                    },
+                    image: NetworkImage(
                       imageUrls[index],
                     ),
                     fit: BoxFit.cover,

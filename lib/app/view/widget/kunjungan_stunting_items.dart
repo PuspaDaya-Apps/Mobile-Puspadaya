@@ -5,7 +5,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 class KunjunganStuntingItems extends StatelessWidget {
   final String name;
   final String nik;
-  final String parent;
+  final String? parent;
   final VoidCallback onTap;
 
   const KunjunganStuntingItems({
@@ -13,7 +13,7 @@ class KunjunganStuntingItems extends StatelessWidget {
     required this.onTap,
     required this.name,
     required this.nik,
-    required this.parent,
+    this.parent,
   });
 
   @override
@@ -67,7 +67,9 @@ class KunjunganStuntingItems extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    "Ibu : ${parent}",
+                    parent != null 
+                    ? "Ibu : $parent"
+                    : "",
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.primaryTextNormal.copyWith(
                       fontSize: 12,
