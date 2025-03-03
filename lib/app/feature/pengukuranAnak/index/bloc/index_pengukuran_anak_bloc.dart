@@ -24,21 +24,21 @@ class IndexPengukuranAnakBloc extends Bloc<IndexPengukuranAnakEvent, IndexPenguk
       emit(IndexPengukuranAnakTokenExpiredState());
     } else {
       try {
-          List<dynamic> response = await IndexPengukuranAnakApi().getpengukuranAnakService(accessToken);
+        List<dynamic> response = await IndexPengukuranAnakApi().getpengukuranAnakService(accessToken);
 
-          int statusCode = response[0] as int;
-          final IndexPengukuranAnakResponseModel indexPengukuranAnakResponseModel = IndexPengukuranAnakResponseModel.fromJson(response[1]);
+        int statusCode = response[0] as int;
+        final IndexPengukuranAnakResponseModel indexPengukuranAnakResponseModel = IndexPengukuranAnakResponseModel.fromJson(response[1]);
 
-          if(statusCode == 200) {
-            emit(IndexPengukuranAnakSuccessState(indexPengukuranAnakResponseModel));
-          } else if (statusCode == 401) {
-            emit(IndexPengukuranAnakTokenExpiredState());
-          } else {
-            emit(IndexPengukuranAnakFailedState(indexPengukuranAnakResponseModel.message));
-          }
-        } catch (error) {
-          emit(IndexPengukuranAnakFailedState(error.toString()));
+        if(statusCode == 200) {
+          emit(IndexPengukuranAnakSuccessState(indexPengukuranAnakResponseModel));
+        } else if (statusCode == 401) {
+          emit(IndexPengukuranAnakTokenExpiredState());
+        } else {
+          emit(IndexPengukuranAnakFailedState(indexPengukuranAnakResponseModel.message));
         }
+      } catch (error) {
+        emit(IndexPengukuranAnakFailedState(error.toString()));
+      }
     }
   }
 }

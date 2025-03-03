@@ -41,11 +41,14 @@ class DaftarKunjunganDetailItem extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: status == Status.belumDiMulai
-                      ? greenPrimaryMain
-                      : status == Status.berjalan
+                  color: status == Status.berjalan
                           ? goldPrimaryMain
-                          : bluePrimaryMain,
+                          : bluePrimaryMain, 
+                      // status == Status.belumDiMulai
+                      // ? greenPrimaryMain
+                      // : status == Status.berjalan
+                      //     ? goldPrimaryMain
+                      //     : bluePrimaryMain,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -83,7 +86,7 @@ class DaftarKunjunganDetailItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Status : ${detailKunjungan.status == Status.belumDiMulai ? 'Belum Dimulai' : detailKunjungan.status == Status.berjalan ? 'Berjalan' : 'Selesai'}',
+                          'Status : ${detailKunjungan.status == Status.berjalan ? 'Berjalan' : 'Selesai'}',
                           style: AppTextStyles.primaryTextMedium.copyWith(
                             fontSize: 12,
                           ),

@@ -17,9 +17,6 @@ import 'package:puspadaya/app/feature/parameterGizi/view/parameter_gizi.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_stunting.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_anak_tidak_hadir.dart';
-import 'package:puspadaya/app/feature/detailKunjunganBelumDiMulai/view/kunjungan_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/view/detail_register_anak.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnggotaKader/view/detail_register_anggota_kader.dart';
 import 'package:puspadaya/app/feature/detailRegisterIbuHamil/view/detail_register_ibu_hamil.dart';
@@ -34,8 +31,13 @@ import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
 import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
-import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_tidak_hadir.dart';
-import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
+import '../app/feature/kunjunganAnakStunting/detailCreateKunjungan/view/detail_create_kunjungan_anak_stunting_screen.dart';
+import '../app/feature/kunjunganAnakStunting/detailKunjungan/model/detail_kunjungan_anak_stunting_response_model.dart';
+import '../app/feature/kunjunganAnakStunting/detailKunjungan/view/detail_kunjungan_anak_stunting.dart';
+import '../app/feature/kunjunganAnakStunting/formTugasKunjungan/view/form_tugas_kunjungan_anak_stunting_screen.dart';
+import '../app/feature/kunjunganAnakStunting/perbaruiKunjungan/view/perbarui_kunjungan_anak_stunting_screen.dart';
+import '../app/feature/kunjunganAnakTidakHadir/listAnakTidakHadir/view/list_anak_tidak_hadir_kunjungan_screen.dart';
+import '../app/feature/kunjunganAnakStunting/listAnakStunting/view/list_anak_stunting_kunjungan_screen.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.dart';
@@ -46,15 +48,9 @@ import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hami
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
 import '../app/feature/createRegisterAnggotaKader/view/create_register_anggota_kader.dart';
 import '../app/feature/createRegisterIbuHamil/view/create_register_ibu_hamil.dart';
-import '../app/feature/creteKunjunganIbuHamil/view/create_kunjungan_ibu_hamil.dart';
+import '../app/feature/kunjunganIbuHamil/listIbuHamil/view/list_ibu_hamil_kunjungan_screen.dart';
 import '../app/feature/bebanKerja/detail/view/detail_beban_kerja.dart';
 import '../app/feature/pengukuranAnak/detail/view/detail_pengukuran_anak.dart';
-import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_stunting.dart';
-import '../app/feature/detailKunjunganBerjalan/view/kunjungan_anak_tidak_hadir.dart';
-import '../app/feature/detailKunjunganBerjalan/view/kunjungan_ibu_hamil.dart';
-import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_stunting.dart';
-import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.dart';
-import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
@@ -253,70 +249,84 @@ class MyRoute {
           builder: (context) => const CreateBebanKerja(),
           settings: settings,
         );
-      //! kunjungan create
-
-      case CREATE_KUNJUNGAN_STUNTING:
+      
+      //! kunjungan anak stunting
+      case LIST_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganStunting(),
+            builder: (context) => const ListAnakStuntingKunjungan(),
             settings: settings);
 
-      case CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR:
+      case DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganAnakTidakHadir(),
+            builder: (context) => DetailCreateKunjunganAnakStunting(idKunjungan: settings.arguments as String),
             settings: settings);
 
-      case CREATE_KUNJUNGAN_IBU_HAMIL:
+      case FORM_TUGAS_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => const CreateKunjunganIbuHamil(),
+            builder: (context) => FormTugasKunjunganAnakStunting(idKunjungan: settings.arguments as String),
+            settings: settings);      
+
+      case DETAIL_ANAK_STUNTING_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => DetailKunjunganAnakStunting(idKunjungan: settings.arguments as String),
+            settings: settings);
+      
+      case UPDATE_ANAK_STUNTING_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => PerbaruiKunjunganAnakStunting(modelDetailKunjungan: settings.arguments as DetailKunjunganAnakStuntingResponseModel),
+            settings: settings);
+      
+      //! kunjungan anak tidak hadir
+      case LIST_ANAK_TIDAK_HADIR_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => const ListAnakTidakHadirKunjungan(),
             settings: settings);
 
-      // ! kunjungan detail
+      // case DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailCreateKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
+      //       settings: settings);
 
-      //? belum dimulai
-      case DETAIL_KUNJUNGAN_STUNTING_NOT_STARTED:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganAnakStuntingNotStarted(),
-            settings: settings);
+      // case FORM_TUGAS_ANAK_TIDAK_HADIR_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => FormTugasKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
+      //       settings: settings);      
 
-      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_NOT_STARTED:
-        return MaterialPageRoute(
-            builder: (context) =>
-                const DetailKunjunganAnakTidakHadirNotStarted(),
-            settings: settings);
-      case DETAIL_KUNJUNGAN_IBU_HAMIL_NOT_STARTED:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganIbuHamilNotStarted(),
-            settings: settings);
+      // case DETAIL_ANAK_TIDAK_HADIR_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
+      //       settings: settings);
+      
+      // case UPDATE_ANAK_TIDAK_HADIR_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const PerbaruiKunjunganAnakTidakHadir(),
+      //       settings: settings);
 
-      //? berjalan
-      case DETAIL_KUNJUNGAN_STUNTING_ON_GOING:
+      //! kunjungan ibu hamil
+      case LIST_IBU_HAMIL_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganAnakStuntingOnGoing(),
-            settings: settings);
-
-      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_ON_GOING:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganAnakTidakHadirOnGoing(),
-            settings: settings);
-      case DETAIL_KUNJUNGAN_IBU_HAMIL_ON_GOING:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganIbuHamilOnGoing(),
+            builder: (context) => const ListIbuHamilKunjungan(),
             settings: settings);
 
-      //? done
-      case DETAIL_KUNJUNGAN_STUNTING_DONE:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganAnakStuntingDone(),
-            settings: settings);
+      //  case DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailCreateKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+      //       settings: settings);
 
-      case DETAIL_KUNJUNGAN_ANAK_TIDAK_HADIR_DONE:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganAnakTidakHadirDone(),
-            settings: settings);
-      case DETAIL_KUNJUNGAN_IBU_HAMIL_DONE:
-        return MaterialPageRoute(
-            builder: (context) => const DetailKunjunganIbuHamilDone(),
-            settings: settings);
+      // case FORM_TUGAS_IBU_HAMIL_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => FormTugasKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+      //       settings: settings);      
+
+      // case DETAIL_IBU_HAMIL_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => DetailKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+      //       settings: settings);
+      
+      // case UPDATE_IBU_HAMIL_KUNJUNGAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const PerbaruiKunjungaIbuHamil(),
+      //       settings: settings);
 
       // ! register
       case REGISTER:

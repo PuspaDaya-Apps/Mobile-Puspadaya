@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../bloc/index_kunjungan_bloc.dart';
+
 class AlertCreateKunjungan extends StatelessWidget {
   const AlertCreateKunjungan({
     super.key,
+    required this.indexKunjunganBloc
   });
+  final IndexKunjunganBloc indexKunjunganBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +45,7 @@ class AlertCreateKunjungan extends StatelessWidget {
             ButtonPrimary(
               mainButtonMessage: 'Anak Stunting',
               mainButton: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, CREATE_KUNJUNGAN_STUNTING);
+                Navigator.pop(context, 1);
               },
               color: redPrimaryMain,
             ),
@@ -51,8 +55,7 @@ class AlertCreateKunjungan extends StatelessWidget {
             ButtonPrimary(
               mainButtonMessage: 'Anak Tidak Hadir',
               mainButton: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, CREATE_KUNJUNGAN_ANAK_TIDAK_HADIR);
+                Navigator.pop(context, 2);
                 // Navigator.pop(context);
               },
               color: goldPrimaryMain,
@@ -63,8 +66,7 @@ class AlertCreateKunjungan extends StatelessWidget {
             ButtonPrimary(
               mainButtonMessage: 'Ibu Hamil',
               mainButton: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, CREATE_KUNJUNGAN_IBU_HAMIL);
+                Navigator.pop(context, 3);
                 // Navigator.pop(context);
               },
               color: bluePrimaryMain,

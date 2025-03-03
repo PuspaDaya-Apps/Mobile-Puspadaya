@@ -2,6 +2,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:intl/intl.dart';
 
 import 'package:puspadaya/app/feature/home/view/home.dart';
 import 'package:puspadaya/app/feature/jadwal/index/view/jadwal.dart';
@@ -85,7 +86,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 currentUserModel: state.currentUserModel,
               ),
               const Pengukuran(),
-              const Kunjungan(),
+              const KunjunganScreen(),
               const Jadwal(),
               Profile(
                 currentUserModel: state.currentUserModel,

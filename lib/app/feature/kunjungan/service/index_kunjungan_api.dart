@@ -1,0 +1,16 @@
+import 'package:flutter/material.dart';
+
+import '../../../../../utils/api_utils/api_utils.dart';
+import '../../../../../utils/network_utils/network_utils.dart';
+
+class IndexKunjunganApi {
+  Future<List<dynamic>> getKunjunganService (String token) async {
+    final String link = ApiUtils().urlGetListKunjungan();
+    final Map<String, dynamic> parameterQuery = {};
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
+}
