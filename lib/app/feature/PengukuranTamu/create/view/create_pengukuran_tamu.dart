@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
@@ -19,6 +20,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_tamu_model.dart';
+import '../../../../view/widget/alert_choose_measuring_tools_widget.dart';
 
 class CreatePengukuranTamu extends StatelessWidget {
   const CreatePengukuranTamu({super.key});
@@ -528,4 +530,72 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
   }
 
 
+  Widget __buildChangeMeasuringToolsButton(context) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertChooseMeasuringTools(
+            title: 'Pilih Alat Ukur',
+            mainButton: () {
+              Navigator.pop(context);
+            },
+            mainButtonMessage: 'Simpan',
+            colorMainButton: bluePrimaryMain,
+            selectedHeight: selectedHeight,
+            selectedWeight: selectedWeight,
+            selectedUpperArmCircumference: selectedUpperArmCircumference,
+            selectedUterineFundalHeight: selectedUterineFundalHeight,
+            onHeightChanged: (value) {
+              setState(() {
+                selectedHeight = value;
+              });
+            },
+            onWeightChanged: (value) {
+              setState(() {
+                selectedWeight = value;
+              });
+            },
+            onUpperArmCircumferenceChanged: (value) {
+              setState(() {
+                selectedUpperArmCircumference = value;
+              });
+            },
+            onUterineFundalHeightChanged: (value) {
+              setState(() {
+                selectedUterineFundalHeight = value;
+              });
+            },
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: bluePrimary30,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          spacing: 2,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              FontAwesomeIcons.penToSquare,
+              color: Colors.white,
+              size: 14,
+            ),
+            Text(
+              'Ubah Alat',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
