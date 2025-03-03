@@ -9,8 +9,7 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 import '../../createKunjunganAnakTidakHadir/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
-import '../../createKunjunganStunting/view/checklist_job_kunjungan_anak.dart';
-import '../../createKunjunganStunting/view/timer_kunjungan_stunting.dart';
+
 
 class DetailKunjunganBelumSelesaiAnakTidakHadir extends StatelessWidget {
   // List<CheckboxKunjungan> listOfCheckbox = [
@@ -59,7 +58,7 @@ class DetailKunjunganBelumSelesaiAnakTidakHadir extends StatelessWidget {
   //     label: 'Anak Tidak Berada di Rumah',
   //   ),
   // ];
-  List<String> job = [
+  final List<String> job = [
     "Pengukuran di Rumah",
     "Stimulasi Perkembangan",
     "Aktivitas Fisik",

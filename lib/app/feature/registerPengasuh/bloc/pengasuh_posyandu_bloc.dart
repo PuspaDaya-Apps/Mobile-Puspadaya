@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../model/pengasuh_response_model.dart';
 import '../service/pengasuh_posyandu_api.dart';

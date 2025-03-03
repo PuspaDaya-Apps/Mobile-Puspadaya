@@ -8,7 +8,7 @@ sealed class JadwalCreateEvent extends Equatable {
 }
 
 class CreateJadwalEvent extends JadwalCreateEvent {
-  PostJadwalPosyanduModel postJadwalPosyanduModel;
+  final PostJadwalPosyanduModel postJadwalPosyanduModel;
 
   CreateJadwalEvent({required this.postJadwalPosyanduModel});
   @override

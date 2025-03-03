@@ -4,8 +4,6 @@ import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
-import '../../../../../config/theme/shadow.dart';
-import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';

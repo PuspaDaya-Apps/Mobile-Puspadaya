@@ -12,7 +12,6 @@ import 'package:puspadaya/config/theme/icon/home_menu_icon.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
 import '../../../../route/route_name.dart';
-import '../../../model/current_user_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../alamat/bloc/alamatBloc/alamat_bloc.dart';
 import '../bloc/userBloc/user_bloc.dart';

@@ -12,7 +12,7 @@ final class GetDetailIbuHamilInitial extends GetDetailIbuHamilState {}
 final class GetDetailIbuHamilLoading extends GetDetailIbuHamilState {}
 
 final class GetDetailIbuHamilSuccess extends GetDetailIbuHamilState {
-  GetDetailIbuHamilModel data;
+ final GetDetailIbuHamilModel data;
   GetDetailIbuHamilSuccess(this.data);
   @override
   List<Object> get props => [data];

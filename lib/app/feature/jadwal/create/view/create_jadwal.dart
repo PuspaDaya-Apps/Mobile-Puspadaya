@@ -58,13 +58,11 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _selectedDate = pickedDate;
-        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _selectedDate = pickedDate;
+      _dateController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(

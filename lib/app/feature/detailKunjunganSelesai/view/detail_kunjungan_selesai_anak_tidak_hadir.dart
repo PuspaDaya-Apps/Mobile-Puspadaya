@@ -10,7 +10,7 @@ import '../../../view/widget/info_field_widget.dart';
 import '../../../view/screen/bukti_kunjungan.dart';
 
 class DetailKunjunganSelesaiAnakTidakHadir extends StatelessWidget {
-  List<String> job = [
+  final List<String> job = [
     "Vitamin A",
     "obat cacing",
     "stimulasi perkembangan",

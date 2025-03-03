@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
-import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/search_posyandu.dart';
 import 'package:puspadaya/app/feature/alatUkur/create/view/create_alat_ukur.dart';
-import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
 import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
@@ -40,7 +38,6 @@ import '../app/feature/createKunjunganAnakTidakHadir/view/create_kunjungan_anak_
 import '../app/feature/createKunjunganStunting/view/create_kunjungan_stunting.dart';
 import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
-import '../app/feature/faktorResiko/detail/view/detail_riwayat_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
@@ -58,9 +55,6 @@ import '../app/feature/detailKunjunganBerjalan/view/kunjungan_ibu_hamil.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_stunting.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/detailKunjunganSelesai/view/kunjungan_ibu_hamil.dart';
-import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
-import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
-import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
 import '../app/feature/gantiKataSandi/view/ganti_kata_sandi.dart';
 import '../app/feature/gantiProfile/view/ganti_profile.dart';
 import '../app/feature/home/view/home_wrapper.dart';
@@ -87,8 +81,6 @@ import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
-import '../app/feature/detailRegisterIbuHamil/model/get_detail_ibu_hamil_model.dart'
-    as GetDetailIbuHamilModel;
 
 import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';

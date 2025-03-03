@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
 import '../../model/list_data_anak_model.dart';
 
