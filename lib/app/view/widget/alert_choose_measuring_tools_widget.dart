@@ -18,24 +18,24 @@ class AlertChooseMeasuringTools extends StatelessWidget {
   final ValueChanged onUpperArmCircumferenceChanged;
   final ValueChanged onUterineFundalHeightChanged;
 
-  List<String> selectHeight = [
+  final List<String> selectHeight = [
     'Microtoise',
     'Alat Ukur Tinggi Badan',
     'Alat Ukur Lainnya',
   ];
 
-  List<String> selectWeight = [
+  final List<String> selectWeight = [
     'Timbangan Digital',
     'Timbangan Manual',
     'Timbangan Lainnya',
   ];
 
-  List<String> selectUpperArmCircumference = [
+  final List<String> selectUpperArmCircumference = [
     'Pita Lila',
     'Alat Ukur Lainnya',
   ];
 
-  List<String> selectUterineFundalHeight = [
+  final List<String> selectUterineFundalHeight = [
     'Metline',
     'Alat Ukur Lainnya',
   ];

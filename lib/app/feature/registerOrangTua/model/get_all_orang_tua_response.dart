@@ -70,25 +70,35 @@ class Ayah {
   final String id;
   @JsonKey(name: "nama_ayah")
   final String namaAyah;
+  @JsonKey(name: "nik")
+  final String nik;
   @JsonKey(name: "kartu_keluarga")
   final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "usia_ayah")
+  final int usiaAyah;
   @JsonKey(name: "dusun")
   final Dusun dusun;
 
   Ayah({
     required this.dusun,
+    required this.usiaAyah,
     required this.id,
     required this.namaAyah,
     required this.kartuKeluarga,
+    required this.nik,
   });
 
   Ayah copyWith({
+    int? usiaAyah,
+    String? nik,
     String? id,
     String? namaAyah,
     KartuKeluarga? kartuKeluarga,
     Dusun? dusun,
   }) =>
       Ayah(
+        usiaAyah: usiaAyah ?? 0,
+        nik: nik ?? this.nik,
         dusun: dusun ?? this.dusun,
         id: id ?? this.id,
         namaAyah: namaAyah ?? this.namaAyah,
@@ -132,12 +142,18 @@ class Ibu {
   final String id;
   @JsonKey(name: "nama_ibu")
   final String namaIbu;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "usia_ibu")
+  final int usiaIbu;
   @JsonKey(name: "kartu_keluarga")
   final KartuKeluarga kartuKeluarga;
   @JsonKey(name: "dusun")
   final Dusun dusun;
 
   Ibu({
+    required this.usiaIbu,
+    required this.nik,
     required this.dusun,
     required this.id,
     required this.namaIbu,
@@ -145,12 +161,16 @@ class Ibu {
   });
 
   Ibu copyWith({
+    int? usiaIbu,
+    String? nik,
     String? id,
     String? namaIbu,
     Dusun? dusun,
     KartuKeluarga? kartuKeluarga,
   }) =>
       Ibu(
+        usiaIbu: usiaIbu ?? this.usiaIbu,
+        nik: nik ?? this.nik,
         dusun: dusun ?? this.dusun,
         id: id ?? this.id,
         namaIbu: namaIbu ?? this.namaIbu,

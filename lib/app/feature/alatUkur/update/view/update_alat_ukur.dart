@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:puspadaya/config/theme/text_style.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
-import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
 import '../../detail/view/detail_alat_ukur.dart';

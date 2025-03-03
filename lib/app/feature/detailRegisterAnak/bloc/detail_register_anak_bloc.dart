@@ -4,7 +4,6 @@ import 'package:puspadaya/app/feature/detailRegisterAnak/model/get_detail_anak_r
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../model/get_detail_anak_by_id_response.dart';
 import '../service/detail_register_anak_api.dart';
 
 part 'detail_register_anak_event.dart';

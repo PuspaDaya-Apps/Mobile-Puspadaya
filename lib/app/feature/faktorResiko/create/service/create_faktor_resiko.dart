@@ -3,7 +3,6 @@ import 'dart:convert';
 import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/network_utils/network_utils.dart';
-import '../../../jadwal/create/model/post_jadwal_posyandu_model.dart';
 import '../model/post_pertanyaan_model.dart';
 
 class CreateFaktorResiko {

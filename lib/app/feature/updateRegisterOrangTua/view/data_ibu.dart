@@ -142,13 +142,11 @@ class _DataIbuState extends State<DataIbu> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        widget.tanggalLahirIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      widget.tanggalLahirIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateKelahiranSebelumnua(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -167,13 +165,11 @@ class _DataIbuState extends State<DataIbu> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        widget.tanggalKelahiranAnakSebelumnyaIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      widget.tanggalKelahiranAnakSebelumnyaIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   void _removeDisability(String label) {
     setState(() {

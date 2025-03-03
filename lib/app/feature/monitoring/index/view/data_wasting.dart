@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_wasting.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../utils/helper/helper_data.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
 import '../../../../view/widget/riwayat_anak_items_widget.dart';
-import '../../model/get_detail_monitoring_anak.dart'
-    as RiwayatMonitoringAnakModel;
 import '../../model/get_all_monitoring_anak_model.dart' as GetAllMonitoringAnak;
 import '../bloc/index_data_wasting_bloc.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/create_pengukuran_tamu.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_content.dart';
@@ -11,7 +11,6 @@ import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../../config/validator/validator.dart';
-import '../../../../view/widget/date_time_picker_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
 
 class SearchAnak extends StatelessWidget {
@@ -81,7 +80,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
               child: Card(
                 color: Colors.white,
-                shadowColor: Colors.black.withOpacity(0.1),
+                shadowColor: Colors.black.withValues(alpha: .1),
                 elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -90,7 +89,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                   onTap: () {
                     String nama = dataPosyanduItem.nama;
                     String nik = dataPosyanduItem.nik!;
-                    String namaIbu = dataPosyanduItem.namaIbu!;
+                    String namaIbu = dataPosyanduItem.namaIbu;
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -242,7 +241,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                               ),
                             ),
                             TextSpan(
-                              text: dataPosyanduItem.namaIbu!,
+                              text: dataPosyanduItem.namaIbu,
                               style: AppTextStyles.primaryTextNormal.copyWith(
                                 fontSize: 12,
                               ),

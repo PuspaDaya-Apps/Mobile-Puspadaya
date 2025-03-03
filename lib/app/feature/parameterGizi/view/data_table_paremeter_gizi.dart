@@ -2,8 +2,8 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 
 class DataTableWidget extends StatelessWidget {
-  List<String> dataColumn;
-  List<String> dataRow;
+  final List<String> dataColumn;
+  final List<String> dataRow;
   DataTableWidget({super.key,required this.dataColumn, required this.dataRow});
 
   @override

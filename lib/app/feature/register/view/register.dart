@@ -3,20 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/register/view/widget/anak_item.dart';
-import 'package:puspadaya/app/feature/register/view/widget/anggota_kader_item.dart';
+
 import 'package:puspadaya/app/feature/register/view/widget/ibu_hamil_item.dart';
 import 'package:puspadaya/app/feature/register/view/widget/pengasuh_item.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
+
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/MenuHomeItems.dart';
-import '../../../view/widget/card_anak_widget.dart';
-import '../../../view/widget/card_anggotakader_widget.dart';
-import '../../../view/widget/card_ibuhamil_widget.dart';
-import '../../../view/widget/card_orangtua_widget.dart';
-import '../../../view/widget/card_pengasuh_widget.dart';
 import '../cubit/current_user_cubit.dart';
 import 'widget/orang_tua_item.dart';
 
@@ -40,7 +35,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {

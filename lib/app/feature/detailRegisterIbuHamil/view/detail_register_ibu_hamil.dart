@@ -13,6 +13,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../bloc/get_detail_ibu_hamil_bloc.dart';
+import '../../../model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 
 class DetailRegisterIbuHamil extends StatelessWidget {
   final String id;
@@ -372,7 +373,8 @@ class _DetailRegisterIbuHamilViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                                text: state.data.data.hemoglobin),
+                                text: state.data.data.hemoglobin
+                                    .replaceAll('.00', '')),
                           ),
                           Text(
                             'g/dl',
@@ -449,9 +451,13 @@ class _DetailRegisterIbuHamilViewState
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
+                          PaketToUpdateRegisterIbuHamil data =
+                              PaketToUpdateRegisterIbuHamil(
+                                  id: widget.id, data: state.data.data);
                           Navigator.pushNamed(
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,
+                            arguments: data,
                           );
                         },
                       ),

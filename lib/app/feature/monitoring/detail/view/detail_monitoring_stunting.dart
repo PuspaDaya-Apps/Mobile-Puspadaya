@@ -5,11 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../model/get_detail_monitoring_anak.dart';
 import '../bloc/detail_data_stunting_bloc.dart';
 
 class DetailMonitoringStunting extends StatelessWidget {
@@ -65,7 +63,13 @@ class _DetailMonitoringStuntingViewState
           child: BlocBuilder<DetailDataStuntingBloc, DetailDataStuntingState>(
             builder: (context, state) {
               if (state is DetailDataStuntingLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
               if (state is DetailDataStuntingFailed) {
                 return Center(

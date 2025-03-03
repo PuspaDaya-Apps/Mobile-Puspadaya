@@ -5,7 +5,6 @@ import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../../detailRegisterOrangTua/model/get_orangtua_detail_response.dart';
 import '../service/register_orang_tua_api.dart';
 import '../model/orang_tua_item_model.dart';
 

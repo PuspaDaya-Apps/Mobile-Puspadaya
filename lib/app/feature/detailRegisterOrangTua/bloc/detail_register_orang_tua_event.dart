@@ -8,6 +8,6 @@ sealed class DetailRegisterOrangTuaEvent extends Equatable {
 }
 
 final class FeathingDetailRegisterOrangTua extends DetailRegisterOrangTuaEvent {
-  String ayahId;
+  final String ayahId;
   FeathingDetailRegisterOrangTua({required this.ayahId});
 }

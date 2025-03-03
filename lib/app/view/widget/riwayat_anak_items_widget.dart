@@ -6,8 +6,8 @@ class RiwayatAnakItems extends StatelessWidget {
   final String name;
   final String nik;
   final String gender;
-  int? year;
-  int? month;
+  final int? year;
+  final int? month;
   final VoidCallback onTap;
 
   RiwayatAnakItems({
