@@ -189,12 +189,10 @@ class _UpdateRegisterPengasuhViewState
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

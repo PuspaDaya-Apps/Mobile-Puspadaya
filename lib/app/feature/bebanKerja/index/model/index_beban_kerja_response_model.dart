@@ -46,8 +46,6 @@ class Data {
 class PenugasanKader {
   String id;
   DateTime bulan;
-  @JsonKey(name: 'tugas_kader')
-
   PenugasanKader({
     required this.id,
     required this.bulan,

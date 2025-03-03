@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
@@ -35,7 +34,7 @@ class DownloadUtils {
       // Check if the response is successful
       if (response.statusCode == 200) {
         String path = await ExternalPath.getExternalStoragePublicDirectory(
-            ExternalPath.DIRECTORY_DOWNLOADS);
+            ExternalPath.DIRECTORY_DOWNLOAD);
 
         String filePath = '${path}/$filename';
         logger.d('Saving file to: $filePath');

@@ -38,16 +38,20 @@ Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+      usiaAyah: (json['usia_ayah'] as num).toInt(),
       id: json['id'] as String,
       namaAyah: json['nama_ayah'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
+      nik: json['nik'] as String,
     );
 
 Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'id': instance.id,
       'nama_ayah': instance.namaAyah,
+      'nik': instance.nik,
       'kartu_keluarga': instance.kartuKeluarga,
+      'usia_ayah': instance.usiaAyah,
       'dusun': instance.dusun,
     };
 
@@ -64,6 +68,8 @@ Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
     };
 
 Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
+      usiaIbu: (json['usia_ibu'] as num).toInt(),
+      nik: json['nik'] as String,
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
       id: json['id'] as String,
       namaIbu: json['nama_ibu'] as String,
@@ -74,6 +80,8 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'id': instance.id,
       'nama_ibu': instance.namaIbu,
+      'nik': instance.nik,
+      'usia_ibu': instance.usiaIbu,
       'kartu_keluarga': instance.kartuKeluarga,
       'dusun': instance.dusun,
     };

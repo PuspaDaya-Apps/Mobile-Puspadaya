@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
 class AutoSizeTextFieldWidget extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller;
   final String hintText;
   AutoSizeTextFieldWidget(
       {super.key, required this.hintText, required this.controller});

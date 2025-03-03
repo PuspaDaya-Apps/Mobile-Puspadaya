@@ -72,8 +72,7 @@ class _CreateRegisterAnggotaKaderViewState
 
   @override
   Widget build(BuildContext context) {
-    final createAnggotaKaderBloc =
-        BlocProvider.of<CreateAnggotaKaderBloc>(context);
+    BlocProvider.of<CreateAnggotaKaderBloc>(context);
     final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
 
     return Scaffold(

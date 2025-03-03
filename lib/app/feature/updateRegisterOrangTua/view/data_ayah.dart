@@ -114,13 +114,11 @@ class _DataAyahState extends State<DataAyah> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        widget.tanggalLahirAyahController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      widget.tanggalLahirAyahController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {
