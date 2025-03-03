@@ -20,25 +20,21 @@ class AlatUkurAnakBloc extends Bloc<AlatUkurAnakEvent, AlatUkurAnakState> {
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
     
-    if(accessToken == null) {
-      emit(AlatUkurAnakTokenExpiredState());
-    } else {
-      try {
-          List<dynamic> response = await AlatUkurApi().getAlatUkurService(accessToken);
+    try {
+        List<dynamic> response = await AlatUkurApi().getAlatUkurService(accessToken!);
 
-          int statusCode = response[0] as int;
-          final AlatUkurResponseModel alatUkurAnakResponseModel = AlatUkurResponseModel.fromJson(response[1]);
+        int statusCode = response[0] as int;
+        final AlatUkurResponseModel alatUkurAnakResponseModel = AlatUkurResponseModel.fromJson(response[1]);
 
-          if(statusCode == 200) {
-            emit(AlatUkurAnakSuccessState(alatUkurAnakResponseModel));
-          } else if (statusCode == 401) {
-            emit(AlatUkurAnakTokenExpiredState());
-          } else {
-            emit(AlatUkurAnakFailedState(alatUkurAnakResponseModel.message));
-          }
-        } catch (error) {
-          emit(AlatUkurAnakFailedState(error.toString()));
+        if(statusCode == 200) {
+          emit(AlatUkurAnakSuccessState(alatUkurAnakResponseModel));
+        } else if (statusCode == 401) {
+          emit(AlatUkurAnakTokenExpiredState());
+        } else {
+          emit(AlatUkurAnakFailedState(alatUkurAnakResponseModel.message));
         }
+      } catch (error) {
+        emit(AlatUkurAnakFailedState(error.toString()));
+      }
     }
-  }
 }

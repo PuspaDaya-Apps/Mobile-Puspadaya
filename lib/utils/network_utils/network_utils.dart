@@ -63,46 +63,40 @@ class NetworkUtils {
   Future<List<dynamic>> refreshToken () async {
     String? refreshTokenValue = await SharedPrefUtils().getRefreshToken();
 
-    if(refreshTokenValue != null) {
-      RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(refreshTokenValue));
+    RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(refreshTokenValue!));
 
-      try {
-        final response = await dio.post(
-          ApiUtils().urlRefreshToken(),
-          data: {
-            "refresh_token" : refreshTokenModel.refreshToken
-          }
-        );
-
-          final bodyResponse = response.data;
-          final int statusResponse = response.statusCode!;
-
-          debugPrint(bodyResponse['message'].toString());
-          debugPrint(statusResponse.toString());
-
-          if (statusResponse == 200 ||
-              statusResponse == 201 ||
-              statusResponse == 202 ||
-              statusResponse == 206 ||
-              statusResponse == 401 ||
-              statusResponse == 403 ||
-              statusResponse == 404 ||
-              statusResponse == 400 ||
-              statusResponse == 422 ||
-              statusResponse == 409) {
-          return [statusResponse, json.decode(json.encode(bodyResponse))];
-        } else {
-          return [statusResponse, json.decode(json.encode(bodyResponse))];
+    try {
+      final response = await dio.post(
+        ApiUtils().urlRefreshToken(),
+        data: {
+          "refresh_token" : refreshTokenModel.refreshToken
         }
-      } on DioException catch (e) {
-        throw e.response!.statusMessage.toString();
+      );
+
+        final bodyResponse = response.data;
+        final int statusResponse = response.statusCode!;
+
+        debugPrint(bodyResponse['message'].toString());
+        debugPrint(statusResponse.toString());
+
+        if (statusResponse == 200 ||
+            statusResponse == 201 ||
+            statusResponse == 202 ||
+            statusResponse == 206 ||
+            statusResponse == 401 ||
+            statusResponse == 403 ||
+            statusResponse == 404 ||
+            statusResponse == 400 ||
+            statusResponse == 422 ||
+            statusResponse == 409) {
+        return [statusResponse, json.decode(json.encode(bodyResponse))];
+      } else {
+        return [statusResponse, json.decode(json.encode(bodyResponse))];
       }
-    } else {
-      return [401, <String, dynamic> {
-        "message": "Token tidak dapat ditemukan\nHarap login kembali"
-      }];
+    } on DioException catch (e) {
+      throw e.response!.statusMessage.toString();
     }
-  }
+    }
 
   Future<List<dynamic>> get (String url, Map<String, dynamic> parameterQuery) async {
     try {

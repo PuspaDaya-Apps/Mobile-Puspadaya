@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/service/create_anak_api.dart';
 
 import '../../../../utils/logger/logger.dart';
@@ -34,6 +33,12 @@ class GenerateNikCubit extends Cubit<GenerateNikState> {
           emit(GenerateNikSuccess(
             data: dataGenerateNik,
           ));
+        } else if (statusCode == 400) {
+          emit(
+            GenerateNikFailed(
+              message: 'Gagal Membuat Generate NIK',
+            ),
+          );
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {

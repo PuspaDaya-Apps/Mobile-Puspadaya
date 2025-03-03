@@ -95,4 +95,22 @@ class HelperData {
     }
     return months;
   }
+
+  String hitungUsia(DateTime birthDate) {
+    DateTime today = DateTime.now();
+
+    int tahun = today.year - birthDate.year;
+    int bulan = today.month - birthDate.month;
+
+    // Koreksi jika ulang tahun belum terjadi tahun ini
+    if (today.day < birthDate.day) {
+      bulan--;
+    }
+    if (bulan < 0) {
+      tahun--;
+      bulan += 12;
+    }
+
+    return "$tahun tahun";
+  }
 }

@@ -7,9 +7,7 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
-import '../../../../../utils/helper/helper_data.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../model/get_detail_monitoring_anak.dart';
 import '../bloc/detail_data_under_weight_bloc.dart';
 
 class DetailMonitoringUnderWeight extends StatelessWidget {
@@ -66,7 +64,13 @@ class _DetailMonitoringUnderWeightViewState
               DetailDataUnderWeightState>(
             builder: (context, state) {
               if (state is DetailDataUnderWeightLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
               }
               if (state is DetailDataUnderWeightFailed) {
                 return Center(

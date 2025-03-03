@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/faktorResiko/create/bloc/index_parameter_faktor_resiko_bloc.dart';
+import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
@@ -15,6 +16,7 @@ import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
 import 'quisioner_parameter_faktor_resiko.dart';
+import 'special/create_imuniasi_faktor_resiko.dart';
 
 class CreateParameterFaktorResiko extends StatelessWidget {
   final String anakId;
@@ -114,7 +116,15 @@ class _CreateParameterFaktorResikoViewState
                   context.read<IndexParameterFaktorResikoBloc>().add(
                       SendAnswerQuestion(anakId: widget.anakId, data: answers));
                   // simpan pendataan
-                  // Navigator.pop(context);
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .success('Berhasil Membuat Data Faktor Resiko'));
+                  Navigator.pop(context, true);
                 },
               ),
             )
@@ -161,6 +171,9 @@ class _CreateParameterFaktorResikoViewState
               );
             }
             if (state is IndexParamterFaktorResikoSuccess) {
+              if (state.data.data.isEmpty) {
+                return DataNotFoundScreen();
+              }
               return ListView.builder(
                 itemCount: state.data.data.length,
                 itemBuilder: (context, index) {
@@ -184,23 +197,41 @@ class _CreateParameterFaktorResikoViewState
                     padding: const EdgeInsets.only(
                         bottom: 5, top: 5, left: 16, right: 16),
                     child: ParameterFaktorResikoItem(
+                      isRiwayat: false,
                       isDone: isDone,
                       status: isDone,
                       judul: parameter.namaFaktorResiko,
                       keterangan: parameter.keterangan,
                       terakhirDiisi: parameter.lastCompleted,
                       onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return QuisionerParameterFaktorResiko(
-                                data: parameter,
-                                bloc: indexParameterFaktorResiko,
-                              );
-                            },
-                          ),
-                        );
+                        logger
+                            .d('judul parameter ${parameter.namaFaktorResiko}');
+                        if (parameter.namaFaktorResiko == "Imunisasi") {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return CreateImuniasiFaktorResiko(
+                                  data: parameter,
+                                  bloc: indexParameterFaktorResiko,
+                                );
+                              },
+                            ),
+                          );
+                        } else {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return QuisionerParameterFaktorResiko(
+                                  data: parameter,
+                                  bloc: indexParameterFaktorResiko,
+                                );
+                              },
+                            ),
+                          );
+                        }
+
                         context
                             .read<IndexParameterFaktorResikoBloc>()
                             .add(FetchFaktorResikoById(widget.anakId));
@@ -228,7 +259,7 @@ Future<void> warningDialog(BuildContext context) {
             'Jika anda sudah mengisi lalu tidak mengklik Simpan Pendataan, maka progress akan hilang dan data tidak akan tersimpan.',
         mainButton: () {
           // Close the dialog
-          Navigator.pop(context); // Close the previous screen
+          Navigator.pop(context, true); // Close the previous screen
         },
         image: imageAlertWarning, // Ensure this variable is defined
         mainButtonMessage: 'Kembali',

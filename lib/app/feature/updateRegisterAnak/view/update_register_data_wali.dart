@@ -10,7 +10,6 @@ import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 
@@ -57,7 +56,6 @@ class _UpdateRegisterDataWaliViewState
   List<bool> selectedDisabilitiesAnak = [];
   List<String> selectedDisabilityLabelsAnak = [];
 
-  TextEditingController _nomorKKController = TextEditingController();
   TextEditingController _nikController = TextEditingController();
   TextEditingController _namaController = TextEditingController();
   TextEditingController _tempatLahirController = TextEditingController();
@@ -121,12 +119,10 @@ class _UpdateRegisterDataWaliViewState
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

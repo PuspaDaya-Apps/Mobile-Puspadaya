@@ -11,7 +11,7 @@ import '../../../../view/widget/info_field_widget.dart';
 import '../../model/alat_ukur_Item_model.dart';
 
 class DetailAlatUkur extends StatelessWidget {
-  AlatUkurItemModel alatUkur;
+  final AlatUkurItemModel alatUkur;
 
   DetailAlatUkur({super.key, required this.alatUkur});
 
@@ -22,7 +22,7 @@ class DetailAlatUkur extends StatelessWidget {
 }
 
 class DetailAlatUkurView extends StatefulWidget {
-  AlatUkurItemModel alatUkur;
+  final AlatUkurItemModel alatUkur;
 
   DetailAlatUkurView({super.key, required this.alatUkur});
 

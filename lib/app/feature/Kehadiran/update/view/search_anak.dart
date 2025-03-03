@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
-import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
-import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
-import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
-import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
-import '../../model/list_data_tamu_model.dart';
 
 class SearchAnak extends StatelessWidget {
   const SearchAnak({super.key});
@@ -160,7 +153,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                               ),
                             ),
                             TextSpan(
-                              text: dataPosyanduItem.namaIbu!,
+                              text: dataPosyanduItem.namaIbu,
                               style: AppTextStyles.primaryTextNormal.copyWith(
                                 fontSize: 12,
                               ),

@@ -521,7 +521,7 @@ class ProfileSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Selamat Datang ${name}',
+                  'Selamat Datang $name',
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: AppTextStyles.primaryTextSemibold.copyWith(
@@ -530,7 +530,7 @@ class ProfileSection extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${role}',
+                  role,
                   style: TextStyle(
                     color: textSecondary1,
                     fontWeight: FontWeight.w500,

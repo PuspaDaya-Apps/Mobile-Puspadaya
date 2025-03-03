@@ -9,7 +9,6 @@ import '../../../view/screen/data_not_found_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/get_index_ibu_hamil_bloc.dart';
-import 'model/ibu_hamil_item_model.dart';
 
 class RegisterIbuHamil extends StatelessWidget {
   const RegisterIbuHamil({super.key});
