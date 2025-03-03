@@ -113,13 +113,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalLahirAyahController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalLahirAyahController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   void _toggleDisabilityAyah(int index) {
     setState(() {
@@ -197,13 +195,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalLahirIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalLahirIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -222,13 +218,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalKelahiranAnakSebelumnyaIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalKelahiranAnakSebelumnyaIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   void _removeDisabilityIbu(String label) {
     setState(() {
@@ -2480,6 +2474,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               // Validate the form
                                               if (formkey.currentState!
                                                   .validate()) {
+                                                debugPrint("Data Ayah");
+
+                                                debugPrint("Data Ibu");
                                                 PatchOrangTua.PatchOrangTuaBody
                                                     dataOrangTua = PatchOrangTua
                                                         .PatchOrangTuaBody(

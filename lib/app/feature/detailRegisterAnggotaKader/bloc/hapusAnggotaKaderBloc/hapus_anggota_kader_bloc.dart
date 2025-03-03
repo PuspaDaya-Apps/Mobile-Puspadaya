@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../../model/hapus_anggota_kader_response_model.dart';
 import '../../service/detail_anggota_kader_api.dart';
 
 part 'hapus_anggota_kader_event.dart';

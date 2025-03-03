@@ -11,11 +11,9 @@ import '../../../model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../createRegisterAnggotaKader/model/create_anggota_kader_model.dart';
 import '../bloc/update_anggota_kader_bloc.dart';
 import '../model/Update_anggota_kader_model.dart';
 
@@ -87,12 +85,10 @@ class _UpdateRegisterAnggotaKaderViewState
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   void initState() {

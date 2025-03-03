@@ -76,12 +76,10 @@ class _CreatePengukuranIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _firstDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _firstDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateLastHaid(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -95,12 +93,10 @@ class _CreatePengukuranIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _lastDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _lastDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   final List<String> selectPosyandu = [
     'Posyandu Mawar 1',

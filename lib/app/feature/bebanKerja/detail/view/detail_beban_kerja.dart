@@ -11,10 +11,8 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../create/bloc/bebanKerjaItem/beban_kerja_item_bloc.dart';
 import '../bloc/detailBebanKerjaBloc/detail_beban_kerja_bloc.dart';
 import '../bloc/hapusBebanKerjaBloc/hapus_beban_kerja_bloc.dart';
-import 'model/JobItem.dart';
 
 class DetailBebanKerja extends StatelessWidget {
   const DetailBebanKerja({super.key, required this.bebanKerjaId});

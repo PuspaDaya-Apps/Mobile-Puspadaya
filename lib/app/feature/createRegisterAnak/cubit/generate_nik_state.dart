@@ -12,7 +12,7 @@ final class GenerateNikInitial extends GenerateNikState {}
 final class GenerateNikLoading extends GenerateNikState {}
 
 final class GenerateNikSuccess extends GenerateNikState {
-  GetGenerateNikModel.GetGenerateNikModel data;
+  final GetGenerateNikModel.GetGenerateNikModel data;
   GenerateNikSuccess({required this.data});
 
   @override
@@ -20,7 +20,7 @@ final class GenerateNikSuccess extends GenerateNikState {
 }
 
 final class GenerateNikFailed extends GenerateNikState {
-  String message;
+  final String message;
   GenerateNikFailed({required this.message});
   @override
   List<Object> get props => [message];

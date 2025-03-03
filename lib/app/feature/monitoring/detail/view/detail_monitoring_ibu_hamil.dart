@@ -3,12 +3,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../model/get_detail_monitoring_ibu_hamil.dart';
 import '../bloc/detail_data_ibu_hamil_bloc.dart';
 
 class DetailMonitoringIbuHamil extends StatelessWidget {
@@ -64,8 +62,12 @@ class _DetailMonitoringIbuHamilViewState
           child: BlocBuilder<DetailDataIbuHamilBloc, DetailDataIbuHamilState>(
               builder: (context, state) {
             if (state is DetailDataIBuHamilLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             } else if (state is DetailDataIbuHamilFailed) {
               return Center(

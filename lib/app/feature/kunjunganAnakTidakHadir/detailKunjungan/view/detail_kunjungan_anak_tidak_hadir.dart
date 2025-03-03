@@ -9,8 +9,13 @@ import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/screen/bukti_kunjungan.dart';
 
+<<<<<<< HEAD:lib/app/feature/detailKunjunganSelesai/view/detail_kunjungan_selesai_anak_tidak_hadir.dart
+class DetailKunjunganSelesaiAnakTidakHadir extends StatelessWidget {
+  final List<String> job = [
+=======
 class DetailKunjunganAnakTidakHadir extends StatelessWidget {
   List<String> job = [
+>>>>>>> cd980ca3d5d7db318f2c78badfc123a93c80af65:lib/app/feature/kunjunganAnakTidakHadir/detailKunjungan/view/detail_kunjungan_anak_tidak_hadir.dart
     "Vitamin A",
     "obat cacing",
     "stimulasi perkembangan",

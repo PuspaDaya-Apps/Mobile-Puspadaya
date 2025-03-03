@@ -2,12 +2,9 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../model/refreshtoken_model.dart';
-import '../../model/accesstoken_model.dart';
-import '../../model/accesstoken_response_model.dart';
 import '../../model/logout_response_model.dart';
 import '../../service/authentication_api.dart';
 

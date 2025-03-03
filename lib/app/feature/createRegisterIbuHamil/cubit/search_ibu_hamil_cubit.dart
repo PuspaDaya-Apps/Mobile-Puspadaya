@@ -6,11 +6,13 @@ part 'search_ibu_hamil_state.dart';
 class SearchIbuHamilCubit extends Cubit<SearchIbuHamilState> {
   SearchIbuHamilCubit() : super(SearchIbuHamilInitial());
 
-  void selectIbuHamil(
-      {required String namaIbu,
-      required String usia,
-      required String nik,
-      required String namaSuami}) {
-    emit(SearchIbuHamilSelected(namaIbu, usia, nik, namaSuami));
+  void selectIbuHamil({
+    required String namaIbu,
+    required String usia,
+    required String nik,
+    required String namaSuami,
+    required String ibuId,
+  }) {
+    emit(SearchIbuHamilSelected(namaIbu, usia, nik, namaSuami, ibuId));
   }
 }

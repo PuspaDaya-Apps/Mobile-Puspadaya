@@ -6,7 +6,6 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/beban_kader_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
-import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../view/screen/error_server_screen.dart';

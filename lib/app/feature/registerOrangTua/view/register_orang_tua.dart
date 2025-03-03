@@ -9,7 +9,6 @@ import 'package:puspadaya/utils/logger/logger.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/register_orang_tua_bloc.dart';
-import '../model/orang_tua_item_model.dart';
 
 class RegisterOrangTua extends StatelessWidget {
   const RegisterOrangTua({super.key});

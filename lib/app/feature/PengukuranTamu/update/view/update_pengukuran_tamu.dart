@@ -1,16 +1,9 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/create/model/balita_search.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/create/model/pengukuran_anak_model.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/create/view/search_anak.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/create/view/widget/alert_dialog_result.dart';
-import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_update_pengukuran_tamu_model.dart';
-import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
@@ -19,18 +12,11 @@ import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/measuring_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/app/view/widget/radio_button_widget.dart';
-import 'package:puspadaya/app/view/widget/textField_widget.dart';
-import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:puspadaya/route/route_name.dart';
-import 'package:puspadaya/utils/logger/logger.dart';
 
-import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
-import '../../../../model/paketToScreen/paket_to_create_pengukuran_tamu_model.dart';
-
+import '../../../../view/widget/alert_choose_measuring_tools_widget.dart';
 class UpdatePengukuranTamu extends StatelessWidget {
   const UpdatePengukuranTamu({super.key});
 
@@ -74,7 +60,6 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
 
-  bool _isExpanded = false;
 
   final _formKey = GlobalKey<FormState>();
   String selectedPosyandu = 'Posyandu';
@@ -107,7 +92,6 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 4.7;
 
     // final createPengukuranAnakBloc = BlocProvider.of<UpdatePengukuranTamuBloc>(context);
 

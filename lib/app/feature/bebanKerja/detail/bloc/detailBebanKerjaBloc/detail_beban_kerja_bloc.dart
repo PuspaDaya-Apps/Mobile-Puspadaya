@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/bebanKerja/detail/view/model/JobItem.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../../model/detail_beban_kerja_item_model.dart';
 import '../../model/detail_beban_kerja_response_model.dart';
 import '../../service/detail_beban_kerja_api.dart';
 

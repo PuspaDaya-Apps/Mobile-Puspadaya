@@ -15,7 +15,7 @@ final class IndexParamterFaktorResikoLoading
 
 final class IndexParamterFaktorResikoSuccess
     extends IndexParameterFaktorResikoState {
-  GetIndexPertanyaanModel data;
+  final GetIndexPertanyaanModel data;
   IndexParamterFaktorResikoSuccess(this.data);
 
   @override

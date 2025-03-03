@@ -38,7 +38,6 @@ class JadwalView extends StatefulWidget {
 
 class _JadwalViewState extends State<JadwalView> {
   late EasyRefreshController _controller;
-  bool _isLoading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -339,7 +338,7 @@ class LocationCard extends StatelessWidget {
 }
 
 class CalenderView extends StatefulWidget {
-  List<GetAllJadwalPosyanduModel.Datum> jadwal;
+  final List<GetAllJadwalPosyanduModel.Datum> jadwal;
   CalenderView({super.key, required this.jadwal});
 
   @override
@@ -368,8 +367,6 @@ class _CalenderViewState extends State<CalenderView> {
   //     updatedAt: DateTime.now(),
   //   ),
   // ];
-  final ValueNotifier<List<GetAllJadwalPosyanduModel.Datum>> _schadules =
-      ValueNotifier<List<GetAllJadwalPosyanduModel.Datum>>([]);
   List<GetAllJadwalPosyanduModel.Datum> _getEventsForDay(DateTime day) {
     return widget.jadwal.where((schedule) {
       return isSameDay(schedule.tanggalPelaksanaan, day);

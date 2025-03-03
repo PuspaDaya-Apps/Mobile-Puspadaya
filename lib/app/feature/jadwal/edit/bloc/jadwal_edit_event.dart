@@ -18,7 +18,7 @@ final class GetDetailJadwal extends JadwalEditEvent {
 
 final class EditJadwalEvent extends JadwalEditEvent {
   final String id;
-  PatchJadwalPosyanduModel patchJadwalPosyanduModel;
+  final PatchJadwalPosyanduModel patchJadwalPosyanduModel;
   EditJadwalEvent({
     required this.id,
     required this.patchJadwalPosyanduModel,

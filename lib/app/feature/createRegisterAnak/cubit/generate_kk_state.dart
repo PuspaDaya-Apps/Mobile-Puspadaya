@@ -12,7 +12,7 @@ final class GenerateKkInitial extends GenerateKkState {}
 final class GenerateKKLoading extends GenerateKkState {}
 
 final class GenerateKKSuccess extends GenerateKkState {
-  GetGenerateKKModel.GetGenerateKKModel data;
+  final GetGenerateKKModel.GetGenerateKKModel data;
   GenerateKKSuccess({required this.data});
 
   @override
@@ -20,7 +20,7 @@ final class GenerateKKSuccess extends GenerateKkState {
 }
 
 final class GenerateKKFailed extends GenerateKkState {
-  String message;
+  final String message;
   GenerateKKFailed({required this.message});
   @override
   List<Object> get props => [message];

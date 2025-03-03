@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
 import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
@@ -65,12 +64,10 @@ class _UpdatePengukuranIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _firstDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _firstDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateLastHaid(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -84,12 +81,10 @@ class _UpdatePengukuranIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _lastDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _lastDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   final List<String> selectPosyandu = [
     'Posyandu Mawar 1',
