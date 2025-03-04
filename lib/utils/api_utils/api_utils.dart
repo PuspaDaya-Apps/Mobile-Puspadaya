@@ -278,6 +278,11 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlGetDetailJadwalPosyandu/$id";
   }
 
+  String urlDeleteJadwalPosyandu(String id) {
+    String urlDeleteJadwalPosyandu = LinkApi.JADWALPOSYANDU;
+    return "$_baseUrl$_apiVersion$urlDeleteJadwalPosyandu/$id";
+  }
+
   //!Kehadiran Posyandu
   String urlGetListKehadiranPosyandu({String? search, int? page, int? limit}) {
     String urlGetListKehadiranPosyandu = LinkApi.KEHADIRANPOSYANDUURL;

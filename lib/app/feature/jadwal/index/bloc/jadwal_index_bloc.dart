@@ -13,6 +13,7 @@ class JadwalIndexBloc extends Bloc<JadwalIndexEvent, JadwalIndexState> {
   JadwalIndexBloc() : super(JadwalIndexInitial()) {
     on<JadwalIndexEvent>((event, emit) {});
     on<GetDataJadwalPosyanduEvent>(getDataJadwalPosyandu);
+    on<DeleteJadwalPosyanduEvent>(deleteJadwalPosyandu); //
   }
 
   Future<void> getDataJadwalPosyandu(
@@ -37,6 +38,37 @@ class JadwalIndexBloc extends Bloc<JadwalIndexEvent, JadwalIndexState> {
           emit(TokenExpiredState());
         } else {
           emit(JadwalIndexFailed(jadwalPosyandu.message));
+        }
+      } catch (error) {
+        emit(JadwalIndexFailed(error.toString()));
+      }
+    }
+  }
+
+  Future<void> deleteJadwalPosyandu(
+      DeleteJadwalPosyanduEvent event, Emitter<JadwalIndexState> emit) async {
+    emit(DeleteJadwalPosyanduLoading());
+    String? accessToken = await SharedPrefUtils().getAccessToken();
+    if (accessToken == null) {
+      emit(TokenExpiredState());
+    } else {
+      try {
+        dynamic response = await IndexJadwalPosyandu().deleteJadwalPosyandu(
+            accessToken, event.id); //delete jadwal posyandu
+        int statusCode = response[0] as int;
+        // logger.d(jadwalPosyandu.data[0].namaKegiatan);
+        if (statusCode == 200) {
+          // emit(DeleteJadwalPosyanduSuccess());
+          logger.d('success delete posyandu and prepare get new data');
+          //  / ✅ Emit state sukses agar BlocConsumer bisa menangkapnya
+          emit(DeleteJadwalPosyanduSuccess());
+
+          // ✅ Setelah sukses, langsung ambil data terbaru
+          add(GetDataJadwalPosyanduEvent());
+        } else if (statusCode == 401) {
+          emit(TokenExpiredState());
+        } else {
+          emit(JadwalIndexFailed("something When Wrong"));
         }
       } catch (error) {
         emit(JadwalIndexFailed(error.toString()));

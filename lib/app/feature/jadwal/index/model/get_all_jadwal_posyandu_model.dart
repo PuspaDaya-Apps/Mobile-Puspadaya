@@ -5,7 +5,7 @@ part 'get_all_jadwal_posyandu_model.g.dart';
 class GetDataJadwalPosyandu {
   @JsonKey(name: "message")
   final String message;
-  @JsonKey(name: "data")
+  @JsonKey(name: "data", defaultValue: [])
   final List<Datum> data;
 
   GetDataJadwalPosyandu({
