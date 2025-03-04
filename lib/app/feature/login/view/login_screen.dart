@@ -307,24 +307,25 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                               context, HOME);
                                         }
                                         if (state is CurrentUserFailedState) {
-                                          debugPrint(state.error);
                                           showTopSnackBar(
-                                              Overlay.of(context),
-                                              animationDuration: const Duration(
-                                                  milliseconds: 600),
-                                              displayDuration: const Duration(
-                                                  milliseconds: 2200),
-                                              reverseAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 300),
-                                              TopSnackbarWidget()
-                                                  .error(state.error));
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget()
+                                                .error(state.error));
                                         }
                                       },
                                       builder: (context, state) {
                                         if (state is LoginProcessState ||
                                             state is LoginSuccessState ||
-                                            State is CurrentUserProccesState) {
+                                            State is CurrentUserProccesState || 
+                                            state is CurrentUserSuccesState
+                                            ) {
                                           return ElevatedButton(
                                               onPressed: null,
                                               style: ElevatedButton.styleFrom(
