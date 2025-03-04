@@ -75,7 +75,6 @@ import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
-import '../app/view/screen/home_example.dart';
 import '../app/view/screen/page_not_found_screen.dart';
 
 import '../app/view/screen/splash_screen.dart';
@@ -122,9 +121,6 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const Jadwal(), settings: settings);
 
-      case HOMEEXAMPLE:
-        return MaterialPageRoute(
-            builder: (context) => const HomeExample(), settings: settings);
 
       case CREATE_JADWAL:
         return MaterialPageRoute(

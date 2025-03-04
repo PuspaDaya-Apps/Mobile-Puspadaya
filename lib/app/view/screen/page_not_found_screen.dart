@@ -21,6 +21,26 @@ class PageNotFoundScreen extends StatelessWidget {
               child: Image.asset(
                 pageNotFoundVector,
                 fit: BoxFit.fitWidth,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if(wasSynchronouslyLoaded) {
+                    return child;
+                  } else {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child: frame != null ? child : SizedBox(
+                        width: SizeConfig.calWidthMultiplier(250),
+                        height: MediaQuery.sizeOf(context).height / 4,
+                      ),
+                    );
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.warning_amber_rounded,
+                    size: SizeConfig.calWidthMultiplier(250) / 2,
+                    color: Colors.red,
+                  );
+                },
               ),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
