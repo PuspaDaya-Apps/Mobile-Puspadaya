@@ -7,7 +7,7 @@ class MeasurementWidget extends StatelessWidget {
   final String title;
   final String hintText;
   final String unit;
-  List<String? Function(String)>? validator;
+  final List<String? Function(String)>? validator;
   // final String? tool;
   final TextEditingController controller;
 

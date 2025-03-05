@@ -3,6 +3,8 @@ import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 
+import 'primary_button_loading_widget.dart';
+
 class AlertDialogWidget extends StatelessWidget {
   final String title;
   final String message;
@@ -12,6 +14,7 @@ class AlertDialogWidget extends StatelessWidget {
   final VoidCallback? cancelButton;
   final Color colorMainButton;
   final String? image;
+  final bool? loadingState;
 
   const AlertDialogWidget({
     super.key,
@@ -23,6 +26,7 @@ class AlertDialogWidget extends StatelessWidget {
     this.cancelButton,
     this.image,
     required this.colorMainButton,
+    this.loadingState
   });
 
   @override
@@ -42,12 +46,12 @@ class AlertDialogWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             image != null
-                ? Image(
-                    width: 152,
-                    height: 156,
-                    image: AssetImage(image!),
-                  )
-                : SizedBox.shrink(),
+            ? Image(
+              width: 152,
+              height: 156,
+              image: AssetImage(image!),
+            )
+            : SizedBox.shrink(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(23),
             ),
@@ -75,11 +79,13 @@ class AlertDialogWidget extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(30),
             ),
-            ButtonPrimary(
+            loadingState == null 
+            ? ButtonPrimary(
               mainButtonMessage: mainButtonMessage,
               mainButton: mainButton,
               color: colorMainButton,
-            ),
+            )
+            : PrimaryButtonLoadingWidget(),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(12),
             ),

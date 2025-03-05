@@ -21,7 +21,6 @@ class CreateIbuHamil {
   Future<List<dynamic>> postCreateIbuHamil(
       String token, PostIbuHamilModel data) async {
     final String link = ApiUtils().urlPostDataIbuHamil();
-    final Map<String, dynamic> parameterQuery = {};
     final String body = json.encode(data.toJson());
 
     return await NetworkUtils(token: token).post(link, body).then((response) {

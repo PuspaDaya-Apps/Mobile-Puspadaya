@@ -1,4 +1,4 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -12,6 +12,7 @@ class AlertDialogResult extends StatelessWidget {
   final String name;
   final String statusStunting;
   final String statusGizi;
+  final String statusWasting;
   final VoidCallback mainButton;
   final String mainButtonMessage;
   final Color colorMainButton;
@@ -23,6 +24,7 @@ class AlertDialogResult extends StatelessWidget {
     required this.nik,
     required this.name,
     required this.statusStunting,
+    required this.statusWasting,
     required this.statusGizi,
     required this.mainButton,
     required this.mainButtonMessage,
@@ -129,6 +131,20 @@ class AlertDialogResult extends StatelessWidget {
                     ],
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Status Wasting',
+                  style: AppTextStyles.primaryTextMedium.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                InfoFieldWidget(text: statusWasting),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(30)),

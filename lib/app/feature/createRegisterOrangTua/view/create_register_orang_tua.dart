@@ -22,7 +22,6 @@ import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
-import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/generate_button_widget.dart';
@@ -121,13 +120,11 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalLahirAyahController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalLahirAyahController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   void _toggleDisabilityAyah(int index) {
     setState(() {
@@ -205,13 +202,11 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalLahirIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalLahirIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -230,13 +225,11 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalKelahiranAnakSebelumnyaIbuController.text =
-            "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalKelahiranAnakSebelumnyaIbuController.text =
+          "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   void _removeDisabilityIbu(String label) {
     setState(() {

@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -135,12 +134,10 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   // void _generateNIK(String nomorKK,Date tanggalLahir) {
   //   context.read<GenerateNikCubit>().getGenerateNik(nomorKK, tanggalLahir);

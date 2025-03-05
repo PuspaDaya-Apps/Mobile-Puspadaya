@@ -48,8 +48,7 @@ class DetailKunjunganAnakStuntingScreen extends StatefulWidget {
       _DetailKunjunganAnakStuntingScreenState();
 }
 
-class _DetailKunjunganAnakStuntingScreenState
-    extends State<DetailKunjunganAnakStuntingScreen> {
+class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakStuntingScreen> {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
   ];
@@ -72,14 +71,12 @@ class _DetailKunjunganAnakStuntingScreenState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DetailKunjunganAnakStuntingBloc>(context)
-        .add(GetDetailKunjunganAnak(widget.idKunjungan));
+    BlocProvider.of<DetailKunjunganAnakStuntingBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
   }
 
   @override
   Widget build(BuildContext context) {
-    final deleteKunjunganBloc =
-        BlocProvider.of<DeleteKunjunganAnakStuntingBloc>(context);
+    final deleteKunjunganBloc = BlocProvider.of<DeleteKunjunganAnakStuntingBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,

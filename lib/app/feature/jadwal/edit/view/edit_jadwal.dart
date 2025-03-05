@@ -13,7 +13,6 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../../config/validator/validator.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/jadwal_edit_bloc.dart';
-import '../model/get_detail_jadwal_posyandu_model.dart';
 
 class EditJadwal extends StatelessWidget {
   final String id;
@@ -67,12 +66,10 @@ class _EditJadwalViewState extends State<EditJadwalView> {
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _dateController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(

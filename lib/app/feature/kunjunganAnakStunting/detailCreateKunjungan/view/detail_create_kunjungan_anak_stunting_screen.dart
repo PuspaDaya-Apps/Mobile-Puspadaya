@@ -16,8 +16,7 @@ import '../../../../view/screen/error_server_screen.dart';
 import '../bloc/detailCreateKunjunganAnakStuntingBloc/detail_create_kunjungan_anak_stunting_bloc.dart';
 
 class DetailCreateKunjunganAnakStunting extends StatelessWidget {
-  const DetailCreateKunjunganAnakStunting(
-      {super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStunting({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -32,8 +31,7 @@ class DetailCreateKunjunganAnakStunting extends StatelessWidget {
 }
 
 class DetailCreateKunjunganAnakStuntingView extends StatefulWidget {
-  const DetailCreateKunjunganAnakStuntingView(
-      {super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStuntingView({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -77,7 +75,7 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
         _seconds = DateTime.now().difference(mulai).inSeconds;
       });
     });
-  }
+  } 
   
 
   @override
@@ -106,20 +104,19 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
             if(state is DetailCreateKunjunganAnakStuntingProccessState) {
               return const Center(
                 child: CircularProgressIndicator(
-                color: bluePrimaryMain,
-              ));
+                  color: bluePrimaryMain,
+                )
+              );
             }
             if(state is DetailCreateKunjunganAnakStuntingSuccessState) {
               if(_isRunning == false) {
                 _toggleTimer(state.listDataAnakStunting.mulaiPada);
               }
-              debugPrint(state.listDataAnakStunting.jarakTotal);
               return SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.all(20),
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),

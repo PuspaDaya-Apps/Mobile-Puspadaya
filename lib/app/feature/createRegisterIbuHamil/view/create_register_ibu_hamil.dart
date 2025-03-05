@@ -1,7 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -10,7 +9,6 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/logger/logger.dart';
-import '../../../view/widget/alert_choose_measuring_tools_widget.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/auto_size_text_field_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
@@ -65,7 +63,6 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _ageController = TextEditingController();
   TextEditingController _nikController = TextEditingController();
   TextEditingController _namaSuamiController = TextEditingController();
-  TextEditingController _gestationalAgeController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
   TextEditingController _uterineFundusHeightController =
@@ -104,12 +101,10 @@ class _CreateRegisterIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _firstDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _firstDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   Future<void> _selectDateLastHaid(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -123,12 +118,10 @@ class _CreateRegisterIbuHamilViewState
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _lastDateHaidController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _lastDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   final List<String> selectPosyandu = [
     'Posyandu Mawar 1',
@@ -826,19 +819,17 @@ class TextFormFieldSearch extends StatelessWidget {
           ),
         );
         logger.d(result);
-        if (result != null) {
-          // result Wajib berisi objek Balita
-          context.read<SearchIbuHamilCubit>().selectIbuHamil(
-                namaIbu: result.nama,
-                namaSuami: result.namaSuami,
-                nik: result.nik,
-                usia: result.usia,
-                ibuId: result.ibuId,
-              );
-          // Kembalikan data ke halaman sebelumnya
-          // Navigator.pop(context, result);
-        }
-      },
+        // result Wajib berisi objek Balita
+        context.read<SearchIbuHamilCubit>().selectIbuHamil(
+              namaIbu: result.nama,
+              namaSuami: result.namaSuami,
+              nik: result.nik,
+              usia: result.usia,
+              ibuId: result.ibuId,
+            );
+        // Kembalikan data ke halaman sebelumnya
+        // Navigator.pop(context, result);
+            },
       controller: controller,
       style: Theme.of(context).textTheme.bodySmall,
       keyboardType: TextInputType.text,

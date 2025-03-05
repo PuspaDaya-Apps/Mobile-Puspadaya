@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../config/theme/pallet_color.dart';
 import '../../../../../view/widget/appbar_widget.dart';
-import '../../bloc/detail_faktor_resiko_bloc.dart';
 import '../../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
 

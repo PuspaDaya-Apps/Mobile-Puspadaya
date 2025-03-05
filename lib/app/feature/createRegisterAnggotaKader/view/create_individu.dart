@@ -9,7 +9,6 @@ import '../../../../config/validator/validator.dart';
 import '../../../model/current_user_model.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../bloc/createAnggotaKaderBloc/create_anggota_kader_bloc.dart';
@@ -66,12 +65,10 @@ class _CreateIndividuState extends State<CreateIndividu> {
       lastDate: lastDate,
     );
 
-    if (pickedDate != null) {
-      setState(() {
-        _tanggalLahirController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
+    setState(() {
+      _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
+    });
     }
-  }
 
   @override
   void initState() {

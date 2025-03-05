@@ -8,3 +8,19 @@ sealed class DetailCreateKunjunganAnakTidakHadirState extends Equatable {
 }
 
 final class DetailCreateKunjunganAnakTidakHadirInitial extends DetailCreateKunjunganAnakTidakHadirState {}
+
+final class DetailCreateKunjunganAnakTidakHadirProccessState extends DetailCreateKunjunganAnakTidakHadirState {}
+
+final class DetailCreateKunjunganAnakTidakHadirSuccessState extends DetailCreateKunjunganAnakTidakHadirState {
+  final DetailCreateKunjunganAnakTidakHadirResponseModel listDataAnakTidakHadir;
+
+  const DetailCreateKunjunganAnakTidakHadirSuccessState(this.listDataAnakTidakHadir);
+}
+
+final class DetailCreateKunjunganAnakTidakHadirFailedState extends DetailCreateKunjunganAnakTidakHadirState {
+  final String error;
+
+  const DetailCreateKunjunganAnakTidakHadirFailedState(this.error);
+}
+
+final class DetailCreateKunjunganAnakTidakHadirTokenExpiredState extends DetailCreateKunjunganAnakTidakHadirState {}

@@ -10,7 +10,7 @@ sealed class CreateRegisterIbuHamilEvent extends Equatable {
 final class FetchSearchIbuHamil extends CreateRegisterIbuHamilEvent {}
 
 final class PostCreateIbuHamil extends CreateRegisterIbuHamilEvent {
-  PostIbuHamilModel data;
+  final PostIbuHamilModel data;
   PostCreateIbuHamil(this.data);
   @override
   List<Object> get props => [data];

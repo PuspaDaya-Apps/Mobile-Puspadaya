@@ -7,9 +7,7 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
-import '../../../../../utils/helper/helper_data.dart';
 import '../../../../view/widget/info_field_widget.dart';
-import '../../model/get_detail_monitoring_anak.dart';
 import '../bloc/detail_data_wasting_bloc.dart';
 
 class DetailMonitoringWasting extends StatelessWidget {

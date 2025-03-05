@@ -228,7 +228,7 @@ class DetailDataWali extends StatelessWidget {
                 SizedBox(
                   height: SizeConfig.calHeightMultiplier(16),
                 ),
-                disabilitas != null && disabilitas.isNotEmpty
+                disabilitas.isNotEmpty
                     ? ExpansionTile(
                         tilePadding: EdgeInsets.zero,
                         childrenPadding: EdgeInsets.zero,

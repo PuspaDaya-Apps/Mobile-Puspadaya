@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/faktorResiko/detail/bloc/detail_faktor_resiko_bloc.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
-import '../../../../../config/theme/shadow.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/alert_dialog_petunjuk_faktor_resiko.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/parameter_faktor_resiko_item.dart';
-import '../../../../view/widget/primary_button_widget.dart';
 import 'detail_riwayat_parameter_faktor_resiko.dart';
 import 'special/detail_imunisasi_faktor_resiko.dart';
 

@@ -12,7 +12,7 @@ final class CreateRegisterIbuHamilInitial extends CreateRegisterIbuHamilState {}
 final class CreateRegisterIbuHamilLoading extends CreateRegisterIbuHamilState {}
 
 final class CreateRegisterIbuHamilSuccess extends CreateRegisterIbuHamilState {
-  GetAllOrangTuaResponse data;
+  final GetAllOrangTuaResponse data;
   CreateRegisterIbuHamilSuccess({required this.data});
   @override
   List<Object> get props => [data];

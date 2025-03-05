@@ -23,7 +23,6 @@ import '../bloc/tugasKunjunganAnakStuntingBloc/tugas_kunjungan_anak_stunting_blo
 
 class FormTugasKunjunganAnakStunting extends StatelessWidget {
   const FormTugasKunjunganAnakStunting({super.key, required this.idKunjungan});
-
   final String idKunjungan;
 
   @override
@@ -43,9 +42,7 @@ class FormTugasKunjunganAnakStunting extends StatelessWidget {
 }
 
 class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
-  const FormTugasKunjunganAnakStuntingView(
-      {super.key, required this.idKunjungan});
-
+  const FormTugasKunjunganAnakStuntingView({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -53,8 +50,7 @@ class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
       _FormTugasKunjunganAnakStuntingViewState();
 }
 
-class _FormTugasKunjunganAnakStuntingViewState
-    extends State<FormTugasKunjunganAnakStuntingView> {
+class _FormTugasKunjunganAnakStuntingViewState extends State<FormTugasKunjunganAnakStuntingView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -88,8 +84,7 @@ class _FormTugasKunjunganAnakStuntingViewState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TugasKunjunganAnakStuntingBloc>(context)
-        .add(GetTugasKunjungan());
+    BlocProvider.of<TugasKunjunganAnakStuntingBloc>(context).add(GetTugasKunjungan());
   }
 
   @override
@@ -191,10 +186,10 @@ class _FormTugasKunjunganAnakStuntingViewState
                   if (state is TugasKunjunganAnakStuntingSuccessState) {
                     if (state.listTugasKunjungan.data!.isEmpty) {
                       return Container(
-                          height: MediaQuery.sizeOf(context).height,
-                          width: MediaQuery.sizeOf(context).width,
-                          alignment: Alignment.center,
-                          child: const NoDataScreen());
+                        height: MediaQuery.sizeOf(context).height,
+                        width: MediaQuery.sizeOf(context).width,
+                        alignment: Alignment.center,
+                        child: const NoDataScreen());
                     }
                     if (listTugasKunjunganData.isEmpty) {
                       listTugasKunjunganData.addAll(state.listTugasKunjungan.data!
@@ -234,27 +229,6 @@ class _FormTugasKunjunganAnakStuntingViewState
                               );
                             }),
                           ),
-                          // ...widget.listTugasKunjungan.asMap().entries.map((entry) {
-                          //   int index = entry.key;
-                          //   CheckboxKunjungan item = entry.value;
-
-                          //   return CheckboxListWidget(
-                          //     isChecked: item.isChecked,
-                          //     label: item.label,
-                          //     onChanged: (value) {
-                          //       if (index == widget.listTugasKunjungan.length - 1 &&
-                          //           value == true) {
-                          //         // Disable other checkboxes if the last one is selected
-                          //         for (int i = 0;
-                          //             i < widget.listTugasKunjungan.length - 1;
-                          //             i++) {
-                          //           widget.listTugasKunjungan[i].isChecked = true;
-                          //         }
-                          //       }
-                          //       _updateCheckbox(index, value);
-                          //     },
-                          //   );
-                          // }).toList(),
                           const SizedBox(height: 20),
                           ButtonPrimary(
                             color: bluePrimaryMain,
@@ -277,10 +251,11 @@ class _FormTugasKunjunganAnakStuntingViewState
                     );
                   }
                   return Container(
-                      height: MediaQuery.sizeOf(context).height,
-                      width: MediaQuery.sizeOf(context).width,
-                      alignment: Alignment.center,
-                      child: const ErrorServerScreen());
+                    height: MediaQuery.sizeOf(context).height,
+                    width: MediaQuery.sizeOf(context).width,
+                    alignment: Alignment.center,
+                    child: const ErrorServerScreen()
+                  );
                 },
               ),
               // Halaman kedua
@@ -485,6 +460,7 @@ class _UploadImageState extends State<UploadImage> {
       return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
     }
   }
+  
   // Menyimpan beberapa gambar
   Future<void> _pickImageFromGallery() async {
     final List<XFile>? images = await _picker.pickMultiImage();
