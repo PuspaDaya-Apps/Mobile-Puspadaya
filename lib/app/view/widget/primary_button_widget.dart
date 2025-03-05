@@ -4,6 +4,7 @@ class ButtonPrimary extends StatelessWidget {
   final VoidCallback mainButton;
   final String mainButtonMessage;
   final Color color;
+
   const ButtonPrimary({
     super.key,
     required this.color,

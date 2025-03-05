@@ -10,6 +10,7 @@ import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/validator/validator.dart';
 import '../../../../view/widget/appbar_widget.dart';
+import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/textField_widget.dart';

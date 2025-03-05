@@ -636,7 +636,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                           .pengukuranAnakResponseModel
                                           .data!
                                           .statusStunting,
-                                      statusGizi: state.statusGizi,
+                                      statusGizi: state.pengukuranAnakResponseModel.data!.statusGizi.statusWasting,
+                                      statusWasting: state.pengukuranAnakResponseModel.data!.statusGizi.statusWasting,
                                       mainButton: () {
                                         Navigator.pop(context);
                                         Navigator.popAndPushNamed(

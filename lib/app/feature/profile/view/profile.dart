@@ -140,55 +140,25 @@ class _ProfileViewState extends State<ProfileView> {
                           Navigator.pushNamed(context, KEBIJAKAN_PRIVASI);
                         },
                       ),
-                      MultiBlocListener(
-                        listeners: [
-                          BlocListener<AuthorizationBloc, AuthorizationState>(
-                            listener: (context, state) {
-                              debugPrint(state.toString());
-                              if (state is AuthorizationFalse) {
-                                debugPrint('TO LOGIN');
-                                // Navigator.pushReplacementNamed(context, LOGIN);
-                                Navigator.pushNamedAndRemoveUntil(context,
-                                    LOGIN, (Route<dynamic> route) => false);
-                              }
-                            },
-                          ),
-                          BlocListener<AuthenticationBloc, AuthenticationState>(
-                            listener: (context, state) {
-                              debugPrint(state.toString());
-                              if (state is AuthenticationFalse) {
-                                debugPrint(state.toString());
-                                authorizationBloc.add(AuthorizationFalseEvent());
-                              }
-                              if (state is LogoutSuccess) {
-                                debugPrint(state.toString());
-                                authorizationBloc.add(AuthorizationFalseEvent());
-                                showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration:
-                                        const Duration(milliseconds: 600),
-                                    displayDuration:
-                                        const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration:
-                                        const Duration(milliseconds: 300),
-                                    TopSnackbarWidget()
-                                        .success("Logout Berhasil"));
-                              }
-                              if (state is LogoutFailed) {
-                                debugPrint(state.error);
-                                showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration:
-                                        const Duration(milliseconds: 600),
-                                    displayDuration:
-                                        const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration:
-                                        const Duration(milliseconds: 300),
-                                    TopSnackbarWidget().error(state.error));
-                              }
-                            },
-                          ),
-                        ],
+                      BlocListener<AuthenticationBloc, AuthenticationState>(
+                        listener: (context, state) {
+                          debugPrint(state.toString());
+                          if (state is AuthenticationFalse) {
+                            authorizationBloc.add(AuthorizationFalseEvent());
+                          }
+                          if (state is LogoutSuccess) {
+                            authorizationBloc.add(AuthorizationFalseEvent());
+                          }
+                          if (state is LogoutFailed) {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              animationDuration: const Duration(milliseconds: 600),
+                              displayDuration: const Duration(milliseconds: 2200),
+                              reverseAnimationDuration: const Duration(milliseconds: 300),
+                              TopSnackbarWidget().error(state.error)
+                            );
+                          }
+                        },
                         child: CardMenuProfile(
                           icon: FluentIcons.arrow_exit_20_filled,
                           title: "Logout",
@@ -198,27 +168,24 @@ class _ProfileViewState extends State<ProfileView> {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return AlertDialogWidget(
-                                  colorMainButton: Colors.red,
-                                  image: exitImage,
-                                  title: 'Konfirmasi Logout',
-                                  message:
-                                      'Apakah Anda yakin ingin keluar dari akun Anda?.',
-                                  cancelButton: () {
-                                    Navigator.of(context).pop();
+                                return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                                  builder: (context, state) {
+                                    return AlertDialogWidget(
+                                      colorMainButton: Colors.red,
+                                      image: exitImage,
+                                      title: 'Konfirmasi Logout',
+                                      message: 'Apakah Anda yakin ingin keluar dari akun Anda?.',
+                                      cancelButton: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      mainButton: () {
+                                        authenticationBloc.add(LogoutEvent());
+                                      },
+                                      cancelButtonMessage: 'Batalkan',
+                                      mainButtonMessage: 'Iya, saya ingin keluar',
+                                      loadingState: state is LogoutProcess? true : null,
+                                    );
                                   },
-                                  mainButton: () {
-                                    authenticationBloc.add(LogoutEvent());
-                                    Future.delayed(
-                                        const Duration(milliseconds: 500), () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context,
-                                          LOGIN,
-                                          (Route<dynamic> route) => false);
-                                    });
-                                  },
-                                  cancelButtonMessage: 'Batalkan',
-                                  mainButtonMessage: 'Iya, saya ingin keluar',
                                 );
                               },
                             );

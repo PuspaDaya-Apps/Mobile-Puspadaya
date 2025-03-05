@@ -6,3 +6,9 @@ sealed class CreateKunjunganAnakTidakHadirEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class CreateKunjunganEvent extends CreateKunjunganAnakTidakHadirEvent {
+  final String idAnak;
+
+  const CreateKunjunganEvent(this.idAnak);
+}

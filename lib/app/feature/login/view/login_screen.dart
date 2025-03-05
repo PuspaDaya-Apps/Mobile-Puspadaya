@@ -10,6 +10,7 @@ import '../../../../route/route_name.dart';
 import '../../../view/widget/textfield_password_login_widget.dart';
 import '../../../view/widget/textfield_username_login_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import 'lupa_kata_sandi_screen.dart';
 import '../bloc/loginBloc/login_bloc.dart';
 import '../bloc/rememberMeCubit/remember_me_cubit.dart';
@@ -60,6 +61,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
   @override
   Widget build(BuildContext context) {
     final loginBloc = BlocProvider.of<LoginBloc>(context);
+    final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
 
     return Scaffold(
       backgroundColor: bluePrimaryMain,
@@ -259,7 +261,6 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                         debugPrint(state.toString());
                                         //login
                                         if (state is LoginFailedState) {
-                                          debugPrint(state.error);
                                           showTopSnackBar(
                                               Overlay.of(context),
                                               animationDuration: const Duration(
@@ -273,78 +274,68 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                   .error(state.error));
                                         }
                                         if (state is LoginSuccessState) {
-                                          loginBloc.add(GetCurrentUserEvent(
-                                              state.accessToken));
+                                          loginBloc.add(GetCurrentUserEvent(state.accessToken));
                                         }
                                         if (state is NullErrorState) {
-                                          debugPrint(state.error);
                                           showTopSnackBar(
-                                              Overlay.of(context),
-                                              animationDuration: const Duration(
-                                                  milliseconds: 600),
-                                              displayDuration: const Duration(
-                                                  milliseconds: 2200),
-                                              reverseAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 300),
-                                              TopSnackbarWidget()
-                                                  .warning(state.error));
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                              milliseconds: 60
+                                            ),
+                                            displayDuration: const Duration(
+                                              milliseconds: 2200
+                                            ),
+                                            reverseAnimationDuration:const Duration(
+                                              milliseconds: 300
+                                            ),
+                                            TopSnackbarWidget().warning(state.error)
+                                          );
                                         }
                                         //getUser
                                         if (state is CurrentUserSuccesState) {
-                                          showTopSnackBar(
-                                              Overlay.of(context),
-                                              animationDuration: const Duration(
-                                                  milliseconds: 600),
-                                              displayDuration: const Duration(
-                                                  milliseconds: 2200),
-                                              reverseAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 300),
-                                              TopSnackbarWidget()
-                                                  .success("Login Berhasil"));
-                                          Navigator.pushReplacementNamed(
-                                              context, HOME);
+                                          authorizationBloc.add(AuthorizationTrueEvent());
+                                          Navigator.pushReplacementNamed(context, HOME);
                                         }
                                         if (state is CurrentUserFailedState) {
-                                          debugPrint(state.error);
                                           showTopSnackBar(
-                                              Overlay.of(context),
-                                              animationDuration: const Duration(
-                                                  milliseconds: 600),
-                                              displayDuration: const Duration(
-                                                  milliseconds: 2200),
-                                              reverseAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 300),
-                                              TopSnackbarWidget()
-                                                  .error(state.error));
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget()
+                                                .error(state.error));
                                         }
                                       },
                                       builder: (context, state) {
                                         if (state is LoginProcessState ||
                                             state is LoginSuccessState ||
-                                            State is CurrentUserProccesState) {
+                                            state is CurrentUserProccesState || 
+                                            state is CurrentUserSuccesState
+                                            ) {
                                           return ElevatedButton(
-                                              onPressed: null,
-                                              style: ElevatedButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10)),
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          SizeConfig.calWidthMultiplier(
-                                                              10),
-                                                      vertical:
-                                                          SizeConfig.calHeightMultiplier(
-                                                              10))),
-                                              child: Center(
-                                                  child: SizedBox(
-                                                      height: SizeConfig
-                                                          .calHeightMultiplier(20),
-                                                      width: SizeConfig.calHeightMultiplier(20),
-                                                      child: const CircularProgressIndicator())));
+                                            onPressed: null,
+                                            style: ElevatedButton.styleFrom(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        SizeConfig.calWidthMultiplier(
+                                                            10),
+                                                    vertical:
+                                                        SizeConfig.calHeightMultiplier(
+                                                            10))),
+                                            child: Center(
+                                                child: SizedBox(
+                                                    height: SizeConfig
+                                                        .calHeightMultiplier(20),
+                                                    width: SizeConfig.calHeightMultiplier(20),
+                                                    child: const CircularProgressIndicator())));
                                         }
                                         return ElevatedButton(
                                             onPressed: () {

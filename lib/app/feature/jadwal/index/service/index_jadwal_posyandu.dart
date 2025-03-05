@@ -16,7 +16,7 @@ class IndexJadwalPosyandu {
   }
   Future<List<dynamic>> deleteJadwalPosyandu(String token, String id ) async {
     final String link = ApiUtils().urlDeleteJadwalPosyandu(id);
-     final String body = json.encode({});
+    final String body = json.encode({});
 
     return await NetworkUtils(token: token).delete(link, body).then((response) {
       logger.d(response.toString());

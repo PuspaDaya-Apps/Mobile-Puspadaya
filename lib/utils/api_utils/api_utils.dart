@@ -533,7 +533,7 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}/detail';
   }
 
-  //! tugas kunjungan
+   //! tugas kunjungan
   String urlGetDataTugasKunjugan() {
     String urlGetDataTugasKunjugan = LinkApi.TUGASKUNJUNGANURL;
     return _baseUrl + _apiVersion + urlGetDataTugasKunjugan;

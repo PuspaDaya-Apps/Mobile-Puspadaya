@@ -15,6 +15,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../alamat/bloc/alamatBloc/alamat_bloc.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/userBloc/user_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -56,13 +57,26 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AlamatBloc, AlamatState>(
-      listener: (context, state) {
-        debugPrint(state.toString());
-        if(state is CheckAlamatPerbaruiDataState) {
-          BlocProvider.of<AlamatBloc>(context).add(GetAlamatEvent());
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AlamatBloc, AlamatState>(
+          listener: (context, state) {
+            debugPrint(state.toString());
+            if (state is CheckAlamatPerbaruiDataState) {
+              BlocProvider.of<AlamatBloc>(context).add(GetAlamatEvent());
+            }
+          },
+        ),
+        BlocListener<AuthorizationBloc, AuthorizationState>(
+          listener: (context, state) {
+            debugPrint(state.toString());
+            if (state is AuthorizationFalse) {
+              Navigator.pushNamedAndRemoveUntil(context,
+                LOGIN, (Route<dynamic> route) => false);
+            }
+          },
+        ),
+      ],
       child: BlocConsumer<UserBloc, UserState>(
         listener: (context, state) {
           debugPrint(state.toString());
@@ -81,7 +95,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
             );
           }
           if (state is UserSuccessState) {
-            final List<Widget> _widgetOptions = <Widget>[
+            final List<Widget> widgetOptions = <Widget>[
               Home(
                 currentUserModel: state.currentUserModel,
               ),
@@ -173,7 +187,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                     ),
                   ),
                 ),
-                body: _widgetOptions[_selectedIndex]);
+                body: widgetOptions[_selectedIndex]);
           }
           return const Scaffold(
             body: Center(

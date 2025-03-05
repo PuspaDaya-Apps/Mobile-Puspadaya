@@ -96,7 +96,11 @@ class _KunjunganViewState extends State<KunjunganView> {
                             });
                           }
                           if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
-
+                            Navigator.pushNamed(context, DETAIL_ANAK_TIDAK_HADIR_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                              }
+                            });
                           }
                           if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
 
@@ -117,7 +121,18 @@ class _KunjunganViewState extends State<KunjunganView> {
                             });
                           }
                           if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
-
+                            Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                                if(value == 1) {
+                                  Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
+                                  if(value != null) {
+                                    indexKunjunganBloc.add(GetDataKunjungan());
+                                  }
+                                });
+                                }
+                              }
+                            });
                           }
                           if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
 
