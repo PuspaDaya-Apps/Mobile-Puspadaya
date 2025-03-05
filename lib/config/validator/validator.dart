@@ -24,15 +24,25 @@ class Validator {
     return null;
   }
 
-  static String? min(String value, int min, String message) {
-    if (value.length < min) {
+  static String? min(String value, double min, String message) {
+    if (value.contains(',')) {
+      return "Tidak Bisa Menggunakan Koma"; // Pastikan koma terdeteksi lebih awal
+    }
+
+    double? number = double.tryParse(value);
+    if (number == null || number < min) {
       return message;
     }
     return null;
   }
 
-  static String? max(String value, int max, String message) {
-    if (value.length > max) {
+  static String? max(String value, double max, String message) {
+    if (value.contains(',')) {
+      return "Tidak Bisa Menggunakan Koma"; // Pastikan koma terdeteksi lebih awal
+    }
+
+    double? number = double.tryParse(value);
+    if (number == null || number > max) {
       return message;
     }
     return null;
@@ -80,12 +90,12 @@ class Validator {
     return null;
   }
 
-  static String? cannotComaNumber(String value, String message) {
-    // Check if the value contains only digits or commas
-    if (!RegExp(r'^[0-9,]*$').hasMatch(value)) {
-      return message; // Return the message if the value is invalid
+  static String? cannotComa(String value, String message) {
+    // Cek apakah terdapat koma dalam value
+    if (value.contains(',')) {
+      return message; // Kembalikan pesan error jika terdapat koma
     }
-    return null; // Return null if the value is valid
+    return null; // Kembalikan null jika valid
   }
 
   static String? mustContainsSymbol(String value, String message) {
