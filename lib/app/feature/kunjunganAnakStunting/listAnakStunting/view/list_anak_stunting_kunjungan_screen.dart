@@ -42,8 +42,7 @@ class ListAnakStuntingKunjunganView extends StatefulWidget {
       _ListAnakStuntingKunjunganViewState();
 }
 
-class _ListAnakStuntingKunjunganViewState
-    extends State<ListAnakStuntingKunjunganView> {
+class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunganView> {
   final TextEditingController _searchController = TextEditingController();
   bool isSearching = false;
 
@@ -76,8 +75,7 @@ class _ListAnakStuntingKunjunganViewState
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
-    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context)
-        .add(GetDataAnakStunting());
+    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context).add(GetDataAnakStunting());
   }
 
   void _filterList() {
@@ -149,15 +147,14 @@ class _ListAnakStuntingKunjunganViewState
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListAnakStuntingKunjunganBloc,
-                    ListAnakStuntingKunjunganState>(
+                child: BlocConsumer<ListAnakStuntingKunjunganBloc, ListAnakStuntingKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is ListAnakStuntingKunjunganProccessState) {
                       return const Center(
-                          child: CircularProgressIndicator(
+                        child: CircularProgressIndicator(
                         color: bluePrimaryMain,
                       ));
                     }
@@ -179,13 +176,11 @@ class _ListAnakStuntingKunjunganViewState
                             child: KunjunganStuntingItems(
                               onTap: () {
                                 createKunjunganBloc.add(CreateKunjunganEvent(
-                                    state.listDataAnakStunting.data![index].id));
+                                state.listDataAnakStunting.data![index].id));
                               },
-                              name:
-                                  state.listDataAnakStunting.data![index].namaAnak,
+                              name: state.listDataAnakStunting.data![index].namaAnak,
                               nik: state.listDataAnakStunting.data![index].nik,
-                              parent: state
-                                  .listDataAnakStunting.data![index].ibu?.namaIbu,
+                              parent: state.listDataAnakStunting.data![index].ibu?.namaIbu,
                             ),
                           );
                         },
@@ -200,7 +195,7 @@ class _ListAnakStuntingKunjunganViewState
             ? Container(
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).height,
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.black.withOpacity(0.2),
               alignment: Alignment.center,
               child: const CircularProgressIndicator(
                 color: bluePrimaryMain,

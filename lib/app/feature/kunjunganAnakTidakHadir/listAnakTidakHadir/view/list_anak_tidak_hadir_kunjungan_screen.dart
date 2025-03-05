@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../detailCreateKunjungan/view/timer_kunjungan_tidak_hadir.dart';
+import '../../../../../route/route_name.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/createKunjunganAnakTidakHadirBloc/create_kunjungan_anak_tidak_hadir_bloc.dart';
+import '../bloc/listAnakTidakHadirKunjunganBloc/list_anak_tidak_hadir_kunjungan_bloc.dart';
 
 class ListAnakTidakHadirKunjungan extends StatelessWidget {
   const ListAnakTidakHadirKunjungan({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ListAnakTidakHadirKunjunganView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CreateKunjunganAnakTidakHadirBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ListAnakTidakHadirKunjunganBloc(),
+        ),
+      ],
+      child: ListAnakTidakHadirKunjunganView(),
+    );
   }
 }
 
@@ -64,6 +81,8 @@ class _ListAnakTidakHadirKunjunganViewState
     super.initState();
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
+
+    BlocProvider.of<ListAnakTidakHadirKunjunganBloc>(context).add(GetDataAnakTidakHadir());
   }
 
   void _filterList() {
@@ -85,65 +104,113 @@ class _ListAnakTidakHadirKunjunganViewState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundWhite10,
-      appBar: AppBar(
-        toolbarHeight: 60,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: backgroundWhite10,
-        title: isSearching
-            ? SearchTextFieldWidget(
-                controller: _searchController,
-                hintText: 'Cari Data',
-              )
-            : Text(
-                'Pilih Anak Tidak Hadir',
-                style: AppTextStyles.primaryTextSemibold.copyWith(
-                  fontSize: 16,
+    final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakTidakHadirBloc>(context);
+
+    return BlocConsumer<CreateKunjunganAnakTidakHadirBloc,
+        CreateKunjunganAnakTidakHadirState>(
+      listener: (context, state) {
+        debugPrint(state.toString());
+        if (state is CreateKunjunganAnakTidakHadirSuccessState) {
+          Navigator.pop(context, 1);
+          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.idKunjungan);
+        }
+        if (state is CreateKunjunganAnakTidakHadirFailedState) {
+          showTopSnackBar(
+              Overlay.of(context),
+              animationDuration: const Duration(milliseconds: 600),
+              displayDuration: const Duration(milliseconds: 2200),
+              reverseAnimationDuration: const Duration(milliseconds: 300),
+              TopSnackbarWidget().error(state.error));
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            Scaffold(
+              backgroundColor: backgroundWhite10,
+              appBar: AppBar(
+                toolbarHeight: 60,
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                backgroundColor: backgroundWhite10,
+                title: isSearching
+                    ? SearchTextFieldWidget(
+                        controller: _searchController,
+                        hintText: 'Cari Data',
+                      )
+                    : Text(
+                        'Pilih Anak Tidak Hadir',
+                        style: AppTextStyles.primaryTextSemibold.copyWith(
+                          fontSize: 16,
+                        ),
+                      ),
+                actions: _buildAppBarActions(),
+              ),
+              body: SafeArea(
+                child: BlocConsumer<ListAnakTidakHadirKunjunganBloc, ListAnakTidakHadirKunjunganState>(
+                  listener: (context, state) {
+                    debugPrint(state.toString());
+                  },
+                  builder: (context, state) {
+                    if(state is ListAnakTidakHadirKunjunganProccessState) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ));
+                    }
+                    if(state is ListAnakTidakHadirKunjunganSuccessState) {
+                      if(state.listDataAnakTidakHadir.data!.isEmpty){
+                        return const NoDataScreen();
+                      }
+                      return ListView.separated(
+                        itemCount: state.listDataAnakTidakHadir.data!.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: shadowSm,
+                            ),
+                            child: KunjunganStuntingItems(
+                              onTap: () {
+                                createKunjunganBloc.add(CreateKunjunganEvent(state.listDataAnakTidakHadir.data![index].id));
+                              },
+                              name: state.listDataAnakTidakHadir.data![index].namaAnak,
+                              nik: state.listDataAnakTidakHadir.data![index].nik,
+                              parent: state.listDataAnakTidakHadir.data![index].ibu?.namaIbu,
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    return const ErrorServerScreen();
+                  },
                 ),
               ),
-        actions: _buildAppBarActions(),
-      ),
-      body: SafeArea(
-        child: ListView.separated(
-          itemCount: filteredList.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final item = filteredList[index];
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: shadowSm,
-              ),
-              child: KunjunganStuntingItems(
-                onTap: () {
-                  // Handle item click
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return TimerKunjunganTidakHadir();
-                      },
-                    ),
-                  );
-                },
-                name: item.name,
-                nik: item.nik,
-                parent: item.parent,
-              ),
-            );
-          },
-        ),
-      ),
+            ),
+            state is CreateKunjunganAnakTidakHadirProccessState
+            ? Container(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).height,
+                color: Colors.black.withOpacity(0.2),
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                ),
+              )
+            : const SizedBox(),
+          ],
+        );
+      },
     );
   }
 

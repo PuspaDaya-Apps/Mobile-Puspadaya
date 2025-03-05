@@ -44,18 +44,15 @@ class PerbaruiKunjunganAnakStunting extends StatelessWidget {
 }
 
 class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
-  const FormTugasKunjunganAnakStuntingView(
-      {super.key, required this.modelDetailKunjungan});
+  const FormTugasKunjunganAnakStuntingView({super.key, required this.modelDetailKunjungan});
 
   final DetailKunjunganAnakStuntingResponseModel modelDetailKunjungan;
 
   @override
-  State<FormTugasKunjunganAnakStuntingView> createState() =>
-      _FormTugasKunjunganAnakStuntingViewState();
+  State<FormTugasKunjunganAnakStuntingView> createState() => _FormTugasKunjunganAnakStuntingViewState();
 }
 
-class _FormTugasKunjunganAnakStuntingViewState
-    extends State<FormTugasKunjunganAnakStuntingView> {
+class _FormTugasKunjunganAnakStuntingViewState extends State<FormTugasKunjunganAnakStuntingView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 

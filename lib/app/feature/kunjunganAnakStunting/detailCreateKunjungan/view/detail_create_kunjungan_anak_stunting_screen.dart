@@ -16,8 +16,7 @@ import '../../../../view/screen/error_server_screen.dart';
 import '../bloc/detailCreateKunjunganAnakStuntingBloc/detail_create_kunjungan_anak_stunting_bloc.dart';
 
 class DetailCreateKunjunganAnakStunting extends StatelessWidget {
-  const DetailCreateKunjunganAnakStunting(
-      {super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStunting({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -32,8 +31,7 @@ class DetailCreateKunjunganAnakStunting extends StatelessWidget {
 }
 
 class DetailCreateKunjunganAnakStuntingView extends StatefulWidget {
-  const DetailCreateKunjunganAnakStuntingView(
-      {super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStuntingView({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override

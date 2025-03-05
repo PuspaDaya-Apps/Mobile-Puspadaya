@@ -10,12 +10,28 @@ import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/screen/bukti_kunjungan.dart';
 
 class DetailKunjunganAnakTidakHadir extends StatelessWidget {
+  const DetailKunjunganAnakTidakHadir({super.key, required this.idKunjungan});
+  final String idKunjungan;
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailKunjunganAnakTidakHadirScreen();
+  }
+}
+
+class DetailKunjunganAnakTidakHadirScreen extends StatefulWidget {
+  const DetailKunjunganAnakTidakHadirScreen({super.key});
+
+  @override
+  State<DetailKunjunganAnakTidakHadirScreen> createState() => _DetailKunjunganAnakTidakHadirScreenState();
+}
+
+class _DetailKunjunganAnakTidakHadirScreenState extends State<DetailKunjunganAnakTidakHadirScreen> {
   List<String> job = [
     "Vitamin A",
     "obat cacing",
     "stimulasi perkembangan",
   ];
-  DetailKunjunganAnakTidakHadir({super.key});
 
   @override
   Widget build(BuildContext context) {

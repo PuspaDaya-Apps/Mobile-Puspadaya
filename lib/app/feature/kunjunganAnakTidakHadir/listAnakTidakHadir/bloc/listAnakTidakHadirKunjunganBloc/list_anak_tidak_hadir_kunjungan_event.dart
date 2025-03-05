@@ -6,3 +6,5 @@ sealed class ListAnakTidakHadirKunjunganEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GetDataAnakTidakHadir extends ListAnakTidakHadirKunjunganEvent {}

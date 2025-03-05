@@ -23,7 +23,6 @@ import '../bloc/tugasKunjunganAnakStuntingBloc/tugas_kunjungan_anak_stunting_blo
 
 class FormTugasKunjunganAnakStunting extends StatelessWidget {
   const FormTugasKunjunganAnakStunting({super.key, required this.idKunjungan});
-
   final String idKunjungan;
 
   @override
@@ -43,9 +42,7 @@ class FormTugasKunjunganAnakStunting extends StatelessWidget {
 }
 
 class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
-  const FormTugasKunjunganAnakStuntingView(
-      {super.key, required this.idKunjungan});
-
+  const FormTugasKunjunganAnakStuntingView({super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -53,8 +50,7 @@ class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
       _FormTugasKunjunganAnakStuntingViewState();
 }
 
-class _FormTugasKunjunganAnakStuntingViewState
-    extends State<FormTugasKunjunganAnakStuntingView> {
+class _FormTugasKunjunganAnakStuntingViewState extends State<FormTugasKunjunganAnakStuntingView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 

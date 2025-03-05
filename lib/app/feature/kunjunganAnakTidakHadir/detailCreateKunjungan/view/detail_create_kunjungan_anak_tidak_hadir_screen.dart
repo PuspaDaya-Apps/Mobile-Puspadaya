@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:puspadaya/app/feature/kunjunganAnakTidakHadir/formTugasKunjungan/view/checklist_job_kunjungan_anak_tidak_hadir.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/kunjunganAnakTidakHadir/formTugasKunjungan/view/form_tugas_kunjungan_anak_tidak_hadir_screen.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -11,16 +12,30 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
 import '../../../../view/widget/alert_dialog_widget.dart';
+import '../bloc/detailCreateKunjunganAnakTidakHadirBloc/detail_create_kunjungan_anak_tidak_hadir_bloc.dart';
 
-class TimerKunjunganTidakHadir extends StatefulWidget {
-  const TimerKunjunganTidakHadir({super.key});
+class DetailCreateKunjunganAnakTidakHadir extends StatelessWidget {
+  const DetailCreateKunjunganAnakTidakHadir({super.key, required this.idKunjungan});
+  final String idKunjungan;
 
   @override
-  State<TimerKunjunganTidakHadir> createState() =>
-      _TimerKunjunganTidakHadirState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DetailCreateKunjunganAnakTidakHadirBloc(),
+      child: DetailCreateKunjunganAnakTidakHadirView(idKunjungan: idKunjungan),
+    );
+  }
 }
 
-class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
+class DetailCreateKunjunganAnakTidakHadirView extends StatefulWidget {
+  const DetailCreateKunjunganAnakTidakHadirView({super.key, required this.idKunjungan});
+  final String idKunjungan;
+
+  @override
+  State<DetailCreateKunjunganAnakTidakHadirView> createState() => _DetailCreateKunjunganAnakTidakHadirViewState();
+}
+
+class _DetailCreateKunjunganAnakTidakHadirViewState extends State<DetailCreateKunjunganAnakTidakHadirView> {
   Timer? _timer;
   int _seconds = 0;
   bool _isRunning = false;
@@ -298,13 +313,11 @@ class _TimerKunjunganTidakHadirState extends State<TimerKunjunganTidakHadir> {
                       _isRunning ? 'Selesai' : 'Mulai', // Teks tombol
                   mainButton: () {
                     Navigator.pop(context); // Tutup dialog
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ChecklistJobKunjunganAnakTidakHadir(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => const ChecklistJobKunjunganAnakTidakHadir(),
+                    //   ),
+                    // );
                   },// Jalankan timer
                 ),
               ],

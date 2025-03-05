@@ -13,16 +13,15 @@ import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../model/CheckBoxKunjungan.dart';
 
-class ChecklistJobKunjunganAnakTidakHadir extends StatefulWidget {
-  const ChecklistJobKunjunganAnakTidakHadir({super.key});
+class FormTugasKunjunganAnakTidakHadir extends StatefulWidget {
+  const FormTugasKunjunganAnakTidakHadir({super.key, required this.idKunjungan});
+  final String idKunjungan;
 
   @override
-  State<ChecklistJobKunjunganAnakTidakHadir> createState() =>
-      _ChecklistJobKunjunganAnakTidakHadirState();
+  State<FormTugasKunjunganAnakTidakHadir> createState() => _FormTugasKunjunganAnakTidakHadirState();
 }
 
-class _ChecklistJobKunjunganAnakTidakHadirState
-    extends State<ChecklistJobKunjunganAnakTidakHadir> {
+class _FormTugasKunjunganAnakTidakHadirState extends State<FormTugasKunjunganAnakTidakHadir> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -115,7 +114,7 @@ class _ChecklistJobKunjunganAnakTidakHadirState
           physics: const NeverScrollableScrollPhysics(),
           children: [
             // Halaman pertama
-            CheckListJobKunjunganAnakTidakHadirView(
+            FormTugasKunjunganAnakTidakHadirView(
               goToNext: _goToNextPage,
             ),
             // Halaman kedua
@@ -127,18 +126,18 @@ class _ChecklistJobKunjunganAnakTidakHadirState
   }
 }
 
-class CheckListJobKunjunganAnakTidakHadirView extends StatefulWidget {
+class FormTugasKunjunganAnakTidakHadirView extends StatefulWidget {
   final VoidCallback goToNext;
 
-  CheckListJobKunjunganAnakTidakHadirView({super.key, required this.goToNext});
+  FormTugasKunjunganAnakTidakHadirView({super.key, required this.goToNext});
 
   @override
-  State<CheckListJobKunjunganAnakTidakHadirView> createState() =>
-      _CheckListJobKunjunganAnakTidakHadirViewState();
+  State<FormTugasKunjunganAnakTidakHadirView> createState() =>
+      _FormTugasKunjunganAnakTidakHadirViewState();
 }
 
-class _CheckListJobKunjunganAnakTidakHadirViewState
-    extends State<CheckListJobKunjunganAnakTidakHadirView> {
+class _FormTugasKunjunganAnakTidakHadirViewState
+    extends State<FormTugasKunjunganAnakTidakHadirView> {
   void _updateCheckbox(int index, bool? value) {
     setState(() {
       if (index == listOfCheckboxKunjunganAnakTidakHadir.length - 1 &&

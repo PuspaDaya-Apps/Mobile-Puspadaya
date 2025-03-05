@@ -13,16 +13,23 @@ import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../model/CheckBoxKunjungan.dart';
 
-class PerbaruiKunjunganAnakTidakHadirScreen extends StatefulWidget {
-  const PerbaruiKunjunganAnakTidakHadirScreen({super.key});
+class PerbaruiKunjunganAnakTidakHadir extends StatelessWidget {
+  const PerbaruiKunjunganAnakTidakHadir({super.key});
 
   @override
-  State<PerbaruiKunjunganAnakTidakHadirScreen> createState() =>
-      _PerbaruiKunjunganAnakTidakHadirScreenState();
+  Widget build(BuildContext context) {
+    return PerbaruiKunjunganAnakTidakHadirView();
+  }
 }
 
-class _PerbaruiKunjunganAnakTidakHadirScreenState
-    extends State<PerbaruiKunjunganAnakTidakHadirScreen> {
+class PerbaruiKunjunganAnakTidakHadirView extends StatefulWidget {
+  const PerbaruiKunjunganAnakTidakHadirView({super.key});
+
+  @override
+  State<PerbaruiKunjunganAnakTidakHadirView> createState() => _PerbaruiKunjunganAnakTidakHadirViewState();
+}
+
+class _PerbaruiKunjunganAnakTidakHadirViewState extends State<PerbaruiKunjunganAnakTidakHadirView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
