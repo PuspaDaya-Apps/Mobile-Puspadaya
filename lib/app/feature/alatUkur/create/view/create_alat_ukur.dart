@@ -14,7 +14,6 @@ import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
-import '../../detail/view/detail_alat_ukur.dart';
 import '../model/post_alat_ukur_alat_deteksi_dini_model.dart';
 import '../model/post_alat_ukur_model.dart';
 

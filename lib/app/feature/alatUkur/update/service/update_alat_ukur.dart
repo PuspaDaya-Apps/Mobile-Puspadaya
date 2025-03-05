@@ -14,9 +14,7 @@ class UpdateAlatUkur {
     final String link = ApiUtils().urlPostDataAlatUkurKaderDeteksiDini();
     final String body = json.encode(data.toJson());
 
-    return await NetworkUtils(token: accessToken)
-        .patch(link, body)
-        .then((response) {
+    return await NetworkUtils(token: accessToken).post(link, body).then((response) {
       logger.d(response.toString());
       return response;
     });

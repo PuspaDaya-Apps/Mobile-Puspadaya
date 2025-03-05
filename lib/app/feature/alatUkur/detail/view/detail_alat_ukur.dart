@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
@@ -168,8 +167,8 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                       ButtonPrimary(
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
-                        mainButton: () {
-                          Navigator.push(
+                        mainButton: () async {
+                          final isTrue = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
@@ -179,6 +178,11 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                               },
                             ),
                           );
+                          if (isTrue == true) {
+                            context
+                                .read<DetailAlatUkurBloc>()
+                                .add(GetDetailAlatUkurEvent(widget.idAlatUkur));
+                          }
                           // Navigator.pushNamed(context, UPDATE_ALAT_UKUR);
                         },
                       ),
