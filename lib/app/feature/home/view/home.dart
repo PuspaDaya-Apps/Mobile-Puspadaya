@@ -515,13 +515,13 @@ class ProfileSection extends StatelessWidget {
             image: AssetImage(userImageDefault),
             height: SizeConfig.calMultiplierImage(50),
           ),
-          Flexible(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Selamat Datang $name',
+                  'Hallo, $name',
                   maxLines: 1,
                   overflow: TextOverflow.clip,
                   style: AppTextStyles.primaryTextSemibold.copyWith(

@@ -239,6 +239,12 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlPostDataAlatUkurKader;
   }
 
+  //! alat ukur kader deteksi dini
+  String urlPostDataAlatUkurKaderDeteksiDini() {
+    String urlPostDataAlatUkurKaderDeteksiDini = LinkApi.ALATUKURKADERURL;
+    return "$_baseUrl$_apiVersion$urlPostDataAlatUkurKaderDeteksiDini/deteksi-dini";
+  }
+
   String urlGetDetailAlatUkurKader(String id) {
     String urlGetDetailAlatUkurKader = LinkApi.ALATUKURKADERURL;
     return "$_baseUrl$_apiVersion$urlGetDetailAlatUkurKader/$id";
@@ -252,6 +258,15 @@ class ApiUtils {
   String urlDeleteDataAlatUkurKader(String id) {
     String urlDeleteDataAlatUkurKader = LinkApi.ALATUKURKADERURL;
     return "$_baseUrl$_apiVersion$urlDeleteDataAlatUkurKader/$id";
+  }
+
+  // !Alat Ukur Admin
+  String urlGetListAlatUkurAdmin({String? search, int? page, int? limit}) {
+    String urlGetListAlatUkurAdmin = LinkApi.ALATUKURADMINURL;
+    // Map<String, dynamic> parameterQuery = parameterQueryHelper(
+    //   search, page, 1000
+    // );
+    return _baseUrl + _apiVersion + urlGetListAlatUkurAdmin;
   }
 
   //!Jadwal Posyandu
@@ -518,7 +533,7 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}/detail';
   }
 
-   //! tugas kunjungan
+  //! tugas kunjungan
   String urlGetDataTugasKunjugan() {
     String urlGetDataTugasKunjugan = LinkApi.TUGASKUNJUNGANURL;
     return _baseUrl + _apiVersion + urlGetDataTugasKunjugan;

@@ -467,11 +467,11 @@ class MyRoute {
       //     settings: settings,
       //   );
 
-      case UPDATE_ALAT_UKUR:
-        return MaterialPageRoute(
-          builder: (context) => const UpdateAlatUkur(),
-          settings: settings,
-        );
+      // case UPDATE_ALAT_UKUR:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const UpdateAlatUkur(alatUkur: null,),
+      //     settings: settings,
+      //   );
 
       // ?monitoring
       case MONITORING:

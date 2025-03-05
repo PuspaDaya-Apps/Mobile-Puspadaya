@@ -80,6 +80,14 @@ class Validator {
     return null;
   }
 
+  static String? cannotComaNumber(String value, String message) {
+    // Check if the value contains only digits or commas
+    if (!RegExp(r'^[0-9,]*$').hasMatch(value)) {
+      return message; // Return the message if the value is invalid
+    }
+    return null; // Return null if the value is valid
+  }
+
   static String? mustContainsSymbol(String value, String message) {
     if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
       return message;

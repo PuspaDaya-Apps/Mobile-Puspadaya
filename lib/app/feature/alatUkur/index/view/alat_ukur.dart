@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -7,16 +8,21 @@ import 'package:puspadaya/route/route_name.dart';
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../utils/logger/logger.dart';
+import '../../../../view/screen/data_not_found_screen.dart';
 import '../../../../view/widget/card_alat_ukur_widget.dart';
 import '../../../../view/widget/search_text_field_widget.dart';
 import '../../model/alat_ukur_Item_model.dart';
+import '../bloc/index_alat_ukur_bloc.dart';
 
 class AlatUkur extends StatelessWidget {
   const AlatUkur({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AlatUkurView();
+    return BlocProvider(
+      create: (context) => IndexAlatUkurBloc(),
+      child: AlatUkurView(),
+    );
   }
 }
 
@@ -134,6 +140,7 @@ class _AlatUkurViewState extends State<AlatUkurView> {
   void initState() {
     super.initState();
     // Trigger fetch event when the view is initialized
+    context.read<IndexAlatUkurBloc>().add(GetIndexAlatUkurKader());
     logger.d('trigger fetch');
   }
 
@@ -155,10 +162,11 @@ class _AlatUkurViewState extends State<AlatUkurView> {
           size: 38,
           color: Colors.white,
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, CREATE_ALAT_UKUR);
-          // Add your navigation or functionality for adding new items
-          print("Floating Action Button Pressed");
+        onPressed: () async {
+          final isTrue = await Navigator.pushNamed(context, CREATE_ALAT_UKUR);
+          if (isTrue == true) {
+            context.read<IndexAlatUkurBloc>().add(GetIndexAlatUkurKader());
+          }
         },
       ),
       backgroundColor: backgroundWhite10,
@@ -191,34 +199,61 @@ class _AlatUkurViewState extends State<AlatUkurView> {
                 height: 12,
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: alatUkur.length, // Ganti dengan data yang diambil
-                  itemBuilder: (context, index) {
-                    final AlatUkurItemModel alatUkurItem = alatUkur[index]; //
-                    // Ganti dengan data yang diambil
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CardAlatUkurWidget(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return DetailAlatUkur(alatUkur: alatUkurItem);
+                child: BlocConsumer<IndexAlatUkurBloc, IndexAlatUkurState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    if (state is IndexAlatUkurLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is IndexAlatUkurFailed) {
+                      return Center(
+                        child: Text(state.message),
+                      );
+                    }
+                    if (state is IndexAlatUkurSuccess) {
+                      if (state.data.data.isEmpty) {
+                        return DataNotFoundScreen();
+                      }
+                      return ListView.builder(
+                        itemCount: state
+                            .data.data.length, // Ganti dengan data yang diambil
+                        itemBuilder: (context, index) {
+                          final alatUkurItem = state.data.data[index];
+                          // Ganti dengan data yang diambil
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CardAlatUkurWidget(
+                              onTap: () async {
+                                final isTrue = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return DetailAlatUkur(
+                                        idAlatUkur: alatUkurItem.id,
+                                      );
+                                    },
+                                  ),
+                                );
+                                if(isTrue == true){
+                                  context.read<IndexAlatUkurBloc>().add(GetIndexAlatUkurKader());
+                                }
+                                // Navigator.pushNamed(
+                                //   context,
+                                //   DETAIL_ALAT_UKUR,
+                                //   arguments: alatUkurItem.id, // Pass the id directly
+                                // );
                               },
+                              nama: alatUkurItem.alatPengukuranAdmin.jenisAlat,
+                              merek: alatUkurItem.merekAlat!,
+                              kondisi: alatUkurItem.kondisiAlat,
                             ),
                           );
-                          // Navigator.pushNamed(
-                          //   context,
-                          //   DETAIL_ALAT_UKUR,
-                          //   arguments: alatUkurItem.id, // Pass the id directly
-                          // );
                         },
-                        nama: alatUkurItem.nama,
-                        merek: alatUkurItem.merek,
-                        kondisi: alatUkurItem.kondisi,
-                      ),
-                    );
+                      );
+                    }
+                    return Container();
                   },
                 ),
               )

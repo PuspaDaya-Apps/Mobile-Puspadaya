@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
+import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
+import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
+import '../../detail/model/get_detail_alat_ukur_model.dart';
 import '../../detail/view/detail_alat_ukur.dart';
+import '../bloc/update_alat_ukur_bloc.dart';
 
 class UpdateAlatUkur extends StatelessWidget {
-  const UpdateAlatUkur({super.key});
+  final GetDetailAlatUkurKaderModel detailAlatUkur;
+  const UpdateAlatUkur({super.key, required this.detailAlatUkur});
 
   @override
   Widget build(BuildContext context) {
-    return const UpdateAlatUkurView();
+    return BlocProvider(
+      create: (context) => UpdateAlatUkurBloc(),
+      child: UpdateAlatUkurView(
+        detailAlatUkur: detailAlatUkur,
+      ),
+    );
   }
 }
 
 class UpdateAlatUkurView extends StatefulWidget {
-  const UpdateAlatUkurView({super.key});
+  final GetDetailAlatUkurKaderModel detailAlatUkur;
+  const UpdateAlatUkurView({super.key, required this.detailAlatUkur});
 
   @override
   State<UpdateAlatUkurView> createState() => UpdateAlatUkurViewState();
@@ -28,35 +41,6 @@ class UpdateAlatUkurView extends StatefulWidget {
 class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   final TextEditingController _otherController = TextEditingController();
   final TextEditingController _merekAlatController = TextEditingController();
-  final List<String> selectJenisAlat = [
-    'Alat deteksi dini perkembangan (SDIDTK)',
-    'Timbangan Injak Berat Badan Digital',
-    'Timbangan Injak Berat Badan Non-Digital',
-    'Timbangan Bayi Digital',
-    'Timbangan Bayi Non Digital',
-    'Timbangan Dacin',
-    'Alat Ukur Badan (Microtoise)',
-    'Alat Ukur Panjang Tinggi Badan (Stadiometer)',
-    'Papan Pengukur Panjang Badan',
-    'Pita Lingkar Lengan Atas',
-    'Alat Ukur Lingkar Kepala',
-    'Metline',
-  ];
-  final Map<String, String> alatGambarMap = {
-    'Timbangan Injak Berat Badan Digital': imageTimbanganInjakBeratBadanDigital,
-    'Timbangan Injak Berat Badan Non-Digital':
-        imageTimbanganInjakBeratBadanNonDigital,
-    'Timbangan Bayi Digital': imageTimbanganBayiDigital,
-    'Timbangan Bayi Non Digital': imageTimbanganBayiNonDigital,
-    'Timbangan Dacin': imageTimbanganDacin,
-    'Alat Ukur Badan (Microtoise)': imageAlatUkurBadanMicrotoise,
-    'Alat Ukur Panjang Tinggi Badan (Stadiometer)':
-        imageAlatUkurPanjangTinggiBadanStadiometer,
-    'Papan Pengukur Panjang Badan': imagePapanPengukurPanjangBadan,
-    'Pita Lingkar Lengan Atas': imagePitLingkarLenganAtas,
-    'Alat Ukur Lingkar Kepala': imageAlatUkurLingkarKepala,
-    'Metline': imageMetline,
-  };
 
   final List<String> selectKondisiAlat = [
     'Baik',
@@ -65,6 +49,16 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   ];
   String? selectedAlat;
   String? selectedKondisiAlat;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _merekAlatController.text = widget.detailAlatUkur.data.merekAlat;
+    selectedKondisiAlat = widget.detailAlatUkur.data.kondisiAlat;
+
+    logger.d('trigger init state');
+  }
 
   List<Map<String, dynamic>> alatDeteksiDini = [
     {'label': 'Kubus', 'isChecked': false, 'isOther': false},
@@ -127,18 +121,12 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                   style: TextStyle(fontSize: 12),
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                DropdownWidget(
-                  hint: "Pilih Jenis Alat",
-                  value: selectedAlat,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedAlat = value;
-                    });
-                  },
-                  items: selectJenisAlat,
-                ),
+                InfoFieldWidget(
+                    text: widget.detailAlatUkur.data.alatPengukuranAdmin.jenisAlat),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                selectedAlat == 'Alat deteksi dini perkembangan (SDIDTK)'
+
+                widget.detailAlatUkur.data.alatPengukuranAdmin.jenisAlat ==
+                        'Alat Deteksi Dini'
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -189,18 +177,50 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                           ),
                         ],
                       )
-                    : alatGambarMap.containsKey(selectedAlat)
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                8), // Berikan border radius
-                            child: Image.asset(
-                              alatGambarMap[selectedAlat]!,
-                              height: 300,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
+                    : Column(
+                        children: [
+                          // Check if the imageUrl is not null
+                          if (widget.detailAlatUkur.data.alatPengukuranAdmin.imageUrl !=
+                              null)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  8), // Give border radius
+                              child: Image.network(
+                                widget.detailAlatUkur.data.alatPengukuranAdmin
+                                    .imageUrl, // Use Image.network for URLs
+                                height: 300,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  // If there's an error loading the image, show a placeholder
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        8), // Give border radius
+                                    child: Image.asset(
+                                      noImagePlacholder, // Use placeholder image
+                                      height: 300,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          else
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  8), // Give border radius
+                              child: Image.asset(
+                                noImagePlacholder, // Use placeholder image
+                                height: 300,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          )
-                        : Container(),
+                        ],
+                      ),
+                // Check if image_url is not
+
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                 const Text(
                   'Merek Alat',
@@ -210,6 +230,10 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                 TextFieldWidget(
                   controller: _merekAlatController,
                   hintText: "Masukan Merek Alat",
+                  validators: [
+                    (value) =>
+                        Validator.required(value, 'Merek Alat wajib diisi'),
+                  ],
                   keyboardType: TextInputType.text,
                   obscureText: false,
                   isPasswordField: false,
@@ -223,6 +247,12 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                 DropdownWidget(
                   hint: "Pilih Kondisi Alat",
                   value: selectedKondisiAlat,
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Kondisi Alat wajib diisi';
+                    }
+                    return null;
+                  },
                   onChanged: (value) {
                     setState(() {
                       selectedKondisiAlat = value;

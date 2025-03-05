@@ -269,7 +269,17 @@ class JadwalCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
-                child: Icon(FontAwesomeIcons.trash, color: Colors.white),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    Icon(FontAwesomeIcons.trash, color: Colors.white),
+                    Text('Hapus',style: TextStyle(
+                      color: Colors.white,
+                    ),)
+                  ],
+                ),
               ),
             ),
           ),
