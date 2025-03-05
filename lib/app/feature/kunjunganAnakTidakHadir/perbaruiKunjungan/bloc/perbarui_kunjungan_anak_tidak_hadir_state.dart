@@ -8,3 +8,19 @@ sealed class PerbaruiKunjunganAnakTidakHadirState extends Equatable {
 }
 
 final class PerbaruiKunjunganAnakTidakHadirInitial extends PerbaruiKunjunganAnakTidakHadirState {}
+
+final class PerbaruiKunjunganAnakTidakHadirProccessState extends PerbaruiKunjunganAnakTidakHadirState {}
+
+final class PerbaruiKunjunganAnakTidakHadirSuccessState extends PerbaruiKunjunganAnakTidakHadirState {}
+
+final class PerbaruiKunjunganAnakTidakHadirFailedBuktitate extends PerbaruiKunjunganAnakTidakHadirState {
+  final String error;
+
+  const PerbaruiKunjunganAnakTidakHadirFailedBuktitate(this.error);
+}
+
+final class PerbaruiKunjunganAnakTidakHadirTokenExpiredState extends PerbaruiKunjunganAnakTidakHadirState{}
+
+final class ListImagesNullState extends PerbaruiKunjunganAnakTidakHadirState{}
+
+final class ListTugasNullState extends PerbaruiKunjunganAnakTidakHadirState{}

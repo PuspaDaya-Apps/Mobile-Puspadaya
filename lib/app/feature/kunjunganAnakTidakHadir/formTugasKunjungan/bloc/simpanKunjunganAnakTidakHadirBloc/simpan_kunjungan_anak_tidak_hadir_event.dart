@@ -1,13 +1,13 @@
-part of 'perbarui_kunjungan_anak_tidak_hadir_bloc.dart';
+part of 'simpan_kunjungan_anak_tidak_hadir_bloc.dart';
 
-sealed class PerbaruiKunjunganAnakTidakHadirEvent extends Equatable {
-  const PerbaruiKunjunganAnakTidakHadirEvent();
+sealed class SimpanKunjunganAnakTidakHadirEvent extends Equatable {
+  const SimpanKunjunganAnakTidakHadirEvent();
 
   @override
   List<Object> get props => [];
 }
 
-final class SimpanKunjungan extends PerbaruiKunjunganAnakTidakHadirEvent {
+final class SimpanKunjungan extends SimpanKunjunganAnakTidakHadirEvent {
   final String idKunjungan;
   final List<XFile> listImages;
   final List<CheckboxKunjungan> listTugas;

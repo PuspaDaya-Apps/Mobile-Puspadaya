@@ -37,6 +37,7 @@ import '../app/feature/kunjunganAnakStunting/detailKunjungan/view/detail_kunjung
 import '../app/feature/kunjunganAnakStunting/formTugasKunjungan/view/form_tugas_kunjungan_anak_stunting_screen.dart';
 import '../app/feature/kunjunganAnakStunting/perbaruiKunjungan/view/perbarui_kunjungan_anak_stunting_screen.dart';
 import '../app/feature/kunjunganAnakTidakHadir/detailCreateKunjungan/view/detail_create_kunjungan_anak_tidak_hadir_screen.dart';
+import '../app/feature/kunjunganAnakTidakHadir/detailKunjungan/model/detail_kunjungan_anak_tidak_hadir_response_model.dart';
 import '../app/feature/kunjunganAnakTidakHadir/detailKunjungan/view/detail_kunjungan_anak_tidak_hadir.dart';
 import '../app/feature/kunjunganAnakTidakHadir/formTugasKunjungan/view/form_tugas_kunjungan_anak_tidak_hadir_screen.dart';
 import '../app/feature/kunjunganAnakTidakHadir/listAnakTidakHadir/view/list_anak_tidak_hadir_kunjungan_screen.dart';
@@ -299,7 +300,7 @@ class MyRoute {
       
       case UPDATE_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => const PerbaruiKunjunganAnakTidakHadir(),
+            builder: (context) => PerbaruiKunjunganAnakTidakHadir(modelDetailKunjungan: settings.arguments as DetailKunjunganAnakTidakHadirResponseModel),
             settings: settings);
 
       //! kunjungan ibu hamil
