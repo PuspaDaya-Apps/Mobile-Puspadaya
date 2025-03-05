@@ -50,6 +50,8 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   String? selectedAlat;
   String? selectedKondisiAlat;
 
+  late List<Map<String, dynamic>> alatDeteksiDini;
+
   @override
   void initState() {
     super.initState();
@@ -58,40 +60,88 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
     selectedKondisiAlat = widget.detailAlatUkur.data.kondisiAlat;
 
     logger.d('trigger init state');
+    _initAlatDeteksiDini();
   }
 
-  List<Map<String, dynamic>> alatDeteksiDini = [
-    {'label': 'Kubus', 'isChecked': false, 'isOther': false},
-    {'label': 'Lonceng', 'isChecked': false, 'isOther': false},
-    {'label': 'Rattles atau kerincingan', 'isChecked': false, 'isOther': false},
-    {'label': 'Benang wol merah', 'isChecked': false, 'isOther': false},
-    {'label': 'Sapu tangan', 'isChecked': false, 'isOther': false},
-    {'label': 'Kartu bergambar', 'isChecked': false, 'isOther': false},
-    {'label': 'Cangkir plastik', 'isChecked': false, 'isOther': false},
-    {'label': 'Bola Tenis', 'isChecked': false, 'isOther': false},
-    {'label': 'Bola sepak bahan plastik', 'isChecked': false, 'isOther': false},
-    {'label': 'Botol ulir', 'isChecked': false, 'isOther': false},
-    {
-      'label': 'Pensil warna terdiri 6 warna',
-      'isChecked': false,
-      'isOther': false
-    },
-    {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
-    {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
-    {
-      'label': 'Kartu warna (merah, biru, putih, hijau,\nkuning)',
-      'isChecked': false,
-      'isOther': false
-    },
-    {
-      'label': 'Kartu E terdiri dari 2 buah:\n'
-          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
-          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
-      'isChecked': false,
-      'isOther': false
-    },
-    {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
-  ];
+  void _initAlatDeteksiDini() {
+    // List default alat deteksi dini
+    alatDeteksiDini = [
+      {'label': 'Kubus', 'isChecked': false, 'isOther': false},
+      {'label': 'Lonceng', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Rattles atau kerincingan',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Benang wol merah', 'isChecked': false, 'isOther': false},
+      {'label': 'Sapu tangan', 'isChecked': false, 'isOther': false},
+      {'label': 'Kartu bergambar', 'isChecked': false, 'isOther': false},
+      {'label': 'Cangkir plastik', 'isChecked': false, 'isOther': false},
+      {'label': 'Bola Tenis', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Bola sepak bahan plastik',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Botol ulir', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Pensil warna terdiri 6 warna',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
+      {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Kartu warna (merah, biru, putih, hijau, kuning)',
+        'isChecked': false,
+        'isOther': false
+      },
+      {
+        'label': 'Kartu E terdiri dari 2 buah:\n'
+            'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
+            'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
+    ];
+
+    // Sinkronisasi dengan checklist dari API
+    for (var checklist in widget.detailAlatUkur.data.checklists) {
+      final index = alatDeteksiDini
+          .indexWhere((e) => e['label'] == checklist.namaChecklist);
+
+      if (index != -1) {
+        // Jika checklist sudah ada dalam list alatDeteksiDini, update isChecked
+        alatDeteksiDini[index]['isChecked'] = true;
+      } else {
+        // Jika tidak ada dalam alatDeteksiDini, anggap sebagai "Lainnya"
+        alatDeteksiDini.add({
+          'label': checklist.namaChecklist,
+          'isChecked': true,
+          'isOther': true,
+        });
+        _otherController.text = checklist.namaChecklist;
+      }
+    }
+  }
+
+  void _onCheckboxChanged(bool? value, Map<String, dynamic> alat) {
+    setState(() {
+      alat['isChecked'] = value!;
+      if (alat['isOther'] == true && !value) {
+        _otherController.clear();
+      }
+    });
+  }
+
+  List<String> getSelectedLabels() {
+    return alatDeteksiDini
+        .where((item) => item['isChecked'] == true)
+        .map((item) => item['label'] as String)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,7 +172,8 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                 InfoFieldWidget(
-                    text: widget.detailAlatUkur.data.alatPengukuranAdmin.jenisAlat),
+                    text: widget
+                        .detailAlatUkur.data.alatPengukuranAdmin.jenisAlat),
                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
 
                 widget.detailAlatUkur.data.alatPengukuranAdmin.jenisAlat ==
@@ -144,15 +195,8 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                                     child: CheckboxListWidget(
                                       isChecked: alat['isChecked'],
                                       label: alat['label'],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          alat['isChecked'] = value!;
-                                          if (alat['isOther'] == true &&
-                                              !value) {
-                                            _otherController.clear();
-                                          }
-                                        });
-                                      },
+                                      onChanged: (value) =>
+                                          _onCheckboxChanged(value, alat),
                                     ),
                                   ),
                                   if (alat['isOther'] == true &&
@@ -180,7 +224,8 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                     : Column(
                         children: [
                           // Check if the imageUrl is not null
-                          if (widget.detailAlatUkur.data.alatPengukuranAdmin.imageUrl !=
+                          if (widget.detailAlatUkur.data.alatPengukuranAdmin
+                                  .imageUrl !=
                               null)
                             ClipRRect(
                               borderRadius: BorderRadius.circular(
@@ -264,7 +309,28 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                 ButtonPrimary(
                   color: bluePrimaryMain,
                   mainButtonMessage: 'Simpan',
-                  mainButton: () {},
+                  mainButton: () {
+                    if (widget.detailAlatUkur.data.alatPengukuranAdmin
+                            .jenisAlat ==
+                        'Alat Deteksi Dini') {
+                      // alat deteksi dini
+                      logger.d(
+                          "merek alat ${widget.detailAlatUkur.data.merekAlat}");
+                      logger.d(
+                          "kondisi alat ${widget.detailAlatUkur.data.kondisiAlat}");
+                      List<String> selectedLabels = getSelectedLabels();
+                      logger.d('selected Label $selectedLabels');
+                    } else {
+                      logger.d(
+                          "jenis alat id ${widget.detailAlatUkur.data.alatPengukuranAdmin.id}");
+                      logger.d(
+                          "merek alat ${widget.detailAlatUkur.data.merekAlat}");
+                      logger.d(
+                          "kondisi alat ${widget.detailAlatUkur.data.kondisiAlat}");
+                      
+                      
+                    }
+                  },
                 ),
               ],
             ),
