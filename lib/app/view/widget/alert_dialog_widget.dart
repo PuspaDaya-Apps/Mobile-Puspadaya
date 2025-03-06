@@ -71,7 +71,7 @@ class AlertDialogWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               message,
               style: TextStyle(
-                color: fontGray1,
+                color: textSecondary1,
                 fontWeight: FontWeight.normal,
                 fontSize: SizeConfig.calHeightMultiplier(12),
               ),

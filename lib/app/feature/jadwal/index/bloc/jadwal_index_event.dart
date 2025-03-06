@@ -10,3 +10,12 @@ sealed class JadwalIndexEvent extends Equatable {
 final class GetDataJadwalPosyanduEvent extends JadwalIndexEvent {
   const GetDataJadwalPosyanduEvent();
 }
+
+final class DeleteJadwalPosyanduEvent extends JadwalIndexEvent {
+  final String id;
+
+  const DeleteJadwalPosyanduEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}

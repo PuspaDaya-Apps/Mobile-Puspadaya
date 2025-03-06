@@ -30,3 +30,13 @@ final class JadwalIndexFailed extends JadwalIndexState {
 }
 
 final class TokenExpiredState extends JadwalIndexState {}
+
+
+// delete
+final class DeleteJadwalPosyanduLoading extends JadwalIndexState {
+
+}
+
+final class DeleteJadwalPosyanduSuccess extends JadwalIndexState {
+
+}

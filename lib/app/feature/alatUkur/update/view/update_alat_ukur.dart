@@ -1,25 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
+import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
+import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/textField_widget.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../create/model/post_alat_ukur_alat_deteksi_dini_model.dart';
+import '../../create/model/post_alat_ukur_model.dart';
+import '../../detail/model/get_detail_alat_ukur_model.dart';
 import '../../detail/view/detail_alat_ukur.dart';
+import '../bloc/update_alat_ukur_bloc.dart';
 
 class UpdateAlatUkur extends StatelessWidget {
-  const UpdateAlatUkur({super.key});
+  final GetDetailAlatUkurKaderModel detailAlatUkur;
+  const UpdateAlatUkur({super.key, required this.detailAlatUkur});
 
   @override
   Widget build(BuildContext context) {
-    return const UpdateAlatUkurView();
+    return BlocProvider(
+      create: (context) => UpdateAlatUkurBloc(),
+      child: UpdateAlatUkurView(
+        detailAlatUkur: detailAlatUkur,
+      ),
+    );
   }
 }
 
 class UpdateAlatUkurView extends StatefulWidget {
-  const UpdateAlatUkurView({super.key});
+  final GetDetailAlatUkurKaderModel detailAlatUkur;
+  const UpdateAlatUkurView({super.key, required this.detailAlatUkur});
 
   @override
   State<UpdateAlatUkurView> createState() => UpdateAlatUkurViewState();
@@ -28,35 +45,6 @@ class UpdateAlatUkurView extends StatefulWidget {
 class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   final TextEditingController _otherController = TextEditingController();
   final TextEditingController _merekAlatController = TextEditingController();
-  final List<String> selectJenisAlat = [
-    'Alat deteksi dini perkembangan (SDIDTK)',
-    'Timbangan Injak Berat Badan Digital',
-    'Timbangan Injak Berat Badan Non-Digital',
-    'Timbangan Bayi Digital',
-    'Timbangan Bayi Non Digital',
-    'Timbangan Dacin',
-    'Alat Ukur Badan (Microtoise)',
-    'Alat Ukur Panjang Tinggi Badan (Stadiometer)',
-    'Papan Pengukur Panjang Badan',
-    'Pita Lingkar Lengan Atas',
-    'Alat Ukur Lingkar Kepala',
-    'Metline',
-  ];
-  final Map<String, String> alatGambarMap = {
-    'Timbangan Injak Berat Badan Digital': imageTimbanganInjakBeratBadanDigital,
-    'Timbangan Injak Berat Badan Non-Digital':
-        imageTimbanganInjakBeratBadanNonDigital,
-    'Timbangan Bayi Digital': imageTimbanganBayiDigital,
-    'Timbangan Bayi Non Digital': imageTimbanganBayiNonDigital,
-    'Timbangan Dacin': imageTimbanganDacin,
-    'Alat Ukur Badan (Microtoise)': imageAlatUkurBadanMicrotoise,
-    'Alat Ukur Panjang Tinggi Badan (Stadiometer)':
-        imageAlatUkurPanjangTinggiBadanStadiometer,
-    'Papan Pengukur Panjang Badan': imagePapanPengukurPanjangBadan,
-    'Pita Lingkar Lengan Atas': imagePitLingkarLenganAtas,
-    'Alat Ukur Lingkar Kepala': imageAlatUkurLingkarKepala,
-    'Metline': imageMetline,
-  };
 
   final List<String> selectKondisiAlat = [
     'Baik',
@@ -66,38 +54,98 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   String? selectedAlat;
   String? selectedKondisiAlat;
 
-  List<Map<String, dynamic>> alatDeteksiDini = [
-    {'label': 'Kubus', 'isChecked': false, 'isOther': false},
-    {'label': 'Lonceng', 'isChecked': false, 'isOther': false},
-    {'label': 'Rattles atau kerincingan', 'isChecked': false, 'isOther': false},
-    {'label': 'Benang wol merah', 'isChecked': false, 'isOther': false},
-    {'label': 'Sapu tangan', 'isChecked': false, 'isOther': false},
-    {'label': 'Kartu bergambar', 'isChecked': false, 'isOther': false},
-    {'label': 'Cangkir plastik', 'isChecked': false, 'isOther': false},
-    {'label': 'Bola Tenis', 'isChecked': false, 'isOther': false},
-    {'label': 'Bola sepak bahan plastik', 'isChecked': false, 'isOther': false},
-    {'label': 'Botol ulir', 'isChecked': false, 'isOther': false},
-    {
-      'label': 'Pensil warna terdiri 6 warna',
-      'isChecked': false,
-      'isOther': false
-    },
-    {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
-    {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
-    {
-      'label': 'Kartu warna (merah, biru, putih, hijau,\nkuning)',
-      'isChecked': false,
-      'isOther': false
-    },
-    {
-      'label': 'Kartu E terdiri dari 2 buah:\n'
-          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
-          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
-      'isChecked': false,
-      'isOther': false
-    },
-    {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
-  ];
+  late List<Map<String, dynamic>> alatDeteksiDini;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _merekAlatController.text = widget.detailAlatUkur.data.merekAlat;
+    selectedKondisiAlat = widget.detailAlatUkur.data.kondisiAlat;
+
+    logger.d('trigger init state');
+    _initAlatDeteksiDini();
+  }
+
+  void _initAlatDeteksiDini() {
+    // List default alat deteksi dini
+    alatDeteksiDini = [
+      {'label': 'Kubus', 'isChecked': false, 'isOther': false},
+      {'label': 'Lonceng', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Rattles atau kerincingan',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Benang wol merah', 'isChecked': false, 'isOther': false},
+      {'label': 'Sapu tangan', 'isChecked': false, 'isOther': false},
+      {'label': 'Kartu bergambar', 'isChecked': false, 'isOther': false},
+      {'label': 'Cangkir plastik', 'isChecked': false, 'isOther': false},
+      {'label': 'Bola Tenis', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Bola sepak bahan plastik',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Botol ulir', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Pensil warna terdiri 6 warna',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
+      {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
+      {
+        'label': 'Kartu warna (merah, biru, putih, hijau, kuning)',
+        'isChecked': false,
+        'isOther': false
+      },
+      {
+        'label': 'Kartu E terdiri dari 2 buah:\n'
+            'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
+            'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
+        'isChecked': false,
+        'isOther': false
+      },
+      {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
+    ];
+
+    // Sinkronisasi dengan checklist dari API
+    for (var checklist in widget.detailAlatUkur.data.checklists) {
+      final index = alatDeteksiDini
+          .indexWhere((e) => e['label'] == checklist.namaChecklist);
+
+      if (index != -1) {
+        // Jika checklist sudah ada dalam list alatDeteksiDini, update isChecked
+        alatDeteksiDini[index]['isChecked'] = true;
+      } else {
+        // Jika tidak ada dalam alatDeteksiDini, anggap sebagai "Lainnya"
+        alatDeteksiDini.add({
+          'label': checklist.namaChecklist,
+          'isChecked': true,
+          'isOther': true,
+        });
+        _otherController.text = checklist.namaChecklist;
+      }
+    }
+  }
+
+  void _onCheckboxChanged(bool? value, Map<String, dynamic> alat) {
+    setState(() {
+      alat['isChecked'] = value!;
+      if (alat['isOther'] == true && !value) {
+        _otherController.clear();
+      }
+    });
+  }
+
+  List<String> getSelectedLabels() {
+    return alatDeteksiDini
+        .where((item) => item['isChecked'] == true)
+        .map((item) => item['label'] as String)
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,135 +158,242 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Jenis Alat',
-                  style: TextStyle(fontSize: 12),
+        child: BlocConsumer<UpdateAlatUkurBloc, UpdateAlatUkurState>(
+          listener: (context, state) {
+            if (state is UpdateAlataUkurSuccess) {
+              showTopSnackBar(
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().success("Berhasil Perbarui Alat Ukur"),
+              );
+              Navigator.pop(context, true);
+            }
+          },
+          builder: (context, state) {
+            if (state is UpdateAlataUkurLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is UpdateAlatUkurFailed) {
+              return Center(
+                child: Text('Error ${state.message}'),
+              );
+            }
+            return SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.all(20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                DropdownWidget(
-                  hint: "Pilih Jenis Alat",
-                  value: selectedAlat,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedAlat = value;
-                    });
-                  },
-                  items: selectJenisAlat,
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                selectedAlat == 'Alat deteksi dini perkembangan (SDIDTK)'
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Alat Deteksi Dini (opsional)',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          Column(
-                            children: alatDeteksiDini.map((alat) {
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  IntrinsicWidth(
-                                    child: CheckboxListWidget(
-                                      isChecked: alat['isChecked'],
-                                      label: alat['label'],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          alat['isChecked'] = value!;
-                                          if (alat['isOther'] == true &&
-                                              !value) {
-                                            _otherController.clear();
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  if (alat['isOther'] == true &&
-                                      alat['isChecked'] == true) ...[
-                                    SizedBox(width: 4),
-                                    Expanded(
-                                      child: TextField(
-                                        enabled: alat['isChecked'],
-                                        controller: _otherController,
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          // Menghilangkan outline
-                                          isDense: true,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Jenis Alat',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                    InfoFieldWidget(
+                        text: widget
+                            .detailAlatUkur.data.alatPengukuranAdmin.jenisAlat),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+
+                    widget.detailAlatUkur.data.alatPengukuranAdmin.jenisAlat ==
+                            'Alat Deteksi Dini'
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Alat Deteksi Dini (opsional)',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8)),
+                              Column(
+                                children: alatDeteksiDini.map((alat) {
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      IntrinsicWidth(
+                                        child: CheckboxListWidget(
+                                          isChecked: alat['isChecked'],
+                                          label: alat['label'],
+                                          onChanged: (value) =>
+                                              _onCheckboxChanged(value, alat),
                                         ),
-                                        style: TextStyle(fontSize: 14),
                                       ),
-                                    ),
-                                  ],
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      )
-                    : alatGambarMap.containsKey(selectedAlat)
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                8), // Berikan border radius
-                            child: Image.asset(
-                              alatGambarMap[selectedAlat]!,
-                              height: 300,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                                      if (alat['isOther'] == true &&
+                                          alat['isChecked'] == true) ...[
+                                        SizedBox(width: 4),
+                                        Expanded(
+                                          child: TextField(
+                                            enabled: alat['isChecked'],
+                                            controller: _otherController,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              // Menghilangkan outline
+                                              isDense: true,
+                                            ),
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ],
                           )
-                        : Container(),
-                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                const Text(
-                  'Merek Alat',
-                  style: TextStyle(fontSize: 12),
+                        : Column(
+                            children: [
+                              // Check if the imageUrl is not null
+                              if (widget.detailAlatUkur.data.alatPengukuranAdmin
+                                      .imageUrl !=
+                                  null)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      8), // Give border radius
+                                  child: Image.network(
+                                    widget
+                                        .detailAlatUkur
+                                        .data
+                                        .alatPengukuranAdmin
+                                        .imageUrl, // Use Image.network for URLs
+                                    height: 300,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // If there's an error loading the image, show a placeholder
+                                      return ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            8), // Give border radius
+                                        child: Image.asset(
+                                          noImagePlacholder, // Use placeholder image
+                                          height: 300,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                )
+                              else
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      8), // Give border radius
+                                  child: Image.asset(
+                                    noImagePlacholder, // Use placeholder image
+                                    height: 300,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                            ],
+                          ),
+                    // Check if image_url is not
+
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    const Text(
+                      'Merek Alat',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                    TextFieldWidget(
+                      controller: _merekAlatController,
+                      hintText: "Masukan Merek Alat",
+                      validators: [
+                        (value) =>
+                            Validator.required(value, 'Merek Alat wajib diisi'),
+                      ],
+                      keyboardType: TextInputType.text,
+                      obscureText: false,
+                      isPasswordField: false,
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    const Text(
+                      'Kondisi Alat',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                    DropdownWidget(
+                      hint: "Pilih Kondisi Alat",
+                      value: selectedKondisiAlat,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Kondisi Alat wajib diisi';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedKondisiAlat = value;
+                        });
+                      },
+                      items: selectKondisiAlat,
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    ButtonPrimary(
+                      color: bluePrimaryMain,
+                      mainButtonMessage: 'Simpan',
+                      mainButton: () {
+                        if (widget.detailAlatUkur.data.alatPengukuranAdmin
+                                .jenisAlat ==
+                            'Alat Deteksi Dini') {
+                          // alat deteksi dini
+                          logger.d(
+                              "merek alat ${widget.detailAlatUkur.data.merekAlat}");
+                          logger.d(
+                              "kondisi alat ${widget.detailAlatUkur.data.kondisiAlat}");
+                          logger.d(
+                              "id ${widget
+                                .detailAlatUkur.data.alatPengukuranAdmin.id}");
+                          List<String> selectedLabels = getSelectedLabels();
+                          logger.d('selected Label $selectedLabels');
+                          PostAlatUkurAlatDeteksiDiniModel
+                              patchAlatUkurAlatDeteksiDini =
+                              PostAlatUkurAlatDeteksiDiniModel(
+                            merekAlat: _merekAlatController.text,
+                            kondisiAlat: selectedKondisiAlat!,
+                            alatPengukuranAdminId: widget
+                                .detailAlatUkur.data.alatPengukuranAdmin.id,
+                            checklistItems: selectedLabels,
+                          );
+                          context.read<UpdateAlatUkurBloc>().add(
+                              UpdateAlatUkurDeteksiDini(
+                                  patchAlatUkurAlatDeteksiDini));
+                        } else {
+                          logger.d(
+                              "jenis alat id ${widget.detailAlatUkur.data.alatPengukuranAdmin.id}");
+                          logger.d(
+                              "merek alat ${widget.detailAlatUkur.data.merekAlat}");
+                          logger.d(
+                              "kondisi alat ${widget.detailAlatUkur.data.kondisiAlat}");
+                          PostAlatUkurModel patchAlatUkurData =
+                              PostAlatUkurModel(
+                            jenisAlatId: widget
+                                .detailAlatUkur.data.alatPengukuranAdmin.id,
+                            merekAlat: _merekAlatController.text,
+                            kondisiAlat: selectedKondisiAlat!,
+                          );
+                          context.read<UpdateAlatUkurBloc>().add(
+                              UpdateAlatUkurKader(widget.detailAlatUkur.data.id,
+                                  patchAlatUkurData));
+                        }
+                      },
+                    ),
+                  ],
                 ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                TextFieldWidget(
-                  controller: _merekAlatController,
-                  hintText: "Masukan Merek Alat",
-                  keyboardType: TextInputType.text,
-                  obscureText: false,
-                  isPasswordField: false,
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                const Text(
-                  'Kondisi Alat',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                DropdownWidget(
-                  hint: "Pilih Kondisi Alat",
-                  value: selectedKondisiAlat,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedKondisiAlat = value;
-                    });
-                  },
-                  items: selectKondisiAlat,
-                ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                ButtonPrimary(
-                  color: bluePrimaryMain,
-                  mainButtonMessage: 'Simpan',
-                  mainButton: () {},
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

@@ -43,7 +43,10 @@ abstract class LinkApi {
 
   //!AlatUkurKader
   static const ALATUKURKADERURL = "/alat-ukur-kader";
-
+  
+//!AlatUkurAdmin
+  static const ALATUKURADMINURL = "/alat-ukur";
+  
   //!Jadwal Posyandu
   static const JADWALPOSYANDU = "/jadwal-posyandu";
 

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/jadwal/index/bloc/jadwal_index_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:puspadaya/app/feature/jadwal/index/model/get_all_jadwal_posyandu_model.dart'
     as GetAllJadwalPosyanduModel;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -14,6 +16,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
+import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/pul_to_refresh.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 
@@ -66,8 +69,12 @@ class _JadwalViewState extends State<JadwalView> {
           Icons.add,
           color: Colors.white,
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, CREATE_JADWAL);
+        onPressed: () async {
+          final isCreated = await Navigator.pushNamed(context, CREATE_JADWAL);
+          logger.d(isCreated);
+          if (isCreated == true) {
+            context.read<JadwalIndexBloc>().add(GetDataJadwalPosyanduEvent());
+          }
           // Navigator.pushNamed(context, '/createJadwal');
         },
       ),
@@ -84,6 +91,14 @@ class _JadwalViewState extends State<JadwalView> {
                   displayDuration: const Duration(milliseconds: 2200),
                   reverseAnimationDuration: const Duration(milliseconds: 300),
                   TopSnackbarWidget().error(state.message));
+            }
+            if (state is DeleteJadwalPosyanduSuccess) {
+              showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget().success("Jadwal berhasil dihapus"));
             }
           },
           builder: (context, state) {
@@ -210,58 +225,119 @@ class JadwalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          EDIT_JADWAL,
-          arguments: id,
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 8, top: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          color: bluePrimaryMain,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DateCard(date),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    '${timeStart} - ${timeEnd}',
-                    style: TextStyle(
-                      color: textSecondary1,
-                      fontWeight: FontWeight.bold,
-                      fontSize: SizeConfig.calMultiplierText(16),
-                    ),
-                  ),
+    final jadwalBloc =
+        context.read<JadwalIndexBloc>(); // Ambil instance Bloc sekali
+    return Slidable(
+      key: const ValueKey(0),
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        dragDismissible: false,
+        extentRatio: .3,
+        closeThreshold: 0.5,
+        children: [
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialogWidget(
+                    title: 'Apakah Anda Yakin?',
+                    message:
+                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                    mainButton: () {
+                      jadwalBloc.add(DeleteJadwalPosyanduEvent(id)); //200
+                      logger.d("hapus jadwal");
+                      Navigator.pop(context);
+                    },
+                    image: imageDeleteItems,
+                    mainButtonMessage: 'Iya, Hapus Jadwal',
+                    colorMainButton: redPrimaryMain,
+                    cancelButton: () {
+                      Navigator.pop(context);
+                    },
+                    cancelButtonMessage: 'Batalkan',
+                  );
+                },
+              );
+            },
+            child: Container(
+              width: MediaQuery.sizeOf(context).width / 4,
+              margin: const EdgeInsets.only(bottom: 8, top: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              decoration: BoxDecoration(
+                color: redPrimaryMain,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 4,
+                  children: [
+                    Icon(FontAwesomeIcons.trash, color: Colors.white),
+                    Text('Hapus',style: TextStyle(
+                      color: Colors.white,
+                    ),)
+                  ],
                 ),
-              ],
-            ),
-            const Divider(color: Colors.white),
-            Text(
-              '${name}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
               ),
             ),
-            LocationCard(
-              location: location,
-            ),
-          ],
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            EDIT_JADWAL,
+            arguments: id,
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 8, top: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: bluePrimaryMain,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DateCard(date),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '${timeStart} - ${timeEnd}',
+                      style: TextStyle(
+                        color: textSecondary1,
+                        fontWeight: FontWeight.bold,
+                        fontSize: SizeConfig.calMultiplierText(16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(color: Colors.white),
+              Text(
+                '${name}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
+              LocationCard(
+                location: location,
+              ),
+            ],
+          ),
         ),
       ),
     );

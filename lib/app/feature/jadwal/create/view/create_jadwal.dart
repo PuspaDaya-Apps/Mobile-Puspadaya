@@ -155,7 +155,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                   reverseAnimationDuration: const Duration(milliseconds: 300),
                   TopSnackbarWidget().success("Berhasil Membuat Jadwal"),
                 );
-                Navigator.pop(context);
+                Navigator.pop(context,true);
               }
             },
             builder: (context, state) {
