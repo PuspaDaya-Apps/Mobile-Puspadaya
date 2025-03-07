@@ -24,7 +24,21 @@ class Validator {
     return null;
   }
 
-  static String? min(String value, double min, String message) {
+  static String? min(String value,int min, String message) {
+    if (value.length < min) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? max(String value,int max, String message) {
+    if (value.length > max) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? minNumber(String value, double min, String message) {
     if (value.contains(',')) {
       return "Tidak Bisa Menggunakan Koma"; // Pastikan koma terdeteksi lebih awal
     }
@@ -36,7 +50,7 @@ class Validator {
     return null;
   }
 
-  static String? max(String value, double max, String message) {
+  static String? maxNumber(String value, double max, String message) {
     if (value.contains(',')) {
       return "Tidak Bisa Menggunakan Koma"; // Pastikan koma terdeteksi lebih awal
     }

@@ -17,45 +17,64 @@ class DownloadUtils {
   Future<void> downloadAndSaveFile(
       BuildContext context, String url, String filename) async {
     try {
-      // Request storage permission (for Android 13+, need manage storage permission)
-      if (Platform.isAndroid) {
-        if (await Permission.storage.request().isDenied ||
-            await Permission.manageExternalStorage.request().isDenied) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Storage permission denied')),
-          );
-          return;
-        }
-      }
+      // // ✅ Periksa dan Minta Izin Penyimpanan
+      // if (Platform.isAndroid) {
+      //   final storagePermission = await Permission.storage.request();
 
-      // Make the HTTP request to download the file
+      //   int androidVersion = 0;
+      //   try {
+      //     androidVersion = int.parse(
+      //         Platform.operatingSystemVersion.split(' ')[1].split('.')[0]);
+      //   } catch (e) {
+      //     logger.e("Gagal mendapatkan versi Android: $e");
+      //   }
+
+      //   if (androidVersion >= 11) {
+      //     final manageStoragePermission =
+      //         await Permission.manageExternalStorage.request();
+
+      //     if (manageStoragePermission.isDenied) {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(
+      //             content: Text(
+      //                 'Storage permission denied. Please allow access in settings.')),
+      //       );
+      //       await openAppSettings();
+      //       return;
+      //     }
+      //   } else {
+      //     if (storagePermission.isDenied) {
+      //       ScaffoldMessenger.of(context).showSnackBar(
+      //         const SnackBar(content: Text('Storage permission denied')),
+      //       );
+      //       return;
+      //     }
+      //   }
+      // }
+
+      // ✅ Lakukan Request Download File
       var response = await http.get(Uri.parse(url));
 
-      // Check if the response is successful
       if (response.statusCode == 200) {
         String path = await ExternalPath.getExternalStoragePublicDirectory(
             ExternalPath.DIRECTORY_DOWNLOAD);
-
-        String filePath = '${path}/$filename';
+        String filePath = '$path/$filename';
         logger.d('Saving file to: $filePath');
 
-        // Write the file
+        // ✅ Simpan File
         File file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
 
-        // Show a success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('File downloaded to $filePath')),
         );
       } else {
-        // Handle the error if the response is not successful
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text('Failed to download file: ${response.statusCode}')),
         );
       }
     } catch (e) {
-      // Handle any errors
       logger.e("Download failed: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Download failed: $e')),
@@ -87,13 +106,13 @@ class DownloadUtils {
 
       String? accessToken = await SharedPrefUtils().getAccessToken();
 
-      if(accessToken == null) {
+      if (accessToken == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Gagal Mengambil Token')));
-          Navigator.pushReplacementNamed(context, LOGIN);
+            const SnackBar(content: Text('Gagal Mengambil Token')));
+        Navigator.pushReplacementNamed(context, LOGIN);
       }
 
-      Map<String, String> header = ApiUtils().headerWithToken(accessToken!); 
+      Map<String, String> header = ApiUtils().headerWithToken(accessToken!);
       // String path = await ExternalPath.getExternalStoragePublicDirectory(
       //     ExternalPath.DIRECTORY_DOWNLOADS);
       String path = '/storage/emulated/0/Download';
@@ -114,11 +133,13 @@ class DownloadUtils {
         var file = files[i];
         String filePath = '$path/${file.filename}.xlsx';
 
-        var response = await http.get(Uri.parse(file.url),headers: header);
+        var response = await http.get(Uri.parse(file.url), headers: header);
         if (response.statusCode == 200) {
           File saveFile = File(filePath);
           await saveFile.writeAsBytes(response.bodyBytes);
           logger.d('File berhasil diunduh: ${file.filename}');
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Semua file berhasil diunduh!')));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Gagal mengunduh: ${file.filename}')));
@@ -128,8 +149,6 @@ class DownloadUtils {
       }
 
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Semua file berhasil diunduh!')));
     } catch (e) {
       Navigator.pop(context);
       logger.e("Gagal mengunduh banyak file: $e");
@@ -203,7 +222,7 @@ class DownloadUtils {
                         LinearProgressIndicator(
                           backgroundColor: backgroundWhite10,
                           color: bluePrimaryMain,
-                          minHeight:12,
+                          minHeight: 12,
                           borderRadius: BorderRadius.circular(20),
                           value: value,
                         ),

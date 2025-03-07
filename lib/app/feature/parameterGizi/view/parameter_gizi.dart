@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/utils/download_utils/download_utils.dart';
+import '../../../../utils/constant/constanst.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/dropdown_widget.dart'; // Assuming you have this file
 import 'package:data_table_2/data_table_2.dart';
 
@@ -36,6 +39,8 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
     'Tinggi Badan',
     'Berat Badan',
   ];
+  
+  // Store selected data here>
   String? selectedJenisKelamin;
   String? selectedSatuan;
 
@@ -133,7 +138,21 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                   ButtonPrimary(
                       color: greenPrimaryMain,
                       mainButtonMessage: 'Download',
-                      mainButton: () {}),
+                      mainButton: () {
+                        if(selectedJenisKelamin == 'Laki-Laki' && selectedSatuan == 'Tinggi Badan'){
+                          logger.d("download tinggi laki laki"); 
+                          DownloadUtils().downloadAndSaveFile(context, lakiLakiTinggiBadan, 'Parameter Gizi Laki-Laki Tinggi Badan.xlsx');
+                        }else if(selectedJenisKelamin == 'Laki-Laki' && selectedSatuan == 'Berat Badan'){
+                          logger.d("download berat laki laki");
+                          DownloadUtils().downloadAndSaveFile(context, lakiLakiBeratBadan, 'Parameter Gizi Laki-Laki Berat Badan.xlsx');
+                        }else if(selectedJenisKelamin == 'Perempuan' && selectedSatuan == 'Tinggi Badan'){
+                          logger.d("download tinggi perempuan");
+                          DownloadUtils().downloadAndSaveFile(context, perempuanTinggiBadan, 'Parameter Gizi Perempuan Tinggi Badan.xlsx');
+                        }else if(selectedJenisKelamin == 'Perempuan' && selectedSatuan == 'Berat Badan'){
+                          logger.d("download berat perempuan");
+                          DownloadUtils().downloadAndSaveFile(context, perempuanBeratBadan, 'Parameter Gizi Perempuan Berat Badan.xlsx');
+                        }
+                      }),
                 SizedBox(height: 16),
                 // Conditional rendering of the DataTable
                 if (selectedJenisKelamin != null && selectedSatuan != null)
