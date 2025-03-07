@@ -25,6 +25,7 @@ abstract class LinkApi {
   //!Users
   static const CURRENTUSRURL = "/users/current";
   static const USERURL = "/users";
+  static const GANTIPROFILE = "/users/profiles";
 
   //!Orang Tua
   static const ORANGTUAURL = "/register/orang-tua";

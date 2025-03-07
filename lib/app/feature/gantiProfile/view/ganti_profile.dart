@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:puspadaya/app/feature/gantiProfile/bloc/ganti_profile_bloc.dart';
+
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -11,17 +14,36 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../../utils/logger/logger.dart';
+import '../../../model/current_user_model.dart';
+import '../../../model/data_wilayah_model.dart';
+import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+
 class GantiProfile extends StatelessWidget {
-  const GantiProfile({super.key});
+  final CurrentUserModel currentUserModel;
+  const GantiProfile({super.key, required this.currentUserModel});
 
   @override
   Widget build(BuildContext context) {
-    return const GantiProfileView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => GantiProfileBloc(),
+        ),
+        BlocProvider<AlamatSaveCubit>(
+          create: (BuildContext context) => AlamatSaveCubit(),
+        ),
+      ],
+      child: GantiProfileView(
+        currentUserModel: currentUserModel,
+      ),
+    );
   }
 }
 
 class GantiProfileView extends StatefulWidget {
-  const GantiProfileView({super.key});
+  final CurrentUserModel currentUserModel;
+  const GantiProfileView({super.key, required this.currentUserModel});
 
   @override
   State<GantiProfileView> createState() => _GantiProfileViewState();
@@ -30,10 +52,29 @@ class GantiProfileView extends StatefulWidget {
 class _GantiProfileViewState extends State<GantiProfileView> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  //? alamat selected
+  List<DataKabupatenKota> dataKabupatenKota = [];
+  List<DataKecamatan> dataKecamatan = [];
+  List<DataDesaKelurahan> dataDesaKelurahan = [];
+  List<DataDusun> dataDusun = [];
   final _formKey = GlobalKey<FormState>();
   final _addressFormKey = GlobalKey<_AddressFormFieldState>();
   String? _imagePath;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = widget.currentUserModel.namaLengkap;
+    _phoneController.text = widget.currentUserModel.nomorTelepon;
+    context.read<AlamatSaveCubit>().getDataWilayah();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,119 +85,121 @@ class _GantiProfileViewState extends State<GantiProfileView> {
         title: "Ubah Profil",
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ProfilePicture(
-                    onImageSelected: (path) {
-                      setState(() {
-                        _imagePath = path;
-                      });
-                    },
+        child: BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
+          builder: (context, state) {
+            logger.d('state is ${state.toString()}');
+            debugPrint(state.toString());
+            if (state is GetAlamatProccessState) {
+              return const Expanded(
+                child: Center(
+                    child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                )),
+              );
+            }
+            if (state is GetAlamatSuccessState) {
+              logger.d(
+                  'length data wilayah ${state.dataWilayahModel.provinsi.kabupatenKota.length}');
+              if (dataKabupatenKota.isEmpty) {
+                dataKabupatenKota
+                    .addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+              }
+              return SingleChildScrollView(
+                child: Container(
+                  margin: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ProfilePicture(
+                          onImageSelected: (path) {
+                            setState(() {
+                              _imagePath = path;
+                            });
+                          },
+                        ),
 
-                  // nama lenkap
-                  Text(
-                    'Nama Lengkap',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 14,
+                        // nama lenkap
+                        Text(
+                          'Nama Lengkap',
+                          style: AppTextStyles.primaryTextMedium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        TextFieldWidget(
+                          controller: _nameController,
+                          hintText: "Masukan Nama Lengkap anda",
+                          keyboardType: TextInputType.text,
+                          obscureText: false,
+                          isPasswordField: false,
+                          // validator: (value) => ProfileValidator.validateName(value!),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(16),
+                        ),
+
+                        //no telp
+                        Text(
+                          'Nomor Telepon',
+                          style: AppTextStyles.primaryTextMedium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        TextFieldWidget(
+                          controller: _phoneController,
+                          hintText: "Masukan nomor telepon anda",
+                          keyboardType: TextInputType.phone,
+                          obscureText: false,
+                          isPasswordField: false,
+                          // validator: (value) =>
+                          //     ProfileValidator.validatePhone(value!),
+                        ),
+                        SizedBox(
+                          height: SizeConfig.calHeightMultiplier(16),
+                        ),
+
+                        // alamat
+                        Text(
+                          'Alamat',
+                          style: AppTextStyles.primaryTextMedium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        AddressFormField(key: _addressFormKey),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(32)),
+                        ButtonPrimary(
+                          color: bluePrimary40,
+                          mainButtonMessage: "Simpan",
+                          mainButton: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              print('nama lengkap ${_nameController.text}');
+                              print('nomor telepon ${_phoneController.text}');
+                              final address =
+                                  _addressFormKey.currentState?.getAddress();
+                              print('alamat: $address');
+                              print('image path: $_imagePath');
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  TextFieldWidget(
-                    controller: _nameController,
-                    hintText: "Masukan Nama Lengkap anda",
-                    keyboardType: TextInputType.text,
-                    obscureText: false,
-                    isPasswordField: false,
-                    // validator: (value) => ProfileValidator.validateName(value!),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(16),
-                  ),
-
-                  //no telp
-                  Text(
-                    'Nomor Telepon',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  TextFieldWidget(
-                    controller: _phoneController,
-                    hintText: "Masukan nomor telepon anda",
-                    keyboardType: TextInputType.phone,
-                    obscureText: false,
-                    isPasswordField: false,
-                    // validator: (value) =>
-                    //     ProfileValidator.validatePhone(value!),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(16),
-                  ),
-
-                  // email
-                  Text(
-                    'Email',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  TextFieldWidget(
-                    controller: _emailController,
-                    hintText: "Masukan email anda",
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: false,
-                    isPasswordField: false,
-                    // validator: (value) =>
-                    //     ProfileValidator.validateEmail(value!),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.calHeightMultiplier(16),
-                  ),
-
-                  // alamat
-                  Text(
-                    'Alamat',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  AddressFormField(key: _addressFormKey),
-                  SizedBox(height: SizeConfig.calHeightMultiplier(32)),
-                  ButtonPrimary(
-                    color: bluePrimary40,
-                    mainButtonMessage: "Simpan",
-                    mainButton: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        print('nama lengkap ${_nameController.text}');
-                        print('nomor telepon ${_phoneController.text}');
-                        print('email ${_emailController.text}');
-                        final address =
-                            _addressFormKey.currentState?.getAddress();
-                        print('alamat: $address');
-                        print('image path: $_imagePath');
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

@@ -67,6 +67,11 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlCurrentUser;
   }
 
+  String urlPatchGantiProfile() {
+    String urlPatchGantiProfile = LinkApi.GANTIPROFILE;
+    return _baseUrl + _apiVersion + urlPatchGantiProfile;
+  }
+
   //!anggota kader
   String urlGetListAnggotaKader({String? search, int? page, int? limit}) {
     String urlGetlListAnggotaKader = LinkApi.USERURL;

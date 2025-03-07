@@ -75,6 +75,7 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
+import '../app/model/current_user_model.dart';
 import '../app/model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
@@ -126,7 +127,6 @@ class MyRoute {
         return MaterialPageRoute(
             builder: (context) => const Jadwal(), settings: settings);
 
-
       case CREATE_JADWAL:
         return MaterialPageRoute(
             builder: (context) => const CreateJadwal(), settings: settings);
@@ -150,8 +150,11 @@ class MyRoute {
             builder: (context) => const GantiKataSandi(), settings: settings);
 
       case UBAH_PROFILE:
+        final args = settings.arguments as CurrentUserModel;
         return MaterialPageRoute(
-            builder: (context) => const GantiProfile(), settings: settings);
+          builder: (context) => GantiProfile(currentUserModel: args),
+          settings: settings,
+        );
 
       // PENGUKURAN
       case CREATE_KEHADIRAN:
@@ -250,7 +253,7 @@ class MyRoute {
           builder: (context) => const CreateBebanKerja(),
           settings: settings,
         );
-      
+
       //! kunjungan anak stunting
       case LIST_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
@@ -259,24 +262,29 @@ class MyRoute {
 
       case DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => DetailCreateKunjunganAnakStunting(idKunjungan: settings.arguments as String),
+            builder: (context) => DetailCreateKunjunganAnakStunting(
+                idKunjungan: settings.arguments as String),
             settings: settings);
 
       case FORM_TUGAS_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => FormTugasKunjunganAnakStunting(idKunjungan: settings.arguments as String),
-            settings: settings);      
+            builder: (context) => FormTugasKunjunganAnakStunting(
+                idKunjungan: settings.arguments as String),
+            settings: settings);
 
       case DETAIL_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => DetailKunjunganAnakStunting(idKunjungan: settings.arguments as String),
+            builder: (context) => DetailKunjunganAnakStunting(
+                idKunjungan: settings.arguments as String),
             settings: settings);
-      
+
       case UPDATE_ANAK_STUNTING_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => PerbaruiKunjunganAnakStunting(modelDetailKunjungan: settings.arguments as DetailKunjunganAnakStuntingResponseModel),
+            builder: (context) => PerbaruiKunjunganAnakStunting(
+                modelDetailKunjungan: settings.arguments
+                    as DetailKunjunganAnakStuntingResponseModel),
             settings: settings);
-      
+
       //! kunjungan anak tidak hadir
       case LIST_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
@@ -285,22 +293,27 @@ class MyRoute {
 
       case DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => DetailCreateKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
+            builder: (context) => DetailCreateKunjunganAnakTidakHadir(
+                idKunjungan: settings.arguments as String),
             settings: settings);
 
       case FORM_TUGAS_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => FormTugasKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
-            settings: settings);      
+            builder: (context) => FormTugasKunjunganAnakTidakHadir(
+                idKunjungan: settings.arguments as String),
+            settings: settings);
 
       case DETAIL_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => DetailKunjunganAnakTidakHadir(idKunjungan: settings.arguments as String),
+            builder: (context) => DetailKunjunganAnakTidakHadir(
+                idKunjungan: settings.arguments as String),
             settings: settings);
-      
+
       case UPDATE_ANAK_TIDAK_HADIR_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => PerbaruiKunjunganAnakTidakHadir(modelDetailKunjungan: settings.arguments as DetailKunjunganAnakTidakHadirResponseModel),
+            builder: (context) => PerbaruiKunjunganAnakTidakHadir(
+                modelDetailKunjungan: settings.arguments
+                    as DetailKunjunganAnakTidakHadirResponseModel),
             settings: settings);
 
       //! kunjungan ibu hamil
@@ -317,13 +330,13 @@ class MyRoute {
       // case FORM_TUGAS_IBU_HAMIL_KUNJUNGAN:
       //   return MaterialPageRoute(
       //       builder: (context) => FormTugasKunjunganIbuHamil(idKunjungan: settings.arguments as String),
-      //       settings: settings);      
+      //       settings: settings);
 
       // case DETAIL_IBU_HAMIL_KUNJUNGAN:
       //   return MaterialPageRoute(
       //       builder: (context) => DetailKunjunganIbuHamil(idKunjungan: settings.arguments as String),
       //       settings: settings);
-      
+
       // case UPDATE_IBU_HAMIL_KUNJUNGAN:
       //   return MaterialPageRoute(
       //       builder: (context) => const PerbaruiKunjungaIbuHamil(),

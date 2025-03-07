@@ -36,10 +36,6 @@ List<String> selectGolDarah = [
   '-',
 ];
 
-final List<String> jenisKB = [
-  'MUP',
-  'Kondom',
-];
 
 final List<String> selectStatusHubunganDenganAnak = [
   'Nenek',
@@ -54,6 +50,8 @@ final List<String> selectJenisKB = [
   'IUD',
   'SUNTIK',
   'IMPLANT',
+  'MUP',
+  'KONDOM',
   'LAINNYA'
 ];
 
