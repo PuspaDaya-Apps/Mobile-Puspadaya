@@ -6,7 +6,28 @@ sealed class GantiProfileState extends Equatable {
   @override
   List<Object> get props => [];
 }
+// form ganti profile
+final class GantiProfileFormLoading extends GantiProfileState {}
+final class GantiProfileFormSuccess extends GantiProfileState {
+  final GetDetailUserByIdModel data;
 
+  const GantiProfileFormSuccess(this.data);
+
+  @override
+  List<Object> get props => [data];
+}
+final class GantiProfileFormFailed extends GantiProfileState {
+  final String message;
+
+  const GantiProfileFormFailed(this.message);
+
+  @override
+  List<Object> get props => [message];
+} 
+
+
+
+// patch ganti profile
 final class GantiProfileInitial extends GantiProfileState {}
 final class GantiProfileLoading extends GantiProfileState {}
 final class GantiProfileSuccess extends GantiProfileState {}

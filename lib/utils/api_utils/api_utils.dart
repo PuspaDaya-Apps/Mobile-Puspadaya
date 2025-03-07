@@ -67,6 +67,11 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlCurrentUser;
   }
 
+  String urlGetDetailCurrentUser(String id) {
+    String urlCurrentUser = LinkApi.USERURL;
+    return '$_baseUrl$_apiVersion$urlCurrentUser/$id';
+  }
+
   String urlPatchGantiProfile() {
     String urlPatchGantiProfile = LinkApi.GANTIPROFILE;
     return _baseUrl + _apiVersion + urlPatchGantiProfile;

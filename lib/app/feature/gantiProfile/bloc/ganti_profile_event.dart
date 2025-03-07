@@ -15,3 +15,12 @@ final class PatchGantiProfile extends GantiProfileEvent {
   List<Object> get props => [data];
 
 }
+final class GetDetailUser extends GantiProfileEvent {
+  final String userId;
+
+  const GetDetailUser(this.userId);
+
+  @override
+  List<Object> get props => [userId];
+
+}

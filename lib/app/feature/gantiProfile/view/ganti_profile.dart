@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +15,12 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../../config/validator/validator.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/current_user_model.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+import '../model/patch_ganti_profile.dart';
 
 class GantiProfile extends StatelessWidget {
   final CurrentUserModel currentUserModel;
@@ -30,8 +33,8 @@ class GantiProfile extends StatelessWidget {
         BlocProvider(
           create: (context) => GantiProfileBloc(),
         ),
-        BlocProvider<AlamatSaveCubit>(
-          create: (BuildContext context) => AlamatSaveCubit(),
+        BlocProvider(
+          create: (context) => AlamatSaveCubit(),
         ),
       ],
       child: GantiProfileView(
@@ -50,15 +53,21 @@ class GantiProfileView extends StatefulWidget {
 }
 
 class _GantiProfileViewState extends State<GantiProfileView> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _rtController = TextEditingController();
+  final TextEditingController _rwController = TextEditingController();
   //? alamat selected
   List<DataKabupatenKota> dataKabupatenKota = [];
   List<DataKecamatan> dataKecamatan = [];
   List<DataDesaKelurahan> dataDesaKelurahan = [];
   List<DataDusun> dataDusun = [];
+  DataKabupatenKota? selectedKabupaten;
+  DataKecamatan? selectedKecamatan;
+  DataDesaKelurahan? selectedDesa;
+  DataDusun? selectedDusun;
+  String? selectedDusunId;
   final _formKey = GlobalKey<FormState>();
-  final _addressFormKey = GlobalKey<_AddressFormFieldState>();
   String? _imagePath;
 
   @override
@@ -67,6 +76,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
     _nameController.text = widget.currentUserModel.namaLengkap;
     _phoneController.text = widget.currentUserModel.nomorTelepon;
     context.read<AlamatSaveCubit>().getDataWilayah();
+    context.read<GantiProfileBloc>().add(GetDetailUser(widget.currentUserModel.id));
   }
 
   @override
@@ -176,18 +186,429 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                           ),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        AddressFormField(key: _addressFormKey),
+                        const Text(
+                          'Alamat',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: IgnorePointer(
+                                ignoring:
+                                    dataKabupatenKota.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataKabupatenKota>(
+                                  isExpanded: true,
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKabupaten, // Ini bisa null
+                                  hint: Text(
+                                    "Kabupaten",
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKabupatenKota.map((item) {
+                                    return DropdownMenuItem<DataKabupatenKota>(
+                                      value: item,
+                                      child: Text(item.namaKabupatenKota),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKabupaten = value;
+                                      dataKecamatan.clear();
+                                      dataKecamatan.addAll(value!.kecamatan);
+                                      //clear list
+                                      dataDesaKelurahan.clear();
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedKecamatan = null;
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    hintText: "Kabupaten",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: IgnorePointer(
+                                ignoring:
+                                    dataKecamatan.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataKecamatan>(
+                                  isExpanded: true,
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedKecamatan, // Ini bisa null
+                                  hint: Text(
+                                    "Kecamatan",
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataKecamatan.map((item) {
+                                    return DropdownMenuItem<DataKecamatan>(
+                                      value: item,
+                                      child: Text(item.namaKecamatan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedKecamatan = value;
+                                      dataDesaKelurahan.clear();
+                                      dataDesaKelurahan
+                                          .addAll(value!.desaKelurahan);
+
+                                      //clear list
+                                      dataDusun.clear();
+
+                                      //clear data
+                                      selectedDesa = null;
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    hintText: "Kecamatan",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: IgnorePointer(
+                                ignoring:
+                                    dataDesaKelurahan.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataDesaKelurahan>(
+                                  isExpanded: true,
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDesa, // Ini bisa null
+                                  hint: Text(
+                                    "Desa",
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDesaKelurahan.map((item) {
+                                    return DropdownMenuItem<DataDesaKelurahan>(
+                                      value: item,
+                                      child: Text(item.namaDesaKelurahan),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDesa = value;
+                                      dataDusun.clear();
+                                      dataDusun.addAll(value!.dusun);
+
+                                      //clear data
+                                      selectedDusun = null;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    hintText: "Desa",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: IgnorePointer(
+                                ignoring: dataDusun.isNotEmpty ? false : true,
+                                child: DropdownButtonFormField2<DataDusun>(
+                                  isExpanded: true,
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 12,
+                                  ),
+                                  value: selectedDusun, // Ini bisa null
+                                  hint: Text(
+                                    "Dusun",
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  buttonStyleData: const ButtonStyleData(
+                                    elevation: 0,
+                                  ),
+                                  dropdownStyleData: DropdownStyleData(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                      ),
+                                      color: backgroundWhite10,
+                                    ),
+                                    elevation: 0,
+                                  ),
+                                  items: dataDusun.map((item) {
+                                    return DropdownMenuItem<DataDusun>(
+                                      value: item,
+                                      child: Text(item.namaDusun),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDusunId = value!.id;
+                                      selectedDusun = value;
+                                    });
+                                  },
+                                  onSaved: (value) {},
+                                  validator: null,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
+                                    hintText: "Dusun",
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                    filled: true,
+                                    fillColor: backgroundWhite10,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        Row(
+                          spacing: 8,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: TextFieldWidget(
+                                controller: _rtController,
+                                hintText: 'RT',
+                                isPasswordField: false,
+                                keyboardType: TextInputType.number,
+                                obscureText: false,
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RT tidak boleh kosong"),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: TextFieldWidget(
+                                controller: _rwController,
+                                hintText: 'RW',
+                                isPasswordField: false,
+                                keyboardType: TextInputType.number,
+                                obscureText: false,
+                                validators: [
+                                  (value) => Validator.required(
+                                      value, "RW tidak boleh kosong"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(32)),
                         ButtonPrimary(
                           color: bluePrimary40,
                           mainButtonMessage: "Simpan",
                           mainButton: () {
                             if (_formKey.currentState?.validate() ?? false) {
+                              PatchGantiProfileModel data = PatchGantiProfileModel(
+                                dusunId: selectedDusunId!,
+                                namaLengkap: _nameController.text,
+                                nomorTelepon: _nameController.text,
+                              );
+                              context.read<GantiProfileBloc>().add(PatchGantiProfile(data));
                               print('nama lengkap ${_nameController.text}');
                               print('nomor telepon ${_phoneController.text}');
-                              final address =
-                                  _addressFormKey.currentState?.getAddress();
-                              print('alamat: $address');
                               print('image path: $_imagePath');
                             }
                           },
@@ -202,131 +623,6 @@ class _GantiProfileViewState extends State<GantiProfileView> {
           },
         ),
       ),
-    );
-  }
-}
-
-class AddressFormField extends StatefulWidget {
-  AddressFormField({
-    super.key,
-  });
-
-  @override
-  State<AddressFormField> createState() => _AddressFormFieldState();
-}
-
-class _AddressFormFieldState extends State<AddressFormField> {
-  // Variabel untuk menyimpan nilai dropdown
-  String? selectedKota;
-  String? selectedKecamatan;
-  String? selectedDesa;
-  String? selectedDusun;
-  TextEditingController _rtController = TextEditingController();
-  TextEditingController _rwController = TextEditingController();
-  // Dummy data untuk dropdown
-  final List<String> kota = ['Banyuwangi', 'Maluku Tengah'];
-  final List<String> kecematan = ['Rogojampi', 'Banyuwangi', 'Genteng'];
-  final List<String> desa = ['Labanasem', 'Setail', 'Ketapang'];
-  final List<String> dusun = ['Krajan', 'Lugonto', 'Srampon'];
-  final List<String> rtOptions = ['001', '002', '003'];
-  final List<String> rwOptions = ['01', '02', '03'];
-
-  String getAddress() {
-    return 'Kota: $selectedKota, Kecamatan: $selectedKecamatan, Desa: $selectedDesa, Dusun: $selectedDusun, RT: ${_rtController.text}, RW: ${_rwController.text}';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Kolom pertama
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // City
-              DropdownWidget(
-                value: kota[0],
-                hint: 'Kota',
-                items: kota,
-                onChanged: (value) {
-                  setState(() {
-                    selectedKota = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // districts
-              DropdownWidget(
-                value: kecematan[0],
-                hint: 'Kecamatan',
-                items: kecematan,
-                onChanged: (value) {
-                  setState(() {
-                    selectedKecamatan = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // RT
-              TextFieldWidget(
-                controller: _rtController,
-                hintText: "RT",
-                isPasswordField: false,
-                keyboardType: TextInputType.text,
-                obscureText: false,
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(width: 16),
-
-        // Kolom kedua
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DropdownWidget(
-                value: desa[0],
-                hint: 'Desa',
-                items: desa,
-                onChanged: (value) {
-                  setState(() {
-                    selectedDesa = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Dusun
-              DropdownWidget(
-                value: dusun[0],
-                hint: 'Dusun',
-                items: dusun,
-                onChanged: (value) {
-                  setState(() {
-                    selectedDusun = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // RW
-              TextFieldWidget(
-                controller: _rwController,
-                hintText: "RW",
-                isPasswordField: false,
-                keyboardType: TextInputType.text,
-                obscureText: false,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
