@@ -6,6 +6,7 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/data_not_found_screen.dart';
+import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/get_index_ibu_hamil_bloc.dart';
@@ -121,7 +122,7 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                     }
                     if (state is GetIndexIbuHamilSuccess) {
                       if (state.data.data.isEmpty) {
-                        return DataNotFoundScreen();
+                        return NoDataScreen();
                       }
                       return ListView.builder(
                         itemCount: state.data.data.length,
