@@ -2,12 +2,13 @@ import "dart:async";
 import "dart:convert";
 
 import "package:flutter/material.dart";
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import "package:puspadaya/utils/shared_preferences_utils/shared_preferences_utils.dart";
 
 import "../../app/model/refreshtoken_model.dart";
 import "../api_utils/api_utils.dart";
+import "../logger/logger.dart";
 // import "package:image_picker/image_picker.dart";
 
 
@@ -22,81 +23,91 @@ class NetworkUtils {
       BaseOptions(
         contentType: 'application/json',
         responseType: ResponseType.json,
-        validateStatus: (status) => true        
+        validateStatus: (status) {
+          if(status != 401) {
+            return true;
+          } else {
+            return false;
+          }
+        }
       )
     );
   
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        debugPrint('Set Header');
         //! header
         if(token == null) {
-          debugPrint('header no token');
           options.headers = {
             'Content-Type': 'application/json', 
             'Accept': 'application/json'
           };
         } else {
-          debugPrint('header token');
-          // options.headers['Authorization'] = 'Bearer $token';
           options.headers = { 
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           };
         }
-        debugPrint('send header');
         handler.next(options);
       },
-      onError: (DioException e, handler) async {
-        debugPrint('something error');
-        if (e.response?.statusCode == 401) {
-          debugPrint('access token refresh');
-          await refreshToken();
-        }
+      onError: (DioException dioError, handler) async {
+        logger.e('something error');
+        if (dioError.response?.statusCode == 401) {
+          try {
+            // if(dioError.requestOptions.headers['Authorization'] != 'Bearer $token') {
+            //   return handler.resolve(await dio.fetch(dioError.requestOptions));
+            // }
 
-        handler.next(e);
+            String newToken = await refreshToken();
+            SharedPrefUtils().storedAccessToken(newToken);
+
+            token = newToken;
+            dio.options.headers['Authorization'] = 'Bearer $newToken';
+            dioError.requestOptions.headers['Authorization'] ='Bearer $newToken';
+
+            return handler.resolve(await dio.fetch(dioError.requestOptions));
+          } catch (e) {
+            logger.e(e.toString());
+            handler.next(dioError);
+          }
+        }
       },
     ));
   }
 
-  Future<List<dynamic>> refreshToken () async {
+  Future<String> refreshToken () async {
     String? refreshTokenValue = await SharedPrefUtils().getRefreshToken();
 
     RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(refreshTokenValue!));
 
     try {
-      final response = await dio.post(
-        ApiUtils().urlRefreshToken(),
-        data: {
+      final response = await http.post(
+        Uri.parse(ApiUtils().urlRefreshToken()),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: json.encode({
           "refresh_token" : refreshTokenModel.refreshToken
-        }
+        })
       );
 
-        final bodyResponse = response.data;
-        final int statusResponse = response.statusCode!;
+      final bodyResponse = json.decode(response.body);
+      final int statusResponse = response.statusCode;
 
-        debugPrint(bodyResponse['message'].toString());
-        debugPrint(statusResponse.toString());
+      debugPrint(bodyResponse['message'].toString());
+      debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200 ||
-            statusResponse == 201 ||
-            statusResponse == 202 ||
-            statusResponse == 206 ||
-            statusResponse == 401 ||
-            statusResponse == 403 ||
-            statusResponse == 404 ||
-            statusResponse == 400 ||
-            statusResponse == 422 ||
-            statusResponse == 409) {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+      if (statusResponse == 200) {
+        return bodyResponse["data"]["access_token"];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
-    } on DioException catch (e) {
-      throw e.response!.statusMessage.toString();
+    } catch (e) {
+      throw e.toString();
     }
-    }
+  }
 
   Future<List<dynamic>> get (String url, Map<String, dynamic> parameterQuery) async {
     try {
@@ -111,16 +122,10 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
       
-      if (statusResponse == 200 ||
-          statusResponse == 201 ||
-          statusResponse == 202 ||
-          statusResponse == 206 ||
-          statusResponse == 403 ||
-          statusResponse == 404 ||
-          statusResponse == 400) {
+      if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
       throw e.response!.statusMessage.toString();
@@ -128,13 +133,11 @@ class NetworkUtils {
   }
 
   Future<List<dynamic>> post (String url, String body) async {
-    debugPrint("start connection");
     try {
       final response = await dio.post(
         url,
         data: body
       );
-      debugPrint(" procces connection");
 
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
@@ -142,26 +145,12 @@ class NetworkUtils {
       debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 401) {
-        debugPrint('error test access token');
-      }
-
-      if (statusResponse == 200 ||
-          statusResponse == 201 ||
-          statusResponse == 202 ||
-          statusResponse == 206 ||
-          // statusResponse == 401 ||
-          statusResponse == 403 ||
-          statusResponse == 404 ||
-          statusResponse == 400 ||
-          statusResponse == 422 ||
-          statusResponse == 409) {
+      if (statusResponse == 201) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
-      debugPrint(e.toString());
       throw e.response!.statusMessage.toString();
     }
   }
@@ -173,7 +162,6 @@ class NetworkUtils {
         url,
         data: body
       );
-      debugPrint(" procces connection");
 
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
@@ -181,26 +169,12 @@ class NetworkUtils {
       debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
 
-      if(statusResponse == 401) {
-        debugPrint('error test access token');
-      }
-
-      if (statusResponse == 200 ||
-          statusResponse == 201 ||
-          statusResponse == 202 ||
-          statusResponse == 206 ||
-          // statusResponse == 401 ||
-          statusResponse == 403 ||
-          statusResponse == 404 ||
-          statusResponse == 400 ||
-          statusResponse == 422 ||
-          statusResponse == 409) {
+      if (statusResponse == 201) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
-      debugPrint(e.toString());
       throw e.response!.statusMessage.toString();
     }
   }
@@ -218,19 +192,10 @@ class NetworkUtils {
         debugPrint(bodyResponse.toString());
         debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200 ||
-            statusResponse == 201 ||
-            statusResponse == 202 ||
-            statusResponse == 206 ||
-            statusResponse == 401 ||
-            statusResponse == 403 ||
-            statusResponse == 404 ||
-            statusResponse == 400 ||
-            statusResponse == 422 ||
-            statusResponse == 409) {
+        if (statusResponse == 200 ) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
       throw e.response!.statusMessage.toString();
@@ -250,18 +215,10 @@ class NetworkUtils {
         debugPrint(bodyResponse.toString());
         debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200 ||
-            statusResponse == 201 ||
-            statusResponse == 202 ||
-            statusResponse == 206 ||
-            statusResponse == 401 ||
-            statusResponse == 403 ||
-            statusResponse == 404 ||
-            statusResponse == 400 ||
-            statusResponse == 422) {
+        if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
       throw e.response!.statusMessage.toString();
@@ -281,17 +238,10 @@ class NetworkUtils {
         debugPrint(bodyResponse.toString());
         debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200 ||
-            statusResponse == 201 ||
-            statusResponse == 202 ||
-            statusResponse == 206 ||
-            statusResponse == 401 ||
-            statusResponse == 403 ||
-            statusResponse == 404 ||
-            statusResponse == 400 ) {
+        if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
+        throw bodyResponse['message'].toString();
       }
     } on DioException catch (e) {
       throw e.response!.statusMessage.toString();
