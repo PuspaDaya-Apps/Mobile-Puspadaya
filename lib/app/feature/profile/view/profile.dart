@@ -119,7 +119,7 @@ class _ProfileViewState extends State<ProfileView> {
                         description: "Perbarui informasi pribadi Anda.",
                         colorChevron: Colors.grey,
                         onTap: () {
-                          Navigator.pushNamed(context, UBAH_PROFILE);
+                          Navigator.pushNamed(context, UBAH_PROFILE, arguments: widget.currentUserModel.id);
                         },
                       ),
                       CardMenuProfile(

@@ -57,7 +57,7 @@ class GantiProfileBloc extends Bloc<GantiProfileEvent, GantiProfileState> {
             GetDetailUserByIdModel.fromJson(response[1]);
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCode == 200) {
-          logger.d('succes get data jadwal posyandu');
+          logger.d('succes get data current user');
           emit(GantiProfileFormSuccess(userProfile));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());

@@ -22,7 +22,7 @@ class GantiProfile {
 
   Future<dynamic> getDetailUserById(
       String accessToken, String userId) async {
-    final String link = ApiUtils().urlGetDetailJadwalPosyandu(userId);
+    final String link = ApiUtils().urlGetDetailCurrentUser(userId);
     final Map<String, dynamic> parameterQuery = {};
     logger.d('uri ${link}}');
 

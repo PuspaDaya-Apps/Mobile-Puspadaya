@@ -150,9 +150,9 @@ class MyRoute {
             builder: (context) => const GantiKataSandi(), settings: settings);
 
       case UBAH_PROFILE:
-        final args = settings.arguments as CurrentUserModel;
+        final args = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-          builder: (context) => GantiProfile(currentUserModel: args),
+          builder: (context) => GantiProfile(userId: args),
           settings: settings,
         );
 
