@@ -257,6 +257,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
     context
         .read<DetailRegisterOrangTuaBloc>()
         .add(FeathingDetailRegisterOrangTua(ayahId: widget.ayahId));
+
+        selectedDisabilitiesAyah =
+        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu =
+        List<bool>.from(List.filled(disabilities.length, false));
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
   }
 

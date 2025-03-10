@@ -366,6 +366,16 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranAnak/$id";
   }
 
+  String urlGetListRiwayatPengukuranAnak() {
+    String urlGetListDataRiwayatPengukuranAnak = LinkApi.RIWAYATPENGUKURANANAKURL;
+    return _baseUrl + _apiVersion + urlGetListDataRiwayatPengukuranAnak;
+  }
+
+  String urlGetDetailRiwayatPengukuranAnak(String id) {
+    String urlGetDetailDataRiwayatPengukuranAnak = LinkApi.RIWAYATPENGUKURANANAKURL;
+    return "$_baseUrl$_apiVersion$urlGetDetailDataRiwayatPengukuranAnak/$id";
+  }
+
   //!Pengukuran Ibu Hamil
   String urlGetListPengukuranIbuHamil({String? search, int? page, int? limit}) {
     String urlGetListPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
@@ -393,6 +403,16 @@ class ApiUtils {
   String urlDeleteDataPengukuranIbuHamil(String id) {
     String urlDeleteDataPengukuranIbuHamil = LinkApi.PENGUKURANIBUHAMILURL;
     return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
+  }
+
+   String urlGetListRiwayatPengukuranIbuHamil() {
+    String urlGetListDataRiwayatPengukuranIbuHamil = LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
+    return _baseUrl + _apiVersion + urlGetListDataRiwayatPengukuranIbuHamil;
+  }
+
+  String urlGetDetailRiwayatPengukuranIbuHamil(String id) {
+    String urlGetDetailDataRiwayatPengukuranIbuHamil = LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
+    return "$_baseUrl$_apiVersion$urlGetDetailDataRiwayatPengukuranIbuHamil/$id";
   }
 
   //! Master Data
