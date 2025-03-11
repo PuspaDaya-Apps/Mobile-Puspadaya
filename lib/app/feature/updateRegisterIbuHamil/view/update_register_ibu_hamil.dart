@@ -10,6 +10,7 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
+import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/auto_size_text_field_widget.dart';
@@ -23,6 +24,7 @@ import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../createRegisterIbuHamil/model/post_ibu_hamil_model.dart';
 import '../../pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import '../bloc/update_register_ibu_hamil_bloc.dart';
+import '../model/update_ibu_hamil_model.dart';
 
 class UpdateRegisterIbuHamil extends StatelessWidget {
   final PaketToUpdateRegisterIbuHamil data;
@@ -55,8 +57,7 @@ class UpdateRegisterIbuHamilView extends StatefulWidget {
       UpdateRegisterIbuHamilViewState();
 }
 
-class UpdateRegisterIbuHamilViewState
-    extends State<UpdateRegisterIbuHamilView> {
+class UpdateRegisterIbuHamilViewState extends State<UpdateRegisterIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
   bool _isExpanded = false;
   TextEditingController _heightController = TextEditingController();
@@ -154,29 +155,33 @@ class UpdateRegisterIbuHamilViewState
     _uterineFundusHeightController.text = widget.data.data.tinggiFundusUteri;
     _usiaKehamilanController.text = widget.data.data.usiaKehamilan.toString();
 
-    if(widget.data.data.kepemilikanBPJS == "Tidak") {
-      boolNamaBPJS = false;
-      selectedMemilikiBPJS = "Tidak";
-    } else {
-      boolNamaBPJS = true;
-      selectedMemilikiBPJS = "Iya";
-    }
-
     switch(widget.data.data.namaBPJS) {
       case null :
         selectedNamaBPJS = null;
+
+        boolNamaBPJS = false;
+        selectedMemilikiBPJS = "Tidak";
       
       case "BPJS PBI (bantuan)" :
         selectedRadioBPJS = 0;
         selectedNamaBPJS = widget.data.data.namaBPJS;
 
+        boolNamaBPJS = true;
+        selectedMemilikiBPJS = "Iya";
+
       case "BPJS Mandiri" :
         selectedRadioBPJS = 1;
         selectedNamaBPJS = widget.data.data.namaBPJS;
 
+        boolNamaBPJS = true;
+        selectedMemilikiBPJS = "Iya";
+
       default:
         selectedRadioBPJS = 2;
         _namaBPJSController = TextEditingController(text: widget.data.data.namaBPJS);
+
+        boolNamaBPJS = true;
+        selectedMemilikiBPJS = "Iya";
     }
     
     super.initState();
@@ -184,7 +189,7 @@ class UpdateRegisterIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 10;
     return BlocListener<AlatUkurAnakBloc, AlatUkurAnakState>(
       listener: (context, state) {
         debugPrint(state.toString());
@@ -193,11 +198,12 @@ class UpdateRegisterIbuHamilViewState
         }
         if (state is AlatUkurAnakFailedState) {
           showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().error(state.error));
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error(state.error)
+          );
         }
       },
       child: Scaffold(
@@ -792,7 +798,7 @@ class UpdateRegisterIbuHamilViewState
                                   const Duration(milliseconds: 300),
                               TopSnackbarWidget()
                                   .success('Berhasil Perbarui Data Ibu Hamil'));
-                          Navigator.pop(context);
+                          Navigator.pop(context,1);
                         }
                         if (state is UpdateRegisterIbuHamilFailed) {
                           debugPrint(state.error.message);
@@ -812,68 +818,22 @@ class UpdateRegisterIbuHamilViewState
                         mainButtonMessage: 'Simpan',
                         mainButton: () {
                           if (_formKey.currentState!.validate()) {
-                            print(
-                                'Nama: ${widget.data.data.ibuAnak.namaIbu} as type ${widget.data.data.ibuAnak.namaIbu.runtimeType}');
-                            print(
-                                'Usia: ${widget.data.data.ibuAnak.usia} as type ${widget.data.data.ibuAnak.usia.runtimeType}');
-                            print(
-                                'NIK: ${widget.data.data.ibuAnak.nik} as type ${widget.data.data.ibuAnak.nik.runtimeType}');
-                            print(
-                                'Nama Suami: ${widget.data.data.ibuAnak.ayah.namaAyah} as type ${widget.data.data.ibuAnak.ayah.namaAyah.runtimeType}');
-                            print(
-                                'Tinggi Badan: ${_heightController.text} as type ${_heightController.text.runtimeType}');
-                            print(
-                                'Berat Badan: ${_weightController.text} as type ${_weightController.text.runtimeType}');
-                            print(
-                                'Tinggi Fundus Uteri: ${_uterineFundusHeightController.text} as type ${_uterineFundusHeightController.text.runtimeType}');
-                            print(
-                                'Lingkar Lengan Atas: ${_upperArmCircumferenceController.text} as type ${_upperArmCircumferenceController.text.runtimeType}');
-                            print(
-                                'Hemogoblin: ${_hemogoblinController.text} as type ${_hemogoblinController.text.runtimeType}');
-                            print(
-                                'Tanggal Pertama Haid: ${_firstDateHaidController.text} as type ${_firstDateHaidController.text.runtimeType}');
-                            print(
-                                'Tanggal Terakhir Haid: ${_lastDateHaidController.text} as type ${_lastDateHaidController.text.runtimeType}');
-                            print(
-                                'Tablet Fe: ${_tabletFeController.text} as type ${_tabletFeController.text.runtimeType}');
-                            print(
-                                'Catatan: ${_catatanController.text} as type ${_catatanController.text.runtimeType}');
-                            print(
-                                'Usia Kehamilan: ${_usiaKehamilanController.text} as type ${_usiaKehamilanController.text.runtimeType}');
-                            print(
-                                'alat id ${alatUkur} as type ${alatUkur.runtimeType}');
-                            print(
-                                'is terpapar asap rokok ${exposedCigaretteSmoke == 1 ? "Iya" : "Tidak"}');
-                            print('ibu id ${widget.data.data.ibuAnak.id}');
-
-                            print(
-                                'formated Date is ${_formatDate(_firstDateHaidController.text)}');
-
-                            PostIbuHamilModel postData = PostIbuHamilModel(
+                            UpdateIbuHamilModel postData = UpdateIbuHamilModel(
                               alatBeratBadanId: alatUkur,
                               alatLingkarLenganId: alatUkur,
                               alatTinggiBadanId: alatUkur,
                               alatTinggiFundusId: alatUkur,
                               beratBadan: _parseDouble(_weightController.text),
                               catatan: _catatanController.text,
-                              hemoglobin:
-                                  _parseDouble(_hemogoblinController.text),
-                              ibuId: widget.data.data.ibuAnak.id,
-                              jumlahTabletFe:
-                                  _parseInt(_tabletFeController.text),
-                              lingkarLenganAtas: _parseDouble(
-                                  _upperArmCircumferenceController.text),
-                              terpaparAsapRokok:
-                                  exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
+                              hemoglobin: _parseDouble(_hemogoblinController.text),
+                              jumlahTabletFe: _parseInt(_tabletFeController.text),
+                              lingkarLenganAtas: _parseDouble(_upperArmCircumferenceController.text),
+                              terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
                               tinggiBadan: _parseDouble(_heightController.text),
-                              tinggiFundusUteri: _parseDouble(
-                                  _uterineFundusHeightController.text),
-                              tanggalPertamaHaid:
-                                  _formatDate(_firstDateHaidController.text),
-                              tanggalTerakhirHaid:
-                                  _formatDate(_lastDateHaidController.text),
-                              usiaKehamilan:
-                                  _parseInt(_usiaKehamilanController.text),
+                              tinggiFundusUteri: _parseDouble(_uterineFundusHeightController.text),
+                              tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
+                              tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+                              usiaKehamilan: _parseInt(_usiaKehamilanController.text),
                               memilkiBPJS: selectedMemilikiBPJS!, 
                               namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text: selectedNamaBPJS
                             );

@@ -8,7 +8,8 @@ sealed class UpdateRegisterIbuHamilEvent extends Equatable {
 }
 
 final class PatchUpdateRegisterIbuHamil extends UpdateRegisterIbuHamilEvent {
-  final PostIbuHamilModel data;
+  final UpdateIbuHamilModel data;
   final String id;
-  PatchUpdateRegisterIbuHamil(this.data, this.id);
+
+  const PatchUpdateRegisterIbuHamil(this.data, this.id);
 }

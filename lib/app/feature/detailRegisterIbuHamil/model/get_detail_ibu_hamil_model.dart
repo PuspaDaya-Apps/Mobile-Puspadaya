@@ -54,8 +54,6 @@ class Data {
   @JsonKey(name: "ibu_anak")
   final IbuAnak ibuAnak;
   
-  @JsonKey(name: "kepemilikan_bpjs")
-  final String kepemilikanBPJS;
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
 
@@ -76,7 +74,6 @@ class Data {
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.ibuAnak,
-    required this.kepemilikanBPJS,
     this.namaBPJS
   });
 
@@ -440,7 +437,6 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       catatan: json['catatan'] as String,
       ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),
-      kepemilikanBPJS: json['kepemilikan_bpjs'] as String,
       namaBPJS: json['nama_bpjs'] as String?,
     );
 
@@ -461,7 +457,6 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'terpapar_asap_rokok': instance.terpaparAsapRokok,
       'catatan': instance.catatan,
       'ibu_anak': instance.ibuAnak,
-      'kepemilikan_bpjs': instance.kepemilikanBPJS,
       'nama_bpjs': instance.namaBPJS,
     };
 

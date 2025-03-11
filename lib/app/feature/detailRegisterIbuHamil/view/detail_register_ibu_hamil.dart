@@ -444,7 +444,7 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                        text: state.data.data.kepemilikanBPJS == "Tidak"
+                        text: state.data.data.namaBPJS == null
                         ? "Tidak Memiliki BPJS"
                         : state.data.data.namaBPJS!
                       ),
@@ -470,7 +470,11 @@ class _DetailRegisterIbuHamilViewState
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,
                             arguments: data,
-                          );
+                          ).then((value) {
+                            if(value != null) {
+                              BlocProvider.of<GetDetailIbuHamilBloc>(context).add(FetchDetailIbuHamil(id: widget.id));
+                            }
+                          });
                         },
                       ),
                     ],

@@ -800,7 +800,7 @@ class _CreateRegisterIbuHamilViewState extends State<CreateRegisterIbuHamilView>
                                   const Duration(milliseconds: 300),
                               TopSnackbarWidget()
                                   .success('Berhasil Menambah Data Ibu Hamil'));
-                          Navigator.pop(context);
+                          Navigator.pop(context,1);
                         }
                         if (state is CreateRegisterIbuHamilSendFailed) {
                           debugPrint(state.error.message);
