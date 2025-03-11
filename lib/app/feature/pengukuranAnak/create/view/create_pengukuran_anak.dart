@@ -24,6 +24,7 @@ import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/constant/constanst.dart';
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../Bloc/createPengukuranAnak/create_pengukuran_anak_bloc.dart';
@@ -81,13 +82,6 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   String selectedWeight = 'Timbangan Digital';
   String selectedUpperArmCircumference = 'Pita Lila';
   String selectedUterineFundalHeight = 'Metline';
-
-  final List<String> selectPosyandu = ['Posyandu', 'Rumah'];
-
-  final List<String> selectPosition = [
-    'Terlentang',
-    'Berdiri',
-  ];
 
   late PaketToCreatePengukuranAnakModel paket;
 

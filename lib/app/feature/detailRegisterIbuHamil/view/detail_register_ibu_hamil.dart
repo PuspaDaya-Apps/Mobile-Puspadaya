@@ -43,16 +43,16 @@ class _DetailRegisterIbuHamilViewState
   bool _isExpanded = false;
 
   // Sample data for display
-  final String nama = "Mentari Kumala Sari";
-  final String usia = "28";
-  final String nik = "213124123412";
-  final String namaSuami = "Joko";
-  final String tinggiBadan = "150 cm";
-  final String beratBadan = "60 kg";
-  final String lingkarKepala = "35 cm";
-  final String hemoglobin = "12 g/dl";
-  final String tempatPengukuran = "Posyandu A";
-  final String catatan = "Catatan penting di sini";
+  // final String nama = "Mentari Kumala Sari";
+  // final String usia = "28";
+  // final String nik = "213124123412";
+  // final String namaSuami = "Joko";
+  // final String tinggiBadan = "150 cm";
+  // final String beratBadan = "60 kg";
+  // final String lingkarKepala = "35 cm";
+  // final String hemoglobin = "12 g/dl";
+  // final String tempatPengukuran = "Posyandu A";
+  // final String catatan = "Catatan penting di sini";
 
   @override
   void initState() {
@@ -437,6 +437,19 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
+                        'Kepemilikan BPJS',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      InfoFieldWidget(
+                        text: state.data.data.kepemilikanBPJS == "Tidak"
+                        ? "Tidak Memiliki BPJS"
+                        : state.data.data.namaBPJS!
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
                         'Catatan',
                         style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,
@@ -451,9 +464,8 @@ class _DetailRegisterIbuHamilViewState
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
-                          PaketToUpdateRegisterIbuHamil data =
-                              PaketToUpdateRegisterIbuHamil(
-                                  id: widget.id, data: state.data.data);
+                          PaketToUpdateRegisterIbuHamil data = PaketToUpdateRegisterIbuHamil(
+                            id: widget.id, data: state.data.data);
                           Navigator.pushNamed(
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,

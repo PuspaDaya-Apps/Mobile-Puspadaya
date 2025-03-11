@@ -8,6 +8,7 @@ import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/auto_size_text_field_widget.dart';
@@ -55,9 +56,9 @@ class CreateRegisterIbuHamilView extends StatefulWidget {
       _CreateRegisterIbuHamilViewState();
 }
 
-class _CreateRegisterIbuHamilViewState
-    extends State<CreateRegisterIbuHamilView> {
+class _CreateRegisterIbuHamilViewState extends State<CreateRegisterIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
+
   bool _isExpanded = false;
   TextEditingController _nameController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
@@ -65,8 +66,7 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _namaSuamiController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
-  TextEditingController _uterineFundusHeightController =
-      TextEditingController();
+  TextEditingController _uterineFundusHeightController = TextEditingController();
   TextEditingController _armCircumferenceController = TextEditingController();
   TextEditingController _hemogoblinController = TextEditingController();
   TextEditingController _firstDateHaidController = TextEditingController();
@@ -75,12 +75,19 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
   TextEditingController _usiaKehamilanController = TextEditingController();
+  TextEditingController _namaBPJSController = TextEditingController();
 
-  String selectedPosyandu = 'Posyandu Mawar 1';
+  String selectedPosyandu = 'Posyandu';
   String selectedHeight = 'Microtoise';
   String selectedWeight = 'Timbangan Digital';
   String selectedUpperArmCircumference = 'Pita Lila';
   String selectedUterineFundalHeight = 'Metline';
+
+  bool boolNamaBPJS = false;
+  String? selectedMemilikiBPJS;
+  String? selectedNamaBPJS; 
+  int? selectedRadioBPJS;
+
   late String ibuId;
   String alatUkur = '';
   @override
@@ -122,13 +129,6 @@ class _CreateRegisterIbuHamilViewState
       _lastDateHaidController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
     }
-
-  final List<String> selectPosyandu = [
-    'Posyandu Mawar 1',
-    'Posyandu Anggrek 5',
-    'Posyandu Melati Indah',
-    'Posyandu Melati 3'
-  ];
 
   int _parseInt(String value) {
     return int.tryParse(value.trim()) ?? 0;
@@ -586,7 +586,7 @@ class _CreateRegisterIbuHamilViewState
                       hintText: "Usia Kehamilan (minggu)",
                       validators: [
                         (value) => Validator.required(
-                            value, 'Usia Kehamilan Wajib diisi'),
+                          value, 'Usia Kehamilan Wajib diisi'),
                       ],
                       isPasswordField: false,
                       keyboardType: TextInputType.number,
@@ -668,6 +668,110 @@ class _CreateRegisterIbuHamilViewState
                         )
                       ],
                     ),
+                    //!
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    Text(
+                      'Kepemilikian BPJS',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      spacing: 10,
+                      children: [
+                        Expanded(
+                          child: ButtonPrimary(
+                            color: selectedMemilikiBPJS == null ? buttonThird : selectedMemilikiBPJS == "Iya" ? buttonThird : stroke10,
+                            mainButtonMessage: 'Iya',
+                            mainButton: () {
+                              setState(() {
+                                selectedMemilikiBPJS = "Iya";
+                                boolNamaBPJS = true;
+                                
+                                selectedRadioBPJS = 0;
+                                selectedNamaBPJS = 'BPJS PBI (bantuan)';
+                              });
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: ButtonPrimary(
+                            color: selectedMemilikiBPJS == null ? redPrimaryMain : selectedMemilikiBPJS == "Tidak" ? redPrimaryMain : stroke10,
+                            mainButtonMessage: 'Tidak',
+                            mainButton: () {
+                              setState(() {
+                                selectedMemilikiBPJS = "Tidak";
+                                boolNamaBPJS = false;
+
+                                selectedRadioBPJS = null;
+                                selectedNamaBPJS = null;
+                                _namaBPJSController = TextEditingController();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    boolNamaBPJS == false
+                    ? SizedBox()
+                    : selectedRadioBPJS == 2
+                    ? TextFieldWidget(
+                      controller: _namaBPJSController,
+                      hintText: "Masukan Nama BPJS Anda",
+                      validators: selectedRadioBPJS == 2 ? [
+                        (value) => Validator.required(
+                            value, 'Nama BPJS Wajib diisi'),
+                      ] : null,
+                      isPasswordField: false,
+                      keyboardType: TextInputType.text,
+                      obscureText: false,
+                    )
+                    : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 10,
+                      children: [
+                        CustomRadioButton(
+                          value: 0,
+                          groupValue: selectedRadioBPJS!,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadioBPJS = value;
+                              selectedNamaBPJS = 'BPJS PBI (bantuan)';
+                            });
+                          },
+                          label: 'BPJS PBI (bantuan)',
+                        ),
+                        CustomRadioButton(
+                          value: 1,
+                          groupValue: selectedRadioBPJS!,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadioBPJS = value;
+                              selectedNamaBPJS = "BPJS Mandiri";
+                            });
+                          },
+                          label: "BPJS Mandiri",
+                        ),
+                        CustomRadioButton(
+                          value: 2,
+                          groupValue: selectedRadioBPJS!,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedRadioBPJS = value;
+                            });
+                          },
+                          label: 'lainnya',
+                        ),
+                        SizedBox(
+                          width: SizeConfig.calHeightMultiplier(10),
+                        ),
+                      ],
+                    ),
+                    //!
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                     Text(
                       'Catatan',
@@ -715,44 +819,7 @@ class _CreateRegisterIbuHamilViewState
                         color: bluePrimaryMain,
                         mainButtonMessage: 'Simpan',
                         mainButton: () {
-                          if (_formKey.currentState!.validate()) {
-                            print(
-                                'Nama: ${_nameController.text} as type ${_nameController.text.runtimeType}');
-                            print(
-                                'Usia: ${_ageController.text} as type ${_ageController.text.runtimeType}');
-                            print(
-                                'NIK: ${_nikController.text} as type ${_nikController.text.runtimeType}');
-                            print(
-                                'Nama Suami: ${_namaSuamiController.text} as type ${_namaSuamiController.text.runtimeType}');
-                            print(
-                                'Tinggi Badan: ${_heightController.text} as type ${_heightController.text.runtimeType}');
-                            print(
-                                'Berat Badan: ${_weightController.text} as type ${_weightController.text.runtimeType}');
-                            print(
-                                'Tinggi Fundus Uteri: ${_uterineFundusHeightController.text} as type ${_uterineFundusHeightController.text.runtimeType}');
-                            print(
-                                'Lingkar Lengan Atas: ${_armCircumferenceController.text} as type ${_armCircumferenceController.text.runtimeType}');
-                            print(
-                                'Hemogoblin: ${_hemogoblinController.text} as type ${_hemogoblinController.text.runtimeType}');
-                            print(
-                                'Tanggal Pertama Haid: ${_firstDateHaidController.text} as type ${_firstDateHaidController.text.runtimeType}');
-                            print(
-                                'Tanggal Terakhir Haid: ${_lastDateHaidController.text} as type ${_lastDateHaidController.text.runtimeType}');
-                            print(
-                                'Tablet Fe: ${_tabletFeController.text} as type ${_tabletFeController.text.runtimeType}');
-                            print(
-                                'Catatan: ${_catatanController.text} as type ${_catatanController.text.runtimeType}');
-                            print(
-                                'Usia Kehamilan: ${_usiaKehamilanController.text} as type ${_usiaKehamilanController.text.runtimeType}');
-                            print(
-                                'alat id ${alatUkur} as type ${alatUkur.runtimeType}');
-                            print(
-                                'is terpapar asap rokok ${exposedCigaretteSmoke == 1 ? "Iya" : "Tidak"}');
-                            print('ibu id ${ibuId}');
-
-                            print(
-                                'formated Date is ${_formatDate(_firstDateHaidController.text)}');
-
+                          if (_formKey.currentState!.validate() && selectedMemilikiBPJS != null) {
                             PostIbuHamilModel postData = PostIbuHamilModel(
                               alatBeratBadanId: alatUkur,
                               alatLingkarLenganId: alatUkur,
@@ -760,29 +827,33 @@ class _CreateRegisterIbuHamilViewState
                               alatTinggiFundusId: alatUkur,
                               beratBadan: _parseDouble(_weightController.text),
                               catatan: _catatanController.text,
-                              hemoglobin:
-                                  _parseDouble(_hemogoblinController.text),
+                              hemoglobin: _parseDouble(_hemogoblinController.text),
                               ibuId: ibuId,
-                              jumlahTabletFe:
-                                  _parseInt(_tabletFeController.text),
-                              lingkarLenganAtas: _parseDouble(
-                                  _armCircumferenceController.text),
-                              terpaparAsapRokok:
-                                  exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
+                              jumlahTabletFe: _parseInt(_tabletFeController.text),
+                              lingkarLenganAtas: _parseDouble( _armCircumferenceController.text),
+                              terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
                               tinggiBadan: _parseDouble(_heightController.text),
-                              tinggiFundusUteri: _parseDouble(
-                                  _uterineFundusHeightController.text),
-                              tanggalPertamaHaid:
-                                  _formatDate(_firstDateHaidController.text),
-                              tanggalTerakhirHaid:
-                                  _formatDate(_lastDateHaidController.text),
-                              usiaKehamilan:
-                                  _parseInt(_usiaKehamilanController.text),
+                              tinggiFundusUteri: _parseDouble( _uterineFundusHeightController.text),
+                              tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
+                              tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+                              usiaKehamilan: _parseInt(_usiaKehamilanController.text),
+                              memilkiBPJS: selectedMemilikiBPJS!, 
+                              namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text: selectedNamaBPJS
                             );
 
                             context
-                                .read<CreateRegisterIbuHamilBloc>()
-                                .add(PostCreateIbuHamil(postData));
+                              .read<CreateRegisterIbuHamilBloc>()
+                              .add(PostCreateIbuHamil(postData));
+                          } else {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              animationDuration:
+                                  const Duration(milliseconds: 600),
+                              displayDuration:
+                                  const Duration(milliseconds: 2200),
+                              reverseAnimationDuration:
+                                  const Duration(milliseconds: 300),
+                              TopSnackbarWidget().warning("Form Tidak Boleh Kosong"));
                           }
                         },
                       ),

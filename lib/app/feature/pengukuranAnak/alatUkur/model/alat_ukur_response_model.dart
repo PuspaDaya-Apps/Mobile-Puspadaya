@@ -5,12 +5,10 @@ import 'package:json_annotation/json_annotation.dart';
 // @JsonSerializable()
 class AlatUkurResponseModel {
   String message;
-  String? error;
   List<Data>? data = [];
 
   AlatUkurResponseModel({
     required this.message,
-    this.error,
     this.data,
   });
 
@@ -22,7 +20,7 @@ class AlatUkurResponseModel {
 // @JsonSerializable()
 class Data {
   String id;
-  @JsonKey(name: 'merk_alat')
+  @JsonKey(name: 'merek_alat')
   String merkAlat;
   @JsonKey(name: 'kondisi_alat')
   String kondisiAlat;
@@ -42,7 +40,6 @@ AlatUkurResponseModel _$AlatUkurResponseModelFromJson(
         Map<String, dynamic> json) =>
     AlatUkurResponseModel(
       message: json['message'] as String,
-      error: json['error'] as String?,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -52,13 +49,12 @@ Map<String, dynamic> _$AlatUkurResponseModelToJson(
         AlatUkurResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'error': instance.error,
       'data': instance.data,
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      merkAlat: json['merk_alat'] as String,
+      merkAlat: json['merek_alat'] as String,
       kondisiAlat: json['kondisi_alat'] as String,
     );
 

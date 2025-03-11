@@ -1,5 +1,15 @@
 import '../../app/model/CheckBoxKunjungan.dart';
 
+  final List<String> selectPosyandu = [
+    'Posyandu', 
+    'Rumah'
+  ];
+
+  final List<String> selectPosition = [
+    'Terlentang',
+    'Berdiri',
+  ];
+
 final List<String> selectGender = [
   'Laki-laki',
   'Perempuan',
