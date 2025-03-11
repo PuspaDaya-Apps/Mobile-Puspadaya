@@ -1,99 +1,106 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'get_index_pertanyaan_model.g.dart';
-
-enum SelectType { radio, checkbox }
-
 @JsonSerializable()
 class GetIndexPertanyaanModel {
-  @JsonKey(name: "message")
-  final String message;
-  @JsonKey(name: "data")
-  final List<Datum> data;
+    @JsonKey(name: "message")
+    final String message;
+    @JsonKey(name: "data")
+    final List<Datum> data;
 
-  GetIndexPertanyaanModel({
-    required this.message,
-    required this.data,
-  });
+    GetIndexPertanyaanModel({
+        required this.message,
+        required this.data,
+    });
 
-  factory GetIndexPertanyaanModel.fromJson(Map<String, dynamic> json) =>
-      _$GetIndexPertanyaanModelFromJson(json);
+    factory GetIndexPertanyaanModel.fromJson(Map<String, dynamic> json) => _$GetIndexPertanyaanModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GetIndexPertanyaanModelToJson(this);
+    Map<String, dynamic> toJson() => _$GetIndexPertanyaanModelToJson(this);
 }
 
 @JsonSerializable()
 class Datum {
-  @JsonKey(name: "id")
-  final String id;
-  @JsonKey(name: "nama_faktor_resiko")
-  final String namaFaktorResiko;
-  @JsonKey(name: "keterangan")
-  final String keterangan;
-  @JsonKey(name: "gambar")
-  final String gambar;
-  @JsonKey(name: "detail")
-  final String? detail;
-  @JsonKey(name: "is_completed")
-  final bool isCompleted;
-  @JsonKey(name: "last_completed")
-  final DateTime? lastCompleted;
-  @JsonKey(name: "pertanyaan")
-  final List<Pertanyaan> pertanyaan;
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "nama_faktor_resiko")
+    final String namaFaktorResiko;
+    @JsonKey(name: "keterangan")
+    final String keterangan;
+    @JsonKey(name: "gambar")
+    final String gambar;
+    @JsonKey(name: "detail")
+    final String? detail;
+    @JsonKey(name: "is_completed")
+    final bool isCompleted;
+    @JsonKey(name: "last_completed")
+    final DateTime? lastCompleted;
+    @JsonKey(name: "pertanyaan")
+    final List<Pertanyaan> pertanyaan;
 
-  Datum({
-    required this.id,
-    required this.namaFaktorResiko,
-    required this.keterangan,
-    required this.gambar,
-    required this.detail,
-    required this.isCompleted,
-    required this.lastCompleted,
-    required this.pertanyaan,
-  });
+    Datum({
+        required this.id,
+        required this.namaFaktorResiko,
+        required this.keterangan,
+        required this.gambar,
+        required this.detail,
+        required this.isCompleted,
+        required this.lastCompleted,
+        required this.pertanyaan,
+    });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+    factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatumToJson(this);
+    Map<String, dynamic> toJson() => _$DatumToJson(this);
 }
 
 @JsonSerializable()
 class Pertanyaan {
-  @JsonKey(name: "id")
-  final String id;
-  @JsonKey(name: "nama_pertanyaan")
-  final String namaPertanyaan;
-  @JsonKey(name: "select_type")
-  final SelectType selectType;
-  @JsonKey(name: "pilihan_pertanyaan")
-  final List<PilihanPertanyaan> pilihanPertanyaan;
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "nama_pertanyaan")
+    final String namaPertanyaan;
+    @JsonKey(name: "select_type")
+    final SelectType selectType;
+    @JsonKey(name: "pilihan_pertanyaan")
+    final List<PilihanPertanyaan> pilihanPertanyaan;
+    @JsonKey(name: "jawaban_sistem")
+    final String? jawabanSistem;
 
-  Pertanyaan({
-    required this.id,
-    required this.selectType,
-    required this.namaPertanyaan,
-    required this.pilihanPertanyaan,
-  });
+    Pertanyaan({
+        required this.id,
+        required this.namaPertanyaan,
+        required this.selectType,
+        required this.pilihanPertanyaan,
+        required this.jawabanSistem,
+    });
 
-  factory Pertanyaan.fromJson(Map<String, dynamic> json) =>
-      _$PertanyaanFromJson(json);
+    factory Pertanyaan.fromJson(Map<String, dynamic> json) => _$PertanyaanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PertanyaanToJson(this);
+    Map<String, dynamic> toJson() => _$PertanyaanToJson(this);
 }
 
 @JsonSerializable()
 class PilihanPertanyaan {
-  @JsonKey(name: "id")
-  final String id;
-  @JsonKey(name: "nama_pilihan")
-  final String namaPilihan;
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "nama_pilihan")
+    final String namaPilihan;
+    @JsonKey(name: "is_text")
+    final bool isText;
 
-  PilihanPertanyaan({
-    required this.id,
-    required this.namaPilihan,
-  });
+    PilihanPertanyaan({
+        required this.id,
+        required this.namaPilihan,
+        required this.isText,
+    });
 
-  factory PilihanPertanyaan.fromJson(Map<String, dynamic> json) =>
-      _$PilihanPertanyaanFromJson(json);
+    factory PilihanPertanyaan.fromJson(Map<String, dynamic> json) => _$PilihanPertanyaanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PilihanPertanyaanToJson(this);
+    Map<String, dynamic> toJson() => _$PilihanPertanyaanToJson(this);
+}
+
+enum SelectType {
+    @JsonValue("checkbox")
+    checkbox,
+    @JsonValue("radio")
+    radio
 }

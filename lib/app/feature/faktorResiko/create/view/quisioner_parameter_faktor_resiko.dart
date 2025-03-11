@@ -4,6 +4,7 @@ import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
@@ -15,7 +16,7 @@ class QuisionerParameterFaktorResiko extends StatelessWidget {
   final GetIndexPertanyaanModel.Datum data; // Add 'final' to make it immutable
   final IndexParameterFaktorResikoBloc bloc;
 
-  QuisionerParameterFaktorResiko(
+  const QuisionerParameterFaktorResiko(
       {super.key, required this.data, required this.bloc});
 
   @override
@@ -85,6 +86,9 @@ class _QuisionerParameterFaktorResikoViewState
                     image: imageQuisioner,
                     mainButton: () {
                       if (isMultipleSelection) {
+                        logger
+                            .d('selectedIdPertanyaan = $selectedIdPertanyaan');
+                        logger.d('selectedIdJawaban = $selectedIdJawaban');
                         context.read<IndexParameterFaktorResikoBloc>().add(
                               SelectAnswer(
                                 questionId: selectedIdPertanyaan,
@@ -93,6 +97,9 @@ class _QuisionerParameterFaktorResikoViewState
                               ),
                             );
                       } else {
+                        logger
+                            .d('selectedIdPertanyaan = $selectedIdPertanyaan');
+                        logger.d('selectedIdJawaban = $selectedIdJawaban');
                         context.read<IndexParameterFaktorResikoBloc>().add(
                               SelectAnswer(
                                 questionId: selectedIdPertanyaan,
@@ -142,8 +149,7 @@ class _QuisionerParameterFaktorResikoViewState
                     children: widget.data.pertanyaan.map((pertanyaan) {
                       isMultipleSelection = pertanyaan.selectType ==
                           GetIndexPertanyaanModel.SelectType.checkbox;
-                      logger
-                          .d('is multiple selection = ${isMultipleSelection}');
+                      logger.d('is multiple selection = $isMultipleSelection');
                       // bool isMultipleSelection = isMultipleChoice;
 
                       return Column(
@@ -159,7 +165,7 @@ class _QuisionerParameterFaktorResikoViewState
                             borderRadius: BorderRadius.circular(
                                 12), // Ubah sesuai kebutuhan
                             child: Image.network(
-                              widget.data.gambar,
+                              ApiUtils().urlGetPublicImage(widget.data.gambar),
                               fit: BoxFit
                                   .cover, // Agar gambar terisi dengan baik
                               width: double.infinity, // Sesuaikan dengan desain
@@ -196,24 +202,41 @@ class _QuisionerParameterFaktorResikoViewState
   /// 🔹 Handle untuk Radio Button (Single Choice)
   Column _buildSingleChoice(GetIndexPertanyaanModel.Pertanyaan pertanyaan,
       List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
+    // Cek apakah ada jawaban sistem
+    String? jawabanSistem = pertanyaan.jawabanSistem;
+
+    logger.d('pertanyaan jawabanSistem single choice = $jawabanSistem');
     return Column(
       children: pertanyaan.pilihanPertanyaan.map((opsiPertanyaan) {
-        bool isSelected = (selectedIdPertanyaan == pertanyaan.id &&
+        bool isJawabanSistem = jawabanSistem != null &&
+            opsiPertanyaan.namaPilihan == jawabanSistem;
+        logger.d('is jawaban sistem = $isJawabanSistem');
+        bool isSelected = isJawabanSistem ||
+            (selectedIdPertanyaan == pertanyaan.id &&
                 selectedIdJawaban == opsiPertanyaan.id) ||
             selectedAnswers.any((e) =>
                 e.pertanyaanId == pertanyaan.id &&
                 e.jawabanId.contains(opsiPertanyaan.id));
-
+        logger.d('isSelected by Jawaban Sistem = $isSelected');
+        bool isDisabled = pertanyaan.jawabanSistem != null &&
+            pertanyaan.jawabanSistem == opsiPertanyaan.namaPilihan;
+        // Jika jawabanSistem cocok dengan opsi, set default selection
+        if (isDisabled) {
+          selectedIdPertanyaan = pertanyaan.id;
+          selectedIdJawaban = opsiPertanyaan.id;
+        }
         return GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedIdPertanyaan = pertanyaan.id;
-              selectedIdJawaban = opsiPertanyaan.id;
-              selectedJawabanMultiple
-                  .clear(); // Pastikan hanya satu jawaban dipilih
-            });
-          },
-          child: _buildOptionItem(opsiPertanyaan.namaPilihan, isSelected),
+          onTap: jawabanSistem == null // Disable jika jawabanSistem ada
+              ? () {
+                  setState(() {
+                    selectedIdPertanyaan = pertanyaan.id;
+                    selectedIdJawaban = opsiPertanyaan.id;
+                    selectedJawabanMultiple.clear();
+                  });
+                }
+              : null,
+          child: _buildOptionItem(
+              opsiPertanyaan.namaPilihan, isSelected, jawabanSistem != null),
         );
       }).toList(),
     );
@@ -222,41 +245,58 @@ class _QuisionerParameterFaktorResikoViewState
   /// 🔹 Handle untuk Checkbox (Multiple Choice)
   Column _buildMultipleChoice(GetIndexPertanyaanModel.Pertanyaan pertanyaan,
       List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
+    logger.d(
+        'pertanyaan jawabanSistem multiple choice = ${pertanyaan.jawabanSistem}');
+
+    // Cek apakah ada jawaban sistem
+    String? jawabanSistem = pertanyaan.jawabanSistem;
+
     return Column(
       children: pertanyaan.pilihanPertanyaan.map((opsiPertanyaan) {
-        bool isSelected = selectedJawabanMultiple.contains(opsiPertanyaan.id) ||
+        bool isJawabanSistem = jawabanSistem != null &&
+            opsiPertanyaan.namaPilihan == jawabanSistem;
+        bool isSelected = isJawabanSistem ||
+            selectedJawabanMultiple.contains(opsiPertanyaan.id) ||
             selectedAnswers.any((e) =>
                 e.pertanyaanId == pertanyaan.id &&
                 e.jawabanId.contains(opsiPertanyaan.id));
 
         return GestureDetector(
-          onTap: () {
-            setState(() {
-              if (selectedJawabanMultiple.contains(opsiPertanyaan.id)) {
-                selectedJawabanMultiple.remove(opsiPertanyaan.id);
-              } else {
-                selectedJawabanMultiple.add(opsiPertanyaan.id);
-              }
-              selectedIdPertanyaan = pertanyaan.id;
-            });
-          },
-          child: _buildOptionItem(opsiPertanyaan.namaPilihan, isSelected),
+          onTap: jawabanSistem == null // Disable jika jawabanSistem ada
+              ? () {
+                  setState(() {
+                    if (selectedJawabanMultiple.contains(opsiPertanyaan.id)) {
+                      selectedJawabanMultiple.remove(opsiPertanyaan.id);
+                    } else {
+                      selectedJawabanMultiple.add(opsiPertanyaan.id);
+                    }
+                    selectedIdPertanyaan = pertanyaan.id;
+                  });
+                }
+              : null,
+          child: _buildOptionItem(
+              opsiPertanyaan.namaPilihan, isSelected, jawabanSistem != null),
         );
       }).toList(),
     );
   }
 
   /// 🔹 Widget untuk Tampilan Pilihan (Digunakan di Checkbox & Radio)
-  Widget _buildOptionItem(String title, bool isSelected) {
+  Widget _buildOptionItem(String title, bool isSelected, bool isDisabled) {
+    logger.d('isSelected = $isSelected, isDisabled = $isDisabled');
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(
-          color: isSelected ? Colors.blue : Colors.grey,
+          color: isSelected
+              ? Colors.blue
+              : (isDisabled ? Colors.grey : Colors.grey),
           width: 1.5,
         ),
-        color: isSelected ? Colors.blue.withOpacity(0.2) : Color(0xFFFAFAFA),
+        color: isSelected
+            ? Colors.blue.withOpacity(0.2)
+            : (isDisabled ? Colors.grey.shade100 : Color(0xFFFAFAFA)),
         borderRadius: BorderRadius.circular(20),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -264,7 +304,9 @@ class _QuisionerParameterFaktorResikoViewState
         title,
         style: TextStyle(
           fontSize: 16,
-          color: isSelected ? Colors.blue : Colors.black,
+          color: isSelected
+              ? Colors.blue
+              : (isDisabled ? Colors.grey.shade600 : Colors.black),
         ),
       ),
     );

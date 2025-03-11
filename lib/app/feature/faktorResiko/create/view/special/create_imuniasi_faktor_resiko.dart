@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/utils/api_utils/api_utils.dart';
 
 import '../../../../../../config/screen_config/image_config.dart';
 import '../../../../../../config/theme/pallet_color.dart';
@@ -191,7 +192,7 @@ class _CreateImunisasiFaktorResikoViewState
                             child: Image.network(
                               errorBuilder: (context, error, stackTrace) {
                                 return Image.network(
-                                  'https://th.bing.com/th/id/OIP.EA_ncoNg_zqJTBrdpe8rvgHaE8?rs=1&pid=ImgDetMain',
+                                   ApiUtils().urlGetPublicImage(widget.data.gambar),
                                   fit: BoxFit
                                       .cover, // Agar gambar terisi dengan baik
                                   width: double

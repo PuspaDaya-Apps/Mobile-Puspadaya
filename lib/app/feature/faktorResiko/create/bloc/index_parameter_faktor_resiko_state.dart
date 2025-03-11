@@ -16,7 +16,7 @@ final class IndexParamterFaktorResikoLoading
 final class IndexParamterFaktorResikoSuccess
     extends IndexParameterFaktorResikoState {
   final GetIndexPertanyaanModel data;
-  IndexParamterFaktorResikoSuccess(this.data);
+  const IndexParamterFaktorResikoSuccess(this.data);
 
   @override
   List<Object> get props => [data];

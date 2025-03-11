@@ -631,4 +631,14 @@ class ApiUtils {
     String urlDonwloadEPPGBM = LinkApi.DOWNLOADEPPGBM;
     return _baseUrl + _apiVersion + urlDonwloadEPPGBM;
   }
+
+  
+  // ! storage
+  String urlGetImageFromStorage(String path) {
+    String urlGetStorage = LinkApi.STORAGEURL;
+    return "$_baseUrl$urlGetStorage/$path";
+  }
+  String urlGetPublicImage(String path){
+    return '$_baseUrl/storage/public/$path';
+  }
 }

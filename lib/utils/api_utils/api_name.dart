@@ -97,4 +97,8 @@ abstract class LinkApi {
 
   //! donwload E-PPGBM
   static const DOWNLOADEPPGBM = "/export-data";
+
+
+  //! storage
+  static const STORAGEURL="/storage/file";
 }

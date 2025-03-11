@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../../../../utils/storage/storage_utils.dart';
 import '../model/get_index_pertanyaan_model.dart';
 import '../model/post_pertanyaan_model.dart' as PostPertanyaanModel;
 import '../service/create_faktor_resiko.dart';
@@ -42,6 +43,8 @@ class IndexParameterFaktorResikoBloc extends Bloc<
         int statusCode = response[0] as int;
         GetIndexPertanyaanModel faktorResikoData =
             GetIndexPertanyaanModel.fromJson(response[1]);
+        // logger.d("Fakto Resiko data image ${faktorResikoData.data[0].gambar}");
+        // String image = await StorageUtils().getImageFromStorage(accessToken, faktorResikoData.data[0].gambar);
 
         if (statusCode == 200) {
           logger.d('Sukses mendapatkan data faktor risiko');

@@ -29,6 +29,8 @@ import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_registe
 import 'package:puspadaya/app/view/screen/feature_maintenance.dart';
 import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
 import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
+import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
+import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/kunjunganAnakStunting/detailCreateKunjungan/view/detail_create_kunjungan_anak_stunting_screen.dart';
@@ -221,21 +223,21 @@ class MyRoute {
             builder: (context) => const UpdatePengukuranIbuHamil(),
             settings: settings);
 
-      // case DETAIL_RIWAYAT_ANAK:
-      //   final id = settings.arguments as String? ?? '';
-      //   return MaterialPageRoute(
-      //       builder: (context) => DetailRiwayatBalita(
-      //             id: id,
-      //           ),
-      //       settings: settings);
+      case DETAIL_RIWAYAT_ANAK:
+        final id = settings.arguments as String? ?? '';
+        return MaterialPageRoute(
+            builder: (context) => DetailRiwayatBalita(
+                  id: id,
+                ),
+            settings: settings);
 
-      // case DETAIL_RIWAYAT_IBU_HAMIL:
-      //   final id = settings.arguments as String? ?? '';
-      //   return MaterialPageRoute(
-      //       builder: (context) => DetailRiwayatIbuHamil(
-      //             id: id,
-      //           ),
-      //       settings: settings);
+      case DETAIL_RIWAYAT_IBU_HAMIL:
+        final id = settings.arguments as String? ?? '';
+        return MaterialPageRoute(
+            builder: (context) => DetailRiwayatIbuHamil(
+                  id: id,
+                ),
+            settings: settings);
 
       //beban kerja
       case BEBAN_KERJA:
