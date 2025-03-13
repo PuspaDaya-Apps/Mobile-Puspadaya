@@ -25,8 +25,10 @@ void main() async {
   // };
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, 
+    DeviceOrientation.portraitDown
+  ]);
 
   await initializeDateFormatting('id_ID', null).then(
     (_) => runApp(

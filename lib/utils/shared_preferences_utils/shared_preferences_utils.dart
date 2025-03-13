@@ -189,4 +189,42 @@ class SharedPrefUtils {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(SharedPrefName.FAKTOR_RESIKO);
   }
+
+  //! Alat Ukur Anak
+  Future<void> storedAlatUkurAnak(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.ALATUKURANAK, value);
+  }
+
+  Future<String?> getAlatUkurAnak() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.ALATUKURANAK);
+  }
+
+  Future<void> removeAlatUkurAnak() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.ALATUKURANAK);
+
+    String? a = prefs.getString(SharedPrefName.ALATUKURANAK);
+    debugPrint(a);
+  }
+
+  //! Alat Ukur Ibu Hamil
+  Future<void> storedAlatUkurIbuHamil(String value) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(SharedPrefName.ALATUKURIBUHAMIL, value);
+  }
+
+  Future<String?> getAlatUkurIbuHamil() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(SharedPrefName.ALATUKURIBUHAMIL);
+  }
+
+  Future<void> removeAlatUkurIbuHamil() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(SharedPrefName.ALATUKURIBUHAMIL);
+
+    String? a = prefs.getString(SharedPrefName.ALATUKURIBUHAMIL);
+    debugPrint(a);
+  }
 }
