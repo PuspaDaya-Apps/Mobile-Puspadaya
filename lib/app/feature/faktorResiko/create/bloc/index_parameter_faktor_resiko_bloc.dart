@@ -67,6 +67,9 @@ class IndexParameterFaktorResikoBloc extends Bloc<
           List.from((state as IndexParamterFaktorResikoUpdated).answers);
     }
 
+    String? jawabanLainya =
+        event.otherAnswer?.isNotEmpty == true ? event.otherAnswer : null;
+
     int existingIndex =
         dataQuisioner.indexWhere((e) => e.pertanyaanId == event.questionId);
 
@@ -86,48 +89,54 @@ class IndexParameterFaktorResikoBloc extends Bloc<
           }
         }
 
-        // Update jawaban di list
-        dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: updatedAnswers);
+        // Jika semua jawaban dihapus, hapus juga objek dari list
+        if (updatedAnswers.isEmpty) {
+          dataQuisioner.removeAt(existingIndex);
+        } else {
+          // Update jawaban di list dengan atau tanpa jawaban lainnya
+          dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
+            pertanyaanId: event.questionId,
+            jawabanId: updatedAnswers,
+            jawabanText: updatedAnswers.contains(event.answerId[0])
+                ? jawabanLainya
+                : null, // Hapus jawaban lainnya jika opsi dihapus
+          );
+        }
       } else {
         // Tambahkan sebagai jawaban baru
-        dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: event.answerId));
+        if (event.answerId.isNotEmpty) {
+          dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
+            pertanyaanId: event.questionId,
+            jawabanId: event.answerId,
+            jawabanText: jawabanLainya,
+          ));
+        }
       }
     } else {
       // ✅ Single Choice (Radio Button)
-      if (existingIndex != -1) {
-        dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: [event.answerId[0]]);
-      } else {
-        dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId, jawabanId: [event.answerId[0]]));
+      if (event.answerId.isNotEmpty) {
+        String selectedAnswer = event.answerId[0];
+
+        if (existingIndex != -1) {
+          dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
+            pertanyaanId: event.questionId,
+            jawabanId: [selectedAnswer],
+            jawabanText: jawabanLainya,
+          );
+        } else {
+          // Tambahkan sebagai jawaban baru
+          dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
+            pertanyaanId: event.questionId,
+            jawabanId: [selectedAnswer],
+            jawabanText: jawabanLainya,
+          ));
+        }
       }
     }
 
     logger.d('Jumlah jawaban tersimpan: ${dataQuisioner.length}');
 
     emit(IndexParamterFaktorResikoUpdated(dataQuisioner));
-  }
-
-  Future<void> saveAnswersToStorage(
-      List<PostPertanyaanModel.FaktorResiko> answers) async {
-    String jsonString = jsonEncode(answers.map((e) => e.toJson()).toList());
-    await SharedPrefUtils().storedFaktorResiko(jsonString);
-  }
-
-  Future<List<PostPertanyaanModel.FaktorResiko>>
-      loadAnswersFromStorage() async {
-    String? jsonString = await SharedPrefUtils().getFaktorResiko();
-
-    if (jsonString == null) {
-      return []; // Jika tidak ada data, kembalikan list kosong
-    }
-
-    List<dynamic> decodedList = jsonDecode(jsonString);
-    return decodedList
-        .map((item) => PostPertanyaanModel.FaktorResiko.fromJson(item))
-        .toList();
   }
 
   Future<void> sendAnswerQuestion(SendAnswerQuestion event,
@@ -141,7 +150,7 @@ class IndexParameterFaktorResikoBloc extends Bloc<
       try {
         String dateTimeFormatted =
             DateFormat('yyyy-MM-dd').format(DateTime.now());
-        ;
+
         PostPertanyaanModel.PostPertanyaanModel postData =
             PostPertanyaanModel.PostPertanyaanModel(
                 anakId: event.anakId,

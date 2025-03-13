@@ -122,6 +122,7 @@ class _CreateImunisasiFaktorResikoViewState
                     mainButton: () {
                       context.read<IndexParameterFaktorResikoBloc>().add(
                             SelectAnswer(
+                              null,
                               questionId: selectedIdPertanyaan,
                               answerId: selectedJawabanMultiple,
                               isMultipleChoice: isMultipleSelection,

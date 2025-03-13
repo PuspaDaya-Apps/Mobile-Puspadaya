@@ -28,10 +28,12 @@ FaktorResiko _$FaktorResikoFromJson(Map<String, dynamic> json) => FaktorResiko(
       jawabanId: (json['jawaban_id'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
+      jawabanText: json['jawaban_text'] as String?,
     );
 
 Map<String, dynamic> _$FaktorResikoToJson(FaktorResiko instance) =>
     <String, dynamic>{
       'pertanyaan_id': instance.pertanyaanId,
       'jawaban_id': instance.jawabanId,
+      'jawaban_text': instance.jawabanText,
     };

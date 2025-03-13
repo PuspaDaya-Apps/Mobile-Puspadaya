@@ -19,8 +19,10 @@ class SelectAnswer extends IndexParameterFaktorResikoEvent {
   final List<String> answerId;
   final bool
       isMultipleChoice; // Tambahkan informasi apakah ini multiple atau single selection
+  final String? otherAnswer;
 
-  SelectAnswer({
+  const SelectAnswer(
+    this.otherAnswer, {
     required this.questionId,
     required this.answerId,
     required this.isMultipleChoice,
