@@ -104,6 +104,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
               displayDuration: const Duration(milliseconds: 2200),
               reverseAnimationDuration: const Duration(milliseconds: 300),
               TopSnackbarWidget().error(stateGantiProfile.message));
+              Navigator.pop(context);
           }
           if(stateGantiProfile is GantiProfileSuccess){
             showTopSnackBar(
@@ -112,6 +113,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
               displayDuration: const Duration(milliseconds: 2200),
               reverseAnimationDuration: const Duration(milliseconds: 300),
               TopSnackbarWidget().success("Berhasil mengubah profil"));
+              Navigator.pop(context);
           }
         },
         builder: (context, stateGantiProfile) {

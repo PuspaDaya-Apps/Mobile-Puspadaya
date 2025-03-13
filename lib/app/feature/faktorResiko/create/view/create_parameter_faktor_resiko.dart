@@ -16,6 +16,7 @@ import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
 import 'quisioner_parameter_faktor_resiko.dart';
+import 'special/create_gangguan_tumbuh_kembang_faktor_resiko.dart';
 import 'special/create_imuniasi_faktor_resiko.dart';
 
 class CreateParameterFaktorResiko extends StatelessWidget {
@@ -185,12 +186,12 @@ class _CreateParameterFaktorResikoViewState
                     final answers = context
                         .read<IndexParameterFaktorResikoBloc>()
                         .dataQuisioner; // Berisi daftar jawaban yang dipilih
-                
+
                     // ✅ Cek apakah ada pertanyaan yang sudah dijawab
                     bool isDone = answers.any((answer) => parameter.pertanyaan
                         .any((q) => q.id == answer.pertanyaanId));
                     logger.d('jawaban yang diterima ${answers} ');
-                
+
                     bool isCompleteQuestion = parameter.isCompleted;
                     if (isCompleteQuestion)
                       return SizedBox(); // Jangan tampilkan jika sudah selesai
@@ -207,8 +208,8 @@ class _CreateParameterFaktorResikoViewState
                         keterangan: parameter.keterangan,
                         terakhirDiisi: parameter.lastCompleted,
                         onTap: () async {
-                          logger
-                              .d('judul parameter ${parameter.namaFaktorResiko}');
+                          logger.d(
+                              'judul parameter ${parameter.namaFaktorResiko}');
                           if (parameter.namaFaktorResiko == "Imunisasi") {
                             await Navigator.push(
                               context,
@@ -217,6 +218,20 @@ class _CreateParameterFaktorResikoViewState
                                   return CreateImuniasiFaktorResiko(
                                     data: parameter,
                                     bloc: indexParameterFaktorResiko,
+                                  );
+                                },
+                              ),
+                            );
+                          } else if (parameter.namaFaktorResiko ==
+                              "Gangguan Tumbuh Kembang") {
+                                
+                                logger.d(parameter.namaFaktorResiko == "Gangguan Tumbuh Kembang");
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CreateGangguanTumbuhKembangFaktorResiko(
+                                    data: parameter,
                                   );
                                 },
                               ),
@@ -234,7 +249,7 @@ class _CreateParameterFaktorResikoViewState
                               ),
                             );
                           }
-                
+
                           context
                               .read<IndexParameterFaktorResikoBloc>()
                               .add(FetchFaktorResikoById(widget.anakId));

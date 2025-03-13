@@ -23,6 +23,10 @@ Map<String, dynamic> _$GetIndexPertanyaanModelToJson(
     };
 
 Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
+      gangguanTumbuhKembang: json['gangguan_tumbuh_kembang'] == null
+          ? null
+          : GangguanTumbuhKembang.fromJson(
+              json['gangguan_tumbuh_kembang'] as Map<String, dynamic>),
       id: json['id'] as String,
       namaFaktorResiko: json['nama_faktor_resiko'] as String,
       keterangan: json['keterangan'] as String,
@@ -32,9 +36,10 @@ Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       lastCompleted: json['last_completed'] == null
           ? null
           : DateTime.parse(json['last_completed'] as String),
-      pertanyaan: (json['pertanyaan'] as List<dynamic>)
-          .map((e) => Pertanyaan.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      pertanyaan: (json['pertanyaan'] as List<dynamic>?)
+              ?.map((e) => Pertanyaan.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
@@ -43,6 +48,7 @@ Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
       'keterangan': instance.keterangan,
       'gambar': instance.gambar,
       'detail': instance.detail,
+      'gangguan_tumbuh_kembang': instance.gangguanTumbuhKembang,
       'is_completed': instance.isCompleted,
       'last_completed': instance.lastCompleted?.toIso8601String(),
       'pertanyaan': instance.pertanyaan,
@@ -84,4 +90,20 @@ Map<String, dynamic> _$PilihanPertanyaanToJson(PilihanPertanyaan instance) =>
       'id': instance.id,
       'nama_pilihan': instance.namaPilihan,
       'is_text': instance.isText,
+    };
+
+GangguanTumbuhKembang _$GangguanTumbuhKembangFromJson(
+        Map<String, dynamic> json) =>
+    GangguanTumbuhKembang(
+      statusStunting: json['statusStunting'] as String,
+      statusWasting: json['statusWasting'] as String,
+      statusUnderweight: json['statusUnderweight'] as String,
+    );
+
+Map<String, dynamic> _$GangguanTumbuhKembangToJson(
+        GangguanTumbuhKembang instance) =>
+    <String, dynamic>{
+      'statusStunting': instance.statusStunting,
+      'statusWasting': instance.statusWasting,
+      'statusUnderweight': instance.statusUnderweight,
     };
