@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/faktorResiko/create/model/select_answer_model.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
@@ -55,14 +56,14 @@ class _QuisionerParameterFaktorResikoViewState
   bool isMultipleSelection = false;
 
   // untuk multiple pertanyaan
-  List<String> selectedIdPertanyaanMultiple = [];
-  List<String> selectedIdJawabanMultiple = [];
+  late List<SelectAnswerModel> selectedMultiplePertanyaan;
   late bool isMultiplePertanyaan;
 
   // opsi is Text true
   final TextEditingController textController = TextEditingController();
   bool isTextFieldVisible = false; // Untuk mengontrol visibilitas input teks
-  String? jawabanLainnya; // Variabel untuk menyimpan jawaban dari input text
+  String jawabanLainnya =
+      ''; // Variabel untuk menyimpan jawaban dari input text
 
   late PageController _pageController;
   int _currentPage = 0;
@@ -74,37 +75,146 @@ class _QuisionerParameterFaktorResikoViewState
     // 🔹 Inisialisasi isMultiplePertanyaan di initState
     isMultiplePertanyaan = widget.data.pertanyaan.length > 1;
 
-     // 🔹 Inisialisasi isMultipleSelection berdasarkan pertanyaan pertama jika soal adalah singlechoice
+    // inisiasi selectedMultiplePertanyaan
+    selectedMultiplePertanyaan = [];
+
+    // 🔹 Inisialisasi isMultipleSelection berdasarkan pertanyaan pertama jika soal adalah singlechoice
     if (widget.data.pertanyaan.isNotEmpty) {
-      isMultipleSelection =
-          widget.data.pertanyaan[0].selectType == GetIndexPertanyaanModel.SelectType.checkbox;
+      isMultipleSelection = widget.data.pertanyaan[0].selectType ==
+          GetIndexPertanyaanModel.SelectType.checkbox;
     }
   }
 
   void _goToNextPage() {
-    if (_currentPage < widget.data.pertanyaan.length - 1) {
-      setState(() {
-        _currentPage++;
-      });
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+    final pertanyaanSaatIni = widget.data.pertanyaan[_currentPage];
+    // 🔹 Periksa apakah user sudah memilih jawaban
+    if (selectedIdJawaban.isEmpty && selectedJawabanMultiple.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialogWidget(
+          title: 'Harap Isi Jawban',
+          message:
+              'Soal belum terjawab, harap jawab terlebih dahulu sebelum melanjutkan',
+          mainButton: () {
+            // Close the dialog
+            Navigator.pop(context); // Close the previous screen
+          },
+          image: imageAlertWarning, // Ensure this variable is defined
+          mainButtonMessage: 'Kembali',
+          colorMainButton: greenPrimaryMain, // Ensure this variable is defined
+          cancelButton: () {
+            Navigator.pop(context);
+            Navigator.pop(context); // Close the dialog
+          },
+          cancelButtonMessage: 'Keluar',
+        ),
       );
+      return;
     }
+
+    // 🔹 Simpan jawaban ke `selectedMultiplePertanyaan`
+    SelectAnswerModel selectedAnswer = SelectAnswerModel(
+      questionId: pertanyaanSaatIni.id,
+      answerId: selectedJawabanMultiple.isNotEmpty
+          ? selectedJawabanMultiple
+          : [selectedIdJawaban],
+      isMultipleChoice: isMultipleSelection,
+      otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
+    );
+
+    // 🔹 Update atau tambahkan jawaban jika sudah ada
+    int existingIndex = selectedMultiplePertanyaan.indexWhere(
+      (answer) => answer.questionId == pertanyaanSaatIni.id,
+    );
+
+    if (existingIndex != -1) {
+      selectedMultiplePertanyaan[existingIndex] = selectedAnswer;
+    } else {
+      selectedMultiplePertanyaan.add(selectedAnswer);
+    }
+
+    // 🔹 Reset variabel untuk pertanyaan berikutnya
+    setState(() {
+      selectedIdJawaban = "";
+      selectedJawabanMultiple.clear();
+      jawabanLainnya = "";
+      textController.clear();
+      isTextFieldVisible = false;
+
+      if (_currentPage < widget.data.pertanyaan.length - 1) {
+        _currentPage++;
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   void _goToPreviousPage() {
     if (_currentPage > 0) {
+      final previousPertanyaan = widget.data.pertanyaan[_currentPage - 1];
+
+      // 🔹 Ambil jawaban yang sudah disimpan
+      SelectAnswerModel? previousAnswer = selectedMultiplePertanyaan.firstWhere(
+        (answer) => answer.questionId == previousPertanyaan.id,
+      );
+
       setState(() {
         _currentPage--;
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+
+        // 🔹 Set ulang UI sesuai jawaban sebelumnya
+        if (previousAnswer != null) {
+          selectedIdJawaban = previousAnswer.answerId.isNotEmpty
+              ? previousAnswer.answerId.first
+              : "";
+          selectedJawabanMultiple = List.from(previousAnswer.answerId);
+          jawabanLainnya = previousAnswer.otherAnswer ?? "";
+          textController.text = jawabanLainnya;
+          isTextFieldVisible = jawabanLainnya.isNotEmpty;
+        }
       });
-      _pageController.animateToPage(
-        _currentPage,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
     }
+  }
+
+  void _submitAnswers() {
+    final pertanyaanSaatIni = widget.data.pertanyaan[_currentPage];
+
+    // 🔹 Simpan jawaban pertanyaan terakhir jika belum tersimpan
+    if (selectedIdJawaban.isNotEmpty || selectedJawabanMultiple.isNotEmpty) {
+      SelectAnswerModel selectedAnswer = SelectAnswerModel(
+        questionId: pertanyaanSaatIni.id,
+        answerId: selectedJawabanMultiple.isNotEmpty
+            ? selectedJawabanMultiple
+            : [selectedIdJawaban],
+        isMultipleChoice: isMultipleSelection,
+        otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
+      );
+
+      // 🔹 Update jika sudah ada, atau tambahkan jawaban baru
+      int existingIndex = selectedMultiplePertanyaan.indexWhere(
+        (answer) => answer.questionId == pertanyaanSaatIni.id,
+      );
+
+      if (existingIndex != -1) {
+        selectedMultiplePertanyaan[existingIndex] = selectedAnswer;
+      } else {
+        selectedMultiplePertanyaan.add(selectedAnswer);
+      }
+    }
+
+    // 🔹 Kirim semua jawaban ke BLoC
+    context.read<IndexParameterFaktorResikoBloc>().add(
+          SelectMultipleAnswer(data: selectedMultiplePertanyaan),
+        );
+
+    // Navigator.pop(context);
   }
 
   @override
@@ -148,51 +258,32 @@ class _QuisionerParameterFaktorResikoViewState
                               : "Selanjutnya",
                       mainButton: () {
                         if (_currentPage == widget.data.pertanyaan.length - 1) {
+                          // multiple pertanyaan
                           showDialog(
                             context: context,
                             builder: (_) {
                               return AlertDialogWidget(
                                   image: imageQuisioner,
                                   mainButton: () {
-                                    if (isMultipleSelection) {
-                                      logger.d(
-                                          'selectedIdPertanyaan = $selectedIdPertanyaan');
-                                      logger.d(
-                                          'selectedIdJawaban = $selectedIdJawaban');
-                                      logger.d(
-                                          'jawaban lainnya = $jawabanLainnya');
-                                      context
-                                          .read<
-                                              IndexParameterFaktorResikoBloc>()
-                                          .add(
-                                            SelectAnswer(
-                                              jawabanLainnya,
-                                              questionId: selectedIdPertanyaan,
-                                              answerId: selectedJawabanMultiple,
-                                              isMultipleChoice:
-                                                  isMultipleSelection,
-                                            ),
-                                          );
-                                    } else {
-                                      logger.d(
-                                          'selectedIdPertanyaan = $selectedIdPertanyaan');
-                                      logger.d(
-                                          'selectedIdJawaban = $selectedIdJawaban');
-                                      logger.d(
-                                          'jawaban lainnya = $jawabanLainnya');
-                                      context
-                                          .read<
-                                              IndexParameterFaktorResikoBloc>()
-                                          .add(
-                                            SelectAnswer(
-                                              jawabanLainnya,
-                                              questionId: selectedIdPertanyaan,
-                                              answerId: [selectedIdJawaban],
-                                              isMultipleChoice:
-                                                  isMultipleSelection,
-                                            ),
-                                          );
-                                    }
+                                    _submitAnswers();
+                                    // if (isMultipleSelection) {
+                                    //   // multiple choice
+                                    //   logger.d(
+                                    //       'selectedIdPertanyaan = $selectedIdPertanyaan');
+                                    //   logger.d(
+                                    //       'selectedIdJawaban = $selectedIdJawaban');
+                                    //   logger.d(
+                                    //       'jawaban lainnya = $jawabanLainnya');
+                                    // } else {
+                                    //   // single choice
+                                    //   logger.d(
+                                    //       'selectedIdPertanyaan = $selectedIdPertanyaan');
+                                    //   logger.d(
+                                    //       'selectedIdJawaban = $selectedIdJawaban');
+                                    //   logger.d(
+                                    //       'jawaban lainnya = $jawabanLainnya');
+                                    //   _submitAnswers();
+                                    // }
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
@@ -227,36 +318,44 @@ class _QuisionerParameterFaktorResikoViewState
                       return AlertDialogWidget(
                           image: imageQuisioner,
                           mainButton: () {
+                            // single pertanyaan multiple choice
                             if (isMultipleSelection) {
                               logger.d(
                                   'selectedIdPertanyaan = $selectedIdPertanyaan');
                               logger
                                   .d('selectedIdJawaban = $selectedIdJawaban');
                               logger.d('jawaban lainnya = $jawabanLainnya');
+                              SelectAnswerModel data = SelectAnswerModel(
+                                  otherAnswer: jawabanLainnya.isEmpty
+                                      ? null
+                                      : jawabanLainnya,
+                                  questionId: selectedIdPertanyaan,
+                                  answerId: selectedJawabanMultiple,
+                                  isMultipleChoice: isMultipleSelection);
                               context
                                   .read<IndexParameterFaktorResikoBloc>()
                                   .add(
-                                    SelectAnswer(
-                                      jawabanLainnya,
-                                      questionId: selectedIdPertanyaan,
-                                      answerId: selectedJawabanMultiple,
-                                      isMultipleChoice: isMultipleSelection,
-                                    ),
+                                    SelectAnswer(data: data),
                                   );
                             } else {
+                              // single pertanyaan single choice
                               logger.d(
                                   'selectedIdPertanyaan = $selectedIdPertanyaan');
                               logger
                                   .d('selectedIdJawaban = $selectedIdJawaban');
                               logger.d('jawaban lainnya = $jawabanLainnya');
+                              SelectAnswerModel data = SelectAnswerModel(
+                                  otherAnswer: jawabanLainnya.isEmpty
+                                      ? null
+                                      : jawabanLainnya,
+                                  questionId: selectedIdPertanyaan,
+                                  answerId: [selectedIdJawaban],
+                                  isMultipleChoice: isMultipleSelection);
                               context
                                   .read<IndexParameterFaktorResikoBloc>()
                                   .add(
                                     SelectAnswer(
-                                      jawabanLainnya,
-                                      questionId: selectedIdPertanyaan,
-                                      answerId: [selectedIdJawaban],
-                                      isMultipleChoice: isMultipleSelection,
+                                      data: data,
                                     ),
                                   );
                             }
@@ -418,6 +517,18 @@ class _QuisionerParameterFaktorResikoViewState
       List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
     String? jawabanSistem = pertanyaan.jawabanSistem;
 
+    // ✅ Set default jika ada jawaban sistem (hanya dilakukan sekali)
+    if (jawabanSistem != null && selectedIdPertanyaan.isEmpty) {
+      for (var opsi in pertanyaan.pilihanPertanyaan) {
+        if (opsi.namaPilihan == jawabanSistem) {
+          selectedIdPertanyaan = pertanyaan.id;
+          selectedIdJawaban = opsi.id;
+          jawabanLainnya = opsi.namaPilihan;
+          break;
+        }
+      }
+    }
+
     logger.d('pertanyaan jawabanSistem single choice = $jawabanSistem');
 
     List<Widget> pilihanWidgets =
@@ -431,9 +542,6 @@ class _QuisionerParameterFaktorResikoViewState
           selectedAnswers.any((e) =>
               e.pertanyaanId == pertanyaan.id &&
               e.jawabanId.contains(opsiPertanyaan.id));
-
-      // bool isDisabled =
-      //     jawabanSistem != null && jawabanSistem == opsiPertanyaan.namaPilihan;
 
       bool isOpsiText = opsiPertanyaan.isText;
 
@@ -484,7 +592,6 @@ class _QuisionerParameterFaktorResikoViewState
     );
   }
 
-  /// 🔹 Handle untuk Checkbox (Multiple Choice)
   /// 🔹 Handle untuk Checkbox (Multiple Choice)
   Column _buildMultipleChoice(GetIndexPertanyaanModel.Pertanyaan pertanyaan,
       List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {

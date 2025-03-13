@@ -10,6 +10,7 @@ import 'app.dart';
 
 
  
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

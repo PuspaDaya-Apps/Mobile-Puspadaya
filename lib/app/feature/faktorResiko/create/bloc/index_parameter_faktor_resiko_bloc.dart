@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
+import 'package:puspadaya/app/feature/faktorResiko/create/model/select_answer_model.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -26,6 +27,7 @@ class IndexParameterFaktorResikoBloc extends Bloc<
       : super(IndexParameterFaktorResikoInitial()) {
     on<FetchFaktorResikoById>(getParameterFaktorResiko);
     on<SelectAnswer>(selectAnswerQuisioner);
+    on<SelectMultipleAnswer>(selectMultipleAnswerQuisioner);
     on<SendAnswerQuestion>(sendAnswerQuestion);
   }
 
@@ -67,13 +69,14 @@ class IndexParameterFaktorResikoBloc extends Bloc<
           List.from((state as IndexParamterFaktorResikoUpdated).answers);
     }
 
-    String? jawabanLainya =
-        event.otherAnswer?.isNotEmpty == true ? event.otherAnswer : null;
+    String? jawabanLainya = event.data.otherAnswer?.isNotEmpty == true
+        ? event.data.otherAnswer
+        : null;
 
-    int existingIndex =
-        dataQuisioner.indexWhere((e) => e.pertanyaanId == event.questionId);
+    int existingIndex = dataQuisioner
+        .indexWhere((e) => e.pertanyaanId == event.data.questionId);
 
-    if (event.isMultipleChoice) {
+    if (event.data.isMultipleChoice) {
       // ✅ Multiple Choice (Checklist)
       if (existingIndex != -1) {
         // Ambil jawaban yang sudah ada
@@ -81,7 +84,7 @@ class IndexParameterFaktorResikoBloc extends Bloc<
             List.from(dataQuisioner[existingIndex].jawabanId);
 
         // Tambah jawaban baru yang belum ada, hapus jika sudah ada
-        for (var answer in event.answerId) {
+        for (var answer in event.data.answerId) {
           if (updatedAnswers.contains(answer)) {
             updatedAnswers.remove(answer);
           } else {
@@ -95,38 +98,38 @@ class IndexParameterFaktorResikoBloc extends Bloc<
         } else {
           // Update jawaban di list dengan atau tanpa jawaban lainnya
           dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId,
+            pertanyaanId: event.data.questionId,
             jawabanId: updatedAnswers,
-            jawabanText: updatedAnswers.contains(event.answerId[0])
+            jawabanText: updatedAnswers.contains(event.data.answerId[0])
                 ? jawabanLainya
                 : null, // Hapus jawaban lainnya jika opsi dihapus
           );
         }
       } else {
         // Tambahkan sebagai jawaban baru
-        if (event.answerId.isNotEmpty) {
+        if (event.data.answerId.isNotEmpty) {
           dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId,
-            jawabanId: event.answerId,
+            pertanyaanId: event.data.questionId,
+            jawabanId: event.data.answerId,
             jawabanText: jawabanLainya,
           ));
         }
       }
     } else {
       // ✅ Single Choice (Radio Button)
-      if (event.answerId.isNotEmpty) {
-        String selectedAnswer = event.answerId[0];
+      if (event.data.answerId.isNotEmpty) {
+        String selectedAnswer = event.data.answerId[0];
 
         if (existingIndex != -1) {
           dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId,
+            pertanyaanId: event.data.questionId,
             jawabanId: [selectedAnswer],
             jawabanText: jawabanLainya,
           );
         } else {
           // Tambahkan sebagai jawaban baru
           dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
-            pertanyaanId: event.questionId,
+            pertanyaanId: event.data.questionId,
             jawabanId: [selectedAnswer],
             jawabanText: jawabanLainya,
           ));
@@ -136,6 +139,46 @@ class IndexParameterFaktorResikoBloc extends Bloc<
 
     logger.d('Jumlah jawaban tersimpan: ${dataQuisioner.length}');
 
+    emit(IndexParamterFaktorResikoUpdated(dataQuisioner));
+  }
+
+  Future<void> selectMultipleAnswerQuisioner(SelectMultipleAnswer event,
+      Emitter<IndexParameterFaktorResikoState> emit) async {
+    // Jika ada state sebelumnya, gunakan data yang sudah ada
+    if (state is IndexParamterFaktorResikoUpdated) {
+      dataQuisioner =
+          List.from((state as IndexParamterFaktorResikoUpdated).answers);
+    }
+
+    // Loop setiap jawaban dari event dan update `dataQuisioner`
+    for (var answer in event.data) {
+      int existingIndex =
+          dataQuisioner.indexWhere((e) => e.pertanyaanId == answer.questionId);
+
+      String? jawabanLainya =
+          answer.otherAnswer?.isNotEmpty == true ? answer.otherAnswer : null;
+
+      if (existingIndex != -1) {
+        // ✅ Jika pertanyaan sudah ada, update jawabannya
+        dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
+          pertanyaanId: answer.questionId,
+          jawabanId: answer.answerId,
+          jawabanText: jawabanLainya,
+        );
+      } else {
+        // ✅ Jika pertanyaan belum ada, tambahkan jawaban baru
+        dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
+          pertanyaanId: answer.questionId,
+          jawabanId: answer.answerId,
+          jawabanText: jawabanLainya,
+        ));
+      }
+    }
+
+    logger.d('Jumlah jawaban tersimpan: ${dataQuisioner.length}');
+    logger.d("Jumlah jawaban yang dikirim ${event.data.length}");
+
+    // Emit state baru dengan jawaban yang diperbarui
     emit(IndexParamterFaktorResikoUpdated(dataQuisioner));
   }
 

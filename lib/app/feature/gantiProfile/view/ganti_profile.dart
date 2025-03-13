@@ -666,7 +666,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                       PatchGantiProfileModel(
                                     dusunId: selectedDusunId!,
                                     namaLengkap: _nameController.text,
-                                    nomorTelepon: _nameController.text,
+                                    nomorTelepon: _phoneController.text,
                                   );
                                   context
                                       .read<GantiProfileBloc>()

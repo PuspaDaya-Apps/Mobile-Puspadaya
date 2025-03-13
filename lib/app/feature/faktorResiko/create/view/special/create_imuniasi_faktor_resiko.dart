@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/faktorResiko/create/model/select_answer_model.dart';
 import 'package:puspadaya/utils/api_utils/api_utils.dart';
 
 import '../../../../../../config/screen_config/image_config.dart';
@@ -120,12 +121,10 @@ class _CreateImunisasiFaktorResikoViewState
                 return AlertDialogWidget(
                     image: imageQuisioner,
                     mainButton: () {
+                      SelectAnswerModel data = SelectAnswerModel( questionId: selectedIdPertanyaan, answerId: selectedJawabanMultiple, isMultipleChoice: isMultipleSelection);
                       context.read<IndexParameterFaktorResikoBloc>().add(
                             SelectAnswer(
-                              null,
-                              questionId: selectedIdPertanyaan,
-                              answerId: selectedJawabanMultiple,
-                              isMultipleChoice: isMultipleSelection,
+                              data: data,
                             ),
                           );
                       Navigator.pop(context);
