@@ -1,10 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-// part 'post_ibu_hamil_model.g.dart';
+// part 'update_ibu_hamil_model.g.dart';
 
 // @JsonSerializable()
-class PostIbuHamilModel {
-  @JsonKey(name: "ibu_id")
-  final String ibuId;
+class UpdateIbuHamilModel {
   @JsonKey(name: "usia_kehamilan")
   final int usiaKehamilan;
   @JsonKey(name: "berat_badan")
@@ -40,8 +38,7 @@ class PostIbuHamilModel {
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
 
-  PostIbuHamilModel({
-    required this.ibuId,
+  UpdateIbuHamilModel({
     required this.usiaKehamilan,
     required this.beratBadan,
     required this.alatBeratBadanId,
@@ -61,14 +58,13 @@ class PostIbuHamilModel {
     this.namaBPJS
   });
 
-  factory PostIbuHamilModel.fromJson(Map<String, dynamic> json) => _$PostIbuHamilModelFromJson(json);
+  factory UpdateIbuHamilModel.fromJson(Map<String, dynamic> json) => _$UpdateIbuHamilModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PostIbuHamilModelToJson(this);
+  Map<String, dynamic> toJson() => _$UpdateIbuHamilModelToJson(this);
 }
 
-PostIbuHamilModel _$PostIbuHamilModelFromJson(Map<String, dynamic> json) =>
-    PostIbuHamilModel(
-      ibuId: json['ibu_id'] as String,
+UpdateIbuHamilModel _$UpdateIbuHamilModelFromJson(Map<String, dynamic> json) =>
+    UpdateIbuHamilModel(
       usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
       beratBadan: (json['berat_badan'] as num).toDouble(),
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
@@ -88,9 +84,8 @@ PostIbuHamilModel _$PostIbuHamilModelFromJson(Map<String, dynamic> json) =>
       namaBPJS: json['nama_bpjs'] as String?,
     );
 
-Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
+Map<String, dynamic> _$UpdateIbuHamilModelToJson(UpdateIbuHamilModel instance) =>
     <String, dynamic>{
-      'ibu_id': instance.ibuId,
       'usia_kehamilan': instance.usiaKehamilan,
       'berat_badan': instance.beratBadan,
       'alat_berat_badan_id': instance.alatBeratBadanId,

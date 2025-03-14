@@ -75,10 +75,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController =
-      TextEditingController();
-  final TextEditingController tanggalLahirAyahController =
-      TextEditingController();
+  final TextEditingController tempatLahirAyahController = TextEditingController();
+  final TextEditingController tanggalLahirAyahController = TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -152,10 +150,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController =
-      TextEditingController();
-  final TextEditingController tanggalLahirIbuController =
-      TextEditingController();
+  final TextEditingController tempatLahirIbuController = TextEditingController();
+  final TextEditingController tanggalLahirIbuController = TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
@@ -334,8 +330,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           animationDuration: const Duration(milliseconds: 600),
           displayDuration: const Duration(milliseconds: 2200),
           reverseAnimationDuration: const Duration(milliseconds: 300),
-          TopSnackbarWidget()
-              .error('Terdapat data yang kosong, harap di cek kembali'));
+          TopSnackbarWidget().error('Terdapat data yang kosong, harap di cek kembali'));
     }
   }
 
@@ -348,10 +343,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final GlobalKey<FormFieldState> kkAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaAyahKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirAyahKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtAyahKey = GlobalKey<FormFieldState>();
