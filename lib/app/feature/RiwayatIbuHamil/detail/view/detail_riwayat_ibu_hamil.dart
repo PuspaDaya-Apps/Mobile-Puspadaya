@@ -118,8 +118,7 @@ return SingleChildScrollView(
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             InfoFieldWidget(
-                                text:
-                                    state.data.data.usiaKehamilan.toString()),
+                                text: state.data.data.usiaKehamilan.toString()),
                             Visibility(
                               visible: _isExpanded,
                               child: Column(
@@ -137,7 +136,8 @@ return SingleChildScrollView(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   InfoFieldWidget(
-                                      text: state.data.data.posyandu.namaPosyandu),
+                                      text: state.data.data.ibuAnak
+                                          .posyandu.namaPosyandu),
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(16)),
@@ -161,8 +161,8 @@ return SingleChildScrollView(
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  // InfoFieldWidget(
-                                  //     text: state.data.data.ibuAnak.),
+                                  InfoFieldWidget(
+                                      text: state.data.data.ibuAnak.ayah.namaAyah),
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(16)),

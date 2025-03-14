@@ -100,6 +100,7 @@ Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
 
 DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
     DesaKelurahan(
+      namaDesaKelurahan: json['nama_desa_kelurahan'] as String,
       id: json['id'] as String,
       kecamatan: Kecamatan.fromJson(json['kecamatan'] as Map<String, dynamic>),
     );
@@ -107,6 +108,7 @@ DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DesaKelurahanToJson(DesaKelurahan instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'nama_desa_kelurahan': instance.namaDesaKelurahan,
       'kecamatan': instance.kecamatan,
     };
 

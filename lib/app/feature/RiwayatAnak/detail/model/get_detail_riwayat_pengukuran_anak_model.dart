@@ -136,10 +136,13 @@ class Dusun {
 class DesaKelurahan {
     @JsonKey(name: "id")
     final String id;
+    @JsonKey(name: "nama_desa_kelurahan")
+    final String namaDesaKelurahan;
     @JsonKey(name: "kecamatan")
     final Kecamatan kecamatan;
 
     DesaKelurahan({
+        required this.namaDesaKelurahan,
         required this.id,
         required this.kecamatan,
     });

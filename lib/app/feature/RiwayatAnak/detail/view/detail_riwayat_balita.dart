@@ -230,10 +230,10 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                                   .kecamatan
                                                   .namaKecamatan),
                                         ),
-                                        // Expanded(
-                                        //   child: InfoFieldWidget(
-                                        //       text: state.data.data.dusun.desaKelurahan.),
-                                        // )
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state.data.data.dusun.desaKelurahan.namaDesaKelurahan),
+                                        )
                                       ],
                                     ),
                                     SizedBox(
