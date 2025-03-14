@@ -72,7 +72,11 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATE_REGISTER_IBU_HAMIL);
+          Navigator.pushNamed(context, CREATE_REGISTER_IBU_HAMIL).then((value) {
+            if(value != null) {
+              BlocProvider.of<GetIndexIbuHamilBloc>(context).add(FetchIndexIbuHamil());
+            }
+          });
           // Add your navigation or functionality for adding new items
           print("Floating Action Button Pressed");
         },

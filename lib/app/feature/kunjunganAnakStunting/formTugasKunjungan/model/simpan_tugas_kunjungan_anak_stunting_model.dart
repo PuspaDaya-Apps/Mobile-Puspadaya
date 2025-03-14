@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 // part 'simpan_tugas_kunjungan_anak_stunting_model.g.dart';
 
-@JsonSerializable()
+// @JsonSerializable()
 class SimpanTugasKunjunganAnakStuntingModel {
   @JsonKey(name: 'kunjungan_id')
   String kunjunganId;
