@@ -172,7 +172,7 @@ class Ibu {
     required this.nomorTelepon,
     required this.golDarah,
     required this.jenisKb,
-    required this.tanggalMelahirkanSebelumnya,
+    this.tanggalMelahirkanSebelumnya,
     required this.jumlahAnak,
     required this.jenisDisabilitas,
   });
