@@ -367,12 +367,14 @@ class ApiUtils {
   }
 
   String urlGetListRiwayatPengukuranAnak() {
-    String urlGetListDataRiwayatPengukuranAnak = LinkApi.RIWAYATPENGUKURANANAKURL;
+    String urlGetListDataRiwayatPengukuranAnak =
+        LinkApi.RIWAYATPENGUKURANANAKURL;
     return _baseUrl + _apiVersion + urlGetListDataRiwayatPengukuranAnak;
   }
 
   String urlGetDetailRiwayatPengukuranAnak(String id) {
-    String urlGetDetailDataRiwayatPengukuranAnak = LinkApi.RIWAYATPENGUKURANANAKURL;
+    String urlGetDetailDataRiwayatPengukuranAnak =
+        LinkApi.RIWAYATPENGUKURANANAKURL;
     return "$_baseUrl$_apiVersion$urlGetDetailDataRiwayatPengukuranAnak/$id";
   }
 
@@ -405,13 +407,15 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlDeleteDataPengukuranIbuHamil/$id";
   }
 
-   String urlGetListRiwayatPengukuranIbuHamil() {
-    String urlGetListDataRiwayatPengukuranIbuHamil = LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
+  String urlGetListRiwayatPengukuranIbuHamil() {
+    String urlGetListDataRiwayatPengukuranIbuHamil =
+        LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
     return _baseUrl + _apiVersion + urlGetListDataRiwayatPengukuranIbuHamil;
   }
 
   String urlGetDetailRiwayatPengukuranIbuHamil(String id) {
-    String urlGetDetailDataRiwayatPengukuranIbuHamil = LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
+    String urlGetDetailDataRiwayatPengukuranIbuHamil =
+        LinkApi.RIWAYATPENGUKURANIBUHAMILURL;
     return "$_baseUrl$_apiVersion$urlGetDetailDataRiwayatPengukuranIbuHamil/$id";
   }
 
@@ -563,7 +567,7 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlGetFaktorResiko + '/${id}/detail';
   }
 
-   //! tugas kunjungan
+  //! tugas kunjungan
   String urlGetDataTugasKunjugan() {
     String urlGetDataTugasKunjugan = LinkApi.TUGASKUNJUNGANURL;
     return _baseUrl + _apiVersion + urlGetDataTugasKunjugan;
@@ -632,13 +636,42 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlDonwloadEPPGBM;
   }
 
-  
   // ! storage
   String urlGetImageFromStorage(String path) {
     String urlGetStorage = LinkApi.STORAGEURL;
     return "$_baseUrl$urlGetStorage/$path";
   }
-  String urlGetPublicImage(String path){
+
+  String urlGetPublicImage(String path) {
     return '$_baseUrl/storage/public/$path';
+  }
+
+  //! parameter gizi
+  //! laki laki tinggi badan
+  String urlGetParameterGiziLakiLakiTinggiBadan() {
+    String urlGetParameterGiziLakiLakiTinggiBadan =
+        "/storage/public/antropometri/Length-for-Age-lhfa-boys-zscore-expanded-tables.xlsx";
+    return "$_baseUrl$urlGetParameterGiziLakiLakiTinggiBadan";
+  }
+
+  //! laki laki berat badan
+  String urlGetParameterGiziLakiLakiBeratBadan() {
+    String urlGetParameterGiziLakiLakiBeratBadan =
+        "/storage/public/antropometri/Weight-for-Age-wfa-boys-zscore-expanded-tables.xlsx";
+    return "$_baseUrl$urlGetParameterGiziLakiLakiBeratBadan";
+  }
+
+  //! perempuan tinggi badan
+  String urlGetParameterGiziPerempuanTinggiBadan() {
+    String urlGetParameterGiziPerempuanTinggiBadan =
+        "/storage/public/antropometri/Length-for-Age-lhfa-girls-zscore-expanded-tables.xlsx";
+    return "$_baseUrl$urlGetParameterGiziPerempuanTinggiBadan";
+  }
+
+  //! perempuan berat badan
+  String urlGetParameterGiziPerempuanBeratBadan() {
+    String urlGetParameterGiziPerempuanBeratBadan =
+        "/storage/public/antropometri/Weight-for-Age-wfa-girls-zscore-expanded-tables.xlsx";
+    return "$_baseUrl$urlGetParameterGiziPerempuanBeratBadan";
   }
 }
