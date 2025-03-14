@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import '../../../../../config/theme/pallet_color.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
 
@@ -127,7 +128,7 @@ class _DetailRiwayatParameterFaktorResikoState
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                widget.data.gambar,
+                ApiUtils().urlGetPublicImage(widget.data.gambar),
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: 200,

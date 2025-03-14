@@ -87,24 +87,27 @@ class _QuisionerParameterFaktorResikoViewState
 
   void _goToNextPage() {
     final pertanyaanSaatIni = widget.data.pertanyaan[_currentPage];
+    final bool isMultipleChoice = pertanyaanSaatIni.selectType ==
+        GetIndexPertanyaanModel.SelectType.checkbox;
     // 🔹 Periksa apakah user sudah memilih jawaban
-    if (selectedIdJawaban.isEmpty && selectedJawabanMultiple.isEmpty) {
+    // 🔹 Validasi jika user belum memilih jawaban
+    if ((!isMultipleChoice && selectedIdJawaban.isEmpty) ||
+        (isMultipleChoice && selectedJawabanMultiple.isEmpty)) {
       showDialog(
         context: context,
         builder: (_) => AlertDialogWidget(
-          title: 'Harap Isi Jawban',
+          title: 'Harap Isi Jawaban',
           message:
               'Soal belum terjawab, harap jawab terlebih dahulu sebelum melanjutkan',
           mainButton: () {
-            // Close the dialog
-            Navigator.pop(context); // Close the previous screen
+            Navigator.pop(context);
           },
-          image: imageAlertWarning, // Ensure this variable is defined
+          image: imageAlertWarning,
           mainButtonMessage: 'Kembali',
-          colorMainButton: greenPrimaryMain, // Ensure this variable is defined
+          colorMainButton: greenPrimaryMain,
           cancelButton: () {
             Navigator.pop(context);
-            Navigator.pop(context); // Close the dialog
+            Navigator.pop(context);
           },
           cancelButtonMessage: 'Keluar',
         ),
@@ -112,13 +115,16 @@ class _QuisionerParameterFaktorResikoViewState
       return;
     }
 
-    // 🔹 Simpan jawaban ke `selectedMultiplePertanyaan`
+// 🔹 Pastikan jawaban multiple choice benar-benar tersimpan
+    List<String> finalAnswerId = isMultipleChoice
+        ? List.from(
+            selectedJawabanMultiple) // Pastikan data disalin dengan benar
+        : [selectedIdJawaban];
+
     SelectAnswerModel selectedAnswer = SelectAnswerModel(
       questionId: pertanyaanSaatIni.id,
-      answerId: selectedJawabanMultiple.isNotEmpty
-          ? selectedJawabanMultiple
-          : [selectedIdJawaban],
-      isMultipleChoice: isMultipleSelection,
+      answerId: finalAnswerId,
+      isMultipleChoice: isMultipleChoice,
       otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
     );
 
@@ -136,7 +142,7 @@ class _QuisionerParameterFaktorResikoViewState
     // 🔹 Reset variabel untuk pertanyaan berikutnya
     setState(() {
       selectedIdJawaban = "";
-      selectedJawabanMultiple.clear();
+      selectedJawabanMultiple = []; // Perbarui list dengan list baru
       jawabanLainnya = "";
       textController.clear();
       isTextFieldVisible = false;
@@ -150,6 +156,10 @@ class _QuisionerParameterFaktorResikoViewState
         );
       }
     });
+
+    logger.d(
+        "Selected Multiple Pertanyaan: ${selectedMultiplePertanyaan.length}");
+    logger.d("Jawaban Tersimpan: $finalAnswerId");
   }
 
   void _goToPreviousPage() {
@@ -159,6 +169,12 @@ class _QuisionerParameterFaktorResikoViewState
       // 🔹 Ambil jawaban yang sudah disimpan
       SelectAnswerModel? previousAnswer = selectedMultiplePertanyaan.firstWhere(
         (answer) => answer.questionId == previousPertanyaan.id,
+        orElse: () => SelectAnswerModel(
+          questionId: previousPertanyaan.id,
+          answerId: [],
+          isMultipleChoice: previousPertanyaan.selectType ==
+              GetIndexPertanyaanModel.SelectType.checkbox,
+        ),
       );
 
       setState(() {
@@ -170,30 +186,33 @@ class _QuisionerParameterFaktorResikoViewState
         );
 
         // 🔹 Set ulang UI sesuai jawaban sebelumnya
-        if (previousAnswer != null) {
-          selectedIdJawaban = previousAnswer.answerId.isNotEmpty
-              ? previousAnswer.answerId.first
-              : "";
-          selectedJawabanMultiple = List.from(previousAnswer.answerId);
-          jawabanLainnya = previousAnswer.otherAnswer ?? "";
-          textController.text = jawabanLainnya;
-          isTextFieldVisible = jawabanLainnya.isNotEmpty;
-        }
+        bool isMultipleChoice = previousAnswer.isMultipleChoice;
+        selectedIdJawaban =
+            isMultipleChoice ? "" : previousAnswer.answerId.first;
+        selectedJawabanMultiple =
+            isMultipleChoice ? List.from(previousAnswer.answerId) : [];
+        jawabanLainnya = previousAnswer.otherAnswer ?? "";
+        textController.text = jawabanLainnya;
+        isTextFieldVisible = jawabanLainnya.isNotEmpty;
       });
+
+      logger.d("Kembali ke soal sebelumnya: $_currentPage");
+      logger.d("Jawaban sebelumnya: ${previousAnswer.answerId}");
     }
   }
 
   void _submitAnswers() {
     final pertanyaanSaatIni = widget.data.pertanyaan[_currentPage];
+    final bool isMultipleChoice = pertanyaanSaatIni.selectType ==
+        GetIndexPertanyaanModel.SelectType.checkbox;
 
     // 🔹 Simpan jawaban pertanyaan terakhir jika belum tersimpan
     if (selectedIdJawaban.isNotEmpty || selectedJawabanMultiple.isNotEmpty) {
       SelectAnswerModel selectedAnswer = SelectAnswerModel(
         questionId: pertanyaanSaatIni.id,
-        answerId: selectedJawabanMultiple.isNotEmpty
-            ? selectedJawabanMultiple
-            : [selectedIdJawaban],
-        isMultipleChoice: isMultipleSelection,
+        answerId:
+            isMultipleChoice ? selectedJawabanMultiple : [selectedIdJawaban],
+        isMultipleChoice: isMultipleChoice,
         otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
       );
 
@@ -417,45 +436,48 @@ class _QuisionerParameterFaktorResikoViewState
                           bool isMultipleSelection = pertanyaan.selectType ==
                               GetIndexPertanyaanModel.SelectType.checkbox;
 
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                pertanyaan.namaPertanyaan,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 12),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    12), // Ubah sesuai kebutuhan
-                                child: Image.network(
-                                  ApiUtils()
-                                      .urlGetPublicImage(widget.data.gambar),
-                                  fit: BoxFit
-                                      .cover, // Agar gambar terisi dengan baik
-                                  width: double
-                                      .infinity, // Sesuaikan dengan desain
-                                  height: 200, // Sesuaikan dengan desain
+                          return SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  pertanyaan.namaPertanyaan,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                              SizedBox(height: 16),
-                              Text(
-                                isMultipleSelection
-                                    ? "Anda dapat memilih banyak pilihan"
-                                    : "Anda hanya bisa memilih satu jawaban",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(height: 10),
-                              !isMultipleSelection
-                                  ? _buildSingleChoice(
-                                      pertanyaan, selectedAnswers)
-                                  : _buildMultipleChoice(
-                                      pertanyaan, selectedAnswers),
-                              SizedBox(height: 20),
-                            ],
+                                SizedBox(height: 12),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      12), // Ubah sesuai kebutuhan
+                                  child: Image.network(
+                                    ApiUtils()
+                                        .urlGetPublicImage(widget.data.gambar),
+                                    fit: BoxFit
+                                        .cover, // Agar gambar terisi dengan baik
+                                    width: double
+                                        .infinity, // Sesuaikan dengan desain
+                                    height: 200, // Sesuaikan dengan desain
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Text(
+                                  isMultipleSelection
+                                      ? "Anda dapat memilih banyak pilihan"
+                                      : "Anda hanya bisa memilih satu jawaban",
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                SizedBox(height: 10),
+                                !isMultipleSelection
+                                    ? _buildSingleChoice(
+                                        pertanyaan, selectedAnswers)
+                                    : _buildMultipleChoice(
+                                        pertanyaan, selectedAnswers),
+                                SizedBox(height: 20),
+                              ],
+                            ),
                           );
                         },
                       )
@@ -597,7 +619,7 @@ class _QuisionerParameterFaktorResikoViewState
       List<PostPertanyaanModel.FaktorResiko> selectedAnswers) {
     String? jawabanSistem = pertanyaan.jawabanSistem;
 
-    logger.d('pertanyaan jawabanSistem multiple choice = $jawabanSistem');
+    logger.d('Jawaban Sistem: $jawabanSistem');
 
     List<Widget> pilihanWidgets =
         pertanyaan.pilihanPertanyaan.map((opsiPertanyaan) {
@@ -616,26 +638,24 @@ class _QuisionerParameterFaktorResikoViewState
         onTap: jawabanSistem == null
             ? () {
                 setState(() {
-                  logger.d("Is text = $isOpsiText");
-                  logger.d("Select jawaban dengan tipe soal Multiple Choice");
-
                   if (selectedJawabanMultiple.contains(opsiPertanyaan.id)) {
-                    selectedJawabanMultiple.remove(opsiPertanyaan.id);
+                    selectedJawabanMultiple = List.from(selectedJawabanMultiple)
+                      ..remove(opsiPertanyaan.id);
                   } else {
-                    selectedJawabanMultiple.add(opsiPertanyaan.id);
+                    selectedJawabanMultiple = List.from(selectedJawabanMultiple)
+                      ..add(opsiPertanyaan.id);
                   }
 
-                  // Tampilkan input text hanya jika opsi "lainnya" dipilih
                   if (isOpsiText) {
                     isTextFieldVisible =
                         selectedJawabanMultiple.contains(opsiPertanyaan.id);
-                  }
-                  if (!isTextFieldVisible) {
+                  } else {
+                    isTextFieldVisible = false;
                     textController.clear();
                   }
-
-                  selectedIdPertanyaan = pertanyaan.id;
                 });
+
+                logger.d("Selected Multiple: $selectedJawabanMultiple");
               }
             : null,
         child: _buildOptionItem(
@@ -649,7 +669,7 @@ class _QuisionerParameterFaktorResikoViewState
         ...pilihanWidgets,
         if (isTextFieldVisible)
           Padding(
-            padding: const EdgeInsets.only(top: 0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: TextFieldWidget(
               isEnable: true,
               hintText: "Masukkan Jawaban",
@@ -660,8 +680,9 @@ class _QuisionerParameterFaktorResikoViewState
               valueSet: (value) {
                 setState(() {
                   jawabanLainnya = value;
-                  logger.d("Jawaban teks: $value");
                 });
+
+                logger.d("Jawaban Text: $value");
               },
             ),
           ),

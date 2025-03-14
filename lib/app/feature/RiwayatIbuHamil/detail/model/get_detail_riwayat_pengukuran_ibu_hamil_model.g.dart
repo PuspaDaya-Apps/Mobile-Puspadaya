@@ -80,8 +80,9 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
       nomorTelepon: json['nomor_telepon'] as String,
       golDarah: json['gol_darah'] as String,
       jenisKb: json['jenis_kb'] as String,
-      tanggalMelahirkanSebelumnya:
-          DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String),
+      tanggalMelahirkanSebelumnya: json['tanggal_melahirkan_sebelumnya'] == null
+          ? null
+          : DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String),
       jumlahAnak: (json['jumlah_anak'] as num).toInt(),
       userId: json['user_id'],
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
@@ -111,7 +112,7 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'gol_darah': instance.golDarah,
       'jenis_kb': instance.jenisKb,
       'tanggal_melahirkan_sebelumnya':
-          instance.tanggalMelahirkanSebelumnya.toIso8601String(),
+          instance.tanggalMelahirkanSebelumnya?.toIso8601String(),
       'jumlah_anak': instance.jumlahAnak,
       'user_id': instance.userId,
       'ayah': instance.ayah,

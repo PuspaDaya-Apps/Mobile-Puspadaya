@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../view/widget/appbar_widget.dart';
 import '../../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
@@ -37,7 +38,7 @@ class DetailGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    data.gambar,
+                    ApiUtils().urlGetPublicImage(data.gambar),
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 200,

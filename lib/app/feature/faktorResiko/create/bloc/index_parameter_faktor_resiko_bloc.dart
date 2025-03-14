@@ -145,41 +145,43 @@ class IndexParameterFaktorResikoBloc extends Bloc<
   Future<void> selectMultipleAnswerQuisioner(SelectMultipleAnswer event,
       Emitter<IndexParameterFaktorResikoState> emit) async {
     // Jika ada state sebelumnya, gunakan data yang sudah ada
+    // 🔹 Pastikan data sebelumnya tidak hilang
     if (state is IndexParamterFaktorResikoUpdated) {
       dataQuisioner =
           List.from((state as IndexParamterFaktorResikoUpdated).answers);
     }
 
-    // Loop setiap jawaban dari event dan update `dataQuisioner`
+    // 🔹 Proses setiap jawaban dalam event
     for (var answer in event.data) {
       int existingIndex =
           dataQuisioner.indexWhere((e) => e.pertanyaanId == answer.questionId);
 
       String? jawabanLainya =
-          answer.otherAnswer?.isNotEmpty == true ? answer.otherAnswer : null;
+          (answer.otherAnswer?.isNotEmpty ?? false) ? answer.otherAnswer : null;
 
       if (existingIndex != -1) {
-        // ✅ Jika pertanyaan sudah ada, update jawabannya
+        // ✅ Update jawaban yang sudah ada
         dataQuisioner[existingIndex] = PostPertanyaanModel.FaktorResiko(
           pertanyaanId: answer.questionId,
-          jawabanId: answer.answerId,
+          jawabanId:
+              List.from(answer.answerId), // Pastikan disalin dengan benar
           jawabanText: jawabanLainya,
         );
       } else {
-        // ✅ Jika pertanyaan belum ada, tambahkan jawaban baru
+        // ✅ Tambahkan jawaban baru jika belum ada
         dataQuisioner.add(PostPertanyaanModel.FaktorResiko(
           pertanyaanId: answer.questionId,
-          jawabanId: answer.answerId,
+          jawabanId: List.from(answer.answerId),
           jawabanText: jawabanLainya,
         ));
       }
     }
 
     logger.d('Jumlah jawaban tersimpan: ${dataQuisioner.length}');
-    logger.d("Jumlah jawaban yang dikirim ${event.data.length}");
+    logger.d("Jumlah jawaban yang dikirim: ${event.data.length}");
 
-    // Emit state baru dengan jawaban yang diperbarui
-    emit(IndexParamterFaktorResikoUpdated(dataQuisioner));
+    // 🔹 Emit state baru hanya jika ada perubahan
+    emit(IndexParamterFaktorResikoUpdated(List.from(dataQuisioner)));
   }
 
   Future<void> sendAnswerQuestion(SendAnswerQuestion event,
