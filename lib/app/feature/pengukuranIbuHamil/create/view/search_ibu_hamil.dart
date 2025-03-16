@@ -1,15 +1,26 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/model/ibu_hamil_search.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../../model/paketToScreen/paket_to_create_pengukuran_ibu_hamil_model.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../Bloc/getListIbuHamilBloc/get_list_ibu_hamil_bloc.dart';
 
 class SearchIbuHamil extends StatelessWidget {
   const SearchIbuHamil({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SearchIbuHamilView();
+    return BlocProvider(
+      create: (context) => GetListIbuHamilBloc(),
+      child: SearchIbuHamilView(),
+    );
   }
 }
 
@@ -22,31 +33,17 @@ class SearchIbuHamilView extends StatefulWidget {
 
 class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
-  // Placeholder values for the variables
-  final List<IbuHamilSearch> ibuHamilList = [
-    IbuHamilSearch(
-      name: "Kurma Melati Ayu Putri",
-      nik: "362150091829412",
-    ),
-    IbuHamilSearch(
-      name: "Mentari Kumala Sari",
-      nik: "362159995437172",
-    ),
-    IbuHamilSearch(
-      name: "Dewi antasari",
-      nik: "362150001127392",
-    ),
-    IbuHamilSearch(
-      name: "Adianti Ayu Lestari",
-      nik: "362110373381020",
-    ),
-    IbuHamilSearch(
-      name: "Della Marisa ",
-      nik: "362150182631935",
-    ),
-  ];
+
+  @override
+  void initState() {
+    BlocProvider.of<GetListIbuHamilBloc>(context).add(GetListIbuHamil());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final getListIbuHamilBloc = BlocProvider.of<GetListIbuHamilBloc>(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -98,70 +95,111 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
       body: SafeArea(
         child: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          child: ListView.builder(
-            itemCount: ibuHamilList.length,
-            itemBuilder: (context, index) {
-              IbuHamilSearch ibuHamil = ibuHamilList[index];
-              return Column(
-                children: [
-                  ListTile(
-                    onTap: () {
-                      Navigator.pop(context, ibuHamil);
-                    },
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      spacing: 4,
+          child: BlocConsumer<GetListIbuHamilBloc, GetListIbuHamilState>(
+            listener: (context, state) {
+              debugPrint(state.toString());
+              if(state is GetListIbuHamilFailedState) {
+                showTopSnackBar(
+                  Overlay.of(context),
+                  animationDuration: const Duration(
+                    milliseconds: 600
+                  ),
+                  displayDuration: const Duration(
+                    milliseconds: 2200
+                  ),
+                  reverseAnimationDuration: const Duration(
+                    milliseconds: 300
+                  ),
+                  TopSnackbarWidget().error(state.error)
+                );
+              }
+            },
+            builder: (context, state) {
+              if(state is GetListIbuHamilProccessState) {
+                return const Center(
+                  child:CircularProgressIndicator(
+                    color: bluePrimaryMain,
+                  ) 
+                );
+              }
+              if(state is GetListIbuHamilSuccessState) {
+                if(state.getListIbuHamilResponseModel.data!.isEmpty) {
+                  return const NoDataScreen();
+                }
+                return ListView.builder(
+                  itemCount: state.getListIbuHamilResponseModel.data!.length,
+                  itemBuilder: (context, index) {
+                    return Column(
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: bluePrimary50,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            ibuHamil.name,
-                            style: AppTextStyles.primaryTextMedium.copyWith(
-                              fontSize: 14,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
+                        ListTile(
+                          onTap: () {
+                            Navigator.pop(context, PaketToCreatePengukuranIbuHamilModel(
+                              id: state.getListIbuHamilResponseModel.data![index].id,
+                              namaIbu: state.getListIbuHamilResponseModel.data![index].namaIbu,
+                              usiaIbuHamil: state.getListIbuHamilResponseModel.data![index].usiaIbu,
+                              usiaKandungan: state.getListIbuHamilResponseModel.data![index].usiaKehamilan
+                            ));
+                          },
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            spacing: 4,
                             children: [
-                              TextSpan(
-                                text: "NIK : ",
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 12,
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: bluePrimary50,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  state.getListIbuHamilResponseModel.data![index].namaIbu,
+                                  style: AppTextStyles.primaryTextMedium.copyWith(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                              TextSpan(
-                                text: ibuHamil.nik,
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 12,
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "NIK : ",
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: state.getListIbuHamilResponseModel.data![index].nik,
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: bluePrimary50,
+                          ),
+                        ),
+                        Divider(
+                          color: textPrimary10,
+                          thickness: 1,
+                          height: 1,
                         ),
                       ],
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_forward_ios,
-                      color: bluePrimary50,
-                    ),
-                  ),
-                  Divider(
-                    color: textPrimary10,
-                    thickness: 1,
-                    height: 1,
-                  ),
-                ],
-              );
+                    );
+                  },
+                );
+              }
+              return const ErrorServerScreen();
             },
           ),
         ),

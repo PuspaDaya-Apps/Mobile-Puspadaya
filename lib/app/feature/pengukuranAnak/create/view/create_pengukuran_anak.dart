@@ -878,8 +878,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                     color: bluePrimaryMain,
                                     mainButtonMessage: 'Simpan',
                                     mainButton: () {
-                                      if (heightController.text
-                                          .contains(',')) {
+                                      if (heightController.text.contains(',')) {
                                         showTopSnackBar(
                                           Overlay.of(context),
                                           animationDuration:
@@ -895,8 +894,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               "Harap gunakan titik untuk memberikan nilai desimal"),
                                         );
                                       } else {
-                                        if (_formKey.currentState!
-                                            .validate()) {
+                                        if (_formKey.currentState!.validate()) {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
