@@ -21,4 +21,8 @@ abstract class SharedPrefName {
 
   // !Faktor Resiko
   static const FAKTOR_RESIKO = "FaktorResiko";
+
+  //! Alat Ukur 
+  static const ALATUKURANAK = "AlatUkurAnak";
+  static const ALATUKURIBUHAMIL = "AlatUkurIbuHamil";
 }

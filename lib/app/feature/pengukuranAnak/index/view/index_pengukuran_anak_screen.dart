@@ -44,8 +44,7 @@ class _IndexPengukuranAnakScreenViewState
   @override
   Widget build(BuildContext context) {
     // final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final indexPengukuranAnakBloc =
-        BlocProvider.of<IndexPengukuranAnakBloc>(context);
+    final indexPengukuranAnakBloc = BlocProvider.of<IndexPengukuranAnakBloc>(context);
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {

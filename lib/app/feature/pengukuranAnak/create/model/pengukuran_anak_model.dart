@@ -22,21 +22,22 @@ class PengukuranAnakModel {
   String alatTinggiBadanId;
 
   @JsonKey(name : 'lingkar_lengan_atas')
-  double lingkarLenganAtas;
+  double? lingkarLenganAtas;
   @JsonKey(name : 'alat_lingkar_lengan_id')
-  String alatLingkarLenganId;
+  String? alatLingkarLenganId;
   
   @JsonKey(name : 'lingkar_kepala')
-  double lingkarKepala;
+  double? lingkarKepala;
   @JsonKey(name : 'alat_lingkar_kepala_id')
-  String alatLingkarKepalaId;
+  String? alatLingkarKepalaId;
   
   @JsonKey(name : 'asi_eksklusif')
-  String asiEksklusif;
-  String mpasi;
+  String? asiEksklusif;
+  String? mpasi;
+  String? catatan;
+  String? keluhan;
+
   @JsonKey(name : 'anak_id')
-  String catatan;
-  String keluhan;
   String anakId;
 
   PengukuranAnakModel({
@@ -47,14 +48,16 @@ class PengukuranAnakModel {
     required this.alatBeratBadanId,
     required this.tinggiBadan,
     required this.alatTinggiBadanId,
-    required this.lingkarLenganAtas,
-    required this.alatLingkarLenganId,
-    required this.lingkarKepala,
-    required this.alatLingkarKepalaId,
-    required this.asiEksklusif,
-    required this.mpasi,
-    required this.keluhan,
-    required this.catatan,
+
+    this.lingkarLenganAtas,
+    this.alatLingkarLenganId,
+    this.lingkarKepala,
+    this.alatLingkarKepalaId,
+    this.asiEksklusif,
+    this.mpasi,
+    this.keluhan,
+    this.catatan,
+
     required this.anakId,
   });
 
@@ -62,6 +65,7 @@ class PengukuranAnakModel {
 
   Map<String, dynamic> toJson()=>_$PengukuranAnakModelToJson(this);
 }
+
 
 PengukuranAnakModel _$PengukuranAnakModelFromJson(Map<String, dynamic> json) =>
     PengukuranAnakModel(
@@ -72,14 +76,14 @@ PengukuranAnakModel _$PengukuranAnakModelFromJson(Map<String, dynamic> json) =>
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
       tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
       alatTinggiBadanId: json['alat_tinggi_badan_id'] as String,
-      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
-      alatLingkarLenganId: json['alat_lingkar_lengan_id'] as String,
-      lingkarKepala: (json['lingkar_kepala'] as num).toDouble(),
-      alatLingkarKepalaId: json['alat_lingkar_kepala_id'] as String,
-      asiEksklusif: json['asi_eksklusif'] as String,
-      mpasi: json['mpasi'] as String,
-      keluhan: json['keluhan'] as String,
-      catatan: json['catatan'] as String,
+      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num?)?.toDouble(),
+      alatLingkarLenganId: json['alat_lingkar_lengan_id'] as String?,
+      lingkarKepala: (json['lingkar_kepala'] as num?)?.toDouble(),
+      alatLingkarKepalaId: json['alat_lingkar_kepala_id'] as String?,
+      asiEksklusif: json['asi_eksklusif'] as String?,
+      mpasi: json['mpasi'] as String?,
+      keluhan: json['keluhan'] as String?,
+      catatan: json['catatan'] as String?,
       anakId: json['anak_id'] as String,
     );
 

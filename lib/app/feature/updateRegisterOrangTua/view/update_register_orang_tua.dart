@@ -145,16 +145,13 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController =
-      TextEditingController();
-  final TextEditingController tanggalLahirIbuController =
-      TextEditingController();
+  final TextEditingController tempatLahirIbuController = TextEditingController();
+  final TextEditingController tanggalLahirIbuController = TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
   final TextEditingController rWIbuController = TextEditingController();
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
-      TextEditingController();
+  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController = TextEditingController();
   final TextEditingController jumlahAnakIbuController = TextEditingController();
 
   //? selected
@@ -349,8 +346,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                   tanggalLahirIbuController.text = DateFormat('yyyy-MM-dd')
                       .format(detailData.data.ibu.tanggalLahir);
                   alamatIbuController.text = detailData.data.ibu.alamat;
-                  tanggalKelahiranAnakSebelumnyaIbuController.text =
-                      detailData.data.ibu.tanggalMelahirkanSebelumnya;
+                  tanggalKelahiranAnakSebelumnyaIbuController.text = detailData.data.ibu.tanggalMelahirkanSebelumnya != null 
+                  ? detailData.data.ibu.tanggalMelahirkanSebelumnya!
+                  : "";
                   teleponIbuController.text = detailData.data.ibu.nomorTelepon;
                   rTIbuController.text = detailData.data.ibu.rt;
                   rWIbuController.text = detailData.data.ibu.rw;
@@ -2370,13 +2368,13 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             },
                                             hintText:
                                                 "Tanggal Lahiran Anak Sebelumnya",
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Tanggal harus dipilih";
-                                              }
-                                              return null;
-                                            },
+                                            // validator: (value) {
+                                            //   if (value == null ||
+                                            //       value.isEmpty) {
+                                            //     return "Tanggal harus dipilih";
+                                            //   }
+                                            //   return null;
+                                            // },
                                           ),
                                           SizedBox(
                                               height: SizeConfig
@@ -2395,9 +2393,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value,
-                                                  "Jumlah Anak tidak boleh kosong"),
+                                              // (value) => Validator.required(
+                                              //     value,
+                                              //     "Jumlah Anak tidak boleh kosong"),
                                             ],
                                           ),
                                           SizedBox(
@@ -2518,12 +2516,12 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                   ibu: PatchOrangTua.Ibu(
-                                                    tanggalMelahirkanSebelumnya:
-                                                        tanggalKelahiranAnakSebelumnyaIbuController
-                                                            .text,
-                                                    jumlahAnak: int.parse(
-                                                        jumlahAnakIbuController
-                                                            .text),
+                                                    tanggalMelahirkanSebelumnya: tanggalKelahiranAnakSebelumnyaIbuController.text != "" 
+                                                    ? tanggalKelahiranAnakSebelumnyaIbuController.text 
+                                                    : null,
+                                                    jumlahAnak: jumlahAnakIbuController.text != "" 
+                                                    ? int.parse(jumlahAnakIbuController.text) 
+                                                    : 0,
                                                     jenisKb:
                                                         selectedJenisKBIbu!,
                                                     alamat: alamatIbuController

@@ -115,11 +115,6 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                   TopSnackbarWidget().error(state.error)
                 );
               }
-              if (state is GetListAnakTokenExpiredState) {
-                getListAnakBloc.add(
-                  GetListAnak()
-                );
-              }
             },
             builder: (context, state) {
               if(state is GetListAnakProccessState) {

@@ -2760,13 +2760,13 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           },
                                           hintText:
                                               "Tanggal Lahiran Anak Sebelumnya",
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "Tanggal harus dipilih";
-                                            }
-                                            return null;
-                                          },
+                                          // validator: (value) {
+                                          //   if (value == null ||
+                                          //       value.isEmpty) {
+                                          //     return "Tanggal harus dipilih";
+                                          //   }
+                                          //   return null;
+                                          // },
                                         ),
                                         SizedBox(
                                             height:
@@ -2787,8 +2787,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           obscureText: false,
                                           isPasswordField: false,
                                           validators: [
-                                            (value) => Validator.required(value,
-                                                "Jumlah Anak tidak boleh kosong"),
+                                            // (value) => Validator.required(value,
+                                            //     "Jumlah Anak tidak boleh kosong"),
                                           ],
                                         ),
                                         SizedBox(
@@ -2910,12 +2910,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                   ibu: Ibu(
-                                                    tanggalMelahirkanSebelumnya:
-                                                        tanggalKelahiranAnakSebelumnyaIbuController
-                                                            .text,
-                                                    jumlahAnak: int.parse(
-                                                        jumlahAnakIbuController
-                                                            .text),
+                                                    tanggalMelahirkanSebelumnya: tanggalKelahiranAnakSebelumnyaIbuController.text != "" 
+                                                    ? tanggalKelahiranAnakSebelumnyaIbuController.text 
+                                                    : null,
+                                                    jumlahAnak: jumlahAnakIbuController.text != "" 
+                                                    ? int.parse(jumlahAnakIbuController.text)
+                                                    : 0,
                                                     jenisKb:
                                                         selectedJenisKBIbu!,
                                                     alamat: alamatIbuController

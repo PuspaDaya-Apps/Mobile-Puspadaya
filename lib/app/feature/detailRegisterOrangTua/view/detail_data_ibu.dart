@@ -265,8 +265,10 @@ class DetailDataIbu extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-                text:
-                    '${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'),
+              text: getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya != null 
+              ?'${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'
+              : "Belum Memiliki Anak"
+            ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),

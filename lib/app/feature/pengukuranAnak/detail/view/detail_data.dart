@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_measuring_widget.dart';
@@ -85,8 +86,7 @@ class _DetailDataState extends State<DetailData> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-                text: widget
-                    .detailPengukuranAnakResponseModel.data!.tanggalPengukuran.toString()),
+                text: DateFormat("d MMMM y", 'ID_id').format(widget.detailPengukuranAnakResponseModel.data!.tanggalPengukuran)),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Posisi Pengukuran Tinggi badan',
@@ -115,14 +115,13 @@ class _DetailDataState extends State<DetailData> {
                       InfoFieldMeasuringWidget(
                         title: 'Tinggi Badan',
                         unit: 'cm',
-                        tool: 'Microtoise',
-                        value: widget.detailPengukuranAnakResponseModel.data!
-                            .tinggiBadan,
+                        tool: widget.detailPengukuranAnakResponseModel.data!.alatTinggiBadan.jenisAlat,
+                        value: widget.detailPengukuranAnakResponseModel.data!.tinggiBadan,
                       ),
                       InfoFieldMeasuringWidget(
                         title: 'Lengkar Lingan Atas',
                         unit: 'cm',
-                        tool: 'Pita Lila',
+                        tool: widget.detailPengukuranAnakResponseModel.data!.alatLingkarLengan.jenisAlat,
                         value: widget.detailPengukuranAnakResponseModel.data!
                             .lingkarLenganAtas,
                       ),
@@ -138,14 +137,14 @@ class _DetailDataState extends State<DetailData> {
                       InfoFieldMeasuringWidget(
                         title: 'Berat Badan',
                         unit: 'kg',
-                        tool: 'Timbangan digital',
+                        tool: widget.detailPengukuranAnakResponseModel.data!.alatBeratBadan.jenisAlat,
                         value: widget
                             .detailPengukuranAnakResponseModel.data!.beratBadan,
                       ),
                       InfoFieldMeasuringWidget(
                         title: 'Lingkar Kepala',
                         unit: 'cm',
-                        tool: 'Alat Ukur Linkar Kepala',
+                        tool: widget.detailPengukuranAnakResponseModel.data!.alatLingkarKepala.jenisAlat,
                         value: widget.detailPengukuranAnakResponseModel.data!
                             .lingkarKepala,
                       ),
@@ -221,6 +220,23 @@ class _DetailDataState extends State<DetailData> {
                     ],
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 8,
+              children: [
+                const Text(
+                  'Status Wasting',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+                InfoFieldWidget(
+                    text: widget.detailPengukuranAnakResponseModel.data!
+                        .statusWasting),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),

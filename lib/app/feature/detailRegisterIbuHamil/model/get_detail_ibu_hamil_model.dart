@@ -6,7 +6,7 @@ class GetDetailIbuHamilModel {
   @JsonKey(name: "message")
   final String message;
   @JsonKey(name: "data")
-  final Data data;
+  Data? data;
 
   GetDetailIbuHamilModel({
     required this.message,
@@ -53,6 +53,15 @@ class Data {
   final String catatan;
   @JsonKey(name: "ibu_anak")
   final IbuAnak ibuAnak;
+
+  @JsonKey(name: "alat_berat_badan")
+  AlatUkur alatBeratBadan;
+  @JsonKey(name: "alat_tinggi_badan")
+  AlatUkur alatTinggiBadan;
+  @JsonKey(name: "alat_lingkar_lengan")
+  AlatUkur alatLingkarLengan;
+  @JsonKey(name: "alat_tinggi_fundus")
+  AlatUkur alatTinggiFundus;
   
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
@@ -74,12 +83,33 @@ class Data {
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.ibuAnak,
-    this.namaBPJS
+    this.namaBPJS,
+
+    required this.alatTinggiBadan,
+    required this.alatBeratBadan,
+    required this.alatLingkarLengan,
+    required this.alatTinggiFundus,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+//@JsonSerializable()
+class AlatUkur {
+  String id;
+  @JsonKey(name: 'jenis_alat')
+  String jenisAlat;
+
+  AlatUkur({
+    required this.id,
+    required this.jenisAlat
+  });
+
+  factory AlatUkur.fromJson(Map<String, dynamic> json) => _$AlatUkurFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$AlatUkurToJson(this);
 }
 
 //@JsonSerializable()
@@ -438,6 +468,14 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       catatan: json['catatan'] as String,
       ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),
       namaBPJS: json['nama_bpjs'] as String?,
+      alatTinggiBadan:
+          AlatUkur.fromJson(json['alat_tinggi_badan'] as Map<String, dynamic>),
+      alatBeratBadan:
+          AlatUkur.fromJson(json['alat_berat_badan'] as Map<String, dynamic>),
+      alatLingkarLengan: AlatUkur.fromJson(
+          json['alat_lingkar_lengan'] as Map<String, dynamic>),
+      alatTinggiFundus:
+          AlatUkur.fromJson(json['alat_tinggi_fundus'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -457,7 +495,21 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'terpapar_asap_rokok': instance.terpaparAsapRokok,
       'catatan': instance.catatan,
       'ibu_anak': instance.ibuAnak,
+      'alat_berat_badan': instance.alatBeratBadan,
+      'alat_tinggi_badan': instance.alatTinggiBadan,
+      'alat_lingkar_lengan': instance.alatLingkarLengan,
+      'alat_tinggi_fundus': instance.alatTinggiFundus,
       'nama_bpjs': instance.namaBPJS,
+    };
+
+AlatUkur _$AlatUkurFromJson(Map<String, dynamic> json) => AlatUkur(
+      id: json['id'] as String,
+      jenisAlat: json['jenis_alat'] as String,
+    );
+
+Map<String, dynamic> _$AlatUkurToJson(AlatUkur instance) => <String, dynamic>{
+      'id': instance.id,
+      'jenis_alat': instance.jenisAlat,
     };
 
 IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
