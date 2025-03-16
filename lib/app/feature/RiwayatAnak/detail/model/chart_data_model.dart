@@ -69,8 +69,6 @@ class ChartDataModel {
       yellowHighHigh: json['yellowHighHigh'],
     );
   }
-
-
   void updateY(double? newY) {
     y = newY;
   }
