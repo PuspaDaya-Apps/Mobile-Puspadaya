@@ -65,6 +65,7 @@ import '../app/feature/jadwal/index/view/jadwal.dart';
 import '../app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import '../app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
+import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/registerAnak/view/register_anak.dart';
 import '../app/feature/registerIbuHamil/view/register_ibu_hamil.dart';
 import '../app/feature/registerPengasuh/view/register_pengasuh.dart';
@@ -208,10 +209,10 @@ class MyRoute {
             builder: (context) => const CreatePengukuranIbuHamil(),
             settings: settings);
 
-      // case DETAIL_PENGUKURAN_IBU_HAMIL:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const DetailPengukuranIbuHamil(),
-      //       settings: settings);
+      case DETAIL_PENGUKURAN_IBU_HAMIL:
+        return MaterialPageRoute(
+            builder: (context) => DetailPengukuranIbuHamil(pengukuranId: settings.arguments as String),
+            settings: settings);
 
       case UPDATE_PENGUKURAN_IBU_HAMIL:
         return MaterialPageRoute(

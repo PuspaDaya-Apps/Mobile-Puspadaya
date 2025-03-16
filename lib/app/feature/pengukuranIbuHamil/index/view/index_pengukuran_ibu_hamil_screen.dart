@@ -72,7 +72,7 @@ class _IndexPengukuranIbuHamilScreenViewState
                 ),
                 child: PengukuranIbuHamilItems(
                   onTap: () {
-                    Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL, arguments: state.indexPengukuranIbuHamilResponseModel.data![index].namaIbu).then((value) {
+                    Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL, arguments: state.indexPengukuranIbuHamilResponseModel.data![index].id).then((value) {
                       if(value != null) {
                         setState(() {
                           indexPengukuranIbuHamilBloc.add(GetPengukuranIbuHamilEvent());
