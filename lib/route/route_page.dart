@@ -65,6 +65,7 @@ import '../app/feature/jadwal/index/view/jadwal.dart';
 import '../app/feature/kebijakanPrivasi/view/kebijakan.dart';
 import '../app/feature/kodeOTP/view/otp_screen.dart';
 import '../app/feature/login/view/login_screen.dart';
+import '../app/feature/pengukuranIbuHamil/detail/model/detail_pengukuran_ibu_hamil_response_model.dart';
 import '../app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
 import '../app/feature/registerAnak/view/register_anak.dart';
 import '../app/feature/registerIbuHamil/view/register_ibu_hamil.dart';
@@ -216,7 +217,7 @@ class MyRoute {
 
       case UPDATE_PENGUKURAN_IBU_HAMIL:
         return MaterialPageRoute(
-            builder: (context) => const UpdatePengukuranIbuHamil(),
+            builder: (context) => UpdatePengukuranIbuHamil(detailPengukuran: settings.arguments as DetailPengukuranIbuHamilResponseModel),
             settings: settings);
 
       // case DETAIL_RIWAYAT_ANAK:
@@ -448,12 +449,12 @@ class MyRoute {
           settings: settings,
         );
 
-      //? alat ukur
-      case ALAT_UKUR:
-        return MaterialPageRoute(
-          builder: (context) => const AlatUkur(),
-          settings: settings,
-        );
+      // //? alat ukur
+      // case ALAT_UKUR:
+      //   return MaterialPageRoute(
+      //     builder: (context) => const AlatUkur(),
+      //     settings: settings,
+      //   );
 
       case CREATE_ALAT_UKUR:
         return MaterialPageRoute(

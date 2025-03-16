@@ -29,21 +29,21 @@ class UpdatePengukuranAnakBloc extends Bloc<UpdatePengukuranAnakEvent, UpdatePen
       emit(UpdatePengukuranAnakTokenExpiredState());
     } else {
        try {
-          List<dynamic> response = await UpdatePengukuranAnakApi().updatePengukuranAnakService(accessToken, event.pengukuranAnakModel, event.pengukuranId);
+        List<dynamic> response = await UpdatePengukuranAnakApi().updatePengukuranAnakService(accessToken, event.pengukuranAnakModel, event.pengukuranId);
 
-          int statusCode = response[0] as int;
-          final PengukuranAnakResponseModel pengukuranAnakResponseModel = PengukuranAnakResponseModel.fromJson(response[1]);
+        int statusCode = response[0] as int;
+        final PengukuranAnakResponseModel pengukuranAnakResponseModel = PengukuranAnakResponseModel.fromJson(response[1]);
 
-          if(statusCode == 200) {
-            emit(UpdatePengukuranAnakSuccesState(pengukuranAnakResponseModel));
-          } else if (statusCode == 401) {
-            emit( UpdatePengukuranAnakTokenExpiredState());
-          } else {
-            emit(UpdatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
-          }
-        } catch (error) {
-          emit(UpdatePengukuranAnakFailedState(error.toString()));
+        if(statusCode == 200) {
+          emit(UpdatePengukuranAnakSuccesState(pengukuranAnakResponseModel));
+        } else if (statusCode == 401) {
+          emit( UpdatePengukuranAnakTokenExpiredState());
+        } else {
+          emit(UpdatePengukuranAnakFailedState(pengukuranAnakResponseModel.message));
         }
+      } catch (error) {
+        emit(UpdatePengukuranAnakFailedState(error.toString()));
+      }
     }
   }
 }

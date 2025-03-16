@@ -85,6 +85,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
     'Terlentang',
     'Berdiri',
   ];
+  
   late int asiEksklusifValue;
   late int mpasiValue;
 
