@@ -506,6 +506,7 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                               debugPrint(state.toString());
                               if(state is CreatePengukuranIbuHamilSuccesState) {
                                 Navigator.pop(context,1);
+                                Navigator.pop(context,1);
                               }
                               if(state is CreatePengukuranIbuHamilFailedState) {
                                 showTopSnackBar(
@@ -541,7 +542,7 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                                 tinggiFundusUteri: double.parse(_tinggiFundusUteriController.text), 
                                                 lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text), 
                                                 hemoglobin: double.parse(_hemogoblinController.text),
-                                                terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Ya" : "Tidak", 
+                                                terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak", 
                                                 jumlahTabletFe: int.parse(_tabletFeController.text),
 
                                                 alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id, 
