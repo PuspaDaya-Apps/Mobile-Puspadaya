@@ -42,18 +42,6 @@ class _DetailRegisterIbuHamilViewState
     extends State<DetailRegisterIbuHamilView> {
   bool _isExpanded = false;
 
-  // Sample data for display
-  // final String nama = "Mentari Kumala Sari";
-  // final String usia = "28";
-  // final String nik = "213124123412";
-  // final String namaSuami = "Joko";
-  // final String tinggiBadan = "150 cm";
-  // final String beratBadan = "60 kg";
-  // final String lingkarKepala = "35 cm";
-  // final String hemoglobin = "12 g/dl";
-  // final String tempatPengukuran = "Posyandu A";
-  // final String catatan = "Catatan penting di sini";
-
   @override
   void initState() {
     context
@@ -64,7 +52,8 @@ class _DetailRegisterIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 10;
+
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Ibu Hamil',
@@ -287,7 +276,7 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                          text: '${state.data.data.usiaKehamilan} Minggu'),
+                          text: '${state.data.data!.usiaKehamilan} Minggu'),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -303,7 +292,8 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Tinggi Badan',
                                   unit: 'cm',
-                                  value: state.data.data.tinggiBadan,
+                                  tool: state.data.data!.alatTinggiBadan.jenisAlat,
+                                  value: state.data.data!.tinggiBadan,
                                 ),
                               ],
                             ),
@@ -314,9 +304,10 @@ class _DetailRegisterIbuHamilViewState
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 InfoFieldMeasuringWidget(
-                                  title: 'Lingkar Kepala',
-                                  unit: 'cm',
-                                  value: 'lingkar kepala',
+                                  title: 'Berat Badan',
+                                  unit: "Kg",
+                                  value: state.data.data!.beratBadan,
+                                  tool: state.data.data!.alatBeratBadan.jenisAlat,
                                 ),
                               ],
                             ),
@@ -338,7 +329,8 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Lingkar Lengan Atas',
                                   unit: 'cm',
-                                  value: state.data.data.lingkarLenganAtas,
+                                  tool: state.data.data!.alatLingkarLengan.jenisAlat,
+                                  value: state.data.data!.lingkarLenganAtas,
                                 ),
                               ],
                             ),
@@ -351,7 +343,8 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Tinggi Fundus Uteri',
                                   unit: 'cm',
-                                  value: state.data.data.tinggiFundusUteri,
+                                  tool: state.data.data!.alatTinggiFundus.jenisAlat,
+                                  value: state.data.data!.tinggiFundusUteri,
                                 ),
                               ],
                             ),
@@ -373,7 +366,7 @@ class _DetailRegisterIbuHamilViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                                text: state.data.data.hemoglobin
+                                text: state.data.data!.hemoglobin
                                     .replaceAll('.00', '')),
                           ),
                           Text(
@@ -391,7 +384,7 @@ class _DetailRegisterIbuHamilViewState
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
                           text:
-                              '${DateFormat('d MMMM y', 'id_ID').format(state.data.data.tanggalTerakhirHaid)}'),
+                              '${DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalTerakhirHaid)}'),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -411,7 +404,7 @@ class _DetailRegisterIbuHamilViewState
                                   ),
                                 ),
                                 InfoFieldWidget(
-                                    text: state.data.data.terpaparAsapRokok),
+                                    text: state.data.data!.terpaparAsapRokok),
                               ],
                             ),
                           ),
@@ -428,7 +421,7 @@ class _DetailRegisterIbuHamilViewState
                                   ),
                                 ),
                                 InfoFieldWidget(
-                                    text: state.data.data.jumlahTabletFe
+                                    text: state.data.data!.jumlahTabletFe
                                         .toString()),
                               ],
                             ),
@@ -444,9 +437,9 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                        text: state.data.data.namaBPJS == null
+                        text: state.data.data!.namaBPJS == null
                         ? "Tidak Memiliki BPJS"
-                        : state.data.data.namaBPJS!
+                        : state.data.data!.namaBPJS!
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
@@ -457,7 +450,7 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       AutoSizeTextInfoFieldWidget(
-                        text: state.data.data.catatan,
+                        text: state.data.data!.catatan,
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       ButtonPrimary(
@@ -465,7 +458,7 @@ class _DetailRegisterIbuHamilViewState
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
                           PaketToUpdateRegisterIbuHamil data = PaketToUpdateRegisterIbuHamil(
-                            id: widget.id, data: state.data.data);
+                            id: widget.id, data: state.data.data!);
                           Navigator.pushNamed(
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,

@@ -11,7 +11,7 @@ import '../../model/alat_ukur_response_model.dart';
 import '../../model/alat_ukur_save_model.dart';
 import 'dropdown_alat_ukur_widget.dart';
 
-class AlertChooseMeasuringTools extends StatefulWidget {
+class AlertChooseMeasuringToolsAnak extends StatefulWidget {
   final String title;
   final VoidCallback mainButton;
   final String mainButtonMessage;
@@ -22,7 +22,7 @@ class AlertChooseMeasuringTools extends StatefulWidget {
 
   final SaveAlatUkurBloc saveAlatUkurBloc;
 
-  AlertChooseMeasuringTools(
+  AlertChooseMeasuringToolsAnak(
       {super.key,
       required this.title,
       required this.mainButton,
@@ -33,10 +33,10 @@ class AlertChooseMeasuringTools extends StatefulWidget {
       required this.saveAlatUkurBloc});
 
   @override
-  State<AlertChooseMeasuringTools> createState() => _AlertChooseMeasuringToolsState();
+  State<AlertChooseMeasuringToolsAnak> createState() => _AlertChooseMeasuringToolsState();
 }
 
-class _AlertChooseMeasuringToolsState extends State<AlertChooseMeasuringTools> {
+class _AlertChooseMeasuringToolsState extends State<AlertChooseMeasuringToolsAnak> {
   AlatUkurSaveModel alatUkurAnak = AlatUkurSaveModel();
 
   @override

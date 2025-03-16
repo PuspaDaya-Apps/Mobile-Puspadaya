@@ -18,7 +18,7 @@ import '../../../../model/alat_ukur_response_model.dart';
 import '../../../../model/alat_ukur_save_model.dart';
 import '../../../../model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../../../../view/screen/error_server_screen.dart';
-import '../../../../view/widget/alert_choose_measuring_tools_widget.dart';
+import '../../../../view/widget/alert_choose_measuring_tools_anak_widget copy.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 // import '../../alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import '../../../alatUkurSave/bloc/alatUkurSaveBloc/alat_ukur_save_bloc.dart';
@@ -146,7 +146,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
           showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => AlertChooseMeasuringTools(
+            builder: (context) => AlertChooseMeasuringToolsAnak(
               title: 'Pilih Alat Ukur',
               mainButton: () {
                 Navigator.pop(context);
@@ -550,7 +550,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => AlertChooseMeasuringTools(
+          builder: (context) => AlertChooseMeasuringToolsAnak(
             title: 'Pilih Alat Ukur',
             mainButton: () {
               Navigator.pop(context);

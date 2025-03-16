@@ -6,7 +6,6 @@ import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit
 import 'package:puspadaya/app/feature/pengukuranAnak/create/model/pengukuran_anak_model.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/view/search_anak.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/view/widget/alert_dialog_result.dart';
-import 'package:puspadaya/app/view/widget/alert_choose_measuring_tools_widget.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +28,7 @@ import '../../../../model/alat_ukur_response_model.dart';
 import '../../../../model/alat_ukur_save_model.dart';
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
 import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/widget/alert_choose_measuring_tools_anak_widget copy.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../../alatUkurSave/bloc/alatUkurSaveBloc/alat_ukur_save_bloc.dart';
 import '../../../alatUkurSave/bloc/getAlatUkurBloc/get_alat_ukur_bloc.dart';
@@ -137,7 +137,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
           showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => AlertChooseMeasuringTools(
+            builder: (context) => AlertChooseMeasuringToolsAnak(
               title: 'Pilih Alat Ukur',
               mainButton: () {
                 Navigator.pop(context);
@@ -1017,7 +1017,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => AlertChooseMeasuringTools(
+          builder: (context) => AlertChooseMeasuringToolsAnak(
             title: 'Pilih Alat Ukur',
             mainButton: () {
               Navigator.pop(context);
