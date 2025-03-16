@@ -41,6 +41,7 @@ const String imageOnProcces = "assets/images/image_on_prosses.png";
 const String imageGrafikPerkembanganAnak =
     "assets/images/grafik_perkembangan_anak.png";
 const String noImagePlacholder = "assets/images/no_image_placeholder.jpg";
+const String imageRestart = "assets/images/image_restart.png";
 
 //! alat ukur
 const String imageTimbanganInjakBeratBadanDigital =

@@ -1,9 +1,9 @@
-
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/model/create_anak_model.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
@@ -88,7 +88,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
 
   late PaketToCreateAnakModel paketToCreateAnakModel;
 
-
   void _toggleDisability(int index) {
     setState(() {
       selectedDisabilitiesAnak[index] = !selectedDisabilitiesAnak[index];
@@ -138,7 +137,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     setState(() {
       tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   // void _generateNIK(String nomorKK,Date tanggalLahir) {
   //   context.read<GenerateNikCubit>().getGenerateNik(nomorKK, tanggalLahir);
@@ -412,47 +411,51 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.sizeOf(context).width /
-                                      3.4, // Atur lebar minimum untuk tombol
-                                  child: GenerateButtonWidget(
-                                    onPressed: () {
+                                GestureDetector(
+                                  onTap: () {
+                                    logger.d(
+                                        'isi provinsi ${selectedProvinsiIbu}');
+                                    logger.d(
+                                        'isi Kabupaten ${selectedKabupatenIbu}');
+                                    logger.d(
+                                        'isi Kecamatan ${selectedKecamatanIbu}');
+                                    // Validasi sebelum mengizinkan generate
+                                    if (_isGenerateAnakValid()) {
                                       logger.d(
-                                          'isi provinsi ${selectedProvinsiIbu}');
-                                      logger.d(
-                                          'isi Kabupaten ${selectedKabupatenIbu}');
-                                      logger.d(
-                                          'isi Kecamatan ${selectedKecamatanIbu}');
-                                      // Validasi sebelum mengizinkan generate
-                                      if (_isGenerateAnakValid()) {
-                                        logger.d(
-                                            'tanggal lahir : ${tanggalLahirController.text}');
-                                        logger.d(
-                                            'KK : ${nomorKKController.text}');
-                                        // Logika untuk generate
-                                        context
-                                            .read<GenerateNikCubit>()
-                                            .getGenerateNik(
-                                                nomorKKController.text,
-                                                tanggalLahirController.text);
-                                        print("Generate button pressed");
-                                      } else {
-                                        // Tampilkan snackbar atau dialog jika form tidak valid
-                                        showTopSnackBar(
-                                            Overlay.of(context),
-                                            animationDuration: const Duration(
-                                                milliseconds: 600),
-                                            displayDuration: const Duration(
-                                                milliseconds: 2200),
-                                            reverseAnimationDuration:
-                                                const Duration(
-                                                    milliseconds: 300),
-                                            TopSnackbarWidget().error(
-                                                'Harap pilih data Orang tua dan isi Tempat Tanggal Lahir agar bisa generate NIK'));
-                                      }
-                                    },
+                                          'tanggal lahir : ${tanggalLahirController.text}');
+                                      logger
+                                          .d('KK : ${nomorKKController.text}');
+                                      // Logika untuk generate
+                                      context
+                                          .read<GenerateNikCubit>()
+                                          .getGenerateNik(
+                                              nomorKKController.text,
+                                              tanggalLahirController.text);
+                                      print("Generate button pressed");
+                                    } else {
+                                      // Tampilkan snackbar atau dialog jika form tidak valid
+                                      showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(milliseconds: 300),
+                                          TopSnackbarWidget().error(
+                                              'Harap pilih data Orang tua dan isi Tempat Tanggal Lahir agar bisa generate NIK'));
+                                    }
+                                  },
+                                  child: Image(
+                                    width: 38,
+                                    height: 38,
+                                    color: greenPrimaryMain,
+                                    image: AssetImage(
+                                      imageRestart,
+                                    ),
                                   ),
                                 ),
+                                
                               ],
                             );
                           },
