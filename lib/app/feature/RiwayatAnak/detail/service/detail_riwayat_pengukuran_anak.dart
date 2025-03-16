@@ -13,4 +13,15 @@ class DetailRiwayatPengukuranAnak {
       return response;
     });
   }
+
+  Future<dynamic> getGrafikKMS(String idAnak, String token) async {
+    final String link = ApiUtils().urlGetGrafikKMS(idAnak);
+    final Map<String, dynamic> parameterQuery = {};
+    logger.d('uri ${link}}');
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
+      logger.d(response.toString());
+      return response;
+    });
+  }
 }

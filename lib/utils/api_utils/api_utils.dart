@@ -674,4 +674,11 @@ class ApiUtils {
         "/storage/public/antropometri/Weight-for-Age-wfa-girls-zscore-expanded-tables.xlsx";
     return "$_baseUrl$urlGetParameterGiziPerempuanBeratBadan";
   }
+
+
+  //! grafik KMS
+  String urlGetGrafikKMS(String id){
+    String urlGetGrafikKms = LinkApi.GRAFIKKMSURL;
+    return "$_baseUrl$urlGetGrafikKms/$id";
+  }
 }

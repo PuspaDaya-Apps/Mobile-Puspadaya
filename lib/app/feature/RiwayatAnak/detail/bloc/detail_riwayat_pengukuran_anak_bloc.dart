@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:puspadaya/app/feature/RiwayatAnak/detail/model/get_grafik_kms_model.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../model/get_detail_riwayat_pengukuran_anak_model.dart';
@@ -28,6 +31,12 @@ class DetailRiwayatPengukuranAnakBloc extends Bloc<
       try {
         List<dynamic> response = await DetailRiwayatPengukuranAnak()
             .getDetailRiwayatPengukuranAnak(event.id, accessToken);
+        // List<dynamic> responseGrafik = await DetailRiwayatPengukuranAnak()
+        //     .getGrafikKMS(event.id, accessToken);
+
+        // // Assuming responseGrafik is a JSON string
+        // List<GetGrafikKmsModel> dataGrafik =
+        //     parseGetGrafikKmsModels(responseGrafik[1]);
 
         int statusCode = response[0] as int;
         final GetDetailRiwayatPengukuranAnakModel data =
@@ -44,5 +53,13 @@ class DetailRiwayatPengukuranAnakBloc extends Bloc<
         emit(DetailRiwayatPengukuranAnakFailed(error.toString()));
       }
     }
+  }
+
+  // Function to convert JSON string to List<ChildMeasurement>
+  List<GetGrafikKmsModel> parseGetGrafikKmsModels(String jsonString) {
+    final Map<String, dynamic> jsonData = json.decode(jsonString);
+    return jsonData.entries.map((entry) {
+      return GetGrafikKmsModel.fromJson(entry.value);
+    }).toList();
   }
 }

@@ -101,4 +101,7 @@ abstract class LinkApi {
 
   //! storage
   static const STORAGEURL="/storage/file";
+
+  //! grafik KMS(Kader Monitoring System),
+  static const GRAFIKKMSURL="/grafik-kms";
 }
