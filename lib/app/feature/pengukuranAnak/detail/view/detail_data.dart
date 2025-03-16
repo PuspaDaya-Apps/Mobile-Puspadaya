@@ -300,10 +300,10 @@ class _DetailDataState extends State<DetailData> {
               color: Colors.black54,
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            Image(
-              width: MediaQuery.sizeOf(context).width,
-              image: const AssetImage(imageGrafikPerkembanganAnak),
-            )
+            // Image(
+            //   width: MediaQuery.sizeOf(context).width,
+            //   image: const AssetImage(imageGrafikPerkembanganAnak),
+            // )
           ],
         ),
       ),

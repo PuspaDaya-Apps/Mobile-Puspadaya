@@ -1,16 +1,27 @@
 import 'package:data_table_2/data_table_2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
+import '../../../../../utils/logger/logger.dart';
+import '../../../../view/widget/chart_kmb.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../monitoring/model/riwayat_monitoring_anak_model.dart';
 import '../bloc/detail_riwayat_pengukuran_anak_bloc.dart';
+import '../cubit/select_chart_cubit.dart';
+import '../model/chart_data_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../model/get_detail_riwayat_pengukuran_anak_model.dart'
+    as GetDetailRiwayatPengukuranAnakModel;
 
 class DetailRiwayatBalita extends StatelessWidget {
   final String id;
@@ -18,8 +29,15 @@ class DetailRiwayatBalita extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DetailRiwayatPengukuranAnakBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailRiwayatPengukuranAnakBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SelectChartCubit(),
+        ),
+      ],
       child: DetailRiwayatBalitaView(
         id: id,
       ),
@@ -38,7 +56,12 @@ class DetailRiwayatBalitaView extends StatefulWidget {
 
 class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
   bool _isExpanded = false;
-
+  int selectedIndex = 0;
+  List<String> selectWaktu = [
+    '0 bulan - 24 bulan',
+    '2 tahun - 5 tahun',
+  ];
+  String selectedWaktu = "0 bulan - 24 bulan";
   @override
   void initState() {
     context
@@ -70,6 +93,10 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
               return Center(child: Text(state.message));
             }
             if (state is DetailRiwayatPengukuranAnakSuccess) {
+              logger.d(state.data.data.pengukuran[0].tinggiBadan);
+              logger.d(state.data.data.pengukuran[0].beratBadan);
+              logger.d(state.data.data.pengukuran[0].tanggalPengukuran);
+              logger.d(state.data.data.jenisKelamin);
               return SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.all(20),
@@ -100,8 +127,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(
-                                  text: state.data.data.nik),
+                              InfoFieldWidget(text: state.data.data.nik),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -110,8 +136,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(
-                                  text: state.data.data.namaAnak),
+                              InfoFieldWidget(text: state.data.data.namaAnak),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -140,7 +165,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.posyandu.namaPosyandu),
+                                        text: state
+                                            .data.data.posyandu.namaPosyandu),
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(16)),
@@ -152,7 +178,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.kartuKeluarga.nomorKartuKeluarga),
+                                        text: state.data.data.kartuKeluarga
+                                            .nomorKartuKeluarga),
                                     SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(16),
@@ -165,7 +192,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.orangTua.ayah.namaAyah),
+                                        text: state
+                                            .data.data.orangTua.ayah.namaAyah),
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(16)),
@@ -177,7 +205,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.orangTua.ibu.namaIbu),
+                                        text: state
+                                            .data.data.orangTua.ibu.namaIbu),
                                     SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(16),
@@ -197,7 +226,10 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                       children: [
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.data.dusun
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .dusun
                                                   .desaKelurahan
                                                   .kecamatan
                                                   .kabupatenKota
@@ -206,8 +238,9 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         ),
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.
-                                                  data
+                                              text: state
+                                                  .data
+                                                  .data
                                                   .dusun
                                                   .desaKelurahan
                                                   .kecamatan
@@ -224,7 +257,9 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                       children: [
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.data
+                                              text: state
+                                                  .data
+                                                  .data
                                                   .dusun
                                                   .desaKelurahan
                                                   .kecamatan
@@ -232,7 +267,12 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                         ),
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.data.dusun.desaKelurahan.namaDesaKelurahan),
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .dusun
+                                                  .desaKelurahan
+                                                  .namaDesaKelurahan),
                                         )
                                       ],
                                     ),
@@ -261,8 +301,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                       height: SizeConfig.calHeightMultiplier(8),
                                     ),
                                     InfoFieldWidget(
-                                      text:
-                                          state.data.data.alamat,
+                                      text: state.data.data.alamat,
                                     ),
                                   ],
                                 ),
@@ -304,7 +343,155 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         color: Colors.black54,
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      Image(image: AssetImage(imageGrafikPerkembanganAnak)),
+
+                      // switch widget yang digunakan untuk switch antara grafik Tinggi dan Berat
+                      SizedBox(
+                        width: double.infinity,
+                        child: CupertinoSlidingSegmentedControl<int>(
+                          groupValue: selectedIndex,
+                          thumbColor: bluePrimaryMain,
+                          children: {
+                            0: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text("Tinggi",
+                                  style: TextStyle(
+                                      color: selectedIndex == 0
+                                          ? Colors.white
+                                          : Colors.black)),
+                            ),
+                            1: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text("Berat",
+                                  style: TextStyle(
+                                      color: selectedIndex == 1
+                                          ? Colors.white
+                                          : Colors.black)),
+                            ),
+                          },
+                          onValueChanged: (int? index) {
+                            setState(() {
+                              selectedIndex = index!;
+                            });
+                            context.read<SelectChartCubit>().selectChart(
+                                  state.data.data.jenisKelamin,
+                                  selectedIndex,
+                                  selectedWaktu == '0 bulan - 24 bulan'
+                                      ? '0-24'
+                                      : '2-5',
+                                  state.data.data.pengukuran,
+                                  state.data.data.tanggalLahir,
+                                );
+                            // widget.onToggle(selectedIndex == 0);
+                          },
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        style: AppTextStyles.primaryTextNormal
+                            .copyWith(fontSize: 12),
+                        value: selectedWaktu,
+                        hint: Text(
+                          "Waktu",
+                          style: AppTextStyles.secoundaryTextNormal
+                              .copyWith(fontSize: 12),
+                        ),
+                        buttonStyleData: const ButtonStyleData(elevation: 0),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                            color: backgroundWhite10,
+                          ),
+                          elevation: 0,
+                        ),
+                        items: selectWaktu.map((item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedWaktu = value!; // Simpan nilai yang dipilih
+                          });
+                          context.read<SelectChartCubit>().selectChart(
+                                state.data.data.jenisKelamin,
+                                selectedIndex,
+                                selectedWaktu == '0 bulan - 24 bulan'
+                                    ? '0-24'
+                                    : '2-5',
+                                state.data.data.pengukuran,
+                                state.data.data.tanggalLahir,
+                              );
+                        },
+                        onSaved: (value) {
+                          selectedWaktu = value!;
+                        },
+                        validator: (value) => value == null
+                            ? "Pilih waktu terlebih dahulu"
+                            : null,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
+                          hintText: "Waktu",
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                          filled: true,
+                          fillColor: backgroundWhite10,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                                width: 1, color: redPrimaryMain),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'KMS Perkembangan Anak ${selectedIndex == 0 ? "Tinggi" : "Berat"} Anak',
+                        style: AppTextStyles.primaryTextMedium.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+
+                      // grafik
+                      BlocBuilder<SelectChartCubit, SelectChartState>(
+                        builder: (context, state) {
+                          if (state is SelectChartLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (state is SelectChartFailed) {
+                            return Center(child: Text(state.message));
+                          } else if (state is SelectChartSuccess) {
+                            return ChartPage(data: state.data);
+                          }
+                          return Container();
+                        },
+                      ),
+                      // grafik
+
                       SizedBox(height: SizeConfig.calHeightMultiplier(20)),
                       Container(
                         width: double.infinity,
@@ -319,7 +506,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         ),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      DataTableRiwayatAnak()
+                      DataTableRiwayatAnak(data: state.data.data.pengukuran),
                     ],
                   ),
                 ),
@@ -333,12 +520,15 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
   }
 }
 
+
+
 class DataTableRiwayatAnak extends StatelessWidget {
-  const DataTableRiwayatAnak({super.key});
+  final List<GetDetailRiwayatPengukuranAnakModel.Pengukuran> data;
+  const DataTableRiwayatAnak({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.sizeOf(context).height / 1.68,
       child: DataTable2(
         columnSpacing: 12,
@@ -429,78 +619,49 @@ class DataTableRiwayatAnak extends StatelessWidget {
             numeric: true,
           ),
         ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-24'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('95'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Nita Ardhi'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-20'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('92'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Buruk'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('sangat kurus'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-15'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('100'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
-            DataCell(Align(
+        rows: List.generate(
+          data.length,
+          (index) {
+            final e = data[index];
+            return DataRow(cells: [
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('${index + 1}'))),
+              DataCell(Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Frisca Aurealia'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Pendek'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Normal'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('normal'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-11-10'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('27'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('90'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('26'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Siska Ardina'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Sangat Pendek'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Gizi Kurang'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('kurus'))),
-          ]),
-        ],
+                child: Text(
+                  e.tanggalPengukuran != null
+                      ? DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)
+                      : '-',
+                ),
+              )),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.beratBadan ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.tinggiBadan ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.lingkarLenganAtas ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.lingkarKepala ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.namaKader?.toString() ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.statusStunting ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.statusGizi ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.statusGizi ?? '-'))),
+            ]);
+          },
+        ),
       ),
     );
   }
