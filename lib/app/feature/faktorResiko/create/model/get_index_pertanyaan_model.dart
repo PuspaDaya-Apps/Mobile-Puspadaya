@@ -1,8 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'get_index_pertanyaan_model.g.dart';
 
-enum SelectType { radio, checkbox }
-
 @JsonSerializable()
 class GetIndexPertanyaanModel {
   @JsonKey(name: "message")
@@ -33,14 +31,17 @@ class Datum {
   final String gambar;
   @JsonKey(name: "detail")
   final String? detail;
+  @JsonKey(name: "gangguan_tumbuh_kembang")
+  final GangguanTumbuhKembang? gangguanTumbuhKembang;
   @JsonKey(name: "is_completed")
   final bool isCompleted;
   @JsonKey(name: "last_completed")
   final DateTime? lastCompleted;
-  @JsonKey(name: "pertanyaan")
+  @JsonKey(name: "pertanyaan", defaultValue: [])
   final List<Pertanyaan> pertanyaan;
 
   Datum({
+    required this.gangguanTumbuhKembang,
     required this.id,
     required this.namaFaktorResiko,
     required this.keterangan,
@@ -66,12 +67,15 @@ class Pertanyaan {
   final SelectType selectType;
   @JsonKey(name: "pilihan_pertanyaan")
   final List<PilihanPertanyaan> pilihanPertanyaan;
+  @JsonKey(name: "jawaban_sistem")
+  final String? jawabanSistem;
 
   Pertanyaan({
     required this.id,
-    required this.selectType,
     required this.namaPertanyaan,
+    required this.selectType,
     required this.pilihanPertanyaan,
+    required this.jawabanSistem,
   });
 
   factory Pertanyaan.fromJson(Map<String, dynamic> json) =>
@@ -86,14 +90,45 @@ class PilihanPertanyaan {
   final String id;
   @JsonKey(name: "nama_pilihan")
   final String namaPilihan;
+  @JsonKey(name: "is_text")
+  final bool isText;
 
   PilihanPertanyaan({
     required this.id,
     required this.namaPilihan,
+    required this.isText,
   });
 
   factory PilihanPertanyaan.fromJson(Map<String, dynamic> json) =>
       _$PilihanPertanyaanFromJson(json);
 
   Map<String, dynamic> toJson() => _$PilihanPertanyaanToJson(this);
+}
+
+@JsonSerializable()
+class GangguanTumbuhKembang {
+  @JsonKey(name: "statusStunting")
+  final String statusStunting;
+  @JsonKey(name: "statusWasting")
+  final String statusWasting;
+  @JsonKey(name: "statusUnderweight")
+  final String statusUnderweight;
+
+  GangguanTumbuhKembang({
+    required this.statusStunting,
+    required this.statusWasting,
+    required this.statusUnderweight,
+  });
+
+  factory GangguanTumbuhKembang.fromJson(Map<String, dynamic> json) =>
+      _$GangguanTumbuhKembangFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GangguanTumbuhKembangToJson(this);
+}
+
+enum SelectType {
+  @JsonValue("checkbox")
+  checkbox,
+  @JsonValue("radio")
+  radio
 }

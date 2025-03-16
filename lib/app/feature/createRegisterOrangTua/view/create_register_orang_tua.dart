@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //     as DusunModel;
 
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -75,8 +76,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController = TextEditingController();
-  final TextEditingController tanggalLahirAyahController = TextEditingController();
+  final TextEditingController tempatLahirAyahController =
+      TextEditingController();
+  final TextEditingController tanggalLahirAyahController =
+      TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -93,7 +96,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   DataDesaKelurahan? selectedDesaAyah;
   DataDusun? selectedDusunAyah;
 
-  String? selectedGolDarahAyah;
+  String selectedGolDarahAyah = '-';
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAyah = [];
@@ -122,7 +125,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       tanggalLahirAyahController.text =
           "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   void _toggleDisabilityAyah(int index) {
     setState(() {
@@ -150,15 +153,17 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController = TextEditingController();
-  final TextEditingController tanggalLahirIbuController = TextEditingController();
+  final TextEditingController tempatLahirIbuController =
+      TextEditingController();
+  final TextEditingController tanggalLahirIbuController =
+      TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
   final TextEditingController rWIbuController = TextEditingController();
   final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
       TextEditingController();
-  final TextEditingController jumlahAnakIbuController = TextEditingController();
+  final TextEditingController jumlahAnakIbuController = TextEditingController(text: '0');
 
   //? selected
   List<DataKabupatenKota> dataKabupatenKotaIbu = [];
@@ -173,7 +178,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   String? selectedJenisKBIbu;
   String? selectedGolonnganDarahIbu;
-  String? selectedGolDarahIbu;
+  String selectedGolDarahIbu = '-';
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu = [];
@@ -199,10 +204,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
 
     setState(() {
-      tanggalLahirIbuController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
+      tanggalLahirIbuController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -225,7 +229,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       tanggalKelahiranAnakSebelumnyaIbuController.text =
           "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   void _removeDisabilityIbu(String label) {
     setState(() {
@@ -330,7 +334,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           animationDuration: const Duration(milliseconds: 600),
           displayDuration: const Duration(milliseconds: 2200),
           reverseAnimationDuration: const Duration(milliseconds: 300),
-          TopSnackbarWidget().error('Terdapat data yang kosong, harap di cek kembali'));
+          TopSnackbarWidget()
+              .error('Terdapat data yang kosong, harap di cek kembali'));
     }
   }
 
@@ -343,8 +348,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final GlobalKey<FormFieldState> kkAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaAyahKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirAyahKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirAyahKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey =
+      GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtAyahKey = GlobalKey<FormFieldState>();
@@ -567,61 +574,60 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ],
                                                   ),
                                                 ),
-
-                                                // Button Generate
-                                                SizedBox(
-                                                  width: MediaQuery.sizeOf(
-                                                              context)
-                                                          .width /
-                                                      3.4, // Atur lebar minimum untuk tombol
-                                                  child: GenerateButtonWidget(
-                                                    onPressed: () {
-                                                      // Validasi sebelum mengizinkan generate
-                                                      if (_isGenerateAyahValid()) {
-                                                        logger.d(
-                                                            'provinsi id ayah ${state.dataWilayahModel.provinsi.id}');
-                                                        logger.d(
-                                                            'kabupaten id ayah ${selectedKabupatenAyah?.id}');
-                                                        logger.d(
-                                                            'kecamatan id ayah ${selectedKecamatanAyah?.id}');
-                                                        // Logika untuk generate
-                                                        context
-                                                            .read<
-                                                                GenerateKkCubit>()
-                                                            .getGenerateKK(
-                                                                state
-                                                                    .dataWilayahModel
-                                                                    .provinsi
-                                                                    .id,
-                                                                selectedKabupatenAyah!
-                                                                    .id,
-                                                                selectedKecamatanAyah!
-                                                                    .id,
-                                                                tanggalLahirAyahController
-                                                                    .text);
-                                                        print(
-                                                            "Generate button pressed");
-                                                      } else {
-                                                        // Tampilkan snackbar atau dialog jika form tidak valid
-                                                        showTopSnackBar(
-                                                            Overlay.of(context),
-                                                            animationDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        600),
-                                                            displayDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        2200),
-                                                            reverseAnimationDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        300),
-                                                            TopSnackbarWidget()
-                                                                .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                                      }
-                                                    },
+                                                GestureDetector(
+                                                  onTap: () {
+// Validasi sebelum mengizinkan generate
+                                                    if (_isGenerateAyahValid()) {
+                                                      logger.d(
+                                                          'provinsi id ayah ${state.dataWilayahModel.provinsi.id}');
+                                                      logger.d(
+                                                          'kabupaten id ayah ${selectedKabupatenAyah?.id}');
+                                                      logger.d(
+                                                          'kecamatan id ayah ${selectedKecamatanAyah?.id}');
+                                                      // Logika untuk generate
+                                                      context
+                                                          .read<
+                                                              GenerateKkCubit>()
+                                                          .getGenerateKK(
+                                                              state
+                                                                  .dataWilayahModel
+                                                                  .provinsi
+                                                                  .id,
+                                                              selectedKabupatenAyah!
+                                                                  .id,
+                                                              selectedKecamatanAyah!
+                                                                  .id,
+                                                              tanggalLahirAyahController
+                                                                  .text);
+                                                      print(
+                                                          "Generate button pressed");
+                                                    } else {
+                                                      // Tampilkan snackbar atau dialog jika form tidak valid
+                                                      showTopSnackBar(
+                                                          Overlay.of(context),
+                                                          animationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      600),
+                                                          displayDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      2200),
+                                                          reverseAnimationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                          TopSnackbarWidget().error(
+                                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                    }
+                                                  },
+                                                  child: Image(
+                                                    width: 38,
+                                                    height: 38,
+                                                    color: greenPrimaryMain,
+                                                    image: AssetImage(
+                                                      imageRestart,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -701,15 +707,42 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.sizeOf(
-                                                              context)
-                                                          .width /
-                                                      3.4, // Atur lebar minimum untuk tombol
-                                                  child: GenerateButtonWidget(
-                                                    onPressed: () {
-                                                      if (kkAyahController
-                                                          .text.isEmpty) {
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (kkAyahController
+                                                        .text.isEmpty) {
+                                                      showTopSnackBar(
+                                                          Overlay.of(context),
+                                                          animationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      600),
+                                                          displayDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      2200),
+                                                          reverseAnimationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                          TopSnackbarWidget().error(
+                                                              'KK Harus Diisi Terlebih Dahulu'));
+                                                    } else {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateAyahValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                        context
+                                                            .read<
+                                                                GenerateNikCubit>()
+                                                            .getGenerateNik(
+                                                                kkAyahController
+                                                                    .text,
+                                                                tanggalLahirAyahController
+                                                                    .text);
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
                                                         showTopSnackBar(
                                                             Overlay.of(context),
                                                             animationDuration:
@@ -726,46 +759,20 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'KK Harus Diisi Terlebih Dahulu'));
-                                                      } else {
-                                                        // Validasi sebelum mengizinkan generate
-                                                        if (_isGenerateAyahValid()) {
-                                                          // Logika untuk generate
-                                                          print(
-                                                              "Generate button pressed");
-                                                          context
-                                                              .read<
-                                                                  GenerateNikCubit>()
-                                                              .getGenerateNik(
-                                                                  kkAyahController
-                                                                      .text,
-                                                                  tanggalLahirAyahController
-                                                                      .text);
-                                                        } else {
-                                                          // Tampilkan snackbar atau dialog jika form tidak valid
-                                                          showTopSnackBar(
-                                                              Overlay.of(
-                                                                  context),
-                                                              animationDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          600),
-                                                              displayDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          2200),
-                                                              reverseAnimationDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          300),
-                                                              TopSnackbarWidget()
-                                                                  .error(
-                                                                      'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                                        }
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
                                                       }
-                                                    },
+                                                    }
+                                                  },
+                                                  child: Image(
+                                                    width: 38,
+                                                    height: 38,
+                                                    color: greenPrimaryMain,
+                                                    image: AssetImage(
+                                                      imageRestart,
+                                                    ),
                                                   ),
                                                 ),
+                                                
                                               ],
                                             );
                                           },
@@ -1707,60 +1714,61 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.sizeOf(
-                                                              context)
-                                                          .width /
-                                                      3.4, // Atur lebar minimum untuk tombol
-                                                  child: GenerateButtonWidget(
-                                                    onPressed: () {
-                                                      // Validasi sebelum mengizinkan generate
-                                                      if (_isGenerateIbuValid()) {
-                                                        // Logika untuk generate
-                                                        logger.d(
-                                                            'provinsi id ibu ${state.dataWilayahModel.provinsi.id}');
-                                                        logger.d(
-                                                            'kabupaten id ibu ${selectedKabupatenIbu?.id}');
-                                                        logger.d(
-                                                            'kecataman id ibu ${selectedKecamatanIbu?.id}');
-                                                        print(
-                                                            "Generate button pressed");
+                                                GestureDetector(
+                                                  onTap: () {
+// Validasi sebelum mengizinkan generate
+                                                    if (_isGenerateIbuValid()) {
+                                                      // Logika untuk generate
+                                                      logger.d(
+                                                          'provinsi id ibu ${state.dataWilayahModel.provinsi.id}');
+                                                      logger.d(
+                                                          'kabupaten id ibu ${selectedKabupatenIbu?.id}');
+                                                      logger.d(
+                                                          'kecataman id ibu ${selectedKecamatanIbu?.id}');
+                                                      print(
+                                                          "Generate button pressed");
 
-                                                        context
-                                                            .read<
-                                                                GenerateKkCubit>()
-                                                            .getGenerateKK(
-                                                                state
-                                                                    .dataWilayahModel
-                                                                    .provinsi
-                                                                    .id,
-                                                                selectedKabupatenIbu!
-                                                                    .id,
-                                                                selectedKecamatanIbu!
-                                                                    .id,
-                                                                tanggalLahirIbuController
-                                                                    .text);
-                                                      } else {
-                                                        // Tampilkan snackbar atau dialog jika form tidak valid
-                                                        showTopSnackBar(
-                                                            Overlay.of(context),
-                                                            animationDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        600),
-                                                            displayDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        2200),
-                                                            reverseAnimationDuration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        300),
-                                                            TopSnackbarWidget()
-                                                                .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                                      }
-                                                    },
+                                                      context
+                                                          .read<
+                                                              GenerateKkCubit>()
+                                                          .getGenerateKK(
+                                                              state
+                                                                  .dataWilayahModel
+                                                                  .provinsi
+                                                                  .id,
+                                                              selectedKabupatenIbu!
+                                                                  .id,
+                                                              selectedKecamatanIbu!
+                                                                  .id,
+                                                              tanggalLahirIbuController
+                                                                  .text);
+                                                    } else {
+                                                      // Tampilkan snackbar atau dialog jika form tidak valid
+                                                      showTopSnackBar(
+                                                          Overlay.of(context),
+                                                          animationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      600),
+                                                          displayDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      2200),
+                                                          reverseAnimationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                          TopSnackbarWidget().error(
+                                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                    }
+                                                  },
+                                                  child: Image(
+                                                    width: 38,
+                                                    height: 38,
+                                                    color: greenPrimaryMain,
+                                                    image: AssetImage(
+                                                      imageRestart,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -1823,15 +1831,42 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: MediaQuery.sizeOf(
-                                                              context)
-                                                          .width /
-                                                      3.4, // Atur lebar minimum untuk tombol
-                                                  child: GenerateButtonWidget(
-                                                    onPressed: () {
-                                                      if (kkIbuController
-                                                          .text.isEmpty) {
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (kkIbuController
+                                                        .text.isEmpty) {
+                                                      showTopSnackBar(
+                                                          Overlay.of(context),
+                                                          animationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      600),
+                                                          displayDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      2200),
+                                                          reverseAnimationDuration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      300),
+                                                          TopSnackbarWidget().error(
+                                                              'KK Harus Diisi Terlebih Dahulu'));
+                                                    } else {
+                                                      // Validasi sebelum mengizinkan generate
+                                                      if (_isGenerateIbuValid()) {
+                                                        // Logika untuk generate
+                                                        print(
+                                                            "Generate button pressed");
+                                                        context
+                                                            .read<
+                                                                GenerateNikCubit>()
+                                                            .getGenerateNik(
+                                                                kkIbuController
+                                                                    .text,
+                                                                tanggalLahirIbuController
+                                                                    .text);
+                                                      } else {
+                                                        // Tampilkan snackbar atau dialog jika form tidak valid
                                                         showTopSnackBar(
                                                             Overlay.of(context),
                                                             animationDuration:
@@ -1848,46 +1883,20 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'KK Harus Diisi Terlebih Dahulu'));
-                                                      } else {
-                                                        // Validasi sebelum mengizinkan generate
-                                                        if (_isGenerateIbuValid()) {
-                                                          // Logika untuk generate
-                                                          print(
-                                                              "Generate button pressed");
-                                                          context
-                                                              .read<
-                                                                  GenerateNikCubit>()
-                                                              .getGenerateNik(
-                                                                  kkIbuController
-                                                                      .text,
-                                                                  tanggalLahirIbuController
-                                                                      .text);
-                                                        } else {
-                                                          // Tampilkan snackbar atau dialog jika form tidak valid
-                                                          showTopSnackBar(
-                                                              Overlay.of(
-                                                                  context),
-                                                              animationDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          600),
-                                                              displayDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          2200),
-                                                              reverseAnimationDuration:
-                                                                  const Duration(
-                                                                      milliseconds:
-                                                                          300),
-                                                              TopSnackbarWidget()
-                                                                  .error(
-                                                                      'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                                        }
+                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
                                                       }
-                                                    },
+                                                    }
+                                                  },
+                                                  child: Image(
+                                                    width: 38,
+                                                    height: 38,
+                                                    color: greenPrimaryMain,
+                                                    image: AssetImage(
+                                                      imageRestart,
+                                                    ),
                                                   ),
                                                 ),
+                                                
                                               ],
                                             );
                                           },

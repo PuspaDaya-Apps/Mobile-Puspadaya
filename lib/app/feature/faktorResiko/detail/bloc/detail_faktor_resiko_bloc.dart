@@ -28,8 +28,8 @@ class DetailFaktorResikoBloc
         dynamic response = await DetailRiwayatFaktorResiko()
             .getRiwayatFaktorResikoByBalita(accessToken, event.id);
         int statusCode = response[0] as int;
-        GetDetailRiwayatFaktorResiko faktorResikoData =
-            GetDetailRiwayatFaktorResiko.fromJson(response[1]);
+        GetDetailRiwayatFaktorResikoModel faktorResikoData =
+            GetDetailRiwayatFaktorResikoModel.fromJson(response[1]);
 
         if (statusCode == 200) {
           logger.d('Sukses mendapatkan data faktor risiko');

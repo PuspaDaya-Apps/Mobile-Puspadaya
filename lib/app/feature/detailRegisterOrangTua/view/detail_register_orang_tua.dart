@@ -116,14 +116,6 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
                           children: [
                             DetailDataAyah(getOrangtuaDetailResponse: result),
                             DetailDataIbu(getOrangtuaDetailResponse: result),
-                            // DetailDataAyah(
-                            //   getOrangtuaDetailResponse:
-                            //       state.getOrangTuaDetailResponse,
-                            // ),
-                            // DetailDataIbu(
-                            //   getOrangtuaDetailResponse:
-                            //       state.getOrangTuaDetailResponse,
-                            // ),
                           ],
                         );
                       } else if (state is DetailRegisterOrangTuaFailure) {

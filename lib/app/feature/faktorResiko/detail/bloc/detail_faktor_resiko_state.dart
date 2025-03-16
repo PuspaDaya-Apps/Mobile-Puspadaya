@@ -12,8 +12,8 @@ final class DetailFaktorResikoInitial extends DetailFaktorResikoState {}
 final class DetailFaktorResikoLoading extends DetailFaktorResikoState {}
 
 final class DetailFaktorResikoSuccess extends DetailFaktorResikoState {
-  final GetDetailRiwayatFaktorResiko data;
-  DetailFaktorResikoSuccess(this.data);
+  final GetDetailRiwayatFaktorResikoModel data;
+  const DetailFaktorResikoSuccess(this.data);
 
   @override
   List<Object> get props => [data];
@@ -21,7 +21,7 @@ final class DetailFaktorResikoSuccess extends DetailFaktorResikoState {
 
 final class DetailFaktorResikoFailed extends DetailFaktorResikoState {
   final String message;
-  DetailFaktorResikoFailed(this.message);
+  const DetailFaktorResikoFailed(this.message);
   @override
   List<Object> get props => [message];
 }

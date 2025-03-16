@@ -26,16 +26,28 @@ class PostPertanyaanModel {
 class FaktorResiko {
   @JsonKey(name: "pertanyaan_id")
   final String pertanyaanId;
+
   @JsonKey(name: "jawaban_id")
   final List<String> jawabanId;
+
+  @JsonKey(name: "jawaban_text")
+  final String? jawabanText;
 
   FaktorResiko({
     required this.pertanyaanId,
     required this.jawabanId,
+    this.jawabanText, // Tidak lagi required
   });
 
   factory FaktorResiko.fromJson(Map<String, dynamic> json) =>
       _$FaktorResikoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FaktorResikoToJson(this);
+  Map<String, dynamic> toJson() {
+    final data = _$FaktorResikoToJson(this);
+    
+    // Hapus jawaban_text jika null
+    data.removeWhere((key, value) => key == "jawaban_text" && value == null);
+    
+    return data;
+  }
 }

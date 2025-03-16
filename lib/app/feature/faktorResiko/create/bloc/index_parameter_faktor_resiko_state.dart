@@ -16,7 +16,7 @@ final class IndexParamterFaktorResikoLoading
 final class IndexParamterFaktorResikoSuccess
     extends IndexParameterFaktorResikoState {
   final GetIndexPertanyaanModel data;
-  IndexParamterFaktorResikoSuccess(this.data);
+  const IndexParamterFaktorResikoSuccess(this.data);
 
   @override
   List<Object> get props => [data];
@@ -34,10 +34,10 @@ final class IndexParamterFaktorResikoSendSuccess
     extends IndexParameterFaktorResikoState {}
 
 //! select state
-final class IndexParamterFaktorResikoUpdated
-    extends IndexParameterFaktorResikoState {
-  List<PostPertanyaanModel.FaktorResiko>
-      answers; // Menyimpan jawaban dengan format {questionId: answerId}
+// Di index_parameter_faktor_resiko_state.dart
+
+final class IndexParamterFaktorResikoUpdated extends IndexParameterFaktorResikoState {
+  List<PostPertanyaanModel.FaktorResiko> answers;
 
   IndexParamterFaktorResikoUpdated(this.answers);
 
