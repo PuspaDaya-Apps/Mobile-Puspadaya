@@ -19,7 +19,7 @@ import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/radio_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
+// import '../../pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
 import '../bloc/create_register_ibu_hamil_bloc.dart';
 import '../cubit/search_ibu_hamil_cubit.dart';
 import '../model/post_ibu_hamil_model.dart';
@@ -39,9 +39,9 @@ class CreateRegisterIbuHamil extends StatelessWidget {
         BlocProvider(
           create: (context) => SearchIbuHamilCubit(),
         ),
-        BlocProvider(
-          create: (context) => AlatUkurAnakBloc(),
-        ),
+        // BlocProvider(
+        //   create: (context) => AlatUkurAnakBloc(),
+        // ),
       ],
       child: CreateRegisterIbuHamilView(),
     );
@@ -93,7 +93,7 @@ class _CreateRegisterIbuHamilViewState extends State<CreateRegisterIbuHamilView>
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AlatUkurAnakBloc>(context).add(GetAlatUkur());
+    // BlocProvider.of<AlatUkurAnakBloc>(context).add(GetAlatUkur());
   }
 
   Future<void> _selectDateFirstHaid(BuildContext context) async {
@@ -150,722 +150,724 @@ class _CreateRegisterIbuHamilViewState extends State<CreateRegisterIbuHamilView>
   @override
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
-    return BlocListener<AlatUkurAnakBloc, AlatUkurAnakState>(
-      listener: (context, state) {
-        debugPrint(state.toString());
-        if (state is AlatUkurAnakSuccessState) {
-          alatUkur = state.alatUkurResponseModel.data![0].id;
-        }
-        if (state is AlatUkurAnakFailedState) {
-          showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().error(state.error));
-        }
-      },
-      child: Scaffold(
-        backgroundColor: backgroundWhite10,
-        appBar: PrimaryAppBar(
-          title: "Tambah Ibu Hamil",
-          actions: [
-            // GestureDetector(
-            //   onTap: () {
-            //     showDialog(
-            //       context: context,
-            //       builder: (context) => AlertChooseMeasuringTools(
-            //         title: 'Pilih Alat Ukur',
-            //         mainButton: () {
-            //           Navigator.pop(context);
-            //         },
-            //         mainButtonMessage: 'Simpan',
-            //         colorMainButton: bluePrimaryMain,
-            //         selectedHeight: selectedHeight,
-            //         selectedWeight: selectedWeight,
-            //         selectedUpperArmCircumference:
-            //             selectedUpperArmCircumference,
-            //         selectedUterineFundalHeight: selectedUterineFundalHeight,
-            //         onHeightChanged: (value) {
-            //           setState(() {
-            //             selectedHeight = value;
-            //           });
-            //         },
-            //         onWeightChanged: (value) {
-            //           setState(() {
-            //             selectedWeight = value;
-            //           });
-            //         },
-            //         onUpperArmCircumferenceChanged: (value) {
-            //           setState(() {
-            //             selectedUpperArmCircumference = value;
-            //           });
-            //         },
-            //         onUterineFundalHeightChanged: (value) {
-            //           setState(() {
-            //             selectedUterineFundalHeight = value;
-            //           });
-            //         },
-            //       ),
-            //     );
-            //   },
-            //   child: Container(
-            //     margin: const EdgeInsets.only(right: 24),
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            //     decoration: BoxDecoration(
-            //       color: bluePrimary30,
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     child: Row(
-            //       spacing: 2,
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Icon(
-            //           FontAwesomeIcons.penToSquare,
-            //           color: Colors.white,
-            //           size: 14,
-            //         ),
-            //         Text(
-            //           'Ubah Alat',
-            //           style: AppTextStyles.primaryTextMedium.copyWith(
-            //             fontSize: 12,
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-          ],
-          onBackPressed: () => Navigator.pop(context),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: EdgeInsets.all(20),
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AnimatedContainer(
-                      // color: Colors.red,
-                      duration:
-                          const Duration(milliseconds: 300), // Durasi animasi
-                      curve: Curves.easeInOut, // Kurva animasi
-                      height: _isExpanded
-                          ? sizeHeighofSingleForm * 4
-                          : sizeHeighofSingleForm, // Tinggi menu saat diperluas/dikecilkan
-                      child: SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Nama',
-                              style: AppTextStyles.primaryTextNormal.copyWith(
-                                fontSize: 12,
-                              ),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            BlocListener<SearchIbuHamilCubit,
-                                SearchIbuHamilState>(
-                              listener: (context, state) {
-                                if (state is SearchIbuHamilSelected) {
-                                  ibuId = state.ibuId;
-                                  _nameController.text = state.namaIbu;
-                                  _ageController.text = state.usia;
-                                  _nikController.text = state.nik;
-                                  _namaSuamiController.text = state.namaSuami;
-                                }
-                              },
-                              child: TextFormFieldSearch(
-                                controller: _nameController,
-                              ),
-                            ),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            Text(
-                              'Usia Ibu Hamil',
-                              style: AppTextStyles.primaryTextNormal
-                                  .copyWith(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            TextFieldWidget(
-                              controller: _ageController,
-                              hintText: "Usia Ibu Hamil",
-                              isPasswordField: false,
-                              keyboardType: TextInputType.number,
-                              obscureText: false,
-                              validators: [
-                                (value) => Validator.required(
-                                    value, "Usia Ibu Hamil Wajib Diisi"),
-                              ],
-                            ),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            Text(
-                              'NIK',
-                              style: AppTextStyles.primaryTextNormal
-                                  .copyWith(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            TextFieldWidget(
-                              controller: _nikController,
-                              hintText: "NIK",
-                              validators: [
-                                (value) => Validator.required(
-                                    value, "NIK Wajib Diisi"),
-                              ],
-                              isPasswordField: false,
-                              keyboardType: TextInputType.number,
-                              obscureText: false,
-                            ),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            Text(
-                              'Nama Suami',
-                              style: AppTextStyles.primaryTextNormal
-                                  .copyWith(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            TextFieldWidget(
-                              controller: _namaSuamiController,
-                              hintText: "Nama Suami",
-                              isPasswordField: false,
-                              keyboardType: TextInputType.text,
-                              obscureText: false,
-                              validators: [
-                                (value) => Validator.required(
-                                    value, "Nama Suami Wajib Diisi"),
-                              ],
-                            ),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isExpanded = !_isExpanded;
-                              });
-                            },
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisSize: MainAxisSize
-                                    .min, // Ukuran Row hanya mengikuti konten
-                                children: [
-                                  Text(
-                                    'Detail Ibu Hamil',
-                                    style: AppTextStyles.primaryTextMedium
-                                        .copyWith(
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                  Icon(
-                                    size: 20,
-                                    _isExpanded
-                                        ? FluentIcons.chevron_up_20_filled
-                                        : FluentIcons.chevron_down_20_filled,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 2,
-                      color: Colors.black54,
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Tempat Pengukuran',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    DropdownWidget(
-                      hint: 'Tempat Pengukuran',
-                      items: selectPosyandu,
-                      value: selectedPosyandu,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Tempat pengukuran Wajib dipilih";
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPosyandu = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Row(
-                      spacing: 8,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              MeasurementWidget(
-                                title: 'Tinggi Badan',
-                                hintText: 'contoh: 150 cm',
-                                unit: 'cm',
-                                validator: [
-                                  (value) => Validator.required(
-                                      value, 'Tingi Badan Wajib diisi'),
-                                ],
-                                // tool: 'Microtoise',
-                                controller: _heightController,
-                              ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16),
-                              ),
-                              MeasurementWidget(
-                                title: 'Tinggi Fundus Uteri',
-                                hintText: 'contoh: 10 cm',
-                                unit: 'cm',
-                                validator: [
-                                  (value) => Validator.required(
-                                      value, 'Tinggi Fundus Uteri Wajib diisi'),
-                                ],
-                                // tool: 'Pita Lila',
-                                controller: _uterineFundusHeightController,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              MeasurementWidget(
-                                title: 'Berat Badan',
-                                hintText: 'contoh: 50,5',
-                                unit: 'kg',
-                                validator: [
-                                  (value) => Validator.required(
-                                      value, 'Berat Badan Wajib diisi'),
-                                ],
-                                // tool: 'Timbangan Digital',
-                                controller: _weightController,
-                              ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16),
-                              ),
-                              MeasurementWidget(
-                                title: 'Lingkar Lengan Atas',
-                                hintText: 'contoh: 15',
-                                validator: [
-                                  (value) => Validator.required(
-                                      value, 'Lingkar Lengan Atas Wajib diisi'),
-                                ],
-                                unit: 'cm',
-                                // tool: 'Alat Ukur Lingkar Lengan Atas',
-                                controller: _armCircumferenceController,
-                              ),
-                              // radio button
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Hemogoblin',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 6,
-                      children: [
-                        Expanded(
-                          child: TextFieldWidget(
-                            controller: _hemogoblinController,
-                            hintText: "Hemogoblin",
-                            validators: [
-                              (value) => Validator.required(
-                                  value, 'Hemogoblin Wajib diisi'),
-                            ],
-                            isPasswordField: false,
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                          ),
-                        ),
-                        Text(
-                          'g/dl',
-                          style: AppTextStyles.primaryTextNormal.copyWith(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Tanggal Pertama Haid',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    DateTimePickerWidget(
-                      isDate: true,
-                      controller: _firstDateHaidController,
-                      selectDate: () {
-                        _selectDateFirstHaid(context);
-                      },
-                      hintText: "Pilih Tanggal",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Tanggal Wajib dipilih";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Tanggal Terakhir Haid',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    DateTimePickerWidget(
-                      isDate: true,
-                      controller: _lastDateHaidController,
-                      selectDate: () {
-                        _selectDateLastHaid(context);
-                      },
-                      hintText: "Pilih Tanggal",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Tanggal Wajib dipilih";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Usia Kehamilan',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    TextFieldWidget(
-                      controller: _usiaKehamilanController,
-                      hintText: "Usia Kehamilan (minggu)",
-                      validators: [
-                        (value) => Validator.required(
-                          value, 'Usia Kehamilan Wajib diisi'),
-                      ],
-                      isPasswordField: false,
-                      keyboardType: TextInputType.number,
-                      obscureText: false,
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            spacing: 8,
-                            children: [
-                              Text(
-                                'Terpapar Asap Rokok',
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 12,
-                                ),
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8)),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                spacing: 16,
-                                children: [
-                                  CustomRadioButton(
-                                    value: 1,
-                                    groupValue: exposedCigaretteSmoke!,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        exposedCigaretteSmoke = value;
-                                      });
-                                    },
-                                    label: 'Ya',
-                                  ),
-                                  CustomRadioButton(
-                                    value: 0,
-                                    groupValue: exposedCigaretteSmoke!,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        exposedCigaretteSmoke = value;
-                                      });
-                                    },
-                                    label: 'Tidak',
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            spacing: 8,
-                            children: [
-                              Text(
-                                'Tablet Fe',
-                                style: AppTextStyles.primaryTextNormal
-                                    .copyWith(fontSize: 12),
-                              ),
-                              TextFieldWidget(
-                                controller: _tabletFeController,
-                                hintText: "Jumlah Tablet FE",
-                                validators: [
-                                  (value) => Validator.required(
-                                      value, 'Jumlah Table FE Wajib diisi'),
-                                ],
-                                isPasswordField: false,
-                                keyboardType: TextInputType.number,
-                                obscureText: false,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    //!
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Kepemilikian BPJS',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      spacing: 10,
-                      children: [
-                        Expanded(
-                          child: ButtonPrimary(
-                            color: selectedMemilikiBPJS == null ? buttonThird : selectedMemilikiBPJS == "Iya" ? buttonThird : stroke10,
-                            mainButtonMessage: 'Iya',
-                            mainButton: () {
-                              setState(() {
-                                selectedMemilikiBPJS = "Iya";
-                                boolNamaBPJS = true;
+
+    return SizedBox();
+    // return BlocListener<AlatUkurAnakBloc, AlatUkurAnakState>(
+    //   listener: (context, state) {
+    //     debugPrint(state.toString());
+    //     if (state is AlatUkurAnakSuccessState) {
+    //       alatUkur = state.alatUkurResponseModel.data![0].id;
+    //     }
+    //     if (state is AlatUkurAnakFailedState) {
+    //       showTopSnackBar(
+    //           Overlay.of(context),
+    //           animationDuration: const Duration(milliseconds: 600),
+    //           displayDuration: const Duration(milliseconds: 2200),
+    //           reverseAnimationDuration: const Duration(milliseconds: 300),
+    //           TopSnackbarWidget().error(state.error));
+    //     }
+    //   },
+    //   child: Scaffold(
+    //     backgroundColor: backgroundWhite10,
+    //     appBar: PrimaryAppBar(
+    //       title: "Tambah Ibu Hamil",
+    //       actions: [
+    //         // GestureDetector(
+    //         //   onTap: () {
+    //         //     showDialog(
+    //         //       context: context,
+    //         //       builder: (context) => AlertChooseMeasuringTools(
+    //         //         title: 'Pilih Alat Ukur',
+    //         //         mainButton: () {
+    //         //           Navigator.pop(context);
+    //         //         },
+    //         //         mainButtonMessage: 'Simpan',
+    //         //         colorMainButton: bluePrimaryMain,
+    //         //         selectedHeight: selectedHeight,
+    //         //         selectedWeight: selectedWeight,
+    //         //         selectedUpperArmCircumference:
+    //         //             selectedUpperArmCircumference,
+    //         //         selectedUterineFundalHeight: selectedUterineFundalHeight,
+    //         //         onHeightChanged: (value) {
+    //         //           setState(() {
+    //         //             selectedHeight = value;
+    //         //           });
+    //         //         },
+    //         //         onWeightChanged: (value) {
+    //         //           setState(() {
+    //         //             selectedWeight = value;
+    //         //           });
+    //         //         },
+    //         //         onUpperArmCircumferenceChanged: (value) {
+    //         //           setState(() {
+    //         //             selectedUpperArmCircumference = value;
+    //         //           });
+    //         //         },
+    //         //         onUterineFundalHeightChanged: (value) {
+    //         //           setState(() {
+    //         //             selectedUterineFundalHeight = value;
+    //         //           });
+    //         //         },
+    //         //       ),
+    //         //     );
+    //         //   },
+    //         //   child: Container(
+    //         //     margin: const EdgeInsets.only(right: 24),
+    //         //     padding:
+    //         //         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    //         //     decoration: BoxDecoration(
+    //         //       color: bluePrimary30,
+    //         //       borderRadius: BorderRadius.circular(10),
+    //         //     ),
+    //         //     child: Row(
+    //         //       spacing: 2,
+    //         //       crossAxisAlignment: CrossAxisAlignment.center,
+    //         //       mainAxisAlignment: MainAxisAlignment.center,
+    //         //       children: [
+    //         //         Icon(
+    //         //           FontAwesomeIcons.penToSquare,
+    //         //           color: Colors.white,
+    //         //           size: 14,
+    //         //         ),
+    //         //         Text(
+    //         //           'Ubah Alat',
+    //         //           style: AppTextStyles.primaryTextMedium.copyWith(
+    //         //             fontSize: 12,
+    //         //             color: Colors.white,
+    //         //           ),
+    //         //         ),
+    //         //       ],
+    //         //     ),
+    //         //   ),
+    //         // ),
+    //       ],
+    //       onBackPressed: () => Navigator.pop(context),
+    //     ),
+    //     body: SafeArea(
+    //       child: SingleChildScrollView(
+    //         child: Container(
+    //           margin: EdgeInsets.all(20),
+    //           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+    //           decoration: BoxDecoration(
+    //             color: Colors.white,
+    //             borderRadius: BorderRadius.circular(12),
+    //           ),
+    //           child: Form(
+    //             key: _formKey,
+    //             child: Column(
+    //               mainAxisSize: MainAxisSize.min,
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               mainAxisAlignment: MainAxisAlignment.start,
+    //               children: [
+    //                 AnimatedContainer(
+    //                   // color: Colors.red,
+    //                   duration:
+    //                       const Duration(milliseconds: 300), // Durasi animasi
+    //                   curve: Curves.easeInOut, // Kurva animasi
+    //                   height: _isExpanded
+    //                       ? sizeHeighofSingleForm * 4
+    //                       : sizeHeighofSingleForm, // Tinggi menu saat diperluas/dikecilkan
+    //                   child: SingleChildScrollView(
+    //                     physics: NeverScrollableScrollPhysics(),
+    //                     child: Column(
+    //                       crossAxisAlignment: CrossAxisAlignment.start,
+    //                       mainAxisAlignment: MainAxisAlignment.start,
+    //                       children: [
+    //                         Text(
+    //                           'Nama',
+    //                           style: AppTextStyles.primaryTextNormal.copyWith(
+    //                             fontSize: 12,
+    //                           ),
+    //                         ),
+    //                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                         BlocListener<SearchIbuHamilCubit,
+    //                             SearchIbuHamilState>(
+    //                           listener: (context, state) {
+    //                             if (state is SearchIbuHamilSelected) {
+    //                               ibuId = state.ibuId;
+    //                               _nameController.text = state.namaIbu;
+    //                               _ageController.text = state.usia;
+    //                               _nikController.text = state.nik;
+    //                               _namaSuamiController.text = state.namaSuami;
+    //                             }
+    //                           },
+    //                           child: TextFormFieldSearch(
+    //                             controller: _nameController,
+    //                           ),
+    //                         ),
+    //                         SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16)),
+    //                         Text(
+    //                           'Usia Ibu Hamil',
+    //                           style: AppTextStyles.primaryTextNormal
+    //                               .copyWith(fontSize: 12),
+    //                         ),
+    //                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                         TextFieldWidget(
+    //                           controller: _ageController,
+    //                           hintText: "Usia Ibu Hamil",
+    //                           isPasswordField: false,
+    //                           keyboardType: TextInputType.number,
+    //                           obscureText: false,
+    //                           validators: [
+    //                             (value) => Validator.required(
+    //                                 value, "Usia Ibu Hamil Wajib Diisi"),
+    //                           ],
+    //                         ),
+    //                         SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16)),
+    //                         Text(
+    //                           'NIK',
+    //                           style: AppTextStyles.primaryTextNormal
+    //                               .copyWith(fontSize: 12),
+    //                         ),
+    //                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                         TextFieldWidget(
+    //                           controller: _nikController,
+    //                           hintText: "NIK",
+    //                           validators: [
+    //                             (value) => Validator.required(
+    //                                 value, "NIK Wajib Diisi"),
+    //                           ],
+    //                           isPasswordField: false,
+    //                           keyboardType: TextInputType.number,
+    //                           obscureText: false,
+    //                         ),
+    //                         SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16)),
+    //                         Text(
+    //                           'Nama Suami',
+    //                           style: AppTextStyles.primaryTextNormal
+    //                               .copyWith(fontSize: 12),
+    //                         ),
+    //                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                         TextFieldWidget(
+    //                           controller: _namaSuamiController,
+    //                           hintText: "Nama Suami",
+    //                           isPasswordField: false,
+    //                           keyboardType: TextInputType.text,
+    //                           obscureText: false,
+    //                           validators: [
+    //                             (value) => Validator.required(
+    //                                 value, "Nama Suami Wajib Diisi"),
+    //                           ],
+    //                         ),
+    //                         SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16)),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 Container(
+    //                   child: Column(
+    //                     children: [
+    //                       GestureDetector(
+    //                         onTap: () {
+    //                           setState(() {
+    //                             _isExpanded = !_isExpanded;
+    //                           });
+    //                         },
+    //                         child: Align(
+    //                           alignment: Alignment.centerRight,
+    //                           child: Row(
+    //                             mainAxisSize: MainAxisSize
+    //                                 .min, // Ukuran Row hanya mengikuti konten
+    //                             children: [
+    //                               Text(
+    //                                 'Detail Ibu Hamil',
+    //                                 style: AppTextStyles.primaryTextMedium
+    //                                     .copyWith(
+    //                                   fontSize: 10,
+    //                                 ),
+    //                               ),
+    //                               Icon(
+    //                                 size: 20,
+    //                                 _isExpanded
+    //                                     ? FluentIcons.chevron_up_20_filled
+    //                                     : FluentIcons.chevron_down_20_filled,
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 Container(
+    //                   width: double.infinity,
+    //                   height: 2,
+    //                   color: Colors.black54,
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Tempat Pengukuran',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 DropdownWidget(
+    //                   hint: 'Tempat Pengukuran',
+    //                   items: selectPosyandu,
+    //                   value: selectedPosyandu,
+    //                   validator: (value) {
+    //                     if (value == null || value.isEmpty) {
+    //                       return "Tempat pengukuran Wajib dipilih";
+    //                     }
+    //                     return null;
+    //                   },
+    //                   onChanged: (value) {
+    //                     setState(() {
+    //                       selectedPosyandu = value;
+    //                     });
+    //                   },
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Row(
+    //                   spacing: 8,
+    //                   mainAxisAlignment: MainAxisAlignment.start,
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Expanded(
+    //                       child: Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         mainAxisAlignment: MainAxisAlignment.start,
+    //                         children: [
+    //                           MeasurementWidget(
+    //                             title: 'Tinggi Badan',
+    //                             hintText: 'contoh: 150 cm',
+    //                             unit: 'cm',
+    //                             validator: [
+    //                               (value) => Validator.required(
+    //                                   value, 'Tingi Badan Wajib diisi'),
+    //                             ],
+    //                             // tool: 'Microtoise',
+    //                             controller: _heightController,
+    //                           ),
+    //                           SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16),
+    //                           ),
+    //                           MeasurementWidget(
+    //                             title: 'Tinggi Fundus Uteri',
+    //                             hintText: 'contoh: 10 cm',
+    //                             unit: 'cm',
+    //                             validator: [
+    //                               (value) => Validator.required(
+    //                                   value, 'Tinggi Fundus Uteri Wajib diisi'),
+    //                             ],
+    //                             // tool: 'Pita Lila',
+    //                             controller: _uterineFundusHeightController,
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                     Expanded(
+    //                       child: Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         mainAxisAlignment: MainAxisAlignment.start,
+    //                         children: [
+    //                           MeasurementWidget(
+    //                             title: 'Berat Badan',
+    //                             hintText: 'contoh: 50,5',
+    //                             unit: 'kg',
+    //                             validator: [
+    //                               (value) => Validator.required(
+    //                                   value, 'Berat Badan Wajib diisi'),
+    //                             ],
+    //                             // tool: 'Timbangan Digital',
+    //                             controller: _weightController,
+    //                           ),
+    //                           SizedBox(
+    //                             height: SizeConfig.calHeightMultiplier(16),
+    //                           ),
+    //                           MeasurementWidget(
+    //                             title: 'Lingkar Lengan Atas',
+    //                             hintText: 'contoh: 15',
+    //                             validator: [
+    //                               (value) => Validator.required(
+    //                                   value, 'Lingkar Lengan Atas Wajib diisi'),
+    //                             ],
+    //                             unit: 'cm',
+    //                             // tool: 'Alat Ukur Lingkar Lengan Atas',
+    //                             controller: _armCircumferenceController,
+    //                           ),
+    //                           // radio button
+    //                         ],
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Hemogoblin',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 Row(
+    //                   crossAxisAlignment: CrossAxisAlignment.center,
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   spacing: 6,
+    //                   children: [
+    //                     Expanded(
+    //                       child: TextFieldWidget(
+    //                         controller: _hemogoblinController,
+    //                         hintText: "Hemogoblin",
+    //                         validators: [
+    //                           (value) => Validator.required(
+    //                               value, 'Hemogoblin Wajib diisi'),
+    //                         ],
+    //                         isPasswordField: false,
+    //                         keyboardType: TextInputType.number,
+    //                         obscureText: false,
+    //                       ),
+    //                     ),
+    //                     Text(
+    //                       'g/dl',
+    //                       style: AppTextStyles.primaryTextNormal.copyWith(
+    //                         fontSize: 16,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Tanggal Pertama Haid',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 DateTimePickerWidget(
+    //                   isDate: true,
+    //                   controller: _firstDateHaidController,
+    //                   selectDate: () {
+    //                     _selectDateFirstHaid(context);
+    //                   },
+    //                   hintText: "Pilih Tanggal",
+    //                   validator: (value) {
+    //                     if (value == null || value.isEmpty) {
+    //                       return "Tanggal Wajib dipilih";
+    //                     }
+    //                     return null;
+    //                   },
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Tanggal Terakhir Haid',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 DateTimePickerWidget(
+    //                   isDate: true,
+    //                   controller: _lastDateHaidController,
+    //                   selectDate: () {
+    //                     _selectDateLastHaid(context);
+    //                   },
+    //                   hintText: "Pilih Tanggal",
+    //                   validator: (value) {
+    //                     if (value == null || value.isEmpty) {
+    //                       return "Tanggal Wajib dipilih";
+    //                     }
+    //                     return null;
+    //                   },
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Usia Kehamilan',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 TextFieldWidget(
+    //                   controller: _usiaKehamilanController,
+    //                   hintText: "Usia Kehamilan (minggu)",
+    //                   validators: [
+    //                     (value) => Validator.required(
+    //                       value, 'Usia Kehamilan Wajib diisi'),
+    //                   ],
+    //                   isPasswordField: false,
+    //                   keyboardType: TextInputType.number,
+    //                   obscureText: false,
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Row(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   mainAxisAlignment: MainAxisAlignment.start,
+    //                   children: [
+    //                     Expanded(
+    //                       child: Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         mainAxisAlignment: MainAxisAlignment.start,
+    //                         spacing: 8,
+    //                         children: [
+    //                           Text(
+    //                             'Terpapar Asap Rokok',
+    //                             style: AppTextStyles.primaryTextNormal.copyWith(
+    //                               fontSize: 12,
+    //                             ),
+    //                           ),
+    //                           SizedBox(
+    //                               height: SizeConfig.calHeightMultiplier(8)),
+    //                           Row(
+    //                             crossAxisAlignment: CrossAxisAlignment.start,
+    //                             mainAxisAlignment: MainAxisAlignment.start,
+    //                             spacing: 16,
+    //                             children: [
+    //                               CustomRadioButton(
+    //                                 value: 1,
+    //                                 groupValue: exposedCigaretteSmoke!,
+    //                                 onChanged: (value) {
+    //                                   setState(() {
+    //                                     exposedCigaretteSmoke = value;
+    //                                   });
+    //                                 },
+    //                                 label: 'Ya',
+    //                               ),
+    //                               CustomRadioButton(
+    //                                 value: 0,
+    //                                 groupValue: exposedCigaretteSmoke!,
+    //                                 onChanged: (value) {
+    //                                   setState(() {
+    //                                     exposedCigaretteSmoke = value;
+    //                                   });
+    //                                 },
+    //                                 label: 'Tidak',
+    //                               ),
+    //                             ],
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     ),
+    //                     Expanded(
+    //                       child: Column(
+    //                         crossAxisAlignment: CrossAxisAlignment.start,
+    //                         mainAxisAlignment: MainAxisAlignment.start,
+    //                         spacing: 8,
+    //                         children: [
+    //                           Text(
+    //                             'Tablet Fe',
+    //                             style: AppTextStyles.primaryTextNormal
+    //                                 .copyWith(fontSize: 12),
+    //                           ),
+    //                           TextFieldWidget(
+    //                             controller: _tabletFeController,
+    //                             hintText: "Jumlah Tablet FE",
+    //                             validators: [
+    //                               (value) => Validator.required(
+    //                                   value, 'Jumlah Table FE Wajib diisi'),
+    //                             ],
+    //                             isPasswordField: false,
+    //                             keyboardType: TextInputType.number,
+    //                             obscureText: false,
+    //                           ),
+    //                         ],
+    //                       ),
+    //                     )
+    //                   ],
+    //                 ),
+    //                 //!
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Kepemilikian BPJS',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 Row(
+    //                   mainAxisSize: MainAxisSize.max,
+    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                   spacing: 10,
+    //                   children: [
+    //                     Expanded(
+    //                       child: ButtonPrimary(
+    //                         color: selectedMemilikiBPJS == null ? buttonThird : selectedMemilikiBPJS == "Iya" ? buttonThird : stroke10,
+    //                         mainButtonMessage: 'Iya',
+    //                         mainButton: () {
+    //                           setState(() {
+    //                             selectedMemilikiBPJS = "Iya";
+    //                             boolNamaBPJS = true;
                                 
-                                selectedRadioBPJS = 0;
-                                selectedNamaBPJS = 'BPJS PBI (bantuan)';
-                              });
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: ButtonPrimary(
-                            color: selectedMemilikiBPJS == null ? redPrimaryMain : selectedMemilikiBPJS == "Tidak" ? redPrimaryMain : stroke10,
-                            mainButtonMessage: 'Tidak',
-                            mainButton: () {
-                              setState(() {
-                                selectedMemilikiBPJS = "Tidak";
-                                boolNamaBPJS = false;
+    //                             selectedRadioBPJS = 0;
+    //                             selectedNamaBPJS = 'BPJS PBI (bantuan)';
+    //                           });
+    //                         },
+    //                       ),
+    //                     ),
+    //                     Expanded(
+    //                       child: ButtonPrimary(
+    //                         color: selectedMemilikiBPJS == null ? redPrimaryMain : selectedMemilikiBPJS == "Tidak" ? redPrimaryMain : stroke10,
+    //                         mainButtonMessage: 'Tidak',
+    //                         mainButton: () {
+    //                           setState(() {
+    //                             selectedMemilikiBPJS = "Tidak";
+    //                             boolNamaBPJS = false;
 
-                                selectedRadioBPJS = null;
-                                selectedNamaBPJS = null;
-                                _namaBPJSController = TextEditingController();
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    boolNamaBPJS == false
-                    ? SizedBox()
-                    : selectedRadioBPJS == 2
-                    ? TextFieldWidget(
-                      controller: _namaBPJSController,
-                      hintText: "Masukan Nama BPJS Anda",
-                      validators: selectedRadioBPJS == 2 ? [
-                        (value) => Validator.required(
-                            value, 'Nama BPJS Wajib diisi'),
-                      ] : null,
-                      isPasswordField: false,
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                    )
-                    : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: 10,
-                      children: [
-                        CustomRadioButton(
-                          value: 0,
-                          groupValue: selectedRadioBPJS!,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadioBPJS = value;
-                              selectedNamaBPJS = 'BPJS PBI (bantuan)';
-                            });
-                          },
-                          label: 'BPJS PBI (bantuan)',
-                        ),
-                        CustomRadioButton(
-                          value: 1,
-                          groupValue: selectedRadioBPJS!,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadioBPJS = value;
-                              selectedNamaBPJS = "BPJS Mandiri";
-                            });
-                          },
-                          label: "BPJS Mandiri",
-                        ),
-                        CustomRadioButton(
-                          value: 2,
-                          groupValue: selectedRadioBPJS!,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRadioBPJS = value;
-                            });
-                          },
-                          label: 'lainnya',
-                        ),
-                        SizedBox(
-                          width: SizeConfig.calHeightMultiplier(10),
-                        ),
-                      ],
-                    ),
-                    //!
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Catatan',
-                      style: AppTextStyles.primaryTextNormal.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                    AutoSizeTextFieldWidget(
-                      controller: _catatanController,
-                      hintText: 'Masukan Catatan',
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    BlocListener<CreateRegisterIbuHamilBloc,
-                        CreateRegisterIbuHamilState>(
-                      listener: (context, state) {
-                        debugPrint(state.toString());
-                        if (state is CreateRegisterIbuHamilSendSuccess) {
-                          showTopSnackBar(
-                              Overlay.of(context),
-                              animationDuration:
-                                  const Duration(milliseconds: 600),
-                              displayDuration:
-                                  const Duration(milliseconds: 2200),
-                              reverseAnimationDuration:
-                                  const Duration(milliseconds: 300),
-                              TopSnackbarWidget()
-                                  .success('Berhasil Menambah Data Ibu Hamil'));
-                          Navigator.pop(context,1);
-                        }
-                        if (state is CreateRegisterIbuHamilSendFailed) {
-                          debugPrint(state.error.message);
-                          showTopSnackBar(
-                              Overlay.of(context),
-                              animationDuration:
-                                  const Duration(milliseconds: 600),
-                              displayDuration:
-                                  const Duration(milliseconds: 2200),
-                              reverseAnimationDuration:
-                                  const Duration(milliseconds: 300),
-                              TopSnackbarWidget().error(state.error.message));
-                        }
-                      },
-                      child: ButtonPrimary(
-                        color: bluePrimaryMain,
-                        mainButtonMessage: 'Simpan',
-                        mainButton: () {
-                          if (_formKey.currentState!.validate() && selectedMemilikiBPJS != null) {
-                            PostIbuHamilModel postData = PostIbuHamilModel(
-                              alatBeratBadanId: alatUkur,
-                              alatLingkarLenganId: alatUkur,
-                              alatTinggiBadanId: alatUkur,
-                              alatTinggiFundusId: alatUkur,
-                              beratBadan: _parseDouble(_weightController.text),
-                              catatan: _catatanController.text,
-                              hemoglobin: _parseDouble(_hemogoblinController.text),
-                              ibuId: ibuId,
-                              jumlahTabletFe: _parseInt(_tabletFeController.text),
-                              lingkarLenganAtas: _parseDouble( _armCircumferenceController.text),
-                              terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
-                              tinggiBadan: _parseDouble(_heightController.text),
-                              tinggiFundusUteri: _parseDouble( _uterineFundusHeightController.text),
-                              tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
-                              tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
-                              usiaKehamilan: _parseInt(_usiaKehamilanController.text),
-                              memilkiBPJS: selectedMemilikiBPJS!, 
-                              namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text: selectedNamaBPJS
-                            );
+    //                             selectedRadioBPJS = null;
+    //                             selectedNamaBPJS = null;
+    //                             _namaBPJSController = TextEditingController();
+    //                           });
+    //                         },
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 boolNamaBPJS == false
+    //                 ? SizedBox()
+    //                 : selectedRadioBPJS == 2
+    //                 ? TextFieldWidget(
+    //                   controller: _namaBPJSController,
+    //                   hintText: "Masukan Nama BPJS Anda",
+    //                   validators: selectedRadioBPJS == 2 ? [
+    //                     (value) => Validator.required(
+    //                         value, 'Nama BPJS Wajib diisi'),
+    //                   ] : null,
+    //                   isPasswordField: false,
+    //                   keyboardType: TextInputType.text,
+    //                   obscureText: false,
+    //                 )
+    //                 : Column(
+    //                   mainAxisSize: MainAxisSize.min,
+    //                   spacing: 10,
+    //                   children: [
+    //                     CustomRadioButton(
+    //                       value: 0,
+    //                       groupValue: selectedRadioBPJS!,
+    //                       onChanged: (value) {
+    //                         setState(() {
+    //                           selectedRadioBPJS = value;
+    //                           selectedNamaBPJS = 'BPJS PBI (bantuan)';
+    //                         });
+    //                       },
+    //                       label: 'BPJS PBI (bantuan)',
+    //                     ),
+    //                     CustomRadioButton(
+    //                       value: 1,
+    //                       groupValue: selectedRadioBPJS!,
+    //                       onChanged: (value) {
+    //                         setState(() {
+    //                           selectedRadioBPJS = value;
+    //                           selectedNamaBPJS = "BPJS Mandiri";
+    //                         });
+    //                       },
+    //                       label: "BPJS Mandiri",
+    //                     ),
+    //                     CustomRadioButton(
+    //                       value: 2,
+    //                       groupValue: selectedRadioBPJS!,
+    //                       onChanged: (value) {
+    //                         setState(() {
+    //                           selectedRadioBPJS = value;
+    //                         });
+    //                       },
+    //                       label: 'lainnya',
+    //                     ),
+    //                     SizedBox(
+    //                       width: SizeConfig.calHeightMultiplier(10),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 //!
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 Text(
+    //                   'Catatan',
+    //                   style: AppTextStyles.primaryTextNormal.copyWith(
+    //                     fontSize: 12,
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+    //                 AutoSizeTextFieldWidget(
+    //                   controller: _catatanController,
+    //                   hintText: 'Masukan Catatan',
+    //                 ),
+    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+    //                 BlocListener<CreateRegisterIbuHamilBloc,
+    //                     CreateRegisterIbuHamilState>(
+    //                   listener: (context, state) {
+    //                     debugPrint(state.toString());
+    //                     if (state is CreateRegisterIbuHamilSendSuccess) {
+    //                       showTopSnackBar(
+    //                           Overlay.of(context),
+    //                           animationDuration:
+    //                               const Duration(milliseconds: 600),
+    //                           displayDuration:
+    //                               const Duration(milliseconds: 2200),
+    //                           reverseAnimationDuration:
+    //                               const Duration(milliseconds: 300),
+    //                           TopSnackbarWidget()
+    //                               .success('Berhasil Menambah Data Ibu Hamil'));
+    //                       Navigator.pop(context,1);
+    //                     }
+    //                     if (state is CreateRegisterIbuHamilSendFailed) {
+    //                       debugPrint(state.error.message);
+    //                       showTopSnackBar(
+    //                           Overlay.of(context),
+    //                           animationDuration:
+    //                               const Duration(milliseconds: 600),
+    //                           displayDuration:
+    //                               const Duration(milliseconds: 2200),
+    //                           reverseAnimationDuration:
+    //                               const Duration(milliseconds: 300),
+    //                           TopSnackbarWidget().error(state.error.message));
+    //                     }
+    //                   },
+    //                   child: ButtonPrimary(
+    //                     color: bluePrimaryMain,
+    //                     mainButtonMessage: 'Simpan',
+    //                     mainButton: () {
+    //                       if (_formKey.currentState!.validate() && selectedMemilikiBPJS != null) {
+    //                         PostIbuHamilModel postData = PostIbuHamilModel(
+    //                           alatBeratBadanId: alatUkur,
+    //                           alatLingkarLenganId: alatUkur,
+    //                           alatTinggiBadanId: alatUkur,
+    //                           alatTinggiFundusId: alatUkur,
+    //                           beratBadan: _parseDouble(_weightController.text),
+    //                           catatan: _catatanController.text,
+    //                           hemoglobin: _parseDouble(_hemogoblinController.text),
+    //                           ibuId: ibuId,
+    //                           jumlahTabletFe: _parseInt(_tabletFeController.text),
+    //                           lingkarLenganAtas: _parseDouble( _armCircumferenceController.text),
+    //                           terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
+    //                           tinggiBadan: _parseDouble(_heightController.text),
+    //                           tinggiFundusUteri: _parseDouble( _uterineFundusHeightController.text),
+    //                           tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
+    //                           tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+    //                           usiaKehamilan: _parseInt(_usiaKehamilanController.text),
+    //                           memilkiBPJS: selectedMemilikiBPJS!, 
+    //                           namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text: selectedNamaBPJS
+    //                         );
 
-                            context
-                              .read<CreateRegisterIbuHamilBloc>()
-                              .add(PostCreateIbuHamil(postData));
-                          } else {
-                            showTopSnackBar(
-                              Overlay.of(context),
-                              animationDuration:
-                                  const Duration(milliseconds: 600),
-                              displayDuration:
-                                  const Duration(milliseconds: 2200),
-                              reverseAnimationDuration:
-                                  const Duration(milliseconds: 300),
-                              TopSnackbarWidget().warning("Form Tidak Boleh Kosong"));
-                          }
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    //                         context
+    //                           .read<CreateRegisterIbuHamilBloc>()
+    //                           .add(PostCreateIbuHamil(postData));
+    //                       } else {
+    //                         showTopSnackBar(
+    //                           Overlay.of(context),
+    //                           animationDuration:
+    //                               const Duration(milliseconds: 600),
+    //                           displayDuration:
+    //                               const Duration(milliseconds: 2200),
+    //                           reverseAnimationDuration:
+    //                               const Duration(milliseconds: 300),
+    //                           TopSnackbarWidget().warning("Form Tidak Boleh Kosong"));
+    //                       }
+    //                     },
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 

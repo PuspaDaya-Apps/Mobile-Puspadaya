@@ -8,7 +8,7 @@ class MeasurementWidget extends StatelessWidget {
   final String hintText;
   final String unit;
   final List<String? Function(String)>? validator;
-  // final String? tool;
+  final String? tool;
   final TextEditingController controller;
 
   MeasurementWidget({
@@ -17,7 +17,7 @@ class MeasurementWidget extends StatelessWidget {
     required this.title,
     required this.hintText,
     required this.unit,
-    // this.tool,
+    this.tool,
     required this.controller,
   }) : super(key: key);
 
@@ -62,14 +62,14 @@ class MeasurementWidget extends StatelessWidget {
         SizedBox(
           height: SizeConfig.calHeightMultiplier(4),
         ),
-        // tool != null
-        //     ? Text(
-        //         'Alat : $tool',
-        //         style: AppTextStyles.primaryTextNormal.copyWith(
-        //           fontSize: 10,
-        //         ),
-        //       )
-        //     : const SizedBox.shrink(),
+        tool != null
+        ? Text(
+          'Alat : $tool',
+          style: AppTextStyles.primaryTextNormal.copyWith(
+            fontSize: 10,
+          ),
+        )
+      : const SizedBox.shrink(),
       ],
     );
   }

@@ -101,41 +101,41 @@ class _UpdatePengukuranIbuHamilViewState
         actions: [
           GestureDetector(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertChooseMeasuringTools(
-                  title: 'Pilih Alat Ukur',
-                  mainButton: () {
-                    Navigator.pop(context);
-                  },
-                  mainButtonMessage: 'Simpan',
-                  colorMainButton: bluePrimaryMain,
-                  selectedHeight: selectedHeight,
-                  selectedWeight: selectedWeight,
-                  selectedUpperArmCircumference: selectedUpperArmCircumference,
-                  selectedUterineFundalHeight: selectedUterineFundalHeight,
-                  onHeightChanged: (value) {
-                    setState(() {
-                      selectedHeight = value;
-                    });
-                  },
-                  onWeightChanged: (value) {
-                    setState(() {
-                      selectedWeight = value;
-                    });
-                  },
-                  onUpperArmCircumferenceChanged: (value) {
-                    setState(() {
-                      selectedUpperArmCircumference = value;
-                    });
-                  },
-                  onUterineFundalHeightChanged: (value) {
-                    setState(() {
-                      selectedUterineFundalHeight = value;
-                    });
-                  },
-                ),
-              );
+              // showDialog(
+              //   context: context,
+              //   builder: (context) => AlertChooseMeasuringTools(
+              //     title: 'Pilih Alat Ukur',
+              //     mainButton: () {
+              //       Navigator.pop(context);
+              //     },
+              //     mainButtonMessage: 'Simpan',
+              //     colorMainButton: bluePrimaryMain,
+              //     selectedHeight: selectedHeight,
+              //     selectedWeight: selectedWeight,
+              //     selectedUpperArmCircumference: selectedUpperArmCircumference,
+              //     selectedUterineFundalHeight: selectedUterineFundalHeight,
+              //     onHeightChanged: (value) {
+              //       setState(() {
+              //         selectedHeight = value;
+              //       });
+              //     },
+              //     onWeightChanged: (value) {
+              //       setState(() {
+              //         selectedWeight = value;
+              //       });
+              //     },
+              //     onUpperArmCircumferenceChanged: (value) {
+              //       setState(() {
+              //         selectedUpperArmCircumference = value;
+              //       });
+              //     },
+              //     onUterineFundalHeightChanged: (value) {
+              //       setState(() {
+              //         selectedUterineFundalHeight = value;
+              //       });
+              //     },
+              //   ),
+              // );
             },
             child: Container(
               margin: const EdgeInsets.only(right: 24),

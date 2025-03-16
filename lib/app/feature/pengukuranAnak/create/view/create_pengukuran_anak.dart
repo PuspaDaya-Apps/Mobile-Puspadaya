@@ -1,7 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
+
 import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/model/pengukuran_anak_model.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/view/search_anak.dart';
@@ -25,8 +25,14 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/validator/validator.dart';
 import '../../../../../utils/constant/constanst.dart';
+import '../../../../model/alat_ukur_response_model.dart';
+import '../../../../model/alat_ukur_save_model.dart';
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
+import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../../alatUkurSave/bloc/alatUkurSaveBloc/alat_ukur_save_bloc.dart';
+import '../../../alatUkurSave/bloc/getAlatUkurBloc/get_alat_ukur_bloc.dart';
+import '../../../alatUkurSave/bloc/saveAlatUkurBloc/save_alat_ukur_bloc.dart';
 import '../Bloc/createPengukuranAnak/create_pengukuran_anak_bloc.dart';
 
 class CreatePengukuranAnak extends StatelessWidget {
@@ -43,7 +49,13 @@ class CreatePengukuranAnak extends StatelessWidget {
           create: (context) => CreatePengukuranAnakBloc(),
         ),
         BlocProvider(
-          create: (context) => AlatUkurAnakBloc(),
+          create: (context) => AlatUkurSaveBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetAlatUkurBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SaveAlatUkurBloc(),
         ),
       ],
       child: const CreatePengukuranAnakView(),
@@ -55,8 +67,7 @@ class CreatePengukuranAnakView extends StatefulWidget {
   const CreatePengukuranAnakView({super.key});
 
   @override
-  State<CreatePengukuranAnakView> createState() =>
-      _CreatePengukuranAnakViewState();
+  State<CreatePengukuranAnakView> createState() => _CreatePengukuranAnakViewState();
 }
 
 class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
@@ -66,8 +77,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController =
-      TextEditingController();
+  TextEditingController upperArmCircumferenceController = TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
@@ -78,24 +88,20 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   String selectedPosyandu = 'Posyandu';
   String selectedPosition = 'Terlentang';
 
-  String selectedHeight = 'Microtoise';
-  String selectedWeight = 'Timbangan Digital';
-  String selectedUpperArmCircumference = 'Pita Lila';
-  String selectedUterineFundalHeight = 'Metline';
-
   late PaketToCreatePengukuranAnakModel paket;
 
   String? asiEksklusifValue = '0';
   String? mpasiValue = '0';
 
-  late String alatUkur;
+  AlatUkurSaveModel alatUkurAnak = AlatUkurSaveModel();
+  AlatUkurResponseModel? listAlatUkur;
 
   bool? isAgeLessThanSixMonths;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AlatUkurAnakBloc>(context).add(GetAlatUkur());
+    BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
   }
 
   bool isLessThanSixMonths(String age) {
@@ -116,696 +122,897 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
 
-    final createPengukuranAnakBloc =
-        BlocProvider.of<CreatePengukuranAnakBloc>(context);
+    final createPengukuranAnakBloc = BlocProvider.of<CreatePengukuranAnakBloc>(context);
+    final saveAlatUkurBloc = BlocProvider.of<SaveAlatUkurBloc>(context);
 
-    return BlocListener<AlatUkurAnakBloc, AlatUkurAnakState>(
+    return BlocListener<GetAlatUkurBloc, GetAlatUkurState>(
       listener: (context, state) {
-        debugPrint(state.toString());
-        if (state is AlatUkurAnakSuccessState) {
-          alatUkur = state.alatUkurResponseModel.data![0].id;
+        if (state is GetAlatUkurAnakSuccessState) {
+          logger.i("Berhasil");
+          setState(() {
+            alatUkurAnak = state.alatUkurAnak;
+          });
         }
-        if (state is AlatUkurAnakFailedState) {
-          showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().error(state.error));
+        if (state is GetAlatUkurAnakFailedState) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertChooseMeasuringTools(
+              title: 'Pilih Alat Ukur',
+              mainButton: () {
+                Navigator.pop(context);
+              },
+              mainButtonMessage: 'Simpan',
+              colorMainButton: bluePrimaryMain,
+              listAlatUkur: listAlatUkur!,
+              saveAlatUkurBloc: saveAlatUkurBloc,
+            ),
+          ).then((value) {
+            if (value != null) {
+              setState(() {
+                alatUkurAnak = value as AlatUkurSaveModel;
+              });
+            } else {
+              Navigator.pop(context);
+            }
+          });
         }
       },
-      child: Scaffold(
-        backgroundColor: backgroundWhite10,
-        appBar: PrimaryAppBar(
-          title: "Pengukuran Anak",
-          // actions: [__buildChangeMeasuringToolsButton(context)],
-          onBackPressed: () => Navigator.pop(context),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.all(20),
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+      child: BlocConsumer<AlatUkurSaveBloc, AlatUkurSaveState>(
+        listener: (context, state) {
+          debugPrint(state.toString());
+          if (state is AlatUkurSaveFailedState) {}
+          if (state is AlatUkurSaveSuccessState) {
+            logger.i("pangil event");
+            listAlatUkur = state.alatUkurResponseModel;
+            BlocProvider.of<GetAlatUkurBloc>(context).add(GetAlatUkurAnak());
+          }
+        },
+        builder: (context, stateListAlatUkur) {
+          if (stateListAlatUkur is AlatUkurSaveProccessState) {
+            return Container(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: CircularProgressIndicator(
+                color: bluePrimaryMain,
               ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AnimatedContainer(
-                      // color: Colors.red,
-                      duration:
-                          const Duration(milliseconds: 300), // Durasi animasi
-                      curve: Curves.easeInOut, // Kurva animasi
-                      height: _isExpanded
-                          ? sizeHeighofSingleForm * 3
-                          : sizeHeighofSingleForm, // Tinggi menu saat diperluas/dikecilkan
-                      child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Nama',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            BlocListener<SearchAnakCubit, SearchAnakState>(
-                              listener: (context, state) {
-                                if (state is SearchAnakSelected) {
-                                  nameController.text = state.name;
-                                  nikController.text = state.nik;
-                                }
-                              },
-                              //! textFormField
-                              child: TextFormField(
-                                readOnly: true,
-                                validator: null,
-                                onTap: () async {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SearchAnak(),
-                                    ),
-                                  ).then((paketValue) {
-                                    logger.d(paketValue);
-                                    setState(() {
-                                      if (paketValue != null) {
-                                        paket = paketValue;
-                                        nameController = TextEditingController(
-                                            text: paket.namaAnak);
-                                        nikController = TextEditingController(
-                                            text: paket.nik);
-                                        ageController = TextEditingController(
-                                            text: paket.usia);
-                                        isAgeLessThanSixMonths =
-                                            isLessThanSixMonths(paket.usia);
-                                        logger.d(
-                                            'is usia kurang dari 6 bulan = ${isAgeLessThanSixMonths}');
-                                        // if (isAgeLessThanSixMonths == true) {
-                                        //   headCircumferenceController.text = '';
-                                        //   upperArmCircumferenceController.text =
-                                        //       '';
-                                        //   mpasiValue = '-';
-                                        // } else {
-                                        //   asiEksklusifValue = '-';
-                                        // }
-                                        logger.d(
-                                            'lingkar kepala ${headCircumferenceController.text}');
-                                        logger.d(
-                                            'lignkar lengan atas ${upperArmCircumferenceController.text}');
-                                        logger.d('mpasi ${mpasiValue}');
-                                        logger.d('asi eskulsif ${mpasiValue}');
-                                      }
-                                    });
-                                  });
-                                },
-                                controller: nameController,
-                                style: Theme.of(context).textTheme.bodySmall,
-                                keyboardType: TextInputType.text,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  suffixIcon: const Icon(
-                                    FluentIcons.search_24_regular,
-                                  ),
-                                  hintText: 'Pilih Anak',
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(color: Colors.grey),
-                                  filled: true,
-                                  fillColor: backgroundWhite10,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        width: 1, color: bluePrimaryMain),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        width: 1, color: Colors.red),
-                                  ),
-                                ),
-                              ),
-                              // child: TextFormFieldSearch(
-                              //   controller: nameController,
-                              // ),
-                            ),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            Visibility(
-                              visible: _isExpanded,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'NIK',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
-                                    controller: nikController,
-                                    hintText: "NIK",
-                                    isPasswordField: false,
-                                    keyboardType: TextInputType.number,
-                                    obscureText: false,
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16)),
-                                  const Text(
-                                    'Usia',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
-                                    controller: ageController,
-                                    hintText: "Usia",
-                                    isPasswordField: false,
-                                    keyboardType: TextInputType.number,
-                                    obscureText: false,
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16)),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+            );
+          }
+          if (stateListAlatUkur is AlatUkurSaveSuccessState) {
+            return Scaffold(
+              backgroundColor: backgroundWhite10,
+              appBar: PrimaryAppBar(
+                title: "Pengukuran Anak",
+                actions: [
+                  __buildChangeMeasuringToolsButton(
+                    context,
+                    saveAlatUkurBloc)
+                ],
+                onBackPressed: () => Navigator.pop(context),
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 25, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                    Container(
-                      // color: Colors.blue,
+                    child: Form(
+                      key: _formKey,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isExpanded = !_isExpanded;
-                              });
-                            },
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Row(
-                                mainAxisSize: MainAxisSize
-                                    .min, // Ukuran Row hanya mengikuti konten
+                          AnimatedContainer(
+                            // color: Colors.red,
+                            duration: const Duration(
+                                milliseconds: 300), // Durasi animasi
+                            curve: Curves.easeInOut, // Kurva animasi
+                            height: _isExpanded
+                                ? sizeHeighofSingleForm * 3
+                                : sizeHeighofSingleForm, // Tinggi menu saat diperluas/dikecilkan
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Detail Anak',
-                                    style: AppTextStyles.primaryTextMedium
-                                        .copyWith(
-                                      fontSize: 10,
-                                    ),
+                                  const Text(
+                                    'Nama',
+                                    style: TextStyle(fontSize: 12),
                                   ),
-                                  Icon(
-                                    size: 20,
-                                    _isExpanded
-                                        ? FluentIcons.chevron_up_20_filled
-                                        : FluentIcons.chevron_down_20_filled,
+                                  SizedBox(
+                                      height: SizeConfig
+                                          .calHeightMultiplier(8)),
+                                  BlocListener<SearchAnakCubit,
+                                      SearchAnakState>(
+                                    listener: (context, state) {
+                                      if (state
+                                          is SearchAnakSelected) {
+                                        nameController.text =
+                                            state.name;
+                                        nikController.text =
+                                            state.nik;
+                                      }
+                                    },
+                                    //! textFormField
+                                    child: TextFormField(
+                                      readOnly: true,
+                                      validator: null,
+                                      onTap: () async {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SearchAnak(),
+                                          ),
+                                        ).then((paketValue) {
+                                          logger.d(paketValue);
+                                          setState(() {
+                                            if (paketValue != null) {
+                                              paket = paketValue;
+                                              nameController =
+                                                  TextEditingController(
+                                                      text: paket
+                                                          .namaAnak);
+                                              nikController =
+                                                  TextEditingController(
+                                                      text:
+                                                          paket.nik);
+                                              ageController =
+                                                  TextEditingController(
+                                                      text:
+                                                          paket.usia);
+                                              isAgeLessThanSixMonths =
+                                                  isLessThanSixMonths(
+                                                      paket.usia);
+                                              logger.d(
+                                                  'is usia kurang dari 6 bulan = ${isAgeLessThanSixMonths}');
+                                              // if (isAgeLessThanSixMonths == true) {
+                                              //   headCircumferenceController.text = '';
+                                              //   upperArmCircumferenceController.text =
+                                              //       '';
+                                              //   mpasiValue = '-';
+                                              // } else {
+                                              //   asiEksklusifValue = '-';
+                                              // }
+                                              logger.d(
+                                                  'lingkar kepala ${headCircumferenceController.text}');
+                                              logger.d(
+                                                  'lignkar lengan atas ${upperArmCircumferenceController.text}');
+                                              logger.d(
+                                                  'mpasi ${mpasiValue}');
+                                              logger.d(
+                                                  'asi eskulsif ${mpasiValue}');
+                                            }
+                                          });
+                                        });
+                                      },
+                                      controller: nameController,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall,
+                                      keyboardType:
+                                          TextInputType.text,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        suffixIcon: const Icon(
+                                          FluentIcons
+                                              .search_24_regular,
+                                        ),
+                                        hintText: 'Pilih Anak',
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(
+                                                color: Colors.grey),
+                                        filled: true,
+                                        fillColor: backgroundWhite10,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(
+                                                  10),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        enabledBorder:
+                                            OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(
+                                                  10),
+                                          borderSide:
+                                              const BorderSide(
+                                                  width: 1,
+                                                  color: Colors.grey),
+                                        ),
+                                        focusedBorder:
+                                            OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(
+                                                  10),
+                                          borderSide: const BorderSide(
+                                              width: 1,
+                                              color: bluePrimaryMain),
+                                        ),
+                                        errorBorder:
+                                            OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(
+                                                  10),
+                                          borderSide:
+                                              const BorderSide(
+                                                  width: 1,
+                                                  color: Colors.red),
+                                        ),
+                                      ),
+                                    ),
+                                    // child: TextFormFieldSearch(
+                                    //   controller: nameController,
+                                    // ),
+                                  ),
+                                  SizedBox(
+                                      height: SizeConfig
+                                          .calHeightMultiplier(16)),
+                                  Visibility(
+                                    visible: _isExpanded,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'NIK',
+                                          style:
+                                              TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height: SizeConfig
+                                                .calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: nikController,
+                                          hintText: "NIK",
+                                          isPasswordField: false,
+                                          keyboardType:
+                                              TextInputType.number,
+                                          obscureText: false,
+                                        ),
+                                        SizedBox(
+                                            height: SizeConfig
+                                                .calHeightMultiplier(
+                                                    16)),
+                                        const Text(
+                                          'Usia',
+                                          style:
+                                              TextStyle(fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                            height: SizeConfig
+                                                .calHeightMultiplier(
+                                                    8)),
+                                        TextFieldWidget(
+                                          controller: ageController,
+                                          hintText: "Usia",
+                                          isPasswordField: false,
+                                          keyboardType:
+                                              TextInputType.number,
+                                          obscureText: false,
+                                        ),
+                                        SizedBox(
+                                            height: SizeConfig
+                                                .calHeightMultiplier(
+                                                    16)),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                           Container(
-                            width: double.infinity,
-                            height: 2,
-                            color: Colors.black54,
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          const Text(
-                            'Tempat Pengukuran',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          DropdownWidget(
-                            items: selectPosyandu,
-                            hint: 'Pilih Tempat Posyandu',
-                            value: selectedPosyandu,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedPosyandu = value;
-                              });
-                            },
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          const Text(
-                            'Posisi Pengukuran Tinggi Badan',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          DropdownWidget(
-                            items: selectPosition,
-                            hint: 'Pilih Posisi Pengukuran Tinggi Badan',
-                            value: selectedPosition,
-                            onChanged: (value) {
-                              setState(() {
-                                selectedPosition = value;
-                              });
-                            },
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          Row(
-                            spacing: 8,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: MeasurementWidget(
-                                  title: 'Tinggi Badan',
-                                  hintText: 'contoh: 50',
-                                  unit: 'cm',
-                                  validator: [
-                                    (value) => Validator.min(
-                                        value, 45, "min 45 max 110"),
-                                    (value) => Validator.max(
-                                        value, 110, "min 45 max 110"),
-                                  ],
-                                  // tool: 'Microtoise',
-                                  controller: heightController,
+                            // color: Colors.blue,
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _isExpanded = !_isExpanded;
+                                    });
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize
+                                          .min, // Ukuran Row hanya mengikuti konten
+                                      children: [
+                                        Text(
+                                          'Detail Anak',
+                                          style: AppTextStyles
+                                              .primaryTextMedium
+                                              .copyWith(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        Icon(
+                                          size: 20,
+                                          _isExpanded
+                                              ? FluentIcons
+                                                  .chevron_up_20_filled
+                                              : FluentIcons
+                                                  .chevron_down_20_filled,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Expanded(
-                                child: MeasurementWidget(
-                                  title: 'Berat Badan',
-                                  hintText: 'contoh: 6.5',
-                                  unit: 'kg',
-                                  // tool: 'Timbangan Digital',
-                                  controller: weightController,
+                                Container(
+                                  width: double.infinity,
+                                  height: 2,
+                                  color: Colors.black54,
                                 ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          isAgeLessThanSixMonths == false ||
-                                  isAgeLessThanSixMonths == null
-                              ? Row(
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                const Text(
+                                  'Tempat Pengukuran',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      SizeConfig.calHeightMultiplier(
+                                          8),
+                                ),
+                                DropdownWidget(
+                                  items: selectPosyandu,
+                                  hint: 'Pilih Tempat Posyandu',
+                                  value: selectedPosyandu,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedPosyandu = value;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                const Text(
+                                  'Posisi Pengukuran Tinggi Badan',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      SizeConfig.calHeightMultiplier(
+                                          8),
+                                ),
+                                DropdownWidget(
+                                  items: selectPosition,
+                                  hint:
+                                      'Pilih Posisi Pengukuran Tinggi Badan',
+                                  value: selectedPosition,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedPosition = value;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                Row(
                                   spacing: 8,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
                                   children: [
                                     Expanded(
                                       child: MeasurementWidget(
-                                        title: 'Lingkar Kepala',
-                                        hintText: 'contoh: 6.5',
+                                        title: 'Tinggi Badan',
+                                        hintText: 'contoh: 50',
                                         unit: 'cm',
-                                        // tool: 'Alat Ukur Lingkar Kepala',
-                                        controller: headCircumferenceController,
+                                        tool: alatUkurAnak.alatUkurTinggi?.alatPengukuranAdmin.jenisAlat,
+                                        validator: [
+                                          (value) => Validator.min(
+                                              value,
+                                              45,
+                                              "min 45 max 110"),
+                                          (value) => Validator.max(
+                                              value,
+                                              110,
+                                              "min 45 max 110"),
+                                        ],
+                                        // tool: 'Microtoise',
+                                        controller: heightController,
                                       ),
                                     ),
                                     Expanded(
                                       child: MeasurementWidget(
-                                        title: 'Lingkar Lengan Atas',
-                                        hintText: 'contoh: 3.5',
-                                        unit: 'cm',
-                                        // tool: 'Pita Lila',
-                                        controller:
-                                            upperArmCircumferenceController,
+                                        title: 'Berat Badan',
+                                        hintText: 'contoh: 6.5',
+                                        unit: 'kg',
+                                        tool: alatUkurAnak.alatUkurBerat?.alatPengukuranAdmin.jenisAlat,
+                                        controller: weightController,
                                       ),
                                     ),
                                   ],
-                                )
-                              : SizedBox.shrink(),
-                          isAgeLessThanSixMonths == false ||
-                                  isAgeLessThanSixMonths == null
-                              ? SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16))
-                              : SizedBox.shrink(),
-                          Row(
-                            children: [
-                              isAgeLessThanSixMonths == true ||
-                                      isAgeLessThanSixMonths == null
-                                  ? Expanded(
-                                      child: Column(
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                isAgeLessThanSixMonths == false ||
+                                        isAgeLessThanSixMonths == null
+                                    ? Row(
+                                        spacing: 8,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            'Asi Ekskusif',
-                                            style: AppTextStyles
-                                                .primaryTextNormal
-                                                .copyWith(
-                                              fontSize: 12,
+                                          Expanded(
+                                            child: MeasurementWidget(
+                                              title: 'Lingkar Kepala',
+                                              hintText: 'contoh: 6.5',
+                                              unit: 'cm',
+                                              tool: alatUkurAnak.alatUkurLingkarKepala?.alatPengukuranAdmin.jenisAlat,
+                                              controller:
+                                                  headCircumferenceController,
                                             ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.calHeightMultiplier(
-                                                    8),
-                                          ),
-                                          // radio button
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              CustomRadioButton(
-                                                value: 1,
-                                                groupValue: int.parse(
-                                                    asiEksklusifValue!),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    asiEksklusifValue =
-                                                        value.toString();
-                                                  });
-                                                },
-                                                label: 'Ya',
-                                              ),
-                                              SizedBox(
-                                                width: SizeConfig
-                                                    .calHeightMultiplier(16),
-                                              ),
-                                              CustomRadioButton(
-                                                value: 0,
-                                                groupValue: int.parse(
-                                                    asiEksklusifValue!),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    asiEksklusifValue =
-                                                        value.toString();
-                                                  });
-                                                },
-                                                label: 'Tidak',
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
-                              isAgeLessThanSixMonths == false ||
-                                      isAgeLessThanSixMonths == null
-                                  ? Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'MPASI',
-                                            style: AppTextStyles
-                                                .primaryTextNormal
-                                                .copyWith(
-                                              fontSize: 12,
+                                          Expanded(
+                                            child: MeasurementWidget(
+                                              title:
+                                                  'Lingkar Lengan Atas',
+                                              hintText: 'contoh: 3.5',
+                                              unit: 'cm',
+                                              tool: alatUkurAnak.alatUkurLingkarLengan?.alatPengukuranAdmin.jenisAlat,
+                                              controller:
+                                                  upperArmCircumferenceController,
                                             ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.calHeightMultiplier(
-                                                    8),
-                                          ),
-                                          // radio button
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              CustomRadioButton(
-                                                value: 1,
-                                                groupValue:
-                                                    int.parse(mpasiValue!),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    mpasiValue =
-                                                        value.toString();
-                                                  });
-                                                },
-                                                label: 'Ya',
-                                              ),
-                                              SizedBox(
-                                                width: SizeConfig
-                                                    .calHeightMultiplier(16),
-                                              ),
-                                              CustomRadioButton(
-                                                value: 0,
-                                                groupValue:
-                                                    int.parse(mpasiValue!),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    mpasiValue =
-                                                        value.toString();
-                                                  });
-                                                },
-                                                label: 'Tidak',
-                                              ),
-                                            ],
-                                          ),
                                         ],
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
-                            ],
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          const Text(
-                            'Catatan',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          AutoSizeTextFieldWidget(
-                            controller: catatanController,
-                            hintText: 'Masukan Catatan',
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          const Text(
-                            'Keluhan',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          AutoSizeTextFieldWidget(
-                            controller: keluhanController,
-                            hintText: 'Masukan Keluhan',
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          BlocListener<CreatePengukuranAnakBloc,
-                              CreatePengukuranAnakState>(
-                            listener: (context, state) {
-                              debugPrint(state.toString());
-                              if (state is CreatePengukuranAnakSuccesState) {
-                                Navigator.pop(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialogResult(
-                                      nik: state.pengukuranAnakResponseModel
-                                          .data!.anak.nik,
-                                      name: state.pengukuranAnakResponseModel
-                                          .data!.anak.nama,
-                                      statusStunting: state
-                                          .pengukuranAnakResponseModel
-                                          .data!
-                                          .statusStunting,
-                                      statusGizi: state
-                                          .pengukuranAnakResponseModel
-                                          .data!
-                                          .statusGizi
-                                          .statusWasting,
-                                      statusWasting: state
-                                          .pengukuranAnakResponseModel
-                                          .data!
-                                          .statusGizi
-                                          .statusWasting,
-                                      mainButton: () {
-                                        Navigator.pop(context);
-                                        Navigator.popAndPushNamed(
-                                            context, CREATE_PENGUKURAN_ANAK);
-                                      },
-                                      mainButtonMessage: 'Tambah Pengukuran',
-                                      cancelButton: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context,
-                                            1); // Tutup dialog AlertDialogResult
-                                      },
-                                      cancelButtonMessage: 'Selesai',
-                                      colorMainButton: bluePrimaryMain,
-                                    );
+                                      )
+                                    : SizedBox.shrink(),
+                                isAgeLessThanSixMonths == false ||
+                                        isAgeLessThanSixMonths == null
+                                    ? SizedBox(
+                                        height: SizeConfig
+                                            .calHeightMultiplier(16))
+                                    : SizedBox.shrink(),
+                                Row(
+                                  children: [
+                                    isAgeLessThanSixMonths == true ||
+                                            isAgeLessThanSixMonths ==
+                                                null
+                                        ? Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                              children: [
+                                                Text(
+                                                  'Asi Ekskusif',
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: SizeConfig
+                                                      .calHeightMultiplier(
+                                                          8),
+                                                ),
+                                                // radio button
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    CustomRadioButton(
+                                                      value: 1,
+                                                      groupValue:
+                                                          int.parse(
+                                                              asiEksklusifValue!),
+                                                      onChanged:
+                                                          (value) {
+                                                        setState(() {
+                                                          asiEksklusifValue =
+                                                              value
+                                                                  .toString();
+                                                        });
+                                                      },
+                                                      label: 'Ya',
+                                                    ),
+                                                    SizedBox(
+                                                      width: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              16),
+                                                    ),
+                                                    CustomRadioButton(
+                                                      value: 0,
+                                                      groupValue:
+                                                          int.parse(
+                                                              asiEksklusifValue!),
+                                                      onChanged:
+                                                          (value) {
+                                                        setState(() {
+                                                          asiEksklusifValue =
+                                                              value
+                                                                  .toString();
+                                                        });
+                                                      },
+                                                      label: 'Tidak',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox.shrink(),
+                                    isAgeLessThanSixMonths == false ||
+                                            isAgeLessThanSixMonths ==
+                                                null
+                                        ? Expanded(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                              children: [
+                                                Text(
+                                                  'MPASI',
+                                                  style: AppTextStyles
+                                                      .primaryTextNormal
+                                                      .copyWith(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: SizeConfig
+                                                      .calHeightMultiplier(
+                                                          8),
+                                                ),
+                                                // radio button
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    CustomRadioButton(
+                                                      value: 1,
+                                                      groupValue:
+                                                          int.parse(
+                                                              mpasiValue!),
+                                                      onChanged:
+                                                          (value) {
+                                                        setState(() {
+                                                          mpasiValue =
+                                                              value
+                                                                  .toString();
+                                                        });
+                                                      },
+                                                      label: 'Ya',
+                                                    ),
+                                                    SizedBox(
+                                                      width: SizeConfig
+                                                          .calHeightMultiplier(
+                                                              16),
+                                                    ),
+                                                    CustomRadioButton(
+                                                      value: 0,
+                                                      groupValue:
+                                                          int.parse(
+                                                              mpasiValue!),
+                                                      onChanged:
+                                                          (value) {
+                                                        setState(() {
+                                                          mpasiValue =
+                                                              value
+                                                                  .toString();
+                                                        });
+                                                      },
+                                                      label: 'Tidak',
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox.shrink(),
+                                  ],
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                const Text(
+                                  'Catatan',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      SizeConfig.calHeightMultiplier(
+                                          8),
+                                ),
+                                AutoSizeTextFieldWidget(
+                                  controller: catatanController,
+                                  hintText: 'Masukan Catatan',
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                const Text(
+                                  'Keluhan',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      SizeConfig.calHeightMultiplier(
+                                          8),
+                                ),
+                                AutoSizeTextFieldWidget(
+                                  controller: keluhanController,
+                                  hintText: 'Masukan Keluhan',
+                                ),
+                                SizedBox(
+                                    height: SizeConfig
+                                        .calHeightMultiplier(16)),
+                                BlocListener<CreatePengukuranAnakBloc,
+                                    CreatePengukuranAnakState>(
+                                  listener: (context, state) {
+                                    debugPrint(state.toString());
+                                    if (state
+                                        is CreatePengukuranAnakSuccesState) {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialogResult(
+                                            nik: state
+                                                .pengukuranAnakResponseModel
+                                                .data!
+                                                .anak
+                                                .nik,
+                                            name: state
+                                                .pengukuranAnakResponseModel
+                                                .data!
+                                                .anak
+                                                .nama,
+                                            statusStunting: state
+                                                .pengukuranAnakResponseModel
+                                                .data!
+                                                .statusStunting,
+                                            statusGizi: state
+                                                .pengukuranAnakResponseModel
+                                                .data!
+                                                .statusGizi
+                                                .statusWasting,
+                                            statusWasting: state
+                                                .pengukuranAnakResponseModel
+                                                .data!
+                                                .statusGizi
+                                                .statusWasting,
+                                            mainButton: () {
+                                              Navigator.pop(context);
+                                              Navigator.popAndPushNamed(
+                                                  context,
+                                                  CREATE_PENGUKURAN_ANAK);
+                                            },
+                                            mainButtonMessage:
+                                                'Tambah Pengukuran',
+                                            cancelButton: () {
+                                              Navigator.pop(context);
+                                              Navigator.pop(context,
+                                                  1); // Tutup dialog AlertDialogResult
+                                            },
+                                            cancelButtonMessage:
+                                                'Selesai',
+                                            colorMainButton:
+                                                bluePrimaryMain,
+                                          );
+                                        },
+                                      );
+                                    }
+                                    if (state
+                                        is CreatePengukuranAnakFailedState) {
+                                      debugPrint(state.error);
+                                      showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(
+                                                  milliseconds: 600),
+                                          displayDuration:
+                                              const Duration(
+                                                  milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(
+                                                  milliseconds: 300),
+                                          TopSnackbarWidget()
+                                              .error(state.error));
+                                    }
+                                    if (state
+                                        is CreatePengukuranAnakNullErrorState) {
+                                      showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(
+                                                  milliseconds: 600),
+                                          displayDuration:
+                                              const Duration(
+                                                  milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(
+                                                  milliseconds: 300),
+                                          TopSnackbarWidget()
+                                              .warning(state.error));
+                                    }
                                   },
-                                );
-                              }
-                              if (state is CreatePengukuranAnakFailedState) {
-                                debugPrint(state.error);
-                                showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration:
-                                        const Duration(milliseconds: 600),
-                                    displayDuration:
-                                        const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration:
-                                        const Duration(milliseconds: 300),
-                                    TopSnackbarWidget().error(state.error));
-                              }
-                              if (state is CreatePengukuranAnakNullErrorState) {
-                                showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration:
-                                        const Duration(milliseconds: 600),
-                                    displayDuration:
-                                        const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration:
-                                        const Duration(milliseconds: 300),
-                                    TopSnackbarWidget().warning(state.error));
-                              }
-                            },
-                            child: ButtonPrimary(
-                              color: bluePrimaryMain,
-                              mainButtonMessage: 'Simpan',
-                              mainButton: () {
-
-                                if (heightController.text.contains(',')) {
-                                  showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration:
-                                        const Duration(milliseconds: 600),
-                                    displayDuration:
-                                        const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration:
-                                        const Duration(milliseconds: 300),
-                                    TopSnackbarWidget().error(
-                                        "Harap gunakan titik untuk memberikan nilai desimal"),
-                                  );
-                                } else {
-                                  if (_formKey.currentState!.validate()) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialogSave(
-                                          cancelButton: () {
-                                            Navigator.pop(context);
-                                          },
-                                          mainButton: () {
-                                            if (isAgeLessThanSixMonths ==
-                                                true) {
-                                              headCircumferenceController.text =
-                                                  '0';
-                                              upperArmCircumferenceController
-                                                  .text = '0';
-                                              mpasiValue = '-';
-                                            } else {
-                                              asiEksklusifValue = '-';
-                                            }
-                                            logger.d(
-                                                'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
-                                            logger.d(
-                                                'asi ekslusif value ${asiEksklusifValue}');
-                                            logger
-                                                .d('mpasi value ${mpasiValue}');
-                                            logger.d(
-                                                'value lingkar kelapa ${headCircumferenceController.text}');
-                                            logger.d(
-                                                'value lingkar lengan atas ${upperArmCircumferenceController.text}');
-                                            //  headCircumferenceController.text = '';
-                                            //   upperArmCircumferenceController.text =
-                                            //       '';
-                                            // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
-                                            createPengukuranAnakBloc.add(SendPengukuranAnakEvent(PengukuranAnakModel(
-                                                tempatPengukuran:
-                                                    selectedPosyandu,
-                                                tanggalPengukuran:
-                                                    DateTime.now(),
-                                                posisiBadan: selectedPosition,
-                                                beratBadan: double.parse(
-                                                    weightController.text),
-                                                alatBeratBadanId: alatUkur,
-                                                tinggiBadan: double.parse(
-                                                    heightController.text),
-                                                alatTinggiBadanId: alatUkur,
-                                                lingkarLenganAtas: double.parse(
-                                                    upperArmCircumferenceController
-                                                        .text),
-                                                alatLingkarLenganId: alatUkur,
-                                                lingkarKepala: double.parse(
-                                                    headCircumferenceController
-                                                        .text),
-                                                alatLingkarKepalaId: alatUkur,
-                                                asiEksklusif:
-                                                    asiEksklusifValue == 1
-                                                        ? "Iya"
-                                                        : (asiEksklusifValue == 0
-                                                            ? "Tidak"
-                                                            : "-"),
-                                                mpasi: mpasiValue == 1
-                                                    ? "Iya"
-                                                    : (mpasiValue == 0 ? "Tidak" : "-"),
-                                                keluhan: keluhanController.text,
-                                                catatan: catatanController.text,
-                                                anakId: paket.id)));
-                                          },
-                                          cancelButtonMessage: 'Tidak',
-                                          mainButtonMessage: 'Iya Simpan Data',
-                                          colorMainButton: bluePrimaryMain,
-                                          heighValue: heightController.text,
-                                          weightValue: weightController.text,
-                                          upperArmCircumference:
-                                              upperArmCircumferenceController
-                                                  .text,
-                                          uterineFundalHeightValue:
-                                              headCircumferenceController.text,
+                                  child: ButtonPrimary(
+                                    color: bluePrimaryMain,
+                                    mainButtonMessage: 'Simpan',
+                                    mainButton: () {
+                                      if (heightController.text
+                                          .contains(',')) {
+                                        showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(
+                                                  milliseconds: 600),
+                                          displayDuration:
+                                              const Duration(
+                                                  milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(
+                                                  milliseconds: 300),
+                                          TopSnackbarWidget().error(
+                                              "Harap gunakan titik untuk memberikan nilai desimal"),
                                         );
-                                      },
-                                    );
-                                  } else {
-                                    logger.d("form tidak valid");
-                                  }
-                                }
-                              },
+                                      } else {
+                                        if (_formKey.currentState!
+                                            .validate()) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialogSave(
+                                                cancelButton: () {
+                                                  Navigator.pop(
+                                                      context);
+                                                },
+                                                mainButton: () {
+                                                  if (isAgeLessThanSixMonths ==
+                                                      true) {
+                                                    headCircumferenceController
+                                                        .text = '0';
+                                                    upperArmCircumferenceController
+                                                        .text = '0';
+                                                    mpasiValue = '-';
+                                                  } else {
+                                                    asiEksklusifValue =
+                                                        '-';
+                                                  }
+                                                  logger.d(
+                                                      'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
+                                                  logger.d(
+                                                      'asi ekslusif value ${asiEksklusifValue}');
+                                                  logger.d(
+                                                      'mpasi value ${mpasiValue}');
+                                                  logger.d(
+                                                      'value lingkar kelapa ${headCircumferenceController.text}');
+                                                  logger.d(
+                                                      'value lingkar lengan atas ${upperArmCircumferenceController.text}');
+                                                  //  headCircumferenceController.text = '';
+                                                  //   upperArmCircumferenceController.text =
+                                                  //       '';
+                                                  // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
+                                                  createPengukuranAnakBloc.add(SendPengukuranAnakEvent(PengukuranAnakModel(
+                                                      tempatPengukuran:
+                                                          selectedPosyandu,
+                                                      tanggalPengukuran:
+                                                          DateTime
+                                                              .now(),
+                                                      posisiBadan:
+                                                          selectedPosition,
+                                                      beratBadan: double.parse(
+                                                          weightController
+                                                              .text),
+                                                      alatBeratBadanId:
+                                                          alatUkurAnak
+                                                              .alatUkurBerat!
+                                                              .id,
+                                                      tinggiBadan:
+                                                          double.parse(
+                                                              heightController
+                                                                  .text),
+                                                      alatTinggiBadanId:
+                                                          alatUkurAnak!
+                                                              .alatUkurTinggi!
+                                                              .id,
+                                                      lingkarLenganAtas:
+                                                          double.parse(
+                                                              upperArmCircumferenceController.text),
+                                                      alatLingkarLenganId: alatUkurAnak.alatUkurLingkarLengan?.id,
+                                                      lingkarKepala: double.parse(headCircumferenceController.text),
+                                                      alatLingkarKepalaId: alatUkurAnak.alatUkurLingkarLengan?.id,
+                                                      asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
+                                                      mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
+                                                      keluhan: keluhanController.text,
+                                                      catatan: catatanController.text,
+                                                      anakId: paket.id)));
+                                                },
+                                                cancelButtonMessage:
+                                                    'Tidak',
+                                                mainButtonMessage:
+                                                    'Iya Simpan Data',
+                                                colorMainButton:
+                                                    bluePrimaryMain,
+                                                heighValue:
+                                                    heightController
+                                                        .text,
+                                                weightValue:
+                                                    weightController
+                                                        .text,
+                                                upperArmCircumference:
+                                                    upperArmCircumferenceController
+                                                        .text,
+                                                uterineFundalHeightValue:
+                                                    headCircumferenceController
+                                                        .text,
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          logger
+                                              .d("form tidak valid");
+                                        }
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
+            );
+          }
+          return const ErrorServerScreen();
+        },
       ),
     );
   }
 
-  Widget __buildChangeMeasuringToolsButton(context) {
+  Widget __buildChangeMeasuringToolsButton(context, SaveAlatUkurBloc saveAlatUkurBloc) {
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -817,32 +1024,17 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
             },
             mainButtonMessage: 'Simpan',
             colorMainButton: bluePrimaryMain,
-            selectedHeight: selectedHeight,
-            selectedWeight: selectedWeight,
-            selectedUpperArmCircumference: selectedUpperArmCircumference,
-            selectedUterineFundalHeight: selectedUterineFundalHeight,
-            onHeightChanged: (value) {
-              setState(() {
-                selectedHeight = value;
-              });
-            },
-            onWeightChanged: (value) {
-              setState(() {
-                selectedWeight = value;
-              });
-            },
-            onUpperArmCircumferenceChanged: (value) {
-              setState(() {
-                selectedUpperArmCircumference = value;
-              });
-            },
-            onUterineFundalHeightChanged: (value) {
-              setState(() {
-                selectedUterineFundalHeight = value;
-              });
-            },
+            listAlatUkur: listAlatUkur!,
+            saveAlatUkurBloc: saveAlatUkurBloc,
+            alatUkurAnakSave: alatUkurAnak,
           ),
-        );
+        ).then((value) {
+          if (value != null) {
+            setState(() {
+              alatUkurAnak = value as AlatUkurSaveModel;
+            });
+          }
+        });
       },
       child: Container(
         margin: const EdgeInsets.only(right: 24),

@@ -1,15 +1,14 @@
-part of 'get_alat_ukur_cubit.dart';
+part of 'get_alat_ukur_bloc.dart';
 
 sealed class GetAlatUkurState extends Equatable {
   const GetAlatUkurState();
-
+  
   @override
   List<Object> get props => [];
 }
 
 final class GetAlatUkurProccessState extends GetAlatUkurState {}
 
-//! anak
 final class GetAlatUkurAnakSuccessState extends GetAlatUkurState {
   final AlatUkurSaveModel alatUkurAnak;
 
@@ -18,7 +17,6 @@ final class GetAlatUkurAnakSuccessState extends GetAlatUkurState {
 
 final class GetAlatUkurAnakFailedState extends GetAlatUkurState {}
 
-//! ibu hamil
 final class GetAlatUkurIbuHamilSuccessState extends GetAlatUkurState {
   final AlatUkurSaveModel alatUkurIbuHamil;
 
