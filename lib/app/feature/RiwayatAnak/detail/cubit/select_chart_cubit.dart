@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
@@ -9,21 +8,21 @@ import 'package:puspadaya/app/feature/RiwayatAnak/detail/model/chart_data_model.
 import '../../../../../utils/logger/logger.dart';
 import '../model/get_detail_riwayat_pengukuran_anak_model.dart'
     as GetDetailRiwayatPengukuranAnakModel;
+import '../model/get_grafik_kms_model.dart';
 
 part 'select_chart_state.dart';
 
 class SelectChartCubit extends Cubit<SelectChartState> {
   SelectChartCubit() : super(SelectChartInitial());
+
+  DateTime? tanggalLahirAnak;
+
   void selectChart(
     String gender,
     int selectedIndex,
     String waktu,
-    List<GetDetailRiwayatPengukuranAnakModel.Pengukuran>
-        pengukuran, // <- Data pengukuran dari backend
-    DateTime
-        tanggalLahirAnak, // <- Tambahkan tanggal lahir anak untuk hitung usia
+    List<GetGrafikKmsModel> pengukuran,
   ) async {
-    // Validasi input
     if (selectedIndex < 0 || selectedIndex > 1) {
       emit(SelectChartFailed('Invalid selection index'));
       return;
@@ -34,131 +33,116 @@ class SelectChartCubit extends Cubit<SelectChartState> {
       return;
     }
 
-    if (pengukuran == null) {
-      emit(SelectChartFailed('Measurement data is null'));
+    if (pengukuran.isEmpty) {
+      emit(SelectChartFailed('Measurement data is empty'));
       return;
     }
 
     emit(SelectChartLoading());
+
     try {
-      logger.d('get data json from local, index $selectedIndex, time $waktu');
-      String jsonString;
+      logger.d('Getting JSON data: index $selectedIndex, time $waktu');
+      String jsonString = await _getJsonFile(gender, selectedIndex, waktu);
 
-      // Load the appropriate JSON file based on selections
-      if (selectedIndex == 0 && waktu == "0-24" && gender == "Laki-laki") {
-        jsonString = await rootBundle.loadString(
-            'assets/json/laki_laki/berat_badan_laki_laki_0-24.json');
-      } else if (selectedIndex == 0 &&
-          waktu == "2-5" &&
-          gender == "Laki-laki") {
-        jsonString = await rootBundle
-            .loadString('assets/json/laki_laki/berat_badan_laki_laki_2-5.json');
-      } else if (selectedIndex == 1 &&
-          waktu == "0-24" &&
-          gender == "Laki-laki") {
-        jsonString = await rootBundle.loadString(
-            'assets/json/laki_laki/tinggi_badan_laki_laki_0-24.json');
-      } else if (selectedIndex == 1 &&
-          waktu == "2-5" &&
-          gender == "Laki-laki") {
-        jsonString = await rootBundle.loadString(
-            'assets/json/laki_laki/tinggi_badan_laki_laki_2-5.json');
-      } else if (selectedIndex == 0 &&
-          waktu == "0-24" &&
-          gender == "Perempuan") {
-        jsonString = await rootBundle.loadString(
-            'assets/json/perempuan/berat_badan_perempuan_0-24.json');
-      } else if (selectedIndex == 0 &&
-          waktu == "2-5" &&
-          gender == 'Perempuan') {
-        jsonString = await rootBundle
-            .loadString('assets/json/perempuan/berat_badan_perempuan_2-5.json');
-      } else if (selectedIndex == 1 &&
-          waktu == "0-24" &&
-          gender == 'Perempuan') {
-        jsonString = await rootBundle.loadString(
-            'assets/json/perempuan/tinggi_badan_perempuan_0-24.json');
-      } else if (selectedIndex == 1 &&
-          waktu == "2-5" &&
-          gender == 'Perempuan') {
-        jsonString = await rootBundle.loadString(
-            'assets/json/perempuan/tinggi_badan_perempuan_2-5.json');
-      } else {
-        emit(SelectChartFailed('Invalid selection'));
-        return;
-      }
-
-      logger.d('Loaded JSON data: $jsonString');
-
-      // Mendekode data JSON
       List<dynamic> jsonData = json.decode(jsonString);
       List<ChartDataModel> chartReference =
           jsonData.map((item) => ChartDataModel.fromJson(item)).toList();
 
-      // Menggabungkan data referensi dengan data pengukuran
-      List<ChartDataModel> chartData = _mergeChartWithPengukuran(
-        chartReference,
-        pengukuran,
-        selectedIndex,
-        tanggalLahirAnak,
-      );
+      List<GetGrafikKmsModel> filteredPengukuran =
+          _filterPengukuranByWaktu(pengukuran, waktu);
+      logger.d('Filtered data: ${filteredPengukuran.length} items');
 
-      emit(SelectChartSuccess(chartData));
-    } catch (e) {
+      List<ChartDataModel> listChartData = [];
+
+      for (var dataServer in filteredPengukuran) {
+        ChartDataModel? chartLokal = chartReference.firstWhere(
+          (item) => item.x == dataServer.usiaAnak,
+          orElse: () {
+            logger.w(
+                'No matching chart data for usiaAnak: ${dataServer.usiaAnak}');
+            return ChartDataModel(
+              x: dataServer.usiaAnak,
+              tanggalPengukuran: '',
+              yellowLowLow: 0,
+              yellowLowHigh: 0,
+              greenLightLowLow: 0,
+              greenLightLowHigh: 0,
+              greenLow: 0,
+              greenLine: 0,
+              greenHigh: 0,
+              greenLightHighLow: 0,
+              greenLightHighHigh: 0,
+              yellowHighLow: 0,
+              yellowHighHigh: 0,
+              y: 0,
+            );
+          },
+        );
+
+        double? nilaiY;
+        if (selectedIndex == 0) {
+          nilaiY = dataServer.beratBadan != null
+              ? double.tryParse(dataServer.beratBadan!)
+              : null;
+        } else {
+          nilaiY = dataServer.tinggiBadan != null
+              ? double.tryParse(dataServer.tinggiBadan!)
+              : null;
+        }
+
+        listChartData.add(ChartDataModel(
+          x: dataServer.usiaAnak,
+          tanggalPengukuran: dataServer.tanggalPengukuran,
+          y: nilaiY,
+          yellowLowLow: chartLokal.yellowLowLow,
+          yellowLowHigh: chartLokal.yellowLowHigh,
+          greenLightLowLow: chartLokal.greenLightLowLow,
+          greenLightLowHigh: chartLokal.greenLightLowHigh,
+          greenLow: chartLokal.greenLow,
+          greenLine: chartLokal.greenLine,
+          greenHigh: chartLokal.greenHigh,
+          greenLightHighLow: chartLokal.greenLightHighLow,
+          greenLightHighHigh: chartLokal.greenLightHighHigh,
+          yellowHighLow: chartLokal.yellowHighLow,
+          yellowHighHigh: chartLokal.yellowHighHigh,
+        ));
+      }
+
+      listChartData.sort((a, b) => a.x.compareTo(b.x));
+
+      emit(SelectChartSuccess(listChartData));
+    } catch (e, stackTrace) {
+      logger.e('Error loading chart data: $e', stackTrace: stackTrace);
       emit(SelectChartFailed('Failed to load data: ${e.toString()}'));
     }
   }
 
-  /// 🔹 Fungsi untuk menggabungkan data referensi dengan data pengukuran
-  /// Menggabungkan data referensi dengan data pengukuran
-  List<ChartDataModel> _mergeChartWithPengukuran(
-    List<ChartDataModel> chartReference,
-    List<GetDetailRiwayatPengukuranAnakModel.Pengukuran> pengukuran,
-    int selectedIndex,
-    DateTime tanggalLahirAnak,
-  ) {
-    return chartReference.map((chartItem) {
-      GetDetailRiwayatPengukuranAnakModel.Pengukuran? closestPengukuran;
-      double closestDiff = double.infinity;
+  Future<String> _getJsonFile(
+      String gender, int selectedIndex, String waktu) async {
+    String basePath = 'assets/json';
+    String genderPath =
+        gender.toLowerCase() == "laki-laki" ? "laki_laki" : "perempuan";
+    String typePath = selectedIndex == 0 ? "berat_badan" : "tinggi_badan";
 
-      for (var pengukuranItem in pengukuran) {
-        int usiaBulan = _hitungUsiaDalamBulan(
-            tanggalLahirAnak, pengukuranItem.tanggalPengukuran);
-        double diff = (usiaBulan - chartItem.x).abs().toDouble();
-
-        if (diff < closestDiff) {
-          closestDiff = diff;
-          closestPengukuran = pengukuranItem;
-        }
-      }
-
-      double? yValue;
-      if (closestPengukuran != null) {
-        yValue = selectedIndex == 0
-            ? double.tryParse(closestPengukuran.tinggiBadan)
-            : double.tryParse(closestPengukuran.beratBadan);
-      }
-
-      return ChartDataModel(
-        x: chartItem.x,
-        y: yValue,
-        yellowLowLow: chartItem.yellowLowLow,
-        yellowLowHigh: chartItem.yellowLowHigh,
-        greenLightLowLow: chartItem.greenLightLowLow,
-        greenLightLowHigh: chartItem.greenLightLowHigh,
-        greenLow: chartItem.greenLow,
-        greenLine: chartItem.greenLine,
-        greenHigh: chartItem.greenHigh,
-        greenLightHighLow: chartItem.greenLightHighLow,
-        greenLightHighHigh: chartItem.greenLightHighHigh,
-        yellowHighLow: chartItem.yellowHighLow,
-        yellowHighHigh: chartItem.yellowHighHigh,
-      );
-    }).toList();
+    return rootBundle.loadString(
+        '$basePath/$genderPath/${typePath}_${genderPath}_$waktu.json');
   }
 
-  /// Menghitung usia anak dalam bulan berdasarkan tanggal pengukuran
-  int _hitungUsiaDalamBulan(DateTime tanggalLahir, DateTime tanggalPengukuran) {
-    return ((tanggalPengukuran.difference(tanggalLahir).inDays) / 30).floor();
+  List<GetGrafikKmsModel> _filterPengukuranByWaktu(
+      List<GetGrafikKmsModel> pengukuran, String waktu) {
+    if (waktu == "0-24") {
+      return pengukuran.where((item) => item.usiaAnak <= 24).toList();
+    } else if (waktu == "2-5") {
+      return pengukuran
+          .where((item) => item.usiaAnak >= 24 && item.usiaAnak <= 60)
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  DateTime parseDate(String dateString) {
+    DateFormat format = DateFormat("d MMMM y", "id_ID");
+    return format.parse(dateString);
   }
 }

@@ -93,6 +93,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
               logger.d(state.data.data.pengukuran[0].beratBadan);
               logger.d(state.data.data.pengukuran[0].tanggalPengukuran);
               logger.d(state.data.data.jenisKelamin);
+              logger.d(state.dataGrafik.length); //berisi data grafik 0-61 minggu 
               return SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.all(20),
@@ -374,8 +375,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                   selectedWaktu == '0 bulan - 24 bulan'
                                       ? '0-24'
                                       : '2-5',
-                                  state.data.data.pengukuran,
-                                  state.data.data.tanggalLahir,
+                                  state.dataGrafik,
                                 );
                             // widget.onToggle(selectedIndex == 0);
                           },
@@ -420,8 +420,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                                 selectedWaktu == '0 bulan - 24 bulan'
                                     ? '0-24'
                                     : '2-5',
-                                state.data.data.pengukuran,
-                                state.data.data.tanggalLahir,
+                                state.dataGrafik,
                               );
                         },
                         onSaved: (value) {

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/RiwayatAnak/detail/model/get_grafik_kms_model.dart';
 
+import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../model/get_detail_riwayat_pengukuran_anak_model.dart';
 import '../service/detail_riwayat_pengukuran_anak.dart';
@@ -31,10 +32,19 @@ class DetailRiwayatPengukuranAnakBloc extends Bloc<
       try {
         List<dynamic> response = await DetailRiwayatPengukuranAnak()
             .getDetailRiwayatPengukuranAnak(event.id, accessToken);
-        // List<dynamic> responseGrafik = await DetailRiwayatPengukuranAnak()
-        //     .getGrafikKMS(event.id, accessToken);
+        List<dynamic> responseGrafik = await DetailRiwayatPengukuranAnak()
+            .getGrafikKMS(event.id, accessToken);
 
-        // // Assuming responseGrafik is a JSON string
+        logger.d(responseGrafik[1]);
+        // Parse the responseGrafik[1] into a list of GetGrafikKmsModel
+        List<GetGrafikKmsModel> dataGrafik =
+            parseGetGrafikKmsModels(responseGrafik[1]);
+
+        logger.d('data grafik: ${dataGrafik.length} data ditemukan');
+
+        // Parsing responseGrafik[1] menjadi GetGrafikKMSModel
+
+        // logger.d('data grafik: ${dataGrafik.data.length} data ditemukan');
         // List<GetGrafikKmsModel> dataGrafik =
         //     parseGetGrafikKmsModels(responseGrafik[1]);
 
@@ -43,7 +53,7 @@ class DetailRiwayatPengukuranAnakBloc extends Bloc<
             GetDetailRiwayatPengukuranAnakModel.fromJson(response[1]);
 
         if (statusCode == 200) {
-          emit(DetailRiwayatPengukuranAnakSuccess(data));
+          emit(DetailRiwayatPengukuranAnakSuccess(data,dataGrafik));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {
@@ -55,10 +65,10 @@ class DetailRiwayatPengukuranAnakBloc extends Bloc<
     }
   }
 
-  // Function to convert JSON string to List<ChildMeasurement>
-  List<GetGrafikKmsModel> parseGetGrafikKmsModels(String jsonString) {
-    final Map<String, dynamic> jsonData = json.decode(jsonString);
-    return jsonData.entries.map((entry) {
+  // Function to convert JSON string to List<GetGrafikKmsModel>
+  List<GetGrafikKmsModel> parseGetGrafikKmsModels(dynamic jsonData) {
+    // Assuming jsonData is already a Map<String, dynamic>
+    return (jsonData as Map<String, dynamic>).entries.map((entry) {
       return GetGrafikKmsModel.fromJson(entry.value);
     }).toList();
   }

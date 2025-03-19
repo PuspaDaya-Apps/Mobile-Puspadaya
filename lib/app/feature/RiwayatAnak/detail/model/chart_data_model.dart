@@ -1,7 +1,7 @@
 class ChartDataModel {
-  final int x; // Bulan
+  final int x; // Bulan (usia anak dalam bulan)
   double? y; // Nilai dari API (bisa null)
-  // String tanggalPengukuran;
+  final String? tanggalPengukuran; // Tambahan tanggal pengukuran dari server
   final double yellowLowLow;
   final double yellowLowHigh;
   final double greenLightLowLow;
@@ -15,9 +15,9 @@ class ChartDataModel {
   final double yellowHighHigh;
 
   ChartDataModel({
-    // required this.tanggalPengukuran,
     required this.x,
-    required this.y,
+    this.y,
+    this.tanggalPengukuran,
     required this.yellowLowLow,
     required this.yellowLowHigh,
     required this.greenLightLowLow,
@@ -32,30 +32,30 @@ class ChartDataModel {
   });
 
   // Factory method untuk parsing dari List<double>
-  factory ChartDataModel.fromList(List<double> values) {
+  factory ChartDataModel.fromList(List<dynamic> values) {
     return ChartDataModel(
-      // tanggalPengukuran: '',
       x: values[0].toInt(),
       y: values[1], // Bisa null, tergantung API
+      tanggalPengukuran: values.length > 9 ? values[9] : null, // Tambahkan tanggal jika ada
       yellowLowLow: values[2],
       yellowLowHigh: values[3],
-      greenLightLowLow: values[3], // Sama dengan batas kuning atas bawah
-      greenLightLowHigh: values[4],
-      greenLow: values[4], // Sama dengan batas hijau bawah
-      greenLine: values[5],
-      greenHigh: values[6], // Sama dengan batas hijau muda bawah atas
-      greenLightHighLow: values[6],
-      greenLightHighHigh: values[7], // Sama dengan batas kuning bawah atas
-      yellowHighLow: values[7],
-      yellowHighHigh: values[8], // Batas kuning atas
+      greenLightLowLow: values[4],
+      greenLightLowHigh: values[5],
+      greenLow: values[6],
+      greenLine: values[7],
+      greenHigh: values[8],
+      greenLightHighLow: values[8],
+      greenLightHighHigh: values[9],
+      yellowHighLow: values[9],
+      yellowHighHigh: values[10],
     );
   }
 
   factory ChartDataModel.fromJson(Map<String, dynamic> json) {
     return ChartDataModel(
-      // tanggalPengukuran: json['tanggal_pengukuran'],
       x: json['x'],
       y: json['y'], // Bisa null, tergantung API
+      tanggalPengukuran: json['tanggal_pengukuran'], // Tambahkan parsing tanggal
       yellowLowLow: json['yellowLowLow'],
       yellowLowHigh: json['yellowLowHigh'],
       greenLightLowLow: json['greenLightLowLow'],
@@ -69,6 +69,7 @@ class ChartDataModel {
       yellowHighHigh: json['yellowHighHigh'],
     );
   }
+
   void updateY(double? newY) {
     y = newY;
   }

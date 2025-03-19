@@ -13,11 +13,12 @@ final class DetailRiwayatPengukuranAnakLoading extends DetailRiwayatPengukuranAn
 
 final class DetailRiwayatPengukuranAnakSuccess extends DetailRiwayatPengukuranAnakState {
   final GetDetailRiwayatPengukuranAnakModel data;
+  final List<GetGrafikKmsModel> dataGrafik;
 
-  const DetailRiwayatPengukuranAnakSuccess(this.data);
+  const DetailRiwayatPengukuranAnakSuccess(this.data, this.dataGrafik);
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [data,dataGrafik];
 } 
 final class DetailRiwayatPengukuranAnakFailed extends DetailRiwayatPengukuranAnakState {
   final String message;
