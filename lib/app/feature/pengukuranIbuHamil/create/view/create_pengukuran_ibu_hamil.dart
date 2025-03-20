@@ -574,6 +574,7 @@ class _CreatePengukuranIbuHamilViewState
                                       context: context,
                                       builder: (context) {
                                         return AlertDialogSave(
+                                          isAgeLessThanSixMonths: false,
                                           cancelButton: () {
                                             Navigator.pop(context);
                                           },

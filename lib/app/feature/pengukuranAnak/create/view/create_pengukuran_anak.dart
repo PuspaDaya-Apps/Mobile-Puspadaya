@@ -851,6 +851,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialogSave(
+                                                isAgeLessThanSixMonths: isAgeLessThanSixMonths!,
                                                 cancelButton: () {
                                                   Navigator.pop(context);
                                                 },
