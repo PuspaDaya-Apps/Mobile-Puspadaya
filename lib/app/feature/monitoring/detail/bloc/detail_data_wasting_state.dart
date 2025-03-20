@@ -13,7 +13,8 @@ final class DetailDataWastingLoading extends DetailDataWastingState {}
 
 final class DetailDataWastingSuccess extends DetailDataWastingState {
   final GetDetailMonitoringAnak data;
-  DetailDataWastingSuccess(this.data);
+  final List<GetGrafikKmsModel> dataGrafik;
+  const DetailDataWastingSuccess(this.data, this.dataGrafik);
   @override
   List<Object> get props => [data];
 }

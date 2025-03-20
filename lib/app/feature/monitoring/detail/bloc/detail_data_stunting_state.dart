@@ -13,7 +13,8 @@ final class DetailDataStuntingLoading extends DetailDataStuntingState {}
 
 final class DetailDataStuntingSuccess extends DetailDataStuntingState {
   final GetDetailMonitoringAnak data;
-  DetailDataStuntingSuccess(this.data);
+  final List<GetGrafikKmsModel> dataGrafik;
+  const DetailDataStuntingSuccess(this.data, this.dataGrafik);
   @override
   List<Object> get props => [data];
 }

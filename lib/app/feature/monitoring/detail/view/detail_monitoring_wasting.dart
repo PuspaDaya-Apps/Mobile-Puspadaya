@@ -405,9 +405,7 @@ class _DetailMonitoringWastingViewState
                                   selectedWaktu == '0 bulan - 24 bulan'
                                       ? '0-24'
                                       : '2-5',
-                                  state.data.data.pengukuran as List<
-                                      GetDetailMonitoringAnak.Pengukuran>,
-                                  state.data.data.tanggalLahir,
+                                  state.dataGrafik,
                                 );
                             // widget.onToggle(selectedIndex == 0);
                           },
@@ -452,9 +450,7 @@ class _DetailMonitoringWastingViewState
                                 selectedWaktu == '0 bulan - 24 bulan'
                                     ? '0-24'
                                     : '2-5',
-                                state.data.data.pengukuran
-                                    as List<GetDetailMonitoringAnak.Pengukuran>,
-                                state.data.data.tanggalLahir,
+                                state.dataGrafik,
                               );
                         },
                         onSaved: (value) {

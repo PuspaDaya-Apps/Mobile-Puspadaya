@@ -2,12 +2,15 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../bloc/detail_data_ibu_hamil_bloc.dart';
+import '../../model/get_detail_monitoring_ibu_hamil.dart'
+    as GetDetailMonitoringIbuHamil;
 
 class DetailMonitoringIbuHamil extends StatelessWidget {
   final String id;
@@ -285,7 +288,10 @@ class _DetailMonitoringIbuHamilViewState
                         fontSize: 12,
                       ),
                     ),
-                    DataTableRiwayatPengukuranIbuHamil(),
+                    DataTableRiwayatPengukuranIbuHamil(
+                      tanggalTerakhirHaid: state.data.data.tanggalTerakhirHaid,
+                      data: state.data.data.pengukuranIbuHamil,
+                    ),
                   ],
                 ),
               );
@@ -299,8 +305,18 @@ class _DetailMonitoringIbuHamilViewState
 }
 
 class DataTableRiwayatPengukuranIbuHamil extends StatelessWidget {
-  const DataTableRiwayatPengukuranIbuHamil({super.key});
+  DateTime tanggalTerakhirHaid;
+  List<GetDetailMonitoringIbuHamil.PengukuranIbuHamil> data;
+  DataTableRiwayatPengukuranIbuHamil({super.key, required this.data,required this.tanggalTerakhirHaid});
 
+  // Fungsi untuk menghitung usia kehamilan
+  String hitungUsiaKehamilan(DateTime tanggalPengukuran) {
+    final selisihHari = tanggalPengukuran.difference(tanggalTerakhirHaid).inDays;
+    final usiaMinggu = selisihHari ~/ 7;
+    final bulan = usiaMinggu ~/ 4;
+    final minggu = usiaMinggu % 4;
+    return "$bulan bulan $minggu minggu";
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -402,142 +418,177 @@ class DataTableRiwayatPengukuranIbuHamil extends StatelessWidget {
             numeric: true,
           ),
         ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-11-24'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('4 bulan'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('167'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('62'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('34'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('18'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Michelle Susanti'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-11-10'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('3 bulan 2 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('166'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('60'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('33'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('13.5'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-10-27'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('3 bulan'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('165'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('58'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('16'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Gasti Widiastuti'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-10-13'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('2 bulan 2 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('164'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('56'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('31'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('12.5'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Maida Rahmawati'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('5'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-09-29'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('2 bulan'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('163'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('54'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Mila Nurdiyanti'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('6'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-09-15'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('1 bulan 3 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('162'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('52'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('29'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('11.5'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Kania Nasyiah'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('7'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-09-01'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('1 bulan 1 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('160'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('50'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('11'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Nova Puspasari'))),
-          ]),
-        ],
+        rows: List.generate(
+          data.length,
+          (index) {
+            final e = data[index];
+            return DataRow(cells: [
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text('2'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.tanggalPengukuran != null
+                      ? DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)
+                      : '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(hitungUsiaKehamilan(e.tanggalPengukuran)))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.tinggiBadan))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.beratBadan))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.lingkarLenganAtas))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.tinggiFundusUteri))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.hemoglobin))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.terpaparAsapRokok))),
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text(e.hemoglobin))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.kader.nama))),
+            ]);
+          },
+        ),
+        // rows: [
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-11-24'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('4 bulan'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('167'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('62'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('34'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('18'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('Michelle Susanti'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-11-10'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('3 bulan 2 minggu'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('166'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('60'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('33'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('13.5'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('Febi Wahyuni'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-10-27'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('3 bulan'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('165'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('58'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('16'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('Gasti Widiastuti'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-10-13'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('2 bulan 2 minggu'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('164'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('56'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('31'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('15'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('12.5'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('Maida Rahmawati'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('5'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-09-29'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('2 bulan'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('163'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('54'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('30'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('14'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('Mila Nurdiyanti'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('6'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-09-15'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('1 bulan 3 minggu'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('162'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('52'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('29'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('11.5'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('Kania Nasyiah'))),
+        //   ]),
+        //   DataRow(cells: [
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('7'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft, child: Text('2023-09-01'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('1 bulan 1 minggu'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('160'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('50'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('28'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('11'))),
+        //     DataCell(
+        //         Align(alignment: Alignment.centerLeft, child: Text('Tidak'))),
+        //     DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
+        //     DataCell(Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Text('Nova Puspasari'))),
+        //   ]),
+        // ],
       ),
     );
   }
