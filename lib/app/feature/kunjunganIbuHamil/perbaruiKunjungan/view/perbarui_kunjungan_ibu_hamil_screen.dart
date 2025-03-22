@@ -12,16 +12,23 @@ import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../model/CheckBoxKunjungan.dart';
 
-class PerbaruiKunjunganIbuHamilScreen extends StatefulWidget {
-  const PerbaruiKunjunganIbuHamilScreen({super.key});
+class PerbaruiKunjunganIbuHamil extends StatelessWidget {
+  const PerbaruiKunjunganIbuHamil({super.key});
 
   @override
-  State<PerbaruiKunjunganIbuHamilScreen> createState() =>
-      _PerbaruiKunjunganIbuHamilScreenState();
+  Widget build(BuildContext context) {
+    return FormTugasKunjunganIbuHamilView();
+  }
 }
 
-class _PerbaruiKunjunganIbuHamilScreenState
-    extends State<PerbaruiKunjunganIbuHamilScreen> {
+class FormTugasKunjunganIbuHamilView extends StatefulWidget {
+  const FormTugasKunjunganIbuHamilView({super.key});
+
+  @override
+  State<FormTugasKunjunganIbuHamilView> createState() => _FormTugasKunjunganIbuHamilViewState();
+}
+
+class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHamilView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -114,9 +121,6 @@ class _PerbaruiKunjunganIbuHamilScreenState
           physics: const NeverScrollableScrollPhysics(),
           children: [
             // Halaman pertama
-            CheckListJobKunjunganIbuHamilView(
-              goToNext: _goToNextPage,
-            ),
             // Halaman kedua
             UploadImage(),
           ],
@@ -126,86 +130,86 @@ class _PerbaruiKunjunganIbuHamilScreenState
   }
 }
 
-class CheckListJobKunjunganIbuHamilView extends StatefulWidget {
-  final VoidCallback goToNext;
+// class CheckListJobKunjunganIbuHamilView extends StatefulWidget {
+//   final VoidCallback goToNext;
 
-  CheckListJobKunjunganIbuHamilView({super.key, required this.goToNext});
+//   CheckListJobKunjunganIbuHamilView({super.key, required this.goToNext});
 
-  @override
-  State<CheckListJobKunjunganIbuHamilView> createState() =>
-      _CheckListJobKunjunganIbuHamilViewState();
-}
+//   @override
+//   State<CheckListJobKunjunganIbuHamilView> createState() =>
+//       _CheckListJobKunjunganIbuHamilViewState();
+// }
 
-class _CheckListJobKunjunganIbuHamilViewState
-    extends State<CheckListJobKunjunganIbuHamilView> {
-  void _updateCheckbox(int index, bool? value) {
-    setState(() {
-      if (index == listOfCheckboxIbuHamil.length - 1 && value == true) {
-        // If the last checkbox is selected, disable all other checkboxes
-        for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-          listOfCheckboxIbuHamil[i].isChecked = false;
-        }
-      } else if (index != listOfCheckboxIbuHamil.length - 1) {
-        // If any other checkbox is selected, uncheck the last checkbox
-        listOfCheckboxIbuHamil[listOfCheckboxIbuHamil.length - 1].isChecked =
-            false;
-      }
+// class _CheckListJobKunjunganIbuHamilViewState
+//     extends State<CheckListJobKunjunganIbuHamilView> {
+//   void _updateCheckbox(int index, bool? value) {
+//     setState(() {
+//       if (index == listOfCheckboxIbuHamil.length - 1 && value == true) {
+//         // If the last checkbox is selected, disable all other checkboxes
+//         for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
+//           listOfCheckboxIbuHamil[i].isChecked = false;
+//         }
+//       } else if (index != listOfCheckboxIbuHamil.length - 1) {
+//         // If any other checkbox is selected, uncheck the last checkbox
+//         listOfCheckboxIbuHamil[listOfCheckboxIbuHamil.length - 1].isChecked =
+//             false;
+//       }
 
-      // Update the selected checkbox state
-      listOfCheckboxIbuHamil[index].isChecked = value ?? false;
-    });
-  }
+//       // Update the selected checkbox state
+//       listOfCheckboxIbuHamil[index].isChecked = value ?? false;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Pilih tugas yang sudah dilakukan',
-            style: AppTextStyles.primaryTextMedium.copyWith(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...listOfCheckboxIbuHamil.asMap().entries.map((entry) {
-            int index = entry.key;
-            CheckboxKunjungan item = entry.value;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: const EdgeInsets.all(20),
+//       width: double.infinity,
+//       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             'Pilih tugas yang sudah dilakukan',
+//             style: AppTextStyles.primaryTextMedium.copyWith(
+//               fontSize: 16,
+//             ),
+//           ),
+//           const SizedBox(height: 10),
+//           ...listOfCheckboxIbuHamil.asMap().entries.map((entry) {
+//             int index = entry.key;
+//             CheckboxKunjungan item = entry.value;
 
-            return CheckboxListWidget(
-              isChecked: item.isChecked,
-              label: item.label,
-              onChanged: (value) {
-                if (index == listOfCheckboxIbuHamil.length - 1 &&
-                    value == true) {
-                  // Disable other checkboxes if the last one is selected
-                  for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-                    listOfCheckboxIbuHamil[i].isChecked = false;
-                  }
-                }
-                _updateCheckbox(index, value);
-              },
-            );
-          }).toList(),
-          const SizedBox(height: 20),
-          ButtonPrimary(
-            color: bluePrimaryMain,
-            mainButtonMessage: 'Simpan',
-            mainButton: widget.goToNext,
-          ),
-        ],
-      ),
-    );
-  }
-}
+//             return CheckboxListWidget(
+//               isChecked: item.isChecked,
+//               label: item.label,
+//               onChanged: (value) {
+//                 if (index == listOfCheckboxIbuHamil.length - 1 &&
+//                     value == true) {
+//                   // Disable other checkboxes if the last one is selected
+//                   for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
+//                     listOfCheckboxIbuHamil[i].isChecked = false;
+//                   }
+//                 }
+//                 _updateCheckbox(index, value);
+//               },
+//             );
+//           }).toList(),
+//           const SizedBox(height: 20),
+//           ButtonPrimary(
+//             color: bluePrimaryMain,
+//             mainButtonMessage: 'Simpan',
+//             mainButton: widget.goToNext,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class UploadImage extends StatefulWidget {
   @override

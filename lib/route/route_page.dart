@@ -48,6 +48,10 @@ import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/kunjunganAnakTidakHadir/perbaruiKunjungan/view/perbarui_kunjungan_anak_tidak_hadir_screen.dart';
+import '../app/feature/kunjunganIbuHamil/detailCreateKunjungan/view/detail_create_kunjungan_ibu_hamil_screen.dart';
+import '../app/feature/kunjunganIbuHamil/detailKunjungan/view/detail_kunjungan_ibu_hamil.dart';
+import '../app/feature/kunjunganIbuHamil/formTugasKunjungan/view/form_tugas_kunjungan_ibu_hamil_screen.dart';
+import '../app/feature/kunjunganIbuHamil/perbaruiKunjungan/view/perbarui_kunjungan_ibu_hamil_screen.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
@@ -311,25 +315,25 @@ class MyRoute {
             builder: (context) => const ListIbuHamilKunjungan(),
             settings: settings);
 
-      //  case DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => DetailCreateKunjunganIbuHamil(idKunjungan: settings.arguments as String),
-      //       settings: settings);
+       case DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => DetailCreateKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+            settings: settings);
 
-      // case FORM_TUGAS_IBU_HAMIL_KUNJUNGAN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => FormTugasKunjunganIbuHamil(idKunjungan: settings.arguments as String),
-      //       settings: settings);      
+      case FORM_TUGAS_IBU_HAMIL_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => FormTugasKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+            settings: settings);      
 
-      // case DETAIL_IBU_HAMIL_KUNJUNGAN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => DetailKunjunganIbuHamil(idKunjungan: settings.arguments as String),
-      //       settings: settings);
+      case DETAIL_IBU_HAMIL_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => DetailKunjunganIbuHamil(idKunjungan: settings.arguments as String),
+            settings: settings);
       
-      // case UPDATE_IBU_HAMIL_KUNJUNGAN:
-      //   return MaterialPageRoute(
-      //       builder: (context) => const PerbaruiKunjungaIbuHamil(),
-      //       settings: settings);
+      case UPDATE_IBU_HAMIL_KUNJUNGAN:
+        return MaterialPageRoute(
+            builder: (context) => PerbaruiKunjunganIbuHamil(),
+            settings: settings);
 
       // ! register
       case REGISTER:

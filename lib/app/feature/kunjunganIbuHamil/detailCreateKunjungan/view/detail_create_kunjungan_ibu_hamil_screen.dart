@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -9,78 +10,63 @@ import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-import '../../../../view/widget/alert_dialog_widget.dart';
-import '../../formTugasKunjungan/view/checklist_job_kunjungan_ibu_hamil.dart';
+import '../bloc/detailCreateKunjunganIbuHamilBloc/detail_create_kunjungan_ibu_hamil_bloc.dart';
 
-class TimerKunjunganIbuHamil extends StatefulWidget {
-  const TimerKunjunganIbuHamil({super.key});
+class DetailCreateKunjunganIbuHamil extends StatelessWidget {
+  const DetailCreateKunjunganIbuHamil({super.key, required this.idKunjungan});
+  final String idKunjungan;
 
   @override
-  State<TimerKunjunganIbuHamil> createState() => _TimerKunjunganIbuHamilState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DetailCreateKunjunganIbuHamilBloc(),
+      child: DetailCreateKunjunganIbuHamilView(idKunjungan: idKunjungan),
+    );
+  }
 }
 
-class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
+class DetailCreateKunjunganIbuHamilView extends StatefulWidget {
+  const DetailCreateKunjunganIbuHamilView({super.key, required this.idKunjungan});
+  final String idKunjungan;
+
+  @override
+  State<DetailCreateKunjunganIbuHamilView> createState() => _DetailCreateKunjunganIbuHamilViewState();
+}
+
+class _DetailCreateKunjunganIbuHamilViewState extends State<DetailCreateKunjunganIbuHamilView> {
   Timer? _timer;
   int _seconds = 0;
   bool _isRunning = false;
 
   // Format waktu menjadi MM:SS
   String get formattedTime {
-    int minutes = _seconds ~/ 60;
-    int seconds = _seconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+     // int minutes = _seconds ~/ 60;
+    // int seconds = _seconds % 60;
+
+    int h = _seconds ~/ 3600;
+    int m = ((_seconds - h * 3600)) ~/ 60;
+    int s = _seconds - (h * 3600) - (m * 60);
+
+    if( h != 0) {
+      return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    } else {
+      return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    }
   }
 
   // Mulai atau hentikan timer
-  // void _toggleTimer() {
-  //   if (_isRunning) {
-  //     _timer?.cancel();
-  //     _isRunning = false;
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialogWidget(
-  //             image: imageOnTheWay,
-  //             cancelButton: () {
-  //               Navigator.pop(context);
-  //             },
-  //             cancelButtonMessage: 'Kembali ke perjalanan',
-  //             title: 'Apakah Anda Yakin Sudah Menyelesaikan Kunjungan?',
-  //             message:
-  //                 'Anda Sudah Melakukan Perjalanan Sepanjang ${formattedTime}',
-  //             mainButton: () {
-  //               Navigator.pop(context); // Tutup dialog
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                   builder: (context) => const ChecklistJobKunjunganIbuHamil(),
-  //                 ),
-  //               );
-  //             },
-  //             mainButtonMessage: 'Iya, Saya Sudah Selesai',
-  //             colorMainButton: bluePrimaryMain);
-  //       },
-  //     );
-  //   } else {
-  //     _isRunning = true;
-  //     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //       setState(() {
-  //         _seconds++;
-  //       });
-  //     });
-  //   }
-  //   setState(() {});
-  // }
+  void _toggleTimer(DateTime mulai) {
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _seconds = DateTime.now().difference(mulai).inSeconds;
+      });
+    });
+  } 
 
   @override
   void initState() {
     super.initState();
-    _isRunning = true;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _seconds++;
-      });
-    });
   }
 
   @override
@@ -156,16 +142,6 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
                                   ),
                                 ),
                               ],
-                            ),
-                            SizedBox(
-                                width:
-                                    4), // Tambahkan jarak antar teks jika diperlukan
-                            Text(
-                              "KM",
-                              style:
-                                  AppTextStyles.secoundaryTextMedium.copyWith(
-                                fontSize: 12,
-                              ),
                             ),
                           ],
                         ),
@@ -308,16 +284,7 @@ class _TimerKunjunganIbuHamilState extends State<TimerKunjunganIbuHamil> {
                       : greenPrimaryMain, // Warna tombol
                   mainButtonMessage:
                       _isRunning ? 'Selesai' : 'Mulai', // Teks tombol
-                  mainButton: () {
-                    Navigator.pop(context); // Tutup dialog
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ChecklistJobKunjunganIbuHamil(),
-                      ),
-                    );
-                  }, // Jalankan timer
+                  mainButton: () {}, // Jalankan timer
                 ),
               ],
             ),

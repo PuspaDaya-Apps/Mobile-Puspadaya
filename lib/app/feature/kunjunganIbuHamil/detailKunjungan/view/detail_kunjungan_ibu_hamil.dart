@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -8,12 +9,41 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/screen/bukti_kunjungan.dart';
+import '../bloc/deleteKunjunganIbuHamilBloc/delete_kunjungan_ibu_hamil_bloc.dart';
+import '../bloc/detailKunjunganIbuHamilBloc/detail_kunjungan_ibu_hamil_bloc.dart';
 
-class DetailKunjunganIbuHamil extends StatelessWidget {
+class DetailKunjunganIbuHamil extends StatelessWidget{
+  const DetailKunjunganIbuHamil({super.key, required this.idKunjungan});
+  final String idKunjungan;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailKunjunganIbuHamilBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DeleteKunjunganIbuHamilBloc(),
+        ),
+      ],
+      child: DetailKunjunganIbuHamilScreen(idKunjungan: idKunjungan,)
+    );
+  }
+}
+
+class DetailKunjunganIbuHamilScreen extends StatefulWidget {
+  const DetailKunjunganIbuHamilScreen({super.key, required this.idKunjungan});
+  final String idKunjungan;
+
+  @override
+  State<DetailKunjunganIbuHamilScreen> createState() => _DetailKunjunganIbuHamilScreenState();
+}
+
+class _DetailKunjunganIbuHamilScreenState extends State<DetailKunjunganIbuHamilScreen> {
   List<String> job = [
     "Pemberian Makanan Tambahan",
   ];
-  DetailKunjunganIbuHamil({super.key});
 
   @override
   Widget build(BuildContext context) {
