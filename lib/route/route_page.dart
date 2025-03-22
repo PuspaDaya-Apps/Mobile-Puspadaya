@@ -50,6 +50,7 @@ import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/kunjunganAnakTidakHadir/perbaruiKunjungan/view/perbarui_kunjungan_anak_tidak_hadir_screen.dart';
+import '../app/feature/notification/view/notifikasi.dart';
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
@@ -612,6 +613,13 @@ class MyRoute {
           builder: (context) => RiwayatParameterFaktorResiko(
             anakId: id,
           ),
+          settings: settings,
+        );
+
+      //! notifikas
+      case NOTIFIKASI:
+        return MaterialPageRoute(
+          builder: (context) => const Notifikasi(),
           settings: settings,
         );
 
