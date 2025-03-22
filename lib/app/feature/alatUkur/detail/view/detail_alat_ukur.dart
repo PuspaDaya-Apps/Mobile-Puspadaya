@@ -40,14 +40,6 @@ class DetailAlatUkurView extends StatefulWidget {
 class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
   final TextEditingController _otherController = TextEditingController();
 
-  List<Map<String, dynamic>> alatDeteksiDini = [
-    {'label': 'Kubus', 'isChecked': false, 'isOther': false},
-    {'label': 'Lonceng', 'isChecked': true, 'isOther': false},
-    {'label': 'Kartu Bergambar', 'isChecked': true, 'isOther': false},
-    {'label': 'Bola Ulir', 'isChecked': false, 'isOther': false},
-    {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
-  ];
-
   @override
   void initState() {
     context
@@ -155,7 +147,7 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                         style: TextStyle(fontSize: 12),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      InfoFieldWidget(text: state.data.data.merekAlat!),
+                      InfoFieldWidget(text: state.data.data.merekAlat),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         'Kondisi Alat',
