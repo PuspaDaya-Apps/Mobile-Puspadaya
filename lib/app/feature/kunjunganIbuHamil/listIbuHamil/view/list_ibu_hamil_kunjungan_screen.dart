@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_ibu_hamil_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../route/route_name.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/createKunjunganIbuHamilBloc/create_kunjungan_ibu_hamil_bloc.dart';
+import '../bloc/listIbuHamilKunjunganBloc/list_ibu_hamil_kunjungan_bloc.dart';
 import 'model/KunjuganIbuHamilItem.dart';
-import '../../detailCreateKunjungan/view/timer_kunjungan_ibu_hamil.dart';
+// import '../../detailCreateKunjungan/view/timer_kunjungan_ibu_hamil.dart';
 
 class ListIbuHamilKunjungan extends StatelessWidget {
   const ListIbuHamilKunjungan({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const ListIbuHamilKunjunganView();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CreateKunjunganIbuHamilBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ListIbuHamilKunjunganBloc(),
+        ),
+      ],
+      child: const ListIbuHamilKunjunganView(),
+    );
   }
 }
 
@@ -21,60 +39,60 @@ class ListIbuHamilKunjunganView extends StatefulWidget {
   const ListIbuHamilKunjunganView({super.key});
 
   @override
-  State<ListIbuHamilKunjunganView> createState() =>
-      _ListIbuHamilKunjunganViewState();
+  State<ListIbuHamilKunjunganView> createState() => _ListIbuHamilKunjunganViewState();
 }
 
-class _ListIbuHamilKunjunganViewState
-    extends State<ListIbuHamilKunjunganView> {
+class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
   bool isSearching = false;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
-  final List<KunjuganIbuHamilItem> originalList = [
-    KunjuganIbuHamilItem(
-      id: '1',
-      name: 'Tessa Ivangkia',
-      nik: '3621554011732625',
-      husband: 'Mustafid Sayoga',
-    ),
-    KunjuganIbuHamilItem(
-      id: '2',
-      name: 'Soraya Aprilicia',
-      nik: '3621554011732636',
-      husband: 'Muhamad Aristy',
-    ),
-    KunjuganIbuHamilItem(
-      id: '3',
-      name: 'Fernanda Oktaviaman',
-      nik: '3621554011732647',
-      husband: 'Cakra Yusdwindra',
-    ),
-    KunjuganIbuHamilItem(
-      id: '4',
-      name: 'Bella Riyadie',
-      nik: '3621554011732658',
-      husband: 'Bimo Oktaviani',
-    ),
-  ];
+  // final List<KunjuganIbuHamilItem> originalList = [
+  //   KunjuganIbuHamilItem(
+  //     id: '1',
+  //     name: 'Tessa Ivangkia',
+  //     nik: '3621554011732625',
+  //     husband: 'Mustafid Sayoga',
+  //   ),
+  //   KunjuganIbuHamilItem(
+  //     id: '2',
+  //     name: 'Soraya Aprilicia',
+  //     nik: '3621554011732636',
+  //     husband: 'Muhamad Aristy',
+  //   ),
+  //   KunjuganIbuHamilItem(
+  //     id: '3',
+  //     name: 'Fernanda Oktaviaman',
+  //     nik: '3621554011732647',
+  //     husband: 'Cakra Yusdwindra',
+  //   ),
+  //   KunjuganIbuHamilItem(
+  //     id: '4',
+  //     name: 'Bella Riyadie',
+  //     nik: '3621554011732658',
+  //     husband: 'Bimo Oktaviani',
+  //   ),
+  // ];
 
   List<KunjuganIbuHamilItem> filteredList = [];
 
   @override
   void initState() {
     super.initState();
-    filteredList = List.from(originalList);
+    // filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
+
+    BlocProvider.of<ListIbuHamilKunjunganBloc>(context).add(GetDataIbuHamil());
   }
 
   void _filterList() {
-    setState(() {
-      final query = _searchController.text.toLowerCase();
-      filteredList = originalList.where((item) {
-        return item.name.toLowerCase().contains(query) ||
-            item.nik.contains(query) ||
-            item.nik.toLowerCase().contains(query);
-      }).toList();
-    });
+    // setState(() {
+    //   final query = _searchController.text.toLowerCase();
+    //   filteredList = originalList.where((item) {
+    //     return item.name.toLowerCase().contains(query) ||
+    //         item.nik.contains(query) ||
+    //         item.nik.toLowerCase().contains(query);
+    //   }).toList();
+    // });
   }
 
   @override
@@ -85,64 +103,115 @@ class _ListIbuHamilKunjunganViewState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundWhite10,
-      appBar: AppBar(
-        toolbarHeight: 60,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: backgroundWhite10,
-        title: isSearching
-            ? SearchTextFieldWidget(
-                controller: _searchController,
-                hintText: 'Cari Data',
-              )
-            : Text(
-                'Piih Ibu Hamil',
-                style: AppTextStyles.primaryTextSemibold.copyWith(
-                  fontSize: 16,
+    final createKunjunganBloc = BlocProvider.of<CreateKunjunganIbuHamilBloc>(context);
+
+    return BlocConsumer<CreateKunjunganIbuHamilBloc, CreateKunjunganIbuHamilState>(
+      listener: (context, state) {
+        debugPrint(state.toString());
+        if (state is CreateKunjunganIbuHamilSuccessState) {
+          Navigator.pop(context, 1);
+          Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.idKunjungan);
+        }
+        if (state is CreateKunjunganIbuHamilFailedState) {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error(state.error)
+          );
+        }
+      },
+      builder: (context, state) {
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            Scaffold(
+              backgroundColor: backgroundWhite10,
+              appBar: AppBar(
+                toolbarHeight: 60,
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                backgroundColor: backgroundWhite10,
+                title: isSearching
+                    ? SearchTextFieldWidget(
+                        controller: _searchController,
+                        hintText: 'Cari Data',
+                      )
+                    : Text(
+                        'Piih Ibu Hamil',
+                        style: AppTextStyles.primaryTextSemibold.copyWith(
+                          fontSize: 16,
+                        ),
+                      ),
+                actions: _buildAppBarActions(),
+              ),
+              body: SafeArea(
+                child: BlocConsumer<ListIbuHamilKunjunganBloc, ListIbuHamilKunjunganState>(
+                  listener: (context, state) {
+                    debugPrint(state.toString());
+                  },
+                  builder: (context, stateList) {
+                    if(stateList is ListIbuHamilKunjunganProccessState) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ));
+                    }
+                    if(stateList is ListIbuHamilKunjunganSuccessState) {
+                      if(stateList.listDataIbuHamil.data!.isEmpty) {
+                        return const NoDataScreen();
+                      }
+                      return ListView.separated(
+                        itemCount: stateList.listDataIbuHamil.data!.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: shadowSm,
+                            ),
+                            child: KunjunganIbuHamilItem(
+                              onTap: () {
+                                createKunjunganBloc.add(CreateKunjunganEvent(
+                                  stateList.listDataIbuHamil.data![index].id
+                                ));
+                              },
+                              name: stateList.listDataIbuHamil.data![index].ibuAnak.namaIbu,
+                              nik: stateList.listDataIbuHamil.data![index].ibuAnak.nik,
+                              husband: stateList.listDataIbuHamil.data![index].ibuAnak.ayah.namaAyah,
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    return const ErrorServerScreen();
+                  },
                 ),
               ),
-        actions: _buildAppBarActions(),
-      ),
-      body: SafeArea(
-        child: ListView.separated(
-          itemCount: filteredList.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final item = filteredList[index];
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: shadowSm,
-              ),
-              child: KunjunganIbuHamilItem(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return TimerKunjunganIbuHamil();
-                      },
-                    ),
-                  );
-                },
-                name: item.name,
-                nik: item.nik,
-                husband: item.husband,
-              ),
-            );
-          },
-        ),
-      ),
+            ),
+            state is CreateKunjunganIbuHamilProccessState
+            ? Container(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).height,
+                color: Colors.black.withOpacity(0.2),
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                ),
+              )
+            : const SizedBox(),
+          ],
+        );
+      },
     );
   }
 
@@ -154,7 +223,7 @@ class _ListIbuHamilKunjunganViewState
             isSearching = !isSearching;
             if (!isSearching) {
               _searchController.clear();
-              filteredList = List.from(originalList); // Reset list
+              // filteredList = List.from(originalList); // Reset list
             }
           });
         },
