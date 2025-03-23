@@ -25,6 +25,7 @@ abstract class LinkApi {
   //!Users
   static const CURRENTUSRURL = "/users/current";
   static const USERURL = "/users";
+  static const GANTIPROFILE = "/users/profiles";
 
   //!Orang Tua
   static const ORANGTUAURL = "/register/orang-tua";
@@ -55,10 +56,12 @@ abstract class LinkApi {
 
   //!Pengukuran Anak
   static const PENGUKURANANAKURL = "/pengukuran-anak";
+  static const RIWAYATPENGUKURANANAKURL= "/pengukuran-anak/riwayat";
 
   //!Pengukuran Ibu Hamil
   static const PENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil";
-
+  static const RIWAYATPENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil/riwayat";
+  
   //!Beban Kerja
   static const TUGASKADERURL = "/tugas-kader";
   static const PENILAIANMANDIRIURL = "/penilaian-mandiri";
@@ -94,4 +97,11 @@ abstract class LinkApi {
 
   //! donwload E-PPGBM
   static const DOWNLOADEPPGBM = "/export-data";
+
+
+  //! storage
+  static const STORAGEURL="/storage/file";
+
+  //! grafik KMS(Kader Monitoring System),
+  static const GRAFIKKMSURL="/grafik-kms";
 }

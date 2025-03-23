@@ -21,6 +21,8 @@ Map<String, dynamic> _$GetDetailMonitoringAnakToJson(
     };
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
+      tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String),
+      jenisKelamin: json['jenis_kelamin'] as String,
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       statusStunting: json['status_stunting'] as String,
@@ -31,8 +33,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
           json['kartu_keluarga'] as Map<String, dynamic>),
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
       ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
-      pengukuran: (json['pengukuran'] as List<dynamic>)
-          .map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
+      pengukuran: (json['pengukuran'] as List<dynamic>?)
+          ?.map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -40,6 +42,8 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'nik': instance.nik,
       'nama_anak': instance.namaAnak,
       'status_stunting': instance.statusStunting,
+      'tanggal_lahir': instance.tanggalLahir.toIso8601String(),
+      'jenis_kelamin': instance.jenisKelamin,
       'status_gizi': instance.statusGizi,
       'status_wasting': instance.statusWasting,
       'usia': instance.usia,
@@ -47,22 +51,6 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'ayah': instance.ayah,
       'ibu': instance.ibu,
       'pengukuran': instance.pengukuran,
-    };
-
-Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
-      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
-      nama: json['nama'] as String,
-      rt: json['rt'] as String,
-      rw: json['rw'] as String,
-      alamatLengkap: json['alamat_lengkap'] as String,
-    );
-
-Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
-      'nama': instance.nama,
-      'rt': instance.rt,
-      'rw': instance.rw,
-      'alamat_lengkap': instance.alamatLengkap,
-      'dusun': instance.dusun,
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
@@ -77,6 +65,22 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'rt': instance.rt,
       'rw': instance.rw,
       'alamat_lengkap': instance.alamatLengkap,
+    };
+
+Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
+      nama: json['nama'] as String,
+      rt: json['rt'] as String,
+      rw: json['rw'] as String,
+      alamatLengkap: json['alamat_lengkap'] as String,
+      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
+      'nama': instance.nama,
+      'rt': instance.rt,
+      'rw': instance.rw,
+      'alamat_lengkap': instance.alamatLengkap,
+      'dusun': instance.dusun,
     };
 
 Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
@@ -159,7 +163,7 @@ Pengukuran _$PengukuranFromJson(Map<String, dynamic> json) => Pengukuran(
       tinggiBadan: json['tinggi_badan'] as String,
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
       lingkarKepala: json['lingkar_kepala'] as String,
-      namaKader: json['nama_kader'] as String,
+      namaKader: json['nama_kader'] as String?,
       statusStunting: json['status_stunting'] as String,
       statusGizi: json['status_gizi'] as String,
     );

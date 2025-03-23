@@ -76,6 +76,16 @@ class DataKecamatan {
   factory DataKecamatan.fromJson(Map<String, dynamic> json) => _$DataKecamatanFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataKecamatanToJson(this);
+
+   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DataKecamatan &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 //@JsonSerializable()
@@ -94,6 +104,16 @@ class DataDesaKelurahan {
   factory DataDesaKelurahan.fromJson(Map<String, dynamic> json) => _$DataDesaKelurahanFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataDesaKelurahanToJson(this);
+
+    @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DataDesaKelurahan &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 //@JsonSerializable()
@@ -110,6 +130,16 @@ class DataDusun {
   factory DataDusun.fromJson(Map<String, dynamic> json) => _$DataDusunFromJson(json);
 
   Map<String, dynamic> toJson() => _$DataDusunToJson(this);
+
+    @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DataDusun &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 DataWilayahModel _$DataWilayahModelFromJson(Map<String, dynamic> json) =>

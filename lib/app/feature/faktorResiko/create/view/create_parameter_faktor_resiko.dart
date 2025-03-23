@@ -16,6 +16,7 @@ import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
 import 'quisioner_parameter_faktor_resiko.dart';
+import 'special/create_gangguan_tumbuh_kembang_faktor_resiko.dart';
 import 'special/create_imuniasi_faktor_resiko.dart';
 
 class CreateParameterFaktorResiko extends StatelessWidget {
@@ -174,71 +175,89 @@ class _CreateParameterFaktorResikoViewState
               if (state.data.data.isEmpty) {
                 return DataNotFoundScreen();
               }
-              return ListView.builder(
-                itemCount: state.data.data.length,
-                itemBuilder: (context, index) {
-                  GetIndexPertanyaanModel.Datum parameter =
-                      state.data.data[index];
-                  final answers = context
-                      .read<IndexParameterFaktorResikoBloc>()
-                      .dataQuisioner; // Berisi daftar jawaban yang dipilih
+              // logger.d(state.image);
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: ListView.builder(
+                  itemCount: state.data.data.length,
+                  itemBuilder: (context, index) {
+                    GetIndexPertanyaanModel.Datum parameter =
+                        state.data.data[index];
+                    final answers = context
+                        .read<IndexParameterFaktorResikoBloc>()
+                        .dataQuisioner; // Berisi daftar jawaban yang dipilih
 
-                  // ✅ Cek apakah ada pertanyaan yang sudah dijawab
-                  bool isDone = answers.any((answer) => parameter.pertanyaan
-                      .any((q) => q.id == answer.pertanyaanId));
-                  logger.d('jawaban yang diterima ${answers} ');
+                    // ✅ Cek apakah ada pertanyaan yang sudah dijawab
+                    bool isDone = answers.any((answer) => parameter.pertanyaan
+                        .any((q) => q.id == answer.pertanyaanId));
+                    logger.d('jawaban yang diterima ${answers} ');
 
-                  bool isCompleteQuestion = parameter.isCompleted;
-                  if (isCompleteQuestion)
-                    return SizedBox(); // Jangan tampilkan jika sudah selesai
-                  // if (parameter.pertanyaan[index].id ==
-                  //     answers[index].pertanyaanId) ;
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 5, top: 5, left: 16, right: 16),
-                    child: ParameterFaktorResikoItem(
-                      isRiwayat: false,
-                      isDone: isDone,
-                      status: isDone,
-                      judul: parameter.namaFaktorResiko,
-                      keterangan: parameter.keterangan,
-                      terakhirDiisi: parameter.lastCompleted,
-                      onTap: () async {
-                        logger
-                            .d('judul parameter ${parameter.namaFaktorResiko}');
-                        if (parameter.namaFaktorResiko == "Imunisasi") {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return CreateImuniasiFaktorResiko(
-                                  data: parameter,
-                                  bloc: indexParameterFaktorResiko,
-                                );
-                              },
-                            ),
-                          );
-                        } else {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return QuisionerParameterFaktorResiko(
-                                  data: parameter,
-                                  bloc: indexParameterFaktorResiko,
-                                );
-                              },
-                            ),
-                          );
-                        }
+                    bool isCompleteQuestion = parameter.isCompleted;
+                    if (isCompleteQuestion)
+                      return SizedBox(); // Jangan tampilkan jika sudah selesai
+                    // if (parameter.pertanyaan[index].id ==
+                    //     answers[index].pertanyaanId) ;
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 5, top: 5, left: 16, right: 16),
+                      child: ParameterFaktorResikoItem(
+                        isRiwayat: false,
+                        isDone: isDone,
+                        status: isDone,
+                        judul: parameter.namaFaktorResiko,
+                        keterangan: parameter.keterangan,
+                        terakhirDiisi: parameter.lastCompleted,
+                        onTap: () async {
+                          logger.d(
+                              'judul parameter ${parameter.namaFaktorResiko}');
+                          if (parameter.namaFaktorResiko == "Imunisasi") {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CreateImuniasiFaktorResiko(
+                                    data: parameter,
+                                    bloc: indexParameterFaktorResiko,
+                                  );
+                                },
+                              ),
+                            );
+                          } else if (parameter.namaFaktorResiko ==
+                              "Gangguan Tumbuh Kembang") {
+                                
+                                logger.d(parameter.namaFaktorResiko == "Gangguan Tumbuh Kembang");
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return CreateGangguanTumbuhKembangFaktorResiko(
+                                    data: parameter,
+                                  );
+                                },
+                              ),
+                            );
+                          } else {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return QuisionerParameterFaktorResiko(
+                                    data: parameter,
+                                    bloc: indexParameterFaktorResiko,
+                                  );
+                                },
+                              ),
+                            );
+                          }
 
-                        context
-                            .read<IndexParameterFaktorResikoBloc>()
-                            .add(FetchFaktorResikoById(widget.anakId));
-                      },
-                    ),
-                  );
-                },
+                          context
+                              .read<IndexParameterFaktorResikoBloc>()
+                              .add(FetchFaktorResikoById(widget.anakId));
+                        },
+                      ),
+                    );
+                  },
+                ),
               );
             }
             return Container();

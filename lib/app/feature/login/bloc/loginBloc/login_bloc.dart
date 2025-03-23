@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       List<dynamic> response = await LoginApi().loginService(event.loginModel);
 
       int statusCode = response[0] as int;
-      debugPrint(statusCode.toString());
+      debugPrint('status code = ${statusCode.toString()}');
       LoginResponseModel loginResponseModel = LoginResponseModel.fromJson(response[1]);
       debugPrint(loginResponseModel.toString());
 

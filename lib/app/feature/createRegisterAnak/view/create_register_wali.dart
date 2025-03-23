@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 
+import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
@@ -163,7 +164,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
     setState(() {
       _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,38 +269,41 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.sizeOf(context).width /
-                                      3.4, // Atur lebar minimum untuk tombol
-                                  child: GenerateButtonWidget(
-                                    onPressed: () {
-                                      // Validasi sebelum mengizinkan generate
-                                      if (_isGenerateWaliValid()) {
-                                        // Logika untuk generate
-                                        print("Generate button pressed");
-                                        context
-                                            .read<GenerateKkCubit>()
-                                            .getGenerateKK(
-                                                state.dataWilayahModel.provinsi
-                                                    .id,
-                                                selectedKabupaten!.id,
-                                                selectedKecamatan!.id,
-                                                _tanggalLahirController.text);
-                                      } else {
-                                        // Tampilkan snackbar atau dialog jika form tidak valid
-                                        showTopSnackBar(
-                                            Overlay.of(context),
-                                            animationDuration: const Duration(
-                                                milliseconds: 600),
-                                            displayDuration: const Duration(
-                                                milliseconds: 2200),
-                                            reverseAnimationDuration:
-                                                const Duration(
-                                                    milliseconds: 300),
-                                            TopSnackbarWidget().error(
-                                                'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
-                                      }
-                                    },
+                                GestureDetector(
+                                  onTap: () {
+                                    // Validasi sebelum mengizinkan generate
+                                    if (_isGenerateWaliValid()) {
+                                      // Logika untuk generate
+                                      print("Generate button pressed");
+                                      context
+                                          .read<GenerateKkCubit>()
+                                          .getGenerateKK(
+                                              state
+                                                  .dataWilayahModel.provinsi.id,
+                                              selectedKabupaten!.id,
+                                              selectedKecamatan!.id,
+                                              _tanggalLahirController.text);
+                                    } else {
+                                      // Tampilkan snackbar atau dialog jika form tidak valid
+                                      showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(milliseconds: 300),
+                                          TopSnackbarWidget().error(
+                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                    }
+                                  },
+                                  child: Image(
+                                    width: 38,
+                                    height: 38,
+                                    color: greenPrimaryMain,
+                                    image: AssetImage(
+                                      imageRestart,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -347,34 +351,37 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: MediaQuery.sizeOf(context).width /
-                                      3.4, // Atur lebar minimum untuk tombol
-                                  child: GenerateButtonWidget(
-                                    onPressed: () {
-                                      // Validasi sebelum mengizinkan generate
-                                      if (_isGenerateWaliValid()) {
-                                        // Logika untuk generate
-                                        print("Generate button pressed");
-                                        context
-                                            .read<GenerateNikCubit>()
-                                            .getGenerateNik(_kkController.text,
-                                                _tanggalLahirController.text);
-                                      } else {
-                                        // Tampilkan snackbar atau dialog jika form tidak valid
-                                        showTopSnackBar(
-                                            Overlay.of(context),
-                                            animationDuration: const Duration(
-                                                milliseconds: 600),
-                                            displayDuration: const Duration(
-                                                milliseconds: 2200),
-                                            reverseAnimationDuration:
-                                                const Duration(
-                                                    milliseconds: 300),
-                                            TopSnackbarWidget().error(
-                                                'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
-                                      }
-                                    },
+                                GestureDetector(
+                                  onTap: () {
+                                    // Validasi sebelum mengizinkan generate
+                                    if (_isGenerateWaliValid()) {
+                                      // Logika untuk generate
+                                      print("Generate button pressed");
+                                      context
+                                          .read<GenerateNikCubit>()
+                                          .getGenerateNik(_kkController.text,
+                                              _tanggalLahirController.text);
+                                    } else {
+                                      // Tampilkan snackbar atau dialog jika form tidak valid
+                                      showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(milliseconds: 300),
+                                          TopSnackbarWidget().error(
+                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                    }
+                                  },
+                                  child: Image(
+                                    width: 38,
+                                    height: 38,
+                                    color: greenPrimaryMain,
+                                    image: AssetImage(
+                                      imageRestart,
+                                    ),
                                   ),
                                 ),
                               ],

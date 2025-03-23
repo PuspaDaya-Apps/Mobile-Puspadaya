@@ -119,3 +119,4 @@ const String PARAMETER_FAKTOR_RESIKO_DETAIL = '/faktor-resiko/parameter/detail';
 
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';
+

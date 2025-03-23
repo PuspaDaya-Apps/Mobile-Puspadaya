@@ -9,6 +9,7 @@ import '../../../../view/widget/alert_dialog_petunjuk_faktor_resiko.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/parameter_faktor_resiko_item.dart';
 import 'detail_riwayat_parameter_faktor_resiko.dart';
+import 'special/detail_gangguan_tumbuh_kembang_faktor_resiko.dart';
 import 'special/detail_imunisasi_faktor_resiko.dart';
 
 class RiwayatParameterFaktorResiko extends StatelessWidget {
@@ -109,6 +110,18 @@ class _RiwayatParameterFaktorResikoViewState
                           MaterialPageRoute(
                             builder: (context) {
                               return DetailImunisasiFaktorResiko(
+                                data: parameter,
+                              );
+                            },
+                          ),
+                        );
+                      } else if (parameter.namaFaktorResiko ==
+                          'Gangguan Tumbuh Kembang') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DetailGangguanTumbuhKembangFaktorResiko(
                                 data: parameter,
                               );
                             },

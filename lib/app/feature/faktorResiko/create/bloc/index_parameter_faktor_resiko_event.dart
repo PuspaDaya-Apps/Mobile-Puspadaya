@@ -15,19 +15,24 @@ final class FetchFaktorResikoById extends IndexParameterFaktorResikoEvent {
 }
 
 class SelectAnswer extends IndexParameterFaktorResikoEvent {
-  final String questionId;
-  final List<String> answerId;
-  final bool
-      isMultipleChoice; // Tambahkan informasi apakah ini multiple atau single selection
+  final SelectAnswerModel data;
 
-  SelectAnswer({
-    required this.questionId,
-    required this.answerId,
-    required this.isMultipleChoice,
+  const SelectAnswer({
+    required this.data,
   });
 
   @override
-  List<Object> get props => [questionId, answerId, isMultipleChoice];
+  List<Object> get props => [data];
+}
+class SelectMultipleAnswer extends IndexParameterFaktorResikoEvent {
+  final List<SelectAnswerModel> data;
+
+  const SelectMultipleAnswer({
+    required this.data,
+  });
+
+  @override
+  List<Object> get props => [data];
 }
 
 class SendAnswerQuestion extends IndexParameterFaktorResikoEvent {

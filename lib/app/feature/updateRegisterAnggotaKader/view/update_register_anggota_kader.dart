@@ -561,7 +561,7 @@ class _UpdateRegisterAnggotaKaderViewState
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validators: [],
+                              validators: [ ],
                             ),
                           ),
                           Expanded(
