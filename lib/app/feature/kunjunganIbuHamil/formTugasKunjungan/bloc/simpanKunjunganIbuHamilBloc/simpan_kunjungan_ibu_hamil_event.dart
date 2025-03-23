@@ -6,3 +6,15 @@ sealed class SimpanKunjunganIbuHamilEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class SimpanKunjungan extends SimpanKunjunganIbuHamilEvent {
+  final String idKunjungan;
+  final List<XFile> listImages;
+  final List<CheckboxKunjungan> listTugas;
+
+  const SimpanKunjungan({
+    required this.idKunjungan,
+    required this.listImages,
+    required this.listTugas
+  });
+}

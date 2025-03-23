@@ -7,12 +7,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../route/route_name.dart';
 import '../../../../../utils/constant/constanst.dart';
+import '../../../../../utils/logger/logger.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/alert_confirm_create_kunjungan.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../model/CheckBoxKunjungan.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/simpanKunjunganIbuHamilBloc/simpan_kunjungan_ibu_hamil_bloc.dart';
 import '../bloc/tugasKunjunganIbuHamilBloc/tugas_kunjungan_ibu_hamil_bloc.dart';
 
@@ -44,8 +49,7 @@ class FormTugasKunjunganIbuHamilView extends StatefulWidget {
   State<FormTugasKunjunganIbuHamilView> createState() => _FormTugasKunjunganIbuHamilViewState();
 }
 
-class _FormTugasKunjunganIbuHamilViewState
-    extends State<FormTugasKunjunganIbuHamilView> {
+class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHamilView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -59,6 +63,10 @@ class _FormTugasKunjunganIbuHamilViewState
     1.0,
   ];
 
+  List<CheckboxKunjungan> listTugasKunjunganData = [];
+
+  List<XFile> imagesData = [];
+
   void _goToNextPage() {
     if (_currentPage < _progressValues.length - 1) {
       setState(() {
@@ -70,6 +78,12 @@ class _FormTugasKunjunganIbuHamilViewState
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TugasKunjunganIbuHamilBloc>(context).add(GetTugasKunjungan());
   }
 
   @override
@@ -132,132 +146,217 @@ class _FormTugasKunjunganIbuHamilViewState
           ],
         ),
       ),
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            // Halaman pertama
-            // Halaman kedua
-            UploadImage(),
-          ],
+      body: PopScope(
+        canPop: _currentPage != 0 ? false : true,
+        onPopInvokedWithResult: (didPop, result) {
+          if (_currentPage == 1) {
+            setState(() {
+              _currentPage--;
+            });
+            _pageController.animateToPage(
+              _currentPage,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        },
+        child: SafeArea(
+          child: PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              // Halaman pertama
+              BlocConsumer<TugasKunjunganIbuHamilBloc, TugasKunjunganIbuHamilState>(
+                listener: (context, state) {
+                  debugPrint(state.toString());
+                },
+                builder: (context, state) {
+                  if (state is TugasKunjunganIbuHamilProccessState) {
+                    return Container(
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      alignment: Alignment.center,
+                      child: const CircularProgressIndicator(
+                        color: bluePrimaryMain,
+                      ),
+                    );
+                  }
+                  if (state is TugasKunjunganIbuHamilSuccessState) {
+                    if (state.listTugasKunjungan.data!.isEmpty) {
+                      return Container(
+                        height: MediaQuery.sizeOf(context).height,
+                        width: MediaQuery.sizeOf(context).width,
+                        alignment: Alignment.center,
+                        child: const NoDataScreen());
+                    }
+                    if (listTugasKunjunganData.isEmpty) {
+                      listTugasKunjunganData.addAll(state.listTugasKunjungan.data!
+                        .map((e) => CheckboxKunjungan(
+                            id: e.id, isChecked: false, label: e.namaTugas))
+                        .toList());
+                    }
+
+                    return Container(
+                      margin: const EdgeInsets.all(20),
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Pilih tugas yang sudah dilakukan',
+                            style: AppTextStyles.primaryTextMedium.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            children: List.generate(listTugasKunjunganData.length, (index) {
+                              return CheckboxListWidget(
+                                isChecked: listTugasKunjunganData[index].isChecked,
+                                label: listTugasKunjunganData[index].label,
+                                onChanged: (value) {
+                                  setState(() {
+                                    listTugasKunjunganData[index].isChecked = value!;                          
+                                  });
+                                },
+                              );
+                            }),
+                          ),
+                          const SizedBox(height: 20),
+                          ButtonPrimary(
+                            color: bluePrimaryMain,
+                            mainButtonMessage: 'Simpan',
+                            mainButton : () {
+                              setState(() {
+                                _currentPage++;
+                              });
+                              _pageController.animateToPage(
+                                _currentPage,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut,
+                              );
+                              // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
+                              // widget.setTugasValue(widget.listTugasKunjungan);
+                            }
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return Container(
+                    height: MediaQuery.sizeOf(context).height,
+                    width: MediaQuery.sizeOf(context).width,
+                    alignment: Alignment.center,
+                    child: const ErrorServerScreen()
+                  );
+                },
+              ),
+              // Halaman kedua
+              UploadImage(
+                idKunjungan: widget.idKunjungan,
+                images: imagesData,
+                listTugasKunjungan: listTugasKunjunganData,
+                setImagesValues: (value) {
+                  imagesData.clear();
+                  logger.i(value.length);
+                  logger.i(value.toString());
+                  imagesData.addAll(value);
+                  debugPrint("setvalue");
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// class CheckListJobKunjunganIbuHamilView extends StatefulWidget {
-//   final VoidCallback goToNext;
-
-//   CheckListJobKunjunganIbuHamilView({super.key, required this.goToNext});
-
-//   @override
-//   State<CheckListJobKunjunganIbuHamilView> createState() =>
-//       _CheckListJobKunjunganIbuHamilViewState();
-// }
-
-// class _CheckListJobKunjunganIbuHamilViewState
-//     extends State<CheckListJobKunjunganIbuHamilView> {
-//   void _updateCheckbox(int index, bool? value) {
-//     setState(() {
-//       if (index == listOfCheckboxIbuHamil.length - 1 && value == true) {
-//         // If the last checkbox is selected, disable all other checkboxes
-//         for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-//           listOfCheckboxIbuHamil[i].isChecked = false;
-//         }
-//       } else if (index != listOfCheckboxIbuHamil.length - 1) {
-//         // If any other checkbox is selected, uncheck the last checkbox
-//         listOfCheckboxIbuHamil[listOfCheckboxIbuHamil.length - 1].isChecked =
-//             false;
-//       }
-
-//       // Update the selected checkbox state
-//       listOfCheckboxIbuHamil[index].isChecked = value ?? false;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.all(20),
-//       width: double.infinity,
-//       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'Pilih tugas yang sudah dilakukan',
-//             style: AppTextStyles.primaryTextMedium.copyWith(
-//               fontSize: 16,
-//             ),
-//           ),
-//           const SizedBox(height: 10),
-//           ...listOfCheckboxIbuHamil.asMap().entries.map((entry) {
-//             int index = entry.key;
-//             CheckboxKunjungan item = entry.value;
-
-//             return CheckboxListWidget(
-//               isChecked: item.isChecked,
-//               label: item.label,
-//               onChanged: (value) {
-//                 if (index == listOfCheckboxIbuHamil.length - 1 &&
-//                     value == true) {
-//                   // Disable other checkboxes if the last one is selected
-//                   for (int i = 0; i < listOfCheckboxIbuHamil.length - 1; i++) {
-//                     listOfCheckboxIbuHamil[i].isChecked = false;
-//                   }
-//                 }
-//                 _updateCheckbox(index, value);
-//               },
-//             );
-//           }).toList(),
-//           const SizedBox(height: 20),
-//           ButtonPrimary(
-//             color: bluePrimaryMain,
-//             mainButtonMessage: 'Simpan',
-//             mainButton: widget.goToNext,
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class UploadImage extends StatefulWidget {
+  UploadImage(
+      {super.key,
+      required this.listTugasKunjungan,
+      required this.images,
+      required this.idKunjungan,
+      required this.setImagesValues});
+
+  final List<CheckboxKunjungan> listTugasKunjungan;
+  List<XFile> images;
+  ValueSetter<List<XFile>> setImagesValues;
+  final String idKunjungan;
+
+
   @override
   _UploadImageState createState() => _UploadImageState();
 }
 
 class _UploadImageState extends State<UploadImage> {
   final ImagePicker _picker = ImagePicker();
-  List<XFile> _images = []; // Menyimpan beberapa gambar
+
+  String formattedTime(int value) {
+    // int minutes = _seconds ~/ 60;
+    // int seconds = _seconds % 60;
+
+    int h = value ~/ 3600;
+    int m = ((value - h * 3600)) ~/ 60;
+    int s = value - (h * 3600) - (m * 60);
+
+    if (h != 0) {
+      return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    } else {
+      return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    }
+  }
+
   Future<void> _pickImageFromGallery() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != null) {
-      setState(() {
-        _images.addAll(images);
-      });
+      if(widget.images.length + images.length > 5) {
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration:const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
+        );
+      } else {
+        setState(() {
+          widget.images.addAll(images);
+          logger.i("jumlah di child =  ${widget.images}");
+        });
+      }
     }
   }
 
   Future<void> _pickImages(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-        source: ImageSource.camera); // Pilih satu gambar dari kamera
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera); // Pilih satu gambar dari kamera
     if (pickedFile != null) {
-      setState(() {
-        _images.add(pickedFile); // Tambahkan gambar ke daftar
+      if(widget.images.length + 1 > 5 ) {
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration:const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
+        );
+      } else {
+        setState(() {
+        widget.images.add(pickedFile);
+        logger.i("jumlah di child =  ${widget.images}");
       });
+      }
     }
   }
 
   void _removeImage(int index) {
-    setState(() {
-      _images.removeAt(index); // Hapus gambar berdasarkan indeks
+     setState(() {
+      widget.images.removeAt(index);
+      logger.i("jumlah di child =  ${widget.images}");
     });
   }
 
@@ -275,10 +374,10 @@ class _UploadImageState extends State<UploadImage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _images.isNotEmpty
+            widget.images.isNotEmpty
                 ? Column(
                     spacing: 8.0,
-                    children: _images.asMap().entries.map((entry) {
+                    children: widget.images.asMap().entries.map((entry) {
                       int index = entry.key;
                       XFile image = entry.value;
                       return Stack(
@@ -319,7 +418,7 @@ class _UploadImageState extends State<UploadImage> {
                     }).toList(),
                   )
                 : Container(), // Jika tidak ada gambar, tampilkan kosong
-            _images.isEmpty ? SizedBox.shrink() : const SizedBox(height: 20),
+            widget.images.isEmpty ? SizedBox.shrink() : const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 showModalBottomSheet(
@@ -369,6 +468,19 @@ class _UploadImageState extends State<UploadImage> {
                   },
                 );
               },
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                side: BorderSide(
+                  color: Colors.blue,
+                  width: 2,
+                ),
+                foregroundColor: Colors.blue,
+                minimumSize: Size(double.infinity, 52),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -386,51 +498,117 @@ class _UploadImageState extends State<UploadImage> {
                   ),
                 ],
               ),
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: Colors.white,
-                side: BorderSide(
-                  color: Colors.blue,
-                  width: 2,
-                ),
-                foregroundColor: Colors.blue,
-                minimumSize: Size(double.infinity, 52),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
             ),
 
             const SizedBox(height: 16),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Upload Bukti',
-              mainButton: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertConfirmCreateKunjungan(
-                      totalDistance: '5,4',
-                      totalDuration: "12 Menit 14 Detik",
-                      kunjunganLagi: () {
-                        Navigator.of(context)
+            BlocConsumer<SimpanKunjunganIbuHamilBloc, SimpanKunjunganIbuHamilState>(
+              listener: (context, state) {
+                debugPrint(state.toString());
+                if(state is SimpanKunjunganIbuHamilSuccessState) {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertConfirmCreateKunjungan(
+                        totalDistance: state.model.jarakTotal,
+                        totalDuration: formattedTime(state.model.selesaiPada.difference(state.model.mulaiPada).inSeconds),
+                        kunjunganLagi: () {
+                          Navigator.of(context)
                           ..pop()
                           ..pop()
-                          ..pop(1)
-                          ..pushNamed(LIST_IBU_HAMIL_KUNJUNGAN);
-                      },
-                      selesai: () {
-                        Navigator.of(context)
+                          ..pop(1);
+                        },
+                        selesai: () {
+                          Navigator.of(context)
                           ..pop()
                           ..pop()
                           ..pop(0);
-                      },
+
+                        },
+                      );
+                    },
+                  );
+                }
+
+                if(state is SimpanKunjunganIbuHamilFailedBuktitate) {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration:const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error)
+                  );
+                }
+
+                if(state is SimpanKunjunganIbuHamilFailedUpdateState) {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration:const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error)
+                  );
+                }
+
+                if(state is SimpanKunjunganIbuHamilFailedDetailState) {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration:const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error)
+                  );
+                }
+
+                if(state is ListTugasNullState) {
+                  showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration:const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error("Tugas Selama Kunjungan Belum Terisi")
+                  );
+                }
+                if(state is ListImagesNullState) {
+                   showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration:const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error("Upload Bukti Terlebih Dahulu")
+                  );
+                }
+              },
+              builder: (context, state) {
+                if(state is SimpanKunjunganIbuHamilProccessState) {
+                  return ElevatedButton(
+                    onPressed: null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: bluePrimaryMain,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 52),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const CircularProgressIndicator(
+                      color: bluePrimaryMain,
+                    ),
+                  );
+                }
+                return ButtonPrimary(
+                  color: bluePrimaryMain,
+                  mainButtonMessage: 'Upload Bukti',
+                  mainButton: () {
+                    BlocProvider.of<SimpanKunjunganIbuHamilBloc>(context).add(
+                      SimpanKunjungan(
+                        idKunjungan: widget.idKunjungan, 
+                        listImages: widget.images, 
+                        listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
+                      )
                     );
                   },
                 );
-                // for (var image in _images) {
-                //   logger.i(image.path);
-                // }
               },
             )
           ],

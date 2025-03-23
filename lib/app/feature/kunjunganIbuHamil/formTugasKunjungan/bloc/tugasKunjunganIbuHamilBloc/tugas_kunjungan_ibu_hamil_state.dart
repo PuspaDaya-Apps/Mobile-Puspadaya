@@ -7,4 +7,18 @@ sealed class TugasKunjunganIbuHamilState extends Equatable {
   List<Object> get props => [];
 }
 
-final class TugasKunjunganIbuHamilInitial extends TugasKunjunganIbuHamilState {}
+final class TugasKunjunganIbuHamilProccessState extends TugasKunjunganIbuHamilState {}
+
+final class TugasKunjunganIbuHamilSuccessState extends TugasKunjunganIbuHamilState {
+  final TugasKunjunganIbuHamilResponseModel listTugasKunjungan;
+
+  const TugasKunjunganIbuHamilSuccessState(this.listTugasKunjungan);
+}
+
+final class TugasKunjunganIbuHamilFailedState extends TugasKunjunganIbuHamilState {
+  final String error;
+
+  const TugasKunjunganIbuHamilFailedState(this.error);
+}
+
+final class TugasKunjunganIbuHamilTokenExpiredState extends TugasKunjunganIbuHamilState {}
