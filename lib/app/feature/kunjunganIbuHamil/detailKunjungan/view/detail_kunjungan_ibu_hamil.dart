@@ -182,7 +182,7 @@ class _DetailKunjunganIbuHamilScreenState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
-                        'Lama Waktu Kunjung',
+                        'Lama Waktu Kunjungan',
                         style: TextStyle(
                           fontSize: 12,
                         ),

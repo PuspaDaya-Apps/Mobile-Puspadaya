@@ -192,7 +192,7 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
-                        'Lama Waktu Kunjung',
+                        'Lama Waktu Kunjungan',
                         style: TextStyle(
                           fontSize: 12,
                         ),

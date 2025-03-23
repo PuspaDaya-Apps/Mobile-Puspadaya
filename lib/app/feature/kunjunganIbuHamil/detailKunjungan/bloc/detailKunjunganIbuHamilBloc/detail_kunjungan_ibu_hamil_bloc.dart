@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../model/detail_kunjungan_ibu_hamil_response_model.dart';
@@ -39,6 +40,7 @@ class DetailKunjunganIbuHamilBloc extends Bloc<DetailKunjunganIbuHamilEvent, Det
           emit(DetailKunjunganIbuHamilFailedState(message.message));
         }
       } catch (error) {
+        debugPrint(error.toString());
         emit(DetailKunjunganIbuHamilFailedState(error.toString()));
       }
     }
