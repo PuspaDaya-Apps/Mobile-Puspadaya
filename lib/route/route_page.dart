@@ -49,6 +49,7 @@ import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/kunjunganAnakTidakHadir/perbaruiKunjungan/view/perbarui_kunjungan_anak_tidak_hadir_screen.dart';
 import '../app/feature/kunjunganIbuHamil/detailCreateKunjungan/view/detail_create_kunjungan_ibu_hamil_screen.dart';
+import '../app/feature/kunjunganIbuHamil/detailKunjungan/model/detail_kunjungan_ibu_hamil_response_model.dart';
 import '../app/feature/kunjunganIbuHamil/detailKunjungan/view/detail_kunjungan_ibu_hamil.dart';
 import '../app/feature/kunjunganIbuHamil/formTugasKunjungan/view/form_tugas_kunjungan_ibu_hamil_screen.dart';
 import '../app/feature/kunjunganIbuHamil/perbaruiKunjungan/view/perbarui_kunjungan_ibu_hamil_screen.dart';
@@ -332,7 +333,7 @@ class MyRoute {
       
       case UPDATE_IBU_HAMIL_KUNJUNGAN:
         return MaterialPageRoute(
-            builder: (context) => PerbaruiKunjunganIbuHamil(),
+            builder: (context) => PerbaruiKunjunganIbuHamil(modelDetailKunjungan: settings.arguments as DetailKunjunganIbuHamilResponseModel),
             settings: settings);
 
       // ! register
