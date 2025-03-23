@@ -6,3 +6,9 @@ sealed class DetailCreateKunjunganIbuHamilEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GetDetailKunjunganIbuHamil extends DetailCreateKunjunganIbuHamilEvent {
+  final String idKunjungan;
+
+  const GetDetailKunjunganIbuHamil(this.idKunjungan);
+}

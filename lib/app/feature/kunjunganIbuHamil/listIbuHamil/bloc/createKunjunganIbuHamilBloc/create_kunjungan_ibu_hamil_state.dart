@@ -8,3 +8,19 @@ sealed class CreateKunjunganIbuHamilState extends Equatable {
 }
 
 final class CreateKunjunganIbuHamilInitial extends CreateKunjunganIbuHamilState {}
+
+final class CreateKunjunganIbuHamilProccessState extends CreateKunjunganIbuHamilState {}
+
+final class CreateKunjunganIbuHamilSuccessState extends CreateKunjunganIbuHamilState {
+  final String idKunjungan;
+
+  const CreateKunjunganIbuHamilSuccessState(this.idKunjungan);
+}
+
+final class CreateKunjunganIbuHamilFailedState extends CreateKunjunganIbuHamilState {
+  final String error;
+
+  const CreateKunjunganIbuHamilFailedState(this.error);
+}
+
+final class CreateKunjunganIbuHamilTokenExpiredState extends CreateKunjunganIbuHamilState {}

@@ -68,7 +68,7 @@ class KunjunganItemWidget extends StatelessWidget {
                         horizontal: 12,
                       ),
                       child: Text(
-                        kunjungan.anak != null ? kunjungan.anak!.namaAnak : kunjungan.ibuHamil!.namaIbuHamil,
+                        kunjungan.anak != null ? kunjungan.anak!.namaAnak : kunjungan.ibuHamil!.ibuAnak.namaIbu,
                         style: AppTextStyles.primaryTextMedium
                           .copyWith(fontSize: 14, color: Colors.white),
                       ),

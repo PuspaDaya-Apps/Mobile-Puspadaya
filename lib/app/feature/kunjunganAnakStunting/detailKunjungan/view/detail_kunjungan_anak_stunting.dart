@@ -192,7 +192,7 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
-                        'Lama Waktu Kunjung',
+                        'Lama Waktu Kunjungan',
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -415,8 +415,7 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                                       deleteKunjunganBloc.add(DeleteKunjungan(state.listDataAnakStunting.id));
                                     },
                                     image: imageDeleteItems,
-                                    mainButtonMessage:
-                                        'Iya, Hapus  Kunjungan',
+                                    mainButtonMessage: 'Iya, Hapus  Kunjungan',
                                     colorMainButton: redPrimaryMain,
                                     cancelButton: () {
                                       Navigator.pop(context);

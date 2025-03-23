@@ -63,8 +63,7 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DetailCreateKunjunganAnakStuntingBloc>(context)
-        .add(GetDetailKunjunganAnak(widget.idKunjungan));
+    BlocProvider.of<DetailCreateKunjunganAnakStuntingBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
   }
 
   // Mulai atau hentikan timer

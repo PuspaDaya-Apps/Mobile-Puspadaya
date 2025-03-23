@@ -8,3 +8,19 @@ sealed class PerbaruiKunjunganIbuHamilState extends Equatable {
 }
 
 final class PerbaruiKunjunganIbuHamilInitial extends PerbaruiKunjunganIbuHamilState {}
+
+final class PerbaruiKunjunganIbuHamilProccessState extends PerbaruiKunjunganIbuHamilState {}
+
+final class PerbaruiKunjunganIbuHamilSuccessState extends PerbaruiKunjunganIbuHamilState {}
+
+final class PerbaruiKunjunganIbuHamilFailedBuktitate extends PerbaruiKunjunganIbuHamilState {
+  final String error;
+
+  const PerbaruiKunjunganIbuHamilFailedBuktitate(this.error);
+}
+
+final class PerbaruiKunjunganIbuHamilTokenExpiredState extends PerbaruiKunjunganIbuHamilState{}
+
+final class ListImagesNullState extends PerbaruiKunjunganIbuHamilState{}
+
+final class ListTugasNullState extends PerbaruiKunjunganIbuHamilState{}

@@ -17,7 +17,7 @@ class DeleteKunjunganAnakStuntingBloc extends Bloc<DeleteKunjunganAnakStuntingEv
   }
 
   Future<void> deleteKunjungan (DeleteKunjungan event, Emitter<DeleteKunjunganAnakStuntingState>emit) async {
-     emit(DeleteKunjunganAnakStuntingProccessState());
+    emit(DeleteKunjunganAnakStuntingProccessState());
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 

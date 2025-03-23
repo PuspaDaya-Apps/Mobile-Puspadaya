@@ -8,3 +8,19 @@ sealed class ListIbuHamilKunjunganState extends Equatable {
 }
 
 final class ListIbuHamilKunjunganInitial extends ListIbuHamilKunjunganState {}
+
+final class ListIbuHamilKunjunganProccessState extends ListIbuHamilKunjunganState {}
+
+final class ListIbuHamilKunjunganSuccessState extends ListIbuHamilKunjunganState {
+  final ListIbuHamilKunjunganResponseModel listDataIbuHamil;
+
+  const ListIbuHamilKunjunganSuccessState(this.listDataIbuHamil);
+}
+
+final class ListIbuHamilKunjunganFailedState extends ListIbuHamilKunjunganState {
+  final String error;
+
+  const ListIbuHamilKunjunganFailedState(this.error);
+}
+
+final class ListIbuHamilKunjunganTokenExpiredState extends ListIbuHamilKunjunganState {}
