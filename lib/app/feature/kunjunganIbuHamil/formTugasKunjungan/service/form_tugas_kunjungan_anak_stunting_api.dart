@@ -28,7 +28,7 @@ class FormTugasKunjunganIbuHamilApi {
   Future<List<dynamic>> getTugasKunjunganService (String token) async {
     final String link = ApiUtils().urlGetDataTugasKunjugan();
     final Map<String, dynamic> parameterQuery = {
-      'jenis_tugas': 'Anak Stunting',
+      'jenis_tugas': 'Ibu Hamil Tidak Hadir',
       'limit': 100
     };
 
