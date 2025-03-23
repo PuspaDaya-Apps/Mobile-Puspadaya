@@ -67,7 +67,8 @@ class CreatePengukuranAnakView extends StatefulWidget {
   const CreatePengukuranAnakView({super.key});
 
   @override
-  State<CreatePengukuranAnakView> createState() => _CreatePengukuranAnakViewState();
+  State<CreatePengukuranAnakView> createState() =>
+      _CreatePengukuranAnakViewState();
 }
 
 class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
@@ -77,7 +78,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController upperArmCircumferenceController =
+      TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
@@ -122,7 +124,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 9;
 
-    final createPengukuranAnakBloc = BlocProvider.of<CreatePengukuranAnakBloc>(context);
+    final createPengukuranAnakBloc =
+        BlocProvider.of<CreatePengukuranAnakBloc>(context);
     final saveAlatUkurBloc = BlocProvider.of<SaveAlatUkurBloc>(context);
 
     return BlocListener<GetAlatUkurBloc, GetAlatUkurState>(
@@ -186,9 +189,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
               appBar: PrimaryAppBar(
                 title: "Pengukuran Anak",
                 actions: [
-                  __buildChangeMeasuringToolsButton(
-                    context,
-                    saveAlatUkurBloc)
+                  __buildChangeMeasuringToolsButton(context, saveAlatUkurBloc)
                 ],
                 onBackPressed: () => Navigator.pop(context),
               ),
@@ -197,7 +198,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                   child: Container(
                     margin: const EdgeInsets.all(20),
                     padding: const EdgeInsets.symmetric(
-                      vertical: 25, horizontal: 20),
+                        vertical: 25, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -219,31 +220,32 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                 : sizeHeighofSingleForm, // Tinggi menu saat diperluas/dikecilkan
                             child: SingleChildScrollView(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
                                     'Nama',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   SizedBox(
-                                      height: SizeConfig
-                                          .calHeightMultiplier(8)),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(8)),
                                   BlocListener<SearchAnakCubit,
                                       SearchAnakState>(
                                     listener: (context, state) {
-                                      if (state
-                                          is SearchAnakSelected) {
-                                        nameController.text =
-                                            state.name;
-                                        nikController.text =
-                                            state.nik;
+                                      if (state is SearchAnakSelected) {
+                                        nameController.text = state.name;
+                                        nikController.text = state.nik;
                                       }
                                     },
                                     //! textFormField
                                     child: TextFormField(
                                       readOnly: true,
-                                      validator: null,
+                                      // validator: (value) {
+                                      //   if (value == null || value.isEmpty || nameController.text.isEmpty) {
+                                      //     return 'Harap Pilih Anak Dahulu';
+                                      //   }
+                                      //   return null;
+                                      // },
                                       onTap: () async {
                                         Navigator.push(
                                           context,
@@ -258,16 +260,13 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               paket = paketValue;
                                               nameController =
                                                   TextEditingController(
-                                                      text: paket
-                                                          .namaAnak);
+                                                      text: paket.namaAnak);
                                               nikController =
                                                   TextEditingController(
-                                                      text:
-                                                          paket.nik);
+                                                      text: paket.nik);
                                               ageController =
                                                   TextEditingController(
-                                                      text:
-                                                          paket.usia);
+                                                      text: paket.usia);
                                               isAgeLessThanSixMonths =
                                                   isLessThanSixMonths(
                                                       paket.usia);
@@ -285,8 +284,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                   'lingkar kepala ${headCircumferenceController.text}');
                                               logger.d(
                                                   'lignkar lengan atas ${upperArmCircumferenceController.text}');
-                                              logger.d(
-                                                  'mpasi ${mpasiValue}');
+                                              logger.d('mpasi ${mpasiValue}');
                                               logger.d(
                                                   'asi eskulsif ${mpasiValue}');
                                             }
@@ -294,59 +292,43 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         });
                                       },
                                       controller: nameController,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall,
-                                      keyboardType:
-                                          TextInputType.text,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      keyboardType: TextInputType.text,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         suffixIcon: const Icon(
-                                          FluentIcons
-                                              .search_24_regular,
+                                          FluentIcons.search_24_regular,
                                         ),
                                         hintText: 'Pilih Anak',
                                         hintStyle: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
-                                            .copyWith(
-                                                color: Colors.grey),
+                                            .copyWith(color: Colors.grey),
                                         filled: true,
                                         fillColor: backgroundWhite10,
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
+                                              BorderRadius.circular(10),
                                           borderSide: BorderSide.none,
                                         ),
-                                        enabledBorder:
-                                            OutlineInputBorder(
+                                        enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
-                                          borderSide:
-                                              const BorderSide(
-                                                  width: 1,
-                                                  color: Colors.grey),
-                                        ),
-                                        focusedBorder:
-                                            OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
+                                              BorderRadius.circular(10),
                                           borderSide: const BorderSide(
-                                              width: 1,
-                                              color: bluePrimaryMain),
+                                              width: 1, color: Colors.grey),
                                         ),
-                                        errorBorder:
-                                            OutlineInputBorder(
+                                        focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(
-                                                  10),
-                                          borderSide:
-                                              const BorderSide(
-                                                  width: 1,
-                                                  color: Colors.red),
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              width: 1, color: bluePrimaryMain),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              width: 1, color: Colors.red),
                                         ),
                                       ),
                                     ),
@@ -355,8 +337,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                     // ),
                                   ),
                                   SizedBox(
-                                      height: SizeConfig
-                                          .calHeightMultiplier(16)),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   Visibility(
                                     visible: _isExpanded,
                                     child: Column(
@@ -367,45 +349,41 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                       children: [
                                         const Text(
                                           'NIK',
-                                          style:
-                                              TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                         SizedBox(
-                                            height: SizeConfig
-                                                .calHeightMultiplier(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
                                                     8)),
                                         TextFieldWidget(
                                           controller: nikController,
                                           hintText: "NIK",
                                           isPasswordField: false,
-                                          keyboardType:
-                                              TextInputType.number,
+                                          keyboardType: TextInputType.number,
                                           obscureText: false,
                                         ),
                                         SizedBox(
-                                            height: SizeConfig
-                                                .calHeightMultiplier(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
                                                     16)),
                                         const Text(
                                           'Usia',
-                                          style:
-                                              TextStyle(fontSize: 12),
+                                          style: TextStyle(fontSize: 12),
                                         ),
                                         SizedBox(
-                                            height: SizeConfig
-                                                .calHeightMultiplier(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
                                                     8)),
                                         TextFieldWidget(
                                           controller: ageController,
                                           hintText: "Usia",
                                           isPasswordField: false,
-                                          keyboardType:
-                                              TextInputType.number,
+                                          keyboardType: TextInputType.number,
                                           obscureText: false,
                                         ),
                                         SizedBox(
-                                            height: SizeConfig
-                                                .calHeightMultiplier(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
                                                     16)),
                                       ],
                                     ),
@@ -417,10 +395,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                           Container(
                             // color: Colors.blue,
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 GestureDetector(
                                   onTap: () {
@@ -436,8 +412,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                       children: [
                                         Text(
                                           'Detail Anak',
-                                          style: AppTextStyles
-                                              .primaryTextMedium
+                                          style: AppTextStyles.primaryTextMedium
                                               .copyWith(
                                             fontSize: 10,
                                           ),
@@ -445,8 +420,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         Icon(
                                           size: 20,
                                           _isExpanded
-                                              ? FluentIcons
-                                                  .chevron_up_20_filled
+                                              ? FluentIcons.chevron_up_20_filled
                                               : FluentIcons
                                                   .chevron_down_20_filled,
                                         ),
@@ -460,8 +434,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   color: Colors.black54,
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Tempat Pengukuran',
                                   style: TextStyle(
@@ -469,9 +442,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      SizeConfig.calHeightMultiplier(
-                                          8),
+                                  height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 DropdownWidget(
                                   items: selectPosyandu,
@@ -484,8 +455,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   },
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Posisi Pengukuran Tinggi Badan',
                                   style: TextStyle(
@@ -493,14 +463,11 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      SizeConfig.calHeightMultiplier(
-                                          8),
+                                  height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 DropdownWidget(
                                   items: selectPosition,
-                                  hint:
-                                      'Pilih Posisi Pengukuran Tinggi Badan',
+                                  hint: 'Pilih Posisi Pengukuran Tinggi Badan',
                                   value: selectedPosition,
                                   onChanged: (value) {
                                     setState(() {
@@ -509,30 +476,26 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   },
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 Row(
                                   spacing: 8,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Expanded(
                                       child: MeasurementWidget(
                                         title: 'Tinggi Badan',
                                         hintText: 'contoh: 50',
                                         unit: 'cm',
-                                        tool: alatUkurAnak.alatUkurTinggi?.alatPengukuranAdmin.jenisAlat,
+                                        tool: alatUkurAnak.alatUkurTinggi
+                                            ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          (value) => Validator.min(
-                                              value,
-                                              45,
-                                              "min 45 max 110"),
-                                          (value) => Validator.max(
-                                              value,
-                                              110,
-                                              "min 45 max 110"),
+                                          (value) => Validator.required(value,
+                                              'Harap Masukan Tinggi Badan'),
+                                          (value) => Validator.minNumber(
+                                              value, 45, "min 45 max 110"),
+                                          (value) => Validator.maxNumber(
+                                              value, 110, "min 45 max 110"),
                                         ],
                                         // tool: 'Microtoise',
                                         controller: heightController,
@@ -540,18 +503,22 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                     ),
                                     Expanded(
                                       child: MeasurementWidget(
+                                        validator: [
+                                          (value) => Validator.required(value,
+                                              'Harap Masukan Berat Badan'),
+                                        ],
                                         title: 'Berat Badan',
                                         hintText: 'contoh: 6.5',
                                         unit: 'kg',
-                                        tool: alatUkurAnak.alatUkurBerat?.alatPengukuranAdmin.jenisAlat,
+                                        tool: alatUkurAnak.alatUkurBerat
+                                            ?.alatPengukuranAdmin.jenisAlat,
                                         controller: weightController,
                                       ),
                                     ),
                                   ],
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 isAgeLessThanSixMonths == false ||
                                         isAgeLessThanSixMonths == null
                                     ? Row(
@@ -564,20 +531,35 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                           Expanded(
                                             child: MeasurementWidget(
                                               title: 'Lingkar Kepala',
-                                              hintText: 'contoh: 6.5',
+                                              hintText: 'contoh: 13.5',
                                               unit: 'cm',
-                                              tool: alatUkurAnak.alatUkurLingkarKepala?.alatPengukuranAdmin.jenisAlat,
+                                              validator: [
+                                                (value) => Validator.required(
+                                                    value,
+                                                    'Harap Masukan Lingkar Kepala'),
+                                              ],
+                                              tool: alatUkurAnak
+                                                  .alatUkurLingkarKepala
+                                                  ?.alatPengukuranAdmin
+                                                  .jenisAlat,
                                               controller:
                                                   headCircumferenceController,
                                             ),
                                           ),
                                           Expanded(
                                             child: MeasurementWidget(
-                                              title:
-                                                  'Lingkar Lengan Atas',
-                                              hintText: 'contoh: 3.5',
+                                              title: 'Lingkar Lengan Atas',
+                                              hintText: 'contoh: 35',
+                                              validator: [
+                                                (value) => Validator.required(
+                                                    value,
+                                                    'Harap Masukan Lingkar Lengan Atas'),
+                                              ],
                                               unit: 'cm',
-                                              tool: alatUkurAnak.alatUkurLingkarLengan?.alatPengukuranAdmin.jenisAlat,
+                                              tool: alatUkurAnak
+                                                  .alatUkurLingkarLengan
+                                                  ?.alatPengukuranAdmin
+                                                  .jenisAlat,
                                               controller:
                                                   upperArmCircumferenceController,
                                             ),
@@ -588,22 +570,19 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                 isAgeLessThanSixMonths == false ||
                                         isAgeLessThanSixMonths == null
                                     ? SizedBox(
-                                        height: SizeConfig
-                                            .calHeightMultiplier(16))
+                                        height:
+                                            SizeConfig.calHeightMultiplier(16))
                                     : SizedBox.shrink(),
                                 Row(
                                   children: [
                                     isAgeLessThanSixMonths == true ||
-                                            isAgeLessThanSixMonths ==
-                                                null
+                                            isAgeLessThanSixMonths == null
                                         ? Expanded(
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   'Asi Ekskusif',
@@ -615,29 +594,23 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                      .calHeightMultiplier(
-                                                          8),
+                                                      .calHeightMultiplier(8),
                                                 ),
                                                 // radio button
                                                 Row(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
+                                                      CrossAxisAlignment.center,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start,
+                                                      MainAxisAlignment.start,
                                                   children: [
                                                     CustomRadioButton(
                                                       value: 1,
-                                                      groupValue:
-                                                          int.parse(
-                                                              asiEksklusifValue!),
-                                                      onChanged:
-                                                          (value) {
+                                                      groupValue: int.parse(
+                                                          asiEksklusifValue!),
+                                                      onChanged: (value) {
                                                         setState(() {
                                                           asiEksklusifValue =
-                                                              value
-                                                                  .toString();
+                                                              value.toString();
                                                         });
                                                       },
                                                       label: 'Ya',
@@ -649,15 +622,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                     ),
                                                     CustomRadioButton(
                                                       value: 0,
-                                                      groupValue:
-                                                          int.parse(
-                                                              asiEksklusifValue!),
-                                                      onChanged:
-                                                          (value) {
+                                                      groupValue: int.parse(
+                                                          asiEksklusifValue!),
+                                                      onChanged: (value) {
                                                         setState(() {
                                                           asiEksklusifValue =
-                                                              value
-                                                                  .toString();
+                                                              value.toString();
                                                         });
                                                       },
                                                       label: 'Tidak',
@@ -669,16 +639,13 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                           )
                                         : SizedBox.shrink(),
                                     isAgeLessThanSixMonths == false ||
-                                            isAgeLessThanSixMonths ==
-                                                null
+                                            isAgeLessThanSixMonths == null
                                         ? Expanded(
                                             child: Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   'MPASI',
@@ -690,29 +657,23 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                 ),
                                                 SizedBox(
                                                   height: SizeConfig
-                                                      .calHeightMultiplier(
-                                                          8),
+                                                      .calHeightMultiplier(8),
                                                 ),
                                                 // radio button
                                                 Row(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
+                                                      CrossAxisAlignment.center,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start,
+                                                      MainAxisAlignment.start,
                                                   children: [
                                                     CustomRadioButton(
                                                       value: 1,
-                                                      groupValue:
-                                                          int.parse(
-                                                              mpasiValue!),
-                                                      onChanged:
-                                                          (value) {
+                                                      groupValue: int.parse(
+                                                          mpasiValue!),
+                                                      onChanged: (value) {
                                                         setState(() {
                                                           mpasiValue =
-                                                              value
-                                                                  .toString();
+                                                              value.toString();
                                                         });
                                                       },
                                                       label: 'Ya',
@@ -724,15 +685,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                     ),
                                                     CustomRadioButton(
                                                       value: 0,
-                                                      groupValue:
-                                                          int.parse(
-                                                              mpasiValue!),
-                                                      onChanged:
-                                                          (value) {
+                                                      groupValue: int.parse(
+                                                          mpasiValue!),
+                                                      onChanged: (value) {
                                                         setState(() {
                                                           mpasiValue =
-                                                              value
-                                                                  .toString();
+                                                              value.toString();
                                                         });
                                                       },
                                                       label: 'Tidak',
@@ -746,8 +704,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   ],
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Catatan',
                                   style: TextStyle(
@@ -755,17 +712,14 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      SizeConfig.calHeightMultiplier(
-                                          8),
+                                  height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 AutoSizeTextFieldWidget(
                                   controller: catatanController,
                                   hintText: 'Masukan Catatan',
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Keluhan',
                                   style: TextStyle(
@@ -773,17 +727,14 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      SizeConfig.calHeightMultiplier(
-                                          8),
+                                  height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 AutoSizeTextFieldWidget(
                                   controller: keluhanController,
                                   hintText: 'Masukan Keluhan',
                                 ),
                                 SizedBox(
-                                    height: SizeConfig
-                                        .calHeightMultiplier(16)),
+                                    height: SizeConfig.calHeightMultiplier(16)),
                                 BlocListener<CreatePengukuranAnakBloc,
                                     CreatePengukuranAnakState>(
                                   listener: (context, state) {
@@ -821,8 +772,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                 .statusWasting,
                                             mainButton: () {
                                               Navigator.pop(context);
-                                              Navigator.popAndPushNamed(
-                                                  context,
+                                              Navigator.popAndPushNamed(context,
                                                   CREATE_PENGUKURAN_ANAK);
                                             },
                                             mainButtonMessage:
@@ -832,10 +782,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               Navigator.pop(context,
                                                   1); // Tutup dialog AlertDialogResult
                                             },
-                                            cancelButtonMessage:
-                                                'Selesai',
-                                            colorMainButton:
-                                                bluePrimaryMain,
+                                            cancelButtonMessage: 'Selesai',
+                                            colorMainButton: bluePrimaryMain,
                                           );
                                         },
                                       );
@@ -846,14 +794,11 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                       showTopSnackBar(
                                           Overlay.of(context),
                                           animationDuration:
-                                              const Duration(
-                                                  milliseconds: 600),
-                                          displayDuration:
-                                              const Duration(
-                                                  milliseconds: 2200),
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
                                           reverseAnimationDuration:
-                                              const Duration(
-                                                  milliseconds: 300),
+                                              const Duration(milliseconds: 300),
                                           TopSnackbarWidget()
                                               .error(state.error));
                                     }
@@ -862,14 +807,11 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                       showTopSnackBar(
                                           Overlay.of(context),
                                           animationDuration:
-                                              const Duration(
-                                                  milliseconds: 600),
-                                          displayDuration:
-                                              const Duration(
-                                                  milliseconds: 2200),
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
                                           reverseAnimationDuration:
-                                              const Duration(
-                                                  milliseconds: 300),
+                                              const Duration(milliseconds: 300),
                                           TopSnackbarWidget()
                                               .warning(state.error));
                                     }
@@ -878,18 +820,28 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                     color: bluePrimaryMain,
                                     mainButtonMessage: 'Simpan',
                                     mainButton: () {
+                                      if (nameController.text.isEmpty) {
+                                        showTopSnackBar(
+                                          Overlay.of(context),
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
+                                          reverseAnimationDuration:
+                                              const Duration(milliseconds: 300),
+                                          TopSnackbarWidget().error(
+                                              "Harap pilih anak terlebih dahulu"),
+                                        );
+                                      }
                                       if (heightController.text.contains(',')) {
                                         showTopSnackBar(
                                           Overlay.of(context),
                                           animationDuration:
-                                              const Duration(
-                                                  milliseconds: 600),
-                                          displayDuration:
-                                              const Duration(
-                                                  milliseconds: 2200),
+                                              const Duration(milliseconds: 600),
+                                          displayDuration: const Duration(
+                                              milliseconds: 2200),
                                           reverseAnimationDuration:
-                                              const Duration(
-                                                  milliseconds: 300),
+                                              const Duration(milliseconds: 300),
                                           TopSnackbarWidget().error(
                                               "Harap gunakan titik untuk memberikan nilai desimal"),
                                         );
@@ -899,9 +851,9 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialogSave(
+                                                isAgeLessThanSixMonths: isAgeLessThanSixMonths!,
                                                 cancelButton: () {
-                                                  Navigator.pop(
-                                                      context);
+                                                  Navigator.pop(context);
                                                 },
                                                 mainButton: () {
                                                   if (isAgeLessThanSixMonths ==
@@ -912,8 +864,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                         .text = '0';
                                                     mpasiValue = '-';
                                                   } else {
-                                                    asiEksklusifValue =
-                                                        '-';
+                                                    asiEksklusifValue = '-';
                                                   }
                                                   logger.d(
                                                       'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
@@ -933,8 +884,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                       tempatPengukuran:
                                                           selectedPosyandu,
                                                       tanggalPengukuran:
-                                                          DateTime
-                                                              .now(),
+                                                          DateTime.now(),
                                                       posisiBadan:
                                                           selectedPosition,
                                                       beratBadan: double.parse(
@@ -944,12 +894,11 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                           alatUkurAnak
                                                               .alatUkurBerat!
                                                               .id,
-                                                      tinggiBadan:
-                                                          double.parse(
-                                                              heightController
-                                                                  .text),
+                                                      tinggiBadan: double.parse(
+                                                          heightController
+                                                              .text),
                                                       alatTinggiBadanId:
-                                                          alatUkurAnak!
+                                                          alatUkurAnak
                                                               .alatUkurTinggi!
                                                               .id,
                                                       lingkarLenganAtas:
@@ -964,18 +913,15 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                       catatan: catatanController.text,
                                                       anakId: paket.id)));
                                                 },
-                                                cancelButtonMessage:
-                                                    'Tidak',
+                                                cancelButtonMessage: 'Tidak',
                                                 mainButtonMessage:
                                                     'Iya Simpan Data',
                                                 colorMainButton:
                                                     bluePrimaryMain,
                                                 heighValue:
-                                                    heightController
-                                                        .text,
+                                                    heightController.text,
                                                 weightValue:
-                                                    weightController
-                                                        .text,
+                                                    weightController.text,
                                                 upperArmCircumference:
                                                     upperArmCircumferenceController
                                                         .text,
@@ -986,8 +932,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             },
                                           );
                                         } else {
-                                          logger
-                                              .d("form tidak valid");
+                                          logger.d("form tidak valid");
                                         }
                                       }
                                     },
@@ -1010,7 +955,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
     );
   }
 
-  Widget __buildChangeMeasuringToolsButton(context, SaveAlatUkurBloc saveAlatUkurBloc) {
+  Widget __buildChangeMeasuringToolsButton(
+      context, SaveAlatUkurBloc saveAlatUkurBloc) {
     return GestureDetector(
       onTap: () {
         showDialog(

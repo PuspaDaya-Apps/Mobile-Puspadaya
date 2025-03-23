@@ -40,6 +40,7 @@ class Data {
   dynamic statusGizi;
   dynamic statusWasting;
   String? statusOrangTua;
+  List<Pengukuran>? pengukuranAnak;
   List<DisabilitasAnak>? disabilitasAnak;
   KartuKeluarga? kartuKeluarga;
   dynamic pengasuhAnak;
@@ -47,6 +48,7 @@ class Data {
 
   Data(
       {this.id,
+      this.pengukuranAnak,
       this.createdAt,
       this.updatedAt,
       this.deletedAt,
@@ -88,6 +90,11 @@ class Data {
     lingkarKepalaLahir = json["lingkar_kepala_lahir"];
     caraLahir = json["cara_lahir"];
     statusKelahiran = json["status_kelahiran"];
+    pengukuranAnak = json["pengukuran"] == null
+        ? null
+        : (json["pengukuran"] as List)
+            .map((e) => Pengukuran.fromJson(e))
+            .toList();
     statusStunting = json["status_stunting"];
     statusGizi = json["status_gizi"];
     statusWasting = json["status_wasting"];
@@ -587,4 +594,42 @@ class DisabilitasAnak {
     _data["nama_disabilitas"] = namaDisabilitas;
     return _data;
   }
+}
+
+
+class Pengukuran {
+    String? tanggalPengukuran;
+    String? beratBadan;
+    String? tinggiBadan;
+    String? lingkarLenganAtas;
+    String? lingkarKepala;
+    String? namaKader;
+    String? statusStunting;
+    String? statusGizi;
+
+    Pengukuran({this.tanggalPengukuran, this.beratBadan, this.tinggiBadan, this.lingkarLenganAtas, this.lingkarKepala, this.namaKader, this.statusStunting, this.statusGizi});
+
+    Pengukuran.fromJson(Map<String, dynamic> json) {
+        tanggalPengukuran = json["tanggal_pengukuran"];
+        beratBadan = json["berat_badan"];
+        tinggiBadan = json["tinggi_badan"];
+        lingkarLenganAtas = json["lingkar_lengan_atas"];
+        lingkarKepala = json["lingkar_kepala"];
+        namaKader = json["nama_kader"];
+        statusStunting = json["status_stunting"];
+        statusGizi = json["status_gizi"];
+    }
+
+    Map<String, dynamic> toJson() {
+        final Map<String, dynamic> _data = <String, dynamic>{};
+        _data["tanggal_pengukuran"] = tanggalPengukuran;
+        _data["berat_badan"] = beratBadan;
+        _data["tinggi_badan"] = tinggiBadan;
+        _data["lingkar_lengan_atas"] = lingkarLenganAtas;
+        _data["lingkar_kepala"] = lingkarKepala;
+        _data["nama_kader"] = namaKader;
+        _data["status_stunting"] = statusStunting;
+        _data["status_gizi"] = statusGizi;
+        return _data;
+    }
 }

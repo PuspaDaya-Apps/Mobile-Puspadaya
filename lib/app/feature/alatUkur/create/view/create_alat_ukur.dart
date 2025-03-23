@@ -85,14 +85,14 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
     {'label': 'Senter / penlight', 'isChecked': false, 'isOther': false},
     {'label': 'Tas ban canvas', 'isChecked': false, 'isOther': false},
     {
-      'label': 'Kartu warna (merah, biru, putih, hijau,\nkuning)',
+      'label': 'Kartu warna (merah, biru, putih, hijau, kuning)',
       'isChecked': false,
       'isOther': false
     },
     {
       'label': 'Kartu E terdiri dari 2 buah:\n'
-          'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
-          'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
+          'a. Kartu E 6/60 ukuran huruf E 88 mm,84 mm, 17,6 mm.\n'
+          'b. Kartu E 6/12 ukuran huruf E 17,6 mm, 16,8 mm, 3,52 mm.',
       'isChecked': false,
       'isOther': false
     },
@@ -107,10 +107,26 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
 
   // Method to get selected labels
   List<String> getSelectedLabels() {
-    return alatDeteksiDini
-        .where((item) => item['isChecked'] == true)
+    // select all labels kecuali lainnya
+    List<String> selectedLabels = alatDeteksiDini
+        .where((item) => item['isChecked'] == true && item['isOther'] == false)
         .map((item) => item['label'] as String)
         .toList();
+
+    // Cek apakah "Lainnya" dicentang dan tambahkan teks dari _otherController jika tidak kosong
+    Map<String, dynamic>? otherItem = alatDeteksiDini.firstWhere(
+      (item) => item['isOther'] == true,
+      orElse: () => {},
+    );
+
+    if (otherItem.isNotEmpty && otherItem['isChecked'] == true) {
+      String otherText = _otherController.text.trim();
+      if (otherText.isNotEmpty) {
+        selectedLabels.add(otherText);
+      }
+    }
+
+    return selectedLabels;
   }
 
   @override
@@ -365,31 +381,43 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
         Column(
           children: alatDeteksiDini.map((alat) {
             return Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center, // Agar teks wrap
               children: [
-                IntrinsicWidth(
-                  child: CheckboxListWidget(
-                    isChecked: alat['isChecked'],
-                    label: alat['label'],
-                    onChanged: (value) {
-                      setState(() {
-                        alat['isChecked'] = value!;
-                        if (alat['isOther'] == true && !value) {
-                          _otherController.clear();
-                        }
-                      });
-                    },
+                Checkbox(
+                  visualDensity: VisualDensity(horizontal: -4, vertical: -0),
+                  side: BorderSide(color: stroke10, width: 2),
+                  activeColor: bluePrimaryMain,
+                  checkColor: Colors.white,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  value: alat['isChecked'],
+                  onChanged: (value) {
+                    logger.d(
+                        'is other = ${alat['isOther'] == true && alat['isChecked'] == true}');
+                    setState(() {
+                      alat['isChecked'] = value!;
+                      // Jika "Lainnya" dicentang tetapi kemudian tidak dicentang, hapus input
+                      if (alat['isOther'] == true && !value) {
+                        _otherController.clear();
+                      }
+                    });
+                  },
+                ),
+                SizedBox(width: 4),
+                Flexible(
+                  // Menangani overflow
+                  child: Text(
+                    alat['label'],
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
                 if (alat['isOther'] == true && alat['isChecked'] == true) ...[
-                  SizedBox(width: 4),
+                  SizedBox(width: 12),
                   Expanded(
                     child: TextField(
                       enabled: alat['isChecked'],
                       controller: _otherController,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        // Menghilangkan outline
+                        border: UnderlineInputBorder(),
                         isDense: true,
                       ),
                       style: TextStyle(fontSize: 14),

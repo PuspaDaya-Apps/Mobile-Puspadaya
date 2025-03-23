@@ -10,6 +10,7 @@ class AlertDialogSave extends StatelessWidget {
   final String weightValue;
   final String upperArmCircumference;
   final String uterineFundalHeightValue;
+  final bool isAgeLessThanSixMonths;
 
   final VoidCallback mainButton;
   final String mainButtonMessage;
@@ -27,6 +28,7 @@ class AlertDialogSave extends StatelessWidget {
     required this.weightValue,
     required this.upperArmCircumference,
     required this.uterineFundalHeightValue,
+    required this.isAgeLessThanSixMonths,
   });
 
   @override
@@ -102,15 +104,17 @@ class AlertDialogSave extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      Text(
-                        'Lingkar Lengan Atas',
-                        style: AppTextStyles.primaryTextNormal.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      Row(
+                      isAgeLessThanSixMonths == false ?SizedBox(height: SizeConfig.calHeightMultiplier(16)):SizedBox.shrink(),
+                      isAgeLessThanSixMonths == false 
+                          ? Text(
+                              'Lingkar Lengan Atas',
+                              style: AppTextStyles.primaryTextNormal.copyWith(
+                                fontSize: 12,
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                      isAgeLessThanSixMonths == false ?SizedBox(height: SizeConfig.calHeightMultiplier(8)):SizedBox.shrink(),
+                      isAgeLessThanSixMonths == false  ? Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
@@ -126,7 +130,7 @@ class AlertDialogSave extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ):SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -160,14 +164,14 @@ class AlertDialogSave extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      Text(
+                      isAgeLessThanSixMonths == false ?Text(
                         'Tinggi Fundus Uteri',
                         style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,
                         ),
-                      ),
+                      ):SizedBox.shrink(),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      Row(
+                      isAgeLessThanSixMonths == false ?Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
@@ -183,7 +187,7 @@ class AlertDialogSave extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ):SizedBox.shrink(),
                     ],
                   ),
                 ),

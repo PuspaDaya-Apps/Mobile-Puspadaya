@@ -13,7 +13,8 @@ final class DetailDataUnderWeightLoading extends DetailDataUnderWeightState {}
 
 final class DetailDataUnderWeightSuccess extends DetailDataUnderWeightState {
   final GetDetailMonitoringAnak data;
-  DetailDataUnderWeightSuccess(this.data);
+  final List<GetGrafikKmsModel> dataGrafik;
+  const DetailDataUnderWeightSuccess(this.data, this.dataGrafik);
   @override
   List<Object> get props => [data];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../utils/logger/logger.dart';
 import '../../feature/RiwayatAnak/detail/model/chart_data_model.dart';
 
 class ChartPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class ChartPage extends StatefulWidget {
 class _ChartPageState extends State<ChartPage> {
   @override
   void initState() {
+    logger.d('data chart ${widget.data}');
     super.initState();
   }
 
@@ -69,6 +71,11 @@ class _ChartPageState extends State<ChartPage> {
         tooltipBehavior: TooltipBehavior(
           enable: true,
           builder: (data, point, series, pointIndex, seriesIndex) {
+            logger.d('data tooltip ${data.tanggalPengukuran}');
+            logger.d('point tooltip ${point}}');
+            logger.d('series tooltip ${series}}');
+            logger.d('pointIndex tooltip ${pointIndex}}');
+            logger.d('seriesIndex tooltip ${seriesIndex}}');
             return Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -76,16 +83,15 @@ class _ChartPageState extends State<ChartPage> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Column(
+                
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Data Pengukuran : ${data[seriesIndex].x}',
+                    'Data Pengukuran : ${data.y}',
                     style: TextStyle(color: Colors.white),
                   ),
-                  // Text(
-                  //   'Tanggal Pengukuran : ${data.}',
-                  //   style: TextStyle(color: Colors.white),
-                  // ),
+                  Text('Tanggal : ${data.tanggalPengukuran}',
+                      style: TextStyle(color: Colors.white)),
                 ],
               ),
             );
@@ -150,24 +156,24 @@ class _ChartPageState extends State<ChartPage> {
             // dashArray: <double>[5, 5], // Garis putus-putus untuk membedakan
             markerSettings: MarkerSettings(isVisible: false),
           ),
-          // SplineSeries<ChartDataModel, num>(
-          //   dataSource: widget.data,
-          //   width: 4,
-          //   xValueMapper: (ChartDataModel point, _) => point.x,
-          //   yValueMapper: (ChartDataModel point, _) => point.y,
-          //   markerSettings: MarkerSettings(
-          //     isVisible: true,
-          //     shape: DataMarkerType.circle,
-          //     width: 6,
-          //     height: 6,
-          //     borderColor: Colors.black,
-          //     color: Colors.black,
-          //   ),
-          //   color: Colors.blue,
-          //   splineType: SplineType.natural, // Membuat garis lebih halus
-          //   dataLabelSettings: DataLabelSettings(isVisible: true),
-          //   enableTooltip: true,
-          // ),
+          SplineSeries<ChartDataModel, num>(
+            dataSource: widget.data,
+            width: 4,
+            xValueMapper: (ChartDataModel point, _) => point.x,
+            yValueMapper: (ChartDataModel point, _) => point.y,
+            markerSettings: MarkerSettings(
+              isVisible: true,
+              shape: DataMarkerType.circle,
+              width: 6,
+              height: 6,
+              borderColor: Colors.black,
+              color: Colors.black,
+            ),
+            color: Colors.blue,
+            splineType: SplineType.natural, // Membuat garis lebih halus
+            dataLabelSettings: DataLabelSettings(isVisible: true),
+            enableTooltip: true,
+          ),
         ],
       ),
     );

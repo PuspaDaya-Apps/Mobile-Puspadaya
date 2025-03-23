@@ -12,10 +12,11 @@ final class DetailRegisterAnakInitial extends DetailRegisterAnakState {}
 final class DetailRegisterAnakLoading extends DetailRegisterAnakState {}
 
 final class DetailRegisterAnakSuccess extends DetailRegisterAnakState {
+  final List<GetGrafikKmsModel> dataGrafik;
   final GetDetailAnakResponse getDetailRegisterAnak;
   // final String name;
 
-  const DetailRegisterAnakSuccess({required this.getDetailRegisterAnak});
+  const DetailRegisterAnakSuccess({required this.getDetailRegisterAnak,required this.dataGrafik,});
   @override
   List<Object> get props => [getDetailRegisterAnak];
 }

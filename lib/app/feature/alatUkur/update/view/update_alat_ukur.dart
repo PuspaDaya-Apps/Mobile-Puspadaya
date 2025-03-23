@@ -102,13 +102,19 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
       },
       {
         'label': 'Kartu E terdiri dari 2 buah:\n'
-            'a. Kartu E 6/60 ukuran huruf E 88 mm,\n    84 mm, 17,6 mm.\n'
-            'b. Kartu E 6/12 ukuran huruf E 17,6 mm,\n    16,8 mm, 3,52 mm.',
+            'a. Kartu E 6/60 ukuran huruf E 88 mm, 84 mm, 17,6 mm.\n'
+            'b. Kartu E 6/12 ukuran huruf E 17,6 mm, 16,8 mm, 3,52 mm.',
         'isChecked': false,
         'isOther': false
       },
-      {'label': 'Lainnya', 'isChecked': false, 'isOther': true},
+      {
+        'label': 'Lainnya',
+        'isChecked': false,
+        'isOther': true
+      }, // Sudah ada "Lainnya" di sini
     ];
+
+    String otherValue = ''; // Untuk menyimpan input "Lainnya"
 
     // Sinkronisasi dengan checklist dari API
     for (var checklist in widget.detailAlatUkur.data.checklists) {
@@ -119,13 +125,18 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
         // Jika checklist sudah ada dalam list alatDeteksiDini, update isChecked
         alatDeteksiDini[index]['isChecked'] = true;
       } else {
-        // Jika tidak ada dalam alatDeteksiDini, anggap sebagai "Lainnya"
-        alatDeteksiDini.add({
-          'label': checklist.namaChecklist,
-          'isChecked': true,
-          'isOther': true,
-        });
-        _otherController.text = checklist.namaChecklist;
+        // Simpan nama checklist yang tidak ada sebagai input "Lainnya"
+        otherValue = checklist.namaChecklist;
+      }
+    }
+
+    // Jika ada nilai untuk "Lainnya", tandai sebagai checked
+    if (otherValue.isNotEmpty) {
+      final indexLainnya =
+          alatDeteksiDini.indexWhere((e) => e['isOther'] == true);
+      if (indexLainnya != -1) {
+        alatDeteksiDini[indexLainnya]['isChecked'] = true;
+        _otherController.text = otherValue;
       }
     }
   }
@@ -140,10 +151,26 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
   }
 
   List<String> getSelectedLabels() {
-    return alatDeteksiDini
-        .where((item) => item['isChecked'] == true)
+    // select all labels kecuali lainnya
+    List<String> selectedLabels = alatDeteksiDini
+        .where((item) => item['isChecked'] == true && item['isOther'] == false)
         .map((item) => item['label'] as String)
         .toList();
+
+    // Cek apakah "Lainnya" dicentang dan tambahkan teks dari _otherController jika tidak kosong
+    Map<String, dynamic>? otherItem = alatDeteksiDini.firstWhere(
+      (item) => item['isOther'] == true,
+      orElse: () => {},
+    );
+
+    if (otherItem.isNotEmpty && otherItem['isChecked'] == true) {
+      String otherText = _otherController.text.trim();
+      if (otherText.isNotEmpty) {
+        selectedLabels.add(otherText);
+      }
+    }
+
+    return selectedLabels;
   }
 
   @override
@@ -218,35 +245,62 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                                   height: SizeConfig.calHeightMultiplier(8)),
                               Column(
                                 children: alatDeteksiDini.map((alat) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      IntrinsicWidth(
-                                        child: CheckboxListWidget(
-                                          isChecked: alat['isChecked'],
-                                          label: alat['label'],
-                                          onChanged: (value) =>
-                                              _onCheckboxChanged(value, alat),
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom:
+                                            4), // Beri sedikit jarak antar item
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Checkbox(
+                                          visualDensity: VisualDensity(
+                                              horizontal: -4, vertical: -2),
+                                          side: BorderSide(
+                                              color: stroke10, width: 2),
+                                          activeColor: bluePrimaryMain,
+                                          checkColor: Colors.white,
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          value: alat['isChecked'],
+                                          onChanged: (value) {
+                                            logger.d(
+                                                'is other = ${alat['isOther'] == true && alat['isChecked'] == true}');
+                                            setState(() {
+                                              alat['isChecked'] = value!;
+                                              // Jika "Lainnya" dicentang tetapi kemudian tidak dicentang, hapus input
+                                              if (alat['isOther'] == true &&
+                                                  !value) {
+                                                _otherController.clear();
+                                              }
+                                            });
+                                          },
                                         ),
-                                      ),
-                                      if (alat['isOther'] == true &&
-                                          alat['isChecked'] == true) ...[
                                         SizedBox(width: 4),
-                                        Expanded(
-                                          child: TextField(
-                                            enabled: alat['isChecked'],
-                                            controller: _otherController,
-                                            decoration: const InputDecoration(
-                                              border: InputBorder.none,
-                                              // Menghilangkan outline
-                                              isDense: true,
-                                            ),
+                                        Flexible(
+                                          // Menangani overflow
+                                          child: Text(
+                                            alat['label'],
                                             style: TextStyle(fontSize: 14),
                                           ),
                                         ),
+                                        if (alat['isOther'] == true &&
+                                            alat['isChecked'] == true) ...[
+                                          SizedBox(width: 12),
+                                          Expanded(
+                                            child: TextField(
+                                              enabled: alat['isChecked'],
+                                              controller: _otherController,
+                                              decoration: const InputDecoration(
+                                                border: UnderlineInputBorder(),
+                                                isDense: true,
+                                              ),
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                        ],
                                       ],
-                                    ],
+                                    ),
                                   );
                                 }).toList(),
                               ),
@@ -353,8 +407,7 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                           logger.d(
                               "kondisi alat ${widget.detailAlatUkur.data.kondisiAlat}");
                           logger.d(
-                              "id ${widget
-                                .detailAlatUkur.data.alatPengukuranAdmin.id}");
+                              "id ${widget.detailAlatUkur.data.alatPengukuranAdmin.id}");
                           List<String> selectedLabels = getSelectedLabels();
                           logger.d('selected Label $selectedLabels');
                           PostAlatUkurAlatDeteksiDiniModel

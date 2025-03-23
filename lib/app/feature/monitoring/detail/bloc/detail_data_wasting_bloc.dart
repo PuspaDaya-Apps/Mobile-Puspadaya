@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../../RiwayatAnak/detail/model/get_grafik_kms_model.dart';
 import '../../model/get_detail_monitoring_anak.dart';
 import '../service/get_detail_anak.dart';
 
@@ -30,9 +31,18 @@ class DetailDataWastingBloc
         int statusCode = response[0] as int;
         GetDetailMonitoringAnak monitoringWasting =
             GetDetailMonitoringAnak.fromJson(response[1]);
+        List<dynamic> responseGrafik =
+            await GetDetailAnak().getGrafikKMS(event.id, accesTokenValue);
+
+        logger.d(responseGrafik[1]);
+        // Parse the responseGrafik[1] into a list of GetGrafikKmsModel
+        List<GetGrafikKmsModel> dataGrafik =
+            parseGetGrafikKmsModels(responseGrafik[1]);
+
+        logger.d('data grafik: ${dataGrafik.length} data ditemukan');
         logger.d('statusCode ${statusCode}');
         if (statusCode == 200) {
-          emit(DetailDataWastingSuccess(monitoringWasting));
+          emit(DetailDataWastingSuccess(monitoringWasting,dataGrafik));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {
@@ -44,5 +54,12 @@ class DetailDataWastingBloc
         emit(DetailDataWastingFailed(e.toString()));
       }
     }
+  }
+
+  List<GetGrafikKmsModel> parseGetGrafikKmsModels(dynamic jsonData) {
+    // Assuming jsonData is already a Map<String, dynamic>
+    return (jsonData as Map<String, dynamic>).entries.map((entry) {
+      return GetGrafikKmsModel.fromJson(entry.value);
+    }).toList();
   }
 }

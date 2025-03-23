@@ -117,6 +117,9 @@ const String BULAN_FAKTOR_RESIKO = '/faktor-resiko/bulan';
 const String PARAMETER_FAKTOR_RESIKO_CREATE = '/faktor-resiko/parameter/create';
 const String PARAMETER_FAKTOR_RESIKO_DETAIL = '/faktor-resiko/parameter/detail';
 
+// ! notifikasi
+const String NOTIFIKASI = '/notifikasi';  
+
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';
 

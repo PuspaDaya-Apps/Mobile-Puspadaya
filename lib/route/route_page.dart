@@ -31,6 +31,8 @@ import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
 import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
 import '../app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
 import '../app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
+import '../app/feature/alatUkur/detail/model/get_detail_alat_ukur_model.dart';
+import '../app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
 import '../app/feature/kunjunganAnakStunting/detailCreateKunjungan/view/detail_create_kunjungan_anak_stunting_screen.dart';
@@ -50,11 +52,15 @@ import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/kunjunganAnakTidakHadir/perbaruiKunjungan/view/perbarui_kunjungan_anak_tidak_hadir_screen.dart';
+
+import '../app/feature/notification/view/notifikasi.dart';
+
 import '../app/feature/kunjunganIbuHamil/detailCreateKunjungan/view/detail_create_kunjungan_ibu_hamil_screen.dart';
 import '../app/feature/kunjunganIbuHamil/detailKunjungan/model/detail_kunjungan_ibu_hamil_response_model.dart';
 import '../app/feature/kunjunganIbuHamil/detailKunjungan/view/detail_kunjungan_ibu_hamil.dart';
 import '../app/feature/kunjunganIbuHamil/formTugasKunjungan/view/form_tugas_kunjungan_ibu_hamil_screen.dart';
 import '../app/feature/kunjunganIbuHamil/perbaruiKunjungan/view/perbarui_kunjungan_ibu_hamil_screen.dart';
+
 import '../app/feature/pengukuranAnak/create/view/create_pengukuran_anak.dart';
 import '../app/feature/pengukuranIbuHamil/create/view/create_pengukuran_ibu_hamil.dart';
 import '../app/feature/createRegisterAnak/view/create_register_anak.dart';
@@ -91,6 +97,7 @@ import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/page_not_found_screen.dart';
+import '../app/feature/alatUkur/index/view/alat_ukur.dart' as index_alat_ukur;
 
 import '../app/view/screen/splash_screen.dart';
 import './route_name.dart';
@@ -469,32 +476,34 @@ class MyRoute {
           settings: settings,
         );
 
-      // //? alat ukur
-      // case ALAT_UKUR:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const AlatUkur(),
-      //     settings: settings,
-      //   );
-
-      case CREATE_ALAT_UKUR:
+      //? alat ukur
+      case ALAT_UKUR:
         return MaterialPageRoute(
-          builder: (context) => const CreateAlatUkur(),
+          builder: (context) => index_alat_ukur.AlatUkur(),
           settings: settings,
         );
 
-      // case DETAIL_ALAT_UKUR:
-      //   final String id =
-      //       settings.arguments as String; // Cast directly to String
-      //   return MaterialPageRoute(
-      //     builder: (context) => DetailAlatUkur(alatUkurId: id),
-      //     settings: settings,
-      //   );
+      case CREATE_ALAT_UKUR:
+        return MaterialPageRoute(
+          builder: (context) => CreateAlatUkur(),
+          settings: settings,
+        );
 
-      // case UPDATE_ALAT_UKUR:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const UpdateAlatUkur(alatUkur: null,),
-      //     settings: settings,
-      //   );
+      case DETAIL_ALAT_UKUR:
+        final String id =
+            settings.arguments as String; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => DetailAlatUkur(idAlatUkur: id),
+          settings: settings,
+        );
+
+      case UPDATE_ALAT_UKUR:
+      final GetDetailAlatUkurKaderModel detaolAlatUkur =
+            settings.arguments as GetDetailAlatUkurKaderModel; // Cast directly to String
+        return MaterialPageRoute(
+          builder: (context) => UpdateAlatUkur(detailAlatUkur: detaolAlatUkur,),
+          settings: settings,
+        );
 
       // ?monitoring
       case MONITORING:
@@ -617,6 +626,13 @@ class MyRoute {
           builder: (context) => RiwayatParameterFaktorResiko(
             anakId: id,
           ),
+          settings: settings,
+        );
+
+      //! notifikas
+      case NOTIFIKASI:
+        return MaterialPageRoute(
+          builder: (context) => const Notifikasi(),
           settings: settings,
         );
 

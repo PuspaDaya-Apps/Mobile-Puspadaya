@@ -1,33 +1,24 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'get_grafik_kms_model.g.dart';
+@JsonSerializable()
 class GetGrafikKmsModel {
-  int usiaAnak;
-  double? beratBadan;
-  double? tinggiBadan;
-  DateTime? tanggalPengukuran;
+    @JsonKey(name: "usia_anak")
+    final int usiaAnak;
+    @JsonKey(name: "berat_badan")
+    final String? beratBadan;
+    @JsonKey(name: "tinggi_badan")
+    final String? tinggiBadan;
+    @JsonKey(name: "tanggal_pengukuran")
+    final String? tanggalPengukuran;
 
-  GetGrafikKmsModel({
-    required this.usiaAnak,
-    this.beratBadan,
-    this.tinggiBadan,
-    this.tanggalPengukuran,
-  });
+    GetGrafikKmsModel({
+        required this.usiaAnak,
+        required this.beratBadan,
+        required this.tinggiBadan,
+        required this.tanggalPengukuran,
+    });
 
-  // Factory method to create a GetGrafikKmsModel from JSON
-  factory GetGrafikKmsModel.fromJson(Map<String, dynamic> json) {
-    return GetGrafikKmsModel(
-      usiaAnak: json['usia_anak'],
-      beratBadan: json['berat_badan'] != null ? json['berat_badan'].toDouble() : null,
-      tinggiBadan: json['tinggi_badan'] != null ? json['tinggi_badan'].toDouble() : null,
-      tanggalPengukuran: json['tanggal_pengukuran'] != null ? DateTime.parse(json['tanggal_pengukuran']) : null,
-    );
-  }
+    factory GetGrafikKmsModel.fromJson(Map<String, dynamic> json) => _$GetGrafikKmsModelFromJson(json);
 
-  // Method to convert a GetGrafikKmsModel to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'usia_anak': usiaAnak,
-      'berat_badan': beratBadan,
-      'tinggi_badan': tinggiBadan,
-      'tanggal_pengukuran': tanggalPengukuran?.toIso8601String(),
-    };
-  }
+    Map<String, dynamic> toJson() => _$GetGrafikKmsModelToJson(this);
 }

@@ -544,8 +544,7 @@ class ProfileSection extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                FEATURE_MAINTENANCE,
-                arguments: 'Notifikasi', // Kirimkan nama fitur sebagai argumen
+                NOTIFIKASI, // Kirimkan nama fitur sebagai argumen
               );
             },
             child: Container(

@@ -112,6 +112,8 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                       child: Text(state.error),
                     );
                   } else if (state is DetailRegisterAnakSuccess) {
+                    logger.d(
+                        'detail pengukuran ${state.getDetailRegisterAnak.data!.pengukuranAnak?[0].tinggiBadan ?? []}');
                     return Expanded(
                       child: TabBarView(
                         physics: NeverScrollableScrollPhysics(),
@@ -122,7 +124,10 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                             detailRegisterAnakBloc: detailRegisterAnakBloc,
                             anakId: widget.anakId,
                           ),
-                          DetailDataKIA(),
+                          DetailDataKIA(
+                            detailResponse: state.getDetailRegisterAnak,
+                            dataGrafik: state.dataGrafik,
+                          ),
                         ],
                       ),
                     );

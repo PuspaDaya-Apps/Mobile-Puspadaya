@@ -9,7 +9,6 @@ import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/view/search_ibu_
 import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
-import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
 import 'package:puspadaya/app/view/widget/measuring_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -21,6 +20,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/validator/validator.dart';
 import '../../../../../utils/constant/constanst.dart';
 import '../../../../model/alat_ukur_response_model.dart';
 import '../../../../model/alat_ukur_save_model.dart';
@@ -70,7 +70,8 @@ class CreatePengukuranIbuHamilView extends StatefulWidget {
       _CreatePengukuranIbuHamilViewState();
 }
 
-class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilView> {
+class _CreatePengukuranIbuHamilViewState
+    extends State<CreatePengukuranIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController _nameController = TextEditingController();
@@ -78,7 +79,8 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
   TextEditingController _gestationalAgeController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
-  TextEditingController _upperArmCircumferenceController = TextEditingController();
+  TextEditingController _upperArmCircumferenceController =
+      TextEditingController();
   TextEditingController _tinggiFundusUteriController = TextEditingController();
   TextEditingController _hemogoblinController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
@@ -144,7 +146,8 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
           if (state is AlatUkurSaveSuccessState) {
             logger.i("pangil event");
             listAlatUkur = state.alatUkurResponseModel;
-            BlocProvider.of<GetAlatUkurBloc>(context).add(GetAlatUkurIbuHamil());
+            BlocProvider.of<GetAlatUkurBloc>(context)
+                .add(GetAlatUkurIbuHamil());
           }
         },
         builder: (context, stateListAlatUkur) {
@@ -274,6 +277,7 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                             controller: _ageMotherController,
                             hintText: "Usia Ibu Hamil",
                             isPasswordField: false,
+                            isEnable: false,
                             keyboardType: TextInputType.number,
                             obscureText: false,
                           ),
@@ -287,6 +291,7 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                           TextFieldWidget(
                             controller: _gestationalAgeController,
                             hintText: "Usia Kehamilan",
+                            isEnable: false,
                             isPasswordField: false,
                             keyboardType: TextInputType.number,
                             obscureText: false,
@@ -328,11 +333,15 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                   children: [
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
-                                      hintText: 'contoh: 13,5',
+                                      hintText: 'contoh: 150',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamil.alatUkurTinggi
                                           ?.alatPengukuranAdmin.jenisAlat,
                                       controller: _heightController,
+                                      validator: [
+                                        (value) => Validator.required(value,
+                                            'Harap Masukan Tinggi Badan'),
+                                      ],
                                     ),
                                     SizedBox(
                                       height:
@@ -340,8 +349,12 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 3,5',
+                                      hintText: 'contoh: 24',
                                       unit: 'cm',
+                                      validator: [
+                                        (value) => Validator.required(value,
+                                            'Harap Masukan Lingkar Lengan Atas'),
+                                      ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurLingkarLengan
                                           ?.alatPengukuranAdmin
@@ -359,7 +372,11 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                   children: [
                                     MeasurementWidget(
                                       title: 'Berat Badan',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 50',
+                                      validator: [
+                                        (value) => Validator.required(
+                                            value, 'Harap Masukan Berat Badan'),
+                                      ],
                                       unit: 'kg',
                                       tool: alatUkurIbuHamil.alatUkurBerat
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -371,8 +388,12 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                     ),
                                     MeasurementWidget(
                                       title: 'Tinggi Fundus',
-                                      hintText: 'contoh: 6,5',
+                                      hintText: 'contoh: 22',
                                       unit: 'cm',
+                                      validator: [
+                                        (value) => Validator.required(value,
+                                            'Harap Masukan Tinggi Fundus'),
+                                      ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurTinggiFundus
                                           ?.alatPengukuranAdmin
@@ -403,6 +424,10 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                   controller: _hemogoblinController,
                                   hintText: "Hemogoblin",
                                   isPasswordField: false,
+                                  validators: [
+                                    (value) => Validator.required(value,
+                                        'Harap Masukan Jumlah Hemogoblin'),
+                                  ],
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                 ),
@@ -482,6 +507,10 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                       isPasswordField: false,
                                       keyboardType: TextInputType.number,
                                       obscureText: false,
+                                      validators: [
+                                        (value) => Validator.required(
+                                            value, 'Harap Masukan Jumlah Tablet FE'),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -501,21 +530,26 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                             hintText: 'Masukan Catatan',
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          BlocConsumer<CreatePengukuranIbuHamilBloc, CreatePengukuranIbuHamilState>(
+                          BlocConsumer<CreatePengukuranIbuHamilBloc,
+                              CreatePengukuranIbuHamilState>(
                             listener: (context, state) {
                               debugPrint(state.toString());
-                              if(state is CreatePengukuranIbuHamilSuccesState) {
-                                Navigator.pop(context,1);
-                                Navigator.pop(context,1);
+                              if (state
+                                  is CreatePengukuranIbuHamilSuccesState) {
+                                Navigator.pop(context, 1);
+                                Navigator.pop(context, 1);
                               }
-                              if(state is CreatePengukuranIbuHamilFailedState) {
+                              if (state
+                                  is CreatePengukuranIbuHamilFailedState) {
                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(milliseconds: 600),
-                                  displayDuration: const Duration(milliseconds: 2200),
-                                  reverseAnimationDuration: const Duration(milliseconds: 300),
-                                  TopSnackbarWidget().error(state.error)
-                                );
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget().error(state.error));
                               }
                             },
                             builder: (context, state) {
@@ -523,53 +557,77 @@ class _CreatePengukuranIbuHamilViewState extends State<CreatePengukuranIbuHamilV
                                 color: bluePrimaryMain,
                                 mainButtonMessage: 'Simpan',
                                 mainButton: () {
-                                  if(_formKey.currentState!.validate()) {
+                                  if (_nameController.text.isEmpty) {
+                                    showTopSnackBar(
+                                        Overlay.of(context),
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        displayDuration:
+                                            const Duration(milliseconds: 2200),
+                                        reverseAnimationDuration:
+                                            const Duration(milliseconds: 300),
+                                        TopSnackbarWidget()
+                                            .error("Harap Pilih Ibu Hamil"));
+                                  }
+                                  if (_formKey.currentState!.validate()) {
                                     showDialog(
                                       context: context,
                                       builder: (context) {
                                         return AlertDialogSave(
+                                          isAgeLessThanSixMonths: false,
                                           cancelButton: () {
                                             Navigator.pop(context);
                                           },
                                           mainButton: () {
-                                            createPengukuranIbuHamilBloc.add(SendPengukuranIbuHamilEvent(
-                                              PostPengukuranIbuHamilModel(
-                                                ibuHamilId: paket.id, 
-                                                tempatPengukuran: selectedPosyandu, 
-                                                tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()), 
-                                                beratBadan: double.parse(_weightController.text), 
-                                                tinggiBadan: double.parse(_heightController.text), 
-                                                tinggiFundusUteri: double.parse(_tinggiFundusUteriController.text), 
-                                                lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text), 
+                                            createPengukuranIbuHamilBloc.add(SendPengukuranIbuHamilEvent(PostPengukuranIbuHamilModel(
+                                                ibuHamilId: paket.id,
+                                                tempatPengukuran:
+                                                    selectedPosyandu,
+                                                tanggalPengukuran: DateFormat(
+                                                        "y-MM-dd", "ID_id")
+                                                    .format(DateTime.now()),
+                                                beratBadan: double.parse(
+                                                    _weightController.text),
+                                                tinggiBadan: double.parse(
+                                                    _heightController.text),
+                                                tinggiFundusUteri: double.parse(
+                                                    _tinggiFundusUteriController
+                                                        .text),
+                                                lingkarLenganAtas: double.parse(
+                                                    _upperArmCircumferenceController.text),
                                                 hemoglobin: double.parse(_hemogoblinController.text),
-                                                terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak", 
+                                                terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak",
                                                 jumlahTabletFe: int.parse(_tabletFeController.text),
-
-                                                alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id, 
-                                                alatTinggiBadanId: alatUkurIbuHamil.alatUkurTinggi!.id, 
-                                                alatTinggiFundusUteriId: alatUkurIbuHamil.alatUkurTinggiFundus!.id, 
-                                                alatLingkarLenganAtasId: alatUkurIbuHamil.alatUkurLingkarLengan!.id
-                                              )
-                                            ));
+                                                alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id,
+                                                alatTinggiBadanId: alatUkurIbuHamil.alatUkurTinggi!.id,
+                                                alatTinggiFundusUteriId: alatUkurIbuHamil.alatUkurTinggiFundus!.id,
+                                                alatLingkarLenganAtasId: alatUkurIbuHamil.alatUkurLingkarLengan!.id)));
                                           },
                                           cancelButtonMessage: 'Tidak',
                                           mainButtonMessage: 'Iya Simpan Data',
                                           colorMainButton: bluePrimaryMain,
                                           heighValue: _heightController.text,
                                           weightValue: _weightController.text,
-                                          upperArmCircumference: _upperArmCircumferenceController.text,
-                                          uterineFundalHeightValue: _tinggiFundusUteriController.text,
+                                          upperArmCircumference:
+                                              _upperArmCircumferenceController
+                                                  .text,
+                                          uterineFundalHeightValue:
+                                              _tinggiFundusUteriController.text,
                                         );
                                       },
                                     );
                                   } else {
-                                    showTopSnackBar(
-                                      Overlay.of(context),
-                                      animationDuration: const Duration(milliseconds: 600),
-                                      displayDuration: const Duration(milliseconds: 2200),
-                                      reverseAnimationDuration: const Duration(milliseconds: 300),
-                                      TopSnackbarWidget().error("Form tidak boleh kosong")
-                                    );
+                                    logger.d('Form Tidak Valid');
+                                    // showTopSnackBar(
+                                    //     Overlay.of(context),
+                                    //     animationDuration:
+                                    //         const Duration(milliseconds: 600),
+                                    //     displayDuration:
+                                    //         const Duration(milliseconds: 2200),
+                                    //     reverseAnimationDuration:
+                                    //         const Duration(milliseconds: 300),
+                                    //     TopSnackbarWidget()
+                                    //         .error("Form tidak boleh kosong"));
                                   }
                                 },
                               );
