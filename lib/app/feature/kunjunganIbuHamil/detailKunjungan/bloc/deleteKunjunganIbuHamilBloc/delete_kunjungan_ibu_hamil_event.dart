@@ -6,3 +6,9 @@ sealed class DeleteKunjunganIbuHamilEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class DeleteKunjungan extends DeleteKunjunganIbuHamilEvent {
+  final String idKunjungan;
+
+  const DeleteKunjungan(this.idKunjungan);
+}

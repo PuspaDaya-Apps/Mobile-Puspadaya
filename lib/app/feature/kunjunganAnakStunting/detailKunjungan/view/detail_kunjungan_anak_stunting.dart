@@ -415,8 +415,7 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                                       deleteKunjunganBloc.add(DeleteKunjungan(state.listDataAnakStunting.id));
                                     },
                                     image: imageDeleteItems,
-                                    mainButtonMessage:
-                                        'Iya, Hapus  Kunjungan',
+                                    mainButtonMessage: 'Iya, Hapus  Kunjungan',
                                     colorMainButton: redPrimaryMain,
                                     cancelButton: () {
                                       Navigator.pop(context);
