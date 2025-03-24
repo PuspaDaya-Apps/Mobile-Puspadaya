@@ -6,3 +6,5 @@ sealed class ListIbuHamilKunjunganEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+final class GetDataIbuHamil extends ListIbuHamilKunjunganEvent {}

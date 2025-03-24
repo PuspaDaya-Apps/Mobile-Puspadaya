@@ -102,8 +102,12 @@ class _KunjunganViewState extends State<KunjunganView> {
                               }
                             });
                           }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
-
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
+                            Navigator.pushNamed(context, DETAIL_IBU_HAMIL_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                              }
+                            });
                           }
                         } else {
                           if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
@@ -134,8 +138,19 @@ class _KunjunganViewState extends State<KunjunganView> {
                               }
                             });
                           }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Ibu Hamil") {
-
+                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
+                            Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                              if(value != null) {
+                                indexKunjunganBloc.add(GetDataKunjungan());
+                                if(value == 1) {
+                                  Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
+                                  if(value != null) {
+                                    indexKunjunganBloc.add(GetDataKunjungan());
+                                  }
+                                });
+                                }
+                              }
+                            });
                           }
                         }
                        },

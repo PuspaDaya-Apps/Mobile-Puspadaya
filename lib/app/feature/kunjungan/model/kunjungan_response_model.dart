@@ -5,13 +5,11 @@ import 'package:json_annotation/json_annotation.dart';
 //@JsonSerializable()
 class KunjunganResponseModel {
   String message;
-  String? error;
   List<Data>? data = [];
   Meta? meta;
 
   KunjunganResponseModel({
     required this.message,
-    this.error,
     this.data,
     this.meta
   });
@@ -66,18 +64,35 @@ class Anak {
 
 //@JsonSerializable()
 class IbuHamil {
-  String id;
-  @JsonKey(name: 'nama_ibu_hamil')
-  String namaIbuHamil;
+  @JsonKey(name: 'usia_kehamilan')
+  String usiaKehamilan;
+  @JsonKey(name: 'ibu_anak')
+  IbuAnak ibuAnak;
 
   IbuHamil({
-    required this.id,
-    required this.namaIbuHamil
+    required this.usiaKehamilan,
+    required this.ibuAnak
   });
 
   factory IbuHamil.fromJson(Map<String, dynamic> json) => _$IbuHamilFromJson(json);
 
   Map<String, dynamic> toJson()=>_$IbuHamilToJson(this);
+}
+
+//@JsonSerializable()
+class IbuAnak {
+  String id;
+  @JsonKey(name: 'nama_ibu')
+  String namaIbu;
+
+  IbuAnak({
+    required this.id,
+    required this.namaIbu
+  });
+
+  factory IbuAnak.fromJson(Map<String, dynamic> json) => _$IbuAnakFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$IbuAnakToJson(this);
 }
 
 //@JsonSerializable()
@@ -103,7 +118,6 @@ KunjunganResponseModel _$KunjunganResponseModelFromJson(
         Map<String, dynamic> json) =>
     KunjunganResponseModel(
       message: json['message'] as String,
-      error: json['error'] as String?,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -116,7 +130,6 @@ Map<String, dynamic> _$KunjunganResponseModelToJson(
         KunjunganResponseModel instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'error': instance.error,
       'data': instance.data,
       'meta': instance.meta,
     };
@@ -154,13 +167,23 @@ Map<String, dynamic> _$AnakToJson(Anak instance) => <String, dynamic>{
     };
 
 IbuHamil _$IbuHamilFromJson(Map<String, dynamic> json) => IbuHamil(
-      id: json['id'] as String,
-      namaIbuHamil: json['nama_ibu_hamil'] as String,
+      usiaKehamilan: json['usia_kehamilan'] as String,
+      ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$IbuHamilToJson(IbuHamil instance) => <String, dynamic>{
+      'usia_kehamilan': instance.usiaKehamilan,
+      'ibu_anak': instance.ibuAnak,
+    };
+
+IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
+      id: json['id'] as String,
+      namaIbu: json['nama_ibu'] as String,
+    );
+
+Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'id': instance.id,
-      'nama_ibu_hamil': instance.namaIbuHamil,
+      'nama_ibu': instance.namaIbu,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(

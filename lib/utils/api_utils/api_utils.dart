@@ -615,7 +615,7 @@ class ApiUtils {
 
   String urlGetDataIbuHamilKunjungan() {
     String urlGetDataIbuHamilKunjungan = LinkApi.KUNJUNGANURL;
-    return "$_baseUrl$_apiVersion$urlGetDataIbuHamilKunjungan/ibu-hamil";
+    return "$_baseUrl$_apiVersion$urlGetDataIbuHamilKunjungan/ibu-hamil-tidak-hadir";
   }
 
   String urlGetDetailKunjunganAnak(String id) {
