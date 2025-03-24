@@ -4,6 +4,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 
+import '../../../../utils/logger/logger.dart';
 import '../../Kehadiran/index/view/index_kehadiran_screen.dart';
 import '../../PengukuranTamu/index/view/index_pengukuran_tamu_screen.dart';
 import '../../RiwayatAnak/index/view/index_riwayat_anak_screen.dart';
@@ -37,6 +38,7 @@ class _PengukuranViewState extends State<PengukuranView> {
     'Riwayat Ibu Hamil'
   ];
   String selectedMenu = "Kehadiran";
+  bool isTrueKehadiran = false;
   // bool isSearching = false; // State variable to manage search bar visibility
   TextEditingController searchController =
       TextEditingController(); // Controller for the search bar
@@ -94,10 +96,15 @@ class _PengukuranViewState extends State<PengukuranView> {
                 Icons.add,
                 color: Colors.white,
               ),
-              onPressed: () {
+              onPressed: () async {
                 switch (selectedMenu) {
                   case 'Kehadiran':
-                    Navigator.pushNamed(context, CREATE_KEHADIRAN);
+                    final isTrue =
+                        await Navigator.pushNamed(context, CREATE_KEHADIRAN);
+                    logger.d('is true form create kehadiran $isTrue');
+                    setState(() {
+                      isTrueKehadiran = isTrue as bool;
+                    });
                     break;
                   case 'Pengukuran Anak':
                     Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
@@ -167,7 +174,7 @@ class _PengukuranViewState extends State<PengukuranView> {
   Widget _buildListItem() {
     switch (selectedMenu) {
       case 'Kehadiran':
-        return const IndexKehadiranScreen();
+        return IndexKehadiranScreen(isTrue: isTrueKehadiran,);
       case 'Pengukuran Anak':
         return const IndexPengukuranAnakScreen();
       case 'Pengukuran Ibu Hamil':

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../model/list_data_ibu_model.dart';
 
 class ListDataIbu extends StatefulWidget {
@@ -40,6 +41,12 @@ class _ListDataIbuState extends State<ListDataIbu> {
         nama: 'Agnes Zaenab Puspita',
         nik: '3501000099912847'),
   ];
+
+  @override
+  void initState() {
+    logger.d('trigger init state list data ibu anak creatae kehadiran');
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
     return ListView.builder(

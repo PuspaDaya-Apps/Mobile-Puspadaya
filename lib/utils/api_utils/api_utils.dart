@@ -147,11 +147,23 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlPostDataAnak;
   }
 
+  String urlGetPosyandu({String? search, int? page, int? limit}){
+    String urlGetPosyandu = LinkApi.POSYANDUURL;
+    if(limit != null) return _baseUrl + _apiVersion + urlGetPosyandu + '?limit=$limit';
+    return _baseUrl + _apiVersion + urlGetPosyandu;
+  }
+
+  String urlGetAllAnakByPosyandu(String id) {
+    String urlGetDetailAnak = LinkApi.ANAKBYPOSYANDUURL;
+    return "$_baseUrl$_apiVersion$urlGetDetailAnak/$id";
+  }
+
   String urlGetAnakPosyandu({String? search, int? page, int? limit}) {
     String urlGetAnakPosyandu = LinkApi.ANAKPOSYANDUURL;
     // Map<String, dynamic> parameterQuery = parameterQueryHelper(
     //   search, page, 1000
     // );
+    if(limit != null) return _baseUrl + _apiVersion + urlGetAnakPosyandu + '?limit=$limit';
     return _baseUrl + _apiVersion + urlGetAnakPosyandu;
   }
 
@@ -176,6 +188,7 @@ class ApiUtils {
     // Map<String, dynamic> parameterQuery = parameterQueryHelper(
     //   search, page, 1000
     // );
+    if(limit != null) return '$_baseUrl$_apiVersion$urlGetListIbuHamil?limit=$limit';
     return _baseUrl + _apiVersion + urlGetListIbuHamil;
   }
 

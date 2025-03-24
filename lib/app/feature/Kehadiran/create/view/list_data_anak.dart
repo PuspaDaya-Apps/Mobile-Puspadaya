@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../model/list_data_anak_model.dart';
 
 class ListDataAnak extends StatefulWidget {
@@ -12,6 +13,11 @@ class ListDataAnak extends StatefulWidget {
 }
 
 class _ListDataAnakState extends State<ListDataAnak> {
+  @override
+  void initState() {
+    logger.d('trigger init state list data anak creatae kehadiran');
+    super.initState();
+  }
   final List<ListDataAnakModel> listDataAnak = [
     ListDataAnakModel(
         isChecked: false, nama: 'Mila Nuraini', namaIbu: 'Tami Suartini S.Ked'),

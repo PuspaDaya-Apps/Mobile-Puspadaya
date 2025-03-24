@@ -113,4 +113,15 @@ class HelperData {
 
     return "$tahun tahun";
   }
+
+  String konversiDurasiHHMMKeString(String durasi) {
+    // Memisahkan jam dan menit
+    List<String> parts = durasi.split(':');
+    int jam = int.parse(parts[0]);
+    int menit = int.parse(parts[1]);
+
+    // Mengembalikan string dalam format yang diinginkan
+    return '$jam jam $menit menit';
+  }
+
 }
