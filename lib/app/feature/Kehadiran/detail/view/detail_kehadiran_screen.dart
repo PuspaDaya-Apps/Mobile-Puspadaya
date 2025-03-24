@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -18,7 +19,7 @@ import '../bloc/detail_kehadiran_bloc.dart';
 import 'list_data_anak.dart';
 import 'list_data_ibu.dart';
 import 'list_data_tamu.dart';
-import '../model/get_detail_kehadiran_model.dart' as get_detail_kehadiran_model; 
+import '../model/get_detail_kehadiran_model.dart' as get_detail_kehadiran_model;
 
 class DetailKehadiranScreen extends StatelessWidget {
   final String id;
@@ -103,8 +104,29 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
                 child: ButtonPrimary(
                   color: goldPrimaryMain,
                   mainButtonMessage: 'Perbarui',
-                  mainButton: () {
-                    Navigator.pushNamed(context, UPDATE_KEHADIRAN);
+                  mainButton: () async {
+                    if (context.read<DetailKehadiranBloc>().state
+                        is DetailKehadiranSuccess) {
+                      DetailKehadiranSuccess currentState = context
+                          .read<DetailKehadiranBloc>()
+                          .state as DetailKehadiranSuccess;
+                      logger.d(currentState.data.data);
+                      //
+                      final isTrue = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return UpdateKehadiran(
+                              data: currentState.data,
+                            );
+                          },
+                        ),
+                      );
+                      if(isTrue == true){
+                        context.read<DetailKehadiranBloc>().add(GetDetailKehadiranEvent(id: widget.id));
+                      }
+                    }
+                    // Navigator.pushNamed(context, UPDATE_KEHADIRAN);
                   },
                 ),
               ),
@@ -245,7 +267,8 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
           SizedBox(
             height: SizeConfig.calHeightMultiplier(8),
           ),
-          InfoFieldWidget(text: HelperData().konversiDurasiHHMMKeString(data.durasi)),
+          InfoFieldWidget(
+              text: HelperData().konversiDurasiHHMMKeString(data.durasi)),
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),
@@ -304,9 +327,15 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: [
-              ListDataAnak(data: data.kehadiranAnak,),
-              ListDataIbu(data: data.kehadiranIbuHamil,),
-              ListDataTamu(data: data.kehadiranTamu,),
+              ListDataAnak(
+                data: data.kehadiranAnak,
+              ),
+              ListDataIbu(
+                data: data.kehadiranIbuHamil,
+              ),
+              ListDataTamu(
+                data: data.kehadiranTamu,
+              ),
             ],
           ),
         )

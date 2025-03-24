@@ -37,7 +37,7 @@ class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
   @override
   void initState() {
     // TODO: implement initState
-    if (widget.isTrue = true) {
+    if (widget.isTrue == true) {
       context.read<IndexKehadiranBloc>().add(GetIndexKehadiranEvent());
     }
     super.initState();
