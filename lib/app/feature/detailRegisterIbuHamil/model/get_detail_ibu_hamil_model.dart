@@ -144,8 +144,8 @@ class IbuAnak {
   final String golDarah;
   @JsonKey(name: "jenis_kb")
   final String jenisKb;
-  @JsonKey(name: "tanggal_melahirkan_sebelumnya")
-  final DateTime tanggalMelahirkanSebelumnya;
+  // @JsonKey(name: "tanggal_melahirkan_sebelumnya")
+  // final DateTime tanggalMelahirkanSebelumnya;
   @JsonKey(name: "jumlah_anak")
   final int jumlahAnak;
   @JsonKey(name: "user_id")
@@ -175,7 +175,7 @@ class IbuAnak {
     required this.nomorTelepon,
     required this.golDarah,
     required this.jenisKb,
-    required this.tanggalMelahirkanSebelumnya,
+    // required this.tanggalMelahirkanSebelumnya,
     required this.jumlahAnak,
     required this.userId,
     required this.ayah,
@@ -528,8 +528,8 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
       nomorTelepon: json['nomor_telepon'] as String,
       golDarah: json['gol_darah'] as String,
       jenisKb: json['jenis_kb'] as String,
-      tanggalMelahirkanSebelumnya:
-          DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String),
+      // tanggalMelahirkanSebelumnya:
+      //     DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String),
       jumlahAnak: (json['jumlah_anak'] as num).toInt(),
       userId: json['user_id'],
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
@@ -554,8 +554,8 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'nomor_telepon': instance.nomorTelepon,
       'gol_darah': instance.golDarah,
       'jenis_kb': instance.jenisKb,
-      'tanggal_melahirkan_sebelumnya':
-          instance.tanggalMelahirkanSebelumnya.toIso8601String(),
+      // 'tanggal_melahirkan_sebelumnya':
+          // instance.tanggalMelahirkanSebelumnya.toIso8601String(),
       'jumlah_anak': instance.jumlahAnak,
       'user_id': instance.userId,
       'ayah': instance.ayah,

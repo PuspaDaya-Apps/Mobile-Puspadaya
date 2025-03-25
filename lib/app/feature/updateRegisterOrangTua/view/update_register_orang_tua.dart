@@ -2557,6 +2557,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   ),
                                                 );
 
+                                                logger.d(dataOrangTua.ayah.golDarah);
+
                                                 context
                                                     .read<
                                                         UpdateRegisterOrangTuaBloc>()
