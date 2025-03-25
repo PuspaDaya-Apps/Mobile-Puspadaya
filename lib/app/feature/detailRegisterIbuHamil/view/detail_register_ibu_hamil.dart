@@ -340,7 +340,7 @@ class _DetailRegisterIbuHamilViewState
                                   title: 'Tinggi Fundus Uteri',
                                   unit: 'cm',
                                   tool: state.data.data!.alatTinggiFundus.jenisAlat,
-                                  value: state.data.data!.tinggiFundusUteri,
+                                  value: state.data.data!.tinggiFundusUteri ?? "-",
                                 ),
                               ],
                             ),
@@ -362,8 +362,10 @@ class _DetailRegisterIbuHamilViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                                text: state.data.data!.hemoglobin
-                                    .replaceAll('.00', '')),
+                              text: state.data.data!.hemoglobin == null 
+                                ? "-"
+                                : state.data.data!.hemoglobin!.replaceAll('.00', '')
+                            ),
                           ),
                           Text(
                             'g/dl',
@@ -372,15 +374,26 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
-                        'Taggal Terakhir Haid',
+                        'Tanggal Pertama Haid',
                         style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,
                         ),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                          text:
-                              '${DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalTerakhirHaid)}'),
+                        text: DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalPertamaHaid)
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Tanggal Terakhir Haid',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      InfoFieldWidget(
+                        text: DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalTerakhirHaid)
+                      ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

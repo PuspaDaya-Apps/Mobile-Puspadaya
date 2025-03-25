@@ -36,7 +36,7 @@ class Data {
   @JsonKey(name: "tinggi_badan")
   final String tinggiBadan;
   @JsonKey(name: "hemoglobin")
-  final String hemoglobin;
+  String? hemoglobin;
   @JsonKey(name: "jumlah_tablet_fe")
   final int jumlahTabletFe;
   @JsonKey(name: "tanggal_pertama_haid")
@@ -46,7 +46,7 @@ class Data {
   @JsonKey(name: "lingkar_lengan_atas")
   final String lingkarLenganAtas;
   @JsonKey(name: "tinggi_fundus_uteri")
-  final String tinggiFundusUteri;
+  String? tinggiFundusUteri;
   @JsonKey(name: "terpapar_asap_rokok")
   final String terpaparAsapRokok;
   @JsonKey(name: "catatan")
@@ -74,12 +74,12 @@ class Data {
     required this.usiaKehamilan,
     required this.beratBadan,
     required this.tinggiBadan,
-    required this.hemoglobin,
+    this.hemoglobin,
     required this.jumlahTabletFe,
     required this.tanggalPertamaHaid,
     required this.tanggalTerakhirHaid,
     required this.lingkarLenganAtas,
-    required this.tinggiFundusUteri,
+    this.tinggiFundusUteri,
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.ibuAnak,
@@ -438,7 +438,9 @@ GetDetailIbuHamilModel _$GetDetailIbuHamilModelFromJson(
         Map<String, dynamic> json) =>
     GetDetailIbuHamilModel(
       message: json['message'] as String,
-      data: Data.fromJson(json['data'] as Map<String, dynamic>),
+      data: json['data'] == null
+          ? null
+          : Data.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GetDetailIbuHamilModelToJson(
@@ -456,14 +458,14 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
-      hemoglobin: json['hemoglobin'] as String,
+      hemoglobin: json['hemoglobin'] as String?,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       tanggalPertamaHaid:
           DateTime.parse(json['tanggal_pertama_haid'] as String),
       tanggalTerakhirHaid:
           DateTime.parse(json['tanggal_terakhir_haid'] as String),
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
-      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String,
+      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       catatan: json['catatan'] as String,
       ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),
@@ -528,8 +530,6 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
       nomorTelepon: json['nomor_telepon'] as String,
       golDarah: json['gol_darah'] as String,
       jenisKb: json['jenis_kb'] as String,
-      // tanggalMelahirkanSebelumnya:
-      //     DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String),
       jumlahAnak: (json['jumlah_anak'] as num).toInt(),
       userId: json['user_id'],
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
@@ -554,8 +554,6 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'nomor_telepon': instance.nomorTelepon,
       'gol_darah': instance.golDarah,
       'jenis_kb': instance.jenisKb,
-      // 'tanggal_melahirkan_sebelumnya':
-          // instance.tanggalMelahirkanSebelumnya.toIso8601String(),
       'jumlah_anak': instance.jumlahAnak,
       'user_id': instance.userId,
       'ayah': instance.ayah,
