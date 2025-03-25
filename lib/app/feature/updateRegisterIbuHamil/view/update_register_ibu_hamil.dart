@@ -75,6 +75,7 @@ class UpdateRegisterIbuHamilViewState
     extends State<UpdateRegisterIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
   bool _isExpanded = false;
+
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
   TextEditingController _upperArmCircumferenceController =
@@ -87,7 +88,6 @@ class UpdateRegisterIbuHamilViewState
   int? exposedCigaretteSmoke = 0;
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
-  TextEditingController _usiaKehamilanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
@@ -170,10 +170,10 @@ class UpdateRegisterIbuHamilViewState
     _catatanController.text = widget.data.data.catatan;
     _tabletFeController.text = widget.data.data.jumlahTabletFe.toString();
     _upperArmCircumferenceController.text = widget.data.data.lingkarLenganAtas;
-    _hemogoblinController.text =
-        widget.data.data.hemoglobin.replaceAll('.00', '');
-    _uterineFundusHeightController.text = widget.data.data.tinggiFundusUteri;
-    _usiaKehamilanController.text = widget.data.data.usiaKehamilan.toString();
+    _hemogoblinController.text = widget.data.data.hemoglobin == null 
+    ? "" 
+    : widget.data.data.hemoglobin!.replaceAll('.00', '');
+    _uterineFundusHeightController.text = widget.data.data.tinggiFundusUteri ?? "";
 
     switch (widget.data.data.namaBPJS) {
       case null:
@@ -442,7 +442,7 @@ class UpdateRegisterIbuHamilViewState
                                   children: [
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
-                                      hintText: 'contoh: 150,5',
+                                      hintText: 'contoh: 150.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatTinggiBadan.jenisAlat 
@@ -458,7 +458,7 @@ class UpdateRegisterIbuHamilViewState
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 12,5',
+                                      hintText: 'contoh: 12.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatLingkarLengan.jenisAlat 
@@ -480,7 +480,7 @@ class UpdateRegisterIbuHamilViewState
                                   children: [
                                     MeasurementWidget(
                                       title: 'Berat Badan',
-                                      hintText: 'contoh: 60,5',
+                                      hintText: 'contoh: 60.5',
                                       unit: 'kg',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatBeratBadan.jenisAlat 
@@ -496,15 +496,15 @@ class UpdateRegisterIbuHamilViewState
                                     ),
                                     MeasurementWidget(
                                       title: 'Tinggi Fundus Uteri',
-                                      hintText: 'contoh: 15,5',
+                                      hintText: 'contoh: 15.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatTinggiFundus.jenisAlat 
                                       : alatUkurIbuHamil.alatUkurTinggiFundus!.alatPengukuranAdmin.merekAlat,
-                                      validator: [
-                                        (value) => Validator.required(value,
-                                            'Tinggi Fundus Uteri Wajib Diisi'),
-                                      ],
+                                      // validator: [
+                                      //   (value) => Validator.required(value,
+                                      //       'Tinggi Fundus Uteri Wajib Diisi'),
+                                      // ],
                                       // tool: 'Alat Ukur Lingkar Kepala',
                                       controller: _uterineFundusHeightController,
                                     ),
@@ -534,10 +534,10 @@ class UpdateRegisterIbuHamilViewState
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
-                                  validators: [
-                                    (value) => Validator.required(
-                                        value, 'Hemogoblin Wajib Diisi'),
-                                  ],
+                                  // validators: [
+                                  //   (value) => Validator.required(
+                                  //       value, 'Hemogoblin Wajib Diisi'),
+                                  // ],
                                 ),
                               ),
                               Text(
@@ -591,25 +591,6 @@ class UpdateRegisterIbuHamilViewState
                               }
                               return null;
                             },
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          Text(
-                            'Usia Kehamilan (Minggu)',
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          TextFieldWidget(
-                            controller: _usiaKehamilanController,
-                            hintText: "Usia Kehamilan (minggu)",
-                            validators: [
-                              (value) => Validator.required(
-                                  value, 'Usia Kehamilan harus diisi'),
-                            ],
-                            isPasswordField: false,
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Row(
@@ -854,45 +835,39 @@ class UpdateRegisterIbuHamilViewState
                               mainButton: () {
                                 if (_formKey.currentState!.validate()) {
                                   UpdateIbuHamilModel postData = UpdateIbuHamilModel(
-                                      alatBeratBadanId: alatUkurIbuHamilSend == null 
-                                      ? widget.data.data.alatBeratBadan.id 
-                                      : alatUkurIbuHamil.alatUkurBerat!.id,
-                                      alatLingkarLenganId: alatUkurIbuHamilSend == null 
-                                      ? widget.data.data.alatLingkarLengan.id 
-                                      : alatUkurIbuHamil.alatUkurLingkarLengan!.id,
-                                      alatTinggiBadanId: alatUkurIbuHamilSend == null 
-                                      ? widget.data.data.alatTinggiBadan.id 
-                                      : alatUkurIbuHamil.alatUkurTinggi!.id,
-                                      alatTinggiFundusId: alatUkurIbuHamilSend == null 
-                                      ? widget.data.data.alatTinggiFundus.id 
-                                      : alatUkurIbuHamil.alatUkurTinggiFundus!.id,
-                                      beratBadan:
-                                          _parseDouble(_weightController.text),
-                                      catatan: _catatanController.text,
-                                      hemoglobin: _parseDouble(
-                                          _hemogoblinController.text),
-                                      jumlahTabletFe:
-                                          _parseInt(_tabletFeController.text),
-                                      lingkarLenganAtas: _parseDouble(
-                                          _upperArmCircumferenceController.text),
-                                      terpaparAsapRokok:
-                                          exposedCigaretteSmoke == 1
-                                              ? "Iya"
-                                              : "Tidak",
-                                      tinggiBadan:
-                                          _parseDouble(_heightController.text),
-                                      tinggiFundusUteri: _parseDouble(
-                                          _uterineFundusHeightController.text),
-                                      tanggalPertamaHaid: _formatDate(
-                                          _firstDateHaidController.text),
-                                      tanggalTerakhirHaid: _formatDate(
-                                          _lastDateHaidController.text),
-                                      usiaKehamilan: _parseInt(
-                                          _usiaKehamilanController.text),
-                                      memilkiBPJS: selectedMemilikiBPJS!,
-                                      namaBPJS: selectedRadioBPJS == 2
-                                          ? _namaBPJSController.text
-                                          : selectedNamaBPJS);
+                                    alatBeratBadanId: alatUkurIbuHamilSend == null 
+                                    ? widget.data.data.alatBeratBadan.id 
+                                    : alatUkurIbuHamil.alatUkurBerat!.id,
+                                    alatLingkarLenganId: alatUkurIbuHamilSend == null 
+                                    ? widget.data.data.alatLingkarLengan.id 
+                                    : alatUkurIbuHamil.alatUkurLingkarLengan!.id,
+                                    alatTinggiBadanId: alatUkurIbuHamilSend == null 
+                                    ? widget.data.data.alatTinggiBadan.id 
+                                    : alatUkurIbuHamil.alatUkurTinggi!.id,
+                                    alatTinggiFundusId: alatUkurIbuHamilSend == null 
+                                    ? widget.data.data.alatTinggiFundus.id 
+                                    : alatUkurIbuHamil.alatUkurTinggiFundus!.id,
+                                    beratBadan: _parseDouble(_weightController.text),
+                                    catatan: _catatanController.text,
+                                    hemoglobin: _hemogoblinController.text == "" 
+                                    ? null 
+                                    : _parseDouble(_hemogoblinController.text),
+                                    jumlahTabletFe: _parseInt(_tabletFeController.text),
+                                    lingkarLenganAtas: _parseDouble(_upperArmCircumferenceController.text),
+                                    terpaparAsapRokok: exposedCigaretteSmoke == 1
+                                      ? "Iya"
+                                      : "Tidak",
+                                    tinggiBadan: _parseDouble(_heightController.text),
+                                    tinggiFundusUteri: _uterineFundusHeightController.text == "" 
+                                    ? null 
+                                    : _parseDouble(_uterineFundusHeightController.text),
+                                    tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
+                                    tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+                                    memilkiBPJS: selectedMemilikiBPJS!,
+                                    namaBPJS: selectedRadioBPJS == 2
+                                      ? _namaBPJSController.text
+                                      : selectedNamaBPJS
+                                  );
 
                                   context.read<UpdateRegisterIbuHamilBloc>().add(
                                       PatchUpdateRegisterIbuHamil(

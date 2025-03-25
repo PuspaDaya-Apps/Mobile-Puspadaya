@@ -265,7 +265,7 @@ class _DetailPengukuranIbuHamilViewState
                                   value: state
                                       .detailPengukuranIbuHamilResponseModel
                                       .data!
-                                      .tinggiFundusUteri,
+                                      .tinggiFundusUteri ?? "-" ,
                                 ),
                               ],
                             ),
@@ -290,7 +290,7 @@ class _DetailPengukuranIbuHamilViewState
                                 text: state
                                     .detailPengukuranIbuHamilResponseModel
                                     .data!
-                                    .hemoglobin),
+                                    .hemoglobin ?? "-"),
                           ),
                           Text(
                             'g/dl',
