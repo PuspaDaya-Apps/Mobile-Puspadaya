@@ -60,8 +60,9 @@ final List<String> selectJenisKB = [
   'IUD',
   'SUNTIK',
   'IMPLANT',
-  'MUP',
+  'MOP',
   'KONDOM',
+  '-'
 ];
 
 final List<Map<String, String>> policy = [
