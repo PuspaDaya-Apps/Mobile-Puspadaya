@@ -52,7 +52,7 @@ class _DetailRegisterIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 10;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 11.25;
 
     return Scaffold(
       appBar: PrimaryAppBar(
@@ -111,7 +111,7 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Nama Ibu'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.namaIbu),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -122,7 +122,7 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'NIK Ibu'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.nik),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -133,7 +133,7 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'Telepon Ibu'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.nomorTelepon),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -143,7 +143,7 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'umur Ibu'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.usia),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -153,7 +153,7 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: 'nama suami'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.ayah.namaAyah),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -171,10 +171,10 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Jawa Timur'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Banyuwangi'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.kecamatan.namaKecamatan),
                                   ),
                                 ],
                               ),
@@ -187,17 +187,13 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.namaDesaKelurahan),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: 'Kabat'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.namaDusun),
                                   ),
                                 ],
                               ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(8),
-                              ),
-                              InfoFieldWidget(text: 'Bunder'),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
@@ -207,17 +203,17 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: '2'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.rt),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: '14'),
+                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.rw),
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
-                              InfoFieldWidget(text: 'Alamat Lengkap'),
+                              InfoFieldWidget(text: state.data.data!.ibuAnak.alamat),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
