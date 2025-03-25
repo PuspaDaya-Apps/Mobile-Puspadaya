@@ -172,7 +172,7 @@ class UpdateRegisterIbuHamilViewState
     _upperArmCircumferenceController.text = widget.data.data.lingkarLenganAtas;
     _hemogoblinController.text = widget.data.data.hemoglobin == null 
     ? "" 
-    : widget.data.data.hemoglobin.replaceAll('.00', '');
+    : widget.data.data.hemoglobin!.replaceAll('.00', '');
     _uterineFundusHeightController.text = widget.data.data.tinggiFundusUteri ?? "";
 
     switch (widget.data.data.namaBPJS) {

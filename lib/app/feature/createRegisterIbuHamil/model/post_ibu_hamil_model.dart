@@ -38,6 +38,9 @@ class PostIbuHamilModel {
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
 
+  @JsonKey(name: "tanggal_pengukuran")
+  final String tanggalPengukuran;
+
   PostIbuHamilModel({
     required this.ibuId,
     required this.beratBadan,
@@ -55,7 +58,8 @@ class PostIbuHamilModel {
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.memilkiBPJS,
-    this.namaBPJS
+    this.namaBPJS,
+    required this.tanggalPengukuran
   });
 
   factory PostIbuHamilModel.fromJson(Map<String, dynamic> json) => _$PostIbuHamilModelFromJson(json);
@@ -82,6 +86,7 @@ PostIbuHamilModel _$PostIbuHamilModelFromJson(Map<String, dynamic> json) =>
       catatan: json['catatan'] as String,
       memilkiBPJS: json['memiliki_bpjs'] as String,
       namaBPJS: json['nama_bpjs'] as String?,
+      tanggalPengukuran: json['tanggal_pengukuran'] as String,
     );
 
 Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
@@ -103,4 +108,5 @@ Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
       'catatan': instance.catatan,
       'memiliki_bpjs': instance.memilkiBPJS,
       'nama_bpjs': instance.namaBPJS,
+      'tanggal_pengukuran': instance.tanggalPengukuran,
     };
