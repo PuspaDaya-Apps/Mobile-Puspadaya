@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/Bloc/searchIbuHamilCubit/search_ibu_hamil_cubit.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/Bloc/searchIbuHamilCubit/search_ibu_hamil_state.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/view/search_ibu_hamil.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
+import 'package:puspadaya/app/view/widget/alert_dialog_ibu_hamil_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
@@ -573,7 +573,7 @@ class _CreatePengukuranIbuHamilViewState
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return AlertDialogSave(
+                                        return AlertDialogIbuHamilSave(
                                           isAgeLessThanSixMonths: false,
                                           cancelButton: () {
                                             Navigator.pop(context);
