@@ -844,7 +844,7 @@ class _CreateRegisterIbuHamilViewState extends State<CreateRegisterIbuHamilView>
                                   namaBPJS: selectedRadioBPJS == 2
                                     ? _namaBPJSController.text
                                     : selectedNamaBPJS,
-                                  tanggalPengukuran: DateFormat("yyyy-MM-dd", "ID_id").format(DateTime.now())
+                                  tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now())
                                 );
                                 context.read<CreateRegisterIbuHamilBloc>().add(PostCreateIbuHamil(postData));
                               } else {
