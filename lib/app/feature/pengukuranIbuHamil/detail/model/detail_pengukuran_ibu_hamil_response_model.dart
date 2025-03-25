@@ -34,10 +34,10 @@ class Data {
   @JsonKey(name: "tinggi_badan")
   String tinggiBadan;
   @JsonKey(name: "tinggi_fundus_uteri")
-  String tinggiFundusUteri;
+  String? tinggiFundusUteri;
   @JsonKey(name: "lingkar_lengan_atas")
   String lingkarLenganAtas;
-  String hemoglobin;
+  String? hemoglobin;
   @JsonKey(name: "terpapar_asap_rokok")
   String terpaparAsapRokok;
   @JsonKey(name: "jumlah_tablet_fe")
@@ -64,9 +64,9 @@ class Data {
 
     required this.beratBadan,
     required this.tinggiBadan,
-    required this.tinggiFundusUteri,
+    this.tinggiFundusUteri,
     required this.lingkarLenganAtas,
-    required this.hemoglobin,
+    this.hemoglobin,
     required this.terpaparAsapRokok,
     required this.jumlahTabletFe,
     this.catatan,
@@ -147,9 +147,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       usiaKehamilan: json['usia_kehamilan'] as String,
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
-      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String,
+      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
-      hemoglobin: json['hemoglobin'] as String,
+      hemoglobin: json['hemoglobin'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       catatan: json['catatan'] as String?,

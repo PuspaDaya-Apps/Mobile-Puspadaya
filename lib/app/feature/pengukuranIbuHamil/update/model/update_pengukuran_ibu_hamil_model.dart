@@ -12,11 +12,11 @@ class UpdatePengukuranIbuHamilModel {
   @JsonKey(name: "tinggi_badan")
   double tinggiBadan;
   @JsonKey(name: "tinggi_fundus_uteri")
-  double tinggiFundusUteri;
+  double? tinggiFundusUteri;
   @JsonKey(name: "lingkar_lengan_atas")
   double lingkarLenganAtas;
 
-  double hemoglobin;
+  double? hemoglobin;
   @JsonKey(name: "terpapar_asap_rokok")
   String terpaparAsapRokok;
   @JsonKey(name: "jumlah_tablet_fe")
@@ -36,9 +36,9 @@ class UpdatePengukuranIbuHamilModel {
     required this.tempatPengukuran,
     required this.beratBadan,
     required this.tinggiBadan,
-    required this.tinggiFundusUteri,
+    this.tinggiFundusUteri,
     required this.lingkarLenganAtas,
-    required this.hemoglobin,
+    this.hemoglobin,
     required this.terpaparAsapRokok,
     required this.jumlahTabletFe,
     this.catatan,

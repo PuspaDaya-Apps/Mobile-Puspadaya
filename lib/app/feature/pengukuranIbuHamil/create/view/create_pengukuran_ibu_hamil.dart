@@ -390,10 +390,10 @@ class _CreatePengukuranIbuHamilViewState
                                       title: 'Tinggi Fundus',
                                       hintText: 'contoh: 22',
                                       unit: 'cm',
-                                      validator: [
-                                        (value) => Validator.required(value,
-                                            'Harap Masukan Tinggi Fundus'),
-                                      ],
+                                      // validator: [
+                                      //   (value) => Validator.required(value,
+                                      //       'Harap Masukan Tinggi Fundus'),
+                                      // ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurTinggiFundus
                                           ?.alatPengukuranAdmin
@@ -424,10 +424,10 @@ class _CreatePengukuranIbuHamilViewState
                                   controller: _hemogoblinController,
                                   hintText: "Hemogoblin",
                                   isPasswordField: false,
-                                  validators: [
-                                    (value) => Validator.required(value,
-                                        'Harap Masukan Jumlah Hemogoblin'),
-                                  ],
+                                  // validators: [
+                                  //   (value) => Validator.required(value,
+                                  //       'Harap Masukan Jumlah Hemogoblin'),
+                                  // ],
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                 ),
@@ -581,21 +581,17 @@ class _CreatePengukuranIbuHamilViewState
                                           mainButton: () {
                                             createPengukuranIbuHamilBloc.add(SendPengukuranIbuHamilEvent(PostPengukuranIbuHamilModel(
                                                 ibuHamilId: paket.id,
-                                                tempatPengukuran:
-                                                    selectedPosyandu,
-                                                tanggalPengukuran: DateFormat(
-                                                        "y-MM-dd", "ID_id")
-                                                    .format(DateTime.now()),
-                                                beratBadan: double.parse(
-                                                    _weightController.text),
-                                                tinggiBadan: double.parse(
-                                                    _heightController.text),
-                                                tinggiFundusUteri: double.parse(
-                                                    _tinggiFundusUteriController
-                                                        .text),
-                                                lingkarLenganAtas: double.parse(
-                                                    _upperArmCircumferenceController.text),
-                                                hemoglobin: double.parse(_hemogoblinController.text),
+                                                tempatPengukuran: selectedPosyandu,
+                                                tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()),
+                                                beratBadan: double.parse(_weightController.text),
+                                                tinggiBadan: double.parse(_heightController.text),
+                                                tinggiFundusUteri: _tinggiFundusUteriController.text == "" 
+                                                ? null 
+                                                : double.parse(_tinggiFundusUteriController.text),
+                                                lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text),
+                                                hemoglobin: _hemogoblinController.text == "" 
+                                                ? null 
+                                                : double.parse(_hemogoblinController.text),
                                                 terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak",
                                                 jumlahTabletFe: int.parse(_tabletFeController.text),
                                                 alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id,
