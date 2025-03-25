@@ -8,6 +8,7 @@ import '../model/post_orang_tua_body.dart';
 class CreateRegisterOrangTuaApi {
   Future<List<dynamic>> postRegisterOrangTua(String token, PostOrangTuaBody postOrangtuaBody) async {
     final String link = ApiUtils().urlPostDataOrangTua();
+    logger.d(postOrangtuaBody.toJson());
     final String body = json.encode(postOrangtuaBody.toJson());
 
     return await NetworkUtils(token: token).post(link, body).then((response) {

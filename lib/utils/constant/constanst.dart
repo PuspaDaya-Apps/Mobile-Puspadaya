@@ -60,7 +60,7 @@ final List<String> selectJenisKB = [
   'IUD',
   'SUNTIK',
   'IMPLANT',
-  'MUP',
+  'MOP',
   'KONDOM',
 ];
 

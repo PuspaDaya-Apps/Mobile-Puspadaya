@@ -82,12 +82,12 @@ class SelectChartCubit extends Cubit<SelectChartState> {
 
         double? nilaiY;
         if (selectedIndex == 0) {
-          nilaiY = dataServer.beratBadan != null
-              ? double.tryParse(dataServer.beratBadan!)
-              : null;
-        } else {
           nilaiY = dataServer.tinggiBadan != null
               ? double.tryParse(dataServer.tinggiBadan!)
+              : null;
+        } else {
+          nilaiY = dataServer.beratBadan != null
+              ? double.tryParse(dataServer.beratBadan!)
               : null;
         }
 
@@ -123,7 +123,7 @@ class SelectChartCubit extends Cubit<SelectChartState> {
     String basePath = 'assets/json';
     String genderPath =
         gender.toLowerCase() == "laki-laki" ? "laki_laki" : "perempuan";
-    String typePath = selectedIndex == 0 ? "berat_badan" : "tinggi_badan";
+    String typePath = selectedIndex == 0 ? "tinggi_badan" : "berat_badan";
 
     return rootBundle.loadString(
         '$basePath/$genderPath/${typePath}_${genderPath}_$waktu.json');

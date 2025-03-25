@@ -41,9 +41,15 @@ class CreateRegisterOrangTuaBloc
           emit(CreateRegisterOrangTuaSuccesState());
           final dataAyah = await SharedPrefUtils().removeRegisterOrangTuaAyah();
           final dataIbu = await SharedPrefUtils().removeRegisterOrangTuaIbu();
-        } else {
-          emit(TokenExpiredState());
+
         }
+         else if(statusCode ==401) {
+          emit(TokenExpiredState());
+        }else{
+          logger.e('failed to post orang tua ${response[1].toString()}');
+          emit(CreateRegisterOrangTuaFailedState(response[1].toString()));
+        }
+        
       } catch (e) {
         emit(CreateRegisterOrangTuaFailedState(e.toString()));
       }
