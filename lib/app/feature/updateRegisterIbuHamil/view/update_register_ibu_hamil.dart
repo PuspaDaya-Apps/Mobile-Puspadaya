@@ -442,7 +442,7 @@ class UpdateRegisterIbuHamilViewState
                                   children: [
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
-                                      hintText: 'contoh: 150,5',
+                                      hintText: 'contoh: 150.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatTinggiBadan.jenisAlat 
@@ -458,7 +458,7 @@ class UpdateRegisterIbuHamilViewState
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
-                                      hintText: 'contoh: 12,5',
+                                      hintText: 'contoh: 12.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatLingkarLengan.jenisAlat 
@@ -480,7 +480,7 @@ class UpdateRegisterIbuHamilViewState
                                   children: [
                                     MeasurementWidget(
                                       title: 'Berat Badan',
-                                      hintText: 'contoh: 60,5',
+                                      hintText: 'contoh: 60.5',
                                       unit: 'kg',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatBeratBadan.jenisAlat 
@@ -496,7 +496,7 @@ class UpdateRegisterIbuHamilViewState
                                     ),
                                     MeasurementWidget(
                                       title: 'Tinggi Fundus Uteri',
-                                      hintText: 'contoh: 15,5',
+                                      hintText: 'contoh: 15.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null 
                                       ? widget.data.data.alatTinggiFundus.jenisAlat 

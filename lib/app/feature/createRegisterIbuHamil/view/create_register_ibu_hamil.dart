@@ -448,7 +448,7 @@ class _CreateRegisterIbuHamilViewState
                                   ),
                                   MeasurementWidget(
                                     title: 'Tinggi Fundus Uteri',
-                                    hintText: 'contoh: 10 cm',
+                                    hintText: 'contoh: 10.3 cm',
                                     unit: 'cm',
                                     validator: [
                                       (value) => Validator.required(value,
@@ -467,7 +467,7 @@ class _CreateRegisterIbuHamilViewState
                                 children: [
                                   MeasurementWidget(
                                     title: 'Berat Badan',
-                                    hintText: 'contoh: 50,5',
+                                    hintText: 'contoh: 50.5',
                                     unit: 'kg',
                                     validator: [
                                       (value) => Validator.required(
@@ -481,7 +481,7 @@ class _CreateRegisterIbuHamilViewState
                                   ),
                                   MeasurementWidget(
                                     title: 'Lingkar Lengan Atas',
-                                    hintText: 'contoh: 15',
+                                    hintText: 'contoh: 15.1',
                                     validator: [
                                       (value) => Validator.required(value,
                                           'Lingkar Lengan Atas Wajib diisi'),
