@@ -62,6 +62,7 @@ final List<String> selectJenisKB = [
   'IMPLANT',
   'MOP',
   'KONDOM',
+  '-'
 ];
 
 final List<Map<String, String>> policy = [

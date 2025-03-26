@@ -178,7 +178,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   DataDesaKelurahan? selectedDesaIbu;
   DataDusun? selectedDusunIbu;
 
-  String? selectedJenisKBIbu;
+  String selectedJenisKBIbu = '-';
   String? selectedGolonnganDarahIbu;
   String selectedGolDarahIbu = '-';
 

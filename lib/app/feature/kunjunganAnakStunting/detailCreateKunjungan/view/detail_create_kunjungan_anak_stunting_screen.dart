@@ -255,11 +255,14 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                       state.listDataAnakStunting.anak!.kartuKeluarga.ibu != null
                       ? Column(
                         children: [
-                          const Text(
-                            textAlign: TextAlign.start,
-                            'Alamat',
-                            style: TextStyle(
-                              fontSize: 12,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                              textAlign: TextAlign.start,
+                              'Alamat',
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                           SizedBox(

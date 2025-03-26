@@ -61,7 +61,7 @@ class CardRaporWidget extends StatelessWidget {
                       height: SizeConfig.calHeightMultiplier(6),
                     ),
                     Text(
-                      "Merek : $deskripsiRapor",
+                      deskripsiRapor,
                       style: TextStyle(
                           color: textPrimary10.withOpacity(0.7),
                           fontSize: SizeConfig.calMultiplierText(12),

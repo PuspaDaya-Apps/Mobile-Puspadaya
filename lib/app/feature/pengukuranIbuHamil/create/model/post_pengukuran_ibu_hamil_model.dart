@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 // part 'post_pengukuran_ibu_hamil_model.g.dart';
 
 // @JsonSerializable()
@@ -16,11 +15,11 @@ class PostPengukuranIbuHamilModel {
   @JsonKey(name: "tinggi_badan")
   double tinggiBadan;
   @JsonKey(name: "tinggi_fundus_uteri")
-  double tinggiFundusUteri;
+  double? tinggiFundusUteri;
   @JsonKey(name: "lingkar_lengan_atas")
   double lingkarLenganAtas;
 
-  double hemoglobin;
+  double? hemoglobin;
   @JsonKey(name: "terpapar_asap_rokok")
   String terpaparAsapRokok;
   @JsonKey(name: "jumlah_tablet_fe")
@@ -42,9 +41,9 @@ class PostPengukuranIbuHamilModel {
     required this.tanggalPengukuran,
     required this.beratBadan,
     required this.tinggiBadan,
-    required this.tinggiFundusUteri,
+    this.tinggiFundusUteri,
     required this.lingkarLenganAtas,
-    required this.hemoglobin,
+    this.hemoglobin,
     required this.terpaparAsapRokok,
     required this.jumlahTabletFe,
     this.catatan,
@@ -68,9 +67,9 @@ PostPengukuranIbuHamilModel _$PostPengukuranIbuHamilModelFromJson(
       tanggalPengukuran: json['tanggal_pengukuran'] as String,
       beratBadan: (json['berat_badan'] as num).toDouble(),
       tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
-      tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num).toDouble(),
+      tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num?)?.toDouble(),
       lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
-      hemoglobin: (json['hemoglobin'] as num).toDouble(),
+      hemoglobin: (json['hemoglobin'] as num?)?.toDouble(),
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       catatan: json['catatan'] as String?,

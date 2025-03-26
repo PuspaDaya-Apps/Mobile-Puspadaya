@@ -5,7 +5,7 @@ import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class AlertDialogSave extends StatelessWidget {
+class AlertDialogIbuHamilSave extends StatelessWidget {
   final String heighValue;
   final String weightValue;
   final String upperArmCircumference;
@@ -17,7 +17,7 @@ class AlertDialogSave extends StatelessWidget {
   final Color colorMainButton;
   final String? cancelButtonMessage;
   final VoidCallback? cancelButton;
-  const AlertDialogSave({
+  const AlertDialogIbuHamilSave({
     super.key,
     required this.mainButton,
     required this.mainButtonMessage,
