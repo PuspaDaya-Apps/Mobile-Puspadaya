@@ -148,28 +148,29 @@ class _QuisionerParameterFaktorResikoViewState
       return;
     }
 
-// 🔹 Pastikan jawaban multiple choice benar-benar tersimpan
-    List<String> finalAnswerId = isMultipleChoice
-        ? List.from(
-            selectedJawabanMultiple) // Pastikan data disalin dengan benar
-        : [selectedIdJawaban];
+// 🔹 Simpan jawaban user jika bukan pertanyaan sistem (multi jawabana dan single jawaban)
+    if (!isJawabanSistem) {
+      List<String> finalAnswerId = isMultipleChoice
+          ? List.from(selectedJawabanMultiple)
+          : [selectedIdJawaban];
 
-    SelectAnswerModel selectedAnswer = SelectAnswerModel(
-      questionId: pertanyaanSaatIni.id,
-      answerId: finalAnswerId,
-      isMultipleChoice: isMultipleChoice,
-      otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
-    );
+      SelectAnswerModel selectedAnswer = SelectAnswerModel(
+        questionId: pertanyaanSaatIni.id,
+        answerId: finalAnswerId,
+        isMultipleChoice: isMultipleChoice,
+        otherAnswer: jawabanLainnya.isEmpty ? null : jawabanLainnya,
+      );
 
-    // 🔹 Update atau tambahkan jawaban jika sudah ada
-    int existingIndex = selectedMultiplePertanyaan.indexWhere(
-      (answer) => answer.questionId == pertanyaanSaatIni.id,
-    );
+      // 🔹 Update atau tambahkan jawaban user
+      int existingIndex = selectedMultiplePertanyaan.indexWhere(
+        (answer) => answer.questionId == pertanyaanSaatIni.id,
+      );
 
-    if (existingIndex != -1) {
-      selectedMultiplePertanyaan[existingIndex] = selectedAnswer;
-    } else {
-      selectedMultiplePertanyaan.add(selectedAnswer);
+      if (existingIndex != -1) {
+        selectedMultiplePertanyaan[existingIndex] = selectedAnswer;
+      } else {
+        selectedMultiplePertanyaan.add(selectedAnswer);
+      }
     }
 
     // 🔹 Reset variabel untuk pertanyaan berikutnya
@@ -192,7 +193,6 @@ class _QuisionerParameterFaktorResikoViewState
 
     logger.d(
         "Selected Multiple Pertanyaan: ${selectedMultiplePertanyaan.length}");
-    logger.d("Jawaban Tersimpan: $finalAnswerId");
   }
 
   void _goToPreviousPage() {
@@ -284,7 +284,7 @@ class _QuisionerParameterFaktorResikoViewState
         selectedMultiplePertanyaan.add(selectedAnswer);
       }
     }
-    logger.d(json.encode(selectedMultiplePertanyaan));
+    // logger.d(json.encode(selectedMultiplePertanyaan));
 
     // 🔹 Kirim semua jawaban ke BLoC
     context.read<IndexParameterFaktorResikoBloc>().add(
