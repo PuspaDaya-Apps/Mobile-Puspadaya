@@ -709,16 +709,23 @@ class _QuisionerParameterFaktorResikoViewState
                       ..add(opsiPertanyaan.id);
                   }
 
+                  // 🔹 Set selectedIdPertanyaan jika ada jawaban yang dipilih
+                  selectedIdPertanyaan =
+                      selectedJawabanMultiple.isNotEmpty ? pertanyaan.id : "";
+
                   if (isOpsiText) {
                     isTextFieldVisible =
                         selectedJawabanMultiple.contains(opsiPertanyaan.id);
                   } else {
                     isTextFieldVisible = false;
                     textController.clear();
+                    jawabanLainnya =
+                        ""; // Reset jawaban lainnya jika tidak terpilih
                   }
                 });
 
                 logger.d("Selected Multiple: $selectedJawabanMultiple");
+                logger.d("Selected ID Pertanyaan: $selectedIdPertanyaan");
               }
             : null,
         child: _buildOptionItem(
