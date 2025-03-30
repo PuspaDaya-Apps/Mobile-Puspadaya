@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../view/widget/appbar_widget.dart';
 import '../../model/get_index_pertanyaan_model.dart' as GetIndexPertanyaanModel;
 
@@ -36,7 +37,7 @@ class CreateGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    data.gambar,
+                    ApiUtils().urlGetPublicImage(data.gambar),
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 200,
@@ -60,7 +61,7 @@ class CreateGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                       data.gangguanTumbuhKembang!.statusStunting,
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500, 
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -77,7 +78,7 @@ class CreateGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                       data.gangguanTumbuhKembang!.statusWasting,
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500, 
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -94,7 +95,7 @@ class CreateGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                       data.gangguanTumbuhKembang!.statusUnderweight,
                       style: TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500, 
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],

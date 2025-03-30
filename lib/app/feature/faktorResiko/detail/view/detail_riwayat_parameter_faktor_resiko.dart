@@ -5,6 +5,9 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../utils/api_utils/api_utils.dart';
 import '../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
+import 'package:collection/collection.dart';
+
+import '../model/get_detail_riwayat_faktor_resiko_model.dart';
 
 class DetailRiwayatParameterFaktorResiko extends StatefulWidget {
   final GetDetailRiwayatFaktorResiko.FaktorResiko data;
@@ -67,10 +70,10 @@ class _DetailRiwayatParameterFaktorResikoState
                   Expanded(
                     child: ButtonPrimary(
                       color: greenPrimaryMain,
-                      mainButtonMessage: _currentPage ==
-                              widget.data.pertanyaan.length - 1
-                          ? 'Selesai'
-                          : 'Selanjutnya',
+                      mainButtonMessage:
+                          _currentPage == widget.data.pertanyaan.length - 1
+                              ? 'Selesai'
+                              : 'Selanjutnya',
                       mainButton: () {
                         if (_currentPage < widget.data.pertanyaan.length - 1) {
                           _navigateToPage(_currentPage + 1);
@@ -108,8 +111,6 @@ class _DetailRiwayatParameterFaktorResikoState
 
   Widget _buildSingleQuestion(int index) {
     final pertanyaan = widget.data.pertanyaan[index];
-    final isSelected = (jawaban) => pertanyaan.jawaban.any(
-        (jwb) => jwb.pilihanPertanyaan.id == jawaban.id);
 
     return SingleChildScrollView(
       child: Container(
@@ -117,14 +118,14 @@ class _DetailRiwayatParameterFaktorResikoState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Judul Pertanyaan
+            // 🔹 Judul Pertanyaan
             Text(
               pertanyaan.namaPertanyaan,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 12),
 
-            // Gambar Pertanyaan
+            // 🔹 Gambar Pertanyaan (Jika Ada)
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
@@ -135,64 +136,71 @@ class _DetailRiwayatParameterFaktorResikoState
               ),
             ),
             SizedBox(height: 14),
+
+            // 🔹 Label Jawaban
             Text(
               'Jawaban Anda :',
               style: TextStyle(fontSize: 14),
             ),
             SizedBox(height: 16),
-            // List Jawaban
-            Column(
-              children: pertanyaan.pilihanPertanyaan.map(
-                (jawaban) {
-                  final isSelected = pertanyaan.jawaban.any(
-                      (jwb) => jwb.pilihanPertanyaan.id == jawaban.id);
 
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 12),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: isSelected ? greenPrimaryMain : Colors.grey,
-                        width: 1.5,
-                      ),
-                      color: isSelected
-                          ? greenPrimaryMain.withOpacity(0.2)
-                          : Color(0xFFFAFAFA),
-                      borderRadius: BorderRadius.circular(20),
+            // 🔹 List Semua Jawaban Pilihan
+            Column(
+              children: pertanyaan.pilihanPertanyaan.map((opsi) {
+                // Cek apakah opsi ini sudah dipilih oleh user
+                final Jawaban? jawabanUser =
+                    pertanyaan.jawaban.firstWhereOrNull(
+                  (jwb) => jwb.pilihanPertanyaan.id == opsi.id,
+                );
+
+                final bool isSelected = jawabanUser != null;
+
+                return Container(
+                  margin: EdgeInsets.only(bottom: 12),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: isSelected ? greenPrimaryMain : Colors.grey,
+                      width: 1.5,
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          jawaban.namaPilihan,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: isSelected ? greenPrimaryMain : Colors.black,
+                    color: isSelected
+                        ? greenPrimaryMain.withOpacity(0.2)
+                        : Color(0xFFFAFAFA),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 🔹 Nama Jawaban Pilihan
+                      Text(
+                        opsi.namaPilihan,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: isSelected ? greenPrimaryMain : Colors.black,
+                        ),
+                      ),
+
+                      // 🔹 Jawaban Lainnya (Jika Ada)
+                      if (isSelected &&
+                          jawabanUser!.jawabanText != null &&
+                          jawabanUser.jawabanText!.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            'Jawaban lainnya: ${jawabanUser.jawabanText}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black87,
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
-            if (pertanyaan.jawaban.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text(
-                  pertanyaan.jawaban.firstWhere((element) =>
-                      element.pilihanPertanyaan.id ==
-                      pertanyaan.jawaban[0].pilihanPertanyaan.id)
-                      .jawabanText ??
-                      '',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
+                    ],
                   ),
-                ),
-              ),
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),

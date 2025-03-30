@@ -21,6 +21,7 @@ class CreateFaktorResiko {
   Future<dynamic> postFaktorResiko(
       PostPertanyaanModel postPertanyaanModel, String accessToken) async {
     final String link = ApiUtils().urlPostFaktorResikoPertanyaann();
+    logger.d(json.encode(postPertanyaanModel.toJson()));
     final String body = json.encode(postPertanyaanModel.toJson());
 
     return await NetworkUtils(token: accessToken)

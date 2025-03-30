@@ -86,12 +86,14 @@ class _ChartPageState extends State<ChartPage> {
                 
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Data Pengukuran : ${data.y}',
+                    Text(
+                    'Data Pengukuran : ${data.y ?? "-"}',
                     style: TextStyle(color: Colors.white),
-                  ),
-                  Text('Tanggal : ${data.tanggalPengukuran}',
-                      style: TextStyle(color: Colors.white)),
+                    ),
+                    Text(
+                    'Tanggal : ${data.tanggalPengukuran ?? "-"}',
+                    style: TextStyle(color: Colors.white),
+                    ),
                 ],
               ),
             );

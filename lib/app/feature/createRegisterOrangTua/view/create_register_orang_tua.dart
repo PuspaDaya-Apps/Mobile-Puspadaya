@@ -25,7 +25,6 @@ import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
@@ -121,10 +120,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    setState(() {
-      tanggalLahirAyahController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalLahirAyahController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
   }
 
   void _toggleDisabilityAyah(int index) {
@@ -163,7 +164,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController rWIbuController = TextEditingController();
   final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
       TextEditingController();
-  final TextEditingController jumlahAnakIbuController = TextEditingController(text: '0');
+  final TextEditingController jumlahAnakIbuController =
+      TextEditingController(text: '0');
 
   //? selected
   List<DataKabupatenKota> dataKabupatenKotaIbu = [];
@@ -203,32 +205,29 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    setState(() {
-      tanggalLahirIbuController.text = "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalLahirIbuController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
   }
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
-    DateTime now = DateTime.now();
-    DateTime initialDate = DateTime(2010); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
-    DateTime lastDate = now; // Set the last date to the current date
-
     DateTime? pickedDate = await showDatePicker(
-      cancelText: "Batalkan",
-      confirmText: "OK",
-      currentDate: now,
-      helpText: "Pilih Tanggal",
       context: context,
-      initialDate: initialDate,
-      firstDate: firstDate,
-      lastDate: lastDate,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime.now(),
     );
 
-    setState(() {
-      tanggalKelahiranAnakSebelumnyaIbuController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalKelahiranAnakSebelumnyaIbuController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+    // Jika pickedDate adalah null, tidak melakukan apa-apa
   }
 
   void _removeDisabilityIbu(String label) {
@@ -772,7 +771,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ),
                                                   ),
                                                 ),
-                                                
                                               ],
                                             );
                                           },
@@ -1896,7 +1894,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     ),
                                                   ),
                                                 ),
-                                                
                                               ],
                                             );
                                           },
@@ -2910,12 +2907,21 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                   ibu: Ibu(
-                                                    tanggalMelahirkanSebelumnya: tanggalKelahiranAnakSebelumnyaIbuController.text != "" 
-                                                    ? tanggalKelahiranAnakSebelumnyaIbuController.text 
-                                                    : null,
-                                                    jumlahAnak: jumlahAnakIbuController.text != "" 
-                                                    ? int.parse(jumlahAnakIbuController.text)
-                                                    : 0,
+                                                    tanggalMelahirkanSebelumnya:
+                                                        tanggalKelahiranAnakSebelumnyaIbuController
+                                                                    .text !=
+                                                                ""
+                                                            ? tanggalKelahiranAnakSebelumnyaIbuController
+                                                                .text
+                                                            : null,
+                                                    jumlahAnak:
+                                                        jumlahAnakIbuController
+                                                                    .text !=
+                                                                ""
+                                                            ? int.parse(
+                                                                jumlahAnakIbuController
+                                                                    .text)
+                                                            : 0,
                                                     jenisKb:
                                                         selectedJenisKBIbu!,
                                                     alamat: alamatIbuController
@@ -2956,19 +2962,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                         postOrangTuaBody:
                                                             dataOrangTua));
 
-                                                showTopSnackBar(
-                                                    Overlay.of(context),
-                                                    animationDuration:
-                                                        const Duration(
-                                                            milliseconds: 600),
-                                                    displayDuration:
-                                                        const Duration(
-                                                            milliseconds: 2200),
-                                                    reverseAnimationDuration:
-                                                        const Duration(
-                                                            milliseconds: 300),
-                                                    TopSnackbarWidget().success(
-                                                        'Berhasil Membuat Data Register Orang Tua'));
+                                                // showTopSnackBar(
+                                                //     Overlay.of(context),
+                                                //     animationDuration:
+                                                //         const Duration(
+                                                //             milliseconds: 600),
+                                                //     displayDuration:
+                                                //         const Duration(
+                                                //             milliseconds: 2200),
+                                                //     reverseAnimationDuration:
+                                                //         const Duration(
+                                                //             milliseconds: 300),
+                                                //     TopSnackbarWidget().success(
+                                                //         'Berhasil Membuat Data Register Orang Tua'));
                                               } else {
                                                 print("Form tidak valid");
                                                 showTopSnackBar(

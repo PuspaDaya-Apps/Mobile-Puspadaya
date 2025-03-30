@@ -87,21 +87,21 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
 
                 child: ListTile(
                   onTap: () async {
-                    final selectedChild = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SearchAnak(),
-                      ),
-                    );
-                    if (selectedChild != null) {
-                      Navigator.pop(
-                        context,
-                        {
-                          'nama': selectedChild,
-                          'posyanduName': dataPosyanduItem.namaPosyandu,
-                        },
-                      );
-                    }
+                    // final selectedChild = await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => const SearchAnak(),
+                    //   ),
+                    // );
+                    // if (selectedChild != null) {
+                    //   Navigator.pop(
+                    //     context,
+                    //     {
+                    //       'nama': selectedChild,
+                    //       'posyanduName': dataPosyanduItem.namaPosyandu,
+                    //     },
+                    //   );
+                    // }
                   },
                   leading: Container(
                     padding: EdgeInsets.all(12),

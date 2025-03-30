@@ -44,24 +44,28 @@ abstract class LinkApi {
 
   //!AlatUkurKader
   static const ALATUKURKADERURL = "/alat-ukur-kader";
-  
-//!AlatUkurAdmin
+
+  //!AlatUkurAdmin
   static const ALATUKURADMINURL = "/alat-ukur";
-  
+
   //!Jadwal Posyandu
   static const JADWALPOSYANDU = "/jadwal-posyandu";
 
   //!Kehadiran Posyandu
   static const KEHADIRANPOSYANDUURL = "/kehadiran-posyandu";
 
+  //! posyandu
+  static const POSYANDUURL = '/posyandu';
+  static const ANAKBYPOSYANDUURL = '/anak/posyandu';
+
   //!Pengukuran Anak
   static const PENGUKURANANAKURL = "/pengukuran-anak";
-  static const RIWAYATPENGUKURANANAKURL= "/pengukuran-anak/riwayat";
+  static const RIWAYATPENGUKURANANAKURL = "/pengukuran-anak/riwayat";
 
   //!Pengukuran Ibu Hamil
   static const PENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil";
   static const RIWAYATPENGUKURANIBUHAMILURL = "/pengukuran-ibu-hamil/riwayat";
-  
+
   //!Beban Kerja
   static const TUGASKADERURL = "/tugas-kader";
   static const PENILAIANMANDIRIURL = "/penilaian-mandiri";
@@ -98,10 +102,9 @@ abstract class LinkApi {
   //! donwload E-PPGBM
   static const DOWNLOADEPPGBM = "/export-data";
 
-
   //! storage
-  static const STORAGEURL="/storage/file";
+  static const STORAGEURL = "/storage/file";
 
   //! grafik KMS(Kader Monitoring System),
-  static const GRAFIKKMSURL="/grafik-kms";
+  static const GRAFIKKMSURL = "/grafik-kms";
 }
