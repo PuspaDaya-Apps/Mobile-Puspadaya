@@ -7,6 +7,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
@@ -135,7 +136,7 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                           borderRadius:
                               BorderRadius.circular(8), // Berikan border radius
                           child: Image.network(
-                            state.data.data.alatPengukuranAdmin.imageUrl,
+                            ApiUtils().urlGetPublicImage(state.data.data.alatPengukuranAdmin.imageUrl),
                             height: 300,
                             width: double.infinity,
                             fit: BoxFit.cover,
