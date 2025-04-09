@@ -6,7 +6,6 @@ sealed class CreateKehadiranEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-final class CreateKehadiranEventFormLoaded extends CreateKehadiranEvent {}
 
 final class CreateKehadiranEventSubmit extends CreateKehadiranEvent {
   final PostCreateKehadiranModel data;
