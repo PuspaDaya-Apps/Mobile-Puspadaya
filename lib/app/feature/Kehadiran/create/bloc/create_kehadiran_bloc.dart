@@ -15,55 +15,9 @@ class CreateKehadiranBloc
     extends Bloc<CreateKehadiranEvent, CreateKehadiranState> {
   CreateKehadiranBloc() : super(CreateKehadiranInitial()) {
     on<CreateKehadiranEvent>((event, emit) {});
-    on<CreateKehadiranEventFormLoaded>(formLoaded);
     on<CreateKehadiranEventSubmit>(createKehadiranSubmit);
   }
-
-  Future<void> formLoaded(CreateKehadiranEventFormLoaded event,
-      Emitter<CreateKehadiranState> emit) async {
-    emit(CreateKehadiranFormLoading());
-    String? accessToken = await SharedPrefUtils().getAccessToken();
-
-    if (accessToken == null) {
-      emit(TokenExpiredState());
-    } else {
-      try {
-        int? totalAnak = await CreateKehadiranService()
-            .getTotalItemAnakPosyandu(accessToken);
-        int? totalIbuHamil = await CreateKehadiranService()
-            .getTotalItemIbuHamilPosyandu(accessToken);
-
-        dynamic responseAnak = await CreateKehadiranService()
-            .getAllAnakByPosyandu(accessToken, totalAnak!);
-
-        dynamic responseIbuHamil = await CreateKehadiranService()
-            .getAllIbuHamilByPosyandu(accessToken, totalIbuHamil!);
-        int statusCodeAnak = responseAnak[0] as int;
-        int statusCodeIbuHamil = responseIbuHamil[0] as int;
-        // anak by posyandu
-        GetAllAnakByPosyandu dataAnak =
-            GetAllAnakByPosyandu.fromJson(responseAnak[1]);
-        logger.d("succes get anak by posyandu");
-        // ibu hamil by posyandu
-        GetAllIbuHamilByPosyandu dataIbuHamil =
-            GetAllIbuHamilByPosyandu.fromJson(responseIbuHamil[1]);
-        logger.d("succes get ibu hamil by posyandu");
-        // logger.d(jadwalPosyandu.data[0].namaKegiatan);
-        if (statusCodeAnak == 200 && statusCodeIbuHamil == 200) {
-          logger.d('succes get data anak ibu hamil');
-          emit(CreateKeadiranFormSuccess(
-              dataAnak: dataAnak, dataIbuHamil: dataIbuHamil));
-        } else if (statusCodeAnak == 401 || statusCodeIbuHamil == 401) {
-          emit(TokenExpiredState());
-        } else {
-          emit(CreateKehadiranFormFailed(
-              'error anak : ${dataAnak.message}, error ibu Hamil : ${dataIbuHamil.message}'));
-        }
-      } catch (error) {
-        emit(CreateKehadiranFormFailed(error.toString()));
-      }
-    }
-  }
+  
 
   Future<void> createKehadiranSubmit(CreateKehadiranEventSubmit event,
       Emitter<CreateKehadiranState> emit) async {

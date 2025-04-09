@@ -53,10 +53,10 @@ class GantiProfileView extends StatefulWidget {
 }
 
 class _GantiProfileViewState extends State<GantiProfileView> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _rtController = TextEditingController();
-  final TextEditingController _rwController = TextEditingController();
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _rtController;
+  late TextEditingController _rwController;
   //? alamat selected
   List<DataKabupatenKota> dataKabupatenKota = [];
   List<DataKecamatan> dataKecamatan = [];
@@ -73,8 +73,13 @@ class _GantiProfileViewState extends State<GantiProfileView> {
   @override
   void initState() {
     super.initState();
+    _nameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _rtController = TextEditingController();
+    _rwController = TextEditingController();
     // _nameController.text = widget.currentUserModel.namaLengkap;
     // _phoneController.text = widget.currentUserModel.nomorTelepon;
+    logger.d('trigger initState');
     context.read<AlamatSaveCubit>().getDataWilayah();
     context.read<GantiProfileBloc>().add(GetDetailUser(widget.userId));
   }
@@ -83,6 +88,8 @@ class _GantiProfileViewState extends State<GantiProfileView> {
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
+    _rtController.dispose();
+    _rwController.dispose();
     super.dispose();
   }
 
@@ -99,21 +106,27 @@ class _GantiProfileViewState extends State<GantiProfileView> {
         listener: (context, stateGantiProfile) {
           if (stateGantiProfile is GantiProfileFailed) {
             showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().error(stateGantiProfile.message));
-              Navigator.pop(context);
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().error(stateGantiProfile.message));
+            Navigator.pop(context);
           }
-          if(stateGantiProfile is GantiProfileSuccess){
+          if (stateGantiProfile is GantiProfileSuccess) {
             showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().success("Berhasil mengubah profil"));
-              Navigator.pop(context);
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().success("Berhasil mengubah profil"));
+            Navigator.pop(context);
+          }
+          if (stateGantiProfile is GantiProfileFormSuccess) {
+            _nameController.text = stateGantiProfile.data.data.namaLengkap;
+            _phoneController.text = stateGantiProfile.data.data.nomorTelepon;
+            _rtController.text = stateGantiProfile.data.data.rt;
+            _rwController.text = stateGantiProfile.data.data.rw;
           }
         },
         builder: (context, stateGantiProfile) {
@@ -122,16 +135,9 @@ class _GantiProfileViewState extends State<GantiProfileView> {
               child: CircularProgressIndicator(),
             );
           }
-          
+
           if (stateGantiProfile is GantiProfileFormSuccess) {
-            _nameController.text = stateGantiProfile.data.data.namaLengkap;
-            _phoneController.text = stateGantiProfile.data.data.nomorTelepon;
-            _rtController.text = stateGantiProfile.data.data.rt;
-            _rwController.text = stateGantiProfile.data.data.rw;
-            return BlocConsumer<AlamatSaveCubit, AlamatSaveState>(
-              listener: (context, state) {
-                logger.d(state);
-              },
+            return BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
               builder: (context, state) {
                 if (state is GetAlamatSuccessState) {
                   if (dataKabupatenKota.isEmpty) {
@@ -676,7 +682,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                   print('nama lengkap ${_nameController.text}');
                                   print(
                                       'nomor telepon ${_phoneController.text}');
-                                      print("dusun id ${selectedDusunId}");
+                                  print("dusun id ${selectedDusunId}");
                                   print('image path: $_imagePath');
                                 }
                               },

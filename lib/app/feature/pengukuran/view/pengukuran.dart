@@ -33,7 +33,7 @@ class _PengukuranViewState extends State<PengukuranView> {
     'Kehadiran',
     'Pengukuran Anak',
     'Pengukuran Ibu Hamil',
-    'Pengukuran Tamu',
+    // 'Pengukuran Tamu',
     'Riwayat Anak',
     'Riwayat Ibu Hamil'
   ];
@@ -131,8 +131,8 @@ class _PengukuranViewState extends State<PengukuranView> {
         return const IndexPengukuranAnakScreen();
       case 'Pengukuran Ibu Hamil':
         return const IndexPengukuranIbuHamilScreen();
-      case 'Pengukuran Tamu':
-        return const IndexPengukuranTamuScreen();
+      // case 'Pengukuran Tamu':
+      //   return const IndexPengukuranTamuScreen();
       case 'Riwayat Anak':
         return const IndexRiwayatAnakScreen();
       case 'Riwayat Ibu Hamil':

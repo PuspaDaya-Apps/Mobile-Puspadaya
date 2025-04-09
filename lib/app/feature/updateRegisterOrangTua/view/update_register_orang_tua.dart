@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,11 +115,13 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    setState(() {
-      tanggalLahirAyahController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalLahirAyahController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
     }
+  }
 
   void _toggleDisabilityAyah(int index) {
     setState(() {
@@ -145,13 +149,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController = TextEditingController();
-  final TextEditingController tanggalLahirIbuController = TextEditingController();
+  final TextEditingController tempatLahirIbuController =
+      TextEditingController();
+  final TextEditingController tanggalLahirIbuController =
+      TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
   final TextEditingController rWIbuController = TextEditingController();
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController = TextEditingController();
+  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
+      TextEditingController();
   final TextEditingController jumlahAnakIbuController = TextEditingController();
 
   //? selected
@@ -192,11 +199,13 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    setState(() {
-      tanggalLahirIbuController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalLahirIbuController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
     }
+  }
 
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
@@ -215,11 +224,13 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
       lastDate: lastDate,
     );
 
-    setState(() {
-      tanggalKelahiranAnakSebelumnyaIbuController.text =
-          "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        tanggalKelahiranAnakSebelumnyaIbuController.text =
+            "${pickedDate.toLocal()}".split(' ')[0];
+      });
     }
+  }
 
   void _removeDisabilityIbu(String label) {
     setState(() {
@@ -255,7 +266,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
         .read<DetailRegisterOrangTuaBloc>()
         .add(FeathingDetailRegisterOrangTua(ayahId: widget.ayahId));
 
-        selectedDisabilitiesAyah =
+    selectedDisabilitiesAyah =
         List<bool>.from(List.filled(disabilities.length, false));
     selectedDisabilitiesIbu =
         List<bool>.from(List.filled(disabilities.length, false));
@@ -312,7 +323,6 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                     child: CircularProgressIndicator(),
                   ); // Jika data masih loading
                 }
-                ;
                 //? Set Data Ayah
                 if (kkAyahController.text.isEmpty) {
                   kkAyahController.text =
@@ -346,9 +356,10 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                   tanggalLahirIbuController.text = DateFormat('yyyy-MM-dd')
                       .format(detailData.data.ibu.tanggalLahir);
                   alamatIbuController.text = detailData.data.ibu.alamat;
-                  tanggalKelahiranAnakSebelumnyaIbuController.text = detailData.data.ibu.tanggalMelahirkanSebelumnya != null 
-                  ? detailData.data.ibu.tanggalMelahirkanSebelumnya!
-                  : "";
+                  tanggalKelahiranAnakSebelumnyaIbuController.text =
+                      detailData.data.ibu.tanggalMelahirkanSebelumnya != null
+                          ? detailData.data.ibu.tanggalMelahirkanSebelumnya!
+                          : "";
                   teleponIbuController.text = detailData.data.ibu.nomorTelepon;
                   rTIbuController.text = detailData.data.ibu.rt;
                   rWIbuController.text = detailData.data.ibu.rw;
@@ -361,7 +372,6 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                       .map((e) => e.namaDisabilitas)
                       .toList();
                 }
-                ;
                 return Column(
                   children: [
                     BlocListener<UpdateRegisterOrangTuaBloc,
@@ -2516,12 +2526,21 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                   ibu: PatchOrangTua.Ibu(
-                                                    tanggalMelahirkanSebelumnya: tanggalKelahiranAnakSebelumnyaIbuController.text != "" 
-                                                    ? tanggalKelahiranAnakSebelumnyaIbuController.text 
-                                                    : null,
-                                                    jumlahAnak: jumlahAnakIbuController.text != "" 
-                                                    ? int.parse(jumlahAnakIbuController.text) 
-                                                    : 0,
+                                                    tanggalMelahirkanSebelumnya:
+                                                        tanggalKelahiranAnakSebelumnyaIbuController
+                                                                    .text !=
+                                                                ""
+                                                            ? tanggalKelahiranAnakSebelumnyaIbuController
+                                                                .text
+                                                            : null,
+                                                    jumlahAnak:
+                                                        jumlahAnakIbuController
+                                                                    .text !=
+                                                                ""
+                                                            ? int.parse(
+                                                                jumlahAnakIbuController
+                                                                    .text)
+                                                            : 0,
                                                     jenisKb:
                                                         selectedJenisKBIbu!,
                                                     alamat: alamatIbuController
@@ -2556,6 +2575,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                 );
+
+                                                logger.d(dataOrangTua.ayah.golDarah);
 
                                                 context
                                                     .read<

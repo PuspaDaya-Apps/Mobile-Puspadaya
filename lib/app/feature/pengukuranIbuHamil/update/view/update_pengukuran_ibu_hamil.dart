@@ -99,10 +99,12 @@ class _UpdatePengukuranIbuHamilViewState
         TextEditingController(text: widget.detailPengukuran.data!.beratBadan);
     _upperArmCircumferenceController = TextEditingController(
         text: widget.detailPengukuran.data!.lingkarLenganAtas);
-    _tinggiFundusController = TextEditingController(
-        text: widget.detailPengukuran.data!.tinggiFundusUteri);
-    _hemogoblinController =
-        TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
+    _tinggiFundusController = widget.detailPengukuran.data!.tinggiFundusUteri == null 
+      ? TextEditingController() 
+      : TextEditingController(text: widget.detailPengukuran.data!.tinggiFundusUteri);
+    _hemogoblinController = widget.detailPengukuran.data!.hemoglobin == null 
+      ? TextEditingController()
+      : TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
     _tabletFeController = TextEditingController(
         text: widget.detailPengukuran.data!.jumlahTabletFe.toString());
     _catatanController =
@@ -497,9 +499,13 @@ class _UpdatePengukuranIbuHamilViewState
                                       tempatPengukuran: selectedPosyandu, 
                                       beratBadan: double.parse(_weightController.text), 
                                       tinggiBadan: double.parse(_heightController.text), 
-                                      tinggiFundusUteri: double.parse(_tinggiFundusController.text), 
+                                      tinggiFundusUteri: _tinggiFundusController.text == "" 
+                                      ? null 
+                                      : double.parse(_tinggiFundusController.text), 
                                       lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text), 
-                                      hemoglobin: double.parse(_hemogoblinController.text), 
+                                      hemoglobin: _hemogoblinController.text == "" 
+                                      ? null 
+                                      : double.parse(_hemogoblinController.text), 
                                       terpaparAsapRokok: exposedCigaretteSmoke == 1? "Iya" : "Tidak", 
                                       jumlahTabletFe: int.parse(_tabletFeController.text), 
                                       alatBeratBadanId: alatUkurIbuHamilSend == null

@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/Bloc/searchIbuHamilCubit/search_ibu_hamil_cubit.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/Bloc/searchIbuHamilCubit/search_ibu_hamil_state.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/view/search_ibu_hamil.dart';
-import 'package:puspadaya/app/view/widget/alert_dialog_save_widget.dart';
+import 'package:puspadaya/app/view/widget/alert_dialog_ibu_hamil_save_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
@@ -390,10 +390,10 @@ class _CreatePengukuranIbuHamilViewState
                                       title: 'Tinggi Fundus',
                                       hintText: 'contoh: 22',
                                       unit: 'cm',
-                                      validator: [
-                                        (value) => Validator.required(value,
-                                            'Harap Masukan Tinggi Fundus'),
-                                      ],
+                                      // validator: [
+                                      //   (value) => Validator.required(value,
+                                      //       'Harap Masukan Tinggi Fundus'),
+                                      // ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurTinggiFundus
                                           ?.alatPengukuranAdmin
@@ -424,10 +424,10 @@ class _CreatePengukuranIbuHamilViewState
                                   controller: _hemogoblinController,
                                   hintText: "Hemogoblin",
                                   isPasswordField: false,
-                                  validators: [
-                                    (value) => Validator.required(value,
-                                        'Harap Masukan Jumlah Hemogoblin'),
-                                  ],
+                                  // validators: [
+                                  //   (value) => Validator.required(value,
+                                  //       'Harap Masukan Jumlah Hemogoblin'),
+                                  // ],
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                 ),
@@ -573,7 +573,7 @@ class _CreatePengukuranIbuHamilViewState
                                     showDialog(
                                       context: context,
                                       builder: (context) {
-                                        return AlertDialogSave(
+                                        return AlertDialogIbuHamilSave(
                                           isAgeLessThanSixMonths: false,
                                           cancelButton: () {
                                             Navigator.pop(context);
@@ -581,21 +581,17 @@ class _CreatePengukuranIbuHamilViewState
                                           mainButton: () {
                                             createPengukuranIbuHamilBloc.add(SendPengukuranIbuHamilEvent(PostPengukuranIbuHamilModel(
                                                 ibuHamilId: paket.id,
-                                                tempatPengukuran:
-                                                    selectedPosyandu,
-                                                tanggalPengukuran: DateFormat(
-                                                        "y-MM-dd", "ID_id")
-                                                    .format(DateTime.now()),
-                                                beratBadan: double.parse(
-                                                    _weightController.text),
-                                                tinggiBadan: double.parse(
-                                                    _heightController.text),
-                                                tinggiFundusUteri: double.parse(
-                                                    _tinggiFundusUteriController
-                                                        .text),
-                                                lingkarLenganAtas: double.parse(
-                                                    _upperArmCircumferenceController.text),
-                                                hemoglobin: double.parse(_hemogoblinController.text),
+                                                tempatPengukuran: selectedPosyandu,
+                                                tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()),
+                                                beratBadan: double.parse(_weightController.text),
+                                                tinggiBadan: double.parse(_heightController.text),
+                                                tinggiFundusUteri: _tinggiFundusUteriController.text == "" 
+                                                ? null 
+                                                : double.parse(_tinggiFundusUteriController.text),
+                                                lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text),
+                                                hemoglobin: _hemogoblinController.text == "" 
+                                                ? null 
+                                                : double.parse(_hemogoblinController.text),
                                                 terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak",
                                                 jumlahTabletFe: int.parse(_tabletFeController.text),
                                                 alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id,
