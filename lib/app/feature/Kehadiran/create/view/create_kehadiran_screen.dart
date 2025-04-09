@@ -292,13 +292,11 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
         },
       ),
       body: SafeArea(
-        child: Container(
-          child: Column(
-            children: [
-              _buildTopSection(),
-              _buildSectionMenu(),
-            ],
-          ),
+        child: Column(
+          children: [
+            _buildTopSection(),
+            _buildSectionMenu(),
+          ],
         ),
       ),
     );

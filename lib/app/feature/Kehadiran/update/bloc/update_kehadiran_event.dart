@@ -6,7 +6,6 @@ sealed class UpdateKehadiranEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
-final class UpdateKehadiranEventFormLoaded extends UpdateKehadiranEvent {}
 
 final class UpdateKehadiranEventSubmit extends UpdateKehadiranEvent {
   final String id;
