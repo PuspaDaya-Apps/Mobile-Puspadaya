@@ -478,7 +478,7 @@ class _QuisionerParameterFaktorResikoViewState
               logger.d('is multiple selection = $isMultipleSelection');
 
               return Container(
-                padding: EdgeInsets.only(top: 24,left: 24,right: 24),
+                padding: EdgeInsets.only(top: 24, left: 24, right: 24),
                 child: isMultiplePertanyaan
                     // multiple pertanyaan
                     ? PageView.builder(
@@ -513,8 +513,12 @@ class _QuisionerParameterFaktorResikoViewState
                                   borderRadius: BorderRadius.circular(
                                       12), // Ubah sesuai kebutuhan
                                   child: Image.network(
-                                    ApiUtils()
-                                        .urlGetPublicImage(widget.data.gambar),
+                                    ApiUtils().urlGetPublicImage(
+                                      widget.data.namaFaktorResiko ==
+                                              "Kurangnya pengetahuan gizi"
+                                          ? pertanyaan.image!
+                                          : widget.data.gambar,
+                                    ),
                                     fit: BoxFit
                                         .cover, // Agar gambar terisi dengan baik
                                     width: double

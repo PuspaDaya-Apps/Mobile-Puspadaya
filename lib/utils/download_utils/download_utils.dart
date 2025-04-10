@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:external_path/external_path.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../app/feature/eppgbm/view/files_eppgbm_model.dart';
@@ -88,9 +87,9 @@ class DownloadUtils {
   }
 
   Future<void> downloadAndSaveFile(
-      BuildContext context, String url, String filename) async {
+      BuildContext context, String url, String filename, String title) async {
     try {
-      showDownloadProgressDialog(context, 'Sedang mengunduh Parameter Gizi');
+      showDownloadProgressDialog(context, 'Sedang mengunduh ${title}');
       // ✅ Lakukan Request Download File
       var response = await http.get(Uri.parse(url));
 
@@ -109,7 +108,7 @@ class DownloadUtils {
           animationDuration: const Duration(milliseconds: 600),
           displayDuration: const Duration(milliseconds: 2200),
           reverseAnimationDuration: const Duration(milliseconds: 300),
-          TopSnackbarWidget().success('Berhasil Mengunduh Parameter Gizi'),
+          TopSnackbarWidget().success('Berhasil Mengunduh ${title}'),
         );
         Navigator.pop(context);
         // ScaffoldMessenger.of(context).showSnackBar(
@@ -122,7 +121,7 @@ class DownloadUtils {
           displayDuration: const Duration(milliseconds: 2200),
           reverseAnimationDuration: const Duration(milliseconds: 300),
           TopSnackbarWidget()
-              .error('Gagal Mengunduh Parameter Gizi ${response.statusCode}'),
+              .error('Gagal Mengunduh ${title} ${response.statusCode}'),
         );
       }
     } catch (e) {
@@ -133,7 +132,7 @@ class DownloadUtils {
         displayDuration: const Duration(milliseconds: 2200),
         reverseAnimationDuration: const Duration(milliseconds: 300),
         TopSnackbarWidget()
-            .error('Gagal Mengunduh Parameter Gizi ${e.toString()}'),
+            .error('Gagal Mengunduh ${title} ${e.toString()}'),
       );
     }
   }
@@ -146,7 +145,7 @@ class DownloadUtils {
   /// 🔹 Fungsi untuk mengunduh banyak file sekaligus
   /// 🔹 Mengunduh banyak file dengan indikator progress
   Future<void> downloadMultipleFiles(
-      BuildContext context, List<FilesEPPGBMModel> files) async {
+      BuildContext context, List<FilesEPPGBMModel> files, String title) async {
     try {
       // if (Platform.isAndroid) {
       //   if (await Permission.storage.request().isDenied ||
@@ -216,7 +215,7 @@ class DownloadUtils {
           animationDuration: const Duration(milliseconds: 600),
           displayDuration: const Duration(milliseconds: 2200),
           reverseAnimationDuration: const Duration(milliseconds: 300),
-          TopSnackbarWidget().success('Berhasil Mengunduh Parameter Gizi'),
+          TopSnackbarWidget().success('Berhasil Mengunduh ${title}'),
         );
       } else if (successCount > 0 && failedCount > 0) {
         showTopSnackBar(

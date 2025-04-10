@@ -146,14 +146,16 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                         DownloadUtils().downloadAndSaveFile(
                             context,
                             ApiUtils().urlGetParameterGiziLakiLakiTinggiBadan(),
-                            'Parameter Gizi Laki Laki TInggi Badan.xlsx');
+                            'Parameter Gizi Laki Laki TInggi Badan.xlsx',
+                            'Parameter Gizi');
                       } else if (selectedJenisKelamin == 'Laki-Laki' &&
                           selectedSatuan == 'Berat Badan') {
                         logger.d("download berat laki laki");
                         DownloadUtils().downloadAndSaveFile(
                             context,
                             ApiUtils().urlGetParameterGiziLakiLakiBeratBadan(),
-                            'Parameter Gizi Laki Laki Berat Badan.xlsx');
+                            'Parameter Gizi Laki Laki Berat Badan.xlsx',
+                            'Parameter Gizi');
                       } else if (selectedJenisKelamin == 'Perempuan' &&
                           selectedSatuan == 'Tinggi Badan') {
                         logger.d("download tinggi perempuan");
@@ -161,14 +163,16 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                             context,
                             ApiUtils()
                                 .urlGetParameterGiziPerempuanTinggiBadan(),
-                            'Parameter Gizi Perempuan Tinggi Badan.xlsx');
+                            'Parameter Gizi Perempuan Tinggi Badan.xlsx',
+                            'Parameter Gizi');
                       } else if (selectedJenisKelamin == 'Perempuan' &&
                           selectedSatuan == 'Berat Badan') {
                         logger.d("download berat perempuan");
                         DownloadUtils().downloadAndSaveFile(
                             context,
                             ApiUtils().urlGetParameterGiziPerempuanBeratBadan(),
-                            'Parameter Gizi Perempuan Berat Badan.xlsx');
+                            'Parameter Gizi Perempuan Berat Badan.xlsx',
+                            'Parameter Gizi');
                       }
                     },
                   ),
