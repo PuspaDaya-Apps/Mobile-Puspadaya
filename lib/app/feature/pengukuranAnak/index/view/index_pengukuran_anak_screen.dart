@@ -46,83 +46,79 @@ class _IndexPengukuranAnakScreenViewState
     // final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
     final indexPengukuranAnakBloc = BlocProvider.of<IndexPengukuranAnakBloc>(context);
 
-    return BlocListener<AuthenticationBloc, AuthenticationState>(
+    return BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
       listener: (context, state) {
+        debugPrint(state.toString());
+        if (state is IndexPengukuranAnakFailedState) {
+          debugPrint(state.error);
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(
+              milliseconds: 600
+            ),
+            displayDuration: const Duration(
+              milliseconds: 2200
+            ),
+            reverseAnimationDuration: const Duration(
+              milliseconds: 300
+            ),
+            TopSnackbarWidget().error(state.error)
+          );
+        }
+        if (state is IndexPengukuranAnakTokenExpiredState) {
+        }
       },
-      child: BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
-        listener: (context, state) {
-          debugPrint(state.toString());
-          if (state is IndexPengukuranAnakFailedState) {
-            debugPrint(state.error);
-            showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(
-                milliseconds: 600
-              ),
-              displayDuration: const Duration(
-                milliseconds: 2200
-              ),
-              reverseAnimationDuration: const Duration(
-                milliseconds: 300
-              ),
-              TopSnackbarWidget().error(state.error)
-            );
+      builder: (context, state) {
+        if (state is IndexPengukuranAnakProcessState ||
+            state is IndexPengukuranAnakInitial ||
+            state is IndexPengukuranAnakTokenExpiredState) {
+          return const Center(
+              child: CircularProgressIndicator(
+            color: bluePrimaryMain,
+          ));
+        }
+        if (state is IndexPengukuranAnakSuccessState) {
+          if (state.indexPengukuranAnakResponseModel.data!.isEmpty) {
+            return const NoDataScreen();
           }
-          if (state is IndexPengukuranAnakTokenExpiredState) {
-          }
-        },
-        builder: (context, state) {
-          if (state is IndexPengukuranAnakProcessState ||
-              state is IndexPengukuranAnakInitial ||
-              state is IndexPengukuranAnakTokenExpiredState) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: bluePrimaryMain,
-            ));
-          }
-          if (state is IndexPengukuranAnakSuccessState) {
-            if (state.indexPengukuranAnakResponseModel.data!.isEmpty) {
-              return const NoDataScreen();
-            }
-            return ListView.builder(
-              itemCount: state.indexPengukuranAnakResponseModel.data!.length,
-              itemBuilder: (context, index) {
-                return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: shadowSm,
-                    ),
-                    child: PengukuranAnakItems(
-                      onTap: () {
-                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
-                                arguments: state
-                                    .indexPengukuranAnakResponseModel
-                                    .data![index]
-                                    .id)
-                            .then((value) {
-                          if (value != null) {
-                            indexPengukuranAnakBloc
-                                .add(GetPengukuranAnakEvent());
-                          }
-                        });
-                      },
-                      name: state.indexPengukuranAnakResponseModel.data![index]
-                          .namaAnak,
-                      nik: state
-                          .indexPengukuranAnakResponseModel.data![index].nik,
-                      date: state.indexPengukuranAnakResponseModel.data![index]
-                          .tanggalPengukuran,
-                      place: state.indexPengukuranAnakResponseModel.data![index]
-                          .tempatPengukuran,
-                    ));
-              },
-            );
-          }
-          return const ErrorServerScreen();
-        },
-      ),
+          return ListView.builder(
+            itemCount: state.indexPengukuranAnakResponseModel.data!.length,
+            itemBuilder: (context, index) {
+              return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: shadowSm,
+                  ),
+                  child: PengukuranAnakItems(
+                    onTap: () {
+                      Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
+                              arguments: state
+                                  .indexPengukuranAnakResponseModel
+                                  .data![index]
+                                  .id)
+                          .then((value) {
+                        if (value != null) {
+                          indexPengukuranAnakBloc
+                              .add(GetPengukuranAnakEvent());
+                        }
+                      });
+                    },
+                    name: state.indexPengukuranAnakResponseModel.data![index]
+                        .namaAnak,
+                    nik: state
+                        .indexPengukuranAnakResponseModel.data![index].nik,
+                    date: state.indexPengukuranAnakResponseModel.data![index]
+                        .tanggalPengukuran,
+                    place: state.indexPengukuranAnakResponseModel.data![index]
+                        .tempatPengukuran,
+                  ));
+            },
+          );
+        }
+        return const ErrorServerScreen();
+      },
     );
   }
 }

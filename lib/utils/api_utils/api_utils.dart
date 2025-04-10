@@ -4,8 +4,7 @@ part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
-  final String _baseUrl =
-      "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   // final String _baseUrl = "https://40vg7x7b-8080.asse.devtunnels.ms";
   // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
@@ -680,5 +679,46 @@ class ApiUtils {
   String urlGetGrafikKMS(String id){
     String urlGetGrafikKms = LinkApi.GRAFIKKMSURL;
     return "$_baseUrl$urlGetGrafikKms/$id";
+  }
+
+  //!Pengukuran Tamu
+  String urlGetListPosyandu({String? search, int? page, int? limit}) {
+    String urlGetListPosyandu = LinkApi.LISTPOSYANDUURL;
+    return _baseUrl + _apiVersion + urlGetListPosyandu;
+  }
+
+  String urlGetListAnakByPosyandu({String? search, int? page, int? limit, required String id}) {
+    String urlGetListAnakByPosyandu = LinkApi.GETANAKBYPOSYANDUURL;
+    return "$_baseUrl$_apiVersion$urlGetListAnakByPosyandu/$id";
+  }
+
+  String urlGetListAnakTamuByPosyandu({String? search, int? page, int? limit, required String id}) {
+    String urlGetListAnakTamuByPosyandu = LinkApi.GETANAKTAMUBYPOSYANDUURL;
+    return "$_baseUrl$_apiVersion$urlGetListAnakTamuByPosyandu/$id";
+  }
+
+  String urlGetListPengukuranTamu({String? search, int? page, int? limit}) {
+    String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
+    return _baseUrl + _apiVersion + urlGetListPengukuranTamu;
+  }
+
+  String urlPostDataPengukuranTamu() {
+    String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
+    return _baseUrl + _apiVersion + urlGetListPengukuranTamu;
+  }
+
+  String urlGetDetailPengukuranTamu(String id) {
+    String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
+    return "$_baseUrl$_apiVersion$urlGetListPengukuranTamu/$id";
+  }
+
+  String urlPatchDataPengukuranTamu(String id) {
+    String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
+    return "$_baseUrl$_apiVersion$urlGetListPengukuranTamu/$id";
+  }
+
+  String urlDeleteDataPengukuranTamu(String id) {
+    String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
+    return "$_baseUrl$_apiVersion$urlGetListPengukuranTamu/$id";
   }
 }

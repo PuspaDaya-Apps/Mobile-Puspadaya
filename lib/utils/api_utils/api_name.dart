@@ -104,4 +104,11 @@ abstract class LinkApi {
 
   //! grafik KMS(Kader Monitoring System),
   static const GRAFIKKMSURL="/grafik-kms";
+
+  //! Pengukuran Tamu
+  static const LISTPOSYANDUURL = "/posyandu";
+  static const GETANAKBYPOSYANDUURL = "/anak/posyandu";
+  static const GETANAKTAMUBYPOSYANDUURL = "/anak-tamu/posyandu";
+  static const PENGUKURANTAMUURL = "/pengukuran-anak-tamu";
+
 }
