@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/deletePengukuranTamuBloc/delete_pengukuran_tamu_bloc.dart';
+import '../bloc/detailPengukuranTamuBloc/detail_pengukuran_tamu_bloc.dart';
 import 'detail_catatan.dart';
 import 'detail_data.dart';
 
 class DetailPengukuranTamu extends StatelessWidget {
   const DetailPengukuranTamu({super.key, required this.pengukuranId});
-
   final String pengukuranId;
 
   @override
   Widget build(BuildContext context) {
-    return DetailPengukuranTamuView(pengukuranId: pengukuranId);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DetailPengukuranTamuBloc(),
+        ),
+        BlocProvider(
+          create: (context) => DeletePengukuranTamuBloc(),
+        ),
+      ],
+      child: DetailPengukuranTamuView(pengukuranId: pengukuranId),
+    );
   }
 }
 
@@ -22,16 +37,15 @@ class DetailPengukuranTamuView extends StatefulWidget {
   final String pengukuranId;
 
   @override
-  State<DetailPengukuranTamuView> createState() =>
-      _DetailPengukuranTamuViewState();
+  State<DetailPengukuranTamuView> createState() => _DetailPengukuranTamuViewState();
 }
 
-class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
-    with SingleTickerProviderStateMixin {
+class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
+    BlocProvider.of<DetailPengukuranTamuBloc>(context).add(GetDetailPengukuranTamu(widget.pengukuranId));
     super.initState();
     _tabController = TabController(
       length: 2,
@@ -56,60 +70,95 @@ class _DetailPengukuranTamuViewState extends State<DetailPengukuranTamuView>
         },
       ),
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.all(20),
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(4),
+        child: BlocConsumer<DetailPengukuranTamuBloc, DetailPengukuranTamuState>(
+          listener: (context, state) {
+            if (state is DetailPengukuranTamuFailedState) {
+              showTopSnackBar(
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().error(state.error)
+              );
+            }
+            if (state is DetailPengukuanTamuTokenExpiredState) {}
+          },
+          builder: (context, state) {
+            if (state is DetailPengukuranTamuProcessState) {
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: const Center(
+                    child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                )),
+              );
+            }
+            if(state is DetailPengukuranTamuSuccesState) {
+              return Container(
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: backgroundWhite20,
-                  borderRadius: BorderRadius.circular(7),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: TabBar(
-                  isScrollable: false,
-                  padding: EdgeInsets.zero,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  dividerHeight: 0,
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    color: bluePrimaryMain,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  unselectedLabelColor: textSecondary1,
-                  labelColor: Colors.white,
-                  onTap: (value) {
-                    _tabController.animateTo(value);
-                  },
-                  tabs: const [
-                    Tab(text: 'Data'),
-                    Tab(text: 'Catatan'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: const [
-                    DetailData(),
-                    DetailCatatan(
-                      catatan:
-                          'Harap Anak Diberikan Makanan Yang Tinggi Akan Zat Besi',
-                      keluhan: '-',
+                child: Column(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: backgroundWhite20,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: TabBar(
+                        isScrollable: false,
+                        padding: EdgeInsets.zero,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerHeight: 0,
+                        controller: _tabController,
+                        indicator: BoxDecoration(
+                          color: bluePrimaryMain,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        unselectedLabelColor: textSecondary1,
+                        labelColor: Colors.white,
+                        onTap: (value) {
+                          _tabController.animateTo(value);
+                        },
+                        tabs: const [
+                          Tab(text: 'Data'),
+                          Tab(text: 'Catatan'),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          DetailData(
+                            pengukuranId: widget.pengukuranId,
+                            detailPengukuranTamuResponseModel: state.detailPengukuranTamuResponseModel,
+                          ),
+                          DetailCatatan(
+                            catatan: state.detailPengukuranTamuResponseModel.data!.catatan,
+                            keluhan: state.detailPengukuranTamuResponseModel.data!.keluhan,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+              );
+            }
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: const ErrorServerScreen()
+            );
+          },
         ),
       ),
     );

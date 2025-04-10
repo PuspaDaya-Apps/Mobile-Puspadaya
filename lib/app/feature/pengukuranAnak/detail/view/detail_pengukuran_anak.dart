@@ -73,12 +73,9 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child:
-              BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
+          child: BlocConsumer<DetailPengukuranAnakBloc, DetailPengukuranAnakState>(
             listener: (context, state) {
-              debugPrint(state.toString());
               if (state is DetailPengukuranAnakFailedState) {
-                debugPrint(state.error);
                 showTopSnackBar(
                     Overlay.of(context),
                     animationDuration: const Duration(milliseconds: 600),
@@ -173,9 +170,10 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
                 );
               }
               return SizedBox(
-                  height: MediaQuery.sizeOf(context).height,
-                  width: MediaQuery.sizeOf(context).width,
-                  child: const ErrorServerScreen());
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: const ErrorServerScreen()
+              );
             },
           ),
         ),
