@@ -64,21 +64,21 @@ class _DetailRegisterIbuHamilViewState
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: BlocBuilder<GetDetailIbuHamilBloc, GetDetailIbuHamilState>(
-            builder: (context, state) {
-              if (state is GetDetailIbuHamilLoading) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is GetDetailIbuHamilFailed) {
-                return Center(
-                  child: Text('Gagal Mendapatkan Data ${state.message}'),
-                );
-              }
-              if (state is GetDetailIbuHamilSuccess) {
-                return Container(
+        child: BlocBuilder<GetDetailIbuHamilBloc, GetDetailIbuHamilState>(
+          builder: (context, state) {
+            if (state is GetDetailIbuHamilLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is GetDetailIbuHamilFailed) {
+              return Center(
+                child: Text('Gagal Mendapatkan Data ${state.message}'),
+              );
+            }
+            if (state is GetDetailIbuHamilSuccess) {
+              return SingleChildScrollView(
+                child: Container(
                   margin: EdgeInsets.all(20),
                   padding:
                       const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
@@ -481,11 +481,11 @@ class _DetailRegisterIbuHamilViewState
                       ),
                     ],
                   ),
-                );
-              }
-              return Container();
-            },
-          ),
+                ),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

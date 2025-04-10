@@ -33,20 +33,7 @@ class RegisterIbuHamilView extends StatefulWidget {
 class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
 
-  // List<IbuHamilItemModel> listOrangTua = [
-  //   IbuHamilItemModel(
-  //     name: 'Hani Purnawati',
-  //     nik: '362155482327263',
-  //     month: 2,
-  //     week: 7,
-  //   ),
-  //   IbuHamilItemModel(
-  //     name: 'Aurora Yulianti',
-  //     nik: '362155482327263',
-  //     month: 3,
-  //     week: 2,
-  //   ),
-  // ];
+  
   @override
   void initState() {
     context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
