@@ -67,7 +67,7 @@ class _DetailDataState extends State<DetailData> {
                     .detailPengukuranTamuResponseModel.data!.anak.namaAnak),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
-              'Tempat Pengukuran',
+              'Posyandu Asal',
               style: TextStyle(
                 fontSize: 12,
               ),
@@ -76,8 +76,7 @@ class _DetailDataState extends State<DetailData> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-                text: widget.detailPengukuranTamuResponseModel.data!.posyandu
-                    .namaPosyandu),
+                text: widget.detailPengukuranTamuResponseModel.data!.anak.posyanduAsal),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Tanggal',
