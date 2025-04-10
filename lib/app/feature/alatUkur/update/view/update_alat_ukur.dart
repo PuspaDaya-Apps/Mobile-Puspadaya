@@ -6,6 +6,7 @@ import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
@@ -316,11 +317,11 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                                   borderRadius: BorderRadius.circular(
                                       8), // Give border radius
                                   child: Image.network(
-                                    widget
+                                    ApiUtils().urlGetPublicImage(widget
                                         .detailAlatUkur
                                         .data
                                         .alatPengukuranAdmin
-                                        .imageUrl, // Use Image.network for URLs
+                                        .imageUrl), // Use Image.network for URLs
                                     height: 300,
                                     width: double.infinity,
                                     fit: BoxFit.cover,

@@ -9,6 +9,7 @@ import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
@@ -251,7 +252,7 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
                                             ),
                                           ); // R
                                         },
-                                        e.imageUrl!, // Use Image.network for URLs
+                                        ApiUtils().urlGetPublicImage(e.imageUrl!),// Use Image.network for URLs
                                         height: 300,
                                         width: double.infinity,
                                         fit: BoxFit.cover,
