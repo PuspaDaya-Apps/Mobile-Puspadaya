@@ -446,11 +446,11 @@ class DataTableRiwayatPengukuranIbuHamil extends StatelessWidget {
               DataCell(
                   Align(alignment: Alignment.centerLeft, child: Text(e.tinggiFundusUteri))),
               DataCell(
-                  Align(alignment: Alignment.centerLeft, child: Text(e.hemoglobin))),
+                  Align(alignment: Alignment.centerLeft, child: Text(e.hemoglobin?? '-'))),
               DataCell(
                   Align(alignment: Alignment.centerLeft, child: Text(e.terpaparAsapRokok))),
               DataCell(
-                  Align(alignment: Alignment.centerLeft, child: Text(e.hemoglobin))),
+                  Align(alignment: Alignment.centerLeft, child: Text(e.jumlahTabletFe >0? e.jumlahTabletFe.toString() : '-'))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
                   child: Text(e.kader.nama))),
