@@ -43,7 +43,6 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
   // Store selected data here>
   String? selectedJenisKelamin;
   String? selectedSatuan;
- 
 
   @override
   Widget build(BuildContext context) {
@@ -137,31 +136,41 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                 SizedBox(height: 16),
                 if (selectedJenisKelamin != null && selectedSatuan != null)
                   ButtonPrimary(
-                      color: greenPrimaryMain,
-                      mainButtonMessage: 'Download',
-                      mainButton: () async {
-                        if (selectedJenisKelamin == 'Laki-Laki' &&
-                            selectedSatuan == 'Tinggi Badan') {
-                          logger.d("download tinggi laki laki");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziLakiLakiTinggiBadan(), 'Parameter Gizi Laki Laki TInggi Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Laki-Laki' &&
-                            selectedSatuan == 'Berat Badan') {
-                          logger.d("download berat laki laki");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziLakiLakiBeratBadan(), 'Parameter Gizi Laki Laki Berat Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Perempuan' &&
-                            selectedSatuan == 'Tinggi Badan') {
-                          logger.d("download tinggi perempuan");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziPerempuanTinggiBadan(), 'Parameter Gizi Perempuan Tinggi Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Perempuan' &&
-                            selectedSatuan == 'Berat Badan') {
-                          logger.d("download berat perempuan");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziPerempuanBeratBadan(), 'Parameter Gizi Perempuan Berat Badan.xlsx');
-                        }
-                      }),
+                    color: greenPrimaryMain,
+                    mainButtonMessage: 'Download',
+                    mainButton: () async {
+                      if (selectedJenisKelamin == 'Laki-Laki' &&
+                          selectedSatuan == 'Tinggi Badan') {
+                        logger.d("download tinggi laki laki");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziLakiLakiTinggiBadan(),
+                            'Parameter Gizi Laki Laki TInggi Badan.xlsx');
+                      } else if (selectedJenisKelamin == 'Laki-Laki' &&
+                          selectedSatuan == 'Berat Badan') {
+                        logger.d("download berat laki laki");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziLakiLakiBeratBadan(),
+                            'Parameter Gizi Laki Laki Berat Badan.xlsx');
+                      } else if (selectedJenisKelamin == 'Perempuan' &&
+                          selectedSatuan == 'Tinggi Badan') {
+                        logger.d("download tinggi perempuan");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils()
+                                .urlGetParameterGiziPerempuanTinggiBadan(),
+                            'Parameter Gizi Perempuan Tinggi Badan.xlsx');
+                      } else if (selectedJenisKelamin == 'Perempuan' &&
+                          selectedSatuan == 'Berat Badan') {
+                        logger.d("download berat perempuan");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziPerempuanBeratBadan(),
+                            'Parameter Gizi Perempuan Berat Badan.xlsx');
+                      }
+                    },
+                  ),
                 SizedBox(height: 16),
                 // Conditional rendering of the DataTable
                 if (selectedJenisKelamin != null && selectedSatuan != null)
