@@ -239,6 +239,7 @@ class _CreateParameterFaktorResikoViewState
                               MaterialPageRoute(
                                 builder: (context) {
                                   return CreateGangguanTumbuhKembangFaktorResiko(
+                                    bloc: indexParameterFaktorResiko,
                                     data: parameter,
                                   );
                                 },

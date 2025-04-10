@@ -106,7 +106,7 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                     builder: (context, state) {
                   if (state is DetailRegisterAnakLoading) {
                     return SizedBox(
-                      height: MediaQuery.sizeOf(context).height,
+                      height: MediaQuery.sizeOf(context).height/2,
                       width: MediaQuery.sizeOf(context).width,
                       child: Center(
                         child: SpinKitThreeBounce(

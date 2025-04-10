@@ -23,10 +23,6 @@ Map<String, dynamic> _$GetIndexPertanyaanModelToJson(
     };
 
 Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
-      gangguanTumbuhKembang: json['gangguan_tumbuh_kembang'] == null
-          ? null
-          : GangguanTumbuhKembang.fromJson(
-              json['gangguan_tumbuh_kembang'] as Map<String, dynamic>),
       id: json['id'] as String,
       namaFaktorResiko: json['nama_faktor_resiko'] as String,
       keterangan: json['keterangan'] as String,
@@ -48,7 +44,6 @@ Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
       'keterangan': instance.keterangan,
       'gambar': instance.gambar,
       'detail': instance.detail,
-      'gangguan_tumbuh_kembang': instance.gangguanTumbuhKembang,
       'is_completed': instance.isCompleted,
       'last_completed': instance.lastCompleted?.toIso8601String(),
       'pertanyaan': instance.pertanyaan,
@@ -58,6 +53,7 @@ Pertanyaan _$PertanyaanFromJson(Map<String, dynamic> json) => Pertanyaan(
       id: json['id'] as String,
       namaPertanyaan: json['nama_pertanyaan'] as String,
       selectType: $enumDecode(_$SelectTypeEnumMap, json['select_type']),
+      image: json['image'] as String?,
       pilihanPertanyaan: (json['pilihan_pertanyaan'] as List<dynamic>)
           .map((e) => PilihanPertanyaan.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -69,6 +65,7 @@ Map<String, dynamic> _$PertanyaanToJson(Pertanyaan instance) =>
       'id': instance.id,
       'nama_pertanyaan': instance.namaPertanyaan,
       'select_type': _$SelectTypeEnumMap[instance.selectType]!,
+      'image': instance.image,
       'pilihan_pertanyaan': instance.pilihanPertanyaan,
       'jawaban_sistem': instance.jawabanSistem,
     };
@@ -90,20 +87,4 @@ Map<String, dynamic> _$PilihanPertanyaanToJson(PilihanPertanyaan instance) =>
       'id': instance.id,
       'nama_pilihan': instance.namaPilihan,
       'is_text': instance.isText,
-    };
-
-GangguanTumbuhKembang _$GangguanTumbuhKembangFromJson(
-        Map<String, dynamic> json) =>
-    GangguanTumbuhKembang(
-      statusStunting: json['statusStunting'] as String,
-      statusWasting: json['statusWasting'] as String,
-      statusUnderweight: json['statusUnderweight'] as String,
-    );
-
-Map<String, dynamic> _$GangguanTumbuhKembangToJson(
-        GangguanTumbuhKembang instance) =>
-    <String, dynamic>{
-      'statusStunting': instance.statusStunting,
-      'statusWasting': instance.statusWasting,
-      'statusUnderweight': instance.statusUnderweight,
     };

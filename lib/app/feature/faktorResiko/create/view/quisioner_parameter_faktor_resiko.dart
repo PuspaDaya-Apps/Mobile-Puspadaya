@@ -478,7 +478,7 @@ class _QuisionerParameterFaktorResikoViewState
               logger.d('is multiple selection = $isMultipleSelection');
 
               return Container(
-                padding: EdgeInsets.all(24),
+                padding: EdgeInsets.only(top: 24,left: 24,right: 24),
                 child: isMultiplePertanyaan
                     // multiple pertanyaan
                     ? PageView.builder(
@@ -497,7 +497,6 @@ class _QuisionerParameterFaktorResikoViewState
                           final pertanyaan = widget.data.pertanyaan[index];
                           bool isMultipleSelection = pertanyaan.selectType ==
                               GetIndexPertanyaanModel.SelectType.checkbox;
-                          String jawbanSistem = pertanyaan.jawabanSistem!;
 
                           return SingleChildScrollView(
                             child: Column(
