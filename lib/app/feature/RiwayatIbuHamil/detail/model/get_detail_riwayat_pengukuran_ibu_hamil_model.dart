@@ -30,7 +30,7 @@ class Data {
     @JsonKey(name: "updated_at")
     final DateTime updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "usia_kehamilan")
     final int usiaKehamilan;
     @JsonKey(name: "berat_badan")
@@ -38,9 +38,9 @@ class Data {
     @JsonKey(name: "tinggi_badan")
     final String tinggiBadan;
     @JsonKey(name: "hemoglobin")
-    final String hemoglobin;
+    final String? hemoglobin;
     @JsonKey(name: "nama_bpjs")
-    final String namaBpjs;
+    final String? namaBpjs;
     @JsonKey(name: "jumlah_tablet_fe")
     final int jumlahTabletFe;
     @JsonKey(name: "tanggal_pertama_haid")
@@ -58,7 +58,7 @@ class Data {
     @JsonKey(name: "ibu_anak")
     final IbuAnak ibuAnak;
     @JsonKey(name: "pengukuran_ibu_hamil", defaultValue: [])
-    final List<dynamic> pengukuranIbuHamil;
+    final List<JenisDisabilitas>? pengukuranIbuHamil;
 
     Data({
         required this.id,
@@ -95,7 +95,7 @@ class IbuAnak {
     @JsonKey(name: "updated_at")
     final DateTime updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "nik")
     final String nik;
     @JsonKey(name: "nama_ibu")
@@ -121,7 +121,7 @@ class IbuAnak {
     @JsonKey(name: "jumlah_anak")
     final int jumlahAnak;
     @JsonKey(name: "user_id")
-    final dynamic userId;
+    final String? userId;
     @JsonKey(name: "ayah")
     final Ayah ayah;
     @JsonKey(name: "kartu_keluarga")
@@ -172,7 +172,7 @@ class Ayah {
     @JsonKey(name: "updated_at")
     final DateTime updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "nik")
     final String nik;
     @JsonKey(name: "nama_ayah")
@@ -192,11 +192,11 @@ class Ayah {
     @JsonKey(name: "gol_darah")
     final String golDarah;
     @JsonKey(name: "user_id")
-    final dynamic userId;
+    final String? userId;
     @JsonKey(name: "posyandu")
     final Posyandu posyandu;
     @JsonKey(name: "jenis_disabilitas")
-    final List<dynamic> jenisDisabilitas;
+    final List<JenisDisabilitas> jenisDisabilitas;
 
     Ayah({
         required this.id,
@@ -230,7 +230,7 @@ class Dusun {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nama_dusun")
   final String namaDusun;
   @JsonKey(name: "desa_kelurahan")
@@ -259,7 +259,7 @@ class DesaKelurahan {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nama_desa_kelurahan")
   final String namaDesaKelurahan;
   @JsonKey(name: "kecamatan")
@@ -289,7 +289,7 @@ class Kecamatan {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nama_kecamatan")
   final String namaKecamatan;
   @JsonKey(name: "kode_kecamatan")
@@ -322,7 +322,7 @@ class KabupatenKota {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nama_kabupaten_kota")
   final String namaKabupatenKota;
   @JsonKey(name: "kode_kabupaten_kota")
@@ -355,7 +355,7 @@ class Provinsi {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nama_provinsi")
   final String namaProvinsi;
   @JsonKey(name: "kode_provinsi")
@@ -385,7 +385,7 @@ class KartuKeluarga {
   @JsonKey(name: "updated_at")
   final DateTime updatedAt;
   @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   @JsonKey(name: "nomor_kartu_keluarga")
   final String nomorKartuKeluarga;
 
@@ -452,30 +452,26 @@ class Kader {
 
 @JsonSerializable()
 class JenisDisabilitas {
-  @JsonKey(name: "id")
-  final String id;
-  @JsonKey(name: "nama")
-  final String namaDisabilitas;
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "created_at")
+    final DateTime createdAt;
+    @JsonKey(name: "updated_at")
+    final DateTime updatedAt;
+    @JsonKey(name: "deleted_at")
+    final dynamic deletedAt;
+    @JsonKey(name: "nama_disabilitas")
+    final String namaDisabilitas;
 
-  JenisDisabilitas({
-    required this.id,
-    required this.namaDisabilitas,
-  });
+    JenisDisabilitas({
+        required this.id,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.deletedAt,
+        required this.namaDisabilitas,
+    });
 
-  JenisDisabilitas copyWith({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    dynamic deletedAt,
-    String? namaDisabilitas,
-  }) =>
-      JenisDisabilitas(
-        id: id ?? this.id,
-        namaDisabilitas: namaDisabilitas ?? this.namaDisabilitas,
-      );
+    factory JenisDisabilitas.fromJson(Map<String, dynamic> json) => _$JenisDisabilitasFromJson(json);
 
-  factory JenisDisabilitas.fromJson(Map<String, dynamic> json) =>
-      _$JenisDisabilitasFromJson(json);
-
-  Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
+    Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
 }
