@@ -540,7 +540,8 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                   },
                 ),
                 // Ibu
-                BlocBuilder<CreateKehadiranIbuHamilBloc, CreateKehadiranIbuHamilState>(
+                BlocBuilder<CreateKehadiranIbuHamilBloc,
+                    CreateKehadiranIbuHamilState>(
                   builder: (context, state) {
                     if (state is CreateKehadiranFormIbuHamilLoading) {
                       return Center(
@@ -559,7 +560,8 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                       );
                     }
                     if (state is CreateKeadiranFormIbuHamilSuccess) {
-                      ListView.builder(
+                      logger.d(state.dataIbuHamil.data.length);
+                      return ListView.builder(
                         itemCount: state.dataIbuHamil.data.length,
                         itemBuilder: (context, index) {
                           final dataibuHamil = state.dataIbuHamil.data[index];
