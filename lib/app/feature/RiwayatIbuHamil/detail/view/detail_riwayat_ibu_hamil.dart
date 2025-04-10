@@ -41,7 +41,9 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
 
   @override
   void initState() {
-    context.read<DetailRiwayatPengukuranIbuHamilBloc>().add(GetDetailRiwayatPengukuranIbuHamil(widget.id));
+    context
+        .read<DetailRiwayatPengukuranIbuHamilBloc>()
+        .add(GetDetailRiwayatPengukuranIbuHamil(widget.id));
     super.initState();
   }
 
@@ -58,9 +60,10 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: BlocBuilder<DetailRiwayatPengukuranIbuHamilBloc, DetailRiwayatPengukuranIbuHamilState>(
+        child: BlocBuilder<DetailRiwayatPengukuranIbuHamilBloc,
+            DetailRiwayatPengukuranIbuHamilState>(
           builder: (context, state) {
-            if(state is DetailRiwayatPengukuranIbuHamilLoading) {
+            if (state is DetailRiwayatPengukuranIbuHamilLoading) {
               return SizedBox(
                 child: Center(
                   child: SpinKitThreeBounce(
@@ -70,256 +73,263 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                 ),
               );
             }
-            if(state is DetailRiwayatPengukuranIbuHamilFailed) {
+            if (state is DetailRiwayatPengukuranIbuHamilFailed) {
               return Center(
                 child: Text(state.message),
               );
             }
-            if(state is DetailRiwayatPengukuranIbuHamilSuccess){
-return SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.all(20),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                      height: _isExpanded
-                          ? sizeHeighofSingleForm * 3.3
-                          : sizeHeighofSingleForm,
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'NIK',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(
-                                text: state.data.data.ibuAnak.nik),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            const Text(
-                              'Nama',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(
-                                text: state.data.data.ibuAnak.namaIbu),
-                            SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16)),
-                            const Text(
-                              'Usia Kandungan',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                            InfoFieldWidget(
-                                text: state.data.data.usiaKehamilan.toString()),
-                            Visibility(
-                              visible: _isExpanded,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16)),
-                                  const Text(
-                                    'Posyandu',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(8)),
-                                  InfoFieldWidget(
-                                      text: state.data.data.ibuAnak
-                                          .posyandu.namaPosyandu),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16)),
-                                  const Text(
-                                    'Nomor Kartu Keluarga',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(8)),
-                                  InfoFieldWidget(
-                                      text: state.data.data.ibuAnak
-                                          .kartuKeluarga.nomorKartuKeluarga),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(16),
-                                  ),
-                                  const Text(
-                                    'Nama Suami',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(8)),
-                                  InfoFieldWidget(
-                                      text: state.data.data.ibuAnak.ayah.namaAyah),
-                                  SizedBox(
-                                      height:
-                                          SizeConfig.calHeightMultiplier(16)),
-                                  const Text(
-                                    textAlign: TextAlign.start,
-                                    'Alamat',
-                                    style: TextStyle(
-                                      fontSize: 12,
+            if (state is DetailRiwayatPengukuranIbuHamilSuccess) {
+              return SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        height: _isExpanded
+                            ? sizeHeighofSingleForm * 3.3
+                            : sizeHeighofSingleForm,
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'NIK',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8)),
+                              InfoFieldWidget(
+                                  text: state.data.data.ibuAnak.nik),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(16)),
+                              const Text(
+                                'Nama',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8)),
+                              InfoFieldWidget(
+                                  text: state.data.data.ibuAnak.namaIbu),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(16)),
+                              const Text(
+                                'Usia Kandungan',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8)),
+                              InfoFieldWidget(
+                                  text:
+                                      state.data.data.usiaKehamilan.toString()),
+                              Visibility(
+                                visible: _isExpanded,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(16)),
+                                    const Text(
+                                      'Posyandu',
+                                      style: TextStyle(fontSize: 12),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(8),
-                                  ),
-                                  Row(
-                                    spacing: 8,
-                                    children: [
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data
-                                                .data
-                                                .ibuAnak
-                                                .dusun
-                                                .desaKelurahan
-                                                .kecamatan
-                                                .kabupatenKota
-                                                .provinsi
-                                                .namaProvinsi),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(8)),
+                                    InfoFieldWidget(
+                                        text: state.data.data.ibuAnak.posyandu
+                                            .namaPosyandu),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(16)),
+                                    const Text(
+                                      'Nomor Kartu Keluarga',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(8)),
+                                    InfoFieldWidget(
+                                        text: state.data.data.ibuAnak
+                                            .kartuKeluarga.nomorKartuKeluarga),
+                                    SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    const Text(
+                                      'Nama Suami',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(8)),
+                                    InfoFieldWidget(
+                                        text: state
+                                            .data.data.ibuAnak.ayah.namaAyah),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(16)),
+                                    const Text(
+                                      textAlign: TextAlign.start,
+                                      'Alamat',
+                                      style: TextStyle(
+                                        fontSize: 12,
                                       ),
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data
-                                                .data
-                                                .ibuAnak
-                                                .dusun
-                                                .desaKelurahan
-                                                .kecamatan
-                                                .kabupatenKota
-                                                .namaKabupatenKota),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(8),
-                                  ),
-                                  Row(
-                                    spacing: 8,
-                                    children: [
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data
-                                                .data
-                                                .ibuAnak
-                                                .dusun
-                                                .desaKelurahan
-                                                .kecamatan
-                                                .namaKecamatan),
-                                      ),
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data
-                                                .data
-                                                .ibuAnak
-                                                .dusun
-                                                .desaKelurahan
-                                                .namaDesaKelurahan),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(8),
-                                  ),
-                                  InfoFieldWidget(
-                                      text: state.data.data.ibuAnak
-                                          .dusun.namaDusun),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(8),
-                                  ),
-                                  Row(
-                                    spacing: 8,
-                                    children: [
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data.data
-                                                .ibuAnak.rt),
-                                      ),
-                                      Expanded(
-                                        child: InfoFieldWidget(
-                                            text: state.data.data
-                                                .ibuAnak.rw),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(8),
-                                  ),
-                                  InfoFieldWidget(
-                                    text: state.data.data
-                                                .ibuAnak.alamat,
-                                  ),
-                                ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    Row(
+                                      spacing: 8,
+                                      children: [
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .ibuAnak
+                                                  .dusun
+                                                  .desaKelurahan
+                                                  .kecamatan
+                                                  .kabupatenKota
+                                                  .provinsi
+                                                  .namaProvinsi),
+                                        ),
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .ibuAnak
+                                                  .dusun
+                                                  .desaKelurahan
+                                                  .kecamatan
+                                                  .kabupatenKota
+                                                  .namaKabupatenKota),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    Row(
+                                      spacing: 8,
+                                      children: [
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .ibuAnak
+                                                  .dusun
+                                                  .desaKelurahan
+                                                  .kecamatan
+                                                  .namaKecamatan),
+                                        ),
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state
+                                                  .data
+                                                  .data
+                                                  .ibuAnak
+                                                  .dusun
+                                                  .desaKelurahan
+                                                  .namaDesaKelurahan),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    InfoFieldWidget(
+                                        text: state
+                                            .data.data.ibuAnak.dusun.namaDusun),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    Row(
+                                      spacing: 8,
+                                      children: [
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state.data.data.ibuAnak.rt),
+                                        ),
+                                        Expanded(
+                                          child: InfoFieldWidget(
+                                              text: state.data.data.ibuAnak.rw),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    InfoFieldWidget(
+                                      text: state.data.data.ibuAnak.alamat,
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isExpanded = !_isExpanded;
-                        });
-                      },
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Detail Ibu Hamil',
-                              style: AppTextStyles.primaryTextMedium.copyWith(
-                                fontSize: 10,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isExpanded = !_isExpanded;
+                          });
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Detail Ibu Hamil',
+                                style: AppTextStyles.primaryTextMedium.copyWith(
+                                  fontSize: 10,
+                                ),
                               ),
-                            ),
-                            Icon(
-                              size: 20,
-                              _isExpanded
-                                  ? FluentIcons.chevron_up_20_filled
-                                  : FluentIcons.chevron_down_20_filled,
-                            ),
-                          ],
+                              Icon(
+                                size: 20,
+                                _isExpanded
+                                    ? FluentIcons.chevron_up_20_filled
+                                    : FluentIcons.chevron_down_20_filled,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 2,
-                      color: Colors.black54,
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    Text(
-                      'Riwayat Pengukuran',
-                      style: AppTextStyles.primaryTextMedium.copyWith(
-                        fontSize: 12,
+                      Container(
+                        width: double.infinity,
+                        height: 2,
+                        color: Colors.black54,
                       ),
-                    ),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    DataTableRiwayatIbuHamil()
-                  ],
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
+                        'Riwayat Pengukuran',
+                        style: AppTextStyles.primaryTextMedium.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      DataTableRiwayatIbuHamil()
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
             }
             return Container();
           },

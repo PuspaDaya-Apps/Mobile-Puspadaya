@@ -97,9 +97,9 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
               return Center(child: Text(state.message));
             }
             if (state is DetailRiwayatPengukuranAnakSuccess) {
-              logger.d(state.data.data.pengukuran[0].tinggiBadan);
-              logger.d(state.data.data.pengukuran[0].beratBadan);
-              logger.d(state.data.data.pengukuran[0].tanggalPengukuran);
+              logger.d(state.data.data.pengukuran![0].tinggiBadan);
+              logger.d(state.data.data.pengukuran![0].beratBadan);
+              logger.d(state.data.data.pengukuran![0].tanggalPengukuran);
               logger.d(state.data.data.jenisKelamin);
               logger
                   .d(state.dataGrafik.length); //berisi data grafik 0-61 minggu
@@ -516,7 +516,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         ),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      DataTableRiwayatAnak(data: state.data.data.pengukuran),
+                      DataTableRiwayatAnak(data: state.data.data.pengukuran!),
                     ],
                   ),
                 ),

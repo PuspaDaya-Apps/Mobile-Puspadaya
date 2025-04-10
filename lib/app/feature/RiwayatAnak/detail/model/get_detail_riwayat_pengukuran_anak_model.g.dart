@@ -41,8 +41,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       statusGizi: json['status_gizi'] as String,
       statusWasting: json['status_wasting'] as String,
       statusOrangTua: json['status_orang_tua'] as String,
-      pengukuran: (json['pengukuran'] as List<dynamic>)
-          .map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
+      pengukuran: (json['pengukuran'] as List<dynamic>?)
+          ?.map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
           .toList(),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       kartuKeluarga: KartuKeluarga.fromJson(

@@ -46,7 +46,7 @@ class Data {
   @JsonKey(name: "lingkar_lengan_atas")
   final String lingkarLenganAtas;
   @JsonKey(name: "tinggi_fundus_uteri")
-  final String tinggiFundusUteri;
+  final String? tinggiFundusUteri;
   @JsonKey(name: "terpapar_asap_rokok")
   final String terpaparAsapRokok;
   @JsonKey(name: "catatan")

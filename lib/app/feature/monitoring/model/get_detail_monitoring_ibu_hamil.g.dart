@@ -35,7 +35,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       tanggalTerakhirHaid:
           DateTime.parse(json['tanggal_terakhir_haid'] as String),
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
-      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String,
+      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       catatan: json['catatan'] as String,
       ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),

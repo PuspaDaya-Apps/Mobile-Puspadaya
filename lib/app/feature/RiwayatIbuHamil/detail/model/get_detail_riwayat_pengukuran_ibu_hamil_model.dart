@@ -23,204 +23,206 @@ class GetDetailRiwayatPengukuranIbuHamilModel {
 
 @JsonSerializable()
 class Data {
-    @JsonKey(name: "id")
-    final String id;
-    @JsonKey(name: "created_at")
-    final DateTime createdAt;
-    @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
-    @JsonKey(name: "deleted_at")
-    final DateTime? deletedAt;
-    @JsonKey(name: "usia_kehamilan")
-    final int usiaKehamilan;
-    @JsonKey(name: "berat_badan")
-    final String beratBadan;
-    @JsonKey(name: "tinggi_badan")
-    final String tinggiBadan;
-    @JsonKey(name: "hemoglobin")
-    final String? hemoglobin;
-    @JsonKey(name: "nama_bpjs")
-    final String? namaBpjs;
-    @JsonKey(name: "jumlah_tablet_fe")
-    final int jumlahTabletFe;
-    @JsonKey(name: "tanggal_pertama_haid")
-    final DateTime tanggalPertamaHaid;
-    @JsonKey(name: "tanggal_terakhir_haid")
-    final DateTime tanggalTerakhirHaid;
-    @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
-    @JsonKey(name: "tinggi_fundus_uteri")
-    final String tinggiFundusUteri;
-    @JsonKey(name: "terpapar_asap_rokok")
-    final String terpaparAsapRokok;
-    @JsonKey(name: "catatan")
-    final String catatan;
-    @JsonKey(name: "ibu_anak")
-    final IbuAnak ibuAnak;
-    @JsonKey(name: "pengukuran_ibu_hamil", defaultValue: [])
-    final List<JenisDisabilitas>? pengukuranIbuHamil;
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "usia_kehamilan")
+  final int usiaKehamilan;
+  @JsonKey(name: "berat_badan")
+  final String beratBadan;
+  @JsonKey(name: "tinggi_badan")
+  final String tinggiBadan;
+  @JsonKey(name: "hemoglobin")
+  final String? hemoglobin;
+  @JsonKey(name: "nama_bpjs")
+  final String? namaBpjs;
+  @JsonKey(name: "jumlah_tablet_fe")
+  final int jumlahTabletFe;
+  @JsonKey(name: "tanggal_pertama_haid")
+  final DateTime tanggalPertamaHaid;
+  @JsonKey(name: "tanggal_terakhir_haid")
+  final DateTime tanggalTerakhirHaid;
+  @JsonKey(name: "lingkar_lengan_atas")
+  final String lingkarLenganAtas;
+  @JsonKey(name: "tinggi_fundus_uteri")
+  final String? tinggiFundusUteri;
+  @JsonKey(name: "terpapar_asap_rokok")
+  final String terpaparAsapRokok;
+  @JsonKey(name: "catatan")
+  final String catatan;
+  @JsonKey(name: "ibu_anak")
+  final IbuAnak ibuAnak;
+  @JsonKey(name: "pengukuran_ibu_hamil", defaultValue: [])
+  final List<PengukuranIbuHamil>? pengukuranIbuHamil;
 
-    Data({
-        required this.id,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
-        required this.usiaKehamilan,
-        required this.beratBadan,
-        required this.tinggiBadan,
-        required this.hemoglobin,
-        required this.namaBpjs,
-        required this.jumlahTabletFe,
-        required this.tanggalPertamaHaid,
-        required this.tanggalTerakhirHaid,
-        required this.lingkarLenganAtas,
-        required this.tinggiFundusUteri,
-        required this.terpaparAsapRokok,
-        required this.catatan,
-        required this.ibuAnak,
-        required this.pengukuranIbuHamil,
-    });
+  Data({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.usiaKehamilan,
+    required this.beratBadan,
+    required this.tinggiBadan,
+    required this.hemoglobin,
+    required this.namaBpjs,
+    required this.jumlahTabletFe,
+    required this.tanggalPertamaHaid,
+    required this.tanggalTerakhirHaid,
+    required this.lingkarLenganAtas,
+    required this.tinggiFundusUteri,
+    required this.terpaparAsapRokok,
+    required this.catatan,
+    required this.ibuAnak,
+    required this.pengukuranIbuHamil,
+  });
 
-    factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
-    Map<String, dynamic> toJson() => _$DataToJson(this);
+  Map<String, dynamic> toJson() => _$DataToJson(this);
 }
 
 @JsonSerializable()
 class IbuAnak {
-    @JsonKey(name: "id")
-    final String id;
-    @JsonKey(name: "created_at")
-    final DateTime createdAt;
-    @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
-    @JsonKey(name: "deleted_at")
-    final DateTime? deletedAt;
-    @JsonKey(name: "nik")
-    final String nik;
-    @JsonKey(name: "nama_ibu")
-    final String namaIbu;
-    @JsonKey(name: "tempat_lahir")
-    final String tempatLahir;
-    @JsonKey(name: "tanggal_lahir")
-    final DateTime tanggalLahir;
-    @JsonKey(name: "rt")
-    final String rt;
-    @JsonKey(name: "rw")
-    final String rw;
-    @JsonKey(name: "alamat")
-    final String alamat;
-    @JsonKey(name: "nomor_telepon")
-    final String nomorTelepon;
-    @JsonKey(name: "gol_darah")
-    final String golDarah;
-    @JsonKey(name: "jenis_kb")
-    final String jenisKb;
-    @JsonKey(name: "tanggal_melahirkan_sebelumnya")
-    final DateTime? tanggalMelahirkanSebelumnya;
-    @JsonKey(name: "jumlah_anak")
-    final int jumlahAnak;
-    @JsonKey(name: "user_id")
-    final String? userId;
-    @JsonKey(name: "ayah")
-    final Ayah ayah;
-    @JsonKey(name: "kartu_keluarga")
-    final KartuKeluarga kartuKeluarga;
-    @JsonKey(name: "dusun")
-    final Dusun dusun;
-    @JsonKey(name: "posyandu")
-    final Posyandu posyandu;
-    @JsonKey(name: "jenis_disabilitas" ,defaultValue: [])
-    final List<JenisDisabilitas>? jenisDisabilitas;
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "nama_ibu")
+  final String namaIbu;
+  @JsonKey(name: "tempat_lahir")
+  final String tempatLahir;
+  @JsonKey(name: "tanggal_lahir")
+  final DateTime tanggalLahir;
+  @JsonKey(name: "rt")
+  final String rt;
+  @JsonKey(name: "rw")
+  final String rw;
+  @JsonKey(name: "alamat")
+  final String alamat;
+  @JsonKey(name: "nomor_telepon")
+  final String nomorTelepon;
+  @JsonKey(name: "gol_darah")
+  final String golDarah;
+  @JsonKey(name: "jenis_kb")
+  final String jenisKb;
+  @JsonKey(name: "tanggal_melahirkan_sebelumnya")
+  final DateTime? tanggalMelahirkanSebelumnya;
+  @JsonKey(name: "jumlah_anak")
+  final int jumlahAnak;
+  @JsonKey(name: "user_id")
+  final String? userId;
+  @JsonKey(name: "ayah")
+  final Ayah ayah;
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "dusun")
+  final Dusun dusun;
+  @JsonKey(name: "posyandu")
+  final Posyandu posyandu;
+  @JsonKey(name: "jenis_disabilitas", defaultValue: [])
+  final List<JenisDisabilitas>? jenisDisabilitas;
 
-    IbuAnak({
-        required this.id,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
-        required this.nik,
-        required this.namaIbu,
-        required this.tempatLahir,
-        required this.tanggalLahir,
-        required this.rt,
-        required this.rw,
-        required this.alamat,
-        required this.nomorTelepon,
-        required this.golDarah,
-        required this.jenisKb,
-        required this.tanggalMelahirkanSebelumnya,
-        required this.jumlahAnak,
-        required this.userId,
-        required this.ayah,
-        required this.kartuKeluarga,
-        required this.dusun,
-        required this.posyandu,
-        required this.jenisDisabilitas,
-    });
+  IbuAnak({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nik,
+    required this.namaIbu,
+    required this.tempatLahir,
+    required this.tanggalLahir,
+    required this.rt,
+    required this.rw,
+    required this.alamat,
+    required this.nomorTelepon,
+    required this.golDarah,
+    required this.jenisKb,
+    required this.tanggalMelahirkanSebelumnya,
+    required this.jumlahAnak,
+    required this.userId,
+    required this.ayah,
+    required this.kartuKeluarga,
+    required this.dusun,
+    required this.posyandu,
+    required this.jenisDisabilitas,
+  });
 
-    factory IbuAnak.fromJson(Map<String, dynamic> json) => _$IbuAnakFromJson(json);
+  factory IbuAnak.fromJson(Map<String, dynamic> json) =>
+      _$IbuAnakFromJson(json);
 
-    Map<String, dynamic> toJson() => _$IbuAnakToJson(this);
+  Map<String, dynamic> toJson() => _$IbuAnakToJson(this);
 }
 
 @JsonSerializable()
 class Ayah {
-    @JsonKey(name: "id")
-    final String id;
-    @JsonKey(name: "created_at")
-    final DateTime createdAt;
-    @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
-    @JsonKey(name: "deleted_at")
-    final DateTime? deletedAt;
-    @JsonKey(name: "nik")
-    final String nik;
-    @JsonKey(name: "nama_ayah")
-    final String namaAyah;
-    @JsonKey(name: "tempat_lahir")
-    final String tempatLahir;
-    @JsonKey(name: "tanggal_lahir")
-    final DateTime tanggalLahir;
-    @JsonKey(name: "nomor_telepon")
-    final String nomorTelepon;
-    @JsonKey(name: "rt")
-    final String rt;
-    @JsonKey(name: "rw")
-    final String rw;
-    @JsonKey(name: "alamat")
-    final String alamat;
-    @JsonKey(name: "gol_darah")
-    final String golDarah;
-    @JsonKey(name: "user_id")
-    final String? userId;
-    @JsonKey(name: "posyandu")
-    final Posyandu posyandu;
-    @JsonKey(name: "jenis_disabilitas")
-    final List<JenisDisabilitas> jenisDisabilitas;
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "nama_ayah")
+  final String namaAyah;
+  @JsonKey(name: "tempat_lahir")
+  final String tempatLahir;
+  @JsonKey(name: "tanggal_lahir")
+  final DateTime tanggalLahir;
+  @JsonKey(name: "nomor_telepon")
+  final String nomorTelepon;
+  @JsonKey(name: "rt")
+  final String rt;
+  @JsonKey(name: "rw")
+  final String rw;
+  @JsonKey(name: "alamat")
+  final String alamat;
+  @JsonKey(name: "gol_darah")
+  final String golDarah;
+  @JsonKey(name: "user_id")
+  final String? userId;
+  @JsonKey(name: "posyandu")
+  final Posyandu posyandu;
+  @JsonKey(name: "jenis_disabilitas")
+  final List<JenisDisabilitas>? jenisDisabilitas;
 
-    Ayah({
-        required this.id,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
-        required this.nik,
-        required this.namaAyah,
-        required this.tempatLahir,
-        required this.tanggalLahir,
-        required this.nomorTelepon,
-        required this.rt,
-        required this.rw,
-        required this.alamat,
-        required this.golDarah,
-        required this.userId,
-        required this.posyandu,
-        required this.jenisDisabilitas,
-    });
+  Ayah({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nik,
+    required this.namaAyah,
+    required this.tempatLahir,
+    required this.tanggalLahir,
+    required this.nomorTelepon,
+    required this.rt,
+    required this.rw,
+    required this.alamat,
+    required this.golDarah,
+    required this.userId,
+    required this.posyandu,
+    required this.jenisDisabilitas,
+  });
 
-    factory Ayah.fromJson(Map<String, dynamic> json) => _$AyahFromJson(json);
+  factory Ayah.fromJson(Map<String, dynamic> json) => _$AyahFromJson(json);
 
-    Map<String, dynamic> toJson() => _$AyahToJson(this);
+  Map<String, dynamic> toJson() => _$AyahToJson(this);
 }
+
 @JsonSerializable()
 class Dusun {
   @JsonKey(name: "id")
@@ -452,26 +454,92 @@ class Kader {
 
 @JsonSerializable()
 class JenisDisabilitas {
-    @JsonKey(name: "id")
-    final String id;
-    @JsonKey(name: "created_at")
-    final DateTime createdAt;
-    @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
-    @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
-    @JsonKey(name: "nama_disabilitas")
-    final String namaDisabilitas;
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final dynamic deletedAt;
+  @JsonKey(name: "nama_disabilitas")
+  final String namaDisabilitas;
 
-    JenisDisabilitas({
-        required this.id,
-        required this.createdAt,
-        required this.updatedAt,
-        required this.deletedAt,
-        required this.namaDisabilitas,
-    });
+  JenisDisabilitas({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaDisabilitas,
+  });
 
-    factory JenisDisabilitas.fromJson(Map<String, dynamic> json) => _$JenisDisabilitasFromJson(json);
+  factory JenisDisabilitas.fromJson(Map<String, dynamic> json) =>
+      _$JenisDisabilitasFromJson(json);
 
-    Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
+  Map<String, dynamic> toJson() => _$JenisDisabilitasToJson(this);
+}
+
+@JsonSerializable()
+class PengukuranIbuHamil {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "usia_ibu_hamil")
+  final int usiaIbuHamil;
+  @JsonKey(name: "usia_kehamilan")
+  final int usiaKehamilan;
+  @JsonKey(name: "tempat_pengukuran")
+  final String tempatPengukuran;
+  @JsonKey(name: "tanggal_pengukuran")
+  final DateTime tanggalPengukuran;
+  @JsonKey(name: "berat_badan")
+  final String beratBadan;
+  @JsonKey(name: "tinggi_badan")
+  final String tinggiBadan;
+  @JsonKey(name: "tinggi_fundus_uteri")
+  final String tinggiFundusUteri;
+  @JsonKey(name: "lingkar_lengan_atas")
+  final String lingkarLenganAtas;
+  @JsonKey(name: "hemoglobin")
+  final String? hemoglobin;
+  @JsonKey(name: "terpapar_asap_rokok")
+  final String terpaparAsapRokok;
+  @JsonKey(name: "jumlah_tablet_fe")
+  final int jumlahTabletFe;
+  @JsonKey(name: "catatan")
+  final String? catatan;
+  @JsonKey(name: "kader")
+  final Kader kader;
+  @JsonKey(name: "posyandu")
+  final Posyandu posyandu;
+
+  PengukuranIbuHamil({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.usiaIbuHamil,
+    required this.usiaKehamilan,
+    required this.tempatPengukuran,
+    required this.tanggalPengukuran,
+    required this.beratBadan,
+    required this.tinggiBadan,
+    required this.tinggiFundusUteri,
+    required this.lingkarLenganAtas,
+    required this.hemoglobin,
+    required this.terpaparAsapRokok,
+    required this.jumlahTabletFe,
+    required this.catatan,
+    required this.kader,
+    required this.posyandu,
+  });
+
+  factory PengukuranIbuHamil.fromJson(Map<String, dynamic> json) =>
+      _$PengukuranIbuHamilFromJson(json);
+  Map<String, dynamic> toJson() => _$PengukuranIbuHamilToJson(this);
 }
