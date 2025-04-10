@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/faktorResiko/create/bloc/index_parameter_faktor_resiko_bloc.dart';
 import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
@@ -161,8 +162,15 @@ class _CreateParameterFaktorResikoViewState
           },
           builder: (context, state) {
             if (state is IndexParamterFaktorResikoLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is IndexParamterFaktorResikoFailed) {
@@ -224,8 +232,8 @@ class _CreateParameterFaktorResikoViewState
                             );
                           } else if (parameter.namaFaktorResiko ==
                               "Gangguan Tumbuh Kembang") {
-                                
-                                logger.d(parameter.namaFaktorResiko == "Gangguan Tumbuh Kembang");
+                            logger.d(parameter.namaFaktorResiko ==
+                                "Gangguan Tumbuh Kembang");
                             await Navigator.push(
                               context,
                               MaterialPageRoute(

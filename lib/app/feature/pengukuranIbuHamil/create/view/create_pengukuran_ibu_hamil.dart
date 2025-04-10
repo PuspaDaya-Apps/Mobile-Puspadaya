@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/Bloc/searchIbuHamilCubit/search_ibu_hamil_cubit.dart';
@@ -152,15 +153,16 @@ class _CreatePengukuranIbuHamilViewState
         },
         builder: (context, stateListAlatUkur) {
           if (stateListAlatUkur is AlatUkurSaveProccessState) {
-            return Container(
-              height: MediaQuery.sizeOf(context).height,
-              width: MediaQuery.sizeOf(context).width,
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: CircularProgressIndicator(
-                color: bluePrimaryMain,
-              ),
-            );
+            return SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
+              );
           }
           if (stateListAlatUkur is AlatUkurSaveSuccessState) {
             return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../route/route_name.dart';
@@ -87,9 +88,14 @@ class _IndexAnakFaktoResikoViewState extends State<IndexAnakFaktoResikoView> {
                   builder: (context, state) {
                     debugPrint(state.toString());
                     if (state is AnakByPosyanduLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: bluePrimaryMain,
+                      return SizedBox(
+                        height: MediaQuery.sizeOf(context).height,
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
                         ),
                       );
                     } else if (state is AnakByPosyanduSuccess) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
@@ -181,15 +182,17 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
         },
         builder: (context, stateListAlatUkur) {
           if (stateListAlatUkur is AlatUkurSaveProccessState) {
-            return Container(
+             return SizedBox(
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).width,
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: CircularProgressIndicator(
-                color: bluePrimaryMain,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
               ),
             );
+            
           }
           if(stateListAlatUkur is AlatUkurSaveSuccessState) {
             return Scaffold(

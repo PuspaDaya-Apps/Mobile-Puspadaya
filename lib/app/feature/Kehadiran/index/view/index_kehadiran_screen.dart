@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
@@ -49,7 +51,15 @@ class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
     return BlocBuilder<IndexKehadiranBloc, IndexKehadiranState>(
       builder: (context, state) {
         if (state is IndexKehadiranLoading) {
-          return Center(child: CircularProgressIndicator());
+          return SizedBox(
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
+          );
+          
         }
         if (state is IndexKehadiranFailed) {
           return Center(child: Text(state.message));

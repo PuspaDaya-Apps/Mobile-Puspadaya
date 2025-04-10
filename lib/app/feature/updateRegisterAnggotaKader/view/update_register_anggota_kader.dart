@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -88,7 +89,7 @@ class _UpdateRegisterAnggotaKaderViewState
     setState(() {
       _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   void initState() {
@@ -138,30 +139,52 @@ class _UpdateRegisterAnggotaKaderViewState
                 debugPrint(state.toString());
               },
               builder: (context, state) {
-                if(state is GetAlamatProccessState) {
+                if (state is GetAlamatProccessState) {
                   return SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height,
-                    child: const Center(
-                      child: CircularProgressIndicator(
+                    child: Center(
+                      child: SpinKitThreeBounce(
                         color: bluePrimaryMain,
-                      )
+                        size: 50.0,
+                      ),
                     ),
                   );
                 }
-                if(state is GetAlamatSuccessState) {
+                if (state is GetAlamatSuccessState) {
                   debugPrint('build');
-                  if(dataKabupatenKota.isEmpty) {
-                    dataKabupatenKota.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
-                    selectedKabupaten = dataKabupatenKota.firstWhere((element) => element.id == widget.paket.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.kecamatan.kabupatenKota.id);
+                  if (dataKabupatenKota.isEmpty) {
+                    dataKabupatenKota
+                        .addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                    selectedKabupaten = dataKabupatenKota.firstWhere(
+                        (element) =>
+                            element.id ==
+                            widget
+                                .paket
+                                .detailAnggotaKaderResponseModel
+                                .data!
+                                .dusun
+                                .desaKelurahan
+                                .kecamatan
+                                .kabupatenKota
+                                .id);
 
                     dataKecamatan.addAll(selectedKabupaten!.kecamatan);
-                    selectedKecamatan = dataKecamatan.firstWhere((element) => element.id == widget.paket.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.kecamatan.id);
+                    selectedKecamatan = dataKecamatan.firstWhere((element) =>
+                        element.id ==
+                        widget.paket.detailAnggotaKaderResponseModel.data!.dusun
+                            .desaKelurahan.kecamatan.id);
                     dataDesaKelurahan.addAll(selectedKecamatan!.desaKelurahan);
-                    selectedDesa = dataDesaKelurahan.firstWhere((element) => element.id == widget.paket.detailAnggotaKaderResponseModel.data!.dusun.desaKelurahan.id);
+                    selectedDesa = dataDesaKelurahan.firstWhere((element) =>
+                        element.id ==
+                        widget.paket.detailAnggotaKaderResponseModel.data!.dusun
+                            .desaKelurahan.id);
                     dataDusun.addAll(selectedDesa!.dusun);
-                    selectedDusun = dataDusun.firstWhere((element) => element.id == widget.paket.detailAnggotaKaderResponseModel.data!.dusun.id);
+                    selectedDusun = dataDusun.firstWhere((element) =>
+                        element.id ==
+                        widget.paket.detailAnggotaKaderResponseModel.data!.dusun
+                            .id);
                   }
-
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,8 +255,10 @@ class _UpdateRegisterAnggotaKaderViewState
                         children: [
                           Expanded(
                             child: IgnorePointer(
-                              ignoring: dataKabupatenKota.isNotEmpty ? false : true,
-                              child: DropdownButtonFormField2<DataKabupatenKota>(
+                              ignoring:
+                                  dataKabupatenKota.isNotEmpty ? false : true,
+                              child:
+                                  DropdownButtonFormField2<DataKabupatenKota>(
                                 isExpanded: true,
                                 style: AppTextStyles.primaryTextNormal.copyWith(
                                   fontSize: 12,
@@ -241,7 +266,8 @@ class _UpdateRegisterAnggotaKaderViewState
                                 value: selectedKabupaten, // Ini bisa null
                                 hint: Text(
                                   "Kabupaten",
-                                  style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                  style: AppTextStyles.secoundaryTextNormal
+                                      .copyWith(
                                     fontSize: 12,
                                   ),
                                 ),
@@ -283,9 +309,13 @@ class _UpdateRegisterAnggotaKaderViewState
                                 onSaved: (value) {},
                                 validator: null,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                   hintText: "Kabupaten",
-                                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
                                         color: Colors.grey,
                                       ),
                                   filled: true,
@@ -296,16 +326,20 @@ class _UpdateRegisterAnggotaKaderViewState
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: redPrimaryMain),
                                   ),
                                 ),
                               ),
@@ -322,7 +356,8 @@ class _UpdateRegisterAnggotaKaderViewState
                                 value: selectedKecamatan, // Ini bisa null
                                 hint: Text(
                                   "Kecamatan",
-                                  style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                  style: AppTextStyles.secoundaryTextNormal
+                                      .copyWith(
                                     fontSize: 12,
                                   ),
                                 ),
@@ -350,7 +385,8 @@ class _UpdateRegisterAnggotaKaderViewState
                                   setState(() {
                                     selectedKecamatan = value;
                                     dataDesaKelurahan.clear();
-                                    dataDesaKelurahan.addAll(value!.desaKelurahan);
+                                    dataDesaKelurahan
+                                        .addAll(value!.desaKelurahan);
 
                                     //clear list
                                     dataDusun.clear();
@@ -363,11 +399,15 @@ class _UpdateRegisterAnggotaKaderViewState
                                 onSaved: (value) {},
                                 validator: null,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                   hintText: "Kecamatan",
-                                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                      ),
                                   filled: true,
                                   fillColor: backgroundWhite10,
                                   border: OutlineInputBorder(
@@ -376,16 +416,20 @@ class _UpdateRegisterAnggotaKaderViewState
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: redPrimaryMain),
                                   ),
                                 ),
                               ),
@@ -401,8 +445,10 @@ class _UpdateRegisterAnggotaKaderViewState
                         children: [
                           Expanded(
                             child: IgnorePointer(
-                              ignoring: dataDesaKelurahan.isNotEmpty ? false : true,
-                              child: DropdownButtonFormField2<DataDesaKelurahan>(
+                              ignoring:
+                                  dataDesaKelurahan.isNotEmpty ? false : true,
+                              child:
+                                  DropdownButtonFormField2<DataDesaKelurahan>(
                                 isExpanded: true,
                                 style: AppTextStyles.primaryTextNormal.copyWith(
                                   fontSize: 12,
@@ -410,7 +456,8 @@ class _UpdateRegisterAnggotaKaderViewState
                                 value: selectedDesa, // Ini bisa null
                                 hint: Text(
                                   "Desa",
-                                  style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                  style: AppTextStyles.secoundaryTextNormal
+                                      .copyWith(
                                     fontSize: 12,
                                   ),
                                 ),
@@ -447,11 +494,15 @@ class _UpdateRegisterAnggotaKaderViewState
                                 onSaved: (value) {},
                                 validator: null,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                   hintText: "Desa",
-                                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                      ),
                                   filled: true,
                                   fillColor: backgroundWhite10,
                                   border: OutlineInputBorder(
@@ -460,16 +511,20 @@ class _UpdateRegisterAnggotaKaderViewState
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: redPrimaryMain),
                                   ),
                                 ),
                               ),
@@ -486,7 +541,8 @@ class _UpdateRegisterAnggotaKaderViewState
                                 value: selectedDusun, // Ini bisa null
                                 hint: Text(
                                   "Dusun",
-                                  style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                  style: AppTextStyles.secoundaryTextNormal
+                                      .copyWith(
                                     fontSize: 12,
                                   ),
                                 ),
@@ -518,11 +574,15 @@ class _UpdateRegisterAnggotaKaderViewState
                                 onSaved: (value) {},
                                 validator: null,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 12),
                                   hintText: "Dusun",
-                                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      color: Colors.grey,
-                                    ),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                      ),
                                   filled: true,
                                   fillColor: backgroundWhite10,
                                   border: OutlineInputBorder(
@@ -531,16 +591,20 @@ class _UpdateRegisterAnggotaKaderViewState
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                    borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: Colors.grey),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: redPrimaryMain),
                                   ),
                                 ),
                               ),
@@ -561,7 +625,7 @@ class _UpdateRegisterAnggotaKaderViewState
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validators: [ ],
+                              validators: [],
                             ),
                           ),
                           Expanded(
@@ -606,18 +670,19 @@ class _UpdateRegisterAnggotaKaderViewState
                                 debugPrint(widget.paket.anggotaKaderId);
                                 debugPrint(selectedDusun!.id);
                                 updateAnggotaKaderBloc.add(UpdateAnggotaKader(
-                                  anggotaKaderId: widget.paket.anggotaKaderId,
-                                  updateAnggotaKaderModel:
-                                      UpdateAnggotaKaderModel(
-                                        namaLengkap: _namaController.text,
-                                        nomorTelepon:
-                                            _nomorTeleponController.text,
-                                        tanggalLahir:
-                                            _tanggalLahirController.text,
-                                        rt: _rTController.text,
-                                        rw: _rWController.text,
-                                        alamatLengkap: _alamatController.text,
-                                        dusunId: selectedDusun!.id)));
+                                    anggotaKaderId: widget.paket.anggotaKaderId,
+                                    updateAnggotaKaderModel:
+                                        UpdateAnggotaKaderModel(
+                                            namaLengkap: _namaController.text,
+                                            nomorTelepon:
+                                                _nomorTeleponController.text,
+                                            tanggalLahir:
+                                                _tanggalLahirController.text,
+                                            rt: _rTController.text,
+                                            rw: _rWController.text,
+                                            alamatLengkap:
+                                                _alamatController.text,
+                                            dusunId: selectedDusun!.id)));
                               }
                             }, // Panggil callback saat tombol ditekan
                           );
@@ -626,7 +691,7 @@ class _UpdateRegisterAnggotaKaderViewState
                     ],
                   );
                 }
-                return const ErrorServerScreen();                
+                return const ErrorServerScreen();
               },
             ),
           ),

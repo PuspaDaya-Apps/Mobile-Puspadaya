@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
@@ -44,41 +45,37 @@ class _IndexPengukuranAnakScreenViewState
   @override
   Widget build(BuildContext context) {
     // final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final indexPengukuranAnakBloc = BlocProvider.of<IndexPengukuranAnakBloc>(context);
+    final indexPengukuranAnakBloc =
+        BlocProvider.of<IndexPengukuranAnakBloc>(context);
 
     return BlocListener<AuthenticationBloc, AuthenticationState>(
-      listener: (context, state) {
-      },
+      listener: (context, state) {},
       child: BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
         listener: (context, state) {
           debugPrint(state.toString());
           if (state is IndexPengukuranAnakFailedState) {
             debugPrint(state.error);
             showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(
-                milliseconds: 600
-              ),
-              displayDuration: const Duration(
-                milliseconds: 2200
-              ),
-              reverseAnimationDuration: const Duration(
-                milliseconds: 300
-              ),
-              TopSnackbarWidget().error(state.error)
-            );
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().error(state.error));
           }
-          if (state is IndexPengukuranAnakTokenExpiredState) {
-          }
+          if (state is IndexPengukuranAnakTokenExpiredState) {}
         },
         builder: (context, state) {
           if (state is IndexPengukuranAnakProcessState ||
               state is IndexPengukuranAnakInitial ||
               state is IndexPengukuranAnakTokenExpiredState) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: bluePrimaryMain,
-            ));
+            return SizedBox(
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
+            );
           }
           if (state is IndexPengukuranAnakSuccessState) {
             if (state.indexPengukuranAnakResponseModel.data!.isEmpty) {

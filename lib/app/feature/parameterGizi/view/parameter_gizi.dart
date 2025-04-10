@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -177,7 +178,14 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                   BlocBuilder<ParameterGiziCubit, ParameterGiziState>(
                     builder: (context, state) {
                       if (state is ParameterGiziLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                          child: Center(
+                            child: SpinKitThreeBounce(
+                              color: bluePrimaryMain,
+                              size: 50.0,
+                            ),
+                          ),
+                        );
                       } else if (state is ParameterGiziLoaded) {
                         return Container(
                           height: MediaQuery.sizeOf(context).height / 1.68,

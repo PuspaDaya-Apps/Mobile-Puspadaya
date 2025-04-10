@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/kunjungan/view/widget/alert_create_kunjungan.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_items_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../route/route_name.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
-import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/index_kunjungan_bloc.dart';
 
 class KunjunganScreen extends StatelessWidget {
@@ -58,10 +57,15 @@ class _KunjunganViewState extends State<KunjunganView> {
           },
           builder: (context, state) {
             if (state is IndexKunjunganProccessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
-                )
+              return SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if(state is IndexKunjunganSuccessState) {

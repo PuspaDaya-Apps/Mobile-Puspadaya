@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
@@ -201,8 +202,15 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
           },
           builder: (context, state) {
             if (state is UpdateAlataUkurLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is UpdateAlatUkurFailed) {

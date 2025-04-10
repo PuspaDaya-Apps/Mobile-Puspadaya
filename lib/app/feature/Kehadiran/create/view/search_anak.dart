@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/Kehadiran/model/list_data_anak_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 
@@ -51,7 +52,6 @@ class _SearchAnakViewState extends State<SearchAnakView> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,8 +67,13 @@ class _SearchAnakViewState extends State<SearchAnakView> {
         child: BlocBuilder<AnakPosyanduBloc, AnakPosyanduState>(
           builder: (context, state) {
             if (state is AnakPosyanduLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is AnakPosyanduFailed) {
@@ -99,7 +104,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                       child: ListTile(
                         onTap: () {
                           // logger.d(dataSelected.nama);
-                          PaketFromSearchAnakToPosyandu data = PaketFromSearchAnakToPosyandu(
+                          PaketFromSearchAnakToPosyandu data =
+                              PaketFromSearchAnakToPosyandu(
                             id: dataPosyanduItem.id,
                             namaAnak: dataPosyanduItem.namaAnak,
                             nik: dataPosyanduItem.nik,
@@ -157,7 +163,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: dataPosyanduItem.kartuKeluarga.ibu.namaIbu,
+                                    text: dataPosyanduItem
+                                        .kartuKeluarga.ibu.namaIbu,
                                     style: AppTextStyles.primaryTextNormal
                                         .copyWith(
                                       fontSize: 12,

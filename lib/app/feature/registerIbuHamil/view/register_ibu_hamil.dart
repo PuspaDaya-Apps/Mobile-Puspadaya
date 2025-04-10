@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/card_ibuhamil_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
 
@@ -33,7 +34,6 @@ class RegisterIbuHamilView extends StatefulWidget {
 class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
 
-  
   @override
   void initState() {
     context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
@@ -60,8 +60,9 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
         ),
         onPressed: () {
           Navigator.pushNamed(context, CREATE_REGISTER_IBU_HAMIL).then((value) {
-            if(value != null) {
-              BlocProvider.of<GetIndexIbuHamilBloc>(context).add(FetchIndexIbuHamil());
+            if (value != null) {
+              BlocProvider.of<GetIndexIbuHamilBloc>(context)
+                  .add(FetchIndexIbuHamil());
             }
           });
           // Add your navigation or functionality for adding new items
@@ -101,8 +102,13 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                 child: BlocBuilder<GetIndexIbuHamilBloc, GetIndexIbuHamilState>(
                   builder: (context, state) {
                     if (state is GetIndexIbuHamilLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
                       );
                     }
                     if (state is GetIndexIbuHamilFailed) {

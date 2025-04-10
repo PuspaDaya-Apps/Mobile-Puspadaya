@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_catatan.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/detail/view/detail_data.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -91,12 +92,14 @@ class _DetailPengukuranAnakViewState extends State<DetailPengukuranAnakView>
             builder: (context, state) {
               if (state is DetailPengukuranAnakProcessState) {
                 return SizedBox(
-                  height: MediaQuery.sizeOf(context).height,
                   width: MediaQuery.sizeOf(context).width,
-                  child: const Center(
-                      child: CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  )),
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
               if (state is DetailPengukuranAnakSuccesState) {

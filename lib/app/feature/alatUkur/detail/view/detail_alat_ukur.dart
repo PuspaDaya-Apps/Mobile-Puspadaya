@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -64,6 +65,19 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
       body: SafeArea(
         child: BlocConsumer<DetailAlatUkurBloc, DetailAlatUkurState>(
           listener: (context, state) {
+            if (state is DeleteAlatUkurFailed) {
+              logger.d(state.message);
+              showTopSnackBar(
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().error(state.message),
+              );
+              context
+                  .read<DetailAlatUkurBloc>()
+                  .add(GetDetailAlatUkurEvent(widget.idAlatUkur));
+            }
             if (state is DeleteAlatUkurSuccess) {
               showTopSnackBar(
                 Overlay.of(context),
@@ -77,8 +91,15 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
           },
           builder: (context, state) {
             if (state is DetailAlatUkurLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is DetailAlatUkurFailed) {
@@ -136,7 +157,8 @@ class _DetailAlatUkurViewState extends State<DetailAlatUkurView> {
                           borderRadius:
                               BorderRadius.circular(8), // Berikan border radius
                           child: Image.network(
-                            ApiUtils().urlGetPublicImage(state.data.data.alatPengukuranAdmin.imageUrl),
+                            ApiUtils().urlGetPublicImage(
+                                state.data.data.alatPengukuranAdmin.imageUrl),
                             height: 300,
                             width: double.infinity,
                             fit: BoxFit.cover,

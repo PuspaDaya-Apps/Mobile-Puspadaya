@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -76,7 +77,8 @@ class _DetailKunjunganIbuHamilScreenState
 
   @override
   Widget build(BuildContext context) {
-    final deleteKunjunganBloc = BlocProvider.of<DeleteKunjunganIbuHamilBloc>(context);
+    final deleteKunjunganBloc =
+        BlocProvider.of<DeleteKunjunganIbuHamilBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -89,25 +91,30 @@ class _DetailKunjunganIbuHamilScreenState
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocConsumer<DetailKunjunganIbuHamilBloc, DetailKunjunganIbuHamilState>(
+          child: BlocConsumer<DetailKunjunganIbuHamilBloc,
+              DetailKunjunganIbuHamilState>(
             listener: (context, state) {
               debugPrint(state.toString());
             },
             builder: (context, state) {
-              if(state is DetailKunjunganIbuHamilProccessState) {
-                return Container(
+              if (state is DetailKunjunganIbuHamilProccessState) {
+                return SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
                   height: MediaQuery.sizeOf(context).height,
-                  width: MediaQuery.sizeOf(context).height,
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(
-                    color: bluePrimaryMain,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }
-              if(state is DetailKunjunganIbuHamilSuccessState) {
+              if (state is DetailKunjunganIbuHamilSuccessState) {
                 return Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                   width: MediaQuery.sizeOf(context).width,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -126,7 +133,8 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.nik),
+                      InfoFieldWidget(
+                          text: state.listDataIbuHamil.ibuHamil!.ibuAnak.nik),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         'Nama',
@@ -137,7 +145,9 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.namaIbu),
+                      InfoFieldWidget(
+                          text:
+                              state.listDataIbuHamil.ibuHamil!.ibuAnak.namaIbu),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,7 +167,9 @@ class _DetailKunjunganIbuHamilScreenState
                                 SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
-                                InfoFieldWidget(text: DateFormat("HH:mm", "ID_id").format(state.listDataIbuHamil.mulaiPada)),
+                                InfoFieldWidget(
+                                    text: DateFormat("HH:mm", "ID_id").format(
+                                        state.listDataIbuHamil.mulaiPada)),
                               ],
                             ),
                           ),
@@ -174,7 +186,9 @@ class _DetailKunjunganIbuHamilScreenState
                                 SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
-                                InfoFieldWidget(text: DateFormat("HH:mm", "ID_id").format(state.listDataIbuHamil.selesaiPada)),
+                                InfoFieldWidget(
+                                    text: DateFormat("HH:mm", "ID_id").format(
+                                        state.listDataIbuHamil.selesaiPada)),
                               ],
                             ),
                           ),
@@ -190,7 +204,10 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: formattedTime(state.listDataIbuHamil.selesaiPada.difference(state.listDataIbuHamil.mulaiPada).inSeconds)),
+                      InfoFieldWidget(
+                          text: formattedTime(state.listDataIbuHamil.selesaiPada
+                              .difference(state.listDataIbuHamil.mulaiPada)
+                              .inSeconds)),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         'Jarak Tempuh',
@@ -217,10 +234,27 @@ class _DetailKunjunganIbuHamilScreenState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .listDataIbuHamil
+                                    .ibuHamil!
+                                    .ibuAnak
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .kabupatenKota
+                                    .namaKabupatenKota),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.dusun.desaKelurahan.kecamatan.namaKecamatan),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .listDataIbuHamil
+                                    .ibuHamil!
+                                    .ibuAnak
+                                    .dusun
+                                    .desaKelurahan
+                                    .kecamatan
+                                    .namaKecamatan),
                           )
                         ],
                       ),
@@ -231,10 +265,14 @@ class _DetailKunjunganIbuHamilScreenState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.dusun.desaKelurahan.namaDesaKelurahan),
+                            child: InfoFieldWidget(
+                                text: state.listDataIbuHamil.ibuHamil!.ibuAnak
+                                    .dusun.desaKelurahan.namaDesaKelurahan),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.dusun.namaDusun),
+                            child: InfoFieldWidget(
+                                text: state.listDataIbuHamil.ibuHamil!.ibuAnak
+                                    .dusun.namaDusun),
                           )
                         ],
                       ),
@@ -245,10 +283,14 @@ class _DetailKunjunganIbuHamilScreenState
                         spacing: 8,
                         children: [
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.rt),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .listDataIbuHamil.ibuHamil!.ibuAnak.rt),
                           ),
                           Expanded(
-                            child: InfoFieldWidget(text: state.listDataIbuHamil.ibuHamil!.ibuAnak.rw),
+                            child: InfoFieldWidget(
+                                text: state
+                                    .listDataIbuHamil.ibuHamil!.ibuAnak.rw),
                           )
                         ],
                       ),
@@ -269,25 +311,27 @@ class _DetailKunjunganIbuHamilScreenState
                             fontSize: 14,
                           ),
                         ),
-                        children: state.listDataIbuHamil.kunjunganTugasKader.map(
-                          (task) => Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                bottom: 5,
-                                left: 3,
-                              ),
-                              child: Text(
-                                textAlign: TextAlign.start,
-                                task.tugasKunjungan.namaTugas,
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 14,
+                        children: state.listDataIbuHamil.kunjunganTugasKader
+                            .map(
+                              (task) => Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: 5,
+                                    left: 3,
+                                  ),
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    task.tugasKunjungan.namaTugas,
+                                    style: AppTextStyles.primaryTextNormal
+                                        .copyWith(
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        )
-                        .toList(),
+                            )
+                            .toList(),
                       ),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
@@ -301,7 +345,10 @@ class _DetailKunjunganIbuHamilScreenState
                             MaterialPageRoute(
                               builder: (context) {
                                 return BuktiKunjungan(
-                                  imageUrls: state.listDataIbuHamil.buktiKunjungan.map((e) => e.filePath).toList(),
+                                  imageUrls: state
+                                      .listDataIbuHamil.buktiKunjungan
+                                      .map((e) => e.filePath)
+                                      .toList(),
                                 );
                               },
                             ),
@@ -311,28 +358,39 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
-                      state.listDataIbuHamil.selesaiPada.difference(DateTime.now()).inDays == 0
-                      ? ButtonPrimary(
-                        color: goldPrimaryMain,
-                        mainButtonMessage: 'Perbarui',
-                        mainButton: () {
-                          Navigator.pushNamed(context, UPDATE_IBU_HAMIL_KUNJUNGAN, arguments: state.listDataIbuHamil).then((value) {
-                            if(value != null) {
-                              BlocProvider.of<DetailKunjunganIbuHamilBloc>(context).add(GetDetailKunjunganIbuHamil(widget.idKunjungan));
-                            }
-                          });
-                        },
-                      )
-                      : const SizedBox(),
+                      state.listDataIbuHamil.selesaiPada
+                                  .difference(DateTime.now())
+                                  .inDays ==
+                              0
+                          ? ButtonPrimary(
+                              color: goldPrimaryMain,
+                              mainButtonMessage: 'Perbarui',
+                              mainButton: () {
+                                Navigator.pushNamed(
+                                        context, UPDATE_IBU_HAMIL_KUNJUNGAN,
+                                        arguments: state.listDataIbuHamil)
+                                    .then((value) {
+                                  if (value != null) {
+                                    BlocProvider.of<
+                                                DetailKunjunganIbuHamilBloc>(
+                                            context)
+                                        .add(GetDetailKunjunganIbuHamil(
+                                            widget.idKunjungan));
+                                  }
+                                });
+                              },
+                            )
+                          : const SizedBox(),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
-                      BlocConsumer<DeleteKunjunganIbuHamilBloc, DeleteKunjunganIbuHamilState>(
+                      BlocConsumer<DeleteKunjunganIbuHamilBloc,
+                          DeleteKunjunganIbuHamilState>(
                         listener: (context, state) {
                           debugPrint(state.toString());
-                          if(state is DeleteKunjunganIbuHamilSuccessState) {
+                          if (state is DeleteKunjunganIbuHamilSuccessState) {
                             Navigator.pop(context);
-                            Navigator.pop(context,1);
+                            Navigator.pop(context, 1);
                           }
                         },
                         builder: (context, stateDelete) {
@@ -340,14 +398,16 @@ class _DetailKunjunganIbuHamilScreenState
                             color: redPrimaryMain,
                             mainButtonMessage: 'Hapus',
                             mainButton: () {
-                               showDialog(
+                              showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialogWidget(
                                     title: 'Apakah Anda Yakin?',
-                                    message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                    message:
+                                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                     mainButton: () {
-                                      deleteKunjunganBloc.add(DeleteKunjungan(state.listDataIbuHamil.id));
+                                      deleteKunjunganBloc.add(DeleteKunjungan(
+                                          state.listDataIbuHamil.id));
                                     },
                                     image: imageDeleteItems,
                                     mainButtonMessage: 'Iya, Hapus  Kunjungan',
@@ -356,7 +416,10 @@ class _DetailKunjunganIbuHamilScreenState
                                       Navigator.pop(context);
                                     },
                                     cancelButtonMessage: 'Batalkan',
-                                    loadingState: stateDelete is DeleteKunjunganIbuHamilProccessState ? true : null,
+                                    loadingState: stateDelete
+                                            is DeleteKunjunganIbuHamilProccessState
+                                        ? true
+                                        : null,
                                   );
                                 },
                               );
@@ -369,11 +432,10 @@ class _DetailKunjunganIbuHamilScreenState
                 );
               }
               return Container(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).height,
-                alignment: Alignment.center,
-                child: const ErrorServerScreen()
-              );
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).height,
+                  alignment: Alignment.center,
+                  child: const ErrorServerScreen());
             },
           ),
         ),

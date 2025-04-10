@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../../config/theme/shadow.dart';
@@ -158,8 +160,15 @@ class _DataIbuHamilViewState extends State<DataIbuHamilView> {
     return BlocBuilder<IndexDataIbuHamilBloc, IndexDataIbuHamilState>(
       builder: (context, state) {
         if (state is IndexDataIbuHamilLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         } else if (state is IndexDataIbuHamilFailed) {
           return Center(

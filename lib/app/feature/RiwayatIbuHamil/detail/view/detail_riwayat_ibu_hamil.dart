@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
@@ -60,8 +61,13 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
         child: BlocBuilder<DetailRiwayatPengukuranIbuHamilBloc, DetailRiwayatPengukuranIbuHamilState>(
           builder: (context, state) {
             if(state is DetailRiwayatPengukuranIbuHamilLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if(state is DetailRiwayatPengukuranIbuHamilFailed) {

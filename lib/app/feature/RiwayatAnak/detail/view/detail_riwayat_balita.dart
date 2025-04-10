@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -83,7 +84,14 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
             DetailRiwayatPengukuranAnakState>(
           builder: (context, state) {
             if (state is DetailRiwayatPengukuranAnakLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
+              );
             }
             if (state is DetailRiwayatPengukuranAnakFailed) {
               return Center(child: Text(state.message));
@@ -93,7 +101,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
               logger.d(state.data.data.pengukuran[0].beratBadan);
               logger.d(state.data.data.pengukuran[0].tanggalPengukuran);
               logger.d(state.data.data.jenisKelamin);
-              logger.d(state.dataGrafik.length); //berisi data grafik 0-61 minggu 
+              logger
+                  .d(state.dataGrafik.length); //berisi data grafik 0-61 minggu
               return SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.all(20),
@@ -475,8 +484,14 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                       BlocBuilder<SelectChartCubit, SelectChartState>(
                         builder: (context, state) {
                           if (state is SelectChartLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return SizedBox(
+                              child: Center(
+                                child: SpinKitThreeBounce(
+                                  color: bluePrimaryMain,
+                                  size: 50.0,
+                                ),
+                              ),
+                            );
                           } else if (state is SelectChartFailed) {
                             return Center(child: Text(state.message));
                           } else if (state is SelectChartSuccess) {
@@ -514,8 +529,6 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
     );
   }
 }
-
-
 
 class DataTableRiwayatAnak extends StatelessWidget {
   final List<GetDetailRiwayatPengukuranAnakModel.Pengukuran> data;

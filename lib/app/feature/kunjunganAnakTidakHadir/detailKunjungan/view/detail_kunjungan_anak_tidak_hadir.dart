@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -92,25 +93,30 @@ class _DetailKunjunganAnakTidakHadirScreenState
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocConsumer<DetailKunjunganAnakTidakHadirBloc, DetailKunjunganAnakTidakHadirState>(
+          child: BlocConsumer<DetailKunjunganAnakTidakHadirBloc,
+              DetailKunjunganAnakTidakHadirState>(
             listener: (context, state) {
               debugPrint(state.toString());
             },
             builder: (context, state) {
-              if(state is DetailKunjunganAnakTidakHadirProccessState) {
-                return Container(
-                  height: MediaQuery.sizeOf(context).height,
-                  width: MediaQuery.sizeOf(context).height,
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(
-                    color: bluePrimaryMain,
+              if (state is DetailKunjunganAnakTidakHadirProccessState) {
+                return SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height / 1.15,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }
-              if(state is DetailKunjunganAnakTidakHadirSuccessState) {
+              if (state is DetailKunjunganAnakTidakHadirSuccessState) {
                 return Container(
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  margin:
+                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                   width: MediaQuery.sizeOf(context).width,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -163,8 +169,9 @@ class _DetailKunjunganAnakTidakHadirScreenState
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 InfoFieldWidget(
-                                  text: DateFormat("HH:mm", "ID_id").format(state.listDataAnakTidakHadir.mulaiPada)
-                                ),
+                                    text: DateFormat("HH:mm", "ID_id").format(
+                                        state
+                                            .listDataAnakTidakHadir.mulaiPada)),
                               ],
                             ),
                           ),
@@ -182,10 +189,9 @@ class _DetailKunjunganAnakTidakHadirScreenState
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 InfoFieldWidget(
-                                  text: DateFormat("HH:mm", "ID_id").format(
-                                    state.listDataAnakTidakHadir.selesaiPada
-                                  )
-                                ),
+                                    text: DateFormat("HH:mm", "ID_id").format(
+                                        state.listDataAnakTidakHadir
+                                            .selesaiPada)),
                               ],
                             ),
                           ),
@@ -204,7 +210,8 @@ class _DetailKunjunganAnakTidakHadirScreenState
                       InfoFieldWidget(
                           text: formattedTime(state
                               .listDataAnakTidakHadir.selesaiPada
-                              .difference(state.listDataAnakTidakHadir.mulaiPada)
+                              .difference(
+                                  state.listDataAnakTidakHadir.mulaiPada)
                               .inSeconds)),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
@@ -219,7 +226,8 @@ class _DetailKunjunganAnakTidakHadirScreenState
                       InfoFieldWidget(
                           text: state.listDataAnakTidakHadir.jarakTotal),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      state.listDataAnakTidakHadir.anak!.kartuKeluarga.ibu != null
+                      state.listDataAnakTidakHadir.anak!.kartuKeluarga.ibu !=
+                              null
                           ? Column(
                               children: [
                                 Align(
@@ -302,13 +310,13 @@ class _DetailKunjunganAnakTidakHadirScreenState
                                   children: [
                                     Expanded(
                                       child: InfoFieldWidget(
-                                          text: state.listDataAnakTidakHadir.anak!
-                                              .kartuKeluarga.ibu!.rt),
+                                          text: state.listDataAnakTidakHadir
+                                              .anak!.kartuKeluarga.ibu!.rt),
                                     ),
                                     Expanded(
                                       child: InfoFieldWidget(
-                                          text: state.listDataAnakTidakHadir.anak!
-                                              .kartuKeluarga.ibu!.rw),
+                                          text: state.listDataAnakTidakHadir
+                                              .anak!.kartuKeluarga.ibu!.rw),
                                     )
                                   ],
                                 ),
@@ -333,27 +341,28 @@ class _DetailKunjunganAnakTidakHadirScreenState
                             fontSize: 14,
                           ),
                         ),
-                        children: state.listDataAnakTidakHadir.kunjunganTugasKader
-                            .map(
-                              (task) => Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: 5,
-                                    left: 3,
-                                  ),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    task.tugasKunjungan.namaTugas,
-                                    style: AppTextStyles.primaryTextNormal
-                                        .copyWith(
-                                      fontSize: 14,
+                        children:
+                            state.listDataAnakTidakHadir.kunjunganTugasKader
+                                .map(
+                                  (task) => Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        bottom: 5,
+                                        left: 3,
+                                      ),
+                                      child: Text(
+                                        textAlign: TextAlign.start,
+                                        task.tugasKunjungan.namaTugas,
+                                        style: AppTextStyles.primaryTextNormal
+                                            .copyWith(
+                                          fontSize: 14,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                                )
+                                .toList(),
                       ),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
@@ -367,7 +376,10 @@ class _DetailKunjunganAnakTidakHadirScreenState
                             MaterialPageRoute(
                               builder: (context) {
                                 return BuktiKunjungan(
-                                  imageUrls: state.listDataAnakTidakHadir.buktiKunjungan.map((e) => e.filePath).toList(),
+                                  imageUrls: state
+                                      .listDataAnakTidakHadir.buktiKunjungan
+                                      .map((e) => e.filePath)
+                                      .toList(),
                                 );
                               },
                             ),
@@ -377,28 +389,40 @@ class _DetailKunjunganAnakTidakHadirScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
-                      state.listDataAnakTidakHadir.selesaiPada.difference(DateTime.now()).inDays == 0
-                      ? ButtonPrimary(
-                          color: goldPrimaryMain,
-                          mainButtonMessage: 'Perbarui',
-                          mainButton: () {
-                            Navigator.pushNamed(context, UPDATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.listDataAnakTidakHadir).then((value) {
-                              if(value != null) {
-                                BlocProvider.of<DetailKunjunganAnakTidakHadirBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
-                              }
-                            });
-                          },
-                        )
-                      : const SizedBox(),
+                      state.listDataAnakTidakHadir.selesaiPada
+                                  .difference(DateTime.now())
+                                  .inDays ==
+                              0
+                          ? ButtonPrimary(
+                              color: goldPrimaryMain,
+                              mainButtonMessage: 'Perbarui',
+                              mainButton: () {
+                                Navigator.pushNamed(context,
+                                        UPDATE_ANAK_TIDAK_HADIR_KUNJUNGAN,
+                                        arguments: state.listDataAnakTidakHadir)
+                                    .then((value) {
+                                  if (value != null) {
+                                    BlocProvider.of<
+                                                DetailKunjunganAnakTidakHadirBloc>(
+                                            context)
+                                        .add(GetDetailKunjunganAnak(
+                                            widget.idKunjungan));
+                                  }
+                                });
+                              },
+                            )
+                          : const SizedBox(),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
-                      BlocConsumer<DeleteKunjunganAnakTidakHadirBloc, DeleteKunjunganAnakTidakHadirState>(
+                      BlocConsumer<DeleteKunjunganAnakTidakHadirBloc,
+                          DeleteKunjunganAnakTidakHadirState>(
                         listener: (context, state) {
                           debugPrint(state.toString());
-                          if(state is DeleteKunjunganAnakTidakHadirSuccessState) {
+                          if (state
+                              is DeleteKunjunganAnakTidakHadirSuccessState) {
                             Navigator.pop(context);
-                            Navigator.pop(context,1);
+                            Navigator.pop(context, 1);
                           }
                         },
                         builder: (context, stateDelete) {
@@ -406,17 +430,19 @@ class _DetailKunjunganAnakTidakHadirScreenState
                             color: redPrimaryMain,
                             mainButtonMessage: 'Hapus',
                             mainButton: () {
-                          showDialog(
+                              showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialogWidget(
                                     title: 'Apakah Anda Yakin?',
-                                    message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                    message:
+                                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                     mainButton: () {
-                                      deleteKunjunganBloc.add(DeleteKunjungan(state.listDataAnakTidakHadir.id));
+                                      deleteKunjunganBloc.add(DeleteKunjungan(
+                                          state.listDataAnakTidakHadir.id));
                                     },
                                     image: imageDeleteItems,
-                                mainButtonMessage: 'Iya, Hapus  Kunjungan',
+                                    mainButtonMessage: 'Iya, Hapus  Kunjungan',
                                     colorMainButton: redPrimaryMain,
                                     cancelButton: () {
                                       Navigator.pop(context);
@@ -434,11 +460,10 @@ class _DetailKunjunganAnakTidakHadirScreenState
                 );
               }
               return Container(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).height,
-                alignment: Alignment.center,
-                child: const ErrorServerScreen()
-              );
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).height,
+                  alignment: Alignment.center,
+                  child: const ErrorServerScreen());
             },
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/Kehadiran/create/model/post_create_kehadiran_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -458,8 +459,13 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                 BlocBuilder<CreateKehadiranAnakBloc, CreateKehadiranAnakState>(
                   builder: (context, state) {
                     if (state is CreateKehadiranFormAnakLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
                       );
                     }
                     if (state is CreateKehadiranFormAnakEmpty) {
@@ -544,8 +550,13 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                     CreateKehadiranIbuHamilState>(
                   builder: (context, state) {
                     if (state is CreateKehadiranFormIbuHamilLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
                       );
                     }
                     if (state is CreateKehadiranFormIbuHamilEmpty) {

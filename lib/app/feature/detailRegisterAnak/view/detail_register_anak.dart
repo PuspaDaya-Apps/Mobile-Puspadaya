@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/bloc/detail_register_anak_bloc.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/view/detail_data_anak.dart';
 import 'package:puspadaya/app/feature/detailRegisterAnak/view/detail_data_kia.dart';
@@ -104,8 +105,15 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                 BlocBuilder<DetailRegisterAnakBloc, DetailRegisterAnakState>(
                     builder: (context, state) {
                   if (state is DetailRegisterAnakLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return SizedBox(
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
                     );
                   } else if (state is DetailRegisterAnakFailure) {
                     return Center(

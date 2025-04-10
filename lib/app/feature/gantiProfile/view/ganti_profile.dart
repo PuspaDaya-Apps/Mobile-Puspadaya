@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/feature/gantiProfile/bloc/ganti_profile_bloc.dart';
 
@@ -131,8 +132,15 @@ class _GantiProfileViewState extends State<GantiProfileView> {
         },
         builder: (context, stateGantiProfile) {
           if (stateGantiProfile is GantiProfileFormLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+             return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
             );
           }
 

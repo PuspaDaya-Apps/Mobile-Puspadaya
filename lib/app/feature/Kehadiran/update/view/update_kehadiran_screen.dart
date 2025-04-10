@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -504,8 +505,13 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
               BlocBuilder<UpdateKehadiranAnakBloc, UpdateKehadiranAnakState>(
                 builder: (context, state) {
                   if (state is UpdateKehadiranFormAnakLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return SizedBox(
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
                     );
                   }
                   if (state is UpdateKehadiranFormAnakFailed) {
@@ -595,8 +601,13 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
                   UpdateKehadiranIbuHamilState>(
                 builder: (context, state) {
                   if (state is UpdateKehadiranFormIbuHamilLoading) {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return SizedBox(
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
                     );
                   }
                   if (state is UpdateKehadiranFormIbuHamilFailed) {

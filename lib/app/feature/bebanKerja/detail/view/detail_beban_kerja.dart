@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/screen/error_server_screen.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
@@ -43,7 +44,6 @@ class DetailBebanKerjaView extends StatefulWidget {
 }
 
 class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
-
   @override
   void initState() {
     super.initState();
@@ -69,18 +69,24 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
           debugPrint(state.toString());
         },
         builder: (context, state) {
-          if(state is DetailBebanKerjaProcessState) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: bluePrimaryMain,
+          if (state is DetailBebanKerjaProcessState) {
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
               ),
             );
           }
-          if(state is DetailBebanKerjaSuccesState) {
+          if (state is DetailBebanKerjaSuccesState) {
             return SafeArea(
               child: Container(
                 margin: const EdgeInsets.all(20),
-                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                 width: MediaQuery.sizeOf(context).width,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -99,7 +105,9 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                     SizedBox(
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
-                    InfoFieldWidget(text: DateFormat('MMMM y', 'id_ID').format(state.bulan)),
+                    InfoFieldWidget(
+                        text:
+                            DateFormat('MMMM y', 'id_ID').format(state.bulan)),
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                     Container(
                       width: double.infinity,
@@ -125,8 +133,8 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                             return ExpansionTile(
                               tilePadding: EdgeInsets
                                   .zero, // Menghapus padding pada judul tile
-                              childrenPadding:
-                                  EdgeInsets.zero, // Menghapus padding anak-anak
+                              childrenPadding: EdgeInsets
+                                  .zero, // Menghapus padding anak-anak
                               expandedCrossAxisAlignment: CrossAxisAlignment
                                   .start, // Pastikan anak-anak rata kiri
                               title: Text(
@@ -135,7 +143,8 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                                   fontSize: 14,
                                 ),
                               ),
-                              children: state.item[index].subItems!.map((subItem) {
+                              children:
+                                  state.item[index].subItems!.map((subItem) {
                                 return Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
@@ -173,7 +182,7 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                         if (state is HapusBebanKerjaSuccessState) {
                           Navigator.pop(context);
                           Navigator.pop(context, 1);
-                        } 
+                        }
                         if (state is HapusBebanKerjaFailedState) {
                           debugPrint(state.error);
                         }
@@ -191,8 +200,8 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                                   message:
                                       'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                   mainButton: () {
-                                    hapusBebanKerjaBloc.add(
-                                        SendHapusBebanKerja(widget.bebanKerjaId));
+                                    hapusBebanKerjaBloc.add(SendHapusBebanKerja(
+                                        widget.bebanKerjaId));
                                   },
                                   image: imageDeleteItems,
                                   mainButtonMessage: 'Iya, Hapus Kegiatan',

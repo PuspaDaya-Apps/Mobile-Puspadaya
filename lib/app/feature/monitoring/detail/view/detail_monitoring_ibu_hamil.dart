@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -65,11 +66,14 @@ class _DetailMonitoringIbuHamilViewState
           child: BlocBuilder<DetailDataIbuHamilBloc, DetailDataIbuHamilState>(
               builder: (context, state) {
             if (state is DetailDataIBuHamilLoading) {
-              return Container(
+              return SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height,
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
                 ),
               );
             } else if (state is DetailDataIbuHamilFailed) {

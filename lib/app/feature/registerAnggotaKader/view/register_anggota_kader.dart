@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/card_anggotakader_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
 
@@ -95,11 +96,14 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
             },
             builder: (context, state) {
               if (state is IndexAnggotaKaderProcessState) {
-                return const Center(
-                  child: CircularProgressIndicator(
+                return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
                     color: bluePrimaryMain,
+                    size: 50.0,
                   ),
-                );
+                ),
+              );
               }
               if (state is IndexAnggotaKaderSuccessState) {
                 if (state.indexAnggotaKaderResponseModel.data!.isEmpty) {

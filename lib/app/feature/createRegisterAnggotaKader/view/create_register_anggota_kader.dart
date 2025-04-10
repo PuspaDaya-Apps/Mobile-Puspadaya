@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/createRegisterAnggotaKader/view/create_import.dart';
 import 'package:puspadaya/app/feature/createRegisterAnggotaKader/view/create_individu.dart';
 import 'package:puspadaya/app/view/screen/error_server_screen.dart';
@@ -97,9 +98,14 @@ class _CreateRegisterAnggotaKaderViewState
           },
           builder: (context, userState) {
             if (userState is CurrentUserProccessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
                 ),
               );
             }
@@ -110,9 +116,14 @@ class _CreateRegisterAnggotaKaderViewState
                 },
                 builder: (context, state) {
                   if (state is GetAlamatProccessState) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                    return SizedBox(
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }

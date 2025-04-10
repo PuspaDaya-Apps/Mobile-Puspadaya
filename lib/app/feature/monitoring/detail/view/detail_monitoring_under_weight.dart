@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -82,11 +83,14 @@ class _DetailMonitoringUnderWeightViewState
               DetailDataUnderWeightState>(
             builder: (context, state) {
               if (state is DetailDataUnderWeightLoading) {
-                return Container(
+                return SizedBox(
                   width: MediaQuery.sizeOf(context).width,
                   height: MediaQuery.sizeOf(context).height,
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }
@@ -505,8 +509,14 @@ class _DetailMonitoringUnderWeightViewState
                       BlocBuilder<SelectChartCubit, SelectChartState>(
                         builder: (context, state) {
                           if (state is SelectChartLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return SizedBox(
+                              child: Center(
+                                child: SpinKitThreeBounce(
+                                  color: bluePrimaryMain,
+                                  size: 50.0,
+                                ),
+                              ),
+                            );
                           } else if (state is SelectChartFailed) {
                             return Center(child: Text(state.message));
                           } else if (state is SelectChartSuccess) {
@@ -545,7 +555,7 @@ class _DetailMonitoringUnderWeightViewState
 }
 
 class DataTableRiwayatPengukuranUnderWeight extends StatelessWidget {
-    final List<GetDetailMonitoringAnak.Pengukuran> data;
+  final List<GetDetailMonitoringAnak.Pengukuran> data;
   const DataTableRiwayatPengukuranUnderWeight({super.key, required this.data});
 
   @override

@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_measuring_widget.dart';
@@ -67,8 +68,15 @@ class _DetailRegisterIbuHamilViewState
         child: BlocBuilder<GetDetailIbuHamilBloc, GetDetailIbuHamilState>(
           builder: (context, state) {
             if (state is GetDetailIbuHamilLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is GetDetailIbuHamilFailed) {
@@ -111,7 +119,8 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.namaIbu),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.namaIbu),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -122,7 +131,8 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.nik),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.nik),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -133,7 +143,8 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.nomorTelepon),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.nomorTelepon),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -143,7 +154,8 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.usia),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.usia),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(
@@ -153,7 +165,8 @@ class _DetailRegisterIbuHamilViewState
                               ),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.ayah.namaAyah),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.ayah.namaAyah),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               const Text(
@@ -171,10 +184,27 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
+                                    child: InfoFieldWidget(
+                                        text: state
+                                            .data
+                                            .data!
+                                            .ibuAnak
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .kabupatenKota
+                                            .namaKabupatenKota),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.kecamatan.namaKecamatan),
+                                    child: InfoFieldWidget(
+                                        text: state
+                                            .data
+                                            .data!
+                                            .ibuAnak
+                                            .dusun
+                                            .desaKelurahan
+                                            .kecamatan
+                                            .namaKecamatan),
                                   ),
                                 ],
                               ),
@@ -187,10 +217,14 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.desaKelurahan.namaDesaKelurahan),
+                                    child: InfoFieldWidget(
+                                        text: state.data.data!.ibuAnak.dusun
+                                            .desaKelurahan.namaDesaKelurahan),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.dusun.namaDusun),
+                                    child: InfoFieldWidget(
+                                        text: state.data.data!.ibuAnak.dusun
+                                            .namaDusun),
                                   ),
                                 ],
                               ),
@@ -203,17 +237,20 @@ class _DetailRegisterIbuHamilViewState
                                 spacing: 8,
                                 children: [
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.rt),
+                                    child: InfoFieldWidget(
+                                        text: state.data.data!.ibuAnak.rt),
                                   ),
                                   Expanded(
-                                    child: InfoFieldWidget(text: state.data.data!.ibuAnak.rw),
+                                    child: InfoFieldWidget(
+                                        text: state.data.data!.ibuAnak.rw),
                                   ),
                                 ],
                               ),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(8),
                               ),
-                              InfoFieldWidget(text: state.data.data!.ibuAnak.alamat),
+                              InfoFieldWidget(
+                                  text: state.data.data!.ibuAnak.alamat),
                               SizedBox(
                                 height: SizeConfig.calHeightMultiplier(16),
                               ),
@@ -288,7 +325,8 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Tinggi Badan',
                                   unit: 'cm',
-                                  tool: state.data.data!.alatTinggiBadan.jenisAlat,
+                                  tool: state
+                                      .data.data!.alatTinggiBadan.jenisAlat,
                                   value: state.data.data!.tinggiBadan,
                                 ),
                               ],
@@ -303,7 +341,8 @@ class _DetailRegisterIbuHamilViewState
                                   title: 'Berat Badan',
                                   unit: "Kg",
                                   value: state.data.data!.beratBadan,
-                                  tool: state.data.data!.alatBeratBadan.jenisAlat,
+                                  tool:
+                                      state.data.data!.alatBeratBadan.jenisAlat,
                                 ),
                               ],
                             ),
@@ -325,7 +364,8 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Lingkar Lengan Atas',
                                   unit: 'cm',
-                                  tool: state.data.data!.alatLingkarLengan.jenisAlat,
+                                  tool: state
+                                      .data.data!.alatLingkarLengan.jenisAlat,
                                   value: state.data.data!.lingkarLenganAtas,
                                 ),
                               ],
@@ -339,8 +379,10 @@ class _DetailRegisterIbuHamilViewState
                                 InfoFieldMeasuringWidget(
                                   title: 'Tinggi Fundus Uteri',
                                   unit: 'cm',
-                                  tool: state.data.data!.alatTinggiFundus.jenisAlat,
-                                  value: state.data.data!.tinggiFundusUteri ?? "-",
+                                  tool: state
+                                      .data.data!.alatTinggiFundus.jenisAlat,
+                                  value:
+                                      state.data.data!.tinggiFundusUteri ?? "-",
                                 ),
                               ],
                             ),
@@ -362,10 +404,10 @@ class _DetailRegisterIbuHamilViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                              text: state.data.data!.hemoglobin == null 
-                                ? "-"
-                                : state.data.data!.hemoglobin!.replaceAll('.00', '')
-                            ),
+                                text: state.data.data!.hemoglobin == null
+                                    ? "-"
+                                    : state.data.data!.hemoglobin!
+                                        .replaceAll('.00', '')),
                           ),
                           Text(
                             'g/dl',
@@ -381,8 +423,8 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                        text: DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalPertamaHaid)
-                      ),
+                          text: DateFormat('d MMMM y', 'id_ID')
+                              .format(state.data.data!.tanggalPertamaHaid)),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
                         'Tanggal Terakhir Haid',
@@ -392,8 +434,8 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                        text: DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalTerakhirHaid)
-                      ),
+                          text: DateFormat('d MMMM y', 'id_ID')
+                              .format(state.data.data!.tanggalTerakhirHaid)),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -446,10 +488,9 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                        text: state.data.data!.namaBPJS == null
-                        ? "Tidak Memiliki BPJS"
-                        : state.data.data!.namaBPJS!
-                      ),
+                          text: state.data.data!.namaBPJS == null
+                              ? "Tidak Memiliki BPJS"
+                              : state.data.data!.namaBPJS!),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
                         'Catatan',
@@ -466,15 +507,17 @@ class _DetailRegisterIbuHamilViewState
                         color: goldPrimaryMain,
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
-                          PaketToUpdateRegisterIbuHamil data = PaketToUpdateRegisterIbuHamil(
-                            id: widget.id, data: state.data.data!);
+                          PaketToUpdateRegisterIbuHamil data =
+                              PaketToUpdateRegisterIbuHamil(
+                                  id: widget.id, data: state.data.data!);
                           Navigator.pushNamed(
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,
                             arguments: data,
                           ).then((value) {
-                            if(value != null) {
-                              BlocProvider.of<GetDetailIbuHamilBloc>(context).add(FetchDetailIbuHamil(id: widget.id));
+                            if (value != null) {
+                              BlocProvider.of<GetDetailIbuHamilBloc>(context)
+                                  .add(FetchDetailIbuHamil(id: widget.id));
                             }
                           });
                         },
