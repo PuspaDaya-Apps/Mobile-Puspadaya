@@ -9,12 +9,14 @@ class CardPengasuhWidget extends StatelessWidget {
       required this.nik,
       required this.namaAnak,
       super.key,
-      required this.onTap});
+      required this.onTap,
+      this.isUpdate});
 
   final String nama;
   final String nik;
   final String namaAnak;
   final VoidCallback onTap;
+  final bool? isUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,9 @@ class CardPengasuhWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: bluePrimaryMain,
+                      color: isUpdate != null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -88,7 +92,9 @@ class CardPengasuhWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: bluePrimaryMain,
+              color: isUpdate != null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),
             )
           ],

@@ -25,6 +25,8 @@ class Data {
   String nik;
   @JsonKey(name: 'nama_pengasuh')
   String namaPengasuh;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
   Anak anak;
   Dusun dusun;
 
@@ -33,7 +35,8 @@ class Data {
     required this.nik,
     required this.namaPengasuh,
     required this.anak,
-    required this.dusun
+    required this.dusun,
+    this.updatedAt
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -95,6 +98,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       namaPengasuh: json['nama_pengasuh'] as String,
       anak: Anak.fromJson(json['anak'] as Map<String, dynamic>),
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -103,6 +109,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'nama_pengasuh': instance.namaPengasuh,
       'anak': instance.anak,
       'dusun': instance.dusun,
+      'updated_at': instance.updatedAt?.toIso8601String(),
     };
 
 Anak _$AnakFromJson(Map<String, dynamic> json) => Anak(
