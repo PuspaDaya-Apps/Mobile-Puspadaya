@@ -74,6 +74,15 @@ class _SelectBulanViewState extends State<SelectBulanView> {
             context,
             PARAMETER_FAKTOR_RESIKO_CREATE,
             arguments: widget.id,
+          ).then(
+            (value) {
+              if(value != null) {
+                logger.e("sudah terpanggil");
+                Future.delayed(Duration(seconds: 3)).then((value) {
+                  context.read<RiwayatFaktorResikoBloc>().add(FeatchRiwayatFaktorResiko(widget.id));
+                });
+              }
+            }
           );
         },
       ),

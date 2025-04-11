@@ -43,9 +43,7 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
     super.initState();
     logger.d('trigger fetch');
     logger.d('id ayah ${widget.ayahId}');
-    context.read<DetailRegisterOrangTuaBloc>().add(
-          FeathingDetailRegisterOrangTua(ayahId: widget.ayahId),
-        );
+    context.read<DetailRegisterOrangTuaBloc>().add(FeathingDetailRegisterOrangTua(ayahId: widget.ayahId));
     _tabController = TabController(
       length: 2,
       vsync: this,

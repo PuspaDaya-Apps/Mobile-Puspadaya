@@ -822,6 +822,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                     color: bluePrimaryMain,
                                     mainButtonMessage: 'Simpan',
                                     mainButton: () {
+                                      logger.d("trigger simpan");
                                       if (nameController.text.isEmpty) {
                                         showTopSnackBar(
                                           Overlay.of(context),
@@ -834,108 +835,112 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                           TopSnackbarWidget().error(
                                               "Harap pilih anak terlebih dahulu"),
                                         );
-                                      }
-                                      if (heightController.text.contains(',')) {
-                                        showTopSnackBar(
-                                          Overlay.of(context),
-                                          animationDuration:
-                                              const Duration(milliseconds: 600),
-                                          displayDuration: const Duration(
-                                              milliseconds: 2200),
-                                          reverseAnimationDuration:
-                                              const Duration(milliseconds: 300),
-                                          TopSnackbarWidget().error(
-                                              "Harap gunakan titik untuk memberikan nilai desimal"),
-                                        );
                                       } else {
-                                        if (_formKey.currentState!.validate()) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialogAnakSave(
-                                                isAgeLessThanSixMonths:
-                                                    isAgeLessThanSixMonths!,
-                                                cancelButton: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                mainButton: () {
-                                                  if (isAgeLessThanSixMonths ==
-                                                      true) {
-                                                    headCircumferenceController
-                                                        .text = '0';
-                                                    upperArmCircumferenceController
-                                                        .text = '0';
-                                                    mpasiValue = '-';
-                                                  } else {
-                                                    asiEksklusifValue = '-';
-                                                  }
-                                                  logger.d(
-                                                      'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
-                                                  logger.d(
-                                                      'asi ekslusif value ${asiEksklusifValue}');
-                                                  logger.d(
-                                                      'mpasi value ${mpasiValue}');
-                                                  logger.d(
-                                                      'value lingkar kelapa ${headCircumferenceController.text}');
-                                                  logger.d(
-                                                      'value lingkar lengan atas ${upperArmCircumferenceController.text}');
-                                                  //  headCircumferenceController.text = '';
-                                                  //   upperArmCircumferenceController.text =
-                                                  //       '';
-                                                  // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
-                                                  createPengukuranAnakBloc.add(SendPengukuranAnakEvent(PengukuranAnakModel(
-                                                      tempatPengukuran:
-                                                          selectedPosyandu,
-                                                      tanggalPengukuran:
-                                                          DateTime.now(),
-                                                      posisiBadan:
-                                                          selectedPosition,
-                                                      beratBadan: double.parse(
-                                                          weightController
-                                                              .text),
-                                                      alatBeratBadanId:
-                                                          alatUkurAnak
-                                                              .alatUkurBerat!
-                                                              .id,
-                                                      tinggiBadan: double.parse(
-                                                          heightController
-                                                              .text),
-                                                      alatTinggiBadanId:
-                                                          alatUkurAnak
-                                                              .alatUkurTinggi!
-                                                              .id,
-                                                      lingkarLenganAtas:
-                                                          double.parse(
-                                                              upperArmCircumferenceController.text),
-                                                      alatLingkarLenganId: alatUkurAnak.alatUkurLingkarLengan?.id,
-                                                      lingkarKepala: double.parse(headCircumferenceController.text),
-                                                      alatLingkarKepalaId: alatUkurAnak.alatUkurLingkarLengan?.id,
-                                                      asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
-                                                      mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
-                                                      keluhan: keluhanController.text,
-                                                      catatan: catatanController.text,
-                                                      anakId: paket.id)));
-                                                },
-                                                cancelButtonMessage: 'Tidak',
-                                                mainButtonMessage:
-                                                    'Iya Simpan Data',
-                                                colorMainButton:
-                                                    bluePrimaryMain,
-                                                heighValue:
-                                                    heightController.text,
-                                                weightValue:
-                                                    weightController.text,
-                                                upperArmCircumference:
-                                                    upperArmCircumferenceController
-                                                        .text,
-                                                uterineFundalHeightValue:
-                                                    headCircumferenceController
-                                                        .text,
-                                              );
-                                            },
+                                        if (heightController.text
+                                            .contains(',')) {
+                                          showTopSnackBar(
+                                            Overlay.of(context),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            displayDuration: const Duration(
+                                                milliseconds: 2200),
+                                            reverseAnimationDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            TopSnackbarWidget().error(
+                                                "Harap gunakan titik untuk memberikan nilai desimal"),
                                           );
                                         } else {
-                                          logger.d("form tidak valid");
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialogAnakSave(
+                                                  isAgeLessThanSixMonths:
+                                                      isAgeLessThanSixMonths!,
+                                                  cancelButton: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  mainButton: () {
+                                                    if (isAgeLessThanSixMonths ==
+                                                        true) {
+                                                      headCircumferenceController
+                                                          .text = '0';
+                                                      upperArmCircumferenceController
+                                                          .text = '0';
+                                                      mpasiValue = '-';
+                                                    } else {
+                                                      asiEksklusifValue = '-';
+                                                    }
+                                                    logger.d(
+                                                        'is age less than 6 bulan value ${isAgeLessThanSixMonths}');
+                                                    logger.d(
+                                                        'asi ekslusif value ${asiEksklusifValue}');
+                                                    logger.d(
+                                                        'mpasi value ${mpasiValue}');
+                                                    logger.d(
+                                                        'value lingkar kelapa ${headCircumferenceController.text}');
+                                                    logger.d(
+                                                        'value lingkar lengan atas ${upperArmCircumferenceController.text}');
+                                                    //  headCircumferenceController.text = '';
+                                                    //   upperArmCircumferenceController.text =
+                                                    //       '';
+                                                    // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
+                                                    createPengukuranAnakBloc.add(SendPengukuranAnakEvent(PengukuranAnakModel(
+                                                        tempatPengukuran:
+                                                            selectedPosyandu,
+                                                        tanggalPengukuran:
+                                                            DateTime.now(),
+                                                        posisiBadan:
+                                                            selectedPosition,
+                                                        beratBadan: double.parse(
+                                                            weightController
+                                                                .text),
+                                                        alatBeratBadanId:
+                                                            alatUkurAnak
+                                                                .alatUkurBerat!
+                                                                .id,
+                                                        tinggiBadan: double.parse(
+                                                            heightController
+                                                                .text),
+                                                        alatTinggiBadanId:
+                                                            alatUkurAnak
+                                                                .alatUkurTinggi!
+                                                                .id,
+                                                        lingkarLenganAtas:
+                                                            double.parse(
+                                                                upperArmCircumferenceController.text),
+                                                        alatLingkarLenganId: alatUkurAnak.alatUkurLingkarLengan?.id,
+                                                        lingkarKepala: double.parse(headCircumferenceController.text),
+                                                        alatLingkarKepalaId: alatUkurAnak.alatUkurLingkarLengan?.id,
+                                                        asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
+                                                        mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
+                                                        keluhan: keluhanController.text,
+                                                        catatan: catatanController.text,
+                                                        anakId: paket.id)));
+                                                  },
+                                                  cancelButtonMessage: 'Tidak',
+                                                  mainButtonMessage:
+                                                      'Iya Simpan Data',
+                                                  colorMainButton:
+                                                      bluePrimaryMain,
+                                                  heighValue:
+                                                      heightController.text,
+                                                  weightValue:
+                                                      weightController.text,
+                                                  upperArmCircumference:
+                                                      upperArmCircumferenceController
+                                                          .text,
+                                                  uterineFundalHeightValue:
+                                                      headCircumferenceController
+                                                          .text,
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            logger.d("form tidak valid");
+                                          }
                                         }
                                       }
                                     },
