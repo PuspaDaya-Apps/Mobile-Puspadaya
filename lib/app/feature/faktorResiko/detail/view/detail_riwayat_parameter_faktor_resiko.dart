@@ -3,6 +3,7 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../utils/api_utils/api_utils.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
 import 'package:collection/collection.dart';
@@ -28,6 +29,7 @@ class _DetailRiwayatParameterFaktorResikoState
   void initState() {
     _pageController = PageController();
     isMultiplePertanyaan = widget.data.pertanyaan.length > 1;
+    logger.d('nama faktor resiko = ${widget.data.namaFaktorResiko}');
     super.initState();
   }
 
@@ -78,7 +80,8 @@ class _DetailRiwayatParameterFaktorResikoState
                         if (_currentPage < widget.data.pertanyaan.length - 1) {
                           _navigateToPage(_currentPage + 1);
                         } else {
-                          // Tambahkan logika untuk tombol Selesai jika diperlukan
+                          // Tambahkan logika untuk tombol Selesai jika diperlukan'
+                          Navigator.pop(context);
                         }
                       },
                     ),
@@ -127,16 +130,19 @@ class _DetailRiwayatParameterFaktorResikoState
 
             // 🔹 Gambar Pertanyaan (Jika Ada)
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12), // Ubah sesuai kebutuhan
               child: Image.network(
-                ApiUtils().urlGetPublicImage(widget.data.gambar),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: 200,
+                ApiUtils().urlGetPublicImage(
+                  widget.data.namaFaktorResiko == "Kurangnya pengetahuan gizi"
+                      ? pertanyaan.image!
+                      : widget.data.gambar,
+                ),
+                fit: BoxFit.cover, // Agar gambar terisi dengan baik
+                width: double.infinity, // Sesuaikan dengan desain
+                height: 200, // Sesuaikan dengan desain
               ),
             ),
             SizedBox(height: 14),
-
             // 🔹 Label Jawaban
             Text(
               'Jawaban Anda :',
