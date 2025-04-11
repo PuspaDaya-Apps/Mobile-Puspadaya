@@ -113,4 +113,7 @@ abstract class LinkApi {
   static const GETANAKBYPOSYANDUURL = "/anak/posyandu";
   static const GETANAKTAMUBYPOSYANDUURL = "/anak-tamu/posyandu";
   static const PENGUKURANTAMUURL = "/pengukuran-anak-tamu";
+
+  //! total point
+  static const TOTALPOINT = '/total-point';
 }

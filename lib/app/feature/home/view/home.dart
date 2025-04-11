@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:puspadaya/app/feature/home/bloc/grafikKunjungan/bloc/grafik_kunjungan_bloc.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -20,6 +21,7 @@ import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
+import '../model/grafik_kunjungan_response_model.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.currentUserModel});
@@ -35,6 +37,9 @@ class Home extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => JadwalPosyanduHomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GrafikKunjunganBloc(),
         ),
       ],
       child: HomeView(currentUserModel: currentUserModel),
@@ -56,7 +61,10 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     BlocProvider.of<CardDataHomeBloc>(context).add(GetCardHome());
-    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome(context));
+    BlocProvider.of<JadwalPosyanduHomeBloc>(context)
+        .add(GetJadwalHome(context));
+    BlocProvider.of<GrafikKunjunganBloc>(context)
+        .add(GetGrafikKunjunganEvent());
   }
 
   @override
@@ -80,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
               BlocConsumer<JadwalPosyanduHomeBloc, JadwalPosyanduHomeState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
-                  if(state is JadwalPosyanduHomeTokenExpiredState) {
+                  if (state is JadwalPosyanduHomeTokenExpiredState) {
                     authorizationBloc.add(AuthorizationFalseEvent());
                   }
                 },
@@ -97,24 +105,32 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     );
                   }
+                  if (state is JadwalPosyanduHomeFailedState) {
+                    return Center(
+                      child: Text('${state.error}'),
+                    );
+                  }
                   if (state is JadwalPosyanduHomeSuccessState) {
+                    logger.d(
+                        'total point ${state.totalPointResponseModel.totalSkorKeseluruhan.toString()}');
                     if (state.jadwal == null) {
                       return CardListActivity(
+                        totalPoint:
+                            state.totalPointResponseModel.totalSkorKeseluruhan,
                         date: DateTime.now(),
                         location: widget.currentUserModel.posyandu.namaPosyandu,
                       );
                     }
                     return JadwalCard(
+                        totalPoint:
+                            state.totalPointResponseModel.totalSkorKeseluruhan,
                         date: state.jadwal!.tanggalPelaksanaan,
                         name: state.jadwal!.namaKegiatan,
                         timeStart: state.jadwal!.waktuMulai,
                         timeEnd: state.jadwal!.waktuSelesai,
                         location: state.jadwal!.lokasi);
                   }
-                  return CardListActivity(
-                    date: DateTime.now(),
-                    location: widget.currentUserModel.posyandu.namaPosyandu,
-                  );
+                  return Container();
                 },
               ),
               SizedBox(
@@ -154,7 +170,34 @@ class _HomeViewState extends State<HomeView> {
                 message:
                     "Terus melangkah menuju pelayanan masyarakat lebih baik!",
               ),
-              GraphData(),
+              BlocBuilder<GrafikKunjunganBloc, GrafikKunjunganState>(
+                builder: (context, state) {
+                  if (state is GrafikKunjunganLoading) {
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7.4,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is GrafikKunjunganFailed) {
+                    return Center(
+                      child: Text('${state.message}'),
+                    );
+                  }
+                  if (state is GrafikKunjunganSuccess) {
+                    logger.d(state.grafikKunjungan);
+                    return GraphData(
+                      dataGrafik: state.grafikKunjungan,
+                    );
+                  }
+                  return Container();
+                },
+              )
             ],
           ),
         ),
@@ -232,6 +275,7 @@ class CardCarousel extends StatelessWidget {
 class CardListActivity extends StatelessWidget {
   final DateTime date;
   final String location;
+  final int totalPoint;
   static const List<String> months = [
     'Januari',
     'Februari',
@@ -258,7 +302,10 @@ class CardListActivity extends StatelessWidget {
   ];
 
   const CardListActivity(
-      {super.key, required this.date, required this.location});
+      {super.key,
+      required this.date,
+      required this.location,
+      required this.totalPoint});
 
   @override
   Widget build(BuildContext context) {
@@ -321,6 +368,37 @@ class CardListActivity extends StatelessWidget {
                   )
                 ],
               ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFFFFD700).withOpacity(0.35),
+                      Colors.white38.withOpacity(0.2)
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 2,
+                  children: [
+                    Image(
+                      image: AssetImage(imageThropy),
+                      width: SizeConfig.calWidthMultiplier(16),
+                    ),
+                    Text(
+                      '${totalPoint.toString()} Poin',
+                      style: TextStyle(
+                        color: goldPrimary70,
+                        fontWeight: FontWeight.bold,
+                        fontSize: SizeConfig.calMultiplierText(14),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           // line
@@ -340,6 +418,7 @@ class JadwalCard extends StatelessWidget {
   final DateTime timeStart;
   final DateTime timeEnd;
   final String location;
+  final int totalPoint;
   final List<String> months = [
     'Januari',
     'Februari',
@@ -366,6 +445,7 @@ class JadwalCard extends StatelessWidget {
   ];
 
   JadwalCard({
+    required this.totalPoint,
     super.key,
     required this.date,
     required this.name,
@@ -422,33 +502,77 @@ class JadwalCard extends StatelessWidget {
               ],
             ),
             const Divider(color: Colors.white),
-            Text(
-              '${name}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
             Row(
               children: [
-                Image(
-                  height: 12,
-                  image: AssetImage(
-                    iconLocation,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${name}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Image(
+                            height: 12,
+                            image: AssetImage(
+                              iconLocation,
+                            ),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.calWidthMultiplier(4),
+                          ),
+                          Text(
+                            '${location}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: SizeConfig.calMultiplierText(12),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(
-                  width: SizeConfig.calWidthMultiplier(4),
-                ),
-                Text(
-                  '${location}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: SizeConfig.calMultiplierText(12),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFFFD700).withOpacity(0.35),
+                        Colors.white38.withOpacity(0.2)
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 2,
+                    children: [
+                      Image(
+                        image: AssetImage(imageThropy),
+                        width: SizeConfig.calWidthMultiplier(16),
+                      ),
+                      Text(
+                        '${totalPoint.toString()} Poin',
+                        style: TextStyle(
+                          color: goldPrimary70,
+                          fontWeight: FontWeight.bold,
+                          fontSize: SizeConfig.calMultiplierText(14),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -797,45 +921,11 @@ class CardMessages extends StatelessWidget {
 }
 
 class GraphData extends StatelessWidget {
-  List<BarChartGroupData> dataChart = [
-    BarChartGroupData(x: 0, barRods: [
-      BarChartRodData(toY: 5, color: Colors.red, width: 16), // Tambahkan width
-    ]),
-    BarChartGroupData(x: 1, barRods: [
-      BarChartRodData(toY: 10, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 2, barRods: [
-      BarChartRodData(toY: 15, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 3, barRods: [
-      BarChartRodData(toY: 20, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 4, barRods: [
-      BarChartRodData(toY: 25, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 5, barRods: [
-      BarChartRodData(toY: 20, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 6, barRods: [
-      BarChartRodData(toY: 25, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 7, barRods: [
-      BarChartRodData(toY: 5, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 8, barRods: [
-      BarChartRodData(toY: 10, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 9, barRods: [
-      BarChartRodData(toY: 15, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 10, barRods: [
-      BarChartRodData(toY: 20, color: Colors.red, width: 16),
-    ]),
-    BarChartGroupData(x: 11, barRods: [
-      BarChartRodData(toY: 30, color: Colors.red, width: 16),
-    ]),
-  ];
-  List<String> listMonth = [
+  final List<GrafikKunjunganResponseModel> dataGrafik;
+
+  GraphData({super.key, required this.dataGrafik});
+
+  final List<String> listMonth = const [
     "Januari",
     "Februari",
     "Maret",
@@ -850,16 +940,32 @@ class GraphData extends StatelessWidget {
     "Desember"
   ];
 
-  GraphData({super.key});
-
   @override
   Widget build(BuildContext context) {
+    List<BarChartGroupData> dataChart = List.generate(12, (index) {
+      final bulan = listMonth[index];
+      final data = dataGrafik.firstWhere(
+        (item) => item.bulan == bulan,
+        orElse: () => GrafikKunjunganResponseModel(
+            bulan: dataGrafik[index].bulan, total: dataGrafik[index].total),
+      );
+      return BarChartGroupData(
+        x: index,
+        barRods: [
+          BarChartRodData(
+            toY: data.total.toDouble(),
+            color: Colors.red,
+            width: 16,
+          ),
+        ],
+      );
+    });
+
     // Hitung maxY secara dinamis
     double maxY = dataChart
         .expand((group) => group.barRods.map((rod) => rod.toY))
         .reduce((value, element) => value > element ? value : element);
 
-    // Round up maxY to the nearest multiple of 10 for cleaner UI
     maxY = (maxY / 10).ceil() * 10;
 
     return Container(
@@ -876,7 +982,6 @@ class GraphData extends StatelessWidget {
         boxShadow: shadowSm,
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -887,9 +992,7 @@ class GraphData extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          SizedBox(
-            height: SizeConfig.calHeightMultiplier(8),
-          ),
+          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
           Text(
             'Menampilkan grafik jumlah kunjungan yang telah dilakukan ketua kader',
             style: TextStyle(
@@ -898,9 +1001,7 @@ class GraphData extends StatelessWidget {
               color: Colors.black38,
             ),
           ),
-          SizedBox(
-            height: SizeConfig.calHeightMultiplier(20),
-          ),
+          SizedBox(height: SizeConfig.calHeightMultiplier(20)),
           Expanded(
             child: Container(
               color: Colors.white,
@@ -908,16 +1009,12 @@ class GraphData extends StatelessWidget {
                 BarChartData(
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
-                      getTooltipColor: (group) {
-                        return bluePrimaryMain;
-                      },
+                      getTooltipColor: (_) => bluePrimary40,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        String month = listMonth[group.x.toInt()];
+                        final month = listMonth[group.x.toInt()];
                         return BarTooltipItem(
-                          '$month\n${rod.toY}',
-                          TextStyle(
-                            color: Colors.white,
-                          ),
+                          '$month\n${rod.toY.toInt()} Kunjungan',
+                          TextStyle(color: Colors.white),
                         );
                       },
                     ),
@@ -929,10 +1026,8 @@ class GraphData extends StatelessWidget {
                     leftTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        reservedSize: SizeConfig.calWidthMultiplier(
-                            18), // Menyediakan ruang untuk judul
+                        reservedSize: SizeConfig.calWidthMultiplier(18),
                         getTitlesWidget: (value, meta) {
-                          // Tentukan interval label secara dinamis
                           if (value % 10 == 0) {
                             return Text(
                               value.toInt().toString(),
@@ -940,7 +1035,7 @@ class GraphData extends StatelessWidget {
                                   fontSize: 10, color: Colors.black38),
                             );
                           }
-                          return Container(); // Kosongkan jika tidak memenuhi kriteria
+                          return Container();
                         },
                       ),
                     ),
@@ -969,7 +1064,7 @@ class GraphData extends StatelessWidget {
                                   fontSize: 10, color: Colors.black38),
                             );
                           }
-                          return Container(); // Kosongkan jika tidak valid
+                          return Container();
                         },
                       ),
                     ),
