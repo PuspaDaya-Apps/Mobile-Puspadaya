@@ -43,6 +43,8 @@ class RegisterOrangTuaBloc
               ibuId: data.ibu.id,
               husband: data.ayah.namaAyah,
               wife: data.ibu.namaIbu,
+              updatedAtAyah: data.ayah.updatedAt,
+              updatedAtIbu: data.ibu.updatedAt
             );
           }).toList();
           emit(RegisterOrangTuaSuccess(orangTuaList: orangTuaList));

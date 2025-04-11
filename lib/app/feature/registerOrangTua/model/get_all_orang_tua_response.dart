@@ -76,6 +76,8 @@ class Ayah {
   final KartuKeluarga kartuKeluarga;
   @JsonKey(name: "usia_ayah")
   final int usiaAyah;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
   @JsonKey(name: "dusun")
   final Dusun dusun;
 
@@ -86,6 +88,7 @@ class Ayah {
     required this.namaAyah,
     required this.kartuKeluarga,
     required this.nik,
+    this.updatedAt
   });
 
   Ayah copyWith({
@@ -148,6 +151,8 @@ class Ibu {
   final int usiaIbu;
   @JsonKey(name: "kartu_keluarga")
   final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
   @JsonKey(name: "dusun")
   final Dusun dusun;
 
@@ -158,6 +163,7 @@ class Ibu {
     required this.id,
     required this.namaIbu,
     required this.kartuKeluarga,
+    this.updatedAt
   });
 
   Ibu copyWith({

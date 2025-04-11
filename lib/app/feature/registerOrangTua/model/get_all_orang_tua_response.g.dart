@@ -44,6 +44,9 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
       nik: json['nik'] as String,
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
@@ -52,6 +55,7 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'nik': instance.nik,
       'kartu_keluarga': instance.kartuKeluarga,
       'usia_ayah': instance.usiaAyah,
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'dusun': instance.dusun,
     };
 
@@ -75,6 +79,9 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       namaIbu: json['nama_ibu'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
@@ -83,6 +90,7 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'nik': instance.nik,
       'usia_ibu': instance.usiaIbu,
       'kartu_keluarga': instance.kartuKeluarga,
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'dusun': instance.dusun,
     };
 
