@@ -7,4 +7,8 @@ sealed class JadwalPosyanduHomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class GetJadwalHome extends JadwalPosyanduHomeEvent {}
+final class GetJadwalHome extends JadwalPosyanduHomeEvent {
+  final BuildContext context;
+
+  const GetJadwalHome(this.context);
+}

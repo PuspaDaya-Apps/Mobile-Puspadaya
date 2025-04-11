@@ -95,6 +95,7 @@ import '../app/model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengukuran_anak_model.dart';
+import '../app/model/paketToScreen/paket_to_update_pengukuran_tamu_model.dart';
 import '../app/view/screen/on_boarding_screen.dart';
 import '../app/view/screen/page_not_found_screen.dart';
 import '../app/feature/alatUkur/index/view/alat_ukur.dart' as index_alat_ukur;
@@ -213,7 +214,9 @@ class MyRoute {
 
       case UPDATE_PENGUKURAN_TAMU:
         return MaterialPageRoute(
-            builder: (context) => const UpdatePengukuranTamu(),
+            builder: (context) => UpdatePengukuranTamu(
+              paket: settings.arguments as PaketToUpdatePengukuranTamuModel,
+            ),
             settings: settings);
 
       case DETAIL_PENGUKURAN_TAMU:

@@ -2,10 +2,12 @@ import "dart:async";
 import "dart:convert";
 
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import "package:puspadaya/utils/shared_preferences_utils/shared_preferences_utils.dart";
 
+import "../../app/feature/authorization/bloc/blocAuthorization/authorization_bloc.dart";
 import "../../app/model/refreshtoken_model.dart";
 import "../api_utils/api_utils.dart";
 import "../logger/logger.dart";
@@ -15,9 +17,10 @@ import "../logger/logger.dart";
 class NetworkUtils {
   String? token;
   late Dio dio;
+  BuildContext? context;
 
   NetworkUtils({
-    this.token
+    this.token, this.context
   }) {
     dio = Dio(
       BaseOptions(
@@ -101,6 +104,12 @@ class NetworkUtils {
 
       if (statusResponse == 200) {
         return bodyResponse["data"]["access_token"];
+      } else if (statusResponse == 401) {
+        if(context != null) {
+          BlocProvider.of<AuthorizationBloc>(context!).add(AuthorizationFalseEvent());
+        }
+
+        throw bodyResponse['message'].toString();
       } else {
         throw bodyResponse['message'].toString();
       }
@@ -144,6 +153,7 @@ class NetworkUtils {
 
       debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
+      logger.e(bodyResponse.toString());
 
       if (statusResponse == 200 ||
           statusResponse == 201

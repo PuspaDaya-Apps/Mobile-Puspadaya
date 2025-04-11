@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
+import '../../../../model/paketToScreen/paket_to_update_pengukuran_tamu_model.dart';
 import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/info_field_measuring_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/widget/primary_button_widget.dart';
+import '../bloc/deletePengukuranTamuBloc/delete_pengukuran_tamu_bloc.dart';
+import '../bloc/detailPengukuranTamuBloc/detail_pengukuran_tamu_bloc.dart';
+import '../model/detail_pengukuran_tamu_response_model.dart';
 
 class DetailData extends StatefulWidget {
-  const DetailData({super.key});
+  const DetailData(
+      {super.key,
+      required this.pengukuranId,
+      required this.detailPengukuranTamuResponseModel});
+  final String pengukuranId;
+  final DetailPengukuranTamuResponseModel detailPengukuranTamuResponseModel;
 
   @override
   State<DetailData> createState() => _DetailDataState();
@@ -19,6 +30,11 @@ class DetailData extends StatefulWidget {
 class _DetailDataState extends State<DetailData> {
   @override
   Widget build(BuildContext context) {
+    final hapusPengukuranTamuBloc =
+        BlocProvider.of<DeletePengukuranTamuBloc>(context);
+    final detailPengukuranTamuBloc =
+        BlocProvider.of<DetailPengukuranTamuBloc>(context);
+
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -34,7 +50,8 @@ class _DetailDataState extends State<DetailData> {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '3123124123124123'),
+            InfoFieldWidget(
+                text: widget.detailPengukuranTamuResponseModel.data!.anak.nik),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Nama',
@@ -45,10 +62,12 @@ class _DetailDataState extends State<DetailData> {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Zahra Putri Amaliya'),
+            InfoFieldWidget(
+                text: widget
+                    .detailPengukuranTamuResponseModel.data!.anak.namaAnak),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
-              'Tempat Pengukuran',
+              'Posyandu Asal',
               style: TextStyle(
                 fontSize: 12,
               ),
@@ -56,7 +75,8 @@ class _DetailDataState extends State<DetailData> {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Posyandu Mawar 20'),
+            InfoFieldWidget(
+                text: widget.detailPengukuranTamuResponseModel.data!.anak.posyanduAsal),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Tanggal',
@@ -67,7 +87,11 @@ class _DetailDataState extends State<DetailData> {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: '19/05/2025'),
+            InfoFieldWidget(
+                text: DateFormat("d MMMM y", "ID_id").format(widget
+                    .detailPengukuranTamuResponseModel
+                    .data!
+                    .tanggalPengukuran)),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Posisi Pengukuran Tinggi badan',
@@ -78,7 +102,9 @@ class _DetailDataState extends State<DetailData> {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Berdiri'),
+            InfoFieldWidget(
+                text:
+                    widget.detailPengukuranTamuResponseModel.data!.posisiBadan),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             Row(
               spacing: 8,
@@ -94,14 +120,18 @@ class _DetailDataState extends State<DetailData> {
                       InfoFieldMeasuringWidget(
                         title: 'Tinggi Badan',
                         unit: 'cm',
-                        tool: 'Microtoise',
-                        value: '29,4',
+                        tool: widget.detailPengukuranTamuResponseModel.data!
+                            .alatTinggiBadan.jenisAlat,
+                        value: widget.detailPengukuranTamuResponseModel.data!
+                            .tinggiBadan,
                       ),
                       InfoFieldMeasuringWidget(
-                        title: 'Lengkar Lingan Atas',
+                        title: 'Lingkar Lengan Atas',
                         unit: 'cm',
-                        tool: 'Pita Lila',
-                        value: '12,4',
+                        tool: widget.detailPengukuranTamuResponseModel.data!
+                            .alatLingkarLengan.jenisAlat,
+                        value: widget.detailPengukuranTamuResponseModel.data!
+                            .lingkarLenganAtas,
                       ),
                     ],
                   ),
@@ -115,14 +145,18 @@ class _DetailDataState extends State<DetailData> {
                       InfoFieldMeasuringWidget(
                         title: 'Berat Badan',
                         unit: 'kg',
-                        tool: 'Timbangan digital',
-                        value: '4,1',
+                        tool: widget.detailPengukuranTamuResponseModel.data!
+                            .alatBeratBadan.jenisAlat,
+                        value: widget
+                            .detailPengukuranTamuResponseModel.data!.beratBadan,
                       ),
                       InfoFieldMeasuringWidget(
                         title: 'Lingkar Kepala',
                         unit: 'cm',
-                        tool: 'Alat Ukur Linkar Kepala',
-                        value: '14,2',
+                        tool: widget.detailPengukuranTamuResponseModel.data!
+                            .alatLingkarKepala.jenisAlat,
+                        value: widget.detailPengukuranTamuResponseModel.data!
+                            .lingkarKepala,
                       ),
                     ],
                   ),
@@ -140,7 +174,7 @@ class _DetailDataState extends State<DetailData> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-              text: 'Tidak',
+              text: widget.detailPengukuranTamuResponseModel.data!.asiEksklusif,
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
@@ -153,7 +187,7 @@ class _DetailDataState extends State<DetailData> {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(
-              text: 'Iya',
+              text: widget.detailPengukuranTamuResponseModel.data!.mpasi,
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             Row(
@@ -173,7 +207,9 @@ class _DetailDataState extends State<DetailData> {
                           fontSize: 12,
                         ),
                       ),
-                      InfoFieldWidget(text: 'Normal'),
+                      InfoFieldWidget(
+                          text: widget.detailPengukuranTamuResponseModel.data!
+                              .statusStunting),
                     ],
                   ),
                 ),
@@ -189,10 +225,29 @@ class _DetailDataState extends State<DetailData> {
                           fontSize: 12,
                         ),
                       ),
-                      InfoFieldWidget(text: 'Normal'),
+                      InfoFieldWidget(
+                          text: widget.detailPengukuranTamuResponseModel.data!
+                              .statusGizi),
                     ],
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 8,
+              children: [
+                const Text(
+                  'Status Wasting',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+                InfoFieldWidget(
+                    text: widget
+                        .detailPengukuranTamuResponseModel.data!.statusWasting),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -206,7 +261,17 @@ class _DetailDataState extends State<DetailData> {
                     color: goldPrimaryMain,
                     mainButtonMessage: 'Perbarui',
                     mainButton: () {
-                      Navigator.pushNamed(context, UPDATE_PENGUKURAN_TAMU);
+                      Navigator.pushNamed(context, UPDATE_PENGUKURAN_TAMU,
+                              arguments: PaketToUpdatePengukuranTamuModel(
+                                  pengukuranId: widget.pengukuranId,
+                                  data:
+                                      widget.detailPengukuranTamuResponseModel))
+                          .then((value) {
+                        if (value != null) {
+                          detailPengukuranTamuBloc.add(
+                              GetDetailPengukuranTamu(widget.pengukuranId));
+                        }
+                      });
                     },
                   ),
                 ),
@@ -218,18 +283,34 @@ class _DetailDataState extends State<DetailData> {
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return AlertDialogWidget(
-                            title: 'Apakah Anda Yakin?',
-                            message:
-                                'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
-                            mainButton: () {},
-                            image: imageDeleteItems,
-                            mainButtonMessage: 'Iya, Hapus Pengukuran',
-                            colorMainButton: redPrimaryMain,
-                            cancelButton: () {
-                              Navigator.pop(context);
+                          return BlocConsumer<DeletePengukuranTamuBloc, DeletePengukuranTamuState>(
+                            bloc: hapusPengukuranTamuBloc,
+                            listener: (context, state) {
+                              if(state is DeletePengukuranTamuSuccessState) {
+                                 Navigator.pop(context);
+                                 Navigator.pop(context,1);
+                              } 
+                              if(state is DeletePengukuranTamuFailedState) {
+                                debugPrint(state.error);
+                              }
                             },
-                            cancelButtonMessage: 'Batalkan',
+                            builder: (context, state) {
+                              return AlertDialogWidget(
+                                title: 'Apakah Anda Yakin?',
+                                message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                mainButton: () {
+                                  hapusPengukuranTamuBloc.add(SendDeletePengukuranTamu(widget.pengukuranId));
+                                },
+                                image: imageDeleteItems,
+                                mainButtonMessage: 'Iya, Hapus Pengukuran',
+                                colorMainButton: redPrimaryMain,
+                                cancelButton: () {
+                                  Navigator.pop(context);
+                                },
+                                cancelButtonMessage: 'Batalkan',
+                                loadingState: state is DeletePengukuranTamuProccesState ? true : null,
+                              );
+                            },
                           );
                         },
                       );
@@ -246,11 +327,11 @@ class _DetailDataState extends State<DetailData> {
               height: 2,
               color: Colors.black54,
             ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            Image(
-              width: MediaQuery.sizeOf(context).width,
-              image: const AssetImage(imageGrafikPerkembanganAnak),
-            )
+            // SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            // Image(
+            //   width: MediaQuery.sizeOf(context).width,
+            //   image: const AssetImage(imageGrafikPerkembanganAnak),
+            // )
           ],
         ),
       ),
