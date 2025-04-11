@@ -114,6 +114,10 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 keyboardType: TextInputType.phone,
                 obscureText: false,
                 validators: [
+                  (value) => Validator.minLength(
+                      value,11, "Nomor Telepon tidak boleh lebih dari 11 Digit"),
+                  (value) => Validator.maxLength(
+                      value, 13, "Nomor Telepon tidak boleh kurang dari 13 Digit"),
                   (value) => Validator.required(
                       value, "Nomor Telepon tidak boleh kosong"),
                 ],
