@@ -24,14 +24,28 @@ class Validator {
     return null;
   }
 
-  static String? min(String value,int min, String message) {
+  static String? min(String value, int min, String message) {
     if (value.length < min) {
       return message;
     }
     return null;
   }
 
-  static String? max(String value,int max, String message) {
+  static String? max(String value, int max, String message) {
+    if (value.length > max) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? minLength(String value, int min, String message) {
+    if (value.length < min) {
+      return message;
+    }
+    return null;
+  }
+
+  static String? maxLength(String value, int max, String message) {
     if (value.length > max) {
       return message;
     }
