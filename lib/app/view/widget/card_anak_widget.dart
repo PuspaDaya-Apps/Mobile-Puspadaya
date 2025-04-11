@@ -55,7 +55,7 @@ class CardAnakWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: isUpdate != null 
+                      color: isUpdate == null 
                       ? goldPrimaryMain
                       : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
@@ -101,7 +101,7 @@ class CardAnakWidget extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.calWidthMultiplier(10)),
                       child: Container(
-                        color: isUpdate != null 
+                        color: isUpdate == null 
                       ? goldPrimaryMain
                       : bluePrimaryMain,
                         height: SizeConfig.calHeightMultiplier(35),
@@ -137,7 +137,7 @@ class CardAnakWidget extends StatelessWidget {
                                           color: textPrimary10.withOpacity(0.7),
                                           fontWeight: FontWeight.w400),
                                       children: [
-                                        if (tahun != 0)
+                                        if (tahun == 0)
                                           TextSpan(
                                             text: tahun.toString(),
                                             style: TextStyle(
@@ -146,7 +146,7 @@ class CardAnakWidget extends StatelessWidget {
                                                       26),
                                             ),
                                           ),
-                                        if (tahun != 0)
+                                        if (tahun == 0)
                                           TextSpan(
                                             text: ' Tahun ',
                                             style: TextStyle(
@@ -184,7 +184,7 @@ class CardAnakWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: isUpdate != null 
+              color: isUpdate == null 
                 ? goldPrimaryMain
                 : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),

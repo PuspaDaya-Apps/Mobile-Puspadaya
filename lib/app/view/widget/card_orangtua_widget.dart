@@ -43,7 +43,7 @@ class CardOrangtuaWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundColor:isUpdate != null 
+              backgroundColor:isUpdate == null 
                       ? goldPrimary90
                       : bluePrimary90, 
               radius: 20,
@@ -68,7 +68,7 @@ class CardOrangtuaWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: isUpdate != null 
+                      color: isUpdate == null 
                       ? goldPrimaryMain
                       : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
@@ -104,7 +104,7 @@ class CardOrangtuaWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: isUpdate != null 
+              color: isUpdate == null 
                 ? goldPrimaryMain
                 : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),

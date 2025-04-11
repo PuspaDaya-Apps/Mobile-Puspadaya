@@ -50,7 +50,7 @@ class CardPengasuhWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: isUpdate != null 
+                      color: isUpdate == null 
                       ? goldPrimaryMain
                       : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
@@ -92,7 +92,7 @@ class CardPengasuhWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: isUpdate != null 
+              color: isUpdate == null 
                       ? goldPrimaryMain
                       : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),
