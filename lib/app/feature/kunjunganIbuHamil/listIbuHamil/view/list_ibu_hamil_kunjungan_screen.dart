@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_ibu_hamil_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -39,7 +40,8 @@ class ListIbuHamilKunjunganView extends StatefulWidget {
   const ListIbuHamilKunjunganView({super.key});
 
   @override
-  State<ListIbuHamilKunjunganView> createState() => _ListIbuHamilKunjunganViewState();
+  State<ListIbuHamilKunjunganView> createState() =>
+      _ListIbuHamilKunjunganViewState();
 }
 
 class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
@@ -103,23 +105,25 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc = BlocProvider.of<CreateKunjunganIbuHamilBloc>(context);
+    final createKunjunganBloc =
+        BlocProvider.of<CreateKunjunganIbuHamilBloc>(context);
 
-    return BlocConsumer<CreateKunjunganIbuHamilBloc, CreateKunjunganIbuHamilState>(
+    return BlocConsumer<CreateKunjunganIbuHamilBloc,
+        CreateKunjunganIbuHamilState>(
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganIbuHamilSuccessState) {
           Navigator.pop(context, 1);
-          Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.idKunjungan);
+          Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN,
+              arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganIbuHamilFailedState) {
           showTopSnackBar(
-            Overlay.of(context),
-            animationDuration: const Duration(milliseconds: 600),
-            displayDuration: const Duration(milliseconds: 2200),
-            reverseAnimationDuration: const Duration(milliseconds: 300),
-            TopSnackbarWidget().error(state.error)
-          );
+              Overlay.of(context),
+              animationDuration: const Duration(milliseconds: 600),
+              displayDuration: const Duration(milliseconds: 2200),
+              reverseAnimationDuration: const Duration(milliseconds: 300),
+              TopSnackbarWidget().error(state.error));
         }
       },
       builder: (context, state) {
@@ -153,19 +157,26 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListIbuHamilKunjunganBloc, ListIbuHamilKunjunganState>(
+                child: BlocConsumer<ListIbuHamilKunjunganBloc,
+                    ListIbuHamilKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, stateList) {
-                    if(stateList is ListIbuHamilKunjunganProccessState) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                        color: bluePrimaryMain,
-                      ));
+                    if (stateList is ListIbuHamilKunjunganProccessState) {
+                      return SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: MediaQuery.sizeOf(context).height,
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
                     }
-                    if(stateList is ListIbuHamilKunjunganSuccessState) {
-                      if(stateList.listDataIbuHamil.data!.isEmpty) {
+                    if (stateList is ListIbuHamilKunjunganSuccessState) {
+                      if (stateList.listDataIbuHamil.data!.isEmpty) {
                         return const NoDataScreen();
                       }
                       return ListView.separated(
@@ -182,12 +193,15 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                             child: KunjunganIbuHamilItem(
                               onTap: () {
                                 createKunjunganBloc.add(CreateKunjunganEvent(
-                                  stateList.listDataIbuHamil.data![index].id
-                                ));
+                                    stateList
+                                        .listDataIbuHamil.data![index].id));
                               },
-                              name: stateList.listDataIbuHamil.data![index].ibuAnak.namaIbu,
-                              nik: stateList.listDataIbuHamil.data![index].ibuAnak.nik,
-                              husband: stateList.listDataIbuHamil.data![index].ibuAnak.ayah.namaAyah,
+                              name: stateList.listDataIbuHamil.data![index]
+                                  .ibuAnak.namaIbu,
+                              nik: stateList
+                                  .listDataIbuHamil.data![index].ibuAnak.nik,
+                              husband: stateList.listDataIbuHamil.data![index]
+                                  .ibuAnak.ayah.namaAyah,
                             ),
                           );
                         },
@@ -199,16 +213,17 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
               ),
             ),
             state is CreateKunjunganIbuHamilProccessState
-            ? Container(
+                ? SizedBox(
+                width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).height,
-                color: Colors.black.withOpacity(0.2),
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator(
-                  color: bluePrimaryMain,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
                 ),
               )
-            : const SizedBox(),
+                : const SizedBox(),
           ],
         );
       },

@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/card_orangtua_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -97,8 +98,13 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                 child: BlocBuilder<RegisterOrangTuaBloc, RegisterOrangTuaState>(
                   builder: (context, state) {
                     if (state is RegisterOrangTuaLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
                       );
                     } else if (state is RegisterOrangTuaSuccess) {
                       // Render your list of Orang Tua here

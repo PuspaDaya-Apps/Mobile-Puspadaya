@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 
 import '../../../../config/theme/pallet_color.dart';
@@ -79,7 +80,16 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                     CreateRegisterIbuHamilState>(
                   builder: (context, state) {
                     if (state is CreateRegisterIbuHamilLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return SizedBox(
+                        height: MediaQuery.sizeOf(context).height,
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
                     }
                     if (state is CreateRegisterIbuHamilFailed) {
                       return Center(

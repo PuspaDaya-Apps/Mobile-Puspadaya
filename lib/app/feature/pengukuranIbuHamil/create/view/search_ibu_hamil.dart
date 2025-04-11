@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/create/model/ibu_hamil_search.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -98,32 +99,28 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
           child: BlocConsumer<GetListIbuHamilBloc, GetListIbuHamilState>(
             listener: (context, state) {
               debugPrint(state.toString());
-              if(state is GetListIbuHamilFailedState) {
+              if (state is GetListIbuHamilFailedState) {
                 showTopSnackBar(
-                  Overlay.of(context),
-                  animationDuration: const Duration(
-                    milliseconds: 600
-                  ),
-                  displayDuration: const Duration(
-                    milliseconds: 2200
-                  ),
-                  reverseAnimationDuration: const Duration(
-                    milliseconds: 300
-                  ),
-                  TopSnackbarWidget().error(state.error)
-                );
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration: const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error));
               }
             },
             builder: (context, state) {
-              if(state is GetListIbuHamilProccessState) {
-                return const Center(
-                  child:CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  ) 
+              if (state is GetListIbuHamilProccessState) {
+                return SizedBox(
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
-              if(state is GetListIbuHamilSuccessState) {
-                if(state.getListIbuHamilResponseModel.data!.isEmpty) {
+              if (state is GetListIbuHamilSuccessState) {
+                if (state.getListIbuHamilResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
                 return ListView.builder(
@@ -133,12 +130,21 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                       children: [
                         ListTile(
                           onTap: () {
-                            Navigator.pop(context, PaketToCreatePengukuranIbuHamilModel(
-                              id: state.getListIbuHamilResponseModel.data![index].id,
-                              namaIbu: state.getListIbuHamilResponseModel.data![index].namaIbu,
-                              usiaIbuHamil: state.getListIbuHamilResponseModel.data![index].usiaIbu,
-                              usiaKandungan: state.getListIbuHamilResponseModel.data![index].usiaKehamilan
-                            ));
+                            Navigator.pop(
+                                context,
+                                PaketToCreatePengukuranIbuHamilModel(
+                                    id: state.getListIbuHamilResponseModel
+                                        .data![index].id,
+                                    namaIbu: state.getListIbuHamilResponseModel
+                                        .data![index].namaIbu,
+                                    usiaIbuHamil: state
+                                        .getListIbuHamilResponseModel
+                                        .data![index]
+                                        .usiaIbu,
+                                    usiaKandungan: state
+                                        .getListIbuHamilResponseModel
+                                        .data![index]
+                                        .usiaKehamilan));
                           },
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,8 +161,10 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  state.getListIbuHamilResponseModel.data![index].namaIbu,
-                                  style: AppTextStyles.primaryTextMedium.copyWith(
+                                  state.getListIbuHamilResponseModel
+                                      .data![index].namaIbu,
+                                  style:
+                                      AppTextStyles.primaryTextMedium.copyWith(
                                     fontSize: 14,
                                     color: Colors.white,
                                   ),
@@ -173,7 +181,8 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: state.getListIbuHamilResponseModel.data![index].nik,
+                                      text: state.getListIbuHamilResponseModel
+                                          .data![index].nik,
                                       style: AppTextStyles.primaryTextNormal
                                           .copyWith(
                                         fontSize: 12,

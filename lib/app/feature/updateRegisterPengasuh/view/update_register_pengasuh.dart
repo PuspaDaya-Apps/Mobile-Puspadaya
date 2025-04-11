@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -214,10 +215,14 @@ class _UpdateRegisterPengasuhViewState
           },
           builder: (context, state) {
             if (state is GetAlamatProccessState) {
-              return const Center(
-                  child: CircularProgressIndicator(
-                color: bluePrimaryMain,
-              ));
+              return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
+              );
             }
             if (state is GetAlamatSuccessState) {
               if(dataKabupatenKota.isEmpty) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -46,10 +47,12 @@ class FormTugasKunjunganIbuHamilView extends StatefulWidget {
   final String idKunjungan;
 
   @override
-  State<FormTugasKunjunganIbuHamilView> createState() => _FormTugasKunjunganIbuHamilViewState();
+  State<FormTugasKunjunganIbuHamilView> createState() =>
+      _FormTugasKunjunganIbuHamilViewState();
 }
 
-class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHamilView> {
+class _FormTugasKunjunganIbuHamilViewState
+    extends State<FormTugasKunjunganIbuHamilView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -83,7 +86,8 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TugasKunjunganIbuHamilBloc>(context).add(GetTugasKunjungan());
+    BlocProvider.of<TugasKunjunganIbuHamilBloc>(context)
+        .add(GetTugasKunjungan());
   }
 
   @override
@@ -166,40 +170,45 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
             physics: const NeverScrollableScrollPhysics(),
             children: [
               // Halaman pertama
-              BlocConsumer<TugasKunjunganIbuHamilBloc, TugasKunjunganIbuHamilState>(
+              BlocConsumer<TugasKunjunganIbuHamilBloc,
+                  TugasKunjunganIbuHamilState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
                 },
                 builder: (context, state) {
                   if (state is TugasKunjunganIbuHamilProccessState) {
-                    return Container(
-                      height: MediaQuery.sizeOf(context).height,
+                    return SizedBox(
                       width: MediaQuery.sizeOf(context).width,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                      height: MediaQuery.sizeOf(context).height,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }
                   if (state is TugasKunjunganIbuHamilSuccessState) {
                     if (state.listTugasKunjungan.data!.isEmpty) {
                       return Container(
-                        height: MediaQuery.sizeOf(context).height,
-                        width: MediaQuery.sizeOf(context).width,
-                        alignment: Alignment.center,
-                        child: const NoDataScreen());
+                          height: MediaQuery.sizeOf(context).height,
+                          width: MediaQuery.sizeOf(context).width,
+                          alignment: Alignment.center,
+                          child: const NoDataScreen());
                     }
                     if (listTugasKunjunganData.isEmpty) {
-                      listTugasKunjunganData.addAll(state.listTugasKunjungan.data!
-                        .map((e) => CheckboxKunjungan(
-                            id: e.id, isChecked: false, label: e.namaTugas))
-                        .toList());
+                      listTugasKunjunganData.addAll(state
+                          .listTugasKunjungan.data!
+                          .map((e) => CheckboxKunjungan(
+                              id: e.id, isChecked: false, label: e.namaTugas))
+                          .toList());
                     }
 
                     return Container(
                       margin: const EdgeInsets.all(20),
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25, horizontal: 20),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -215,13 +224,16 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
                           ),
                           const SizedBox(height: 10),
                           Column(
-                            children: List.generate(listTugasKunjunganData.length, (index) {
+                            children: List.generate(
+                                listTugasKunjunganData.length, (index) {
                               return CheckboxListWidget(
-                                isChecked: listTugasKunjunganData[index].isChecked,
+                                isChecked:
+                                    listTugasKunjunganData[index].isChecked,
                                 label: listTugasKunjunganData[index].label,
                                 onChanged: (value) {
                                   setState(() {
-                                    listTugasKunjunganData[index].isChecked = value!;                          
+                                    listTugasKunjunganData[index].isChecked =
+                                        value!;
                                   });
                                 },
                               );
@@ -229,31 +241,29 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
                           ),
                           const SizedBox(height: 20),
                           ButtonPrimary(
-                            color: bluePrimaryMain,
-                            mainButtonMessage: 'Simpan',
-                            mainButton : () {
-                              setState(() {
-                                _currentPage++;
-                              });
-                              _pageController.animateToPage(
-                                _currentPage,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                              // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
-                              // widget.setTugasValue(widget.listTugasKunjungan);
-                            }
-                          ),
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Simpan',
+                              mainButton: () {
+                                setState(() {
+                                  _currentPage++;
+                                });
+                                _pageController.animateToPage(
+                                  _currentPage,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                                // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
+                                // widget.setTugasValue(widget.listTugasKunjungan);
+                              }),
                         ],
                       ),
                     );
                   }
                   return Container(
-                    height: MediaQuery.sizeOf(context).height,
-                    width: MediaQuery.sizeOf(context).width,
-                    alignment: Alignment.center,
-                    child: const ErrorServerScreen()
-                  );
+                      height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      alignment: Alignment.center,
+                      child: const ErrorServerScreen());
                 },
               ),
               // Halaman kedua
@@ -290,7 +300,6 @@ class UploadImage extends StatefulWidget {
   ValueSetter<List<XFile>> setImagesValues;
   final String idKunjungan;
 
-
   @override
   _UploadImageState createState() => _UploadImageState();
 }
@@ -316,14 +325,13 @@ class _UploadImageState extends State<UploadImage> {
   Future<void> _pickImageFromGallery() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != null) {
-      if(widget.images.length + images.length > 5) {
+      if (widget.images.length + images.length > 5) {
         showTopSnackBar(
-          Overlay.of(context),
-          animationDuration: const Duration(milliseconds: 600),
-          displayDuration: const Duration(milliseconds: 2200),
-          reverseAnimationDuration:const Duration(milliseconds: 300),
-          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
-        );
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5"));
       } else {
         setState(() {
           widget.images.addAll(images);
@@ -334,27 +342,27 @@ class _UploadImageState extends State<UploadImage> {
   }
 
   Future<void> _pickImages(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera); // Pilih satu gambar dari kamera
+    final pickedFile = await _picker.pickImage(
+        source: ImageSource.camera); // Pilih satu gambar dari kamera
     if (pickedFile != null) {
-      if(widget.images.length + 1 > 5 ) {
+      if (widget.images.length + 1 > 5) {
         showTopSnackBar(
-          Overlay.of(context),
-          animationDuration: const Duration(milliseconds: 600),
-          displayDuration: const Duration(milliseconds: 2200),
-          reverseAnimationDuration:const Duration(milliseconds: 300),
-          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
-        );
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5"));
       } else {
         setState(() {
-        widget.images.add(pickedFile);
-        logger.i("jumlah di child =  ${widget.images}");
-      });
+          widget.images.add(pickedFile);
+          logger.i("jumlah di child =  ${widget.images}");
+        });
       }
     }
   }
 
   void _removeImage(int index) {
-     setState(() {
+    setState(() {
       widget.images.removeAt(index);
       logger.i("jumlah di child =  ${widget.images}");
     });
@@ -418,7 +426,9 @@ class _UploadImageState extends State<UploadImage> {
                     }).toList(),
                   )
                 : Container(), // Jika tidak ada gambar, tampilkan kosong
-            widget.images.isEmpty ? SizedBox.shrink() : const SizedBox(height: 20),
+            widget.images.isEmpty
+                ? SizedBox.shrink()
+                : const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 showModalBottomSheet(
@@ -501,86 +511,90 @@ class _UploadImageState extends State<UploadImage> {
             ),
 
             const SizedBox(height: 16),
-            BlocConsumer<SimpanKunjunganIbuHamilBloc, SimpanKunjunganIbuHamilState>(
+            BlocConsumer<SimpanKunjunganIbuHamilBloc,
+                SimpanKunjunganIbuHamilState>(
               listener: (context, state) {
                 debugPrint(state.toString());
-                if(state is SimpanKunjunganIbuHamilSuccessState) {
+                if (state is SimpanKunjunganIbuHamilSuccessState) {
                   showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (context) {
                       return AlertConfirmCreateKunjungan(
                         totalDistance: state.model.jarakTotal,
-                        totalDuration: formattedTime(state.model.selesaiPada.difference(state.model.mulaiPada).inSeconds),
+                        totalDuration: formattedTime(state.model.selesaiPada
+                            .difference(state.model.mulaiPada)
+                            .inSeconds),
                         kunjunganLagi: () {
                           Navigator.of(context)
-                          ..pop()
-                          ..pop()
-                          ..pop(1);
+                            ..pop()
+                            ..pop()
+                            ..pop(1);
                         },
                         selesai: () {
                           Navigator.of(context)
-                          ..pop()
-                          ..pop()
-                          ..pop(0);
-
+                            ..pop()
+                            ..pop()
+                            ..pop(0);
                         },
                       );
                     },
                   );
                 }
 
-                if(state is SimpanKunjunganIbuHamilFailedBuktitate) {
+                if (state is SimpanKunjunganIbuHamilFailedBuktitate) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error(state.error)
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget().error(state.error));
                 }
 
-                if(state is SimpanKunjunganIbuHamilFailedUpdateState) {
+                if (state is SimpanKunjunganIbuHamilFailedUpdateState) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error(state.error)
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget().error(state.error));
                 }
 
-                if(state is SimpanKunjunganIbuHamilFailedDetailState) {
+                if (state is SimpanKunjunganIbuHamilFailedDetailState) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error(state.error)
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget().error(state.error));
                 }
 
-                if(state is ListTugasNullState) {
+                if (state is ListTugasNullState) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error("Tugas Selama Kunjungan Belum Terisi")
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .error("Tugas Selama Kunjungan Belum Terisi"));
                 }
-                if(state is ListImagesNullState) {
-                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error("Upload Bukti Terlebih Dahulu")
-                  );
+                if (state is ListImagesNullState) {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .error("Upload Bukti Terlebih Dahulu"));
                 }
               },
               builder: (context, state) {
-                if(state is SimpanKunjunganIbuHamilProccessState) {
+                if (state is SimpanKunjunganIbuHamilProccessState) {
                   return ElevatedButton(
                     onPressed: null,
                     style: ElevatedButton.styleFrom(
@@ -601,12 +615,12 @@ class _UploadImageState extends State<UploadImage> {
                   mainButtonMessage: 'Upload Bukti',
                   mainButton: () {
                     BlocProvider.of<SimpanKunjunganIbuHamilBloc>(context).add(
-                      SimpanKunjungan(
-                        idKunjungan: widget.idKunjungan, 
-                        listImages: widget.images, 
-                        listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
-                      )
-                    );
+                        SimpanKunjungan(
+                            idKunjungan: widget.idKunjungan,
+                            listImages: widget.images,
+                            listTugas: widget.listTugasKunjungan
+                                .where((e) => e.isChecked)
+                                .toList()));
                   },
                 );
               },

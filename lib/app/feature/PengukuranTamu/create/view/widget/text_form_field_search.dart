@@ -5,9 +5,6 @@ import 'package:puspadaya/app/feature/pengukuranAnak/create/view/search_anak.dar
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
-import '../../../../pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
-
-
 class TextFormFieldSearch extends StatelessWidget {
   const TextFormFieldSearch({
     super.key,
@@ -30,7 +27,7 @@ class TextFormFieldSearch extends StatelessWidget {
         logger.d(result);
         if (result != null) {
           // result harus berisi objek Anak
-          context.read<SearchAnakCubit>().selectAnak(result.name, result.nik);
+          // context.read<SearchAnakCubit>().selectAnak(result.name, result.nik);
           // Kembalikan data ke halaman sebelumnya
           // Navigator.pop(context, result);
         }

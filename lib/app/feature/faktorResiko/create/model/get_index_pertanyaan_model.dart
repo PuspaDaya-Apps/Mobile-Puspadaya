@@ -31,8 +31,6 @@ class Datum {
   final String gambar;
   @JsonKey(name: "detail")
   final String? detail;
-  @JsonKey(name: "gangguan_tumbuh_kembang")
-  final GangguanTumbuhKembang? gangguanTumbuhKembang;
   @JsonKey(name: "is_completed")
   final bool isCompleted;
   @JsonKey(name: "last_completed")
@@ -41,7 +39,6 @@ class Datum {
   final List<Pertanyaan> pertanyaan;
 
   Datum({
-    required this.gangguanTumbuhKembang,
     required this.id,
     required this.namaFaktorResiko,
     required this.keterangan,
@@ -65,6 +62,8 @@ class Pertanyaan {
   final String namaPertanyaan;
   @JsonKey(name: "select_type")
   final SelectType selectType;
+  @JsonKey(name: "image")
+  final String? image;
   @JsonKey(name: "pilihan_pertanyaan")
   final List<PilihanPertanyaan> pilihanPertanyaan;
   @JsonKey(name: "jawaban_sistem")
@@ -74,6 +73,7 @@ class Pertanyaan {
     required this.id,
     required this.namaPertanyaan,
     required this.selectType,
+    required this.image,
     required this.pilihanPertanyaan,
     required this.jawabanSistem,
   });
@@ -104,28 +104,6 @@ class PilihanPertanyaan {
 
   Map<String, dynamic> toJson() => _$PilihanPertanyaanToJson(this);
 }
-
-@JsonSerializable()
-class GangguanTumbuhKembang {
-  @JsonKey(name: "statusStunting")
-  final String statusStunting;
-  @JsonKey(name: "statusWasting")
-  final String statusWasting;
-  @JsonKey(name: "statusUnderweight")
-  final String statusUnderweight;
-
-  GangguanTumbuhKembang({
-    required this.statusStunting,
-    required this.statusWasting,
-    required this.statusUnderweight,
-  });
-
-  factory GangguanTumbuhKembang.fromJson(Map<String, dynamic> json) =>
-      _$GangguanTumbuhKembangFromJson(json);
-
-  Map<String, dynamic> toJson() => _$GangguanTumbuhKembangToJson(this);
-}
-
 enum SelectType {
   @JsonValue("checkbox")
   checkbox,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
@@ -42,7 +43,8 @@ class ListAnakStuntingKunjunganView extends StatefulWidget {
       _ListAnakStuntingKunjunganViewState();
 }
 
-class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunganView> {
+class _ListAnakStuntingKunjunganViewState
+    extends State<ListAnakStuntingKunjunganView> {
   final TextEditingController _searchController = TextEditingController();
   bool isSearching = false;
 
@@ -75,7 +77,8 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
-    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context).add(GetDataAnakStunting());
+    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context)
+        .add(GetDataAnakStunting());
   }
 
   void _filterList() {
@@ -97,23 +100,25 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakStuntingBloc>(context);
+    final createKunjunganBloc =
+        BlocProvider.of<CreateKunjunganAnakStuntingBloc>(context);
 
-    return BlocConsumer<CreateKunjunganAnakStuntingBloc, CreateKunjunganAnakStuntingState>(
+    return BlocConsumer<CreateKunjunganAnakStuntingBloc,
+        CreateKunjunganAnakStuntingState>(
       listener: (context, state) {
         debugPrint(state.toString());
-        if(state is CreateKunjunganAnakStuntingSuccessState) {
-          Navigator.pop(context,1);
-          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.idKunjungan);
+        if (state is CreateKunjunganAnakStuntingSuccessState) {
+          Navigator.pop(context, 1);
+          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN,
+              arguments: state.idKunjungan);
         }
-        if(state is CreateKunjunganAnakStuntingFailedState) {
-           showTopSnackBar(
-            Overlay.of(context),
-            animationDuration: const Duration(milliseconds: 600),
-            displayDuration: const Duration(milliseconds: 2200),
-            reverseAnimationDuration:const Duration(milliseconds: 300),
-            TopSnackbarWidget().error(state.error)
-          );
+        if (state is CreateKunjunganAnakStuntingFailedState) {
+          showTopSnackBar(
+              Overlay.of(context),
+              animationDuration: const Duration(milliseconds: 600),
+              displayDuration: const Duration(milliseconds: 2200),
+              reverseAnimationDuration: const Duration(milliseconds: 300),
+              TopSnackbarWidget().error(state.error));
         }
       },
       builder: (context, state) {
@@ -147,19 +152,26 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListAnakStuntingKunjunganBloc, ListAnakStuntingKunjunganState>(
+                child: BlocConsumer<ListAnakStuntingKunjunganBloc,
+                    ListAnakStuntingKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is ListAnakStuntingKunjunganProccessState) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                        color: bluePrimaryMain,
-                      ));
+                      SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        height: MediaQuery.sizeOf(context).height / 1.15,
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
                     }
                     if (state is ListAnakStuntingKunjunganSuccessState) {
-                      if(state.listDataAnakStunting.data!.isEmpty){
+                      if (state.listDataAnakStunting.data!.isEmpty) {
                         return const NoDataScreen();
                       }
                       return ListView.separated(
@@ -176,11 +188,14 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                             child: KunjunganStuntingItems(
                               onTap: () {
                                 createKunjunganBloc.add(CreateKunjunganEvent(
-                                state.listDataAnakStunting.data![index].id));
+                                    state
+                                        .listDataAnakStunting.data![index].id));
                               },
-                              name: state.listDataAnakStunting.data![index].namaAnak,
+                              name: state
+                                  .listDataAnakStunting.data![index].namaAnak,
                               nik: state.listDataAnakStunting.data![index].nik,
-                              parent: state.listDataAnakStunting.data![index].ibu?.namaIbu,
+                              parent: state.listDataAnakStunting.data![index]
+                                  .ibu?.namaIbu,
                             ),
                           );
                         },
@@ -192,16 +207,17 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
               ),
             ),
             state is CreateKunjunganAnakStuntingProccessState
-            ? Container(
-              height: MediaQuery.sizeOf(context).height,
-              width: MediaQuery.sizeOf(context).height,
-              color: Colors.black.withOpacity(0.2),
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator(
-                color: bluePrimaryMain,
-              ),
-            )
-            : const  SizedBox(),
+                ? SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height / 1.15,
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: bluePrimaryMain,
+                        size: 50.0,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       },

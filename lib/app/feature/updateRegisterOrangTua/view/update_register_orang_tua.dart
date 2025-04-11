@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../model/data_wilayah_model.dart';
@@ -319,8 +320,15 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
               },
               builder: (context, detailData) {
                 if (detailData == null) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                  return SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: bluePrimaryMain,
+                        size: 50.0,
+                      ),
+                    ),
                   ); // Jika data masih loading
                 }
                 //? Set Data Ayah
@@ -2576,7 +2584,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   ),
                                                 );
 
-                                                logger.d(dataOrangTua.ayah.golDarah);
+                                                logger.d(
+                                                    dataOrangTua.ayah.golDarah);
 
                                                 context
                                                     .read<

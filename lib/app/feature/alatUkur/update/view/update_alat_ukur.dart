@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
@@ -200,8 +202,15 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
           },
           builder: (context, state) {
             if (state is UpdateAlataUkurLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is UpdateAlatUkurFailed) {
@@ -316,11 +325,11 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                                   borderRadius: BorderRadius.circular(
                                       8), // Give border radius
                                   child: Image.network(
-                                    widget
+                                    ApiUtils().urlGetPublicImage(widget
                                         .detailAlatUkur
                                         .data
                                         .alatPengukuranAdmin
-                                        .imageUrl, // Use Image.network for URLs
+                                        .imageUrl), // Use Image.network for URLs
                                     height: 300,
                                     width: double.infinity,
                                     fit: BoxFit.cover,

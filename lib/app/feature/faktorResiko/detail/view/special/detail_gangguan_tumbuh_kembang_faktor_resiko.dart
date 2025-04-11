@@ -3,11 +3,14 @@ import '../../../../../../utils/api_utils/api_utils.dart';
 import '../../../../../view/widget/appbar_widget.dart';
 import '../../model/get_detail_riwayat_faktor_resiko_model.dart'
     as GetDetailRiwayatFaktorResiko;
+import '../../../../../../config/theme/pallet_color.dart';
 
 class DetailGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
-   final GetDetailRiwayatFaktorResiko.FaktorResiko data;// Add 'final' to make it immutable
-  const DetailGangguanTumbuhKembangFaktorResiko(
-      {super.key, required this.data});
+  final GetDetailRiwayatFaktorResiko.FaktorResiko data;
+  const DetailGangguanTumbuhKembangFaktorResiko({
+    super.key,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,61 +48,39 @@ class DetailGangguanTumbuhKembangFaktorResiko extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 14),
+
+                // Status Tumbuh Kembang
                 Text(
                   'Status Gangguan Tumbuh Kembang :',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(height: 16),
-                Row(
-                  children: [
-                    Text(
-                      'Status Stunting : ',
-                      style: TextStyle(
-                        fontSize: 14,
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: data.pertanyaan.map((jawaban) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: greenPrimaryMain,
+                          width: 1.5,
+                        ),
+                        color: greenPrimaryMain.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ),
-                    Text(
-                      data.gangguanTumbuhKembang!.statusStunting,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500, 
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
+                      child: Text(
+                        jawaban.pilihanPertanyaan.first.namaPilihan,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: greenPrimaryMain,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Status Wasting : ',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      data.gangguanTumbuhKembang!.statusWasting,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500, 
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Status UnderWeight : ',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                    Text(
-                      data.gangguanTumbuhKembang!.statusUnderweight,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500, 
-                      ),
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ],
             ),

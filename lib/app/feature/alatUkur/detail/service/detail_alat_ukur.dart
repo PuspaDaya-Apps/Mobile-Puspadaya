@@ -19,7 +19,9 @@ class DetailAlatUkurService {
 
   Future<dynamic> deleteAlatUkurById(String token,String id) async{
     final String link = ApiUtils().urlDeleteDataAlatUkurKader(id);
-     final String body = json.encode({});
+    logger.d('uri ${link}}');
+    final String body = json.encode({});
+    logger.d('body $body}');
 
     return await NetworkUtils(token: token).delete(link, body).then((response) {
       logger.d(response.toString());

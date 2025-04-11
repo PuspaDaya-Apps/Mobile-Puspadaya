@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -27,7 +28,7 @@ class DetailMonitoringWasting extends StatelessWidget {
         BlocProvider(
           create: (context) => DetailDataWastingBloc(),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => SelectChartCubit(),
         ),
       ],
@@ -82,11 +83,14 @@ class _DetailMonitoringWastingViewState
           child: BlocBuilder<DetailDataWastingBloc, DetailDataWastingState>(
             builder: (context, state) {
               if (state is DetailDataWastingLoading) {
-                return Container(
+                return SizedBox(
                   width: MediaQuery.sizeOf(context).width,
                   height: MediaQuery.sizeOf(context).height,
                   child: Center(
-                    child: CircularProgressIndicator(),
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }
@@ -505,8 +509,14 @@ class _DetailMonitoringWastingViewState
                       BlocBuilder<SelectChartCubit, SelectChartState>(
                         builder: (context, state) {
                           if (state is SelectChartLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return SizedBox(
+                              child: Center(
+                                child: SpinKitThreeBounce(
+                                  color: bluePrimaryMain,
+                                  size: 50.0,
+                                ),
+                              ),
+                            );
                           } else if (state is SelectChartFailed) {
                             return Center(child: Text(state.message));
                           } else if (state is SelectChartSuccess) {
@@ -529,7 +539,9 @@ class _DetailMonitoringWastingViewState
                           fontSize: 12,
                         ),
                       ),
-                      DataTableRiwayatPengukuranWasting(data: state.data.data.pengukuran!,),
+                      DataTableRiwayatPengukuranWasting(
+                        data: state.data.data.pengukuran!,
+                      ),
                     ],
                   ),
                 );
@@ -544,7 +556,7 @@ class _DetailMonitoringWastingViewState
 }
 
 class DataTableRiwayatPengukuranWasting extends StatelessWidget {
-   final List<GetDetailMonitoringAnak.Pengukuran> data;
+  final List<GetDetailMonitoringAnak.Pengukuran> data;
   const DataTableRiwayatPengukuranWasting({super.key, required this.data});
 
   @override

@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
@@ -36,8 +37,7 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<PengasuhPosyanduBloc>(context)
-        .add(GetListPengasuh());
+    BlocProvider.of<PengasuhPosyanduBloc>(context).add(GetListPengasuh());
   }
 
   @override
@@ -80,15 +80,19 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                 height: 12,
               ),
               Expanded(
-                child: BlocConsumer<PengasuhPosyanduBloc, PengasuhPosyanduState>(
+                child:
+                    BlocConsumer<PengasuhPosyanduBloc, PengasuhPosyanduState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is PengasuhPosyanduLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: bluePrimaryMain,
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
                         ),
                       );
                     }
@@ -104,13 +108,14 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                             child: CardPengasuhWidget(
                               onTap: () {
                                 Navigator.pushNamed(
-                                  context, 
-                                  DETAIL_REGISTER_PENGASUH,
-                                  arguments: state.pengasuhResponseModel.data![index].id
-                                );
+                                    context, DETAIL_REGISTER_PENGASUH,
+                                    arguments: state
+                                        .pengasuhResponseModel.data![index].id);
                               },
-                              nama: state.pengasuhResponseModel.data![index].namaPengasuh,
-                              namaAnak: state.pengasuhResponseModel.data![index].anak.namaAnak,
+                              nama: state.pengasuhResponseModel.data![index]
+                                  .namaPengasuh,
+                              namaAnak: state.pengasuhResponseModel.data![index]
+                                  .anak.namaAnak,
                               nik: state.pengasuhResponseModel.data![index].nik,
                             ),
                           );

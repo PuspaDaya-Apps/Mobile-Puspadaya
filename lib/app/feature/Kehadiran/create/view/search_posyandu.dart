@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/Kehadiran/create/model/paket_from_posyandu_to_kehadiran.dart';
 import 'package:puspadaya/app/feature/Kehadiran/create/model/paket_from_search_anak_to_posyandu.dart';
@@ -87,7 +88,14 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
         child: BlocBuilder<PosyanduBloc, PosyanduState>(
           builder: (context, state) {
             if (state is PosyanduLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return SizedBox(
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
+              );
             }
             if (state is PosyanduFailed) {
               return Center(child: Text(state.message));

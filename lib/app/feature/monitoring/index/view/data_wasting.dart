@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../../config/theme/shadow.dart';
@@ -40,8 +42,13 @@ class _DataWastingViewState extends State<DataWastingView> {
     return BlocBuilder<IndexDataWastingBloc, IndexDataWastingState>(
       builder: (context, state) {
         if (state is IndexDataWastingLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         } else if (state is IndexDataWastingFailed) {
           return Center(

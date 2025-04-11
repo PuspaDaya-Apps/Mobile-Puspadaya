@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/registerAnak/bloc/anak_by_posyandu_bloc.dart';
 import 'package:puspadaya/app/feature/registerAnak/model/anak_item_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -62,7 +63,7 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
         ),
         onPressed: () {
           Navigator.pushNamed(context, CREATE_REGISTER_ANAK).then((value) {
-            if(value != null) {
+            if (value != null) {
               context.read<AnakByPosyanduBloc>().add(FetchAnak());
             }
           });
@@ -104,9 +105,12 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                   builder: (context, state) {
                     debugPrint(state.toString());
                     if (state is AnakByPosyanduLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: bluePrimaryMain,
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
                         ),
                       );
                     } else if (state is AnakByPosyanduSuccess) {
@@ -134,9 +138,8 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                           );
                         },
                       );
-                    } 
-                      return const ErrorServerScreen();
-                    
+                    }
+                    return const ErrorServerScreen();
                   },
                 ),
               )

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/RiwayatAnak/detail/view/detail_riwayat_balita.dart';
 import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/utils/helper/helper_data.dart';
 
 import '../../../../../config/theme/shadow.dart';
@@ -248,8 +250,13 @@ class _IndexRiwayatAnakScreenViewState
         IndexRiwayatPengukuranAnakState>(
       builder: (context, state) {
         if (state is IndexRiwayatPengukuranAnakLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         }
         if (state is IndexRiwayatPengukuranAnakFailed) {
@@ -265,8 +272,7 @@ class _IndexRiwayatAnakScreenViewState
           return ListView.builder(
             itemCount: state.data.data.length,
             itemBuilder: (context, index) {
-              final anak =
-                  state.data.data[index];
+              final anak = state.data.data[index];
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 decoration: BoxDecoration(
@@ -294,10 +300,8 @@ class _IndexRiwayatAnakScreenViewState
                   gender: anak.jenisKelamin.name == 'LAKI_LAKI'
                       ? 'Laki-Laki'
                       : 'Perempuan',
-                  month: HelperData()
-                      .countMonthFromDateTime(anak.tanggalLahir),
-                  year: HelperData()
-                      .countYearFromDateTime(anak.tanggalLahir),
+                  month: HelperData().countMonthFromDateTime(anak.tanggalLahir),
+                  year: HelperData().countYearFromDateTime(anak.tanggalLahir),
                 ),
               );
             },

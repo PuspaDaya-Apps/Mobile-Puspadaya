@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/RiwayatAnak/detail/model/get_grafik_kms_model.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -18,22 +19,27 @@ import '../model/get_detail_anak_response.dart' as GetDetailAnakResponse;
 class DetailDataKIA extends StatelessWidget {
   final GetDetailAnakResponse.GetDetailAnakResponse detailResponse;
   final List<GetGrafikKmsModel> dataGrafik;
-  const DetailDataKIA({super.key, required this.detailResponse, required this.dataGrafik});
+  const DetailDataKIA(
+      {super.key, required this.detailResponse, required this.dataGrafik});
 
   @override
   Widget build(BuildContext context) {
     // logger.d('data pengukuran : ${detailResponse.data!.pengukuranAnak![0].tinggiBadan}');
     return BlocProvider(
       create: (context) => SelectChartCubit(),
-      child: DetailDataKIAView(detailResponse: detailResponse, dataGrafik: dataGrafik,),
+      child: DetailDataKIAView(
+        detailResponse: detailResponse,
+        dataGrafik: dataGrafik,
+      ),
     );
   }
 }
 
 class DetailDataKIAView extends StatefulWidget {
   final List<GetGrafikKmsModel> dataGrafik;
-   final GetDetailAnakResponse.GetDetailAnakResponse detailResponse;
-  const DetailDataKIAView({super.key, required this.detailResponse, required this.dataGrafik});
+  final GetDetailAnakResponse.GetDetailAnakResponse detailResponse;
+  const DetailDataKIAView(
+      {super.key, required this.detailResponse, required this.dataGrafik});
 
   @override
   State<DetailDataKIAView> createState() => _DetailDataKIAViewState();
@@ -180,7 +186,16 @@ class _DetailDataKIAViewState extends State<DetailDataKIAView> {
           BlocBuilder<SelectChartCubit, SelectChartState>(
             builder: (context, state) {
               if (state is SelectChartLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
+                );
               } else if (state is SelectChartFailed) {
                 return Center(child: Text(state.message));
               } else if (state is SelectChartSuccess) {
@@ -201,7 +216,9 @@ class _DetailDataKIAViewState extends State<DetailDataKIAView> {
             height: 16,
           ),
           Text('Riwayat Pengukuran'),
-          RiwayatPengukuranDataKIA(data: widget.detailResponse.data?.pengukuranAnak??[],),
+          RiwayatPengukuranDataKIA(
+            data: widget.detailResponse.data?.pengukuranAnak ?? [],
+          ),
         ],
       ),
     );
@@ -210,7 +227,7 @@ class _DetailDataKIAViewState extends State<DetailDataKIAView> {
 
 class RiwayatPengukuranDataKIA extends StatelessWidget {
   List<GetDetailAnakResponse.Pengukuran> data;
-  RiwayatPengukuranDataKIA({super.key,required this.data});
+  RiwayatPengukuranDataKIA({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -317,7 +334,8 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   e.tanggalPengukuran != null
-                      ? DateFormat('dd-MM-yyyy').format(DateTime.parse(e.tanggalPengukuran!))
+                      ? DateFormat('dd-MM-yyyy')
+                          .format(DateTime.parse(e.tanggalPengukuran!))
                       : '-',
                 ),
               )),

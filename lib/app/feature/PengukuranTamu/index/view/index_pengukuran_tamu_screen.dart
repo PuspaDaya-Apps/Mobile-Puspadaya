@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../route/route_name.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/pengukuran_tamu_items_widget.dart';
-import 'model/pengukuran_tamu_item_model.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/index_pengukuran_tamu_bloc.dart';
 
 class IndexPengukuranTamuScreen extends StatelessWidget {
   const IndexPengukuranTamuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const IndexPengukuranTamuScreenView();
+    return BlocProvider(
+      create: (context) => IndexPengukuranTamuBloc(),
+      child: const IndexPengukuranTamuScreenView(),
+    );
   }
 }
 
@@ -18,50 +28,87 @@ class IndexPengukuranTamuScreenView extends StatefulWidget {
   const IndexPengukuranTamuScreenView({super.key});
 
   @override
-  State<IndexPengukuranTamuScreenView> createState() =>
-      _IndexPengukuranTamuScreenViewState();
+  State<IndexPengukuranTamuScreenView> createState() => _IndexPengukuranTamuScreenViewState();
 }
 
-class _IndexPengukuranTamuScreenViewState
-    extends State<IndexPengukuranTamuScreenView> {
-  List<PengukuranTamuItemModel> listPengukuranItem = [
-    PengukuranTamuItemModel(
-      nama: 'Naufal Azalia',
-      nik: '3321065006020001',
-      posyanduAsal: 'Posyandu Indah 2',
-      tanggal: '12 Januari 2024',
-    ),
-    PengukuranTamuItemModel(
-      nama: 'Andamari Noerani',
-      nik: '3321061306990005',
-      posyanduAsal: 'Posyandu Anggrek 3',
-      tanggal: '16 Januari 2024',
-    ),
-  ];
+class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScreenView> {
+  @override
+  void initState() {
+    BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: listPengukuranItem.length,
-      itemBuilder: (context, index) {
-        PengukuranTamuItemModel pengukuranItem = listPengukuranItem[index];
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: shadowSm,
-          ),
-          child: PengukuranTamuItems(
-            onTap: () {
-              Navigator.pushNamed(context, DETAIL_PENGUKURAN_TAMU,
-                  arguments: '2');
+    return BlocConsumer<IndexPengukuranTamuBloc, IndexPengukuranTamuState>(
+      listener: (context, state) {
+        debugPrint(state.toString());
+        if (state is IndexPengukuranTamuFailedState) {
+          debugPrint(state.error);
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(
+              milliseconds: 600
+            ),
+            displayDuration: const Duration(
+              milliseconds: 2200
+            ),
+            reverseAnimationDuration: const Duration(
+              milliseconds: 300
+            ),
+            TopSnackbarWidget().error(state.error)
+          );
+        }
+        if (state is IndexPengukuranTamuTokenExpiredState) {}
+      },
+      builder: (context, state) {
+        if (state is IndexPengukuranTamuProcessState ||
+            state is IndexPengukuranTamuInitial ||
+            state is IndexPengukuranTamuTokenExpiredState) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: bluePrimaryMain,
+            )
+          );
+        }
+        if(state is IndexPengukuranTamuSuccessState) {
+          if (state.indexPengukuranTamuResponseModel.data!.isEmpty) {
+            return const NoDataScreen();
+          }
+
+          return ListView.builder(
+            itemCount: state.indexPengukuranTamuResponseModel.data!.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: shadowSm,
+                ),
+                child: PengukuranTamuItems(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context, 
+                      DETAIL_PENGUKURAN_TAMU, 
+                      arguments: state.indexPengukuranTamuResponseModel.data![index].id
+                    ).then((value) {
+                      if(value != null) {
+                        BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
+                      }
+                    });
+                  },
+                  name: state.indexPengukuranTamuResponseModel.data![index].namaAnak,
+                  nik: state.indexPengukuranTamuResponseModel.data![index].nik,
+                  date: DateFormat("d MMMM y", "ID_id").format(state.indexPengukuranTamuResponseModel.data![index].tanggalPengukuran),
+                  place: state.indexPengukuranTamuResponseModel.data![index].posyanduAsal,
+                ),
+              );
             },
-            name: pengukuranItem.nama,
-            nik: pengukuranItem.nik,
-            date: pengukuranItem.tanggal,
-            place: pengukuranItem.posyanduAsal,
-          ),
-        );
+          );
+        }
+       
+        return const ErrorServerScreen();
       },
     );
   }

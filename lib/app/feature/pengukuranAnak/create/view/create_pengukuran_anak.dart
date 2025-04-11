@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
@@ -173,13 +174,14 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
         },
         builder: (context, stateListAlatUkur) {
           if (stateListAlatUkur is AlatUkurSaveProccessState) {
-            return Container(
+            return SizedBox(
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).width,
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: CircularProgressIndicator(
-                color: bluePrimaryMain,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
               ),
             );
           }
@@ -851,7 +853,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialogAnakSave(
-                                                isAgeLessThanSixMonths: isAgeLessThanSixMonths!,
+                                                isAgeLessThanSixMonths:
+                                                    isAgeLessThanSixMonths!,
                                                 cancelButton: () {
                                                   Navigator.pop(context);
                                                 },

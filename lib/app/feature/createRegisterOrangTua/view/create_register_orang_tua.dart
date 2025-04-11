@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
 //     as ProvinsiModel;
 // import 'package:puspadaya/app/feature/alamat/model/get_kabupaten_response.dart'
@@ -485,11 +486,15 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                       logger.d('state is ${state.toString()}');
                       debugPrint(state.toString());
                       if (state is GetAlamatProccessState) {
-                        return const Expanded(
+                        return SizedBox(
+                          height: MediaQuery.sizeOf(context).height,
+                          width: MediaQuery.sizeOf(context).width,
                           child: Center(
-                              child: CircularProgressIndicator(
-                            color: bluePrimaryMain,
-                          )),
+                            child: SpinKitThreeBounce(
+                              color: bluePrimaryMain,
+                              size: 50.0,
+                            ),
+                          ),
                         );
                       }
                       if (state is GetAlamatSuccessState) {
@@ -537,9 +542,20 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           },
                                           builder: (context, stateKK) {
                                             if (stateKK is GenerateKKLoading) {
-                                              return const Center(
-                                                  child:
-                                                      CircularProgressIndicator());
+                                              return SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                        .height,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                        .width,
+                                                child: Center(
+                                                  child: SpinKitThreeBounce(
+                                                    color: bluePrimaryMain,
+                                                    size: 50.0,
+                                                  ),
+                                                ),
+                                              );
                                             }
                                             return Row(
                                               crossAxisAlignment:
@@ -671,9 +687,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           },
                                           builder: (context, state) {
                                             if (state is GenerateNikLoading) {
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                              return SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                        .height,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                        .width,
+                                                child: Center(
+                                                  child: SpinKitThreeBounce(
+                                                    color: bluePrimaryMain,
+                                                    size: 50.0,
+                                                  ),
+                                                ),
                                               );
                                             }
 
@@ -1680,9 +1706,20 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           },
                                           builder: (context, stateKK) {
                                             if (stateKK is GenerateKKLoading) {
-                                              return Center(
-                                                  child:
-                                                      CircularProgressIndicator());
+                                              return SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                        .height,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                        .width,
+                                                child: Center(
+                                                  child: SpinKitThreeBounce(
+                                                    color: bluePrimaryMain,
+                                                    size: 50.0,
+                                                  ),
+                                                ),
+                                              );
                                             }
                                             return Row(
                                               crossAxisAlignment:
@@ -1796,9 +1833,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           },
                                           builder: (context, state) {
                                             if (state is GenerateNikLoading) {
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                              return SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                        .height,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                        .width,
+                                                child: Center(
+                                                  child: SpinKitThreeBounce(
+                                                    color: bluePrimaryMain,
+                                                    size: 50.0,
+                                                  ),
+                                                ),
                                               );
                                             }
                                             return Row(

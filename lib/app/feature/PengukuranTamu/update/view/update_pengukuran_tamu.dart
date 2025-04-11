@@ -1,11 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:puspadaya/app/feature/pengukuranAnak/alatUkur/bloc/alat_ukur_anak_bloc.dart';
-import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/searchAnakCubit/search_anak_cubit.dart';
-import 'package:puspadaya/app/model/paketToScreen/paket_to_update_pengukuran_tamu_model.dart';
-import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/auto_size_text_field_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
@@ -15,427 +11,574 @@ import 'package:puspadaya/app/view/widget/radio_button_widget.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../../../utils/logger/logger.dart';
+import '../../../../model/alat_ukur_response_model.dart';
+import '../../../../model/alat_ukur_save_model.dart';
+import '../../../../model/paketToScreen/paket_to_update_pengukuran_tamu_model.dart';
+import '../../../../view/screen/error_server_screen.dart';
+import '../../../../view/widget/alert_choose_measuring_tools_anak_widget copy.dart';
+import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+// import '../../alatUkur/bloc/alat_ukur_anak_bloc.dart';
+import '../../../alatUkurSave/bloc/alatUkurSaveBloc/alat_ukur_save_bloc.dart';
+import '../../../alatUkurSave/bloc/getAlatUkurBloc/get_alat_ukur_bloc.dart';
+import '../../../alatUkurSave/bloc/saveAlatUkurBloc/save_alat_ukur_bloc.dart';
+import '../bloc/update_pengukuran_tamu_bloc.dart';
+import '../model/update_pengukuran_tamu_model.dart';
 
 class UpdatePengukuranTamu extends StatelessWidget {
-  const UpdatePengukuranTamu({super.key});
+  const UpdatePengukuranTamu({super.key, required this.paket});
+  final PaketToUpdatePengukuranTamuModel paket;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SearchAnakCubit(),
+          create: (context) => UpdatePengukuranTamuBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) => UpdatePengukuranTamuBloc(),
-        // ),
-        // BlocProvider(
-        //   create: (context) => AlatUkurAnakBloc(),
-        // ),
+        BlocProvider(
+          create: (context) => AlatUkurSaveBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetAlatUkurBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SaveAlatUkurBloc(),
+        ),
       ],
-      child: const UpdatePengukuranTamuView(),
+      child: UpdatePengukuranTamuView(
+        paket: paket,
+      ),
     );
   }
 }
 
 class UpdatePengukuranTamuView extends StatefulWidget {
-  const UpdatePengukuranTamuView({super.key});
+  const UpdatePengukuranTamuView({super.key, required this.paket});
+  final PaketToUpdatePengukuranTamuModel paket;
 
   @override
-  State<UpdatePengukuranTamuView> createState() =>
-      _UpdatePengukuranTamuViewState();
+  State<UpdatePengukuranTamuView> createState() => _UpdatePengukuranTamuViewState();
 }
 
 class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController nikController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-
-  TextEditingController heightController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController =
-      TextEditingController();
-  TextEditingController headCircumferenceController = TextEditingController();
-  TextEditingController catatanController = TextEditingController();
-  TextEditingController keluhanController = TextEditingController();
-
-
   final _formKey = GlobalKey<FormState>();
-  String selectedPosyandu = 'Posyandu';
-  String selectedPosition = 'Terlentang';
 
-  String selectedHeight = 'Microtoise';
-  String selectedWeight = 'Timbangan Digital';
-  String selectedUpperArmCircumference = 'Pita Lila';
-  String selectedUterineFundalHeight = 'Metline';
+  late String selectedPosition;
 
-  final List<String> selectPosyandu = ['Posyandu', 'Rumah'];
+  late TextEditingController heightController;
+  late TextEditingController weightController;
+  late TextEditingController upperArmCircumferenceController;
+  late TextEditingController headCircumferenceController;
+  late TextEditingController catatanController;
+  late TextEditingController keluhanController;
 
   final List<String> selectPosition = [
     'Terlentang',
     'Berdiri',
   ];
+  
+  late int asiEksklusifValue;
+  late int mpasiValue;
 
-  late PaketToUpdatePengukuranTamuModel paket;
-
-  int? asiEksklusifValue = 0;
-  int? mpasiValue = 0;
-
-  late String alatUkur;
+  AlatUkurSaveModel alatUkurAnak = AlatUkurSaveModel();
+  AlatUkurSaveModel? alatUkurAnakSend;
+  AlatUkurResponseModel? listAlatUkur;
 
   @override
   void initState() {
     super.initState();
-    // BlocProvider.of<AlatUkurAnakBloc>(context).add(GetAlatUkur());
+    BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
+
+    heightController = TextEditingController(text: widget.paket.data.data!.tinggiBadan);
+    weightController = TextEditingController(text: widget.paket.data.data!.beratBadan);
+    upperArmCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarLenganAtas);
+    headCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarKepala);
+    catatanController = TextEditingController(text: widget.paket.data.data!.catatan);
+    keluhanController = TextEditingController(text: widget.paket.data.data!.keluhan);
+
+    if (widget.paket.data.data!.posisiBadan == "Terlentang") {
+      selectedPosition = "Terlentang";
+    } else {
+      selectedPosition = "Berdiri";
+    }
+
+    if (widget.paket.data.data!.mpasi == "Iya") {
+      mpasiValue = 1;
+    } else {
+      mpasiValue = 0;
+    }
+
+    if (widget.paket.data.data!.asiEksklusif == "Iya") {
+      asiEksklusifValue = 1;
+    } else {
+      asiEksklusifValue = 0;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final updatePengukuranTamuBloc = BlocProvider.of<UpdatePengukuranTamuBloc>(context);
+    final saveAlatUkurBloc = BlocProvider.of<SaveAlatUkurBloc>(context);
 
-    // final createPengukuranAnakBloc = BlocProvider.of<UpdatePengukuranTamuBloc>(context);
-
-    // return BlocListener<AlatUkurAnakBloc, AlatUkurAnakState>(
-    //   listener: (context, state) {
-    //     debugPrint(state.toString());
-    //     if (state is AlatUkurAnakSuccessState) {
-    //       alatUkur = state.alatUkurResponseModel.data![0].id;
-    //     }
-    //   },
-    //   child: Scaffold(
-    //     backgroundColor: backgroundWhite10,
-    //     appBar: PrimaryAppBar(
-    //       title: "Perbarui Pengukuran Tamu",
-    //       // actions: [__buildChangeMeasuringToolsButton(context)],
-    //       onBackPressed: () => Navigator.pop(context),
-    //     ),
-    //     body: SafeArea(
-    //       child: SingleChildScrollView(
-    //         child: Container(
-    //           margin: const EdgeInsets.all(20),
-    //           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-    //           decoration: BoxDecoration(
-    //             color: Colors.white,
-    //             borderRadius: BorderRadius.circular(12),
-    //           ),
-    //           child: Form(
-    //             key: _formKey,
-    //             child: Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               mainAxisAlignment: MainAxisAlignment.start,
-    //               children: [
-    //                 const Text(
-    //                   'NIK',
-    //                   style: TextStyle(fontSize: 12),
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-    //                 InfoFieldWidget(text: '36501231921234'),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 const Text(
-    //                   'Asal Posyandu',
-    //                   style: TextStyle(fontSize: 12),
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-    //                 InfoFieldWidget(text: 'Posyandu Mawar 8'),
-    //                 SizedBox(
-    //                   height: SizeConfig.calHeightMultiplier(16),
-    //                 ),
-    //                 Container(
-    //                   width: double.infinity,
-    //                   height: 2,
-    //                   color: Colors.black54,
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 const Text(
-    //                   'Posisi Pengukuran Tinggi Badan',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                   ),
-    //                 ),
-    //                 SizedBox(
-    //                   height: SizeConfig.calHeightMultiplier(8),
-    //                 ),
-    //                 DropdownWidget(
-    //                   items: selectPosition,
-    //                   hint: 'Pilih Posisi Pengukuran Tinggi Badan',
-    //                   value: selectedPosition,
-    //                   onChanged: (value) {
-    //                     setState(() {
-    //                       selectedPosition = value;
-    //                     });
-    //                   },
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 Row(
-    //                   spacing: 8,
-    //                   mainAxisAlignment: MainAxisAlignment.start,
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: [
-    //                     Expanded(
-    //                       child: Column(
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         mainAxisAlignment: MainAxisAlignment.start,
-    //                         children: [
-    //                           MeasurementWidget(
-    //                             title: 'Tinggi Badan',
-    //                             hintText: 'contoh: 13.5',
-    //                             unit: 'cm',
-    //                             // tool: 'Microtoise',
-    //                             controller: heightController,
-    //                           ),
-    //                           SizedBox(
-    //                             height: SizeConfig.calHeightMultiplier(16),
-    //                           ),
-    //                           MeasurementWidget(
-    //                             title: 'Lingkar Lengan Atas',
-    //                             hintText: 'contoh: 3.5',
-    //                             unit: 'cm',
-    //                             // tool: 'Pita Lila',
-    //                             controller: upperArmCircumferenceController,
-    //                           ),
-    //                           SizedBox(
-    //                             height: SizeConfig.calHeightMultiplier(16),
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                     Expanded(
-    //                       child: Column(
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         mainAxisAlignment: MainAxisAlignment.start,
-    //                         children: [
-    //                           MeasurementWidget(
-    //                             title: 'Berat Badan',
-    //                             hintText: 'contoh: 6.5',
-    //                             unit: 'kg',
-    //                             // tool: 'Timbangan Digital',
-    //                             controller: weightController,
-    //                           ),
-    //                           SizedBox(
-    //                             height: SizeConfig.calHeightMultiplier(16),
-    //                           ),
-    //                           MeasurementWidget(
-    //                             title: 'Lingkar Kepala',
-    //                             hintText: 'contoh: 6.5',
-    //                             unit: 'cm',
-    //                             // tool: 'Alat Ukur Lingkar Kepala',
-    //                             controller: headCircumferenceController,
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 Row(
-    //                   children: [
-    //                     Expanded(
-    //                       child: Column(
-    //                         mainAxisAlignment: MainAxisAlignment.start,
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         children: [
-    //                           Text(
-    //                             'Asi Ekskusif',
-    //                             style: AppTextStyles.primaryTextNormal.copyWith(
-    //                               fontSize: 12,
-    //                             ),
-    //                           ),
-    //                           SizedBox(
-    //                             height: SizeConfig.calHeightMultiplier(8),
-    //                           ),
-    //                           // radio button
-    //                           Row(
-    //                             crossAxisAlignment: CrossAxisAlignment.center,
-    //                             mainAxisAlignment: MainAxisAlignment.start,
-    //                             children: [
-    //                               CustomRadioButton(
-    //                                 value: 1,
-    //                                 groupValue: asiEksklusifValue!,
-    //                                 onChanged: (value) {
-    //                                   setState(() {
-    //                                     asiEksklusifValue = value;
-    //                                   });
-    //                                 },
-    //                                 label: 'Ya',
-    //                               ),
-    //                               SizedBox(
-    //                                 width: SizeConfig.calHeightMultiplier(16),
-    //                               ),
-    //                               CustomRadioButton(
-    //                                 value: 0,
-    //                                 groupValue: asiEksklusifValue!,
-    //                                 onChanged: (value) {
-    //                                   setState(() {
-    //                                     asiEksklusifValue = value;
-    //                                   });
-    //                                 },
-    //                                 label: 'Tidak',
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                     Expanded(
-    //                       child: Column(
-    //                         mainAxisAlignment: MainAxisAlignment.start,
-    //                         crossAxisAlignment: CrossAxisAlignment.start,
-    //                         children: [
-    //                           Text(
-    //                             'MPASI',
-    //                             style: AppTextStyles.primaryTextNormal.copyWith(
-    //                               fontSize: 12,
-    //                             ),
-    //                           ),
-    //                           SizedBox(
-    //                             height: SizeConfig.calHeightMultiplier(8),
-    //                           ),
-    //                           // radio button
-    //                           Row(
-    //                             crossAxisAlignment: CrossAxisAlignment.center,
-    //                             mainAxisAlignment: MainAxisAlignment.start,
-    //                             children: [
-    //                               CustomRadioButton(
-    //                                 value: 1,
-    //                                 groupValue: mpasiValue!,
-    //                                 onChanged: (value) {
-    //                                   setState(() {
-    //                                     mpasiValue = value;
-    //                                   });
-    //                                 },
-    //                                 label: 'Ya',
-    //                               ),
-    //                               SizedBox(
-    //                                 width: SizeConfig.calHeightMultiplier(16),
-    //                               ),
-    //                               CustomRadioButton(
-    //                                 value: 0,
-    //                                 groupValue: mpasiValue!,
-    //                                 onChanged: (value) {
-    //                                   setState(() {
-    //                                     mpasiValue = value;
-    //                                   });
-    //                                 },
-    //                                 label: 'Tidak',
-    //                               ),
-    //                             ],
-    //                           ),
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 const Text(
-    //                   'Catatan',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                   ),
-    //                 ),
-    //                 SizedBox(
-    //                   height: SizeConfig.calHeightMultiplier(8),
-    //                 ),
-    //                 AutoSizeTextFieldWidget(
-    //                   controller: catatanController,
-    //                   hintText: 'Masukan Catatan',
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 const Text(
-    //                   'Keluhan',
-    //                   style: TextStyle(
-    //                     fontSize: 12,
-    //                   ),
-    //                 ),
-    //                 SizedBox(
-    //                   height: SizeConfig.calHeightMultiplier(8),
-    //                 ),
-    //                 AutoSizeTextFieldWidget(
-    //                   controller: keluhanController,
-    //                   hintText: 'Masukan Keluhan',
-    //                 ),
-    //                 SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-    //                 ButtonPrimary(
-    //                   color: bluePrimaryMain,
-    //                   mainButtonMessage: 'Simpan',
-    //                   mainButton: () {},
-    //                 ),
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    return SizedBox();
+    return BlocListener<GetAlatUkurBloc, GetAlatUkurState>(
+      listener: (context, state) {
+        if (state is GetAlatUkurAnakSuccessState) {
+          logger.i("Berhasil");
+          setState(() {
+            alatUkurAnak = state.alatUkurAnak;
+          });
+        }
+        if (state is GetAlatUkurAnakFailedState) {
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertChooseMeasuringToolsAnak(
+              title: 'Pilih Alat Ukur',
+              mainButton: () {
+                Navigator.pop(context);
+              },
+              mainButtonMessage: 'Simpan',
+              colorMainButton: bluePrimaryMain,
+              listAlatUkur: listAlatUkur!,
+              saveAlatUkurBloc: saveAlatUkurBloc,
+            ),
+          ).then((value) {
+            if (value != null) {
+              setState(() {
+                alatUkurAnak = value as AlatUkurSaveModel;
+                alatUkurAnakSend = value as AlatUkurSaveModel;
+              });
+            } else {
+              Navigator.pop(context);
+            }
+          });
+        }
+      },
+      child: BlocConsumer<AlatUkurSaveBloc, AlatUkurSaveState>(
+        listener: (context, state) {
+          debugPrint(state.toString());
+          if (state is AlatUkurSaveFailedState) {}
+          if (state is AlatUkurSaveSuccessState) {
+            logger.i("pangil event");
+            listAlatUkur = state.alatUkurResponseModel;
+            BlocProvider.of<GetAlatUkurBloc>(context).add(GetAlatUkurAnak());
+          }
+        },
+        builder: (context, stateListAlatUkur) {
+          if (stateListAlatUkur is AlatUkurSaveProccessState) {
+            return Container(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: CircularProgressIndicator(
+                color: bluePrimaryMain,
+              ),
+            );
+          }
+          if(stateListAlatUkur is AlatUkurSaveSuccessState) {
+            return Scaffold(
+              backgroundColor: backgroundWhite10,
+              appBar: PrimaryAppBar(
+                title: "Perbarui Pengukuran",
+                actions: [
+                  __buildChangeMeasuringToolsButton(
+                    context,
+                    saveAlatUkurBloc)
+                ],
+                onBackPressed: () => Navigator.pop(context),
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //Nama
+                          const Text(
+                            'Nama',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          InfoFieldWidget(
+                              text: widget.paket.data.data!.anak.namaAnak),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'NIK',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          InfoFieldWidget(text: widget.paket.data.data!.anak.nik),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Posyandu Asal',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          InfoFieldWidget(text: widget.paket.data.data!.anak.nik),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          Container(
+                            width: double.infinity,
+                            height: 2,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Posisi Pengukuran Tinggi Badan',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          DropdownWidget(
+                            items: selectPosition,
+                            hint: 'Pilih Posisi Pengukuran Tinggi Badan',
+                            value: selectedPosition,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedPosition = value;
+                              });
+                            },
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          Row(
+                            spacing: 8,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    MeasurementWidget(
+                                      title: 'Tinggi Badan',
+                                      hintText: 'contoh: 13.5',
+                                      unit: 'cm',
+                                      tool: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatTinggiBadan.jenisAlat 
+                                      : alatUkurAnak.alatUkurTinggi!.alatPengukuranAdmin.merekAlat,
+                                      controller: heightController,
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    MeasurementWidget(
+                                      title: 'Lingkar Lengan Atas',
+                                      hintText: 'contoh: 3.5',
+                                      unit: 'cm',
+                                      tool: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatLingkarLengan.jenisAlat 
+                                      : alatUkurAnak.alatUkurLingkarLengan!.alatPengukuranAdmin.merekAlat,
+                                      controller: upperArmCircumferenceController,
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    Text(
+                                      'Asi Ekskusif',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    // radio button
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        CustomRadioButton(
+                                          value: 1,
+                                          groupValue: asiEksklusifValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              asiEksklusifValue = value;
+                                            });
+                                          },
+                                          label: 'Ya',
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              SizeConfig.calHeightMultiplier(16),
+                                        ),
+                                        CustomRadioButton(
+                                          value: 0,
+                                          groupValue: asiEksklusifValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              asiEksklusifValue = value;
+                                            });
+                                          },
+                                          label: 'Tidak',
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    MeasurementWidget(
+                                      title: 'Berat Badan',
+                                      hintText: 'contoh: 6.5',
+                                      unit: 'kg',
+                                      tool: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatBeratBadan.jenisAlat 
+                                      : alatUkurAnak.alatUkurBerat!.alatPengukuranAdmin.merekAlat,
+                                      controller: weightController,
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    MeasurementWidget(
+                                      title: 'Lingkar Kepala',
+                                      hintText: 'contoh: 6.5',
+                                      unit: 'cm',
+                                      tool: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatLingkarKepala.jenisAlat 
+                                      : alatUkurAnak.alatUkurLingkarKepala!.alatPengukuranAdmin.merekAlat,
+                                      controller: headCircumferenceController,
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    Text(
+                                      'MPASI',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    // radio button
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        CustomRadioButton(
+                                          value: 1,
+                                          groupValue: mpasiValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              mpasiValue = value;
+                                            });
+                                          },
+                                          label: 'Ya',
+                                        ),
+                                        const SizedBox(width: 16),
+                                        CustomRadioButton(
+                                          value: 0,
+                                          groupValue: mpasiValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              mpasiValue = value;
+                                            });
+                                          },
+                                          label: 'Tidak',
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Catatan',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          AutoSizeTextFieldWidget(
+                            controller: catatanController,
+                            hintText: 'Masukan Catatan',
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Keluhan',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(8),
+                          ),
+                          AutoSizeTextFieldWidget(
+                            controller: keluhanController,
+                            hintText: 'Masukan Keluhan',
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          BlocConsumer<UpdatePengukuranTamuBloc,UpdatePengukuranTamuState>(
+                            listener: (context, state) {
+                              if (state is UpdatePengukuranTamuSuccesState) {
+                                Navigator.pop(context, 1);
+                              }
+                              if (state is UpdatePengukuranTamuFailedState) {
+                                debugPrint(state.error);
+                                showTopSnackBar(
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget().error(state.error));
+                              }
+                            },
+                            builder: (context, state) {
+                              return ButtonPrimary(
+                                color: bluePrimaryMain,
+                                mainButtonMessage: 'Simpan',
+                                mainButton: () {
+                                  updatePengukuranTamuBloc
+                                      .add(SendUpdatePengukuranTamuEvent(
+                                    pengukuranId: widget.paket.pengukuranId,
+                                    pengukuranTamuModel: UpdatePengukuranTamuModel(
+                                        posisiBadan: selectedPosition,
+                                        alatBeratBadanId: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatBeratBadan.id 
+                                      : alatUkurAnak.alatUkurBerat!.id,
+                                        alatLingkarKepalaId: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatLingkarKepala.id 
+                                      : alatUkurAnak.alatUkurLingkarKepala!.id,
+                                        alatLingkarLenganId: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatLingkarLengan.id 
+                                      : alatUkurAnak.alatUkurLingkarLengan!.id,
+                                        alatTinggiBadanId: alatUkurAnakSend == null 
+                                      ? widget.paket.data.data!.alatTinggiBadan.id 
+                                      : alatUkurAnak.alatUkurTinggi!.id,
+                                        beratBadan:
+                                            double.parse(weightController.text),
+                                        tinggiBadan:
+                                            double.parse(heightController.text),
+                                        lingkarKepala: double.parse(
+                                            headCircumferenceController.text),
+                                        lingkarLenganAtas: double.parse(
+                                            upperArmCircumferenceController.text),
+                                        asiEksklusif:
+                                            asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
+                                        mpasi: mpasiValue == 1 ? 'Iya' : 'Tidak',
+                                        tanggalPengukuran:
+                                            widget.paket.data.data!.tanggalPengukuran,
+                                        catatan: catatanController.text,
+                                        keluhan: keluhanController.text,
+                                        ),
+                                  ));
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+          return const ErrorServerScreen();
+        },
+      ),
+    );
   }
 
-  // Widget __buildChangeMeasuringToolsButton(context) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       showDialog(
-  //         context: context,
-  //         builder: (context) => AlertChooseMeasuringTools(
-  //           title: 'Pilih Alat Ukur',
-  //           mainButton: () {
-  //             Navigator.pop(context);
-  //           },
-  //           mainButtonMessage: 'Simpan',
-  //           colorMainButton: bluePrimaryMain,
-  //           selectedHeight: selectedHeight,
-  //           selectedWeight: selectedWeight,
-  //           selectedUpperArmCircumference: selectedUpperArmCircumference,
-  //           selectedUterineFundalHeight: selectedUterineFundalHeight,
-  //           onHeightChanged: (value) {
-  //             setState(() {
-  //               selectedHeight = value;
-  //             });
-  //           },
-  //           onWeightChanged: (value) {
-  //             setState(() {
-  //               selectedWeight = value;
-  //             });
-  //           },
-  //           onUpperArmCircumferenceChanged: (value) {
-  //             setState(() {
-  //               selectedUpperArmCircumference = value;
-  //             });
-  //           },
-  //           onUterineFundalHeightChanged: (value) {
-  //             setState(() {
-  //               selectedUterineFundalHeight = value;
-  //             });
-  //           },
-  //         ),
-  //       );
-  //     },
-  //     child: Container(
-  //       margin: const EdgeInsets.only(right: 24),
-  //       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-  //       decoration: BoxDecoration(
-  //         color: bluePrimary30,
-  //         borderRadius: BorderRadius.circular(10),
-  //       ),
-  //       child: Row(
-  //         spacing: 2,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           const Icon(
-  //             FontAwesomeIcons.penToSquare,
-  //             color: Colors.white,
-  //             size: 14,
-  //           ),
-  //           Text(
-  //             'Ubah Alat',
-  //             style: AppTextStyles.primaryTextMedium.copyWith(
-  //               fontSize: 12,
-  //               color: Colors.white,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget __buildChangeMeasuringToolsButton(context, SaveAlatUkurBloc saveAlatUkurBloc) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertChooseMeasuringToolsAnak(
+            title: 'Pilih Alat Ukur',
+            mainButton: () {
+              Navigator.pop(context);
+            },
+            mainButtonMessage: 'Simpan',
+            colorMainButton: bluePrimaryMain,
+            listAlatUkur: listAlatUkur!,
+            saveAlatUkurBloc: saveAlatUkurBloc,
+            alatUkurAnakSave: alatUkurAnak,
+          ),
+        ).then((value) {
+          if (value != null) {
+            setState(() {
+              alatUkurAnak = value as AlatUkurSaveModel;
+              alatUkurAnakSend = value as AlatUkurSaveModel;
+            });
+          }
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: bluePrimary30,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          spacing: 2,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              FontAwesomeIcons.penToSquare,
+              color: Colors.white,
+              size: 14,
+            ),
+            Text(
+              'Ubah Alat',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+
+  
+

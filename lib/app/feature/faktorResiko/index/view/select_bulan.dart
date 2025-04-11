@@ -1,6 +1,7 @@
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart'; // Import intl for date formatting
 import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 
@@ -80,8 +81,15 @@ class _SelectBulanViewState extends State<SelectBulanView> {
       body: BlocBuilder<RiwayatFaktorResikoBloc, RiwayatFaktorResikoState>(
         builder: (context, state) {
           if (state is RiwayatFaktorResikoLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
             );
           }
           if (state is RiwayatFaktorResikoFailed) {

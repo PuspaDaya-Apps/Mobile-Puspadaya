@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card_widget.dart';
@@ -15,6 +16,7 @@ import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/shadow.dart';
 import '../../../model/current_user_model.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
@@ -54,11 +56,13 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     BlocProvider.of<CardDataHomeBloc>(context).add(GetCardHome());
-    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome());
+    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome(context));
   }
 
   @override
   Widget build(BuildContext context) {
+    final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -76,21 +80,20 @@ class _HomeViewState extends State<HomeView> {
               BlocConsumer<JadwalPosyanduHomeBloc, JadwalPosyanduHomeState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
+                  if(state is JadwalPosyanduHomeTokenExpiredState) {
+                    authorizationBloc.add(AuthorizationFalseEvent());
+                  }
                 },
                 builder: (context, state) {
                   if (state is JadwalPosyanduHomeProcessState) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.calWidthMultiplier(24)),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(16),
-                        vertical: SizeConfig.calHeightMultiplier(12),
-                      ),
-                      width: double.infinity,
-                      height: 80,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }
@@ -127,18 +130,14 @@ class _HomeViewState extends State<HomeView> {
                 },
                 builder: (context, state) {
                   if (state is CardDataHomeProcessState) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.calWidthMultiplier(24)),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(16),
-                        vertical: SizeConfig.calHeightMultiplier(12),
-                      ),
-                      width: double.infinity,
-                      height: 80,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7.4,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }

@@ -36,9 +36,9 @@ class Data {
   @JsonKey(name: "tinggi_badan")
   final String tinggiBadan;
   @JsonKey(name: "hemoglobin")
-  final String hemoglobin;
+  final String? hemoglobin;
   @JsonKey(name: "jumlah_tablet_fe")
-  final int jumlahTabletFe;
+  final int? jumlahTabletFe;
   @JsonKey(name: "tanggal_pertama_haid")
   final DateTime tanggalPertamaHaid;
   @JsonKey(name: "tanggal_terakhir_haid")
@@ -46,7 +46,7 @@ class Data {
   @JsonKey(name: "lingkar_lengan_atas")
   final String lingkarLenganAtas;
   @JsonKey(name: "tinggi_fundus_uteri")
-  final String tinggiFundusUteri;
+  final String? tinggiFundusUteri;
   @JsonKey(name: "terpapar_asap_rokok")
   final String terpaparAsapRokok;
   @JsonKey(name: "catatan")
@@ -290,7 +290,9 @@ class PengukuranIbuHamil {
     @JsonKey(name: "lingkar_lengan_atas")
     final String lingkarLenganAtas;
     @JsonKey(name: "hemoglobin")
-    final String hemoglobin;
+    final String? hemoglobin;
+    @JsonKey(name: "nama_bpjs")
+    final String? namaBpjs;
     @JsonKey(name: "terpapar_asap_rokok")
     final String terpaparAsapRokok;
     @JsonKey(name: "jumlah_tablet_fe")
@@ -316,6 +318,7 @@ class PengukuranIbuHamil {
         required this.tinggiFundusUteri,
         required this.lingkarLenganAtas,
         required this.hemoglobin,
+        required this.namaBpjs,
         required this.terpaparAsapRokok,
         required this.jumlahTabletFe,
         required this.catatan,

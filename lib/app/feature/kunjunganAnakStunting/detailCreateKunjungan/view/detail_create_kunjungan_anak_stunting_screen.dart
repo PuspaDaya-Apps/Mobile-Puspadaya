@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
@@ -16,7 +17,8 @@ import '../../../../view/screen/error_server_screen.dart';
 import '../bloc/detailCreateKunjunganAnakStuntingBloc/detail_create_kunjungan_anak_stunting_bloc.dart';
 
 class DetailCreateKunjunganAnakStunting extends StatelessWidget {
-  const DetailCreateKunjunganAnakStunting({super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStunting(
+      {super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -31,7 +33,8 @@ class DetailCreateKunjunganAnakStunting extends StatelessWidget {
 }
 
 class DetailCreateKunjunganAnakStuntingView extends StatefulWidget {
-  const DetailCreateKunjunganAnakStuntingView({super.key, required this.idKunjungan});
+  const DetailCreateKunjunganAnakStuntingView(
+      {super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
@@ -39,7 +42,8 @@ class DetailCreateKunjunganAnakStuntingView extends StatefulWidget {
       _DetailCreateKunjunganAnakStuntingViewState();
 }
 
-class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunjunganAnakStuntingView> {
+class _DetailCreateKunjunganAnakStuntingViewState
+    extends State<DetailCreateKunjunganAnakStuntingView> {
   Timer? _timer;
   int _seconds = 0;
   bool _isRunning = false;
@@ -53,7 +57,7 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
     int m = ((_seconds - h * 3600)) ~/ 60;
     int s = _seconds - (h * 3600) - (m * 60);
 
-    if( h != 0) {
+    if (h != 0) {
       return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
     } else {
       return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
@@ -63,7 +67,8 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DetailCreateKunjunganAnakStuntingBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
+    BlocProvider.of<DetailCreateKunjunganAnakStuntingBloc>(context)
+        .add(GetDetailKunjunganAnak(widget.idKunjungan));
   }
 
   // Mulai atau hentikan timer
@@ -74,8 +79,7 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
         _seconds = DateTime.now().difference(mulai).inSeconds;
       });
     });
-  } 
-  
+  }
 
   @override
   void dispose() {
@@ -95,27 +99,34 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: BlocConsumer<DetailCreateKunjunganAnakStuntingBloc, DetailCreateKunjunganAnakStuntingState>(
+        child: BlocConsumer<DetailCreateKunjunganAnakStuntingBloc,
+            DetailCreateKunjunganAnakStuntingState>(
           listener: (context, state) {
             debugPrint(state.toString());
           },
           builder: (context, state) {
-            if(state is DetailCreateKunjunganAnakStuntingProccessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
-                )
+            if (state is DetailCreateKunjunganAnakStuntingProccessState) {
+              SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height / 1.15,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
-            if(state is DetailCreateKunjunganAnakStuntingSuccessState) {
-              if(_isRunning == false) {
+            if (state is DetailCreateKunjunganAnakStuntingSuccessState) {
+              if (_isRunning == false) {
                 _toggleTimer(state.listDataAnakStunting.mulaiPada);
               }
               return SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.all(20),
                   width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
@@ -145,12 +156,14 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                                     .center, // Pusatkan elemen di dalam Row
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Jarak",
-                                        style: AppTextStyles.secoundaryTextMedium
+                                        style: AppTextStyles
+                                            .secoundaryTextMedium
                                             .copyWith(
                                           fontSize: 12,
                                         ),
@@ -159,7 +172,6 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                                           width:
                                               4), // Tambahkan jarak antar teks jika diperlukan
                                       Text(
-                                        
                                         state.listDataAnakStunting.jarakTotal,
                                         style: AppTextStyles.primaryTextMedium
                                             .copyWith(
@@ -206,8 +218,8 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                                           4), // Tambahkan jarak antar teks jika diperlukan
                                   Text(
                                     formattedTime,
-                                    style:
-                                        AppTextStyles.primaryTextMedium.copyWith(
+                                    style: AppTextStyles.primaryTextMedium
+                                        .copyWith(
                                       fontSize: 22,
                                     ),
                                   ),
@@ -238,7 +250,8 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.listDataAnakStunting.anak!.nik),
+                      InfoFieldWidget(
+                          text: state.listDataAnakStunting.anak!.nik),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         textAlign: TextAlign.start,
@@ -250,72 +263,112 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.listDataAnakStunting.anak!.namaAnak),
+                      InfoFieldWidget(
+                          text: state.listDataAnakStunting.anak!.namaAnak),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       state.listDataAnakStunting.anak!.kartuKeluarga.ibu != null
-                      ? Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: const Text(
-                              textAlign: TextAlign.start,
-                              'Alamat',
-                              style: TextStyle(
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.dusun.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota),
-                              ),
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.dusun.desaKelurahan.kecamatan.namaKecamatan),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.dusun.desaKelurahan.namaDesaKelurahan),
-                              ),
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.dusun.namaDusun),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          Row(
-                            spacing: 8,
-                            children: [
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.rt),
-                              ),
-                              Expanded(
-                                child: InfoFieldWidget(text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.rw),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.calHeightMultiplier(8),
-                          ),
-                          InfoFieldWidget(
-                            text: state.listDataAnakStunting.anak!.kartuKeluarga.ibu!.alamat,
-                          ),
-                        ],
-                      )
-                      : const SizedBox(),
+                          ? Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: const Text(
+                                    textAlign: TextAlign.start,
+                                    'Alamat',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8),
+                                ),
+                                Row(
+                                  spacing: 8,
+                                  children: [
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state
+                                              .listDataAnakStunting
+                                              .anak!
+                                              .kartuKeluarga
+                                              .ibu!
+                                              .dusun
+                                              .desaKelurahan
+                                              .kecamatan
+                                              .kabupatenKota
+                                              .namaKabupatenKota),
+                                    ),
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state
+                                              .listDataAnakStunting
+                                              .anak!
+                                              .kartuKeluarga
+                                              .ibu!
+                                              .dusun
+                                              .desaKelurahan
+                                              .kecamatan
+                                              .namaKecamatan),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8),
+                                ),
+                                Row(
+                                  spacing: 8,
+                                  children: [
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state
+                                              .listDataAnakStunting
+                                              .anak!
+                                              .kartuKeluarga
+                                              .ibu!
+                                              .dusun
+                                              .desaKelurahan
+                                              .namaDesaKelurahan),
+                                    ),
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state
+                                              .listDataAnakStunting
+                                              .anak!
+                                              .kartuKeluarga
+                                              .ibu!
+                                              .dusun
+                                              .namaDusun),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8),
+                                ),
+                                Row(
+                                  spacing: 8,
+                                  children: [
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state.listDataAnakStunting.anak!
+                                              .kartuKeluarga.ibu!.rt),
+                                    ),
+                                    Expanded(
+                                      child: InfoFieldWidget(
+                                          text: state.listDataAnakStunting.anak!
+                                              .kartuKeluarga.ibu!.rw),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(8),
+                                ),
+                                InfoFieldWidget(
+                                  text: state.listDataAnakStunting.anak!
+                                      .kartuKeluarga.ibu!.alamat,
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
@@ -323,7 +376,9 @@ class _DetailCreateKunjunganAnakStuntingViewState extends State<DetailCreateKunj
                         color: bluePrimaryMain,
                         mainButtonMessage: 'Selesai', // Teks tombol
                         mainButton: () {
-                          Navigator.pushNamed(context, FORM_TUGAS_ANAK_STUNTING_KUNJUNGAN, arguments: state.listDataAnakStunting.id);
+                          Navigator.pushNamed(
+                              context, FORM_TUGAS_ANAK_STUNTING_KUNJUNGAN,
+                              arguments: state.listDataAnakStunting.id);
                         }, // Jalankan timer
                       ),
                     ],

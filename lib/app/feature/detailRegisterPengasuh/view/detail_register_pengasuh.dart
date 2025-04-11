@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -65,11 +66,16 @@ class _DetailRegisterPengasuhViewState
           },
           builder: (context, state) {
             if (state is DetailPengasuhProcessState) {
-              return const Center(
-                child: CircularProgressIndicator(
+               return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
                   color: bluePrimaryMain,
+                  size: 50.0,
                 ),
-              );
+              ),
+            );
             }
             if (state is DetailPengasuhSuccesState) {
               return Container(

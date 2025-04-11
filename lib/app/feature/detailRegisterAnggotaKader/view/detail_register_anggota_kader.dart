@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -78,9 +79,14 @@ class _DetailRegisterAnggotaKaderViewState
           },
           builder: (context, state) {
             if (state is DetailAnggotaKaderProcessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
                 ),
               );
             }
@@ -245,11 +251,15 @@ class _DetailRegisterAnggotaKaderViewState
                         children: [
                           Expanded(
                             child: InfoFieldWidget(
-                            text: state.detailAnggotaKaderResponseModel.data!.rt ?? "Tidak ada rt"),
+                                text: state.detailAnggotaKaderResponseModel
+                                        .data!.rt ??
+                                    "Tidak ada rt"),
                           ),
                           Expanded(
                             child: InfoFieldWidget(
-                            text: state.detailAnggotaKaderResponseModel.data!.rw ?? "Tidak ada rw"),
+                                text: state.detailAnggotaKaderResponseModel
+                                        .data!.rw ??
+                                    "Tidak ada rw"),
                           ),
                         ],
                       ),
@@ -257,7 +267,9 @@ class _DetailRegisterAnggotaKaderViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: state.detailAnggotaKaderResponseModel.data!.alamatLengkap ?? "Tidak ada alamat lengkap"),
+                          text: state.detailAnggotaKaderResponseModel.data!
+                                  .alamatLengkap ??
+                              "Tidak ada alamat lengkap"),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
@@ -268,10 +280,9 @@ class _DetailRegisterAnggotaKaderViewState
                           Navigator.pushNamed(
                                   context, UPDATE_REGISTER_ANGGOTA_KADER,
                                   arguments: PaketToUpdateAnggotaKaderModel(
-                                    anggotaKaderId: widget.anggotakaderId, 
-                                    detailAnggotaKaderResponseModel: state.detailAnggotaKaderResponseModel
-                                  )
-                                )
+                                      anggotaKaderId: widget.anggotakaderId,
+                                      detailAnggotaKaderResponseModel: state
+                                          .detailAnggotaKaderResponseModel))
                               .then((value) {
                             if (value != null) {
                               detailAnggotaKaderBloc.add(
@@ -283,12 +294,13 @@ class _DetailRegisterAnggotaKaderViewState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
-                      BlocConsumer<HapusAnggotaKaderBloc, HapusAnggotaKaderState>(
+                      BlocConsumer<HapusAnggotaKaderBloc,
+                          HapusAnggotaKaderState>(
                         listener: (context, state) {
                           debugPrint(state.toString());
-                          if(state is HapusAnggotaKaderSuccesState) {
+                          if (state is HapusAnggotaKaderSuccesState) {
                             Navigator.pop(context);
-                            Navigator.pop(context,1);
+                            Navigator.pop(context, 1);
                           }
                         },
                         builder: (context, state) {
@@ -301,9 +313,12 @@ class _DetailRegisterAnggotaKaderViewState
                                 builder: (context) {
                                   return AlertDialogWidget(
                                     title: 'Apakah Anda Yakin?',
-                                    message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                    message:
+                                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                     mainButton: () {
-                                      hapusAnggotaKaderBloc.add(HapusDataAnggotaKader(widget.anggotakaderId));
+                                      hapusAnggotaKaderBloc.add(
+                                          HapusDataAnggotaKader(
+                                              widget.anggotakaderId));
                                     },
                                     image: imageDeleteItems,
                                     mainButtonMessage:

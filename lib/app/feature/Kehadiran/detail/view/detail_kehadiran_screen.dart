@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -122,8 +123,10 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
                           },
                         ),
                       );
-                      if(isTrue == true){
-                        context.read<DetailKehadiranBloc>().add(GetDetailKehadiranEvent(id: widget.id));
+                      if (isTrue == true) {
+                        context
+                            .read<DetailKehadiranBloc>()
+                            .add(GetDetailKehadiranEvent(id: widget.id));
                       }
                     }
                     // Navigator.pushNamed(context, UPDATE_KEHADIRAN);
@@ -179,8 +182,13 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
           child: BlocBuilder<DetailKehadiranBloc, DetailKehadiranState>(
             builder: (context, state) {
               if (state is DetailKehadiranLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return SizedBox(
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
               if (state is DetailKehadiranFailed) {

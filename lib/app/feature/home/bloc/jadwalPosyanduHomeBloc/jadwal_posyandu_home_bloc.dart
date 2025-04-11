@@ -28,7 +28,8 @@ class JadwalPosyanduHomeBloc
       emit(JadwalPosyanduHomeTokenExpiredState());
     } else {
       try {
-        List<dynamic> response = await HomeApi().getJadwalHomeService(accessToken);
+        // ignore: use_build_context_synchronously
+        List<dynamic> response = await HomeApi().getJadwalHomeService(accessToken, event.context);
 
         int statusCode = response[0] as int;
         final JadwalHomeResponseModel cardHomeResponseModel = JadwalHomeResponseModel.fromJson(response[1]);

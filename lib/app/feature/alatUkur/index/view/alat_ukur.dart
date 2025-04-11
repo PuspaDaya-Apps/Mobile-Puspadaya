@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -203,8 +204,15 @@ class _AlatUkurViewState extends State<AlatUkurView> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     if (state is IndexAlatUkurLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                      return SizedBox(
+                        height: MediaQuery.sizeOf(context).height,
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
                       );
                     }
                     if (state is IndexAlatUkurFailed) {
@@ -236,8 +244,10 @@ class _AlatUkurViewState extends State<AlatUkurView> {
                                     },
                                   ),
                                 );
-                                if(isTrue == true){
-                                  context.read<IndexAlatUkurBloc>().add(GetIndexAlatUkurKader());
+                                if (isTrue == true) {
+                                  context
+                                      .read<IndexAlatUkurBloc>()
+                                      .add(GetIndexAlatUkurKader());
                                 }
                                 // Navigator.pushNamed(
                                 //   context,
