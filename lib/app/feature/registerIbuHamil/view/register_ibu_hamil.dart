@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/data_not_found_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/get_index_ibu_hamil_bloc.dart';
 
@@ -33,6 +35,7 @@ class RegisterIbuHamilView extends StatefulWidget {
 
 class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
   TextEditingController _searchController = TextEditingController();
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -121,28 +124,34 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                       if (state.data.data.isEmpty) {
                         return NoDataScreen();
                       }
-                      return ListView.builder(
-                        itemCount: state.data.data.length,
-                        itemBuilder: (context, index) {
-                          final orangTua = state.data.data[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CardIbuHamilWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  DETAIL_REGISTER_IBU_HAMIL,
-                                  arguments: orangTua.id,
-                                );
-                              },
-                              nama: orangTua.namaIbu,
-                              nik: orangTua.nik,
-                              bulan: orangTua.usiaKehamilan,
-                              isUpdate: orangTua.updatedAt != null ? true : null,
-                              inRegister: true,
-                            ),
-                          );
+                      return PullToRefreshWidget(
+                        onRefresh: () {
+                          context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
                         },
+                        refreshController: refreshController,
+                        child: ListView.builder(
+                          itemCount: state.data.data.length,
+                          itemBuilder: (context, index) {
+                            final orangTua = state.data.data[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CardIbuHamilWidget(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    DETAIL_REGISTER_IBU_HAMIL,
+                                    arguments: orangTua.id,
+                                  );
+                                },
+                                nama: orangTua.namaIbu,
+                                nik: orangTua.nik,
+                                bulan: orangTua.usiaKehamilan,
+                                isUpdate: orangTua.updatedAt != null ? true : null,
+                                inRegister: true,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                     return Container();
