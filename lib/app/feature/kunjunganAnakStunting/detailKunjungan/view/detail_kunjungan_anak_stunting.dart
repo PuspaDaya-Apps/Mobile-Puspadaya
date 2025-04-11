@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -48,7 +49,8 @@ class DetailKunjunganAnakStuntingScreen extends StatefulWidget {
       _DetailKunjunganAnakStuntingScreenState();
 }
 
-class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakStuntingScreen> {
+class _DetailKunjunganAnakStuntingScreenState
+    extends State<DetailKunjunganAnakStuntingScreen> {
   List<String> job = [
     "Pemberian Makanan Tambahan (PMT)",
   ];
@@ -71,12 +73,14 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<DetailKunjunganAnakStuntingBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
+    BlocProvider.of<DetailKunjunganAnakStuntingBloc>(context)
+        .add(GetDetailKunjunganAnak(widget.idKunjungan));
   }
 
   @override
   Widget build(BuildContext context) {
-    final deleteKunjunganBloc = BlocProvider.of<DeleteKunjunganAnakStuntingBloc>(context);
+    final deleteKunjunganBloc =
+        BlocProvider.of<DeleteKunjunganAnakStuntingBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -96,12 +100,14 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
             },
             builder: (context, state) {
               if (state is DetailKunjunganAnakStuntingProccessState) {
-                return Container(
-                  height: MediaQuery.sizeOf(context).height,
-                  width: MediaQuery.sizeOf(context).height,
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(
-                    color: bluePrimaryMain,
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height / 1.15,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
                 );
               }
@@ -366,7 +372,10 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                             MaterialPageRoute(
                               builder: (context) {
                                 return BuktiKunjungan(
-                                  imageUrls: state.listDataAnakStunting.buktiKunjungan.map((e) => e.filePath).toList(),
+                                  imageUrls: state
+                                      .listDataAnakStunting.buktiKunjungan
+                                      .map((e) => e.filePath)
+                                      .toList(),
                                 );
                               },
                             ),
@@ -377,16 +386,23 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
                       state.listDataAnakStunting.selesaiPada
-                                .difference(DateTime.now())
-                                .inDays ==
+                                  .difference(DateTime.now())
+                                  .inDays ==
                               0
                           ? ButtonPrimary(
                               color: goldPrimaryMain,
                               mainButtonMessage: 'Perbarui',
                               mainButton: () {
-                                Navigator.pushNamed(context, UPDATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.listDataAnakStunting).then((value) {
-                                  if(value != null) {
-                                    BlocProvider.of<DetailKunjunganAnakStuntingBloc>(context).add(GetDetailKunjunganAnak(widget.idKunjungan));
+                                Navigator.pushNamed(
+                                        context, UPDATE_ANAK_STUNTING_KUNJUNGAN,
+                                        arguments: state.listDataAnakStunting)
+                                    .then((value) {
+                                  if (value != null) {
+                                    BlocProvider.of<
+                                                DetailKunjunganAnakStuntingBloc>(
+                                            context)
+                                        .add(GetDetailKunjunganAnak(
+                                            widget.idKunjungan));
                                   }
                                 });
                               },
@@ -395,12 +411,14 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(20),
                       ),
-                      BlocConsumer<DeleteKunjunganAnakStuntingBloc, DeleteKunjunganAnakStuntingState>(
+                      BlocConsumer<DeleteKunjunganAnakStuntingBloc,
+                          DeleteKunjunganAnakStuntingState>(
                         listener: (context, state) {
                           debugPrint(state.toString());
-                          if(state is DeleteKunjunganAnakStuntingSuccessState) {
+                          if (state
+                              is DeleteKunjunganAnakStuntingSuccessState) {
                             Navigator.pop(context);
-                            Navigator.pop(context,1);
+                            Navigator.pop(context, 1);
                           }
                         },
                         builder: (context, stateDelete) {
@@ -408,14 +426,16 @@ class _DetailKunjunganAnakStuntingScreenState extends State<DetailKunjunganAnakS
                             color: redPrimaryMain,
                             mainButtonMessage: 'Hapus',
                             mainButton: () {
-                               showDialog(
+                              showDialog(
                                 context: context,
                                 builder: (context) {
                                   return AlertDialogWidget(
                                     title: 'Apakah Anda Yakin?',
-                                    message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                    message:
+                                        'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                     mainButton: () {
-                                      deleteKunjunganBloc.add(DeleteKunjungan(state.listDataAnakStunting.id));
+                                      deleteKunjunganBloc.add(DeleteKunjungan(
+                                          state.listDataAnakStunting.id));
                                     },
                                     image: imageDeleteItems,
                                     mainButtonMessage: 'Iya, Hapus  Kunjungan',

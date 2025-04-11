@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:puspadaya/app/feature/faktorResiko/detail/bloc/detail_faktor_resiko_bloc.dart';
 
@@ -81,7 +82,16 @@ class _RiwayatParameterFaktorResikoViewState
       body: BlocBuilder<DetailFaktorResikoBloc, DetailFaktorResikoState>(
         builder: (context, state) {
           if (state is DetailFaktorResikoLoading) {
-            return Center(child: CircularProgressIndicator());
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
+            );
           }
           if (state is DetailFaktorResikoFailed) {
             return Center(

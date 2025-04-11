@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -43,7 +44,6 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
   // Store selected data here>
   String? selectedJenisKelamin;
   String? selectedSatuan;
- 
 
   @override
   Widget build(BuildContext context) {
@@ -137,38 +137,59 @@ class _ParameterGiziViewState extends State<ParameterGiziView> {
                 SizedBox(height: 16),
                 if (selectedJenisKelamin != null && selectedSatuan != null)
                   ButtonPrimary(
-                      color: greenPrimaryMain,
-                      mainButtonMessage: 'Download',
-                      mainButton: () async {
-                        if (selectedJenisKelamin == 'Laki-Laki' &&
-                            selectedSatuan == 'Tinggi Badan') {
-                          logger.d("download tinggi laki laki");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziLakiLakiTinggiBadan(), 'Parameter Gizi Laki Laki TInggi Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Laki-Laki' &&
-                            selectedSatuan == 'Berat Badan') {
-                          logger.d("download berat laki laki");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziLakiLakiBeratBadan(), 'Parameter Gizi Laki Laki Berat Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Perempuan' &&
-                            selectedSatuan == 'Tinggi Badan') {
-                          logger.d("download tinggi perempuan");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziPerempuanTinggiBadan(), 'Parameter Gizi Perempuan Tinggi Badan.xlsx');
-                        } else if (selectedJenisKelamin == 'Perempuan' &&
-                            selectedSatuan == 'Berat Badan') {
-                          logger.d("download berat perempuan");
-                          DownloadUtils().downloadAndSaveFile(context, ApiUtils()
-                                  .urlGetParameterGiziPerempuanBeratBadan(), 'Parameter Gizi Perempuan Berat Badan.xlsx');
-                        }
-                      }),
+                    color: greenPrimaryMain,
+                    mainButtonMessage: 'Download',
+                    mainButton: () async {
+                      if (selectedJenisKelamin == 'Laki-Laki' &&
+                          selectedSatuan == 'Tinggi Badan') {
+                        logger.d("download tinggi laki laki");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziLakiLakiTinggiBadan(),
+                            'Parameter Gizi Laki Laki TInggi Badan.xlsx',
+                            'Parameter Gizi');
+                      } else if (selectedJenisKelamin == 'Laki-Laki' &&
+                          selectedSatuan == 'Berat Badan') {
+                        logger.d("download berat laki laki");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziLakiLakiBeratBadan(),
+                            'Parameter Gizi Laki Laki Berat Badan.xlsx',
+                            'Parameter Gizi');
+                      } else if (selectedJenisKelamin == 'Perempuan' &&
+                          selectedSatuan == 'Tinggi Badan') {
+                        logger.d("download tinggi perempuan");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils()
+                                .urlGetParameterGiziPerempuanTinggiBadan(),
+                            'Parameter Gizi Perempuan Tinggi Badan.xlsx',
+                            'Parameter Gizi');
+                      } else if (selectedJenisKelamin == 'Perempuan' &&
+                          selectedSatuan == 'Berat Badan') {
+                        logger.d("download berat perempuan");
+                        DownloadUtils().downloadAndSaveFile(
+                            context,
+                            ApiUtils().urlGetParameterGiziPerempuanBeratBadan(),
+                            'Parameter Gizi Perempuan Berat Badan.xlsx',
+                            'Parameter Gizi');
+                      }
+                    },
+                  ),
                 SizedBox(height: 16),
                 // Conditional rendering of the DataTable
                 if (selectedJenisKelamin != null && selectedSatuan != null)
                   BlocBuilder<ParameterGiziCubit, ParameterGiziState>(
                     builder: (context, state) {
                       if (state is ParameterGiziLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                          child: Center(
+                            child: SpinKitThreeBounce(
+                              color: bluePrimaryMain,
+                              size: 50.0,
+                            ),
+                          ),
+                        );
                       } else if (state is ParameterGiziLoaded) {
                         return Container(
                           height: MediaQuery.sizeOf(context).height / 1.68,

@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 
@@ -186,9 +187,11 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
               if (state is GetAlamatProccessState) {
                 return SizedBox(
                   height: MediaQuery.sizeOf(context).height,
-                  child: const Center(
-                    child: CircularProgressIndicator(
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Center(
+                    child: SpinKitThreeBounce(
                       color: bluePrimaryMain,
+                      size: 50.0,
                     ),
                   ),
                 );
@@ -247,8 +250,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           },
                           builder: (context, stateKK) {
                             if (stateKK is GenerateKKLoading) {
-                              return Center(
-                                child: CircularProgressIndicator(),
+                              return SizedBox(
+                                height: MediaQuery.sizeOf(context).height,
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Center(
+                                  child: SpinKitThreeBounce(
+                                    color: bluePrimaryMain,
+                                    size: 50.0,
+                                  ),
+                                ),
                               );
                             }
                             return Row(
@@ -325,8 +335,15 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           },
                           builder: (context, state) {
                             if (state is GenerateNikLoading) {
-                              return Center(
-                                child: CircularProgressIndicator(),
+                              return SizedBox(
+                                height: MediaQuery.sizeOf(context).height,
+                                width: MediaQuery.sizeOf(context).width,
+                                child: Center(
+                                  child: SpinKitThreeBounce(
+                                    color: bluePrimaryMain,
+                                    size: 50.0,
+                                  ),
+                                ),
                               );
                             }
                             return Row(

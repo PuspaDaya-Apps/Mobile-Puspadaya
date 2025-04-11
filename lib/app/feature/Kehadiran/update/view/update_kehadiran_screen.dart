@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -19,9 +20,9 @@ import '../../create/model/post_create_kehadiran_model.dart';
 import '../../create/view/search_posyandu.dart';
 import '../../detail/model/get_detail_kehadiran_model.dart';
 import '../../model/list_data_tamu_model.dart';
+import '../bloc/update_kehadiran_anak_bloc.dart';
 import '../bloc/update_kehadiran_bloc.dart';
-import 'list_data_anak.dart';
-import 'list_data_ibu.dart';
+import '../bloc/update_kehadiran_ibu_hamil_bloc.dart';
 
 class UpdateKehadiran extends StatelessWidget {
   final GetDetailKehadiranModel data;
@@ -29,8 +30,18 @@ class UpdateKehadiran extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UpdateKehadiranBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UpdateKehadiranBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateKehadiranAnakBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateKehadiranIbuHamilBloc(),
+        ),
+      ],
       child: UpdateKehadiranView(
         data: data,
       ),
@@ -64,7 +75,12 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
   @override
   void initState() {
     logger.d("update kehadiran init state");
-    context.read<UpdateKehadiranBloc>().add(UpdateKehadiranEventFormLoaded());
+    context
+        .read<UpdateKehadiranAnakBloc>()
+        .add(UpdateKehadiranEventFormAnakLoaded());
+    context
+        .read<UpdateKehadiranIbuHamilBloc>()
+        .add(UpdateKehadiranEventFormIbuHamilLoaded());
     super.initState();
     _tabController = TabController(
       length: 3,
@@ -246,7 +262,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
               TopSnackbarWidget().error(state.message),
             );
           }
-          if(state is UpdateKehadiranSubmitSuccess){
+          if (state is UpdateKehadiranSubmitSuccess) {
             showTopSnackBar(
               Overlay.of(context),
               animationDuration: const Duration(milliseconds: 600),
@@ -451,51 +467,71 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
 
   Widget _buildSectionMenu() {
     return Expanded(
-      child: BlocBuilder<UpdateKehadiranBloc, UpdateKehadiranState>(
-        builder: (context, state) {
-          if (state is UpdateKehadiranFormLoading) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (state is UpdateKehadiranFormFailed) {
-            return Center(child: Text(state.message));
-          }
-          if (state is UpdateKehadiranFormSuccess) {
-            return Column(children: [
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                child: TabBar(
-                  isScrollable: false,
-                  padding: EdgeInsets.zero,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorAnimation: TabIndicatorAnimation.elastic,
-                  dividerHeight: 0,
-                  controller: _tabController,
-                  indicator: BoxDecoration(
-                    color: bluePrimaryMain,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  unselectedLabelColor: textSecondary1,
-                  labelColor: Colors.white,
-                  tabs: [
-                    Tab(text: 'Anak'),
-                    Tab(text: 'Ibu Hamil'),
-                    Tab(text: 'Tamu'),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Expanded(
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: [
-                    // Anak
-                    ListView.builder(
+      child: Column(children: [
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(7),
+          ),
+          child: TabBar(
+            isScrollable: false,
+            padding: EdgeInsets.zero,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorAnimation: TabIndicatorAnimation.elastic,
+            dividerHeight: 0,
+            controller: _tabController,
+            indicator: BoxDecoration(
+              color: bluePrimaryMain,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            unselectedLabelColor: textSecondary1,
+            labelColor: Colors.white,
+            tabs: [
+              Tab(text: 'Anak'),
+              Tab(text: 'Ibu Hamil'),
+              Tab(text: 'Tamu'),
+            ],
+          ),
+        ),
+        SizedBox(height: 20),
+        Expanded(
+          child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: [
+              // Anak
+              BlocBuilder<UpdateKehadiranAnakBloc, UpdateKehadiranAnakState>(
+                builder: (context, state) {
+                  if (state is UpdateKehadiranFormAnakLoading) {
+                    return SizedBox(
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormAnakFailed) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormAnakEmpty) {
+                    return Center(
+                      child: Text(
+                        'Tidak ada data anak',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          color: textSecondary1,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormAnakSuccess) {
+                    return ListView.builder(
                       itemCount: state.dataAnak.data.length,
                       itemBuilder: (context, index) {
                         final dataAnak = state.dataAnak.data[index];
@@ -555,9 +591,43 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
                           ),
                         );
                       },
-                    ),
-                    // Ibu
-                    ListView.builder(
+                    );
+                  }
+                  return Container();
+                },
+              ),
+              // Ibu
+              BlocBuilder<UpdateKehadiranIbuHamilBloc,
+                  UpdateKehadiranIbuHamilState>(
+                builder: (context, state) {
+                  if (state is UpdateKehadiranFormIbuHamilLoading) {
+                    return SizedBox(
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormIbuHamilFailed) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormIbuHamilEmpty) {
+                    return Center(
+                      child: Text(
+                        'Tidak ada data ibu hamil',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          color: textSecondary1,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is UpdateKehadiranFormIbuHamilSuccess) {
+                    return ListView.builder(
                       itemCount: state.dataIbuHamil.data.length,
                       itemBuilder: (context, index) {
                         final dataIbuHamil = state.dataIbuHamil.data[index];
@@ -619,72 +689,71 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
                           ),
                         );
                       },
-                    ),
-                    Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: listDataTamu.length,
-                            itemBuilder: (context, index) {
-                              final dataTamu = listDataTamu[index];
-                              return Container(
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 10),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: shadowSm,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: ListTile(
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.delete, color: Colors.red),
-                                    onPressed: () => _removeTamu(index),
-                                  ),
-                                  visualDensity: VisualDensity(
-                                      horizontal: -4, vertical: -4),
-                                  title: Text(dataTamu.nama!),
-                                  subtitle: Text(
-                                      'Posyandu Asal : ${dataTamu.posyanduAsal}'),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Container(
+                    );
+                  }
+                  return Container();
+                },
+              ),
+              Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: listDataTamu.length,
+                      itemBuilder: (context, index) {
+                        final dataTamu = listDataTamu[index];
+                        return Container(
                           margin:
-                              EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                          width: MediaQuery.sizeOf(context).width,
-                          child: OutlinedButton(
-                            onPressed: () async {
-                              PaketFromPosyanduToKehadiran result =
-                                  await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SearchPosyandu(),
-                                ),
-                              );
-                              logger.d(result);
-                              if (result != null) {
-                                _addNewTamu(
-                                  result.dataAnak.id,
-                                  result.dataAnak.namaAnak,
-                                  result.namaPosyandu,
-                                );
-                              }
-                            },
-                            child: Text('Tambah Kehadiran Tamu'),
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: shadowSm,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        )
-                      ],
+                          child: ListTile(
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _removeTamu(index),
+                            ),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
+                            title: Text(dataTamu.nama!),
+                            subtitle: Text(
+                                'Posyandu Asal : ${dataTamu.posyanduAsal}'),
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              )
-            ]);
-          }
-          return Container();
-        },
-      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                    width: MediaQuery.sizeOf(context).width,
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        PaketFromPosyanduToKehadiran result =
+                            await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SearchPosyandu(),
+                          ),
+                        );
+                        logger.d(result);
+                        if (result != null) {
+                          _addNewTamu(
+                            result.dataAnak.id,
+                            result.dataAnak.namaAnak,
+                            result.namaPosyandu,
+                          );
+                        }
+                      },
+                      child: Text('Tambah Kehadiran Tamu'),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        )
+      ]),
     );
   }
 }

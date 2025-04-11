@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../model/paketToScreen/paket_to_create_anak_model.dart';
 import '../../../view/screen/error_server_screen.dart';
@@ -62,10 +63,16 @@ class _SearchKartuKeluargaViewState extends State<SearchKartuKeluargaView> {
             builder: (context, state) {
               if (state is GetListOrangTuaProccessState ||
                   state is GetListOrangTuaTokenExpiredState) {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
-                ));
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
+                );
               }
               if (state is GetListOrangTuaSuccessState) {
                 if (state.getListOrangTuaResponseModel.data!.isEmpty) {

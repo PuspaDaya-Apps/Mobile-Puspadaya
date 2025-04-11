@@ -77,6 +77,7 @@ dependencies:
   syncfusion_flutter_charts: ^28.2.9
   url_launcher: ^6.3.1
   collection: ^1.19.1
+  device_info_plus: ^11.3.3
 
 dev_dependencies:
   bloc_test: ^10.0.0

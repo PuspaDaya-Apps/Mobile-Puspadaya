@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/pengukuranIbuHamil/detail/view/detail_pengukuran_ibu_hamil.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -43,21 +44,28 @@ class _IndexPengukuranIbuHamilScreenViewState
 
   @override
   Widget build(BuildContext context) {
-    final indexPengukuranIbuHamilBloc = BlocProvider.of<IndexPengukuranIbuHamilBloc>(context);
+    final indexPengukuranIbuHamilBloc =
+        BlocProvider.of<IndexPengukuranIbuHamilBloc>(context);
 
-    return BlocConsumer<IndexPengukuranIbuHamilBloc, IndexPengukuranIbuHamilState>(
-      listener: (context, state) {
-      },
+    return BlocConsumer<IndexPengukuranIbuHamilBloc,
+        IndexPengukuranIbuHamilState>(
+      listener: (context, state) {},
       builder: (context, state) {
-        if(state is IndexPengukuranIbuHamilProcessState || state is IndexPengukuranIbuHamilInitial) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: bluePrimaryMain,
-            )
+        if (state is IndexPengukuranIbuHamilProcessState ||
+            state is IndexPengukuranIbuHamilInitial) {
+          return SizedBox(
+            height: MediaQuery.sizeOf(context).height,
+            width: MediaQuery.sizeOf(context).width,
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         }
-        if(state is IndexPengukuranIbuHamilSuccessState) {
-          if(state.indexPengukuranIbuHamilResponseModel.data!.isEmpty) {
+        if (state is IndexPengukuranIbuHamilSuccessState) {
+          if (state.indexPengukuranIbuHamilResponseModel.data!.isEmpty) {
             return const NoDataScreen();
           }
           return ListView.builder(
@@ -71,19 +79,29 @@ class _IndexPengukuranIbuHamilScreenViewState
                   boxShadow: shadowSm,
                 ),
                 child: PengukuranIbuHamilItems(
-                  onTap: () {
-                    Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL, arguments: state.indexPengukuranIbuHamilResponseModel.data![index].id).then((value) {
-                      if(value != null) {
-                        setState(() {
-                          indexPengukuranIbuHamilBloc.add(GetPengukuranIbuHamilEvent());
-                        });
-                      }
-                    });
-                  },
-                  name: state.indexPengukuranIbuHamilResponseModel.data![index].namaIbu,
-                  nik: state.indexPengukuranIbuHamilResponseModel.data![index].nik,
-                  date: DateFormat("d MMMM y", "ID_id").format(state.indexPengukuranIbuHamilResponseModel.data![index].tanggalPengukuran)
-                ),
+                    onTap: () {
+                      Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL,
+                              arguments: state
+                                  .indexPengukuranIbuHamilResponseModel
+                                  .data![index]
+                                  .id)
+                          .then((value) {
+                        if (value != null) {
+                          setState(() {
+                            indexPengukuranIbuHamilBloc
+                                .add(GetPengukuranIbuHamilEvent());
+                          });
+                        }
+                      });
+                    },
+                    name: state.indexPengukuranIbuHamilResponseModel
+                        .data![index].namaIbu,
+                    nik: state
+                        .indexPengukuranIbuHamilResponseModel.data![index].nik,
+                    date: DateFormat("d MMMM y", "ID_id").format(state
+                        .indexPengukuranIbuHamilResponseModel
+                        .data![index]
+                        .tanggalPengukuran)),
               );
             },
           );

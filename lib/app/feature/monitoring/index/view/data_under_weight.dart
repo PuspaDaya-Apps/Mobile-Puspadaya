@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/route/route_name.dart';
 import '../../model/get_all_monitoring_anak_model.dart' as GetAllMonitoringAnak;
 import '../../../../../config/theme/shadow.dart';
@@ -39,8 +41,13 @@ class _DataUnderWeightViewState extends State<DataUnderWeightView> {
     return BlocBuilder<IndexDataUnderWeightBloc, IndexDataUnderWeightState>(
       builder: (context, state) {
         if (state is IndexDataUnderWeightLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         } else if (state is IndexDataUnderWeightFailed) {
           return Center(

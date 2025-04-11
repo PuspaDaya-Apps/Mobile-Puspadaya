@@ -1,6 +1,7 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -88,8 +89,9 @@ class _HomeWrapperState extends State<HomeWrapper> {
           if (state is UserProccessState) {
             return const Scaffold(
               body: Center(
-                child: CircularProgressIndicator(
+                child: SpinKitThreeBounce(
                   color: bluePrimaryMain,
+                  size: 50.0,
                 ),
               ),
             );

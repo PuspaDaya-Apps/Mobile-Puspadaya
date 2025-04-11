@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
 import '../model/get_detail_kehadiran_model.dart' as get_detail_kehadiran_model; 
 
@@ -8,6 +9,17 @@ class ListDataAnak extends StatelessWidget {
   const ListDataAnak({super.key,required this.data});
 
   Widget build(BuildContext context) {
+    if (data.isEmpty) {
+      return Center(
+        child: Text(
+          'Tidak ada data Anak',
+          style: TextStyle(
+            fontSize: 14,
+            color: textSecondary1,
+          ),
+        ),
+      );
+    }
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
