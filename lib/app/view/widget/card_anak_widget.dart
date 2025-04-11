@@ -11,7 +11,8 @@ class CardAnakWidget extends StatelessWidget {
       required this.tahun,
       required this.bulan,
       super.key,
-      required this.onTap});
+      required this.onTap,
+      this.isUpdate});
 
   final String nama;
   final String nik;
@@ -19,6 +20,7 @@ class CardAnakWidget extends StatelessWidget {
   final int tahun;
   final int bulan;
   final VoidCallback onTap;
+  final bool? isUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,9 @@ class CardAnakWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: bluePrimaryMain,
+                      color: isUpdate == null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
                   child: Text(
                     nama,
@@ -97,7 +101,9 @@ class CardAnakWidget extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.calWidthMultiplier(10)),
                       child: Container(
-                        color: bluePrimaryMain,
+                        color: isUpdate == null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
                         height: SizeConfig.calHeightMultiplier(35),
                         width: 1.5,
                       ),
@@ -131,7 +137,7 @@ class CardAnakWidget extends StatelessWidget {
                                           color: textPrimary10.withOpacity(0.7),
                                           fontWeight: FontWeight.w400),
                                       children: [
-                                        if (tahun != 0)
+                                        if (tahun == 0)
                                           TextSpan(
                                             text: tahun.toString(),
                                             style: TextStyle(
@@ -140,7 +146,7 @@ class CardAnakWidget extends StatelessWidget {
                                                       26),
                                             ),
                                           ),
-                                        if (tahun != 0)
+                                        if (tahun == 0)
                                           TextSpan(
                                             text: ' Tahun ',
                                             style: TextStyle(
@@ -178,7 +184,9 @@ class CardAnakWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: bluePrimaryMain,
+              color: isUpdate == null 
+                ? goldPrimaryMain
+                : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),
             )
           ],

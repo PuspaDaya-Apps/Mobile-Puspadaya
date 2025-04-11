@@ -5,6 +5,7 @@ class AnakItemModel {
   final String jenisKelamin;
   final int bulan;
   final int year;
+  DateTime? updatedAtAnak;
   AnakItemModel({
     required this.id,
     required this.nama,
@@ -12,5 +13,6 @@ class AnakItemModel {
     required this.jenisKelamin,
     required this.bulan,
     required this.year,
+    this.updatedAtAnak
   });
 }

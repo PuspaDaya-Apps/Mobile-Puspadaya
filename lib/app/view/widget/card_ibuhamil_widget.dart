@@ -10,12 +10,14 @@ class CardIbuHamilWidget extends StatelessWidget {
       required this.nik,
       required this.bulan,
       super.key,
-      required this.onTap});
+      required this.onTap,
+      this.isUpdate});
 
   final String nama;
   final VoidCallback onTap;
   final String nik;
   final String bulan;
+  final bool? isUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,9 @@ class CardIbuHamilWidget extends StatelessWidget {
                       horizontal: SizeConfig.calWidthMultiplier(14),
                       vertical: SizeConfig.calHeightMultiplier(3)),
                   decoration: BoxDecoration(
-                      color: bluePrimaryMain,
+                      color: isUpdate == null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
                       borderRadius: BorderRadius.circular(4)),
                   child: Text(
                     nama,
@@ -83,7 +87,9 @@ class CardIbuHamilWidget extends StatelessWidget {
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: bluePrimaryMain,
+              color: isUpdate == null 
+                      ? goldPrimaryMain
+                      : bluePrimaryMain,
               size: SizeConfig.calWidthMultiplier(14),
             )
           ],

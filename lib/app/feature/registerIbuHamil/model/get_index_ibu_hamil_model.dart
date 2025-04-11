@@ -35,12 +35,15 @@ class Datum {
   final String namaIbu;
   @JsonKey(name: "usia_kehamilan")
   final String usiaKehamilan;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
 
   Datum({
     required this.id,
     required this.nik,
     required this.namaIbu,
     required this.usiaKehamilan,
+    this.updatedAt
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);

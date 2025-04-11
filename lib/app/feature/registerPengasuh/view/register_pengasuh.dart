@@ -117,6 +117,7 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                               namaAnak: state.pengasuhResponseModel.data![index]
                                   .anak.namaAnak,
                               nik: state.pengasuhResponseModel.data![index].nik,
+                              isUpdate: state.pengasuhResponseModel.data![index].updatedAt != null ? true : null,
                             ),
                           );
                         },

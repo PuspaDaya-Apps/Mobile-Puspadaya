@@ -48,6 +48,8 @@ class Datum {
   final String usia;
   @JsonKey(name: "nama_ibu")
   final String namaIbu;
+  @JsonKey(name: "updated_at")
+  DateTime? updatedAt;
 
   Datum({
     required this.id,
@@ -56,6 +58,7 @@ class Datum {
     required this.jenisKelamin,
     required this.usia,
     required this.namaIbu,
+    this.updatedAt
   });
 
   Datum copyWith({
