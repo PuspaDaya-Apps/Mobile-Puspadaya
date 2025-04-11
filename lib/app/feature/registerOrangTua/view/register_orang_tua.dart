@@ -60,7 +60,13 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATE_REGISTER_ORANG_TUA);
+          Navigator.pushNamed(context, CREATE_REGISTER_ORANG_TUA).then(
+            (value) {
+              if(value != null) {
+                context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
+              }
+            }
+          );
           // Add your navigation or functionality for adding new items
           print("Floating Action Button Pressed");
         },

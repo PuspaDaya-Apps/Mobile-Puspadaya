@@ -437,7 +437,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
         listener: (context, state) {
           if (state is CreateRegisterOrangTuaSuccesState) {
-            Navigator.pop(context);
+            Navigator.pop(context, 1);
           }
         },
         child: SafeArea(
