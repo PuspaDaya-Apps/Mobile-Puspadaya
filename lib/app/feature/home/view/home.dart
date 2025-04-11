@@ -15,6 +15,7 @@ import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/shadow.dart';
 import '../../../model/current_user_model.dart';
+import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
@@ -54,11 +55,13 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     BlocProvider.of<CardDataHomeBloc>(context).add(GetCardHome());
-    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome());
+    BlocProvider.of<JadwalPosyanduHomeBloc>(context).add(GetJadwalHome(context));
   }
 
   @override
   Widget build(BuildContext context) {
+    final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -76,6 +79,9 @@ class _HomeViewState extends State<HomeView> {
               BlocConsumer<JadwalPosyanduHomeBloc, JadwalPosyanduHomeState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
+                  if(state is JadwalPosyanduHomeTokenExpiredState) {
+                    authorizationBloc.add(AuthorizationFalseEvent());
+                  }
                 },
                 builder: (context, state) {
                   if (state is JadwalPosyanduHomeProcessState) {
