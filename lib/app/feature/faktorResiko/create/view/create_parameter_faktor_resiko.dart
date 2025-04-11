@@ -147,9 +147,8 @@ class _CreateParameterFaktorResikoViewState
                   animationDuration: const Duration(milliseconds: 600),
                   displayDuration: const Duration(milliseconds: 2200),
                   reverseAnimationDuration: const Duration(milliseconds: 300),
-                  TopSnackbarWidget()
-                      .success('Berhasil Menambah Faktor Resiko'));
-              Navigator.pop(context);
+                  TopSnackbarWidget().success('Berhasil Menambah Faktor Resiko'));
+              Navigator.pop(context,1);
             }
             if (state is IndexParamterFaktorResikoSendFailed) {
               showTopSnackBar(
