@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:puspadaya/route/route_name.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/card_anak_widget.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 
 class RegisterAnak extends StatelessWidget {
   const RegisterAnak({super.key});
@@ -34,6 +36,8 @@ class RegisterAnakView extends StatefulWidget {
 
 class RegisterAnakViewState extends State<RegisterAnakView> {
   TextEditingController _searchController = TextEditingController();
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -115,29 +119,36 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                       );
                     } else if (state is AnakByPosyanduSuccess) {
                       debugPrint(state.anakItems.length.toString());
-                      return ListView.builder(
-                        itemCount: state.anakItems.length,
-                        itemBuilder: (context, index) {
-                          AnakItemModel anak = state.anakItems[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CardAnakWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  DETAIL_REGISTER_ANAK,
-                                  arguments: anak.id,
-                                );
-                              },
-                              nama: anak.nama,
-                              nik: anak.nik,
-                              gender: anak.jenisKelamin,
-                              tahun: anak.year,
-                              bulan: anak.bulan,
-                              isUpdate: anak.updatedAtAnak != null ? true : null,
-                            ),
-                          );
+                      return PullToRefreshWidget(
+                        onRefresh: () {
+                          context.read<AnakByPosyanduBloc>().add(FetchAnak());
                         },
+                        refreshController: refreshController,
+                        child: ListView.builder(
+                          itemCount: state.anakItems.length,
+                          itemBuilder: (context, index) {
+                            AnakItemModel anak = state.anakItems[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CardAnakWidget(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    DETAIL_REGISTER_ANAK,
+                                    arguments: anak.id,
+                                  );
+                                },
+                                nama: anak.nama,
+                                nik: anak.nik,
+                                gender: anak.jenisKelamin,
+                                tahun: anak.year,
+                                bulan: anak.bulan,
+                                isUpdate: anak.updatedAtAnak != null ? true : null,
+                                inRegister: true,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                     return const ErrorServerScreen();

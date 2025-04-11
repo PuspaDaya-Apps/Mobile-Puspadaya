@@ -40,8 +40,7 @@ class _SelectBulanViewState extends State<SelectBulanView> {
   // List<SelectBulanModel> itemBulan = [
   //   SelectBulanModel(id: '1', namaBulan: 'February', tahun: '2025'),
   // ];
-  EasyRefreshController refreshController =
-      EasyRefreshController(controlFinishRefresh: true);
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {

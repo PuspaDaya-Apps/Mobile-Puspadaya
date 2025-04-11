@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/index_anggota_kader_bloc.dart';
 class RegisterAnggotaKader extends StatelessWidget {
@@ -33,6 +35,8 @@ class RegisterAnggotaKaderView extends StatefulWidget {
 
 class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
   TextEditingController _searchController = TextEditingController();
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   // List<AnggotaKaderItemModel> listKader = [
   //   AnggotaKaderItemModel(
@@ -136,36 +140,42 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
                       height: 12,
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount:
-                            state.indexAnggotaKaderResponseModel.data!.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CardAnggotakaderWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                        context, DETAIL_REGISTER_ANGGOTA_KADER,
-                                        arguments: state
-                                            .indexAnggotaKaderResponseModel
-                                            .data![index]
-                                            .id)
-                                    .then((value) {
-                                  if (value != null) {
-                                    indexAnggotKaderBloc
-                                        .add(GetListAnggotaKaderEvent());
-                                  }
-                                });
-                              },
-                              email: state.indexAnggotaKaderResponseModel
-                                  .data![index].nomorTelepon,
-                              profile: state.indexAnggotaKaderResponseModel
-                                  .data![index].avatar,
-                              nama: state.indexAnggotaKaderResponseModel
-                                  .data![index].namaLengkap,
-                            ),
-                          );
+                      child: PullToRefreshWidget(
+                        onRefresh: () {
+                          BlocProvider.of<IndexAnggotaKaderBloc>(context).add(GetListAnggotaKaderEvent());
                         },
+                        refreshController: refreshController,
+                        child: ListView.builder(
+                          itemCount:
+                              state.indexAnggotaKaderResponseModel.data!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CardAnggotakaderWidget(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                          context, DETAIL_REGISTER_ANGGOTA_KADER,
+                                          arguments: state
+                                              .indexAnggotaKaderResponseModel
+                                              .data![index]
+                                              .id)
+                                      .then((value) {
+                                    if (value != null) {
+                                      indexAnggotKaderBloc
+                                          .add(GetListAnggotaKaderEvent());
+                                    }
+                                  });
+                                },
+                                email: state.indexAnggotaKaderResponseModel
+                                    .data![index].nomorTelepon,
+                                profile: state.indexAnggotaKaderResponseModel
+                                    .data![index].avatar,
+                                nama: state.indexAnggotaKaderResponseModel
+                                    .data![index].namaLengkap,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     )
                   ],

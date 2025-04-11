@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_pengasuh_widget.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/pengasuh_posyandu_bloc.dart';
 
@@ -33,6 +35,7 @@ class RegisterPengasuhView extends StatefulWidget {
 
 class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
   TextEditingController _searchController = TextEditingController();
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -100,27 +103,34 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                       if (state.pengasuhResponseModel.data!.isEmpty) {
                         return const NoDataScreen();
                       }
-                      return ListView.builder(
-                        itemCount: state.pengasuhResponseModel.data!.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CardPengasuhWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, DETAIL_REGISTER_PENGASUH,
-                                    arguments: state
-                                        .pengasuhResponseModel.data![index].id);
-                              },
-                              nama: state.pengasuhResponseModel.data![index]
-                                  .namaPengasuh,
-                              namaAnak: state.pengasuhResponseModel.data![index]
-                                  .anak.namaAnak,
-                              nik: state.pengasuhResponseModel.data![index].nik,
-                              isUpdate: state.pengasuhResponseModel.data![index].updatedAt != null ? true : null,
-                            ),
-                          );
+                      return PullToRefreshWidget(
+                        onRefresh: () {
+                          BlocProvider.of<PengasuhPosyanduBloc>(context).add(GetListPengasuh());
                         },
+                        refreshController: refreshController,
+                        child: ListView.builder(
+                          itemCount: state.pengasuhResponseModel.data!.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CardPengasuhWidget(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, DETAIL_REGISTER_PENGASUH,
+                                      arguments: state
+                                          .pengasuhResponseModel.data![index].id);
+                                },
+                                nama: state.pengasuhResponseModel.data![index]
+                                    .namaPengasuh,
+                                namaAnak: state.pengasuhResponseModel.data![index]
+                                    .anak.namaAnak,
+                                nik: state.pengasuhResponseModel.data![index].nik,
+                                isUpdate: state.pengasuhResponseModel.data![index].updatedAt != null ? true : null,
+                                inRegister: true,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     }
                     return const ErrorServerScreen();

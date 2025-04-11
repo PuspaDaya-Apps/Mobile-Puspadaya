@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 import '../bloc/index_kunjungan_bloc.dart';
 
 class KunjunganScreen extends StatelessWidget {
@@ -32,6 +34,8 @@ class KunjunganView extends StatefulWidget {
 
 class _KunjunganViewState extends State<KunjunganView> {
   // bool kunjungan = true;
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
  
   @override
   void initState() {
@@ -80,87 +84,93 @@ class _KunjunganViewState extends State<KunjunganView> {
 
               return Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-                child: ListView.builder(
-                  itemCount: state.kunjunganResponseModel.data!.length,
-                  itemBuilder: (context, index) {
-                    debugPrint(state.kunjunganResponseModel.data!.length.toString());
-                    debugPrint(index.toString());
-                    // Ensure correct rendering of custom widgets
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: KunjunganItemWidget(
-                       kunjungan: state.kunjunganResponseModel.data![index],
-                       refresData: () {
-                        if (state.kunjunganResponseModel.data![index].statusKunjungan == "Selesai") {
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
-                            Navigator.pushNamed(context, DETAIL_ANAK_STUNTING_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                              }
-                            });
-                          }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
-                            Navigator.pushNamed(context, DETAIL_ANAK_TIDAK_HADIR_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                              }
-                            });
-                          }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
-                            Navigator.pushNamed(context, DETAIL_IBU_HAMIL_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                              }
-                            });
-                          }
-                        } else {
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
-                            Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                                if(value == 1) {
-                                  Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
-                                  if(value != null) {
-                                    indexKunjunganBloc.add(GetDataKunjungan());
-                                  }
-                                });
-                                }
-                              }
-                            });
-                          }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
-                            Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                                if(value == 1) {
-                                  Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
-                                  if(value != null) {
-                                    indexKunjunganBloc.add(GetDataKunjungan());
-                                  }
-                                });
-                                }
-                              }
-                            });
-                          }
-                          if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
-                            Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
-                              if(value != null) {
-                                indexKunjunganBloc.add(GetDataKunjungan());
-                                if(value == 1) {
-                                  Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
-                                  if(value != null) {
-                                    indexKunjunganBloc.add(GetDataKunjungan());
-                                  }
-                                });
-                                }
-                              }
-                            });
-                          }
-                        }
-                       },
-                      ),
-                    );
+                child: PullToRefreshWidget(
+                  onRefresh: () {
+                    BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
                   },
+                  refreshController: refreshController,
+                  child: ListView.builder(
+                    itemCount: state.kunjunganResponseModel.data!.length,
+                    itemBuilder: (context, index) {
+                      debugPrint(state.kunjunganResponseModel.data!.length.toString());
+                      debugPrint(index.toString());
+                      // Ensure correct rendering of custom widgets
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: KunjunganItemWidget(
+                         kunjungan: state.kunjunganResponseModel.data![index],
+                         refresData: () {
+                          if (state.kunjunganResponseModel.data![index].statusKunjungan == "Selesai") {
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
+                              Navigator.pushNamed(context, DETAIL_ANAK_STUNTING_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                }
+                              });
+                            }
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
+                              Navigator.pushNamed(context, DETAIL_ANAK_TIDAK_HADIR_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                }
+                              });
+                            }
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
+                              Navigator.pushNamed(context, DETAIL_IBU_HAMIL_KUNJUNGAN,arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                }
+                              });
+                            }
+                          } else {
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
+                              Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                  if(value == 1) {
+                                    Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
+                                    if(value != null) {
+                                      indexKunjunganBloc.add(GetDataKunjungan());
+                                    }
+                                  });
+                                  }
+                                }
+                              });
+                            }
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
+                              Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                  if(value == 1) {
+                                    Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
+                                    if(value != null) {
+                                      indexKunjunganBloc.add(GetDataKunjungan());
+                                    }
+                                  });
+                                  }
+                                }
+                              });
+                            }
+                            if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
+                              Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
+                                if(value != null) {
+                                  indexKunjunganBloc.add(GetDataKunjungan());
+                                  if(value == 1) {
+                                    Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
+                                    if(value != null) {
+                                      indexKunjunganBloc.add(GetDataKunjungan());
+                                    }
+                                  });
+                                  }
+                                }
+                              });
+                            }
+                          }
+                         },
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             }

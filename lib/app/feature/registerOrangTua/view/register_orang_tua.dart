@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/register_orang_tua_bloc.dart';
 
@@ -32,6 +34,7 @@ class RegisterOrangTuaView extends StatefulWidget {
 
 class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
   TextEditingController _searchController = TextEditingController();
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -114,30 +117,37 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                       );
                     } else if (state is RegisterOrangTuaSuccess) {
                       // Render your list of Orang Tua here
-                      return ListView.builder(
-                        itemCount: state.orangTuaList
-                            .length, // Ganti dengan data yang diambil
-                        itemBuilder: (context, index) {
-                          final orangTua = state.orangTuaList[index]; //
-                          // Ganti dengan data yang diambil
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CardOrangtuaWidget(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  DETAIL_REGISTER_ORANG_TUA,
-                                  arguments: orangTua.ayahId,
-                                );
-                              },
-                              kk: orangTua.kk,
-                              namaAyah: orangTua.husband,
-                              namaIbu: orangTua.wife,
-                              profile: orangTua.initial,
-                              isUpdate: orangTua.updatedAtAyah != null && orangTua.updatedAtIbu != null ? true : null,
-                            ),
-                          );
+                      return PullToRefreshWidget(
+                        onRefresh: () {
+                          context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
                         },
+                        refreshController: refreshController,
+                        child: ListView.builder(
+                          itemCount: state.orangTuaList
+                              .length, // Ganti dengan data yang diambil
+                          itemBuilder: (context, index) {
+                            final orangTua = state.orangTuaList[index]; //
+                            // Ganti dengan data yang diambil
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CardOrangtuaWidget(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    DETAIL_REGISTER_ORANG_TUA,
+                                    arguments: orangTua.ayahId,
+                                  );
+                                },
+                                kk: orangTua.kk,
+                                namaAyah: orangTua.husband,
+                                namaIbu: orangTua.wife,
+                                profile: orangTua.initial,
+                                isUpdate: orangTua.updatedAtAyah != null && orangTua.updatedAtIbu != null ? true : null,
+                                inRegister: true,
+                              ),
+                            );
+                          },
+                        ),
                       );
                     } else if (state is RegisterOrangTuaFailure) {
                       return Center(child: Text('Error: ${state.error}'));
