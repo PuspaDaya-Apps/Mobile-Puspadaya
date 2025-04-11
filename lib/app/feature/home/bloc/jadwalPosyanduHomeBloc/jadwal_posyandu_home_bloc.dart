@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/feature/home/model/total_point_response_model.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -29,10 +30,17 @@ class JadwalPosyanduHomeBloc
     } else {
       try {
         // ignore: use_build_context_synchronously
-        List<dynamic> response = await HomeApi().getJadwalHomeService(accessToken, event.context);
+        List<dynamic> response =
+            await HomeApi().getJadwalHomeService(accessToken, event.context);
+        List<dynamic> responseTotalPoint =
+            await HomeApi().getTotalPoint(accessToken, event.context);
 
         int statusCode = response[0] as int;
-        final JadwalHomeResponseModel cardHomeResponseModel = JadwalHomeResponseModel.fromJson(response[1]);
+        final JadwalHomeResponseModel cardHomeResponseModel =
+            JadwalHomeResponseModel.fromJson(response[1]);
+
+        final TotalPointResponseModel totalPointResponseModel =
+            TotalPointResponseModel.fromJson(responseTotalPoint[1]);
 
         if (statusCode == 200) {
           if (cardHomeResponseModel.data!.isNotEmpty) {
@@ -46,9 +54,15 @@ class JadwalPosyanduHomeBloc
                 (a, b) => a.tanggalPelaksanaan.compareTo(b.tanggalPelaksanaan));
 
             // logger.d('dataTemp ${dataTemp[0].tanggalPelaksanaan}');
-            emit(JadwalPosyanduHomeSuccessState(dataTemp.isEmpty ? null : dataTemp[0]));
+            emit(JadwalPosyanduHomeSuccessState(
+                dataTemp.isEmpty ? null : dataTemp[0],
+                totalPointResponseModel));
           } else {
-            emit(JadwalPosyanduHomeSuccessState(cardHomeResponseModel.data![0]));
+            // Data kosong, tapi tetap success
+            emit(JadwalPosyanduHomeSuccessState(
+              null,
+              totalPointResponseModel,
+            ));
           }
         } else if (statusCode == 401) {
           emit(JadwalPosyanduHomeTokenExpiredState());

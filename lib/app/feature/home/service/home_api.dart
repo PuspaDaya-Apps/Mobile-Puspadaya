@@ -15,8 +15,28 @@ class HomeApi {
     });
   }
 
+  Future<List<dynamic>> getTotalPoint (String token, BuildContext context) async {
+    final String link = ApiUtils().urlGetPoint();
+    final Map<String, dynamic> parameterQuery = {};
+
+    return await NetworkUtils(token: token, context: context).get(link, parameterQuery).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
+
   Future<List<dynamic>> getCardHomeService (String token) async {
     final String link = ApiUtils().urlGetDashboardKader();
+    final Map<String, dynamic> parameterQuery = {};
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
+
+  Future<List<dynamic>> grafikKunjunganService (String token) async {
+    final String link = ApiUtils().urlGetGrafikKunjungan();
     final Map<String, dynamic> parameterQuery = {};
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {

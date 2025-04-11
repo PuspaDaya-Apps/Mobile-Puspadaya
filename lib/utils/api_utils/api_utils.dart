@@ -617,6 +617,11 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlGetDataIbuHamilKunjungan/ibu-hamil-tidak-hadir";
   }
 
+  String urlGetGrafikKunjungan() {
+    String urlGetGrafikKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetGrafikKunjungan/grafik-kunjungan";
+  }
+
   String urlGetDetailKunjunganAnak(String id) {
     String urlGetDetailKunjunganAnak = LinkApi.KUNJUNGANURL;
     return "$_baseUrl$_apiVersion$urlGetDetailKunjunganAnak/$id/anak";
@@ -733,5 +738,11 @@ class ApiUtils {
   String urlDeleteDataPengukuranTamu(String id) {
     String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
     return "$_baseUrl$_apiVersion$urlGetListPengukuranTamu/$id";
+  }
+
+
+  String urlGetPoint() {
+    String urlGetTotalPoint = LinkApi.TOTALPOINT;
+    return '$_baseUrl$_apiVersion$urlGetTotalPoint';
   }
 }

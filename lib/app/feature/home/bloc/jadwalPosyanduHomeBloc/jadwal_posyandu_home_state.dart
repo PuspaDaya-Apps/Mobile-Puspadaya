@@ -10,9 +10,10 @@ sealed class JadwalPosyanduHomeState extends Equatable {
 final class JadwalPosyanduHomeProcessState extends JadwalPosyanduHomeState {}
 
 final class JadwalPosyanduHomeSuccessState extends JadwalPosyanduHomeState {
+  final TotalPointResponseModel totalPointResponseModel;
   final Data? jadwal;
 
-  const JadwalPosyanduHomeSuccessState(this.jadwal);
+  const JadwalPosyanduHomeSuccessState(this.jadwal, this.totalPointResponseModel);
 }
 
 final class JadwalPosyanduHomeFailedState extends JadwalPosyanduHomeState {
