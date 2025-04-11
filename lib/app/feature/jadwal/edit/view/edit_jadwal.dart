@@ -193,6 +193,7 @@ class _EditJadwalViewState extends State<EditJadwalView> {
                           style: TextStyle(fontSize: 12)),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       TextFieldWidget(
+                        maxLength: 30,
                         controller: _nameController,
                         hintText: "Masukan Nama Kegiatan",
                         keyboardType: TextInputType.text,
@@ -282,6 +283,7 @@ class _EditJadwalViewState extends State<EditJadwalView> {
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       TextFieldWidget(
                         controller: _locationController,
+                        maxLength: 25,
                         hintText: "Masukan Lokasi Kegiatan",
                         keyboardType: TextInputType.text,
                         obscureText: false,

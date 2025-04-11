@@ -179,6 +179,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         TextFieldWidget(
+                          maxLength: 30,
                           controller: _nameController,
                           hintText: "Masukan Nama Kegiatan",
                           keyboardType: TextInputType.text,
@@ -278,6 +279,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         TextFieldWidget(
+                          maxLength: 25,
                           controller: _locationController,
                           hintText: "Masukan Lokasi Kegiatan",
                           keyboardType: TextInputType.text,

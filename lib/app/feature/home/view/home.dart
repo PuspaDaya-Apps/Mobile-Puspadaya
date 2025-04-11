@@ -22,6 +22,7 @@ import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
 import '../model/grafik_kunjungan_response_model.dart';
+import 'home_wrapper.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.currentUserModel});
@@ -713,6 +714,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         iconMenu: FontAwesomeIcons.userPlus,
         colorIcon: bluePrimary40,
         onTap: () {
+          
           Navigator.pushNamed(context, REGISTER);
         },
       ),
@@ -746,7 +748,6 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
           Navigator.pushNamed(
             context,
             ANAK_FAKTOR_RESIKO,
-            arguments: 'Faktor Resiko', // Kirimkan nama fitur sebagai argumen
           );
         },
       ),
@@ -769,8 +770,17 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         menuName: 'Beban Kerja',
         iconMenu: FontAwesomeIcons.briefcase,
         colorIcon: purplePrimary50,
-        onTap: () {
-          Navigator.pushNamed(context, BEBAN_KERJA);
+        // Dalam Home (HomeView atau item menu Beban Kerja):
+        onTap: () async {
+          final result = await Navigator.pushNamed(context, BEBAN_KERJA) as bool; //nilai akan di tangkap disini
+          if (result == true) {
+            // Rebuild Home via callback ke atas
+              if (context.mounted) {
+                final homeWrapperState =
+                    context.findAncestorStateOfType<HomeWrapperState>(); //get homeWrapperState menggunakan globalKey
+                homeWrapperState?.rebuildHome();
+              }
+          }
         },
       ),
       HomeMenuItems(

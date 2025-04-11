@@ -43,10 +43,11 @@ class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});
 
   @override
-  State<HomeWrapper> createState() => _HomeWrapperState();
+  State<HomeWrapper> createState() => HomeWrapperState();
 }
 
-class _HomeWrapperState extends State<HomeWrapper> {
+class HomeWrapperState extends State<HomeWrapper> {
+  Key _homeKey = UniqueKey(); // ⬅️ ini akan diubah saat ingin rebuild Home
   int _selectedIndex = 0;
 
   // List of widgets for each tab
@@ -55,6 +56,13 @@ class _HomeWrapperState extends State<HomeWrapper> {
     super.initState();
     BlocProvider.of<UserBloc>(context).add(GetCurrentUser());
     BlocProvider.of<AlamatBloc>(context).add(CheckAlamatEvent());
+  }
+
+  void rebuildHome() {
+    setState(() {
+      _homeKey = UniqueKey();
+      _selectedIndex = 0; // kalau mau sekalian balik ke tab Home
+    });
   }
 
   @override
@@ -73,8 +81,8 @@ class _HomeWrapperState extends State<HomeWrapper> {
           listener: (context, state) {
             debugPrint(state.toString());
             if (state is AuthorizationFalse) {
-              Navigator.pushNamedAndRemoveUntil(context,
-                LOGIN, (Route<dynamic> route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, LOGIN, (Route<dynamic> route) => false);
             }
           },
         ),
@@ -100,6 +108,8 @@ class _HomeWrapperState extends State<HomeWrapper> {
           if (state is UserSuccessState) {
             final List<Widget> widgetOptions = <Widget>[
               Home(
+                key:
+                    _homeKey, // ⬅️ penting! // ketika klik home lagi, home akan di rebuild
                 currentUserModel: state.currentUserModel,
               ),
               const Pengukuran(),
@@ -202,3 +212,5 @@ class _HomeWrapperState extends State<HomeWrapper> {
     );
   }
 }
+
+

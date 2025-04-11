@@ -5,6 +5,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/validator/validator.dart';
 
 class TextFieldWidget extends StatelessWidget {
+  final int? maxLength;
   final TextEditingController controller;
   final String hintText;
   final TextInputType keyboardType;
@@ -26,11 +27,13 @@ class TextFieldWidget extends StatelessWidget {
       required this.isPasswordField,
       this.onToggleVisibility,
       this.validators,
+      this.maxLength,
       this.valueSet});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLength: maxLength,
       enabled: isEnable ?? true,
       controller: controller,
       style: Theme.of(context).textTheme.bodySmall,

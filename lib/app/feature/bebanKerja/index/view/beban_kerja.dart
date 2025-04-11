@@ -42,89 +42,100 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
   Widget build(BuildContext context) {
     final indexBebanKerja = BlocProvider.of<IndexBebanKerjaBloc>(context);
 
-    return Scaffold(
-      backgroundColor: backgroundWhite10,
-      appBar: PrimaryAppBar(
-        background: Colors.white,
-        title: 'Riwayat Beban Kerja Kader',
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      body: SafeArea(
-        child: BlocConsumer<IndexBebanKerjaBloc, IndexBebanKerjaState>(
-          listener: (context, state) {
-            debugPrint(state.toString());
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        // kirim data true kelauar dari halaman ini
+        return Navigator.pop(context, true);
+      },
+      child: Scaffold(
+        backgroundColor: backgroundWhite10,
+        appBar: PrimaryAppBar(
+          background: Colors.white,
+          title: 'Riwayat Beban Kerja Kader',
+          onBackPressed: () {
+            // kirim data true kelauar dari halaman ini
+            Navigator.pop(context, true);
           },
-          builder: (context, state) {
-            if (state is IndexBebanKerjaProcessState) {
-              return SizedBox(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).width,
-                child: Center(
-                  child: SpinKitThreeBounce(
-                    color: bluePrimaryMain,
-                    size: 50.0,
+        ),
+        body: SafeArea(
+          child: BlocConsumer<IndexBebanKerjaBloc, IndexBebanKerjaState>(
+            listener: (context, state) {
+              debugPrint(state.toString());
+            },
+            builder: (context, state) {
+              if (state is IndexBebanKerjaProcessState) {
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
                   ),
-                ),
-              );
-            }
-            if (state is IndexBebanKerjaSuccessState) {
-              if (state.indexBebanKerjaResponseModel.data!.isEmpty) {
-                return const NoDataScreen();
+                );
               }
-              return Padding(
-                padding: const EdgeInsets.all(16),
-                child: ListView.builder(
-                  itemCount: state.indexBebanKerjaResponseModel.data!.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.symmetric(vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: shadowMd,
-                      ),
-                      child: BebanKerjaItems(
-                        onTap: () {
-                          Navigator.pushNamed(context, DETAIL_BEBAN_KERJA,
-                                  arguments: state.indexBebanKerjaResponseModel
-                                      .data![index].id)
-                              .then((value) {
-                            if (value != null) {
-                              indexBebanKerja.add(GetBebanKerjaEvent());
-                            }
-                          });
-                        },
-                        place: "Posyandu ${state.posyandu}",
-                        date: DateFormat('MMMM y', 'id_ID').format(state
-                            .indexBebanKerjaResponseModel.data![index].bulan),
-                      ),
-                    );
-                  },
-                ),
-              );
-            }
-            return const ErrorServerScreen();
+              if (state is IndexBebanKerjaSuccessState) {
+                if (state.indexBebanKerjaResponseModel.data!.isEmpty) {
+                  return const NoDataScreen();
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: ListView.builder(
+                    itemCount: state.indexBebanKerjaResponseModel.data!.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: shadowMd,
+                        ),
+                        child: BebanKerjaItems(
+                          onTap: () {
+                            Navigator.pushNamed(context, DETAIL_BEBAN_KERJA,
+                                    arguments: state
+                                        .indexBebanKerjaResponseModel
+                                        .data![index]
+                                        .id)
+                                .then((value) {
+                              if (value != null) {
+                                indexBebanKerja.add(GetBebanKerjaEvent());
+                              }
+                            });
+                          },
+                          place: "Posyandu ${state.posyandu}",
+                          date: DateFormat('MMMM y', 'id_ID').format(state
+                              .indexBebanKerjaResponseModel.data![index].bulan),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+              return const ErrorServerScreen();
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: bluePrimary40,
+          shape: const CircleBorder(),
+          child: const Icon(
+            size: 38,
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, CREATE_BEBAN_KERJA).then((value) {
+              if (value != null) {
+                indexBebanKerja.add(GetBebanKerjaEvent());
+              }
+            });
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: bluePrimary40,
-        shape: const CircleBorder(),
-        child: const Icon(
-          size: 38,
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          Navigator.pushNamed(context, CREATE_BEBAN_KERJA).then((value) {
-            if (value != null) {
-              indexBebanKerja.add(GetBebanKerjaEvent());
-            }
-          });
-        },
       ),
     );
   }
