@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/pengukuranAnak/create/Bloc/getListAnak/get_list_anak_bloc.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -32,13 +33,11 @@ class SearchAnakView extends StatefulWidget {
 
 class _SearchAnakViewState extends State<SearchAnakView> {
   TextEditingController searchController = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetListAnakBloc>(context).add(
-      GetListAnak()
-    );
+    BlocProvider.of<GetListAnakBloc>(context).add(GetListAnak());
   }
 
   @override
@@ -46,7 +45,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
     final getListAnakBloc = BlocProvider.of<GetListAnakBloc>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: true,
         leading: IconButton(
           icon: const Icon(
@@ -102,29 +103,27 @@ class _SearchAnakViewState extends State<SearchAnakView> {
               if (state is GetListAnakFailedState) {
                 debugPrint(state.error);
                 showTopSnackBar(
-                  Overlay.of(context),
-                  animationDuration: const Duration(
-                    milliseconds: 600
-                  ),
-                  displayDuration: const Duration(
-                    milliseconds: 2200
-                  ),
-                  reverseAnimationDuration: const Duration(
-                    milliseconds: 300
-                  ),
-                  TopSnackbarWidget().error(state.error)
-                );
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration: const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error));
               }
             },
             builder: (context, state) {
-              if(state is GetListAnakProccessState) {
-                return const Center(
-                  child:CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  ) 
+              if (state is GetListAnakProccessState) {
+                return SizedBox(
+                  height: MediaQuery.sizeOf(context).height,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
-              if(state is GetListAnakSuccessState) {
+              if (state is GetListAnakSuccessState) {
                 if (state.getListAnakResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
@@ -136,14 +135,16 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                         ListTile(
                           onTap: () {
                             Navigator.pop(
-                              context,
-                              PaketToCreatePengukuranAnakModel(
-                                id: state.getListAnakResponseModel.data![index].id,
-                                namaAnak: state.getListAnakResponseModel.data![index].namaAnak,
-                                nik: state.getListAnakResponseModel.data![index].nik,
-                                usia: state.getListAnakResponseModel.data![index].usia
-                              )
-                            );
+                                context,
+                                PaketToCreatePengukuranAnakModel(
+                                    id: state.getListAnakResponseModel
+                                        .data![index].id,
+                                    namaAnak: state.getListAnakResponseModel
+                                        .data![index].namaAnak,
+                                    nik: state.getListAnakResponseModel
+                                        .data![index].nik,
+                                    usia: state.getListAnakResponseModel
+                                        .data![index].usia));
                           },
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,8 +161,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  state.getListAnakResponseModel.data![index].namaAnak,
-                                  style: AppTextStyles.primaryTextMedium.copyWith(
+                                  state.getListAnakResponseModel.data![index]
+                                      .namaAnak,
+                                  style:
+                                      AppTextStyles.primaryTextMedium.copyWith(
                                     fontSize: 14,
                                     color: Colors.white,
                                   ),
@@ -187,7 +190,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: state.getListAnakResponseModel.data![index].nik,
+                                        text: state.getListAnakResponseModel
+                                            .data![index].nik,
                                         style: AppTextStyles.primaryTextNormal
                                             .copyWith(
                                           fontSize: 12,
@@ -198,7 +202,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 ),
                               ),
                               Container(
-                                height: 15, // Set a fixed height for the divider
+                                height:
+                                    15, // Set a fixed height for the divider
                                 width: 2,
                                 decoration: BoxDecoration(
                                   color: Colors.black,
@@ -217,7 +222,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: state.getListAnakResponseModel.data![index].namaIbu,
+                                        text: state.getListAnakResponseModel
+                                            .data![index].namaIbu,
                                         style: AppTextStyles.primaryTextNormal
                                             .copyWith(
                                           fontSize: 12,

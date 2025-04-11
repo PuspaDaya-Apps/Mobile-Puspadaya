@@ -250,6 +250,7 @@ class _PdfViewRaporState extends State<PdfViewRapor> {
                   context,
                   '${widget.path}',
                   '${widget.nama}.pdf',
+                  "Laporan"
                 );
               },
             )

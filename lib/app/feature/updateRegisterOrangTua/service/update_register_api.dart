@@ -10,6 +10,7 @@ class UpdateRegisterOrangTuaApi {
   Future<List<dynamic>> patchRegisterOrangTua(
       String token, PatchOrangTuaBody patchOrangtuaBody, String id) async {
     final String link = ApiUtils().urlPatchDataOrangTua(id);
+    logger.d('data to send server ${json.encode(patchOrangtuaBody.toJson())}');
     final String body = json.encode(patchOrangtuaBody.toJson());
 
     return await NetworkUtils(token: token).patch(link, body).then((response) {

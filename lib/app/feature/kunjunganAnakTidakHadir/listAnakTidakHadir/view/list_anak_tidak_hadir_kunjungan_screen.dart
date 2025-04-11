@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
@@ -82,7 +83,8 @@ class _ListAnakTidakHadirKunjunganViewState
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
-    BlocProvider.of<ListAnakTidakHadirKunjunganBloc>(context).add(GetDataAnakTidakHadir());
+    BlocProvider.of<ListAnakTidakHadirKunjunganBloc>(context)
+        .add(GetDataAnakTidakHadir());
   }
 
   void _filterList() {
@@ -104,7 +106,8 @@ class _ListAnakTidakHadirKunjunganViewState
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakTidakHadirBloc>(context);
+    final createKunjunganBloc =
+        BlocProvider.of<CreateKunjunganAnakTidakHadirBloc>(context);
 
     return BlocConsumer<CreateKunjunganAnakTidakHadirBloc,
         CreateKunjunganAnakTidakHadirState>(
@@ -112,7 +115,8 @@ class _ListAnakTidakHadirKunjunganViewState
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakTidakHadirSuccessState) {
           Navigator.pop(context, 1);
-          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.idKunjungan);
+          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN,
+              arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganAnakTidakHadirFailedState) {
           showTopSnackBar(
@@ -154,19 +158,24 @@ class _ListAnakTidakHadirKunjunganViewState
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListAnakTidakHadirKunjunganBloc, ListAnakTidakHadirKunjunganState>(
+                child: BlocConsumer<ListAnakTidakHadirKunjunganBloc,
+                    ListAnakTidakHadirKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
-                    if(state is ListAnakTidakHadirKunjunganProccessState) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                        color: bluePrimaryMain,
-                      ));
+                    if (state is ListAnakTidakHadirKunjunganProccessState) {
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
                     }
-                    if(state is ListAnakTidakHadirKunjunganSuccessState) {
-                      if(state.listDataAnakTidakHadir.data!.isEmpty){
+                    if (state is ListAnakTidakHadirKunjunganSuccessState) {
+                      if (state.listDataAnakTidakHadir.data!.isEmpty) {
                         return const NoDataScreen();
                       }
                       return ListView.separated(
@@ -182,11 +191,16 @@ class _ListAnakTidakHadirKunjunganViewState
                             ),
                             child: KunjunganStuntingItems(
                               onTap: () {
-                                createKunjunganBloc.add(CreateKunjunganEvent(state.listDataAnakTidakHadir.data![index].id));
+                                createKunjunganBloc.add(CreateKunjunganEvent(
+                                    state.listDataAnakTidakHadir.data![index]
+                                        .id));
                               },
-                              name: state.listDataAnakTidakHadir.data![index].namaAnak,
-                              nik: state.listDataAnakTidakHadir.data![index].nik,
-                              parent: state.listDataAnakTidakHadir.data![index].ibu?.namaIbu,
+                              name: state
+                                  .listDataAnakTidakHadir.data![index].namaAnak,
+                              nik:
+                                  state.listDataAnakTidakHadir.data![index].nik,
+                              parent: state.listDataAnakTidakHadir.data![index]
+                                  .ibu?.namaIbu,
                             ),
                           );
                         },
@@ -198,16 +212,17 @@ class _ListAnakTidakHadirKunjunganViewState
               ),
             ),
             state is CreateKunjunganAnakTidakHadirProccessState
-            ? Container(
-                height: MediaQuery.sizeOf(context).height,
-                width: MediaQuery.sizeOf(context).height,
-                color: Colors.black.withOpacity(0.2),
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator(
-                  color: bluePrimaryMain,
-                ),
-              )
-            : const SizedBox(),
+                ? SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: bluePrimaryMain,
+                        size: 50.0,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
           ],
         );
       },

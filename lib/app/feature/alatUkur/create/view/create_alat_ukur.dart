@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/alatUkur/create/bloc/create_alat_ukur_bloc.dart';
 import 'package:puspadaya/app/view/widget/top_snackbar/top_snackbar_widget.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -9,6 +10,7 @@ import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/validator/validator.dart';
+import '../../../../../utils/api_utils/api_utils.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/checkbox_list_widget.dart';
 import '../../../../view/widget/dropdown_widget.dart';
@@ -165,8 +167,15 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
           },
           builder: (context, state) {
             if (state is CreateAlatUkurInitialFormLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if (state is CreateAlatUkurInitialFormFailed) {
@@ -251,7 +260,8 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
                                             ),
                                           ); // R
                                         },
-                                        e.imageUrl!, // Use Image.network for URLs
+                                        ApiUtils().urlGetPublicImage(e
+                                            .imageUrl!), // Use Image.network for URLs
                                         height: 300,
                                         width: double.infinity,
                                         fit: BoxFit.cover,

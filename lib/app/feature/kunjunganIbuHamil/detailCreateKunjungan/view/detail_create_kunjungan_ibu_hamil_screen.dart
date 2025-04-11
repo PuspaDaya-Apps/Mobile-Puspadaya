@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/info_field_widget.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
@@ -99,10 +100,15 @@ class _DetailCreateKunjunganIbuHamilViewState
           },
           builder: (context, state) {
             if(state is DetailCreateKunjunganIbuHamilProccessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
-                )
+              return SizedBox(
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
+                ),
               );
             }
             if(state is DetailCreateKunjunganIbuHamilSuccessState) {

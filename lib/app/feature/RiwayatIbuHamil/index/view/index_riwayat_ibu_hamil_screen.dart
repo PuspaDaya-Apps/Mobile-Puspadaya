@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/RiwayatIbuHamil/detail/view/detail_riwayat_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/monitoring/model/riwayat_monitoring_ibu_hamil_model.dart'
     as RiwayatMonitoringIbuHamilModel;
+import 'package:puspadaya/config/theme/pallet_color.dart';
 
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../route/route_name.dart';
@@ -179,8 +181,13 @@ class _IndexRiwayatIbuHamilScreenViewState
         IndexRiwayatPengukuranIbuHamilState>(
       builder: (context, state) {
         if (state is IndexRiwayatPengukuranIbuHamilLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return SizedBox(
+            child: Center(
+              child: SpinKitThreeBounce(
+                color: bluePrimaryMain,
+                size: 50.0,
+              ),
+            ),
           );
         }
         if (state is IndexRiwayatPengukuranIbuHamilFailed) {
@@ -195,8 +202,7 @@ class _IndexRiwayatIbuHamilScreenViewState
           return ListView.builder(
             itemCount: state.data.data.length,
             itemBuilder: (context, index) {
-              final
-                  ibuHamil = state.data.data[index];
+              final ibuHamil = state.data.data[index];
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 decoration: BoxDecoration(
@@ -216,7 +222,8 @@ class _IndexRiwayatIbuHamilScreenViewState
                     //     },
                     //   ),
                     // );
-                    Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL, arguments: ibuHamil.id);
+                    Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL,
+                        arguments: ibuHamil.id);
                   },
                   name: ibuHamil.namaIbu,
                   nik: ibuHamil.nik,

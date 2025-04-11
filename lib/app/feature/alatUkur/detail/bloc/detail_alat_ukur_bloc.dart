@@ -67,11 +67,17 @@ class DetailAlatUkurBloc
           emit(DeleteAlatUkurSuccess());
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
+        } else if (statusCode == 500) {
+          logger.d('error delete alat ukur');
+          emit(DeleteAlatUkurFailed(
+              "Tidak Dapat Menghapus Alat Ukur, Karena Masih Digunakan"));
         } else {
           emit(DeleteAlatUkurFailed("something When Wrong"));
         }
       } catch (error) {
-        emit(DeleteAlatUkurFailed(error.toString()));
+        if (error == "Internal server error") {
+          emit(DeleteAlatUkurFailed("Tidak Dapat Menghapus Alat Ukur, Karena Masih Digunakan"));
+        }
       }
     }
   }

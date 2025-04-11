@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
@@ -44,7 +45,8 @@ class _IndexPengukuranAnakScreenViewState
   @override
   Widget build(BuildContext context) {
     // final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
-    final indexPengukuranAnakBloc = BlocProvider.of<IndexPengukuranAnakBloc>(context);
+    final indexPengukuranAnakBloc =
+        BlocProvider.of<IndexPengukuranAnakBloc>(context);
 
     return BlocConsumer<IndexPengukuranAnakBloc, IndexPengukuranAnakState>(
       listener: (context, state) {

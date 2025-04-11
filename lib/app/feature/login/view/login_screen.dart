@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/image_config.dart';
@@ -127,9 +128,14 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                             builder: (context, accountState) {
                               debugPrint(accountState.toString());
                               if (accountState is LoadAccountProccessState) {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    color: bluePrimaryMain,
+                                return SizedBox(
+                                  width: MediaQuery.sizeOf(context).width,
+                                  height: MediaQuery.sizeOf(context).height,
+                                  child: Center(
+                                    child: SpinKitThreeBounce(
+                                      color: bluePrimaryMain,
+                                      size: 50.0,
+                                    ),
                                   ),
                                 );
                               }
@@ -137,8 +143,8 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Expanded(child:
-                                      BlocBuilder<LoginBloc, LoginState>(
+                                  Expanded(
+                                      child: BlocBuilder<LoginBloc, LoginState>(
                                     builder: (context, state) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -220,14 +226,13 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                 ],
                                               ),
                                               GestureDetector(
-                                                onTap: () async {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                      const Center(
-                                                        child: LupaKataSandiView()
-                                                      )
-                                                    );
+                                                  onTap: () async {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            const Center(
+                                                                child:
+                                                                    LupaKataSandiView()));
                                                   },
                                                   child: Text(
                                                     'Lupa Kata Sandi?',
@@ -274,68 +279,68 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                   .error(state.error));
                                         }
                                         if (state is LoginSuccessState) {
-                                          loginBloc.add(GetCurrentUserEvent(state.accessToken));
+                                          loginBloc.add(GetCurrentUserEvent(
+                                              state.accessToken));
                                         }
                                         if (state is NullErrorState) {
                                           showTopSnackBar(
-                                            Overlay.of(context),
-                                            animationDuration: const Duration(
-                                              milliseconds: 60
-                                            ),
-                                            displayDuration: const Duration(
-                                              milliseconds: 2200
-                                            ),
-                                            reverseAnimationDuration:const Duration(
-                                              milliseconds: 300
-                                            ),
-                                            TopSnackbarWidget().warning(state.error)
-                                          );
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 60),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .warning(state.error));
                                         }
                                         //getUser
                                         if (state is CurrentUserSuccesState) {
-                                          authorizationBloc.add(AuthorizationTrueEvent());
-                                          Navigator.pushReplacementNamed(context, HOME);
+                                          authorizationBloc
+                                              .add(AuthorizationTrueEvent());
+                                          Navigator.pushReplacementNamed(
+                                              context, HOME);
                                         }
                                         if (state is CurrentUserFailedState) {
                                           showTopSnackBar(
-                                            Overlay.of(context),
-                                            animationDuration: const Duration(
-                                                milliseconds: 600),
-                                            displayDuration: const Duration(
-                                                milliseconds: 2200),
-                                            reverseAnimationDuration:
-                                                const Duration(
-                                                    milliseconds: 300),
-                                            TopSnackbarWidget()
-                                                .error(state.error));
+                                              Overlay.of(context),
+                                              animationDuration: const Duration(
+                                                  milliseconds: 600),
+                                              displayDuration: const Duration(
+                                                  milliseconds: 2200),
+                                              reverseAnimationDuration:
+                                                  const Duration(
+                                                      milliseconds: 300),
+                                              TopSnackbarWidget()
+                                                  .error(state.error));
                                         }
                                       },
                                       builder: (context, state) {
                                         if (state is LoginProcessState ||
                                             state is LoginSuccessState ||
-                                            state is CurrentUserProccesState || 
-                                            state is CurrentUserSuccesState
-                                            ) {
+                                            state is CurrentUserProccesState ||
+                                            state is CurrentUserSuccesState) {
                                           return ElevatedButton(
-                                            onPressed: null,
-                                            style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal:
-                                                        SizeConfig.calWidthMultiplier(
-                                                            10),
-                                                    vertical:
-                                                        SizeConfig.calHeightMultiplier(
-                                                            10))),
-                                            child: Center(
-                                                child: SizedBox(
-                                                    height: SizeConfig
-                                                        .calHeightMultiplier(20),
-                                                    width: SizeConfig.calHeightMultiplier(20),
-                                                    child: const CircularProgressIndicator())));
+                                              onPressed: null,
+                                              style: ElevatedButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                          SizeConfig.calWidthMultiplier(
+                                                              10),
+                                                      vertical:
+                                                          SizeConfig.calHeightMultiplier(
+                                                              10))),
+                                              child: Center(
+                                                  child: SizedBox(
+                                                      height: SizeConfig
+                                                          .calHeightMultiplier(20),
+                                                      width: SizeConfig.calHeightMultiplier(20),
+                                                      child: const CircularProgressIndicator())));
                                         }
                                         return ElevatedButton(
                                             onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/screen/no_data_screen.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -57,9 +58,14 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
           },
           builder: (context, state) {
             if (state is IndexBebanKerjaProcessState) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bluePrimaryMain,
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height,
+                width: MediaQuery.sizeOf(context).width,
+                child: Center(
+                  child: SpinKitThreeBounce(
+                    color: bluePrimaryMain,
+                    size: 50.0,
+                  ),
                 ),
               );
             }

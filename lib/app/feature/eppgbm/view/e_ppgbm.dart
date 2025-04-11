@@ -86,7 +86,8 @@ class _E_PPGBMViewState extends State<E_PPGBMView> {
             List<FilesEPPGBMModel> selectedFiles =
                 files.where((file) => file.isChecked).toList();
             if (selectedFiles.isNotEmpty) {
-              DownloadUtils().downloadMultipleFiles(context, selectedFiles);
+              DownloadUtils().downloadMultipleFiles(context, selectedFiles,
+                  "Laporan E-PPGBM");
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("Pilih minimal satu file!")));

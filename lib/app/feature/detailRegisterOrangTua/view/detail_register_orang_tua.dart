@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/view/detail_data_ayah.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/view/detail_data_ibu.dart';
 
@@ -106,7 +107,16 @@ class _DetailRegisterOrangTuaViewState extends State<DetailRegisterOrangTuaView>
                       DetailRegisterOrangTuaState>(
                     builder: (context, state) {
                       if (state is DetailRegisterOrangTuaLoading) {
-                        return Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                          height: MediaQuery.sizeOf(context).height,
+                          width: MediaQuery.sizeOf(context).width,
+                          child: Center(
+                            child: SpinKitThreeBounce(
+                              color: bluePrimaryMain,
+                              size: 50.0,
+                            ),
+                          ),
+                        );
                       }
                       if (state is DetailRegisterOrangTuaSuccess) {
                         final result = state.getOrangTuaDetailResponse;

@@ -37,8 +37,10 @@ class UpdateRegisterOrangTuaBloc
         if (statusCode == 200) {
           logger.d('succes patch orang tua');
           emit((UpdateRegisterOrangTuaSuccesState()));
-        } else {
+        } else if(statusCode == 401){
           emit(TokenExpiredState());
+        }else{
+          UpdateRegisterOrangTuaFailedState("Terdapat Error");
         }
       } catch (e) {
         emit(UpdateRegisterOrangTuaFailedState(e.toString()));

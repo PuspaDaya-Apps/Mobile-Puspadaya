@@ -60,7 +60,7 @@ class Data {
     @JsonKey(name: "status_orang_tua")
     final String statusOrangTua;
     @JsonKey(name: "pengukuran")
-    final List<Pengukuran> pengukuran;
+    final List<Pengukuran>? pengukuran;
     @JsonKey(name: "posyandu")
     final Posyandu posyandu;
     @JsonKey(name: "kartu_keluarga")

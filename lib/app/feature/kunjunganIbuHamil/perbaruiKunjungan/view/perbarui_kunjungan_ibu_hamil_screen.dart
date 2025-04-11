@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -46,14 +47,17 @@ class PerbaruiKunjunganIbuHamil extends StatelessWidget {
 }
 
 class FormTugasKunjunganIbuHamilView extends StatefulWidget {
-  const FormTugasKunjunganIbuHamilView({super.key, required this.modelDetailKunjungan});
+  const FormTugasKunjunganIbuHamilView(
+      {super.key, required this.modelDetailKunjungan});
   final DetailKunjunganIbuHamilResponseModel modelDetailKunjungan;
 
   @override
-  State<FormTugasKunjunganIbuHamilView> createState() => _FormTugasKunjunganIbuHamilViewState();
+  State<FormTugasKunjunganIbuHamilView> createState() =>
+      _FormTugasKunjunganIbuHamilViewState();
 }
 
-class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHamilView> {
+class _FormTugasKunjunganIbuHamilViewState
+    extends State<FormTugasKunjunganIbuHamilView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -87,7 +91,8 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TugasKunjunganIbuHamilBloc>(context).add(GetTugasKunjungan());
+    BlocProvider.of<TugasKunjunganIbuHamilBloc>(context)
+        .add(GetTugasKunjungan());
   }
 
   @override
@@ -170,41 +175,45 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
             physics: const NeverScrollableScrollPhysics(),
             children: [
               // Halaman pertama
-              BlocConsumer<TugasKunjunganIbuHamilBloc, TugasKunjunganIbuHamilState>(
+              BlocConsumer<TugasKunjunganIbuHamilBloc,
+                  TugasKunjunganIbuHamilState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
                 },
                 builder: (context, state) {
                   if (state is TugasKunjunganIbuHamilProccessState) {
-                    return Container(
-                      height: MediaQuery.sizeOf(context).height,
+                    return SizedBox(
                       width: MediaQuery.sizeOf(context).width,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                      height: MediaQuery.sizeOf(context).height,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }
                   if (state is TugasKunjunganIbuHamilSuccessState) {
                     if (state.listTugasKunjungan.data!.isEmpty) {
                       return Container(
-                        height: MediaQuery.sizeOf(context).height,
-                        width: MediaQuery.sizeOf(context).width,
-                        alignment: Alignment.center,
-                        child: const NoDataScreen());
+                          height: MediaQuery.sizeOf(context).height,
+                          width: MediaQuery.sizeOf(context).width,
+                          alignment: Alignment.center,
+                          child: const NoDataScreen());
                     }
                     if (listTugasKunjunganData.isEmpty) {
-                      listTugasKunjunganData.addAll(state.listTugasKunjungan.data!
-                        .map((e) => CheckboxKunjungan(
-                            id: e.id, isChecked: false, label: e.namaTugas))
-                        .toList());
+                      listTugasKunjunganData.addAll(state
+                          .listTugasKunjungan.data!
+                          .map((e) => CheckboxKunjungan(
+                              id: e.id, isChecked: false, label: e.namaTugas))
+                          .toList());
 
-                  
-                      for(var valueStored in widget.modelDetailKunjungan.kunjunganTugasKader) {
+                      for (var valueStored
+                          in widget.modelDetailKunjungan.kunjunganTugasKader) {
                         logger.i('0');
-                        for(var tugas in listTugasKunjunganData) {
+                        for (var tugas in listTugasKunjunganData) {
                           logger.i('1');
-                          if(valueStored.tugasKunjungan.id == tugas.id) {
+                          if (valueStored.tugasKunjungan.id == tugas.id) {
                             logger.i(tugas.label);
                             tugas.isChecked = true;
                           }
@@ -214,7 +223,8 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
                     return Container(
                       margin: const EdgeInsets.all(20),
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25, horizontal: 20),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
@@ -230,13 +240,16 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
                           ),
                           const SizedBox(height: 10),
                           Column(
-                            children: List.generate(listTugasKunjunganData.length, (index) {
+                            children: List.generate(
+                                listTugasKunjunganData.length, (index) {
                               return CheckboxListWidget(
-                                isChecked: listTugasKunjunganData[index].isChecked,
+                                isChecked:
+                                    listTugasKunjunganData[index].isChecked,
                                 label: listTugasKunjunganData[index].label,
                                 onChanged: (value) {
                                   setState(() {
-                                    listTugasKunjunganData[index].isChecked = value!;                          
+                                    listTugasKunjunganData[index].isChecked =
+                                        value!;
                                   });
                                 },
                               );
@@ -244,21 +257,20 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
                           ),
                           const SizedBox(height: 20),
                           ButtonPrimary(
-                            color: bluePrimaryMain,
-                            mainButtonMessage: 'Simpan',
-                            mainButton : () {
-                              setState(() {
-                                _currentPage++;
-                              });
-                              _pageController.animateToPage(
-                                _currentPage,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                              // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
-                              // widget.setTugasValue(widget.listTugasKunjungan);
-                            }
-                          ),
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Simpan',
+                              mainButton: () {
+                                setState(() {
+                                  _currentPage++;
+                                });
+                                _pageController.animateToPage(
+                                  _currentPage,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                                // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
+                                // widget.setTugasValue(widget.listTugasKunjungan);
+                              }),
                         ],
                       ),
                     );
@@ -273,7 +285,9 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
               // Halaman kedua
               UploadImage(
                 idKunjungan: widget.modelDetailKunjungan.id,
-                linkImages: widget.modelDetailKunjungan.buktiKunjungan.map((e) => e.filePath).toList(),
+                linkImages: widget.modelDetailKunjungan.buktiKunjungan
+                    .map((e) => e.filePath)
+                    .toList(),
                 images: imagesData,
                 listTugasKunjungan: listTugasKunjunganData,
                 setImagesValues: (value) {
@@ -294,12 +308,12 @@ class _FormTugasKunjunganIbuHamilViewState extends State<FormTugasKunjunganIbuHa
 
 class UploadImage extends StatefulWidget {
   UploadImage(
-    {super.key,
-    required this.listTugasKunjungan,
-    required this.linkImages,
-    required this.images,
-    required this.idKunjungan,
-    required this.setImagesValues});
+      {super.key,
+      required this.listTugasKunjungan,
+      required this.linkImages,
+      required this.images,
+      required this.idKunjungan,
+      required this.setImagesValues});
 
   final List<CheckboxKunjungan> listTugasKunjungan;
   final List<String> linkImages;
@@ -333,14 +347,13 @@ class _UploadImageState extends State<UploadImage> {
   Future<void> _pickImageFromGallery() async {
     final List<XFile>? images = await _picker.pickMultiImage();
     if (images != null) {
-      if(widget.images.length + widget.linkImages.length + images.length > 5) {
+      if (widget.images.length + widget.linkImages.length + images.length > 5) {
         showTopSnackBar(
-          Overlay.of(context),
-          animationDuration: const Duration(milliseconds: 600),
-          displayDuration: const Duration(milliseconds: 2200),
-          reverseAnimationDuration:const Duration(milliseconds: 300),
-          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
-        );
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5"));
       } else {
         setState(() {
           widget.images.addAll(images);
@@ -351,21 +364,21 @@ class _UploadImageState extends State<UploadImage> {
   }
 
   Future<void> _pickImages(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera); // Pilih satu gambar dari kamera
+    final pickedFile = await _picker.pickImage(
+        source: ImageSource.camera); // Pilih satu gambar dari kamera
     if (pickedFile != null) {
-      if(widget.images.length + widget.linkImages.length + 1 > 5 ) {
+      if (widget.images.length + widget.linkImages.length + 1 > 5) {
         showTopSnackBar(
-          Overlay.of(context),
-          animationDuration: const Duration(milliseconds: 600),
-          displayDuration: const Duration(milliseconds: 2200),
-          reverseAnimationDuration:const Duration(milliseconds: 300),
-          TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5")
-        );
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning("Maaf, bukti kunjungan maksimal 5"));
       } else {
         setState(() {
-        widget.images.add(pickedFile);
-        logger.i("jumlah di child =  ${widget.images}");
-      });
+          widget.images.add(pickedFile);
+          logger.i("jumlah di child =  ${widget.images}");
+        });
       }
     }
   }
@@ -379,7 +392,6 @@ class _UploadImageState extends State<UploadImage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       margin: const EdgeInsets.all(20),
       width: double.infinity,
@@ -394,31 +406,32 @@ class _UploadImageState extends State<UploadImage> {
           children: [
             Text(
               "Jumlah Gambar maks 5",
-              style: AppTextStyles.primaryTextMedium.copyWith(
-                fontSize: 13,
-                color: textSecondary3
-              ),
+              style: AppTextStyles.primaryTextMedium
+                  .copyWith(fontSize: 13, color: textSecondary3),
             ),
             const SizedBox(height: 14),
             Column(
-              children: List.generate(widget.linkImages.length, (index) {
-                return Padding(
+                children: List.generate(widget.linkImages.length, (index) {
+              return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image(
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).height / 4,
-                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                      if(wasSynchronouslyLoaded) {
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
                         return child;
                       } else {
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 500),
-                          child: frame != null ? child : SizedBox(
-                            width: MediaQuery.sizeOf(context).width,
-                            height: MediaQuery.sizeOf(context).height / 4,
-                          ),
+                          child: frame != null
+                              ? child
+                              : SizedBox(
+                                  width: MediaQuery.sizeOf(context).width,
+                                  height: MediaQuery.sizeOf(context).height / 4,
+                                ),
                         );
                       }
                     },
@@ -436,8 +449,7 @@ class _UploadImageState extends State<UploadImage> {
                   ),
                 ),
               );
-              }) 
-            ),
+            })),
             Align(
               alignment: Alignment.center,
               child: Container(
@@ -445,9 +457,8 @@ class _UploadImageState extends State<UploadImage> {
                 height: 2.5,
                 margin: EdgeInsets.only(bottom: 15),
                 decoration: BoxDecoration(
-                  color: textSecondary5,
-                  borderRadius: BorderRadius.circular(10)
-                ),
+                    color: textSecondary5,
+                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
             widget.images.isNotEmpty
@@ -579,44 +590,47 @@ class _UploadImageState extends State<UploadImage> {
             ),
 
             const SizedBox(height: 16),
-            BlocConsumer<PerbaruiKunjunganIbuHamilBloc, PerbaruiKunjunganIbuHamilState>(
+            BlocConsumer<PerbaruiKunjunganIbuHamilBloc,
+                PerbaruiKunjunganIbuHamilState>(
               listener: (context, state) {
                 debugPrint(state.toString());
-                if(state is PerbaruiKunjunganIbuHamilSuccessState) {
-                  Navigator.pop(context,1);
+                if (state is PerbaruiKunjunganIbuHamilSuccessState) {
+                  Navigator.pop(context, 1);
                 }
 
-                if(state is PerbaruiKunjunganIbuHamilFailedBuktitate) {
+                if (state is PerbaruiKunjunganIbuHamilFailedBuktitate) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error(state.error)
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget().error(state.error));
                 }
 
-                if(state is ListImagesNullState) {
+                if (state is ListImagesNullState) {
                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error("Tugas Selama Kunjungan Belum Terisi")
-                  );
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .error("Tugas Selama Kunjungan Belum Terisi"));
                 }
-                if(state is ListTugasNullState) {
-                   showTopSnackBar(
-                    Overlay.of(context),
-                    animationDuration: const Duration(milliseconds: 600),
-                    displayDuration: const Duration(milliseconds: 2200),
-                    reverseAnimationDuration:const Duration(milliseconds: 300),
-                    TopSnackbarWidget().error("Upload Bukti Terlebih Dahulu")
-                  );
+                if (state is ListTugasNullState) {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .error("Upload Bukti Terlebih Dahulu"));
                 }
               },
               builder: (context, state) {
-                if(state is PerbaruiKunjunganIbuHamilProccessState) {
+                if (state is PerbaruiKunjunganIbuHamilProccessState) {
                   return ElevatedButton(
                     onPressed: null,
                     style: ElevatedButton.styleFrom(
@@ -637,12 +651,12 @@ class _UploadImageState extends State<UploadImage> {
                   mainButtonMessage: 'Upload Bukti',
                   mainButton: () {
                     BlocProvider.of<PerbaruiKunjunganIbuHamilBloc>(context).add(
-                      SimpanKunjungan(
-                        idKunjungan: widget.idKunjungan, 
-                        listImages: widget.images, 
-                        listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
-                      )
-                    );
+                        SimpanKunjungan(
+                            idKunjungan: widget.idKunjungan,
+                            listImages: widget.images,
+                            listTugas: widget.listTugasKunjungan
+                                .where((e) => e.isChecked)
+                                .toList()));
                   },
                 );
               },

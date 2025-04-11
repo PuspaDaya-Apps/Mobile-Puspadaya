@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/alert_dialog_widget.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
@@ -62,8 +63,10 @@ class _DetailPengukuranIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    final detailPengukuranIbuHamilBloc = BlocProvider.of<DetailPengukuranIbuHamilBloc>(context);
-    final deletePengukuranIbuHamilBloc = BlocProvider.of<DeletePengukuranIbuHamilBloc>(context);
+    final detailPengukuranIbuHamilBloc =
+        BlocProvider.of<DetailPengukuranIbuHamilBloc>(context);
+    final deletePengukuranIbuHamilBloc =
+        BlocProvider.of<DeletePengukuranIbuHamilBloc>(context);
 
     return Scaffold(
       backgroundColor: backgroundWhite10,
@@ -81,23 +84,24 @@ class _DetailPengukuranIbuHamilViewState
               debugPrint(state.toString());
               if (state is DetailPengukuranIbuHamilFailedState) {
                 showTopSnackBar(
-                  Overlay.of(context),
-                  animationDuration: const Duration(milliseconds: 600),
-                  displayDuration: const Duration(milliseconds: 2200),
-                  reverseAnimationDuration: const Duration(milliseconds: 300),
-                  TopSnackbarWidget().error(state.error)
-                );
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration: const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.error));
               }
             },
             builder: (context, state) {
               if (state is DetailPengukuranIbuHamilProcessState) {
                 return SizedBox(
-                  height: MediaQuery.sizeOf(context).height,
                   width: MediaQuery.sizeOf(context).width,
-                  child: const Center(
-                      child: CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  )),
+                  height: MediaQuery.sizeOf(context).height,
+                  child: Center(
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: 50.0,
+                    ),
+                  ),
                 );
               }
               if (state is DetailPengukuranIbuHamilSuccesState) {
@@ -263,9 +267,10 @@ class _DetailPengukuranIbuHamilViewState
                                       .alatTinggiFundus
                                       .jenisAlat,
                                   value: state
-                                      .detailPengukuranIbuHamilResponseModel
-                                      .data!
-                                      .tinggiFundusUteri ?? "-" ,
+                                          .detailPengukuranIbuHamilResponseModel
+                                          .data!
+                                          .tinggiFundusUteri ??
+                                      "-",
                                 ),
                               ],
                             ),
@@ -288,9 +293,10 @@ class _DetailPengukuranIbuHamilViewState
                           Expanded(
                             child: InfoFieldWidget(
                                 text: state
-                                    .detailPengukuranIbuHamilResponseModel
-                                    .data!
-                                    .hemoglobin ?? "-"),
+                                        .detailPengukuranIbuHamilResponseModel
+                                        .data!
+                                        .hemoglobin ??
+                                    "-"),
                           ),
                           Text(
                             'g/dl',
@@ -393,31 +399,40 @@ class _DetailPengukuranIbuHamilViewState
                               mainButtonMessage: 'Perbarui',
                               mainButton: () {
                                 Navigator.pushNamed(
-                                  context, UPDATE_PENGUKURAN_IBU_HAMIL,
-                                  arguments: state.detailPengukuranIbuHamilResponseModel).then((value) {
+                                        context, UPDATE_PENGUKURAN_IBU_HAMIL,
+                                        arguments: state
+                                            .detailPengukuranIbuHamilResponseModel)
+                                    .then((value) {
                                   if (value != null) {
-                                    detailPengukuranIbuHamilBloc.add(GetDetailPengukuranIbuHamil(widget.pengukuranId));
+                                    detailPengukuranIbuHamilBloc.add(
+                                        GetDetailPengukuranIbuHamil(
+                                            widget.pengukuranId));
                                   }
                                 });
                               },
                             ),
                           ),
                           Expanded(
-                            child: BlocConsumer<DeletePengukuranIbuHamilBloc, DeletePengukuranIbuHamilState>(
+                            child: BlocConsumer<DeletePengukuranIbuHamilBloc,
+                                DeletePengukuranIbuHamilState>(
                               listener: (context, state) {
                                 debugPrint(state.toString());
-                                if(state is DeletePengukuranIbuHamilSuccessState) {
+                                if (state
+                                    is DeletePengukuranIbuHamilSuccessState) {
                                   Navigator.pop(context);
-                                  Navigator.pop(context,1);
+                                  Navigator.pop(context, 1);
                                 }
-                                if(state is DeletePengukuranIbuHamilFailedState) {
+                                if (state
+                                    is DeletePengukuranIbuHamilFailedState) {
                                   showTopSnackBar(
-                                    Overlay.of(context),
-                                    animationDuration: const Duration(milliseconds: 600),
-                                    displayDuration: const Duration(milliseconds: 2200),
-                                    reverseAnimationDuration: const Duration(milliseconds: 300),
-                                    TopSnackbarWidget().error(state.error)
-                                  );
+                                      Overlay.of(context),
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      displayDuration:
+                                          const Duration(milliseconds: 2200),
+                                      reverseAnimationDuration:
+                                          const Duration(milliseconds: 300),
+                                      TopSnackbarWidget().error(state.error));
                                 }
                               },
                               builder: (context, stateDelete) {
@@ -430,14 +445,21 @@ class _DetailPengukuranIbuHamilViewState
                                       builder: (context) {
                                         return AlertDialogWidget(
                                           title: 'Apakah Anda Yakin?',
-                                          message: 'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
+                                          message:
+                                              'Data Akan di hapus secara permanen dan tidak dapat dibatalkan',
                                           mainButton: () {
-                                            deletePengukuranIbuHamilBloc.add(SendDeletePengukuranIbuHamil(widget.pengukuranId));
+                                            deletePengukuranIbuHamilBloc.add(
+                                                SendDeletePengukuranIbuHamil(
+                                                    widget.pengukuranId));
                                           },
                                           image: imageDeleteItems,
-                                          mainButtonMessage:'Iya, Hapus Pengukuran',
+                                          mainButtonMessage:
+                                              'Iya, Hapus Pengukuran',
                                           colorMainButton: redPrimaryMain,
-                                          loadingState: stateDelete is DeletePengukuranIbuHamilProccesState ? true : null,
+                                          loadingState: stateDelete
+                                                  is DeletePengukuranIbuHamilProccesState
+                                              ? true
+                                              : null,
                                           cancelButton: () {
                                             Navigator.pop(context);
                                           },

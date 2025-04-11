@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card_widget.dart';
@@ -85,18 +86,14 @@ class _HomeViewState extends State<HomeView> {
                 },
                 builder: (context, state) {
                   if (state is JadwalPosyanduHomeProcessState) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.calWidthMultiplier(24)),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(16),
-                        vertical: SizeConfig.calHeightMultiplier(12),
-                      ),
-                      width: double.infinity,
-                      height: 80,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }
@@ -133,18 +130,14 @@ class _HomeViewState extends State<HomeView> {
                 },
                 builder: (context, state) {
                   if (state is CardDataHomeProcessState) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: SizeConfig.calWidthMultiplier(24)),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.calWidthMultiplier(16),
-                        vertical: SizeConfig.calHeightMultiplier(12),
-                      ),
-                      width: double.infinity,
-                      height: 80,
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(
-                        color: bluePrimaryMain,
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7.4,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
                       ),
                     );
                   }

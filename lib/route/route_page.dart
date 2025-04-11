@@ -180,13 +180,14 @@ class MyRoute {
             settings: settings);
 
       case DETAIL_KEHADIRAN:
+      final id = settings.arguments as String? ?? '';
         return MaterialPageRoute(
-            builder: (context) => const DetailKehadiranScreen(),
+            builder: (context) => DetailKehadiranScreen(id: id,),
             settings: settings);
 
-      case UPDATE_KEHADIRAN:
-        return MaterialPageRoute(
-            builder: (context) => const UpdateKehadiran(), settings: settings);
+      // case UPDATE_KEHADIRAN:
+      //   return MaterialPageRoute(
+      //       builder: (context) => const UpdateKehadiran(), settings: settings);
 
       case CREATE_PENGUKURAN_ANAK:
         return MaterialPageRoute(
