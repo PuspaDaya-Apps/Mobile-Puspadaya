@@ -386,7 +386,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                         UpdateRegisterOrangTuaState>(
                       listener: (context, state) {
                         if (state is UpdateRegisterOrangTuaSuccesState) {
-                          Navigator.pop(context);
+                          Navigator.pop(context,1);
                         }
                       },
                       child: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/model/get_orangtua_detail_response.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -8,6 +9,7 @@ import 'package:puspadaya/utils/helper/helper_core.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../view/widget/info_field_widget.dart';
+import '../bloc/detail_register_orang_tua_bloc.dart';
 
 class DetailDataAyah extends StatelessWidget {
   final GetOrangtuaDetailResponseModel getOrangtuaDetailResponse;
@@ -260,7 +262,13 @@ class DetailDataAyah extends StatelessWidget {
               mainButtonMessage: 'Perbarui',
               mainButton: () {
                 Navigator.pushNamed(context, UPDATE_REGISTER_ORANG_TUA,
-                    arguments: getOrangtuaDetailResponse.data.ayah.id);
+                    arguments: getOrangtuaDetailResponse.data.ayah.id).then(
+                      (value) {
+                        if(value != null) {
+                          context.read<DetailRegisterOrangTuaBloc>().add(FeathingDetailRegisterOrangTua(ayahId: getOrangtuaDetailResponse.data.ayah.id));
+                        }
+                      }
+                    );
               },
             ),
           ],
