@@ -70,8 +70,7 @@ class _PengukuranViewState extends State<PengukuranView> {
               onPressed: () async {
                 switch (selectedMenu) {
                   case 'Kehadiran':
-                    final isTrue =
-                        await Navigator.pushNamed(context, CREATE_KEHADIRAN);
+                    final isTrue = await Navigator.pushNamed(context, CREATE_KEHADIRAN);
                     logger.d('is true form create kehadiran $isTrue');
                     if (isTrue == true) {
                       setState(() {
@@ -80,13 +79,37 @@ class _PengukuranViewState extends State<PengukuranView> {
                     }
                     break;
                   case 'Pengukuran Anak':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK).then(
+                      (value) {
+                        if (value != null) {
+                          setState(() {
+                            
+                          });
+                        }
+                      }
+                    );
                     break;
                   case 'Pengukuran Ibu Hamil':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL);
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL).then(
+                      (value) {
+                        if (value != null) {
+                          setState(() {
+                            
+                          });
+                        }
+                      }
+                    );
                     break;
                   case 'Pengukuran Tamu':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
+                    Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU).then(
+                      (value) {
+                        if (value != null) {
+                          setState(() {
+                            
+                          });
+                        }
+                      }
+                    );
                     break;
 
                   default:
@@ -128,11 +151,17 @@ class _PengukuranViewState extends State<PengukuranView> {
           isTrue: isTrueKehadiran,
         );
       case 'Pengukuran Anak':
-        return const IndexPengukuranAnakScreen();
+        return IndexPengukuranAnakScreen(
+          key: UniqueKey()
+        );
       case 'Pengukuran Ibu Hamil':
-        return const IndexPengukuranIbuHamilScreen();
+        return IndexPengukuranIbuHamilScreen(
+          key: UniqueKey()
+        );
       case 'Pengukuran Tamu':
-        return const IndexPengukuranTamuScreen();
+        return IndexPengukuranTamuScreen(
+          key: UniqueKey()
+        );
       case 'Riwayat Anak':
         return const IndexRiwayatAnakScreen();
       case 'Riwayat Ibu Hamil':
