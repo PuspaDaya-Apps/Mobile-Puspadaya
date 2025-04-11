@@ -44,6 +44,7 @@ class AnakByPosyanduBloc
             nik: data.nik,
             bulan: usia.bulan,
             year: usia.tahun,
+            updatedAtAnak: data.updatedAt
           );
         }).toList();
         emit(
