@@ -139,6 +139,7 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                               nik: orangTua.nik,
                               bulan: orangTua.usiaKehamilan,
                               isUpdate: orangTua.updatedAt != null ? true : null,
+                              inRegister: true,
                             ),
                           );
                         },

@@ -135,6 +135,7 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                               tahun: anak.year,
                               bulan: anak.bulan,
                               isUpdate: anak.updatedAtAnak != null ? true : null,
+                              inRegister: true,
                             ),
                           );
                         },
