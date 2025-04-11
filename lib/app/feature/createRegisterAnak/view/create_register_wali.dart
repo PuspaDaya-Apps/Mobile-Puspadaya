@@ -357,7 +357,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   child: TextFieldWidget(
                                     controller: _nikController,
                                     hintText: 'NIK',
-                                    keyboardType: TextInputType.text,
+                                    keyboardType: TextInputType.number,
                                     obscureText: false,
                                     isPasswordField: false,
                                     validators: [

@@ -55,10 +55,6 @@ FaktorResiko _$FaktorResikoFromJson(Map<String, dynamic> json) => FaktorResiko(
       gambar: json['gambar'] as String,
       detail: json['detail'] as String?,
       periodeBulan: (json['periode_bulan'] as num?)?.toInt(),
-      gangguanTumbuhKembang: json['gangguan_tumbuh_kembang'] == null
-          ? null
-          : GangguanTumbuhKembang.fromJson(
-              json['gangguan_tumbuh_kembang'] as Map<String, dynamic>),
       lastCompleted: json['last_completed'] == null
           ? null
           : DateTime.parse(json['last_completed'] as String),
@@ -75,25 +71,8 @@ Map<String, dynamic> _$FaktorResikoToJson(FaktorResiko instance) =>
       'gambar': instance.gambar,
       'detail': instance.detail,
       'periode_bulan': instance.periodeBulan,
-      'gangguan_tumbuh_kembang': instance.gangguanTumbuhKembang,
       'last_completed': instance.lastCompleted?.toIso8601String(),
       'pertanyaan': instance.pertanyaan,
-    };
-
-GangguanTumbuhKembang _$GangguanTumbuhKembangFromJson(
-        Map<String, dynamic> json) =>
-    GangguanTumbuhKembang(
-      statusStunting: json['statusStunting'] as String,
-      statusWasting: json['statusWasting'] as String,
-      statusUnderweight: json['statusUnderweight'] as String,
-    );
-
-Map<String, dynamic> _$GangguanTumbuhKembangToJson(
-        GangguanTumbuhKembang instance) =>
-    <String, dynamic>{
-      'statusStunting': instance.statusStunting,
-      'statusWasting': instance.statusWasting,
-      'statusUnderweight': instance.statusUnderweight,
     };
 
 Pertanyaan _$PertanyaanFromJson(Map<String, dynamic> json) => Pertanyaan(
@@ -101,6 +80,7 @@ Pertanyaan _$PertanyaanFromJson(Map<String, dynamic> json) => Pertanyaan(
       namaPertanyaan: json['nama_pertanyaan'] as String,
       selectType: json['select_type'] as String,
       tipePilihan: json['tipe_pilihan'] as String,
+      image: json['image'] as String?,
       jawaban: (json['jawaban'] as List<dynamic>)
           .map((e) => Jawaban.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -115,6 +95,7 @@ Map<String, dynamic> _$PertanyaanToJson(Pertanyaan instance) =>
       'nama_pertanyaan': instance.namaPertanyaan,
       'select_type': instance.selectType,
       'tipe_pilihan': instance.tipePilihan,
+      'image': instance.image,
       'jawaban': instance.jawaban,
       'pilihan_pertanyaan': instance.pilihanPertanyaan,
     };
