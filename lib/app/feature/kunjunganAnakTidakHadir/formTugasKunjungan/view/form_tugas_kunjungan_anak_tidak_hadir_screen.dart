@@ -620,6 +620,7 @@ class _UploadImageState extends State<UploadImage> {
                           ..pop()
                           ..pop()
                           ..pop(1);
+                          Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN);
                         },
                         selesai: () {
                           Navigator.of(context)

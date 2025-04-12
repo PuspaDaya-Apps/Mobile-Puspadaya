@@ -10,6 +10,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../route/route_name.dart';
 import '../../../../../utils/constant/constanst.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
@@ -688,6 +689,7 @@ class _UploadImageState extends State<UploadImage> {
                             ..pop()
                             ..pop()
                             ..pop(1);
+                            Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN);
                         },
                         selesai: () {
                           Navigator.of(context)
