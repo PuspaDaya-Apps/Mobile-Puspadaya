@@ -23,12 +23,6 @@ class GetDetailIbuHamilModel {
 class Data {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "usia_kehamilan")
   final int usiaKehamilan;
   @JsonKey(name: "berat_badan")
@@ -68,9 +62,6 @@ class Data {
 
   Data({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.usiaKehamilan,
     required this.beratBadan,
     required this.tinggiBadan,
@@ -118,12 +109,6 @@ class IbuAnak {
   final String usia;
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nik")
   final String nik;
   @JsonKey(name: "nama_ibu")
@@ -162,9 +147,6 @@ class IbuAnak {
   IbuAnak({
     required this.usia,
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.nik,
     required this.namaIbu,
     required this.tempatLahir,
@@ -194,12 +176,6 @@ class IbuAnak {
 class Ayah {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nik")
   final String nik;
   @JsonKey(name: "nama_ayah")
@@ -227,9 +203,6 @@ class Ayah {
 
   Ayah({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.nik,
     required this.namaAyah,
     required this.tempatLahir,
@@ -253,12 +226,6 @@ class Ayah {
 class Posyandu {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_posyandu")
   final String namaPosyandu;
   @JsonKey(name: "alamat")
@@ -266,9 +233,6 @@ class Posyandu {
 
   Posyandu({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaPosyandu,
     required this.alamat,
   });
@@ -283,12 +247,6 @@ class Posyandu {
 class Dusun {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_dusun")
   final String namaDusun;
   @JsonKey(name: "desa_kelurahan")
@@ -296,9 +254,6 @@ class Dusun {
 
   Dusun({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaDusun,
     required this.desaKelurahan,
   });
@@ -312,12 +267,6 @@ class Dusun {
 class DesaKelurahan {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_desa_kelurahan")
   final String namaDesaKelurahan;
   @JsonKey(name: "kecamatan")
@@ -325,9 +274,6 @@ class DesaKelurahan {
 
   DesaKelurahan({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaDesaKelurahan,
     required this.kecamatan,
   });
@@ -342,12 +288,6 @@ class DesaKelurahan {
 class Kecamatan {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_kecamatan")
   final String namaKecamatan;
   @JsonKey(name: "kode_kecamatan")
@@ -357,9 +297,6 @@ class Kecamatan {
 
   Kecamatan({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaKecamatan,
     required this.kodeKecamatan,
     required this.kabupatenKota,
@@ -375,12 +312,6 @@ class Kecamatan {
 class KabupatenKota {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_kabupaten_kota")
   final String namaKabupatenKota;
   @JsonKey(name: "kode_kabupaten_kota")
@@ -390,9 +321,6 @@ class KabupatenKota {
 
   KabupatenKota({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaKabupatenKota,
     required this.kodeKabupatenKota,
     required this.provinsi,
@@ -408,12 +336,6 @@ class KabupatenKota {
 class Provinsi {
   @JsonKey(name: "id")
   final String id;
-  @JsonKey(name: "created_at")
-  final DateTime createdAt;
-  @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
-  @JsonKey(name: "deleted_at")
-  final dynamic deletedAt;
   @JsonKey(name: "nama_provinsi")
   final String namaProvinsi;
   @JsonKey(name: "kode_provinsi")
@@ -421,9 +343,6 @@ class Provinsi {
 
   Provinsi({
     required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
     required this.namaProvinsi,
     required this.kodeProvinsi,
   });
@@ -452,9 +371,6 @@ Map<String, dynamic> _$GetDetailIbuHamilModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
@@ -482,9 +398,6 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'usia_kehamilan': instance.usiaKehamilan,
       'berat_badan': instance.beratBadan,
       'tinggi_badan': instance.tinggiBadan,
@@ -517,9 +430,6 @@ Map<String, dynamic> _$AlatUkurToJson(AlatUkur instance) => <String, dynamic>{
 IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
       usia: json['usia'] as String,
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       nik: json['nik'] as String,
       namaIbu: json['nama_ibu'] as String,
       tempatLahir: json['tempat_lahir'] as String,
@@ -541,9 +451,6 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
 Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'usia': instance.usia,
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nik': instance.nik,
       'nama_ibu': instance.namaIbu,
       'tempat_lahir': instance.tempatLahir,
@@ -564,9 +471,6 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       nik: json['nik'] as String,
       namaAyah: json['nama_ayah'] as String,
       tempatLahir: json['tempat_lahir'] as String,
@@ -583,9 +487,6 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
 
 Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nik': instance.nik,
       'nama_ayah': instance.namaAyah,
       'tempat_lahir': instance.tempatLahir,
@@ -602,27 +503,18 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaPosyandu: json['nama_posyandu'] as String,
       alamat: json['alamat'],
     );
 
 Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_posyandu': instance.namaPosyandu,
       'alamat': instance.alamat,
     };
 
 Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaDusun: json['nama_dusun'] as String,
       desaKelurahan: DesaKelurahan.fromJson(
           json['desa_kelurahan'] as Map<String, dynamic>),
@@ -630,9 +522,6 @@ Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
 
 Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_dusun': instance.namaDusun,
       'desa_kelurahan': instance.desaKelurahan,
     };
@@ -640,9 +529,6 @@ Map<String, dynamic> _$DusunToJson(Dusun instance) => <String, dynamic>{
 DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
     DesaKelurahan(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaDesaKelurahan: json['nama_desa_kelurahan'] as String,
       kecamatan: Kecamatan.fromJson(json['kecamatan'] as Map<String, dynamic>),
     );
@@ -650,18 +536,12 @@ DesaKelurahan _$DesaKelurahanFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DesaKelurahanToJson(DesaKelurahan instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_desa_kelurahan': instance.namaDesaKelurahan,
       'kecamatan': instance.kecamatan,
     };
 
 Kecamatan _$KecamatanFromJson(Map<String, dynamic> json) => Kecamatan(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaKecamatan: json['nama_kecamatan'] as String,
       kodeKecamatan: json['kode_kecamatan'] as String,
       kabupatenKota: KabupatenKota.fromJson(
@@ -670,9 +550,6 @@ Kecamatan _$KecamatanFromJson(Map<String, dynamic> json) => Kecamatan(
 
 Map<String, dynamic> _$KecamatanToJson(Kecamatan instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_kecamatan': instance.namaKecamatan,
       'kode_kecamatan': instance.kodeKecamatan,
       'kabupaten_kota': instance.kabupatenKota,
@@ -681,9 +558,6 @@ Map<String, dynamic> _$KecamatanToJson(Kecamatan instance) => <String, dynamic>{
 KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
     KabupatenKota(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaKabupatenKota: json['nama_kabupaten_kota'] as String,
       kodeKabupatenKota: json['kode_kabupaten_kota'] as String,
       provinsi: Provinsi.fromJson(json['provinsi'] as Map<String, dynamic>),
@@ -692,9 +566,6 @@ KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_kabupaten_kota': instance.namaKabupatenKota,
       'kode_kabupaten_kota': instance.kodeKabupatenKota,
       'provinsi': instance.provinsi,
@@ -702,18 +573,12 @@ Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
 
 Provinsi _$ProvinsiFromJson(Map<String, dynamic> json) => Provinsi(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
       namaProvinsi: json['nama_provinsi'] as String,
       kodeProvinsi: json['kode_provinsi'] as String,
     );
 
 Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
       'nama_provinsi': instance.namaProvinsi,
       'kode_provinsi': instance.kodeProvinsi,
     };
