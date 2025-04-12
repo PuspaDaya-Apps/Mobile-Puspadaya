@@ -94,7 +94,7 @@ dev_dependencies:
 flutter_native_splash: null
 
 icons_launcher:
-  image_path: "assets/logo/logo_big_frame.png"
+  image_path: "assets/logo/logo_big_frame_staging.png"
   platforms:
     android:
       enable: true
