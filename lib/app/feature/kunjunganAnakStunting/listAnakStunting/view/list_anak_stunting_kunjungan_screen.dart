@@ -152,14 +152,13 @@ class _ListAnakStuntingKunjunganViewState
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListAnakStuntingKunjunganBloc,
-                    ListAnakStuntingKunjunganState>(
+                child: BlocConsumer<ListAnakStuntingKunjunganBloc, ListAnakStuntingKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is ListAnakStuntingKunjunganProccessState) {
-                      SizedBox(
+                      return SizedBox(
                         width: MediaQuery.sizeOf(context).width,
                         height: MediaQuery.sizeOf(context).height / 1.15,
                         child: Center(
