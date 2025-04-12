@@ -24,17 +24,17 @@ class CreateKehadiranAnakBloc
       emit(TokenExpiredState());
     } else {
       try {
-        int? totalAnak = await CreateKehadiranService()
-            .getTotalItemAnakPosyandu(accessToken);
-        logger.d('total anak : $totalAnak');
+        // int? totalAnak = await CreateKehadiranService()
+        //     .getTotalItemAnakPosyandu(accessToken);
+        // logger.d('total anak : $totalAnak');
 
-        if (totalAnak == 0) {
-          emit(CreateKehadiranFormAnakEmpty());
-          return;
-        }
+        // if (totalAnak == 0) {
+        //   emit(CreateKehadiranFormAnakEmpty());
+        //   return;
+        // }
 
         dynamic responseAnak = await CreateKehadiranService()
-            .getAllAnakByPosyandu(accessToken, totalAnak!);
+            .getAllAnakByPosyandu(accessToken, 5000);
         int statusCodeAnak = responseAnak[0] as int;
         // anak by posyandu
         GetAllAnakByPosyandu dataAnak =

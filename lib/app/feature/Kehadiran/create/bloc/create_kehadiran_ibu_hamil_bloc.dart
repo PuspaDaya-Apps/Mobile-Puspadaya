@@ -25,16 +25,16 @@ class CreateKehadiranIbuHamilBloc
       emit(TokenExpiredState());
     } else {
       try {
-        int? totalIbuHamil = await CreateKehadiranService()
-            .getTotalItemIbuHamilPosyandu(accessToken);
-        logger.d('total ibu hamil : $totalIbuHamil');
-        if (totalIbuHamil == 0) {
-          emit(CreateKehadiranFormIbuHamilEmpty());
-          return;
-        }
+        // int? totalIbuHamil = await CreateKehadiranService()
+        //     .getTotalItemIbuHamilPosyandu(accessToken);
+        // logger.d('total ibu hamil : $totalIbuHamil');
+        // if (totalIbuHamil == 0) {
+        //   emit(CreateKehadiranFormIbuHamilEmpty());
+        //   return;
+        // }
 
         dynamic responseIbuHamil = await CreateKehadiranService()
-            .getAllIbuHamilByPosyandu(accessToken, totalIbuHamil!);
+            .getAllIbuHamilByPosyandu(accessToken, 5000);
         int statusCodeIbuHamil = responseIbuHamil[0] as int;
 
         logger.d("succes get anak by posyandu");

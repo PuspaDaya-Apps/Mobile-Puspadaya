@@ -35,7 +35,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
       hemoglobin: json['hemoglobin'] as String?,
-      jumlahTabletFe: (json['jumlah_tablet_fe'] as num?)?.toInt(),
+      namaBpjs: json['nama_bpjs'] as String?,
+      jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       tanggalPertamaHaid:
           DateTime.parse(json['tanggal_pertama_haid'] as String),
       tanggalTerakhirHaid:
@@ -59,6 +60,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'berat_badan': instance.beratBadan,
       'tinggi_badan': instance.tinggiBadan,
       'hemoglobin': instance.hemoglobin,
+      'nama_bpjs': instance.namaBpjs,
       'jumlah_tablet_fe': instance.jumlahTabletFe,
       'tanggal_pertama_haid': instance.tanggalPertamaHaid.toIso8601String(),
       'tanggal_terakhir_haid': instance.tanggalTerakhirHaid.toIso8601String(),
@@ -71,14 +73,14 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
     };
 
 IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
-      rt: json['rt'] as String,
-      rw: json['rw'] as String,
-      alamat: json['alamat'] as String,
       id: json['id'] as String,
       nik: json['nik'] as String,
       nama: json['nama'] as String,
       tempatLahir: json['tempat_lahir'] as String,
       tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String),
+      rt: json['rt'] as String,
+      rw: json['rw'] as String,
+      alamat: json['alamat'] as String,
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
       ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
       kartuKeluarga: KartuKeluarga.fromJson(
@@ -91,12 +93,12 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'nama': instance.nama,
       'tempat_lahir': instance.tempatLahir,
       'tanggal_lahir': instance.tanggalLahir.toIso8601String(),
-      'dusun': instance.dusun,
-      'ayah': instance.ayah,
-      'kartu_keluarga': instance.kartuKeluarga,
       'rt': instance.rt,
       'rw': instance.rw,
       'alamat': instance.alamat,
+      'dusun': instance.dusun,
+      'ayah': instance.ayah,
+      'kartu_keluarga': instance.kartuKeluarga,
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
@@ -153,7 +155,7 @@ KabupatenKota _$KabupatenKotaFromJson(Map<String, dynamic> json) =>
     KabupatenKota(
       id: json['id'] as String,
       nama: json['nama'] as String,
-      provinsi: Provinsi.fromJson(json['provinsi'] as Map<String, dynamic>),
+      provinsi: Ayah.fromJson(json['provinsi'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KabupatenKotaToJson(KabupatenKota instance) =>
@@ -175,16 +177,6 @@ Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
       'nomor_kk': instance.nomorKk,
     };
 
-Provinsi _$ProvinsiFromJson(Map<String, dynamic> json) => Provinsi(
-      id: json['id'] as String,
-      nama: json['nama'] as String,
-    );
-
-Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama': instance.nama,
-    };
-
 PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
     PengukuranIbuHamil(
       id: json['id'] as String,
@@ -203,14 +195,13 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
-      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String,
+      tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
       hemoglobin: json['hemoglobin'] as String?,
-      namaBpjs: json['nama_bpjs'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
-      catatan: json['catatan'] as String?,
-      kader: Kader.fromJson(json['kader'] as Map<String, dynamic>),
+      catatan: json['catatan'],
+      kader: Ayah.fromJson(json['kader'] as Map<String, dynamic>),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
     );
 
@@ -229,22 +220,11 @@ Map<String, dynamic> _$PengukuranIbuHamilToJson(PengukuranIbuHamil instance) =>
       'tinggi_fundus_uteri': instance.tinggiFundusUteri,
       'lingkar_lengan_atas': instance.lingkarLenganAtas,
       'hemoglobin': instance.hemoglobin,
-      'nama_bpjs': instance.namaBpjs,
       'terpapar_asap_rokok': instance.terpaparAsapRokok,
       'jumlah_tablet_fe': instance.jumlahTabletFe,
       'catatan': instance.catatan,
       'kader': instance.kader,
       'posyandu': instance.posyandu,
-    };
-
-Kader _$KaderFromJson(Map<String, dynamic> json) => Kader(
-      id: json['id'] as String,
-      nama: json['nama'] as String,
-    );
-
-Map<String, dynamic> _$KaderToJson(Kader instance) => <String, dynamic>{
-      'id': instance.id,
-      'nama': instance.nama,
     };
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(

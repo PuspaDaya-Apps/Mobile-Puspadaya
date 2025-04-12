@@ -11,13 +11,13 @@ import '../../../../../utils/network_utils/network_utils.dart';
 class CreateKehadiranService {
   Future<dynamic> getAllAnakByPosyandu(String token, int limit) async {
     final String link = ApiUtils().urlGetAnakPosyandu(limit: limit);
-    final Map<String, dynamic> parameterQuery = {
-      'limit': 5000
-    };
+    // final Map<String, dynamic> parameterQuery = {
+    //   'limit': 5000
+    // };
     logger.d('uri $link}');
 
     return await NetworkUtils(token: token)
-        .get(link, parameterQuery)
+        .get(link, {})
         .then((response) {
       logger.d(response.toString());
       return response;
@@ -26,15 +26,15 @@ class CreateKehadiranService {
 
   Future<int?> getTotalItemAnakPosyandu(String token) async {
     final String link = ApiUtils().urlGetAnakPosyandu();
-    final Map<String, dynamic> parameterQuery = {
-      'limit': 5000
-    };
+    // final Map<String, dynamic> parameterQuery = {
+    //   'limit': 5000
+    // };
 
     logger.d('URI: $link');
 
     try {
       final response =
-          await NetworkUtils(token: token).get(link, parameterQuery);
+          await NetworkUtils(token: token).get(link, {});
       logger.d('Response: $response');
 
       // Parsing response ke model
@@ -54,13 +54,13 @@ class CreateKehadiranService {
 
   Future<dynamic> getAllIbuHamilByPosyandu(String token, int limit) async {
     final String link = ApiUtils().urlGetListIbuHamil(limit: limit);
-    final Map<String, dynamic> parameterQuery = {
-      'limit': 5000
-    };
+    // final Map<String, dynamic> parameterQuery = {
+    //   'limit': 5000
+    // };
     logger.d('uri $link}');
 
     return await NetworkUtils(token: token)
-        .get(link, parameterQuery)
+        .get(link, {})
         .then((response) {
       logger.d(response.toString());
       return response;
@@ -69,15 +69,15 @@ class CreateKehadiranService {
 
   Future<int?> getTotalItemIbuHamilPosyandu(String token) async {
     final String link = ApiUtils().urlGetListIbuHamil();
-    final Map<String, dynamic> parameterQuery = {
-      'limit': 5000
-    };
+    // final Map<String, dynamic> parameterQuery = {
+    //   'limit': 5000
+    // };
 
     logger.d('URI: $link');
 
     try {
       final response =
-          await NetworkUtils(token: token).get(link, parameterQuery);
+          await NetworkUtils(token: token).get(link, {});
       logger.d('Response: $response');
 
       // Parsing response ke model

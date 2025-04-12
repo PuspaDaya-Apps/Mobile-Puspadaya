@@ -3,6 +3,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
+import 'package:puspadaya/app/feature/RiwayatIbuHamil/detail/model/get_detail_riwayat_pengukuran_ibu_hamil_model.dart'
+    as GetDetailRiwayatPengukuranIbuHamilModel;
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
@@ -325,7 +328,11 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                         ),
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      DataTableRiwayatIbuHamil()
+                      DataTableRiwayatIbuHamil(
+                        tanggalTerakhirHaid:
+                            state.data.data.tanggalTerakhirHaid,
+                        data: state.data.data.pengukuranIbuHamil,
+                      )
                     ],
                   ),
                 ),
@@ -340,7 +347,18 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
 }
 
 class DataTableRiwayatIbuHamil extends StatelessWidget {
-  const DataTableRiwayatIbuHamil({super.key});
+  final DateTime tanggalTerakhirHaid;
+  final List<GetDetailRiwayatPengukuranIbuHamilModel.PengukuranIbuHamil> data;
+  const DataTableRiwayatIbuHamil(
+      {required this.tanggalTerakhirHaid, required this.data, super.key});
+  String hitungUsiaKehamilan(DateTime tanggalPengukuran) {
+    final selisihHari =
+        tanggalPengukuran.difference(tanggalTerakhirHaid).inDays;
+    final usiaMinggu = selisihHari ~/ 7;
+    final bulan = usiaMinggu ~/ 4;
+    final minggu = usiaMinggu % 4;
+    return "$bulan bulan $minggu minggu";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -443,80 +461,47 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
         ],
-        rows: [
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('1'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-01-15'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('5 bulan'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('170'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('65'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('35'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('20'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('12'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Azalea Melani'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-01-10'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('4 bulan 1 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('168'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('63'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('34'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('19'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('13'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Anastasia Mandasari'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('3'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2024-01-05'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('4 bulan'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('165'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('61'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('33'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('18'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('11'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Ellis Purnawati'))),
-          ]),
-          DataRow(cells: [
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('4'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('2023-12-30'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text('3 bulan 3 minggu'))),
-            DataCell(
-                Align(alignment: Alignment.centerLeft, child: Text('162'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('59'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('32'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('17'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('10'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('Ya'))),
-            DataCell(Align(alignment: Alignment.centerLeft, child: Text('2'))),
-            DataCell(Align(
-                alignment: Alignment.centerLeft, child: Text('Cici Wahyuni '))),
-          ]),
-        ],
+        rows: List.generate(
+          data.length,
+          (index) {
+            final e = data[index];
+            return DataRow(cells: [
+              DataCell(
+                  Align(alignment: Alignment.centerLeft, child: Text('2'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.tanggalPengukuran != null
+                      ? DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)
+                      : '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(hitungUsiaKehamilan(e.tanggalPengukuran)))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft, child: Text(e.tinggiBadan))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft, child: Text(e.beratBadan))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.lingkarLenganAtas))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.tinggiFundusUteri ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.hemoglobin ?? '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.terpaparAsapRokok))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(e.jumlahTabletFe > 0
+                      ? e.jumlahTabletFe.toString()
+                      : '-'))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft, child: Text(e.kader.namaLengkap))),
+            ]);
+          },
+        ),
       ),
     );
   }
