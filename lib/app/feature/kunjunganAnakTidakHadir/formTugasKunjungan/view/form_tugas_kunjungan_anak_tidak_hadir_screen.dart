@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -177,7 +178,12 @@ class _FormTugasKunjunganAnakTidakHadirViewState extends State<FormTugasKunjunga
                       height: MediaQuery.sizeOf(context).height,
                       width: MediaQuery.sizeOf(context).width,
                       alignment: Alignment.center,
-                      child: const NoDataScreen()
+                      child:Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
                     );
                   }
                   if(state is TugasKunjunganAnakTidakHadirSuccessState) {
