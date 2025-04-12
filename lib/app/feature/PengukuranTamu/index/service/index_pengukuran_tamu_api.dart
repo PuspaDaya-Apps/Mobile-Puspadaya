@@ -7,7 +7,9 @@ import '../../../../../utils/network_utils/network_utils.dart';
 class IndexPengukuranTamuApi {
   Future<List<dynamic>> getpengukuranTamuService (String token) async {
     final String link = ApiUtils().urlGetListPengukuranTamu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     logger.i(link);
 

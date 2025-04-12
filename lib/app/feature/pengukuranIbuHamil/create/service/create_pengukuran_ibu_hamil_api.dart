@@ -19,7 +19,9 @@ class CreatePengukuranIbuHamilApi {
 
   Future<List<dynamic>> getIbuHamilService (String token) async {
     final String link = ApiUtils().urlGetListIbuHamil();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());

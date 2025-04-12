@@ -6,7 +6,9 @@ import '../model/get_all_posyandu_model.dart';
 class PosyanduService {
   Future<dynamic> getAllPosyandu(String token) async {
     final String link = ApiUtils().urlGetPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
     logger.d('uri $link}');
 
     return await NetworkUtils(token: token)
@@ -19,7 +21,9 @@ class PosyanduService {
 
   Future<int?> getTotalItemPosyandu(String token) async {
     final String link = ApiUtils().urlGetAnakPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     logger.d('URI: $link');
 

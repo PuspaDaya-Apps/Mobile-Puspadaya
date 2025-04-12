@@ -9,7 +9,9 @@ import '../model/create_kunjungan_ibu_hamil_model.dart';
 class ListIbuHamilKunjunganApi {
   Future<List<dynamic>> getIbuHamil (String token) async {
     final String link = ApiUtils().urlGetDataIbuHamilKunjungan();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());

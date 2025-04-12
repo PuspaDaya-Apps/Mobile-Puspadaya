@@ -9,7 +9,9 @@ import '../model/create_kunjungan_anak_tidak_hadir_model.dart';
 class ListAnakTidakHadirKunjunganApi {
   Future<List<dynamic>> getAnakTidakHadir (String token) async {
     final String link = ApiUtils().urlGetDataAnakTidakHadirKunjungan();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());

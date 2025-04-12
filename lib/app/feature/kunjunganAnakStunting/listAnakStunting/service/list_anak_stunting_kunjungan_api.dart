@@ -9,7 +9,9 @@ import '../model/create_kunjungan_anak_stunting_model.dart';
 class ListAnakStuntingKunjunganApi {
   Future<List<dynamic>> getAnakStunting (String token) async {
     final String link = ApiUtils().urlGetDataAnakStuntingKunjungan();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());

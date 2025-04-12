@@ -5,7 +5,9 @@ import '../../../../utils/network_utils/network_utils.dart';
 class RegisterAnakApi {
   Future<List<dynamic>> getAnakByPosyandu(String token) async {
     final String url = ApiUtils().urlGetAnakPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     try {
       final response = await NetworkUtils(token: token).get(url, parameterQuery);

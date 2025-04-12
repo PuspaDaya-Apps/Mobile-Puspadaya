@@ -19,7 +19,9 @@ class CreatePengukuranTamuApi {
 
   Future<List<dynamic>> getPosyanduService (String token) async {
     final String link = ApiUtils().urlGetListPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
@@ -29,7 +31,9 @@ class CreatePengukuranTamuApi {
 
   Future<List<dynamic>> getTamuService (String token, String idPosyandu) async {
     final String link = ApiUtils().urlGetListAnakTamuByPosyandu(id: idPosyandu);
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());
