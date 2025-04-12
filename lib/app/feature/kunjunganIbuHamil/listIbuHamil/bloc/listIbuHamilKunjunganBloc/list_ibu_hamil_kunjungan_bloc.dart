@@ -9,7 +9,7 @@ part 'list_ibu_hamil_kunjungan_event.dart';
 part 'list_ibu_hamil_kunjungan_state.dart';
 
 class ListIbuHamilKunjunganBloc extends Bloc<ListIbuHamilKunjunganEvent, ListIbuHamilKunjunganState> {
-  ListIbuHamilKunjunganBloc() : super(ListIbuHamilKunjunganInitial()) {
+  ListIbuHamilKunjunganBloc() : super(ListIbuHamilKunjunganProccessState()) {
     on<ListIbuHamilKunjunganEvent>((event, emit) {});
 
     on<GetDataIbuHamil>(getDataIbuHamil);

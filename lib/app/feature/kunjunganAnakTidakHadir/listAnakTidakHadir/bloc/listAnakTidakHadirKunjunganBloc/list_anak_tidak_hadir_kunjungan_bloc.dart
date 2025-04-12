@@ -9,7 +9,7 @@ part 'list_anak_tidak_hadir_kunjungan_event.dart';
 part 'list_anak_tidak_hadir_kunjungan_state.dart';
 
 class ListAnakTidakHadirKunjunganBloc extends Bloc<ListAnakTidakHadirKunjunganEvent, ListAnakTidakHadirKunjunganState> {
-  ListAnakTidakHadirKunjunganBloc() : super(ListAnakTidakHadirKunjunganInitial()) {
+  ListAnakTidakHadirKunjunganBloc() : super(ListAnakTidakHadirKunjunganProccessState()) {
     on<ListAnakTidakHadirKunjunganEvent>((event, emit) {});
 
     on<GetDataAnakTidakHadir>(getDataAnakTidakHadir);

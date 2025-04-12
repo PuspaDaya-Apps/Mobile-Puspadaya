@@ -9,7 +9,7 @@ part 'list_anak_stunting_kunjungan_event.dart';
 part 'list_anak_stunting_kunjungan_state.dart';
 
 class ListAnakStuntingKunjunganBloc extends Bloc<ListAnakStuntingKunjunganEvent, ListAnakStuntingKunjunganState> {
-  ListAnakStuntingKunjunganBloc() : super(ListAnakStuntingKunjunganInitial()) {
+  ListAnakStuntingKunjunganBloc() : super(ListAnakStuntingKunjunganProccessState()) {
     on<ListAnakStuntingKunjunganEvent>((event, emit) {});
 
     on<GetDataAnakStunting>(getDataAnakStunting);
