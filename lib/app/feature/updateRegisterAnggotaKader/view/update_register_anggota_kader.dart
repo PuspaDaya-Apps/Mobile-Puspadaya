@@ -201,8 +201,7 @@ class _UpdateRegisterAnggotaKaderViewState
                         keyboardType: TextInputType.text,
                         obscureText: false,
                         validators: [
-                          (value) => Validator.required(
-                              value),
+                          (value) => Validator.required(value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -218,8 +217,11 @@ class _UpdateRegisterAnggotaKaderViewState
                         keyboardType: TextInputType.phone,
                         obscureText: false,
                         validators: [
-                          (value) => Validator.required(
-                              value),
+                          (value) => Validator.minLength(
+                              value, 10, "Masukkan nomor yang benar!"),
+                          (value) => Validator.maxLength(
+                              value, 13, "Masukkan nomor yang benar!"),
+                          (value) => Validator.required(value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -648,8 +650,7 @@ class _UpdateRegisterAnggotaKaderViewState
                         obscureText: false,
                         isPasswordField: false,
                         validators: [
-                          (value) => Validator.required(
-                              value),
+                          (value) => Validator.required(value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),

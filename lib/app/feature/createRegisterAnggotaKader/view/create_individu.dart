@@ -20,7 +20,7 @@ class CreateIndividu extends StatefulWidget {
       required this.dataWilayahModel,
       required this.currentUserModel});
 
-    final DataWilayahModel dataWilayahModel;
+  final DataWilayahModel dataWilayahModel;
 
   final CurrentUserModel currentUserModel;
 
@@ -68,7 +68,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
     setState(() {
       _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   void initState() {
@@ -97,8 +97,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 keyboardType: TextInputType.text,
                 obscureText: false,
                 validators: [
-                  (value) => Validator.required(
-                      value),
+                  (value) => Validator.required(value),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -115,11 +114,10 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 obscureText: false,
                 validators: [
                   (value) => Validator.minLength(
-                      value,11, "Nomor Telepon tidak boleh lebih dari 11 Digit"),
+                      value, 10, "Masukkan nomor yang benar!"),
                   (value) => Validator.maxLength(
-                      value, 13, "Nomor Telepon tidak boleh kurang dari 13 Digit"),
-                  (value) => Validator.required(
-                      value),
+                      value, 13, "Masukkan nomor yang benar!"),
+                  (value) => Validator.required(value),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -206,11 +204,13 @@ class _CreateIndividuState extends State<CreateIndividu> {
                         onSaved: (value) {},
                         validator: null,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
                           hintText: "Kabupaten",
-                          hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                color: Colors.grey,
-                              ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
                           filled: true,
                           fillColor: backgroundWhite10,
                           border: OutlineInputBorder(
@@ -219,16 +219,20 @@ class _CreateIndividuState extends State<CreateIndividu> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                            borderSide: const BorderSide(
+                                width: 1, color: redPrimaryMain),
                           ),
                         ),
                       ),
@@ -286,11 +290,13 @@ class _CreateIndividuState extends State<CreateIndividu> {
                         onSaved: (value) {},
                         validator: null,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
                           hintText: "Kecamatan",
-                          hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Colors.grey,
-                            ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
                           filled: true,
                           fillColor: backgroundWhite10,
                           border: OutlineInputBorder(
@@ -299,16 +305,20 @@ class _CreateIndividuState extends State<CreateIndividu> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                            borderSide: const BorderSide(
+                                width: 1, color: redPrimaryMain),
                           ),
                         ),
                       ),
@@ -370,11 +380,13 @@ class _CreateIndividuState extends State<CreateIndividu> {
                         onSaved: (value) {},
                         validator: null,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
                           hintText: "Desa",
-                          hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Colors.grey,
-                            ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
                           filled: true,
                           fillColor: backgroundWhite10,
                           border: OutlineInputBorder(
@@ -383,16 +395,20 @@ class _CreateIndividuState extends State<CreateIndividu> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                            borderSide: const BorderSide(
+                                width: 1, color: redPrimaryMain),
                           ),
                         ),
                       ),
@@ -441,11 +457,13 @@ class _CreateIndividuState extends State<CreateIndividu> {
                         onSaved: (value) {},
                         validator: null,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 12),
                           hintText: "Dusun",
-                          hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Colors.grey,
-                            ),
+                          hintStyle:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
                           filled: true,
                           fillColor: backgroundWhite10,
                           border: OutlineInputBorder(
@@ -454,16 +472,20 @@ class _CreateIndividuState extends State<CreateIndividu> {
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10)),
+                            borderSide:
+                                const BorderSide(width: 1, color: Colors.grey),
                           ),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                            borderSide: const BorderSide(
+                                width: 1, color: redPrimaryMain),
                           ),
                         ),
                       ),
@@ -485,8 +507,9 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       keyboardType: TextInputType.number,
                       obscureText: false,
                       validators: [
-                        (value) =>
-                            Validator.required(value,),
+                        (value) => Validator.required(
+                              value,
+                            ),
                       ],
                     ),
                   ),
@@ -498,8 +521,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       keyboardType: TextInputType.number,
                       obscureText: false,
                       validators: [
-                        (value) =>
-                            Validator.required(value),
+                        (value) => Validator.required(value),
                       ],
                     ),
                   ),
@@ -513,8 +535,9 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 obscureText: false,
                 isPasswordField: false,
                 validators: [
-                  (value) =>
-                      Validator.required(value, ),
+                  (value) => Validator.required(
+                        value,
+                      ),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -532,16 +555,16 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       mainButton: () {
                         if (formkey.currentState!.validate()) {
                           BlocProvider.of<CreateAnggotaKaderBloc>(context).add(
-                            CreateAnggotaKader(CreateAnggotaKaderModel(
-                              namaLengkap: _namaController.text,
-                              nomorTelepon: _nomorTeleponController.text,
-                              tanggalLahir: _tanggalLahirController.text,
-                              rt: _rTController.text,
-                              rw: _rWController.text,
-                              alamatLengkap: _alamatController.text,
-                              dusunId: selectedDusun!.id,
-                              posyanduId:
-                                  widget.currentUserModel.posyandu.id)));
+                              CreateAnggotaKader(CreateAnggotaKaderModel(
+                                  namaLengkap: _namaController.text,
+                                  nomorTelepon: _nomorTeleponController.text,
+                                  tanggalLahir: _tanggalLahirController.text,
+                                  rt: _rTController.text,
+                                  rw: _rWController.text,
+                                  alamatLengkap: _alamatController.text,
+                                  dusunId: selectedDusun!.id,
+                                  posyanduId:
+                                      widget.currentUserModel.posyandu.id)));
                         }
                       } // Panggil callback saat tombol ditekan
                       );

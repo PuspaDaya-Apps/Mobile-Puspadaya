@@ -122,7 +122,7 @@ class _UpdateRegisterDataWaliViewState
     setState(() {
       _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +183,14 @@ class _UpdateRegisterDataWaliViewState
                   ),
                   TextFieldWidget(
                       controller: _nikController,
-                      hintText: 'Nomor Kartu keluarga',
+                      hintText: 'Masukan Nomor Kartu Keluarga',
                       keyboardType: TextInputType.text,
                       obscureText: false,
+                      validators: [
+                        (value) => Validator.required(
+                              value,
+                            ),
+                      ],
                       isPasswordField: false),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -202,6 +207,11 @@ class _UpdateRegisterDataWaliViewState
                       hintText: 'NIK',
                       keyboardType: TextInputType.text,
                       obscureText: false,
+                      validators: [
+                        (value) => Validator.consistOf(
+                            value, 16, "Masukkan 16 digit angka!"),
+                        (value) => Validator.required(value),
+                      ],
                       isPasswordField: false),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -243,7 +253,8 @@ class _UpdateRegisterDataWaliViewState
                               isPasswordField: false,
                               validators: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                           ],
@@ -384,7 +395,8 @@ class _UpdateRegisterDataWaliViewState
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, ),
+                            value,
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -401,7 +413,8 @@ class _UpdateRegisterDataWaliViewState
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, ),
+                            value,
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),

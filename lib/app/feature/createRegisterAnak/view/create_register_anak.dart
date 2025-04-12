@@ -413,7 +413,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     isPasswordField: false,
                                     validators: [
                                       (value) => Validator.consistOf(value, 16,
-                                          "NIk Anak harus terdiri atas 16 digit"),
+                                          "Masukkan 16 digit angka!"),
                                       (value) => Validator.required(
                                           value, ),
                                     ],

@@ -251,8 +251,6 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           builder: (context, stateKK) {
                             if (stateKK is GenerateKKLoading) {
                               return SizedBox(
-                                height: MediaQuery.sizeOf(context).height,
-                                width: MediaQuery.sizeOf(context).width,
                                 child: Center(
                                   child: SpinKitThreeBounce(
                                     color: bluePrimaryMain,
@@ -274,7 +272,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     validators: [
-                                      (value) => Validator.required(value,
+                                      (value) => Validator.required(
+                                            value,
                                           ),
                                     ],
                                   ),
@@ -304,7 +303,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                           reverseAnimationDuration:
                                               const Duration(milliseconds: 300),
                                           TopSnackbarWidget().error(
-                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                              'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
                                     }
                                   },
                                   child: Image(
@@ -336,8 +335,6 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           builder: (context, state) {
                             if (state is GenerateNikLoading) {
                               return SizedBox(
-                                height: MediaQuery.sizeOf(context).height,
-                                width: MediaQuery.sizeOf(context).width,
                                 child: Center(
                                   child: SpinKitThreeBounce(
                                     color: bluePrimaryMain,
@@ -356,15 +353,14 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                       7, // Adjust this value to make the TextField larger
                                   child: TextFieldWidget(
                                     controller: _nikController,
-                                    hintText: 'NIK',
+                                    hintText: 'Masukan NIK',
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     isPasswordField: false,
                                     validators: [
                                       (value) => Validator.consistOf(value, 16,
-                                          "NIk Wali harus terdiri atas 16 digit"),
-                                      (value) => Validator.required(
-                                          value),
+                                          "Masukkan 16 digit angka!"),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ),
@@ -389,7 +385,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                           reverseAnimationDuration:
                                               const Duration(milliseconds: 300),
                                           TopSnackbarWidget().error(
-                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                              'KK harus terisi terlebih dahulu!'));
                                     }
                                   },
                                   child: Image(
@@ -418,8 +414,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -873,8 +868,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [
-                                  (value) => Validator.required(
-                                      value),
+                                  (value) => Validator.required(value),
                                 ],
                               ),
                             ),
@@ -886,8 +880,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [
-                                  (value) => Validator.required(
-                                      value),
+                                  (value) => Validator.required(value),
                                 ],
                               ),
                             ),
@@ -902,7 +895,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value,),
+                                  value,
+                                ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -918,8 +912,11 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.minLength(
+                                value, 10, "Masukkan nomor yang benar!"),
+                            (value) => Validator.maxLength(
+                                value, 13, "Masukkan nomor yang benar!"),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
