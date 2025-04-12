@@ -22,9 +22,15 @@ Map<String, dynamic> _$GetDetailRiwayatPengukuranAnakModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      deletedAt: json['deleted_at'] == null
+          ? null
+          : DateTime.parse(json['deleted_at'] as String),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       tempatLahir: json['tempat_lahir'] as String,
@@ -56,9 +62,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'deleted_at': instance.deletedAt?.toIso8601String(),
       'nik': instance.nik,
       'nama_anak': instance.namaAnak,
       'tempat_lahir': instance.tempatLahir,
@@ -152,18 +158,24 @@ Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
 KartuKeluarga _$KartuKeluargaFromJson(Map<String, dynamic> json) =>
     KartuKeluarga(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      deletedAt: json['deleted_at'] == null
+          ? null
+          : DateTime.parse(json['deleted_at'] as String),
       nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
     );
 
 Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'deleted_at': instance.deletedAt?.toIso8601String(),
       'nomor_kartu_keluarga': instance.nomorKartuKeluarga,
     };
 
@@ -199,7 +211,7 @@ Pengukuran _$PengukuranFromJson(Map<String, dynamic> json) => Pengukuran(
       tinggiBadan: json['tinggi_badan'] as String,
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
       lingkarKepala: json['lingkar_kepala'] as String,
-      namaKader: json['nama_kader'],
+      namaKader: json['nama_kader'] as String?,
       statusStunting: json['status_stunting'] as String,
       statusGizi: json['status_gizi'] as String,
     );
@@ -218,18 +230,24 @@ Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      deletedAt: json['deleted_at'] == null
+          ? null
+          : DateTime.parse(json['deleted_at'] as String),
       namaPosyandu: json['nama_posyandu'] as String,
-      alamat: json['alamat'],
+      alamat: json['alamat'] as String?,
     );
 
 Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'deleted_at': instance.deletedAt?.toIso8601String(),
       'nama_posyandu': instance.namaPosyandu,
       'alamat': instance.alamat,
     };

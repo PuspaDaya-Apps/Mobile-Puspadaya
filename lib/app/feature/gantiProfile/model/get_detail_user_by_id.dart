@@ -174,11 +174,11 @@ class Role {
     @JsonKey(name: "id")
     final String id;
     @JsonKey(name: "created_at")
-    final DateTime createdAt;
+    final DateTime? createdAt;
     @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
+    final DateTime? updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "nama_role")
     final String namaRole;
 

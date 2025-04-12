@@ -26,9 +26,9 @@ class Data {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "usia_kehamilan")
@@ -91,9 +91,9 @@ class IbuAnak {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nik")
@@ -169,9 +169,9 @@ class Ayah {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nik")
@@ -228,9 +228,9 @@ class Dusun {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_dusun")
@@ -257,9 +257,9 @@ class DesaKelurahan {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_desa_kelurahan")
@@ -287,9 +287,9 @@ class Kecamatan {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_kecamatan")
@@ -320,9 +320,9 @@ class KabupatenKota {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_kabupaten_kota")
@@ -353,9 +353,9 @@ class Provinsi {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_provinsi")
@@ -383,9 +383,9 @@ class KartuKeluarga {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nomor_kartu_keluarga")
@@ -410,9 +410,9 @@ class Posyandu {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "nama_posyandu")
@@ -457,9 +457,9 @@ class JenisDisabilitas {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final dynamic deletedAt;
   @JsonKey(name: "nama_disabilitas")
@@ -484,9 +484,9 @@ class PengukuranIbuHamil {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "usia_ibu_hamil")

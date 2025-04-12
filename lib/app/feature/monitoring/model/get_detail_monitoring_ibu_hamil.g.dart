@@ -22,9 +22,15 @@ Map<String, dynamic> _$GetDetailMonitoringIbuHamilToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      deletedAt: json['deleted_at'],
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      deletedAt: json['deleted_at'] == null
+          ? null
+          : DateTime.parse(json['deleted_at'] as String),
       usiaKehamilan: json['usia_kehamilan'] as String,
       beratBadan: json['berat_badan'] as String,
       tinggiBadan: json['tinggi_badan'] as String,
@@ -46,9 +52,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
-      'deleted_at': instance.deletedAt,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'deleted_at': instance.deletedAt?.toIso8601String(),
       'usia_kehamilan': instance.usiaKehamilan,
       'berat_badan': instance.beratBadan,
       'tinggi_badan': instance.tinggiBadan,
@@ -182,8 +188,12 @@ Map<String, dynamic> _$ProvinsiToJson(Provinsi instance) => <String, dynamic>{
 PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
     PengukuranIbuHamil(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
       deletedAt: json['deleted_at'] == null
           ? null
           : DateTime.parse(json['deleted_at'] as String),
@@ -207,8 +217,8 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PengukuranIbuHamilToJson(PengukuranIbuHamil instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'deleted_at': instance.deletedAt?.toIso8601String(),
       'usia_ibu_hamil': instance.usiaIbuHamil,
       'usia_kehamilan': instance.usiaKehamilan,
@@ -239,8 +249,12 @@ Map<String, dynamic> _$KaderToJson(Kader instance) => <String, dynamic>{
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
       deletedAt: json['deleted_at'] == null
           ? null
           : DateTime.parse(json['deleted_at'] as String),
@@ -250,8 +264,8 @@ Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
 
 Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{
       'id': instance.id,
-      'created_at': instance.createdAt.toIso8601String(),
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'deleted_at': instance.deletedAt?.toIso8601String(),
       'nama_posyandu': instance.namaPosyandu,
       'alamat': instance.alamat,

@@ -23,11 +23,11 @@ class Datum {
     @JsonKey(name: "id")
     final String id;
     @JsonKey(name: "created_at")
-    final DateTime createdAt;
+    final DateTime? createdAt;
     @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
+    final DateTime? updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "merek_alat")
     final String? merekAlat;
     @JsonKey(name: "kondisi_alat")
@@ -58,11 +58,11 @@ class AlatPengukuranAdmin {
     @JsonKey(name: "id")
     final String id;
     @JsonKey(name: "created_at")
-    final DateTime createdAt;
+    final DateTime? createdAt;
     @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
+    final DateTime? updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "jenis_alat")
     final String jenisAlat;
     @JsonKey(name: "merek_alat")
@@ -96,11 +96,11 @@ class Posyandu {
     @JsonKey(name: "id")
     final String id;
     @JsonKey(name: "created_at")
-    final DateTime createdAt;
+    final DateTime? createdAt;
     @JsonKey(name: "updated_at")
-    final DateTime updatedAt;
+    final DateTime? updatedAt;
     @JsonKey(name: "deleted_at")
-    final dynamic deletedAt;
+    final DateTime? deletedAt;
     @JsonKey(name: "nama_posyandu")
     final String namaPosyandu;
     @JsonKey(name: "alamat")

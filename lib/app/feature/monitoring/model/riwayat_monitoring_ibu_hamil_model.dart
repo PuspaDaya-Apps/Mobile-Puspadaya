@@ -24,9 +24,9 @@ class Data {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final DateTime? deletedAt;
   @JsonKey(name: "usia_kehamilan")
@@ -93,9 +93,9 @@ class Posyandu {
   @JsonKey(name: "id")
   final String id;
   @JsonKey(name: "created_at")
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @JsonKey(name: "updated_at")
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @JsonKey(name: "deleted_at")
   final dynamic deletedAt;
   @JsonKey(name: "nama_posyandu")
