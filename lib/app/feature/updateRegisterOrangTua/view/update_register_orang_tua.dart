@@ -386,7 +386,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                         UpdateRegisterOrangTuaState>(
                       listener: (context, state) {
                         if (state is UpdateRegisterOrangTuaSuccesState) {
-                          Navigator.pop(context,1);
+                          Navigator.pop(context, 1);
                         }
                       },
                       child: Container(
@@ -513,9 +513,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               (value) => Validator.consistOf(
                                                   value,
                                                   16,
-                                                  "Kartu keluarga harus terdiri atas 16 digit"),
-                                              (value) => Validator.required(
-                                                  value),
+                                                  "Masukkan 16 digit angka!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -538,9 +538,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               (value) => Validator.consistOf(
                                                   value,
                                                   16,
-                                                  "NIK ayah harus terdiri atas 16 digit"),
-                                              (value) => Validator.required(
-                                                  value),
+                                                  "Masukkan 16 digit angka!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -560,8 +560,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             keyboardType: TextInputType.text,
                                             obscureText: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1265,8 +1265,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       TextInputType.number,
                                                   obscureText: false,
                                                   validators: [
-                                                    (value) => Validator.required(
-                                                        value),
+                                                    (value) =>
+                                                        Validator.required(
+                                                            value),
                                                   ],
                                                 ),
                                               ),
@@ -1279,8 +1280,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       TextInputType.number,
                                                   obscureText: false,
                                                   validators: [
-                                                    (value) => Validator.required(
-                                                        value),
+                                                    (value) =>
+                                                        Validator.required(
+                                                            value),
                                                   ],
                                                 ),
                                               ),
@@ -1296,8 +1298,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1317,8 +1319,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) => Validator.minLength(
+                                                  value,
+                                                  10,
+                                                  "Masukkan nomor yang benar!"),
+                                              (value) => Validator.maxLength(
+                                                  value,
+                                                  13,
+                                                  "Masukkan nomor yang benar!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1461,9 +1471,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               (value) => Validator.consistOf(
                                                   value,
                                                   16,
-                                                  "Kartu Keluarga harus terdiri atas 16 digit"),
-                                              (value) => Validator.required(
-                                                  value),
+                                                  "Masukkan 16 digit angka!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1486,9 +1496,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               (value) => Validator.consistOf(
                                                   value,
                                                   16,
-                                                  "NIk Ibu harus terdiri atas 16 digit"),
-                                              (value) => Validator.required(
-                                                  value),
+                                                  "Masukkan 16 digit angka!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1508,8 +1518,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             keyboardType: TextInputType.text,
                                             obscureText: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -2205,8 +2215,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       TextInputType.number,
                                                   obscureText: false,
                                                   validators: [
-                                                    (value) => Validator.required(
-                                                        value),
+                                                    (value) =>
+                                                        Validator.required(
+                                                            value),
                                                   ],
                                                 ),
                                               ),
@@ -2219,8 +2230,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       TextInputType.number,
                                                   obscureText: false,
                                                   validators: [
-                                                    (value) => Validator.required(
-                                                        value),
+                                                    (value) =>
+                                                        Validator.required(
+                                                            value),
                                                   ],
                                                 ),
                                               ),
@@ -2236,8 +2248,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -2257,8 +2269,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) => Validator.minLength(
+                                                  value,
+                                                  10,
+                                                  "Masukkan nomor yang benar!"),
+                                              (value) => Validator.maxLength(
+                                                  value,
+                                                  13,
+                                                  "Masukkan nomor yang benar!"),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(

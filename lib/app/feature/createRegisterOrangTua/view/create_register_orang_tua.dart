@@ -543,12 +543,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           builder: (context, stateKK) {
                                             if (stateKK is GenerateKKLoading) {
                                               return SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                        .height,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                        .width,
                                                 child: Center(
                                                   child: SpinKitThreeBounce(
                                                     color: bluePrimaryMain,
@@ -572,7 +566,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     controller:
                                                         kkAyahController,
                                                     hintText:
-                                                        'Masukan Nomor KK',
+                                                        'Masukan Nomor Kartu Keluarga',
                                                     isPasswordField: false,
                                                     keyboardType:
                                                         TextInputType.number,
@@ -634,7 +628,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                   milliseconds:
                                                                       300),
                                                           TopSnackbarWidget().error(
-                                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                              'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
                                                     }
                                                   },
                                                   child: Image(
@@ -683,18 +677,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                       const Duration(
                                                           milliseconds: 300),
                                                   TopSnackbarWidget().error(
-                                                      'Harap Isi KK terlebih Dahulu'));
+                                                      'KK harus terisi terlebih dahulu'));
                                             }
                                           },
                                           builder: (context, state) {
                                             if (state is GenerateNikLoading) {
                                               return SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                        .height,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                        .width,
                                                 child: Center(
                                                   child: SpinKitThreeBounce(
                                                     color: bluePrimaryMain,
@@ -726,7 +714,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                           Validator.consistOf(
                                                               value,
                                                               16,
-                                                              "NIK ayah harus terdiri atas 16 digit"),
+                                                              "Masukkan 16 digit angka!"),
                                                       (value) =>
                                                           Validator.required(
                                                             value,
@@ -753,7 +741,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                   milliseconds:
                                                                       300),
                                                           TopSnackbarWidget().error(
-                                                              'KK Harus Diisi Terlebih Dahulu'));
+                                                              'KK harus terisi terlebih dahulu!'));
                                                     } else {
                                                       // Validasi sebelum mengizinkan generate
                                                       if (_isGenerateAyahValid()) {
@@ -786,7 +774,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                                    'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
                                                       }
                                                     }
                                                   },
@@ -1562,6 +1550,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           key: teleponAyahKey,
                                           isPasswordField: false,
                                           validators: [
+                                            (value) => Validator.minLength(
+                                                value,
+                                                10,
+                                                "Masukkan nomor yang benar!"),
+                                            (value) => Validator.maxLength(
+                                                value,
+                                                13,
+                                                "Masukkan nomor yang benar!"),
                                             (value) => Validator.required(
                                                   value,
                                                 ),
@@ -1713,12 +1709,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           builder: (context, stateKK) {
                                             if (stateKK is GenerateKKLoading) {
                                               return SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                        .height,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                        .width,
                                                 child: Center(
                                                   child: SpinKitThreeBounce(
                                                     color: bluePrimaryMain,
@@ -1748,7 +1738,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                           Validator.consistOf(
                                                               value,
                                                               16,
-                                                              "KK harus terdiri atas 16 digit"),
+                                                              "Masukkan 16 digit angka!"),
                                                       (value) =>
                                                           Validator.required(
                                                             value,
@@ -1801,7 +1791,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                   milliseconds:
                                                                       300),
                                                           TopSnackbarWidget().error(
-                                                              'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate KK'));
+                                                              'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
                                                     }
                                                   },
                                                   child: Image(
@@ -1841,12 +1831,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           builder: (context, state) {
                                             if (state is GenerateNikLoading) {
                                               return SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                        .height,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                        .width,
                                                 child: Center(
                                                   child: SpinKitThreeBounce(
                                                     color: bluePrimaryMain,
@@ -1876,7 +1860,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                           Validator.consistOf(
                                                               value,
                                                               16,
-                                                              "NIk Ibu harus terdiri atas 16 digit"),
+                                                              "Masukkan 16 digit angka!"),
                                                       (value) =>
                                                           Validator.required(
                                                             value,
@@ -1936,7 +1920,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                                         300),
                                                             TopSnackbarWidget()
                                                                 .error(
-                                                                    'Harap isi Tempat Tanggal Lahir, dan alamat agar bisa generate NIK'));
+                                                                    'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
                                                       }
                                                     }
                                                   },
@@ -2700,6 +2684,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           obscureText: false,
                                           isPasswordField: false,
                                           validators: [
+                                            (value) => Validator.minLength(
+                                                value,
+                                                10,
+                                                "Masukkan nomor yang benar!"),
+                                            (value) => Validator.maxLength(
+                                                value,
+                                                13,
+                                                "Masukkan nomor yang benar!"),
                                             (value) => Validator.required(
                                                   value,
                                                 ),
