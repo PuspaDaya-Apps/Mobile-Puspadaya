@@ -19,7 +19,9 @@ class CreatePengukuranAnakApi {
 
   Future<List<dynamic>> getAnakService (String token) async {
     final String link = ApiUtils().urlGetAnakPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       debugPrint(response.toString());

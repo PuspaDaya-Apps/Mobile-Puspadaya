@@ -5,7 +5,9 @@ import '../../../../../utils/network_utils/network_utils.dart';
 class IndexRiwayatPengukuranIbuHamil {
    Future<List<dynamic>> getIndexRiwayatPengukuranIbuHamil(String token) async {
     final String link = ApiUtils().urlGetListRiwayatPengukuranIbuHamil();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
       logger.d(response.toString());

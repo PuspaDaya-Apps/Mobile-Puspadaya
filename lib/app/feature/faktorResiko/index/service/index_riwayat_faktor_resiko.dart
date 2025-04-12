@@ -6,7 +6,9 @@ class IndexRiwayatFaktorResiko {
   Future<List<dynamic>> getAllRiwayatFaktorResiko(
       String token, String id) async {
     final String link = ApiUtils().urlGetRiwayatFaktorResiko(id);
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token)
         .get(link, parameterQuery)

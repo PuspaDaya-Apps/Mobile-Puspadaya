@@ -5,7 +5,9 @@ import '../../../../utils/network_utils/network_utils.dart';
 class PengasuhPosyanduApi {
   Future<List<dynamic>> getPengasuhByPosyandu(String token) async {
     final String url = ApiUtils().urlGetPengasuhPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     try {
       final response = await NetworkUtils(token: token).get(url, parameterQuery);

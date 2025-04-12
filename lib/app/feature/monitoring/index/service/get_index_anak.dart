@@ -6,7 +6,9 @@ class GetIndexAnak {
   // !stunting
   Future<List<dynamic>> getAllIndexAnakStunting(String token) async {
     final String link = ApiUtils().urlGetAllMonitoringAnakStunting();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token)
         .get(link, parameterQuery)
@@ -19,7 +21,9 @@ class GetIndexAnak {
   //! underWeight
   Future<List<dynamic>> getAllIndexAnakUnderWeight(String token) async {
     final String link = ApiUtils().urlGetAllMonitoringAnakUnderWeight();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token)
         .get(link, parameterQuery)
@@ -32,7 +36,9 @@ class GetIndexAnak {
   //! wasting
   Future<List<dynamic>> getAllIndexAnakWasting(String token) async {
     final String link = ApiUtils().urlGetAllMonitoringAnakWasting();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token)
         .get(link, parameterQuery)

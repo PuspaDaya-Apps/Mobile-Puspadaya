@@ -7,7 +7,9 @@ class IndexKehadiranService {
   Future<List<dynamic>> getAllKehadiran(
       String token) async {
     final String link = ApiUtils().urlGetListKehadiranPosyandu();
-    final Map<String, dynamic> parameterQuery = {};
+    final Map<String, dynamic> parameterQuery = {
+      'limit': 5000
+    };
 
     return await NetworkUtils(token: token)
         .get(link, parameterQuery)
