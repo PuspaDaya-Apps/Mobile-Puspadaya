@@ -275,7 +275,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     obscureText: false,
                                     validators: [
                                       (value) => Validator.required(value,
-                                          "Kartu Keluarga tidak boleh kosong"),
+                                          ),
                                     ],
                                   ),
                                 ),
@@ -364,7 +364,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                       (value) => Validator.consistOf(value, 16,
                                           "NIk Wali harus terdiri atas 16 digit"),
                                       (value) => Validator.required(
-                                          value, "NIK Wali tidak boleh kosong"),
+                                          value),
                                     ],
                                   ),
                                 ),
@@ -419,7 +419,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           obscureText: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nama Wali tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -447,8 +447,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     obscureText: false,
                                     isPasswordField: false,
                                     validators: [
-                                      (value) => Validator.required(value,
-                                          "Tempat Lahir tidak boleh kosong"),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ],
@@ -875,7 +874,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 obscureText: false,
                                 validators: [
                                   (value) => Validator.required(
-                                      value, "RT Tidak Boleh Kosong"),
+                                      value),
                                 ],
                               ),
                             ),
@@ -888,7 +887,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 obscureText: false,
                                 validators: [
                                   (value) => Validator.required(
-                                      value, "RW Tidak Boleh Kosong"),
+                                      value),
                                 ],
                               ),
                             ),
@@ -903,7 +902,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Alamat tidak boleh kosong"),
+                                value,),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -920,7 +919,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nomor Telepon tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

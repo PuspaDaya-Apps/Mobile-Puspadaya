@@ -298,7 +298,7 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nomor KK tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -319,7 +319,7 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "NIK tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -340,7 +340,7 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nama tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -368,8 +368,7 @@ class _UpdateRegisterPengasuhViewState
                                     obscureText: false,
                                     isPasswordField: false,
                                     validators: [
-                                      (value) => Validator.required(value,
-                                          "Tempat Lahir tidak boleh kosong"),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ],
@@ -750,7 +749,7 @@ class _UpdateRegisterPengasuhViewState
                                 obscureText: false,
                                 validators: [
                                   (value) => Validator.required(
-                                      value, "RT tidak boleh kosong"),
+                                      value),
                                 ],
                               ),
                             ),
@@ -763,7 +762,7 @@ class _UpdateRegisterPengasuhViewState
                                 obscureText: false,
                                 validators: [
                                   (value) => Validator.required(
-                                      value, "RW tidak boleh kosong"),
+                                      value),
                                 ],
                               ),
                             ),
@@ -778,7 +777,7 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Alamat tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -795,7 +794,7 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, "Nomor Telepon tidak boleh kosong"),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

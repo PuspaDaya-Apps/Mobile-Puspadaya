@@ -243,7 +243,7 @@ class _UpdateRegisterDataWaliViewState
                               isPasswordField: false,
                               validators: [
                                 (value) => Validator.required(
-                                    value, "Nama ayah tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                           ],
@@ -384,7 +384,7 @@ class _UpdateRegisterDataWaliViewState
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, "Alamat tidak boleh kosong"),
+                          value, ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -401,7 +401,7 @@ class _UpdateRegisterDataWaliViewState
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, "Nomor Telepon tidak boleh kosong"),
+                          value, ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),

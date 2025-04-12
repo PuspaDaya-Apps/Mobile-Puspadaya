@@ -116,7 +116,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           isPasswordField: true,
                           validators: [
                             (value) => Validator.required(
-                                value, "Kata sandi tidak boleh kosong"),
+                                value),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
                           ],
@@ -143,7 +143,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           isPasswordField: true,
                           validators: [
                             (value) => Validator.required(
-                                value, "Kata sandi tidak boleh kosong"),
+                                value,),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
                             (value) => Validator.mustContainsCapitalize(
@@ -179,7 +179,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           isPasswordField: true,
                           validators: [
                             (value) => Validator.required(
-                                value, "Kata sandi tidak boleh kosong"),
+                                value),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
                             (value) => Validator.mustContainsCapitalize(

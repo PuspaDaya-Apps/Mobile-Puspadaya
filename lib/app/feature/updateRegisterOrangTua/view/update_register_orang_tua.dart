@@ -515,8 +515,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   16,
                                                   "Kartu keluarga harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Kartu Keluarga ayah tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -541,8 +540,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   16,
                                                   "NIK ayah harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
-                                                  value,
-                                                  "NIK ayah tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -563,8 +561,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Nama ayah tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -604,8 +601,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       validators: [
                                                         (value) =>
                                                             Validator.required(
-                                                                value,
-                                                                "Tempat Lahir tidak boleh kosong"),
+                                                                value),
                                                       ],
                                                     ),
                                                   ],
@@ -1270,8 +1266,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   obscureText: false,
                                                   validators: [
                                                     (value) => Validator.required(
-                                                        value,
-                                                        "RT Tidak Boleh Kosong"),
+                                                        value),
                                                   ],
                                                 ),
                                               ),
@@ -1285,8 +1280,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   obscureText: false,
                                                   validators: [
                                                     (value) => Validator.required(
-                                                        value,
-                                                        "RW Tidak Boleh Kosong"),
+                                                        value),
                                                   ],
                                                 ),
                                               ),
@@ -1303,8 +1297,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             isPasswordField: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Alamat tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1325,8 +1318,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             isPasswordField: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Nomor Telepon tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1471,8 +1463,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   16,
                                                   "Kartu Keluarga harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Kartu Keluarga Ibu tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1497,8 +1488,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   16,
                                                   "NIk Ibu harus terdiri atas 16 digit"),
                                               (value) => Validator.required(
-                                                  value,
-                                                  "NIK Ibu tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1519,8 +1509,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Nama Ibu tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -1560,8 +1549,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                       validators: [
                                                         (value) =>
                                                             Validator.required(
-                                                                value,
-                                                                "Tempat Lahir tidak boleh kosong"),
+                                                                value),
                                                       ],
                                                     ),
                                                   ],
@@ -2218,8 +2206,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   obscureText: false,
                                                   validators: [
                                                     (value) => Validator.required(
-                                                        value,
-                                                        "RT Ibu tidak boleh kosong"),
+                                                        value),
                                                   ],
                                                 ),
                                               ),
@@ -2233,8 +2220,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   obscureText: false,
                                                   validators: [
                                                     (value) => Validator.required(
-                                                        value,
-                                                        "RW Ibu tidak boleh kosong"),
+                                                        value),
                                                   ],
                                                 ),
                                               ),
@@ -2251,8 +2237,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             isPasswordField: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Alamat tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(
@@ -2273,8 +2258,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             isPasswordField: false,
                                             validators: [
                                               (value) => Validator.required(
-                                                  value,
-                                                  "Nomor Telepon tidak boleh kosong"),
+                                                  value),
                                             ],
                                           ),
                                           SizedBox(

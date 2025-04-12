@@ -98,7 +98,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 obscureText: false,
                 validators: [
                   (value) => Validator.required(
-                      value, "Nama Lengkap tidak boleh kosong"),
+                      value),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -119,7 +119,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                   (value) => Validator.maxLength(
                       value, 13, "Nomor Telepon tidak boleh kurang dari 13 Digit"),
                   (value) => Validator.required(
-                      value, "Nomor Telepon tidak boleh kosong"),
+                      value),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -486,7 +486,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       obscureText: false,
                       validators: [
                         (value) =>
-                            Validator.required(value, "RT tidak boleh kosong"),
+                            Validator.required(value,),
                       ],
                     ),
                   ),
@@ -499,7 +499,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                       obscureText: false,
                       validators: [
                         (value) =>
-                            Validator.required(value, "RW tidak boleh kosong"),
+                            Validator.required(value),
                       ],
                     ),
                   ),
@@ -514,7 +514,7 @@ class _CreateIndividuState extends State<CreateIndividu> {
                 isPasswordField: false,
                 validators: [
                   (value) =>
-                      Validator.required(value, "Alamat tidak boleh kosong"),
+                      Validator.required(value, ),
                 ],
               ),
               SizedBox(height: SizeConfig.calHeightMultiplier(16)),

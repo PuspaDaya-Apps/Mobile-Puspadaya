@@ -311,7 +311,7 @@ class _CreateRegisterIbuHamilViewState
                                     obscureText: false,
                                     validators: [
                                       (value) => Validator.required(
-                                          value, "Usia Ibu Hamil Wajib Diisi"),
+                                          value),
                                     ],
                                   ),
                                   SizedBox(
@@ -330,7 +330,7 @@ class _CreateRegisterIbuHamilViewState
                                     hintText: "NIK",
                                     validators: [
                                       (value) => Validator.required(
-                                          value, "NIK Wajib Diisi"),
+                                          value),
                                     ],
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
@@ -355,7 +355,7 @@ class _CreateRegisterIbuHamilViewState
                                     obscureText: false,
                                     validators: [
                                       (value) => Validator.required(
-                                          value, "Nama Suami Wajib Diisi"),
+                                          value),
                                     ],
                                   ),
                                   SizedBox(
@@ -447,7 +447,7 @@ class _CreateRegisterIbuHamilViewState
                                       unit: 'cm',
                                       validator: [
                                         (value) => Validator.required(
-                                            value, 'Tingi Badan Wajib diisi'),
+                                            value),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurTinggi
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -486,7 +486,7 @@ class _CreateRegisterIbuHamilViewState
                                       unit: 'kg',
                                       validator: [
                                         (value) => Validator.required(
-                                            value, 'Berat Badan Wajib diisi'),
+                                            value,),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurBerat
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -501,7 +501,7 @@ class _CreateRegisterIbuHamilViewState
                                       hintText: 'contoh: 15.1',
                                       validator: [
                                         (value) => Validator.required(value,
-                                            'Lingkar Lengan Atas Wajib diisi'),
+                                            ),
                                       ],
                                       unit: 'cm',
                                       tool: alatUkurIbuHamil
@@ -663,7 +663,7 @@ class _CreateRegisterIbuHamilViewState
                                       hintText: "Jumlah Tablet FE",
                                       validators: [
                                         (value) => Validator.required(value,
-                                            'Jumlah Table FE Wajib diisi'),
+                                            ),
                                       ],
                                       isPasswordField: false,
                                       keyboardType: TextInputType.number,
@@ -740,8 +740,7 @@ class _CreateRegisterIbuHamilViewState
                                       validators: selectedRadioBPJS == 2
                                           ? [
                                               (value) => Validator.required(
-                                                  value,
-                                                  'Nama BPJS Wajib diisi'),
+                                                  value,),
                                             ]
                                           : null,
                                       isPasswordField: false,

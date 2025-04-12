@@ -214,7 +214,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                       (value) => Validator.consistOf(
                           value, 16, "NIK Anak harus terdiri atas 16 digit"),
                       (value) => Validator.required(
-                          value, "NIK Anak tidak boleh kosong"),
+                          value, ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -235,7 +235,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     isPasswordField: false,
                     validators: [
                       (value) =>
-                          Validator.required(value, "Nama tidak boleh kosong"),
+                          Validator.required(value, ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -256,7 +256,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, "Urutan Anak tidak boleh kosong"),
+                          value, ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -283,7 +283,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               isPasswordField: false,
                               validators: [
                                 (value) => Validator.required(
-                                    value, "tempat lahir tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                           ],
@@ -336,7 +336,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: heightController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, "Tinggi Lahir tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                             SizedBox(
@@ -349,7 +349,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: lingkarLenganController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, "Lingkar Lengan tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                             SizedBox(
@@ -370,7 +370,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: weightController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, "Berat Lahir tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                             SizedBox(
@@ -383,7 +383,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: lingkarKepalaController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, "Lingkar Kepala tidak boleh kosong"),
+                                    value, ),
                               ],
                             ),
                           ],

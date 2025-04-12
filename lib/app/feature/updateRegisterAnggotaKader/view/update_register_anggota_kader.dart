@@ -202,7 +202,7 @@ class _UpdateRegisterAnggotaKaderViewState
                         obscureText: false,
                         validators: [
                           (value) => Validator.required(
-                              value, "Nama Lengkap tidak boleh kosong"),
+                              value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -219,7 +219,7 @@ class _UpdateRegisterAnggotaKaderViewState
                         obscureText: false,
                         validators: [
                           (value) => Validator.required(
-                              value, "Nomor Telepon tidak boleh kosong"),
+                              value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -649,7 +649,7 @@ class _UpdateRegisterAnggotaKaderViewState
                         isPasswordField: false,
                         validators: [
                           (value) => Validator.required(
-                              value, "Alamat tidak boleh kosong"),
+                              value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),

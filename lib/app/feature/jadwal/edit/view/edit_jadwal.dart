@@ -201,7 +201,7 @@ class _EditJadwalViewState extends State<EditJadwalView> {
                         isPasswordField: false,
                         validators: [
                           (value) => Validator.required(
-                              value, 'Nama kegiatan tidak boleh kosong'),
+                              value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -290,7 +290,7 @@ class _EditJadwalViewState extends State<EditJadwalView> {
                         isPasswordField: false,
                         validators: [
                           (value) => Validator.required(
-                              value, 'Lokasi kegiatan tidak boleh kosong'),
+                              value),
                         ],
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),

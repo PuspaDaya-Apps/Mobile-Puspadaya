@@ -202,7 +202,7 @@ class _DataIbuState extends State<DataIbu> {
               obscureText: false,
               validators: [
                 (value) => Validator.required(
-                    value, "Kartu Keluarga ayah tidak boleh kosong"),
+                    value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -219,7 +219,7 @@ class _DataIbuState extends State<DataIbu> {
               obscureText: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "NIK ayah tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -236,7 +236,7 @@ class _DataIbuState extends State<DataIbu> {
               obscureText: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "Nama ayah tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -263,7 +263,7 @@ class _DataIbuState extends State<DataIbu> {
                         isPasswordField: false,
                         validators: [
                           (value) => Validator.required(
-                              value, "Nama ayah tidak boleh kosong"),
+                              value),
                         ],
                       ),
                     ],
@@ -404,7 +404,7 @@ class _DataIbuState extends State<DataIbu> {
               isPasswordField: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "Alamat tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -421,7 +421,7 @@ class _DataIbuState extends State<DataIbu> {
               isPasswordField: false,
               validators: [
                 (value) => Validator.required(
-                    value, "Nomor Telepon tidak boleh kosong"),
+                    value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -512,7 +512,7 @@ class _DataIbuState extends State<DataIbu> {
               isPasswordField: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "Jumlah Anak tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),

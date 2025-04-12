@@ -293,7 +293,7 @@ class _CreateAlatUkurViewState extends State<CreateAlatUkurView> {
                           keyboardType: TextInputType.text,
                           validators: [
                             (value) => Validator.required(
-                                value, "Merek Alat tidak boleh kosong"),
+                                value),
                           ],
                           obscureText: false,
                           isPasswordField: false,

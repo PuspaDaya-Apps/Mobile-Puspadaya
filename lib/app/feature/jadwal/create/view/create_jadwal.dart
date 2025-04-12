@@ -187,7 +187,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, 'Nama kegiatan tidak boleh kosong'),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -287,7 +287,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(
-                                value, 'Lokasi kegiatan tidak boleh kosong'),
+                                value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

@@ -374,7 +374,7 @@ class UpdateAlatUkurViewState extends State<UpdateAlatUkurView> {
                       hintText: "Masukan Merek Alat",
                       validators: [
                         (value) =>
-                            Validator.required(value, 'Merek Alat wajib diisi'),
+                            Validator.required(value,),
                       ],
                       keyboardType: TextInputType.text,
                       obscureText: false,

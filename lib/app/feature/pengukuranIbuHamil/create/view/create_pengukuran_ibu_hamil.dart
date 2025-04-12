@@ -342,7 +342,7 @@ class _CreatePengukuranIbuHamilViewState
                                       controller: _heightController,
                                       validator: [
                                         (value) => Validator.required(value,
-                                            'Harap Masukan Tinggi Badan'),
+                                            ),
                                       ],
                                     ),
                                     SizedBox(
@@ -355,7 +355,7 @@ class _CreatePengukuranIbuHamilViewState
                                       unit: 'cm',
                                       validator: [
                                         (value) => Validator.required(value,
-                                            'Harap Masukan Lingkar Lengan Atas'),
+                                            ),
                                       ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurLingkarLengan
@@ -377,7 +377,7 @@ class _CreatePengukuranIbuHamilViewState
                                       hintText: 'contoh: 50',
                                       validator: [
                                         (value) => Validator.required(
-                                            value, 'Harap Masukan Berat Badan'),
+                                            value, ),
                                       ],
                                       unit: 'kg',
                                       tool: alatUkurIbuHamil.alatUkurBerat
@@ -511,7 +511,7 @@ class _CreatePengukuranIbuHamilViewState
                                       obscureText: false,
                                       validators: [
                                         (value) => Validator.required(
-                                            value, 'Harap Masukan Jumlah Tablet FE'),
+                                            value, ),
                                       ],
                                     ),
                                   ],

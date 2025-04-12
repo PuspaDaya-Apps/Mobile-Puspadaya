@@ -10,9 +10,9 @@ class Validator {
     return null; // No errors
   }
 
-  static String? required(String value, String message) {
+  static String? required(String value) {
     if (value.isEmpty) {
-      return message;
+      return "Isi terlebih dahulu!";
     }
     return null;
   }

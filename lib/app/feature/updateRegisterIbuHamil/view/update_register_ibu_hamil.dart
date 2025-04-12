@@ -462,7 +462,7 @@ class UpdateRegisterIbuHamilViewState
                                       controller: _heightController,
                                       validator: [
                                         (value) => Validator.required(
-                                            value, 'Tinggi Badan Wajib Diisi'),
+                                            value),
                                       ],
                                     ),
                                     SizedBox(
@@ -484,7 +484,7 @@ class UpdateRegisterIbuHamilViewState
                                           _upperArmCircumferenceController,
                                       validator: [
                                         (value) => Validator.required(value,
-                                            'Lingkar Lengan Atas Wajib Diisi'),
+                                            ),
                                       ],
                                     ),
                                   ],
@@ -507,7 +507,7 @@ class UpdateRegisterIbuHamilViewState
                                       controller: _weightController,
                                       validator: [
                                         (value) => Validator.required(value,
-                                            'Berat Badan Atas Wajib Diisi'),
+                                            ),
                                       ],
                                     ),
                                     SizedBox(
@@ -686,7 +686,7 @@ class UpdateRegisterIbuHamilViewState
                                       obscureText: false,
                                       validators: [
                                         (value) => Validator.required(value,
-                                            'Jumlah Tablet FE Wajib Diisi')
+                                            )
                                       ],
                                     ),
                                   ],
@@ -760,8 +760,7 @@ class UpdateRegisterIbuHamilViewState
                                       validators: selectedRadioBPJS == 2
                                           ? [
                                               (value) => Validator.required(
-                                                  value,
-                                                  'Nama BPJS Wajib diisi'),
+                                                  value),
                                             ]
                                           : null,
                                       isPasswordField: false,

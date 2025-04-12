@@ -347,8 +347,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                         tool: alatUkurTamu.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          (value) => Validator.required(value,
-                                              'Harap Masukan Tinggi Badan'),
+                                          (value) => Validator.required(value,),
                                           (value) => Validator.minNumber(
                                               value, 45, "min 45 max 110"),
                                           (value) => Validator.maxNumber(
@@ -362,7 +361,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                       child: MeasurementWidget(
                                         validator: [
                                           (value) => Validator.required(value,
-                                              'Harap Masukan Berat Badan'),
+                                              ),
                                         ],
                                         title: 'Berat Badan',
                                         hintText: 'contoh: 6.5',
@@ -392,8 +391,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               unit: 'cm',
                                               validator: [
                                                 (value) => Validator.required(
-                                                    value,
-                                                    'Harap Masukan Lingkar Kepala'),
+                                                    value,),
                                               ],
                                               tool: alatUkurTamu
                                                   .alatUkurLingkarKepala
@@ -410,7 +408,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               validator: [
                                                 (value) => Validator.required(
                                                     value,
-                                                    'Harap Masukan Lingkar Lengan Atas'),
+                                                    ),
                                               ],
                                               unit: 'cm',
                                               tool: alatUkurTamu

@@ -143,7 +143,7 @@ class _DataAyahState extends State<DataAyah> {
                 (value) => Validator.consistOf(
                     value, 16, "Kartu keluarga harus terdiri atas 16 digit"),
                 (value) => Validator.required(
-                    value, "Kartu Keluarga ayah tidak boleh kosong"),
+                    value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -162,7 +162,7 @@ class _DataAyahState extends State<DataAyah> {
                 (value) => Validator.consistOf(
                     value, 16, "Nik harus terdiri atas 16 digit"),
                 (value) =>
-                    Validator.required(value, "NIK ayah tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -179,7 +179,7 @@ class _DataAyahState extends State<DataAyah> {
               obscureText: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "Nama ayah tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -206,7 +206,7 @@ class _DataAyahState extends State<DataAyah> {
                         isPasswordField: false,
                         validators: [
                           (value) => Validator.required(
-                              value, "Nama ayah tidak boleh kosong"),
+                              value),
                         ],
                       ),
                     ],
@@ -348,7 +348,7 @@ class _DataAyahState extends State<DataAyah> {
               isPasswordField: false,
               validators: [
                 (value) =>
-                    Validator.required(value, "Alamat tidak boleh kosong"),
+                    Validator.required(value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -365,7 +365,7 @@ class _DataAyahState extends State<DataAyah> {
               isPasswordField: false,
               validators: [
                 (value) => Validator.required(
-                    value, "Nomor Telepon tidak boleh kosong"),
+                    value),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),

@@ -651,7 +651,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     obscureText: false,
                                     validators: [
                                       (value) => Validator.required(
-                                          value, "RT tidak boleh kosong"),
+                                          value),
                                     ],
                                   ),
                                 ),
@@ -664,7 +664,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     obscureText: false,
                                     validators: [
                                       (value) => Validator.required(
-                                          value, "RW tidak boleh kosong"),
+                                          value),
                                     ],
                                   ),
                                 ),

@@ -493,7 +493,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
                                           (value) => Validator.required(value,
-                                              'Harap Masukan Tinggi Badan'),
+                                              ),
                                           (value) => Validator.minNumber(
                                               value, 45, "min 45 max 110"),
                                           (value) => Validator.maxNumber(
@@ -507,7 +507,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                       child: MeasurementWidget(
                                         validator: [
                                           (value) => Validator.required(value,
-                                              'Harap Masukan Berat Badan'),
+                                              ),
                                         ],
                                         title: 'Berat Badan',
                                         hintText: 'contoh: 6.5',
@@ -538,7 +538,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               validator: [
                                                 (value) => Validator.required(
                                                     value,
-                                                    'Harap Masukan Lingkar Kepala'),
+                                                    ),
                                               ],
                                               tool: alatUkurAnak
                                                   .alatUkurLingkarKepala
@@ -555,7 +555,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               validator: [
                                                 (value) => Validator.required(
                                                     value,
-                                                    'Harap Masukan Lingkar Lengan Atas'),
+                                                    ),
                                               ],
                                               unit: 'cm',
                                               tool: alatUkurAnak
