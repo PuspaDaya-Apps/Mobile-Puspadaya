@@ -16,31 +16,35 @@ class CreateAnakBloc extends Bloc<CreateAnakEvent, CreateAnakState> {
     on<CreateAnak>(createAnak);
 
     on<NullErrorEvent>((event, emit) {
-      emit(const CreateAnakNullErrorState("Form Tambah Data Anak Tidak Boleh Kosong"));
+      emit(const CreateAnakNullErrorState(
+          "Form Tambah Data Anak Tidak Boleh Kosong"));
     });
   }
 
-  Future<void> createAnak (CreateAnak event, Emitter<CreateAnakState> emit) async {
+  Future<void> createAnak(
+      CreateAnak event, Emitter<CreateAnakState> emit) async {
     emit(CreateAnakProccessState());
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 
-    if(accessToken == null) {
+    if (accessToken == null) {
       emit(CreateAnakTokenExpiredState());
     } else {
       try {
-        List<dynamic> response = await CreateAnakApi().createAnakService(accessToken, event.createAnakModel);
+        emit(CreateAnakLoadingState()); // Reset state sebelum request
+        List<dynamic> response = await CreateAnakApi()
+            .createAnakService(accessToken, event.createAnakModel);
 
         int statusCode = response[0] as int;
-        final CreateAnakResponseModel createAnakResponseModel = CreateAnakResponseModel.fromJson(response[1]);
+        final CreateAnakResponseModel createAnakResponseModel =
+            CreateAnakResponseModel.fromJson(response[1]);
 
-        if(statusCode == 201) {
-          emit(CreateAnakSuccessState(
-            createAnakResponseModel
-          )
-        );
+        if (statusCode == 201) {
+          emit(CreateAnakSuccessState(createAnakResponseModel));
         } else if (statusCode == 401) {
           emit(CreateAnakTokenExpiredState());
+        } else if (statusCode == 409) {
+          emit(CreateAnakFailedState(createAnakResponseModel.message));
         } else {
           emit(CreateAnakFailedState(createAnakResponseModel.message));
         }

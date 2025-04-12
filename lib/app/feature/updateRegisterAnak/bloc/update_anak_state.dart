@@ -8,7 +8,7 @@ sealed class UpdateAnakState extends Equatable {
 }
 
 final class UpdateAnakInitial extends UpdateAnakState {}
-
+final class UpdateAnakLoadingState extends UpdateAnakState {}
 final class UpdateAnakProccessState extends UpdateAnakState {}
 
 final class UpdateAnakSuccessState extends UpdateAnakState {

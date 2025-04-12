@@ -515,7 +515,7 @@ class _QuisionerParameterFaktorResikoViewState
                                   child: Image.network(
                                     ApiUtils().urlGetPublicImage(
                                       widget.data.namaFaktorResiko ==
-                                              "Kurangnya pengetahuan gizi"
+                                              "Kurangnya pengetahuan gizi" || widget.data.namaFaktorResiko == "PHBS kurang optimal"
                                           ? pertanyaan.image!
                                           : widget.data.gambar,
                                     ),

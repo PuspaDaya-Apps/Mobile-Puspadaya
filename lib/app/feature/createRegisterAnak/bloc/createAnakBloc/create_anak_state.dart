@@ -8,7 +8,7 @@ sealed class CreateAnakState extends Equatable {
 }
 
 final class CreateAnakInitial extends CreateAnakState {}
-
+final class CreateAnakLoadingState extends CreateAnakState {}
 final class CreateAnakProccessState extends CreateAnakState {}
 
 final class CreateAnakSuccessState extends CreateAnakState {

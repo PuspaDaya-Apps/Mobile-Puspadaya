@@ -29,6 +29,7 @@ class UpdatePengasuhBloc extends Bloc<UpdatePengasuhEvent, UpdatePengasuhState> 
       emit(UpdatePengasuhTokenExpiredState());
     } else {
       try {
+        emit(UpdatePengasuhLoadingState()); // Reset state sebelum request
         List<dynamic> response = await UpdatePengasuhApi().updatePengasuhService(accessToken, event.id, event.updatePengasuhModel);
 
         int statusCode = response[0] as int;

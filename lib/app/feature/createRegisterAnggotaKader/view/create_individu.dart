@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
@@ -11,6 +12,7 @@ import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/createAnggotaKaderBloc/create_anggota_kader_bloc.dart';
 import '../model/create_anggota_kader_model.dart';
 
@@ -546,6 +548,15 @@ class _CreateIndividuState extends State<CreateIndividu> {
                   debugPrint(state.toString());
                   if (state is CreateAnggotaKaderSuccessState) {
                     Navigator.pop(context, 1);
+                  }
+                  if (state is CreateAnggotaKaderFailedState) {
+                    showTopSnackBar(
+                        Overlay.of(context),
+                        animationDuration: const Duration(milliseconds: 600),
+                        displayDuration: const Duration(milliseconds: 2200),
+                        reverseAnimationDuration:
+                            const Duration(milliseconds: 300),
+                        TopSnackbarWidget().error(state.error));
                   }
                 },
                 builder: (context, state) {

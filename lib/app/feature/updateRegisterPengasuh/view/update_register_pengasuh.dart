@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
@@ -19,6 +20,7 @@ import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../bloc/update_pengasuh_bloc.dart';
 
@@ -193,7 +195,7 @@ class _UpdateRegisterPengasuhViewState
     setState(() {
       _tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,18 +227,30 @@ class _UpdateRegisterPengasuhViewState
               );
             }
             if (state is GetAlamatSuccessState) {
-              if(dataKabupatenKota.isEmpty) {
-                dataKabupatenKota.addAll(state.dataWilayahModel.provinsi.kabupatenKota);
-                selectedKabupaten = dataKabupatenKota.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.kabupatenKota.id);
+              if (dataKabupatenKota.isEmpty) {
+                dataKabupatenKota
+                    .addAll(state.dataWilayahModel.provinsi.kabupatenKota);
+                selectedKabupaten = dataKabupatenKota.firstWhere((element) =>
+                    element.id ==
+                    widget.paket.detailPengasuhResponseModel.data!.dusun
+                        .desaKelurahan.kecamatan.kabupatenKota.id);
 
                 dataKecamatan.addAll(selectedKabupaten!.kecamatan);
-                selectedKecamatan = dataKecamatan.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.kecamatan.id);
+                selectedKecamatan = dataKecamatan.firstWhere((element) =>
+                    element.id ==
+                    widget.paket.detailPengasuhResponseModel.data!.dusun
+                        .desaKelurahan.kecamatan.id);
                 dataDesaKelurahan.addAll(selectedKecamatan!.desaKelurahan);
-                selectedDesa = dataDesaKelurahan.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.desaKelurahan.id);
+                selectedDesa = dataDesaKelurahan.firstWhere((element) =>
+                    element.id ==
+                    widget.paket.detailPengasuhResponseModel.data!.dusun
+                        .desaKelurahan.id);
                 dataDusun.addAll(selectedDesa!.dusun);
-                selectedDusun = dataDusun.firstWhere((element) => element.id == widget.paket.detailPengasuhResponseModel.data!.dusun.id);
+                selectedDusun = dataDusun.firstWhere((element) =>
+                    element.id ==
+                    widget.paket.detailPengasuhResponseModel.data!.dusun.id);
               }
-              
+
               return Container(
                 margin:
                     EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
@@ -297,8 +311,7 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -318,8 +331,7 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -339,8 +351,7 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -418,16 +429,20 @@ class _UpdateRegisterPengasuhViewState
                           children: [
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataKabupatenKota.isNotEmpty ? false : true,
-                                child: DropdownButtonFormField2<DataKabupatenKota>(
+                                ignoring:
+                                    dataKabupatenKota.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataKabupatenKota>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedKabupaten, // Ini bisa null
                                   hint: Text(
                                     "Kabupaten",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -469,9 +484,13 @@ class _UpdateRegisterPengasuhViewState
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Kabupaten",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
                                           color: Colors.grey,
                                         ),
                                     filled: true,
@@ -482,16 +501,20 @@ class _UpdateRegisterPengasuhViewState
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -499,16 +522,19 @@ class _UpdateRegisterPengasuhViewState
                             ),
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataKecamatan.isNotEmpty ? false : true,
+                                ignoring:
+                                    dataKecamatan.isNotEmpty ? false : true,
                                 child: DropdownButtonFormField2<DataKecamatan>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedKecamatan, // Ini bisa null
                                   hint: Text(
                                     "Kecamatan",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -536,7 +562,8 @@ class _UpdateRegisterPengasuhViewState
                                     setState(() {
                                       selectedKecamatan = value;
                                       dataDesaKelurahan.clear();
-                                      dataDesaKelurahan.addAll(value!.desaKelurahan);
+                                      dataDesaKelurahan
+                                          .addAll(value!.desaKelurahan);
 
                                       //clear list
                                       dataDusun.clear();
@@ -549,11 +576,15 @@ class _UpdateRegisterPengasuhViewState
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Kecamatan",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -562,16 +593,20 @@ class _UpdateRegisterPengasuhViewState
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -587,16 +622,20 @@ class _UpdateRegisterPengasuhViewState
                           children: [
                             Expanded(
                               child: IgnorePointer(
-                                ignoring: dataDesaKelurahan.isNotEmpty ? false : true,
-                                child: DropdownButtonFormField2<DataDesaKelurahan>(
+                                ignoring:
+                                    dataDesaKelurahan.isNotEmpty ? false : true,
+                                child:
+                                    DropdownButtonFormField2<DataDesaKelurahan>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedDesa, // Ini bisa null
                                   hint: Text(
                                     "Desa",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -633,11 +672,15 @@ class _UpdateRegisterPengasuhViewState
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Desa",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -646,16 +689,20 @@ class _UpdateRegisterPengasuhViewState
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -666,13 +713,15 @@ class _UpdateRegisterPengasuhViewState
                                 ignoring: dataDusun.isNotEmpty ? false : true,
                                 child: DropdownButtonFormField2<DataDusun>(
                                   isExpanded: true,
-                                  style: AppTextStyles.primaryTextNormal.copyWith(
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
                                     fontSize: 12,
                                   ),
                                   value: selectedDusun, // Ini bisa null
                                   hint: Text(
                                     "Dusun",
-                                    style: AppTextStyles.secoundaryTextNormal.copyWith(
+                                    style: AppTextStyles.secoundaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -704,11 +753,15 @@ class _UpdateRegisterPengasuhViewState
                                   onSaved: (value) {},
                                   validator: null,
                                   decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 12),
                                     hintText: "Dusun",
-                                    hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                        color: Colors.grey,
-                                      ),
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.grey,
+                                        ),
                                     filled: true,
                                     fillColor: backgroundWhite10,
                                     border: OutlineInputBorder(
@@ -717,16 +770,20 @@ class _UpdateRegisterPengasuhViewState
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                      borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          topRight: Radius.circular(10),
+                                          topLeft: Radius.circular(10)),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: Colors.grey),
                                     ),
                                     errorBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(width: 1, color: redPrimaryMain),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: redPrimaryMain),
                                     ),
                                   ),
                                 ),
@@ -748,8 +805,7 @@ class _UpdateRegisterPengasuhViewState
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [
-                                  (value) => Validator.required(
-                                      value),
+                                  (value) => Validator.required(value),
                                 ],
                               ),
                             ),
@@ -761,8 +817,7 @@ class _UpdateRegisterPengasuhViewState
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
                                 validators: [
-                                  (value) => Validator.required(
-                                      value),
+                                  (value) => Validator.required(value),
                                 ],
                               ),
                             ),
@@ -776,8 +831,7 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -793,8 +847,7 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -870,6 +923,17 @@ class _UpdateRegisterPengasuhViewState
                             debugPrint(state.toString());
                             if (state is UpdatePengasuhSuccessState) {
                               Navigator.pop(context, 1);
+                            }
+                            if (state is UpdatePengasuhFailedState) {
+                              showTopSnackBar(
+                                  Overlay.of(context),
+                                  animationDuration:
+                                      const Duration(milliseconds: 600),
+                                  displayDuration:
+                                      const Duration(milliseconds: 2200),
+                                  reverseAnimationDuration:
+                                      const Duration(milliseconds: 300),
+                                  TopSnackbarWidget().error(state.error));
                             }
                           },
                           builder: (context, state) {

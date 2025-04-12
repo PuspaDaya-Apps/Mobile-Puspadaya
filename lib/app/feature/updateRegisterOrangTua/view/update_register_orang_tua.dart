@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../model/data_wilayah_model.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../../detailRegisterOrangTua/model/get_orangtua_detail_response.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/bloc/update_register_orang_tua_bloc.dart';
@@ -385,6 +387,17 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                     BlocListener<UpdateRegisterOrangTuaBloc,
                         UpdateRegisterOrangTuaState>(
                       listener: (context, state) {
+                        if (state is UpdateRegisterOrangTuaFailedState) {
+                          showTopSnackBar(
+                            Overlay.of(context),
+                            animationDuration:
+                                const Duration(milliseconds: 600),
+                            displayDuration: const Duration(milliseconds: 2200),
+                            reverseAnimationDuration:
+                                const Duration(milliseconds: 300),
+                            TopSnackbarWidget().error(state.error),
+                          );
+                        }
                         if (state is UpdateRegisterOrangTuaSuccesState) {
                           Navigator.pop(context, 1);
                         }

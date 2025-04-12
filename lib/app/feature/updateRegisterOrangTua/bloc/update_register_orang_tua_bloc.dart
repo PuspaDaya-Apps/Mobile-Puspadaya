@@ -24,6 +24,7 @@ class UpdateRegisterOrangTuaBloc
       emit(TokenExpiredState());
     } else {
       try {
+        emit(UpdateRegisterOrangTuaLoading()); // Reset state sebelum request
         String ayahId = event.ayahId;
         PatchOrangTuaBody dataToPatch = event.patchOrangTuaBody;
         // Assuming dataAyah and dataIbu are already defined and populated
@@ -37,9 +38,11 @@ class UpdateRegisterOrangTuaBloc
         if (statusCode == 200) {
           logger.d('succes patch orang tua');
           emit((UpdateRegisterOrangTuaSuccesState()));
-        } else if(statusCode == 401){
+        } else if (statusCode == 409) {
+          emit(UpdateRegisterOrangTuaFailedState(response[1].toString()));
+        } else if (statusCode == 401) {
           emit(TokenExpiredState());
-        }else{
+        } else {
           UpdateRegisterOrangTuaFailedState("Terdapat Error");
         }
       } catch (e) {

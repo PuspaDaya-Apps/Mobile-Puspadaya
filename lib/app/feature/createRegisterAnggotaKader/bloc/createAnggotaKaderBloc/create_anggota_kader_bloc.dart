@@ -26,6 +26,7 @@ class CreateAnggotaKaderBloc extends Bloc<CreateAnggotaKaderEvent, CreateAnggota
       emit(CreateAnggotaKaderTokenExpiredState());
     } else {
       try {
+        emit(CreateAnggotaKaderLoadingState()); // Reset state sebelum request
         List<dynamic> response = await CreateAnggotaKaderApi().createAnggotaKaderService(accessToken, event.createAnggotaKaderModel);
 
         int statusCode = response[0] as int;

@@ -89,7 +89,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   // Controller untuk Data Wali
   String? selectedStatusHubunganDenganAnak;
 
-  String? selectedGolDarahWali;
+  String selectedGolDarahWali = '-';
 
   List<DataKabupatenKota> dataKabupatenKota = [];
   List<DataKecamatan> dataKecamatan = [];

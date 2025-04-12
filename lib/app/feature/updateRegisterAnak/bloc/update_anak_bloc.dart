@@ -29,6 +29,7 @@ class UpdateAnakBloc extends Bloc<UpdateAnakEvent, UpdateAnakState> {
       emit(UpdateAnakTokenExpiredState());
     } else {
       try {
+        emit(UpdateAnakLoadingState()); // Reset state sebelum request
         List<dynamic> response = await UpdateAnakApi().updateAnakService(accessToken, event.id ,event.updateAnakModel);
 
         int statusCode = response[0] as int;
@@ -41,6 +42,8 @@ class UpdateAnakBloc extends Bloc<UpdateAnakEvent, UpdateAnakState> {
         );
         } else if (statusCode == 401) {
           emit(UpdateAnakTokenExpiredState());
+        } else if(statusCode == 409){
+          emit(UpdateAnakFailedState(createAnakResponseModel.message));
         } else {
           emit(UpdateAnakFailedState(createAnakResponseModel.message));
         }

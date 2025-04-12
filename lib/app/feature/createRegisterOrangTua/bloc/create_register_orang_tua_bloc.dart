@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -20,6 +19,7 @@ class CreateRegisterOrangTuaBloc
   }
   Future<void> registerOrangTua(SendRegisterOrangTua event,
       Emitter<CreateRegisterOrangTuaState> emit) async {
+        
     final accesTokenValue = await SharedPrefUtils().getAccessToken();
     logger.d(accesTokenValue);
 
@@ -27,6 +27,7 @@ class CreateRegisterOrangTuaBloc
       emit(TokenExpiredState());
     } else {
       try {
+        emit(CreateRegisterOrangTuaLoading()); // Reset state sebelum request
         PostOrangTuaBody dataToPost = event.postOrangTuaBody;
         // Assuming dataAyah and dataIbu are already defined and populated
         logger.d('parsing to db');
@@ -41,16 +42,17 @@ class CreateRegisterOrangTuaBloc
           emit(CreateRegisterOrangTuaSuccesState());
           final dataAyah = await SharedPrefUtils().removeRegisterOrangTuaAyah();
           final dataIbu = await SharedPrefUtils().removeRegisterOrangTuaIbu();
-
-        }
-         else if(statusCode ==401) {
+        } else if (statusCode == 401) {
           emit(TokenExpiredState());
-        }else{
+        } else if(statusCode == 409){
+        logger.e('catched status code 409');
+        emit(CreateRegisterOrangTuaFailedState(response[1].toString()));  
+        } else {
           logger.e('failed to post orang tua ${response[1].toString()}');
           emit(CreateRegisterOrangTuaFailedState(response[1].toString()));
         }
-        
       } catch (e) {
+        logger.e('catched error: $e');
         emit(CreateRegisterOrangTuaFailedState(e.toString()));
       }
     }

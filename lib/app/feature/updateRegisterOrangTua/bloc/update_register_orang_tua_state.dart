@@ -8,7 +8,7 @@ sealed class UpdateRegisterOrangTuaState extends Equatable {
 }
 
 final class UpdateRegisterOrangTuaInitial extends UpdateRegisterOrangTuaState {}
-
+final class UpdateRegisterOrangTuaLoading extends UpdateRegisterOrangTuaState {}
 final class UpdateRegisterOrangTuaProcessState
     extends UpdateRegisterOrangTuaState {}
 

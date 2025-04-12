@@ -8,7 +8,7 @@ sealed class CreateAnggotaKaderState extends Equatable {
 }
 
 final class CreateAnggotaKaderInitial extends CreateAnggotaKaderState {}
-
+final class CreateAnggotaKaderLoadingState extends CreateAnggotaKaderState {}
 final class CreateAnggotaKaderProccessState extends CreateAnggotaKaderState {}
 
 final class CreateAnggotaKaderSuccessState extends CreateAnggotaKaderState {

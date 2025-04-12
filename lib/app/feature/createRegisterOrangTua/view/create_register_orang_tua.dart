@@ -290,8 +290,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         selectedKabupatenAyah != null &&
         selectedKecamatanAyah != null &&
         selectedDesaAyah != null &&
-        selectedDusunAyah != null &&
-        selectedGolDarahAyah != null;
+        selectedDusunAyah != null;
     logger.d(
         'Validasi Data Ayah: KK: ${kkAyahController.text}, NIK: ${nikAyahController.text}, Nama: ${namaAyahController.text}, Tempat Lahir: ${tempatLahirAyahController.text}, Tanggal Lahir: ${tanggalLahirAyahController.text}, Alamat: ${alamatAyahController.text}, Telepon: ${teleponAyahController.text}, RT: ${rTAyahController.text}, RW: ${rWAyahController.text}, Kabupaten: ${selectedKabupatenAyah?.namaKabupatenKota}, Kecamatan: ${selectedKecamatanAyah?.namaKecamatan}, Desa: ${selectedDesaAyah?.namaDesaKelurahan}, Dusun: ${selectedDusunAyah?.namaDusun}, Golongan Darah: ${selectedGolDarahAyah}');
 
@@ -436,6 +435,17 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       body:
           BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
         listener: (context, state) {
+          if (state is CreateRegisterOrangTuaFailedState) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showTopSnackBar(
+                Overlay.of(context),
+                animationDuration: const Duration(milliseconds: 600),
+                displayDuration: const Duration(milliseconds: 2200),
+                reverseAnimationDuration: const Duration(milliseconds: 300),
+                TopSnackbarWidget().error(state.error),
+              );
+            });
+          }
           if (state is CreateRegisterOrangTuaSuccesState) {
             Navigator.pop(context, 1);
           }
@@ -2919,7 +2929,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           mainButton: () {
                                             bool isValidAllDataAyah =
                                                 validateAyah();
-                                            logger.d(isValidAllDataAyah);
+                                            logger.d(
+                                                'is validate Data ayah $isValidAllDataAyah');
                                             if (isValidAllDataAyah) {
                                               print('Form valid');
                                               // Validate the form
@@ -3012,20 +3023,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     .add(SendRegisterOrangTua(
                                                         postOrangTuaBody:
                                                             dataOrangTua));
-
-                                                // showTopSnackBar(
-                                                //     Overlay.of(context),
-                                                //     animationDuration:
-                                                //         const Duration(
-                                                //             milliseconds: 600),
-                                                //     displayDuration:
-                                                //         const Duration(
-                                                //             milliseconds: 2200),
-                                                //     reverseAnimationDuration:
-                                                //         const Duration(
-                                                //             milliseconds: 300),
-                                                //     TopSnackbarWidget().success(
-                                                //         'Berhasil Membuat Data Register Orang Tua'));
                                               } else {
                                                 print("Form tidak valid");
                                                 showTopSnackBar(

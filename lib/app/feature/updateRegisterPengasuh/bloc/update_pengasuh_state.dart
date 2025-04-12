@@ -8,7 +8,7 @@ sealed class UpdatePengasuhState extends Equatable {
 }
 
 final class UpdatePengasuhInitial extends UpdatePengasuhState {}
-
+final class UpdatePengasuhLoadingState extends UpdatePengasuhState {}
 final class UpdatePengasuhProccessState extends UpdatePengasuhState {}
 
 final class UpdatePengasuhSuccessState extends UpdatePengasuhState {

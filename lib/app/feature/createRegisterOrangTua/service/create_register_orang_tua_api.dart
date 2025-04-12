@@ -10,7 +10,6 @@ class CreateRegisterOrangTuaApi {
     final String link = ApiUtils().urlPostDataOrangTua();
     logger.d(postOrangtuaBody.toJson());
     final String body = json.encode(postOrangtuaBody.toJson());
-
     return await NetworkUtils(token: token).post(link, body).then((response) {
       logger.d(response.toString());
       return response;
