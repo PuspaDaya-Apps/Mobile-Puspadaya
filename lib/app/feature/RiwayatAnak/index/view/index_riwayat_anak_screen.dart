@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import 'package:puspadaya/utils/helper/helper_data.dart';
 import '../../../../../config/theme/shadow.dart';
 
 import '../../../../../route/route_name.dart';
+import '../../../../view/widget/pul_to_refresh.dart';
 import '../../../../view/widget/riwayat_anak_items_widget.dart';
 import '../../../monitoring/model/riwayat_monitoring_anak_model.dart'
     as RiwayatMonitoringAnakModel;
@@ -34,8 +36,10 @@ class IndexRiwayatAnakScreenView extends StatefulWidget {
       _IndexRiwayatAnakScreenViewState();
 }
 
-class _IndexRiwayatAnakScreenViewState
-    extends State<IndexRiwayatAnakScreenView> {
+class _IndexRiwayatAnakScreenViewState extends State<IndexRiwayatAnakScreenView> {
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  
   @override
   void initState() {
     context
@@ -269,42 +273,50 @@ class _IndexRiwayatAnakScreenViewState
             return const DataNotFoundScreen();
           }
 
-          return ListView.builder(
-            itemCount: state.data.data.length,
-            itemBuilder: (context, index) {
-              final anak = state.data.data[index];
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: shadowSm,
-                ),
-                child: RiwayatAnakItems(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return DetailRiwayatBalita(
-                    //         detailRiwayatAnak: anak,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
-                    Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK,
-                        arguments: anak.id);
-                  },
-                  name: anak.namaAnak,
-                  nik: anak.nik,
-                  gender: anak.jenisKelamin.name == 'LAKI_LAKI'
-                      ? 'Laki-Laki'
-                      : 'Perempuan',
-                  month: HelperData().countMonthFromDateTime(anak.tanggalLahir),
-                  year: HelperData().countYearFromDateTime(anak.tanggalLahir),
-                ),
-              );
+          return PullToRefreshWidget(
+            onRefresh: () {
+              context
+                .read<IndexRiwayatPengukuranAnakBloc>()
+                .add(GetIndexRiwayatPengukuranAnak());
             },
+            refreshController: refreshController,
+            child: ListView.builder(
+              itemCount: state.data.data.length,
+              itemBuilder: (context, index) {
+                final anak = state.data.data[index];
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: shadowSm,
+                  ),
+                  child: RiwayatAnakItems(
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) {
+                      //       return DetailRiwayatBalita(
+                      //         detailRiwayatAnak: anak,
+                      //       );
+                      //     },
+                      //   ),
+                      // );
+                      Navigator.pushNamed(context, DETAIL_RIWAYAT_ANAK,
+                          arguments: anak.id);
+                    },
+                    name: anak.namaAnak,
+                    nik: anak.nik,
+                    gender: anak.jenisKelamin.name == 'LAKI_LAKI'
+                        ? 'Laki-Laki'
+                        : 'Perempuan',
+                    month: HelperData().countMonthFromDateTime(anak.tanggalLahir),
+                    year: HelperData().countYearFromDateTime(anak.tanggalLahir),
+                  ),
+                );
+              },
+            ),
           );
         }
         return Container();

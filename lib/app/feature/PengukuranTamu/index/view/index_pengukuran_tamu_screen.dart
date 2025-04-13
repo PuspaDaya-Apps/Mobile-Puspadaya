@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +10,7 @@ import '../../../../../route/route_name.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/pengukuran_tamu_items_widget.dart';
+import '../../../../view/widget/pul_to_refresh.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/index_pengukuran_tamu_bloc.dart';
 
@@ -32,6 +34,9 @@ class IndexPengukuranTamuScreenView extends StatefulWidget {
 }
 
 class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScreenView> {
+  
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+
   @override
   void initState() {
     BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
@@ -76,35 +81,41 @@ class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScree
             return const NoDataScreen();
           }
 
-          return ListView.builder(
-            itemCount: state.indexPengukuranTamuResponseModel.data!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: shadowSm,
-                ),
-                child: PengukuranTamuItems(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context, 
-                      DETAIL_PENGUKURAN_TAMU, 
-                      arguments: state.indexPengukuranTamuResponseModel.data![index].id
-                    ).then((value) {
-                      if(value != null) {
-                        BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
-                      }
-                    });
-                  },
-                  name: state.indexPengukuranTamuResponseModel.data![index].namaAnak,
-                  nik: state.indexPengukuranTamuResponseModel.data![index].nik,
-                  date: DateFormat("d MMMM y", "ID_id").format(state.indexPengukuranTamuResponseModel.data![index].tanggalPengukuran),
-                  place: state.indexPengukuranTamuResponseModel.data![index].posyanduAsal,
-                ),
-              );
+          return PullToRefreshWidget(
+            onRefresh: () {
+              BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
             },
+            refreshController: refreshController,
+            child: ListView.builder(
+              itemCount: state.indexPengukuranTamuResponseModel.data!.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: shadowSm,
+                  ),
+                  child: PengukuranTamuItems(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context, 
+                        DETAIL_PENGUKURAN_TAMU, 
+                        arguments: state.indexPengukuranTamuResponseModel.data![index].id
+                      ).then((value) {
+                        if(value != null) {
+                          BlocProvider.of<IndexPengukuranTamuBloc>(context).add(GetPengukuranTamuEvent());
+                        }
+                      });
+                    },
+                    name: state.indexPengukuranTamuResponseModel.data![index].namaAnak,
+                    nik: state.indexPengukuranTamuResponseModel.data![index].nik,
+                    date: DateFormat("d MMMM y", "ID_id").format(state.indexPengukuranTamuResponseModel.data![index].tanggalPengukuran),
+                    place: state.indexPengukuranTamuResponseModel.data![index].posyanduAsal,
+                  ),
+                );
+              },
+            ),
           );
         }
        
