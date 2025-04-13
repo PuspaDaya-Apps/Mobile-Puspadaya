@@ -40,8 +40,9 @@ class _PengukuranViewState extends State<PengukuranView> {
   String selectedMenu = "Kehadiran";
   bool isTrueKehadiran = false;
   // bool isSearching = false; // State variable to manage search bar visibility
-  TextEditingController searchController =
-      TextEditingController(); // Controller for the search bar
+  TextEditingController searchController = TextEditingController(); // Controller for the search bar
+
+  UniqueKey uniqueKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,8 @@ class _PengukuranViewState extends State<PengukuranView> {
                       (value) {
                         if (value != null) {
                           setState(() {
-                            
+                            logger.e("build ulang ");
+                            uniqueKey = UniqueKey();
                           });
                         }
                       }
@@ -94,7 +96,8 @@ class _PengukuranViewState extends State<PengukuranView> {
                       (value) {
                         if (value != null) {
                           setState(() {
-                            
+                            logger.e("build ulang ");
+                            uniqueKey = UniqueKey();
                           });
                         }
                       }
@@ -105,7 +108,8 @@ class _PengukuranViewState extends State<PengukuranView> {
                       (value) {
                         if (value != null) {
                           setState(() {
-                            
+                            logger.e("build ulang ");
+                            uniqueKey = UniqueKey();
                           });
                         }
                       }
@@ -147,20 +151,20 @@ class _PengukuranViewState extends State<PengukuranView> {
     switch (selectedMenu) {
       case 'Kehadiran':
         return IndexKehadiranScreen(
-          key: UniqueKey(),
+          key: uniqueKey,
           isTrue: isTrueKehadiran,
         );
       case 'Pengukuran Anak':
         return IndexPengukuranAnakScreen(
-          key: UniqueKey()
+          key: uniqueKey
         );
       case 'Pengukuran Ibu Hamil':
         return IndexPengukuranIbuHamilScreen(
-          key: UniqueKey()
+          key: uniqueKey
         );
       case 'Pengukuran Tamu':
         return IndexPengukuranTamuScreen(
-          key: UniqueKey()
+          key: uniqueKey
         );
       case 'Riwayat Anak':
         return const IndexRiwayatAnakScreen();

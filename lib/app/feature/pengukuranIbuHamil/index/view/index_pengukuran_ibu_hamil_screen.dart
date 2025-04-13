@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -11,6 +12,7 @@ import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/pengukuran_ibu_hamil_items_widget.dart';
 
+import '../../../../view/widget/pul_to_refresh.dart';
 import '../bloc/index_pengukuran_ibu_hamil_bloc.dart';
 
 class IndexPengukuranIbuHamilScreen extends StatelessWidget {
@@ -33,13 +35,14 @@ class IndexPengukuranIbuHamilScreenView extends StatefulWidget {
       _IndexPengukuranIbuHamilScreenViewState();
 }
 
-class _IndexPengukuranIbuHamilScreenViewState
-    extends State<IndexPengukuranIbuHamilScreenView> {
+class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHamilScreenView> {
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<IndexPengukuranIbuHamilBloc>(context)
-        .add(GetPengukuranIbuHamilEvent());
+    BlocProvider.of<IndexPengukuranIbuHamilBloc>(context).add(GetPengukuranIbuHamilEvent());
   }
 
   @override
@@ -68,42 +71,48 @@ class _IndexPengukuranIbuHamilScreenViewState
           if (state.indexPengukuranIbuHamilResponseModel.data!.isEmpty) {
             return const NoDataScreen();
           }
-          return ListView.builder(
-            itemCount: state.indexPengukuranIbuHamilResponseModel.data!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: shadowSm,
-                ),
-                child: PengukuranIbuHamilItems(
-                    onTap: () {
-                      Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL,
-                              arguments: state
-                                  .indexPengukuranIbuHamilResponseModel
-                                  .data![index]
-                                  .id)
-                          .then((value) {
-                        if (value != null) {
-                          setState(() {
-                            indexPengukuranIbuHamilBloc
-                                .add(GetPengukuranIbuHamilEvent());
-                          });
-                        }
-                      });
-                    },
-                    name: state.indexPengukuranIbuHamilResponseModel
-                        .data![index].namaIbu,
-                    nik: state
-                        .indexPengukuranIbuHamilResponseModel.data![index].nik,
-                    date: DateFormat("d MMMM y", "ID_id").format(state
-                        .indexPengukuranIbuHamilResponseModel
-                        .data![index]
-                        .tanggalPengukuran)),
-              );
+          return PullToRefreshWidget(
+            onRefresh: () {
+              BlocProvider.of<IndexPengukuranIbuHamilBloc>(context).add(GetPengukuranIbuHamilEvent());
             },
+            refreshController: refreshController,
+            child: ListView.builder(
+              itemCount: state.indexPengukuranIbuHamilResponseModel.data!.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: shadowSm,
+                  ),
+                  child: PengukuranIbuHamilItems(
+                      onTap: () {
+                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL,
+                                arguments: state
+                                    .indexPengukuranIbuHamilResponseModel
+                                    .data![index]
+                                    .id)
+                            .then((value) {
+                          if (value != null) {
+                            setState(() {
+                              indexPengukuranIbuHamilBloc
+                                  .add(GetPengukuranIbuHamilEvent());
+                            });
+                          }
+                        });
+                      },
+                      name: state.indexPengukuranIbuHamilResponseModel
+                          .data![index].namaIbu,
+                      nik: state
+                          .indexPengukuranIbuHamilResponseModel.data![index].nik,
+                      date: DateFormat("d MMMM y", "ID_id").format(state
+                          .indexPengukuranIbuHamilResponseModel
+                          .data![index]
+                          .tanggalPengukuran)),
+                );
+              },
+            ),
           );
         }
         return const ErrorServerScreen();

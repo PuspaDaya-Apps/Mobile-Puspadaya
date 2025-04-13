@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/theme/shadow.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
+import '../../../../view/widget/pul_to_refresh.dart';
 import '../../../../view/widget/riwayat_ibu_hamil_items_widget.dart';
 import '../bloc/index_riwayat_pengukuran_ibu_hamil_bloc.dart';
 
@@ -166,6 +168,8 @@ class _IndexRiwayatIbuHamilScreenViewState
   //   )
   // ];
 
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -199,38 +203,46 @@ class _IndexRiwayatIbuHamilScreenViewState
           if (state.data.data.isEmpty) {
             return const DataNotFoundScreen();
           }
-          return ListView.builder(
-            itemCount: state.data.data.length,
-            itemBuilder: (context, index) {
-              final ibuHamil = state.data.data[index];
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: shadowSm,
-                ),
-                child: RiwayatIbuHamilItems(
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return DetailRiwayatIbuHamil(
-                    //         riwayatIbuHamil: ibuHamil,
-                    //       );
-                    //     },
-                    //   ),
-                    // );
-                    Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL,
-                        arguments: ibuHamil.id);
-                  },
-                  name: ibuHamil.namaIbu,
-                  nik: ibuHamil.nik,
-                  gestationalAge: ibuHamil.usiaKehamilan,
-                ),
-              );
+          return PullToRefreshWidget(
+            onRefresh: () {
+              context
+                .read<IndexRiwayatPengukuranIbuHamilBloc>()
+                .add(GetIndexRiwayatPengukuranIbuHamil());
             },
+            refreshController: refreshController,
+            child: ListView.builder(
+              itemCount: state.data.data.length,
+              itemBuilder: (context, index) {
+                final ibuHamil = state.data.data[index];
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: shadowSm,
+                  ),
+                  child: RiwayatIbuHamilItems(
+                    onTap: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) {
+                      //       return DetailRiwayatIbuHamil(
+                      //         riwayatIbuHamil: ibuHamil,
+                      //       );
+                      //     },
+                      //   ),
+                      // );
+                      Navigator.pushNamed(context, DETAIL_RIWAYAT_IBU_HAMIL,
+                          arguments: ibuHamil.id);
+                    },
+                    name: ibuHamil.namaIbu,
+                    nik: ibuHamil.nik,
+                    gestationalAge: ibuHamil.usiaKehamilan,
+                  ),
+                );
+              },
+            ),
           );
         }
         return Container();

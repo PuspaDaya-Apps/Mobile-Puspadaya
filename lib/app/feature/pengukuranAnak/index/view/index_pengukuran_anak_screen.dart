@@ -1,3 +1,4 @@
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import '../../../../../route/route_name.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/pengukuran_anak_items_widget.dart';
+import '../../../../view/widget/pul_to_refresh.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../bloc/index_pengukuran_anak_bloc.dart';
@@ -33,13 +35,14 @@ class IndexPengukuranAnakScreenView extends StatefulWidget {
       _IndexPengukuranAnakScreenViewState();
 }
 
-class _IndexPengukuranAnakScreenViewState
-    extends State<IndexPengukuranAnakScreenView> {
+class _IndexPengukuranAnakScreenViewState extends State<IndexPengukuranAnakScreenView> {
+
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<IndexPengukuranAnakBloc>(context)
-        .add(GetPengukuranAnakEvent());
+    BlocProvider.of<IndexPengukuranAnakBloc>(context).add(GetPengukuranAnakEvent());
   }
 
   @override
@@ -83,40 +86,46 @@ class _IndexPengukuranAnakScreenViewState
           if (state.indexPengukuranAnakResponseModel.data!.isEmpty) {
             return const NoDataScreen();
           }
-          return ListView.builder(
-            itemCount: state.indexPengukuranAnakResponseModel.data!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: shadowSm,
-                  ),
-                  child: PengukuranAnakItems(
-                    onTap: () {
-                      Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
-                              arguments: state
-                                  .indexPengukuranAnakResponseModel
-                                  .data![index]
-                                  .id)
-                          .then((value) {
-                        if (value != null) {
-                          indexPengukuranAnakBloc
-                              .add(GetPengukuranAnakEvent());
-                        }
-                      });
-                    },
-                    name: state.indexPengukuranAnakResponseModel.data![index]
-                        .namaAnak,
-                    nik: state
-                        .indexPengukuranAnakResponseModel.data![index].nik,
-                    date: state.indexPengukuranAnakResponseModel.data![index]
-                        .tanggalPengukuran,
-                    place: state.indexPengukuranAnakResponseModel.data![index]
-                        .tempatPengukuran,
-                  ));
+          return PullToRefreshWidget(
+            onRefresh: () {
+              BlocProvider.of<IndexPengukuranAnakBloc>(context).add(GetPengukuranAnakEvent());
             },
+            refreshController: refreshController,
+            child: ListView.builder(
+              itemCount: state.indexPengukuranAnakResponseModel.data!.length,
+              itemBuilder: (context, index) {
+                return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: shadowSm,
+                    ),
+                    child: PengukuranAnakItems(
+                      onTap: () {
+                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
+                                arguments: state
+                                    .indexPengukuranAnakResponseModel
+                                    .data![index]
+                                    .id)
+                            .then((value) {
+                          if (value != null) {
+                            indexPengukuranAnakBloc
+                                .add(GetPengukuranAnakEvent());
+                          }
+                        });
+                      },
+                      name: state.indexPengukuranAnakResponseModel.data![index]
+                          .namaAnak,
+                      nik: state
+                          .indexPengukuranAnakResponseModel.data![index].nik,
+                      date: state.indexPengukuranAnakResponseModel.data![index]
+                          .tanggalPengukuran,
+                      place: state.indexPengukuranAnakResponseModel.data![index]
+                          .tempatPengukuran,
+                    ));
+              },
+            ),
           );
         }
         return const ErrorServerScreen();
