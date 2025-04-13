@@ -100,7 +100,7 @@ class _CreateImunisasiFaktorResikoViewState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: "Imunisasi fix",
+        title: "Imunisasi",
         background: Colors.white,
         onBackPressed: () {
           warningDialog(context);

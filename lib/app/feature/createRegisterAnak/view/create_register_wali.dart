@@ -275,6 +275,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                       (value) => Validator.required(
                                             value,
                                           ),
+                                      (value) => Validator.consistOf(value, 16,
+                                          "Masukkan 16 digit angka!"),
                                     ],
                                   ),
                                 ),
@@ -358,9 +360,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                     obscureText: false,
                                     isPasswordField: false,
                                     validators: [
+                                      (value) => Validator.required(value),
                                       (value) => Validator.consistOf(value, 16,
                                           "Masukkan 16 digit angka!"),
-                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ),

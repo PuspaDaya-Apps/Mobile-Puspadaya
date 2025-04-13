@@ -147,8 +147,9 @@ class _CreateParameterFaktorResikoViewState
                   animationDuration: const Duration(milliseconds: 600),
                   displayDuration: const Duration(milliseconds: 2200),
                   reverseAnimationDuration: const Duration(milliseconds: 300),
-                  TopSnackbarWidget().success('Berhasil Menambah Faktor Resiko'));
-              Navigator.pop(context,1);
+                  TopSnackbarWidget()
+                      .success('Berhasil Menambah Faktor Resiko'));
+              Navigator.pop(context, 1);
             }
             if (state is IndexParamterFaktorResikoSendFailed) {
               showTopSnackBar(
@@ -179,7 +180,45 @@ class _CreateParameterFaktorResikoViewState
               );
             }
             if (state is IndexParamterFaktorResikoSuccess) {
+              final allCompleted =
+                  state.data.data.every((parameter) => parameter.isCompleted);
+              if (allCompleted) {
+                return Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        width: 300,
+                        image: AssetImage(imageAward),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "Semua Data Berhasil Disimpan!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: textPrimary10,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Terima kasih telah menyelesaikan seluruh pengisian faktor risiko.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: textPrimary10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ); // <- ganti dengan tampilan kamu
+              }
               if (state.data.data.isEmpty) {
+                //ketika semua sudah selesai maka akan di hidden
+                logger.d('Data tidak ditemukan');
                 return DataNotFoundScreen();
               }
               // logger.d(state.image);
@@ -199,7 +238,8 @@ class _CreateParameterFaktorResikoViewState
                         .any((q) => q.id == answer.pertanyaanId));
                     logger.d('jawaban yang diterima ${answers} ');
 
-                    bool isCompleteQuestion = parameter.isCompleted;
+                    bool isCompleteQuestion = parameter
+                        .isCompleted; //satuan ketika semua sudah di isi maka di hidden
                     if (isCompleteQuestion)
                       return SizedBox(); // Jangan tampilkan jika sudah selesai
                     // if (parameter.pertanyaan[index].id ==
@@ -268,7 +308,11 @@ class _CreateParameterFaktorResikoViewState
                 ),
               );
             }
-            return Container();
+            return Container(
+              child: Center(
+                child: Text('Test'),
+              ),
+            );
           },
         ),
       ),

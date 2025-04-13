@@ -124,6 +124,7 @@ class _UpdateRegisterPengasuhViewState
             .nomorKartuKeluarga);
     _nikController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.nik);
+      
     _namaController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.namaPengasuh);
     _tempatLahirController = TextEditingController(
@@ -305,12 +306,14 @@ class _UpdateRegisterPengasuhViewState
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
                         TextFieldWidget(
-                          controller: _nikController,
+                          controller: _nomorKKController,
                           hintText: 'Nomor Kartu keluarga',
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
+                            (value) => Validator.consistOf(
+                                value, 16, "Masukkan 16 digit angka!"),
                             (value) => Validator.required(value),
                           ],
                         ),
@@ -332,6 +335,8 @@ class _UpdateRegisterPengasuhViewState
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(value),
+                            (value) => Validator.consistOf(
+                                value, 16, "Masukkan 16 digit angka!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
