@@ -683,6 +683,8 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     dusunId: selectedDusunId!,
                                     namaLengkap: _nameController.text,
                                     nomorTelepon: _phoneController.text,
+                                    rt: _rtController.text,
+                                    rw: _rwController.text,
                                   );
                                   context
                                       .read<GantiProfileBloc>()

@@ -11,6 +11,8 @@ PatchGantiProfileModel _$PatchGantiProfileModelFromJson(
     PatchGantiProfileModel(
       namaLengkap: json['nama_lengkap'] as String,
       nomorTelepon: json['nomor_telepon'] as String,
+      rt: json['rt'] as String,
+      rw: json['rw'] as String,
       dusunId: json['dusun_id'] as String,
     );
 
@@ -19,5 +21,7 @@ Map<String, dynamic> _$PatchGantiProfileModelToJson(
     <String, dynamic>{
       'nama_lengkap': instance.namaLengkap,
       'nomor_telepon': instance.nomorTelepon,
-      'dusun_id': instance.dusunId,
+      'rt': instance.rt,
+      'rw': instance.rw,
+      'dusun_id': instance.dusunId.toString(),
     };

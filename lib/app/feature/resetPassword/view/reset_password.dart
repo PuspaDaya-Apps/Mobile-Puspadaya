@@ -44,12 +44,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       TextEditingController();
 
   bool f1 = true;
-  bool f2 = true; 
+  bool f2 = true;
 
   @override
   Widget build(BuildContext context) {
     final resetKataSandiBloc = BlocProvider.of<ResetKataSandiBloc>(context);
-    
+
     return Scaffold(
       backgroundColor: backgroundWhite,
       appBar: AppBar(
@@ -109,17 +109,20 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     keyboardType: TextInputType.visiblePassword,
                     validators: [
                       (value) => Validator.required(
-                          value,),
+                            value,
+                          ),
                       (value) => Validator.min(
                           value, 8, "Kata sandi minimal 8 karakter"),
-                      (value) => Validator.mustContainsCapitalize(
-                          value, 'Kata sandi harus mengandung huruf besar'),
-                      (value) => Validator.mustContainsLowerCase(
-                          value, 'Kata sandi harus mengandung huruf kecil'),
-                      (value) => Validator.mustContainsNumber(
-                          value, "Kata sandi harus mengandung angka"),
-                      (value) => Validator.mustContainsSymbol(
-                          value, 'Kata sandi harus mengandung simbol'),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsLowerCase(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsNumber(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsSymbol(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
                     ],
                     obscureText: f1,
                     onToggleVisibility: () {
@@ -141,17 +144,20 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     keyboardType: TextInputType.visiblePassword,
                     validators: [
                       (value) => Validator.required(
-                          value, ),
+                            value,
+                          ),
                       (value) => Validator.min(
                           value, 8, "Kata sandi minimal 8 karakter"),
-                      (value) => Validator.mustContainsCapitalize(
-                          value, 'Kata sandi harus mengandung huruf besar'),
-                      (value) => Validator.mustContainsLowerCase(
-                          value, 'Kata sandi harus mengandung huruf kecil'),
-                      (value) => Validator.mustContainsNumber(
-                          value, "Kata sandi harus mengandung angka"),
-                      (value) => Validator.mustContainsSymbol(
-                          value, 'Kata sandi harus mengandung simbol'),
+                      (value) => Validator.min(
+                          value, 8, "Kata sandi minimal 8 karakter"),
+                      (value) => Validator.mustContainsCapitalize(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsLowerCase(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsNumber(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                      (value) => Validator.mustContainsSymbol(value,
+                          "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
                     ],
                     obscureText: f2,
                     onToggleVisibility: () {
@@ -164,10 +170,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   BlocConsumer<ResetKataSandiBloc, ResetKataSandiState>(
                     listener: (context, state) {
                       debugPrint(state.toString());
-                      if(state is ResetKataSandiSuccessState) {
+                      if (state is ResetKataSandiSuccessState) {
                         Navigator.pushReplacementNamed(context, LOGIN);
                       }
-                      if(state is ResetKataSandiFailedState) {
+                      if (state is ResetKataSandiFailedState) {
                         debugPrint(state.error);
                       }
                     },
@@ -177,15 +183,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                         mainButtonMessage: "Ganti Kata Sandi",
                         mainButton: () {
                           if (formKey.currentState?.validate() ?? false) {
-                            resetKataSandiBloc.add(
-                              ResetKataSandi(
+                            resetKataSandiBloc.add(ResetKataSandi(
                                 ResetKataSandiModel(
-                                  kodeOtp: widget.codeOTP, 
-                                  password: passwordController.text, 
-                                  confirmPassword: confirmPasswordController.text
-                                )
-                              )
-                            );
+                                    kodeOtp: widget.codeOTP,
+                                    password: passwordController.text,
+                                    confirmPassword:
+                                        confirmPasswordController.text)));
                           }
                         },
                       );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:puspadaya/app/feature/gantiProfile/model/patch_ganti_profile.dart';
 
 import '../../../../utils/api_utils/api_utils.dart';
@@ -10,10 +11,13 @@ class GantiProfile {
   Future<dynamic> patchGantiProfile(
       String accessToken, PatchGantiProfileModel data) async {
     final String link = ApiUtils().urlPatchGantiProfile();
-    final String body = json.encode(data.toJson());
+    // final String body = json.encode(data.toJson());
+    final Map<String, dynamic> body = data.toJson();
+    debugPrint("body ${body.toString()}");
+    logger.d(body);
 
     return await NetworkUtils(token: accessToken)
-        .patch(link, body)
+        .patchFormBody(link, body)
         .then((response) {
       logger.d(response.toString());
       return response;

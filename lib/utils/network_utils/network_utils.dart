@@ -13,39 +13,33 @@ import "../api_utils/api_utils.dart";
 import "../logger/logger.dart";
 // import "package:image_picker/image_picker.dart";
 
-
 class NetworkUtils {
   String? token;
   late Dio dio;
   BuildContext? context;
 
-  NetworkUtils({
-    this.token, this.context
-  }) {
-    dio = Dio(
-      BaseOptions(
+  NetworkUtils({this.token, this.context}) {
+    dio = Dio(BaseOptions(
         contentType: 'application/json',
         responseType: ResponseType.json,
         validateStatus: (status) {
-          if(status != 401) {
+          if (status != 401) {
             return true;
           } else {
             return false;
           }
-        }
-      )
-    );
-  
+        }));
+
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         //! header
-        if(token == null) {
+        if (token == null) {
           options.headers = {
-            'Content-Type': 'application/json', 
+            'Content-Type': 'application/json',
             'Accept': 'application/json'
           };
         } else {
-          options.headers = { 
+          options.headers = {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -54,7 +48,7 @@ class NetworkUtils {
         handler.next(options);
       },
       onError: (DioException dioError, handler) async {
-        logger.e('something error');
+        logger.e('something error ${dioError.response?.statusCode}');
         if (dioError.response?.statusCode == 401) {
           try {
             // if(dioError.requestOptions.headers['Authorization'] != 'Bearer $token') {
@@ -66,7 +60,8 @@ class NetworkUtils {
 
             token = newToken;
             dio.options.headers['Authorization'] = 'Bearer $newToken';
-            dioError.requestOptions.headers['Authorization'] ='Bearer $newToken';
+            dioError.requestOptions.headers['Authorization'] =
+                'Bearer $newToken';
 
             return handler.resolve(await dio.fetch(dioError.requestOptions));
           } catch (e) {
@@ -78,23 +73,20 @@ class NetworkUtils {
     ));
   }
 
-  Future<String> refreshToken () async {
+  Future<String> refreshToken() async {
     String? refreshTokenValue = await SharedPrefUtils().getRefreshToken();
 
-    RefreshTokenModel refreshTokenModel = RefreshTokenModel.fromJson(json.decode(refreshTokenValue!));
+    RefreshTokenModel refreshTokenModel =
+        RefreshTokenModel.fromJson(json.decode(refreshTokenValue!));
 
     try {
-      final response = await http.post(
-        Uri.parse(ApiUtils().urlRefreshToken()),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: json.encode({
-          "refresh_token" : refreshTokenModel.refreshToken
-        })
-      );
+      final response = await http.post(Uri.parse(ApiUtils().urlRefreshToken()),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: json.encode({"refresh_token": refreshTokenModel.refreshToken}));
 
       final bodyResponse = json.decode(response.body);
       final int statusResponse = response.statusCode;
@@ -105,8 +97,9 @@ class NetworkUtils {
       if (statusResponse == 200) {
         return bodyResponse["data"]["access_token"];
       } else if (statusResponse == 401) {
-        if(context != null) {
-          BlocProvider.of<AuthorizationBloc>(context!).add(AuthorizationFalseEvent());
+        if (context != null) {
+          BlocProvider.of<AuthorizationBloc>(context!)
+              .add(AuthorizationFalseEvent());
         }
 
         throw bodyResponse['message'].toString();
@@ -118,19 +111,17 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> get (String url, Map<String, dynamic> parameterQuery) async {
+  Future<List<dynamic>> get(
+      String url, Map<String, dynamic> parameterQuery) async {
     try {
-      final response = await dio.get(
-        url,
-        queryParameters: parameterQuery
-      );
+      final response = await dio.get(url, queryParameters: parameterQuery);
 
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
 
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
-      
+
       if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
@@ -141,12 +132,9 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> post (String url, String body) async {
+  Future<List<dynamic>> post(String url, String body) async {
     try {
-      final response = await dio.post(
-        url,
-        data: body
-      );
+      final response = await dio.post(url, data: body);
 
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
@@ -155,9 +143,7 @@ class NetworkUtils {
       debugPrint(statusResponse.toString());
       logger.e(bodyResponse.toString());
 
-      if (statusResponse == 200 ||
-          statusResponse == 201
-      ) {
+      if (statusResponse == 200 || statusResponse == 201) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -167,13 +153,10 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> postFormData (String url, FormData body) async {
+  Future<List<dynamic>> postFormData(String url, FormData body) async {
     debugPrint("start connection");
     try {
-      final response = await dio.post(
-        url,
-        data: body
-      );
+      final response = await dio.post(url, data: body);
 
       final bodyResponse = response.data;
       final int statusResponse = response.statusCode!;
@@ -181,9 +164,7 @@ class NetworkUtils {
       debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200 ||
-          statusResponse == 201
-      ) {
+      if (statusResponse == 200 || statusResponse == 201) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -193,20 +174,17 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> put (String url, String body) async {
+  Future<List<dynamic>> put(String url, String body) async {
     try {
-      final response = await dio.put(
-        url,
-        data: body
-      );
+      final response = await dio.put(url, data: body);
 
-        final bodyResponse = response.data;
-        final int statusResponse = response.statusCode!;
+      final bodyResponse = response.data;
+      final int statusResponse = response.statusCode!;
 
-        debugPrint(bodyResponse.toString());
-        debugPrint(statusResponse.toString());
+      debugPrint(bodyResponse.toString());
+      debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200 ) {
+      if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -216,20 +194,20 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> patch (String url, String body) async {
+  Future<List<dynamic>> patch(String url, String body) async {
     try {
       final response = await dio.patch(
         url,
-        data: body
+        data: body,
       );
 
-        final bodyResponse = response.data;
-        final int statusResponse = response.statusCode!;
+      final bodyResponse = response.data;
+      final int statusResponse = response.statusCode!;
 
-        debugPrint(bodyResponse.toString());
-        debugPrint(statusResponse.toString());
+      debugPrint(bodyResponse.toString());
+      debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200) {
+      if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -239,20 +217,40 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> delete (String url, String body) async {
+  Future<List<dynamic>> patchFormBody(String url, Map<String, dynamic>  body) async {
     try {
-      final response = await dio.delete(
+      final response = await dio.patch(
         url,
-        data: body
+        data: body,
       );
 
-        final bodyResponse = response.data;
-        final int statusResponse = response.statusCode!;
+      final bodyResponse = response.data;
+      final int statusResponse = response.statusCode!;
 
-        debugPrint(bodyResponse.toString());
-        debugPrint(statusResponse.toString());
+      debugPrint(bodyResponse.toString());
+      debugPrint(statusResponse.toString());
 
-        if (statusResponse == 200) {
+      if (statusResponse == 200) {
+        return [statusResponse, json.decode(json.encode(bodyResponse))];
+      } else {
+        throw bodyResponse['message'].toString();
+      }
+    } on DioException catch (e) {
+      throw e.response!.statusMessage.toString();
+    }
+  }
+
+  Future<List<dynamic>> delete(String url, String body) async {
+    try {
+      final response = await dio.delete(url, data: body);
+
+      final bodyResponse = response.data;
+      final int statusResponse = response.statusCode!;
+
+      debugPrint(bodyResponse.toString());
+      debugPrint(statusResponse.toString());
+
+      if (statusResponse == 200) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -320,5 +318,4 @@ class NetworkUtils {
   //     return throw Exception('Error while fetching data or Your session has expired');
   //   }
   // }
-
 }

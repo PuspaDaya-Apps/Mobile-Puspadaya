@@ -66,7 +66,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
               );
               Navigator.pop(context);
             }
-            if(state is GantiKataSandiFailed) {
+            if (state is GantiKataSandiFailed) {
               showTopSnackBar(
                 Overlay.of(context),
                 animationDuration: const Duration(milliseconds: 600),
@@ -115,8 +115,7 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           },
                           isPasswordField: true,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
                           ],
@@ -143,17 +142,18 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           isPasswordField: true,
                           validators: [
                             (value) => Validator.required(
-                                value,),
+                                  value,
+                                ),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
-                            (value) => Validator.mustContainsCapitalize(
-                                value, 'Kata sandi harus mengandung huruf besar'),
-                            (value) => Validator.mustContainsLowerCase(
-                                value, 'Kata sandi harus mengandung huruf kecil'),
-                            (value) => Validator.mustContainsNumber(
-                                value, "Kata sandi harus mengandung angka"),
-                            (value) => Validator.mustContainsSymbol(
-                                value, 'Kata sandi harus mengandung simbol'),
+                            (value) => Validator.mustContainsCapitalize(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsLowerCase(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsNumber(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsSymbol(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -178,18 +178,17 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                           },
                           isPasswordField: true,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                             (value) => Validator.min(
                                 value, 8, "Kata sandi minimal 8 karakter"),
-                            (value) => Validator.mustContainsCapitalize(
-                                value, 'Kata sandi harus mengandung huruf besar'),
-                            (value) => Validator.mustContainsLowerCase(
-                                value, 'Kata sandi harus mengandung huruf kecil'),
-                            (value) => Validator.mustContainsNumber(
-                                value, "Kata sandi harus mengandung angka"),
-                            (value) => Validator.mustContainsSymbol(
-                                value, 'Kata sandi harus mengandung simbol'),
+                            (value) => Validator.mustContainsCapitalize(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsLowerCase(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsNumber(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
+                            (value) => Validator.mustContainsSymbol(value,
+                                "Gunakan huruf besar, angka, dan simbol (!@#\$%)"),
                             (value) => Validator.compareValues(
                                   value,
                                   _newPasswordController.text,
@@ -210,7 +209,8 @@ class _GantiKataSandiViewState extends State<GantiKataSandiView> {
                                   PostGantiKataSandiModel(
                                 oldPassword: _oldPasswordController.text,
                                 newPassword: _newPasswordController.text,
-                                confirmPassword: _confirmPasswordController.text,
+                                confirmPassword:
+                                    _confirmPasswordController.text,
                               );
                               logger.d(data);
                               context
