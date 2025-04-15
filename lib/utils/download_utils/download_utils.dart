@@ -90,8 +90,25 @@ class DownloadUtils {
       BuildContext context, String url, String filename, String title) async {
     try {
       showDownloadProgressDialog(context, 'Sedang mengunduh ${title}');
+
+       String? accessToken = await SharedPrefUtils().getAccessToken();
+
+      if (accessToken == null) {
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().error('Gagal Mengambil Token'),
+        );
+
+        Navigator.pushReplacementNamed(context, LOGIN);
+      }
+
+      Map<String, String> header = ApiUtils().headerWithToken(accessToken!);
+      
       // ✅ Lakukan Request Download File
-      var response = await http.get(Uri.parse(url));
+      var response = await http.get(Uri.parse(url),headers: header);
 
       if (response.statusCode == 200) {
         String path = await getExternalDocumentPath(context);

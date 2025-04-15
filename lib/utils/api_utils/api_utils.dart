@@ -653,6 +653,11 @@ class ApiUtils {
     String urlDonwloadEPPGBM = LinkApi.DOWNLOADEPPGBM;
     return _baseUrl + _apiVersion + urlDonwloadEPPGBM;
   }
+  String urlDownloadLogActivity(){
+    String urlDonwloadLogActivity = LinkApi.LOGAKTIVITAS;
+    debugPrint('$_baseUrl$urlDonwloadLogActivity');
+    return _baseUrl + urlDonwloadLogActivity;
+  }
 
   // ! storage
   String urlGetImageFromStorage(String path) {

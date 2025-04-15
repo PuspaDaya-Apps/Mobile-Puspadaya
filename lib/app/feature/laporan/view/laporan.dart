@@ -7,6 +7,7 @@ import 'package:puspadaya/utils/download_utils/download_utils.dart';
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
+import '../../../../utils/api_utils/api_utils.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/alert_dialog_content.dart';
@@ -41,31 +42,31 @@ class _LaporanViewState extends State<LaporanView> {
     CardRaporItemModel(
       nama: 'Desa',
       deskripsi: 'Unduh Rekapitulasi data Desa',
-      url: 'https://arxiv.org/pdf/2307.',
+      url: 'https://arxiv.org/pdf/23071.',
       judulRapor: 'Rekapitulasi data Desa',
     ),
     CardRaporItemModel(
       nama: 'Posyandu',
       deskripsi: 'Unduh Rekapitulasi data Posyandu',
-      url: 'https://arxiv.org/pdf/2307.',
+      url: 'https://arxiv.org/pdf/23072.',
       judulRapor: 'Rekapitulasi data Posyandu',
     ),
     CardRaporItemModel(
       nama: 'Anak',
       deskripsi: 'Unduh Rekapitulasi data Anak',
-      url: 'https://arxiv.org/pdf/2307.',
+      url: 'https://arxiv.org/pdf/23073.',
       judulRapor: 'Rekapitulasi data Anak',
     ),
     CardRaporItemModel(
       nama: 'Kader',
       deskripsi: 'Unduh Rekapitulasi data Kader',
-      url: 'https://arxiv.org/pdf/2307.',
+      url: 'https://arxiv.org/pdf/23074.',
       judulRapor: 'Rekapitulasi data Kader',
     ),
     CardRaporItemModel(
       nama: 'Log Activity',
-      deskripsi: 'Unduh Rekapitulasi data Log Activity',
-      url: 'https://arxiv.org/pdf/2307.',
+      deskripsi: 'Unduh data Log Activity',
+      url: ApiUtils().urlDownloadLogActivity(),
       judulRapor: 'Rekapitulasi data Log Activity',
     ),
   ];
@@ -92,98 +93,109 @@ class _LaporanViewState extends State<LaporanView> {
                 judulRapor: '${cardItem.nama}',
                 deskripsiRapor: '${cardItem.deskripsi}',
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialogContent(
-                        title: 'Pilih Periode Cetak Rapor',
-                        content: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
-                              Text(
-                                'Bulan',
-                                style: AppTextStyles.primaryTextNormal.copyWith(
-                                  fontSize: 14,
+                  if (cardItem.nama == 'Log Activity') {
+                    logger.d("download log Activity ${cardItem.nama}");
+                    logger.d('url ${cardItem.url}');
+                    DownloadUtils().downloadAndSaveFile(
+                        context,
+                        cardItem.url,
+                        'Log-Activity.xlsx',
+                        'Log Activity');
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialogContent(
+                          title: 'Pilih Periode Cetak Rapor',
+                          content: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
+                                Text(
+                                  'Bulan',
+                                  style:
+                                      AppTextStyles.primaryTextNormal.copyWith(
+                                    fontSize: 14,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: SizeConfig.calHeightMultiplier(16),
-                              ),
-                              DropdownWidget(
-                                hint: "Pilih Bulan",
-                                value: selectedBulan,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedBulan = value;
-                                    // isSearching = false; // Reset search state when menu changes
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Bulan harus dipilih'; // Error message for required field
-                                  }
-                                  return null; // Return null if validation passes
-                                },
-                                items: bulan,
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
-                              const Text(
-                                'Pilih Tahun',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8)),
-                              DropdownWidget(
-                                hint: "Pilih Tahun",
-                                value: selectedTahun,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedTahun = value;
-                                    // isSearching = false; // Reset search state when menu changes
-                                  });
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Tahun harus dipilih'; // Error message for required field
-                                  }
-                                  return null; // Return null if validation passes
-                                },
-                                items: selectTahun,
-                              ),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
-                              SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16)),
-                            ],
+                                SizedBox(
+                                  height: SizeConfig.calHeightMultiplier(16),
+                                ),
+                                DropdownWidget(
+                                  hint: "Pilih Bulan",
+                                  value: selectedBulan,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedBulan = value;
+                                      // isSearching = false; // Reset search state when menu changes
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Bulan harus dipilih'; // Error message for required field
+                                    }
+                                    return null; // Return null if validation passes
+                                  },
+                                  items: bulan,
+                                ),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
+                                const Text(
+                                  'Pilih Tahun',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(8)),
+                                DropdownWidget(
+                                  hint: "Pilih Tahun",
+                                  value: selectedTahun,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedTahun = value;
+                                      // isSearching = false; // Reset search state when menu changes
+                                    });
+                                  },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Tahun harus dipilih'; // Error message for required field
+                                    }
+                                    return null; // Return null if validation passes
+                                  },
+                                  items: selectTahun,
+                                ),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
+                                SizedBox(
+                                    height: SizeConfig.calHeightMultiplier(16)),
+                              ],
+                            ),
                           ),
-                        ),
-                        mainButton: () {
-                          if (_formKey.currentState!.validate()) {
-                            logger.d('go to pdf');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return PdfViewRapor(
-                                    nama: '${cardItem.judulRapor}',
-                                    path: '${cardItem.url}',
-                                  );
-                                },
-                              ),
-                            );
-                          }
-                        },
-                        mainButtonMessage: 'Lihat Rapor',
-                        colorMainButton: greenPrimaryMain,
-                      );
-                    },
-                  );
+                          mainButton: () {
+                            if (_formKey.currentState!.validate()) {
+                              logger.d('go to pdf');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return PdfViewRapor(
+                                      nama: '${cardItem.judulRapor}',
+                                      path: '${cardItem.url}',
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                          },
+                          mainButtonMessage: 'Lihat Rapor',
+                          colorMainButton: greenPrimaryMain,
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             );
@@ -253,11 +265,7 @@ class _PdfViewRaporState extends State<PdfViewRapor> {
               ),
               onPressed: () {
                 DownloadUtils().downloadAndSaveFile(
-                  context,
-                  '${widget.path}',
-                  '${widget.nama}.pdf',
-                  "Laporan"
-                );
+                    context, '${widget.path}', '${widget.nama}.pdf', "Laporan");
               },
             )
           : Container(),

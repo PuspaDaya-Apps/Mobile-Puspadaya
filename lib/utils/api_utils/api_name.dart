@@ -116,4 +116,7 @@ abstract class LinkApi {
 
   //! total point
   static const TOTALPOINT = '/total-point';
+
+  //! log aktivitas
+  static const LOGAKTIVITAS = '/log-activity';
 }
