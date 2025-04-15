@@ -36,6 +36,60 @@ class _KunjunganViewState extends State<KunjunganView> {
   // bool kunjungan = true;
 
   EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+
+  void navigatorAnakStunting () {
+    Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
+      BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+
+      if (value == true) {
+        navigatorAnakStunting();
+      } else if (value is String) {
+        Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: value).then((value) {
+          BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+
+          if (value == true) {
+            navigatorAnakStunting();
+          }
+        });
+      }
+    });
+  }
+
+  void navigatorAnakTidakHadir () {
+    Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
+      BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+
+      if (value == true) {
+        navigatorAnakTidakHadir();
+      } else if (value is String) {
+        Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: value).then((value) {
+          BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+          
+          if (value == true) {
+            navigatorAnakTidakHadir();
+          }
+        });
+      }
+    });
+  }
+
+  void navigatorIbuHamil () {
+    Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
+      BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+
+      if (value == true) {
+        navigatorIbuHamil();
+      } else if (value is String) {
+        Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: value).then((value) {
+          BlocProvider.of<IndexKunjunganBloc>(context).add(GetDataKunjungan());
+          
+          if (value == true) {
+            navigatorIbuHamil();
+          }
+        });
+      }
+    });
+  }
  
   @override
   void initState() {
@@ -76,12 +130,6 @@ class _KunjunganViewState extends State<KunjunganView> {
               if(state.kunjunganResponseModel.data!.isEmpty) {
                 return const NoDataScreen();
               }
-              // for(var value in state.kunjunganResponseModel.data!){
-              //   if(value.statusKunjungan == "Sedang Berjalan") {
-              //     kunjungan = false;
-              //   }
-              // }
-
               return Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
                 child: PullToRefreshWidget(
@@ -120,6 +168,10 @@ class _KunjunganViewState extends State<KunjunganView> {
                             if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Stunting") {
                               Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
                                   indexKunjunganBloc.add(GetDataKunjungan());
+
+                                  if(value == true) {
+                                    navigatorAnakStunting();
+                                  }
                                   // if(value == 1) {
                                   //   Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
                                   //   if(value != null) {
@@ -132,6 +184,10 @@ class _KunjunganViewState extends State<KunjunganView> {
                             if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Anak Tidak Hadir") {
                               Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
                                   indexKunjunganBloc.add(GetDataKunjungan());
+
+                                  if(value == true) {
+                                    navigatorAnakTidakHadir();
+                                  }
                                   // if(value == 1) {
                                   //   Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
                                   //   if(value != null) {
@@ -144,6 +200,10 @@ class _KunjunganViewState extends State<KunjunganView> {
                             if(state.kunjunganResponseModel.data![index].jenisKunjungan == "Ibu Hamil") {
                               Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN, arguments: state.kunjunganResponseModel.data![index].id).then((value) {
                                   indexKunjunganBloc.add(GetDataKunjungan());
+
+                                  if(value == true) {
+                                    navigatorIbuHamil();
+                                  }
                                   // if(value == 1) {
                                   //   Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
                                   //   if(value != null) {
@@ -185,28 +245,24 @@ class _KunjunganViewState extends State<KunjunganView> {
               },
             ).then((valueCreate) {
               if(valueCreate == 1) {
-                Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
-                    indexKunjunganBloc.add(GetDataKunjungan());
-                });
+                navigatorAnakStunting();
+                // Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN).then((value) {
+                //     indexKunjunganBloc.add(GetDataKunjungan());
+                // });
               }
               if(valueCreate == 2) {
-                Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
-                    indexKunjunganBloc.add(GetDataKunjungan());                  
-                });
+                navigatorAnakTidakHadir();
+                // Navigator.pushNamed(context, LIST_ANAK_TIDAK_HADIR_KUNJUNGAN).then((value) {
+                //     indexKunjunganBloc.add(GetDataKunjungan());                  
+                // });
               }
               if(valueCreate == 3) {
-                Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
-                    indexKunjunganBloc.add(GetDataKunjungan());             
-                  });
+                navigatorIbuHamil();
+                // Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN).then((value) {
+                //   indexKunjunganBloc.add(GetDataKunjungan());             
+                // });
               }
             });
-          // } else {
-           
-          // }   
-          
-          
-          // Add your navigation or functionality for adding new items
-          print("Floating Action Button Pressed");
         },
       ),
     );

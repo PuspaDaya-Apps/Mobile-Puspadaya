@@ -230,8 +230,7 @@ class _FormTugasKunjunganAnakStuntingViewState
                             children: List.generate(
                                 listTugasKunjunganData.length, (index) {
                               return CheckboxListWidget(
-                                isChecked:
-                                    listTugasKunjunganData[index].isChecked,
+                                isChecked: listTugasKunjunganData[index].isChecked,
                                 label: listTugasKunjunganData[index].label,
                                 onChanged: (value) {
                                   setState(() {
@@ -688,14 +687,13 @@ class _UploadImageState extends State<UploadImage> {
                           Navigator.of(context)
                             ..pop()
                             ..pop()
-                            ..pop(1);
-                            Navigator.pushNamed(context, LIST_ANAK_STUNTING_KUNJUNGAN);
+                            ..pop(true);
                         },
                         selesai: () {
                           Navigator.of(context)
                             ..pop()
                             ..pop()
-                            ..pop(0);
+                            ..pop();
                         },
                       );
                     },

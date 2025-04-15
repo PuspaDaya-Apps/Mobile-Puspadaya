@@ -114,9 +114,9 @@ class _ListAnakTidakHadirKunjunganViewState
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakTidakHadirSuccessState) {
-          Navigator.pop(context, 1);
-          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN,
-              arguments: state.idKunjungan);
+          Navigator.pop(context, state.idKunjungan);
+          // Navigator.pushNamed(context, DETAIL_CREATE_ANAK_TIDAK_HADIR_KUNJUNGAN,
+          //     arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganAnakTidakHadirFailedState) {
           showTopSnackBar(

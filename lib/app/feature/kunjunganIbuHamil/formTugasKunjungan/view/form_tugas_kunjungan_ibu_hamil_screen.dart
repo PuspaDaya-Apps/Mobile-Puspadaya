@@ -529,14 +529,13 @@ class _UploadImageState extends State<UploadImage> {
                           Navigator.of(context)
                             ..pop()
                             ..pop()
-                            ..pop(1);
-                            Navigator.pushNamed(context, LIST_IBU_HAMIL_KUNJUNGAN);
+                            ..pop(true);
                         },
                         selesai: () {
                           Navigator.of(context)
                             ..pop()
                             ..pop()
-                            ..pop(0);
+                            ..pop();
                         },
                       );
                     },

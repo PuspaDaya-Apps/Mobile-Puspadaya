@@ -108,9 +108,9 @@ class _ListAnakStuntingKunjunganViewState
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakStuntingSuccessState) {
-          Navigator.pop(context, 1);
-          Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN,
-              arguments: state.idKunjungan);
+          Navigator.pop(context, state.idKunjungan);
+          // Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN,
+          //     arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganAnakStuntingFailedState) {
           showTopSnackBar(
