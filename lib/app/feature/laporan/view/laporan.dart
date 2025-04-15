@@ -64,7 +64,7 @@ class _LaporanViewState extends State<LaporanView> {
     ),
     CardRaporItemModel(
       nama: 'Log Activity',
-      deskripsi: 'Unduh Rekapitulasi data Desa',
+      deskripsi: 'Unduh Rekapitulasi data Log Activity',
       url: 'https://arxiv.org/pdf/2307.',
       judulRapor: 'Rekapitulasi data Log Activity',
     ),
