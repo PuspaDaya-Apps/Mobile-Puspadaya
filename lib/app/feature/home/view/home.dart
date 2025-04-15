@@ -82,6 +82,7 @@ class _HomeViewState extends State<HomeView> {
               ProfileSection(
                 name: widget.currentUserModel.namaLengkap,
                 role: widget.currentUserModel.role.namaRole,
+                posyandu: widget.currentUserModel.posyandu.namaPosyandu,
               ),
               SizedBox(
                 height: SizeConfig.calHeightMultiplier(16),
@@ -625,8 +626,9 @@ class JadwalCard extends StatelessWidget {
 class ProfileSection extends StatelessWidget {
   final String name;
   final String role;
+  final String posyandu;
 
-  const ProfileSection({super.key, required this.name, required this.role});
+  const ProfileSection({super.key, required this.name, required this.role, required this.posyandu});
 
   @override
   Widget build(BuildContext context) {
@@ -654,7 +656,7 @@ class ProfileSection extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  role,
+                  '$role - $posyandu',
                   style: TextStyle(
                     color: textSecondary1,
                     fontWeight: FontWeight.w500,

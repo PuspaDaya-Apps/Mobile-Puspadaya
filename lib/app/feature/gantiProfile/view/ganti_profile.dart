@@ -21,8 +21,6 @@ import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../home/bloc/userBloc/user_bloc.dart';
-import '../../home/view/home_wrapper.dart';
 import '../model/patch_ganti_profile.dart';
 
 class GantiProfile extends StatelessWidget {
