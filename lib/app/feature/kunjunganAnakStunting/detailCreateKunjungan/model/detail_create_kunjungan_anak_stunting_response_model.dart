@@ -22,8 +22,6 @@ class DetailCreateKunjunganAnakStuntingResponseModel {
   String statusKunjungan;
   @JsonKey(name: 'jenis_kunjungan')
   String jenisKunjungan;
-  @JsonKey(name: 'jarak_total')
-  String jarakTotal;
   @JsonKey(name: 'tanggal_kunjungan')
   DateTime tanggalKunjungan;
   @JsonKey(name: 'mulai_pada')
@@ -35,7 +33,6 @@ class DetailCreateKunjunganAnakStuntingResponseModel {
     required this.statusKunjungan,
     required this.jenisKunjungan,
     required this.tanggalKunjungan,
-    required this.jarakTotal,
     required this.mulaiPada,
     this.anak
   });
@@ -51,6 +48,8 @@ class Anak {
   @JsonKey(name: 'nama_anak')
   String namaAnak;
   String nik;
+  @JsonKey(name: 'jarak_posyandu')
+  String jarakPosyandu;
   @JsonKey(name: 'kartu_keluarga')
   KartuKeluarga kartuKeluarga;
 
@@ -58,6 +57,7 @@ class Anak {
     required this.id,
     required this.namaAnak,
     required this.nik,
+    required this.jarakPosyandu,
     required this.kartuKeluarga
   });
 
@@ -190,7 +190,6 @@ DetailCreateKunjunganAnakStuntingResponseModel
           statusKunjungan: json['status_kunjungan'] as String,
           jenisKunjungan: json['jenis_kunjungan'] as String,
           tanggalKunjungan: DateTime.parse(json['tanggal_kunjungan'] as String),
-          jarakTotal: json['jarak_total'] as String,
           mulaiPada:  DateTime.parse("${json['tanggal_kunjungan']} ${json['mulai_pada']}"),
           anak: json['anak'] == null
               ? null
@@ -203,7 +202,6 @@ Map<String, dynamic> _$DetailCreateKunjunganAnakStuntingResponseModelToJson(
       'id': instance.id,
       'status_kunjungan': instance.statusKunjungan,
       'jenis_kunjungan': instance.jenisKunjungan,
-      'jarak_total': instance.jarakTotal,
       'tanggal_kunjungan': instance.tanggalKunjungan.toIso8601String(),
       'mulai_pada': instance.mulaiPada.toIso8601String(),
       'anak': instance.anak,
@@ -213,6 +211,7 @@ Anak _$AnakFromJson(Map<String, dynamic> json) => Anak(
       id: json['id'] as String,
       namaAnak: json['nama_anak'] as String,
       nik: json['nik'] as String,
+      jarakPosyandu: json['jarak_posyandu'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
     );
@@ -221,6 +220,7 @@ Map<String, dynamic> _$AnakToJson(Anak instance) => <String, dynamic>{
       'id': instance.id,
       'nama_anak': instance.namaAnak,
       'nik': instance.nik,
+      'jarak_posyandu': instance.jarakPosyandu,
       'kartu_keluarga': instance.kartuKeluarga,
     };
 

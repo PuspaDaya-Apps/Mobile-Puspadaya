@@ -106,7 +106,7 @@ class _DetailCreateKunjunganAnakStuntingViewState
           },
           builder: (context, state) {
             if (state is DetailCreateKunjunganAnakStuntingProccessState) {
-              SizedBox(
+              return SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height / 1.15,
                 child: Center(
@@ -172,7 +172,7 @@ class _DetailCreateKunjunganAnakStuntingViewState
                                           width:
                                               4), // Tambahkan jarak antar teks jika diperlukan
                                       Text(
-                                        state.listDataAnakStunting.jarakTotal,
+                                        "${state.listDataAnakStunting.anak!.jarakPosyandu} m",
                                         style: AppTextStyles.primaryTextMedium
                                             .copyWith(
                                           fontSize: 22,

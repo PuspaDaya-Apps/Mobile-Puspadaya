@@ -18,21 +18,21 @@ class ErrorMessage {
 //@JsonSerializable()
 class DetailPatchKunjunganIbuHamilResponseModel {
   String id;
-  @JsonKey(name: 'jarak_total')
-  String jarakTotal;
   @JsonKey(name: 'tanggal_kunjungan')
   DateTime tanggalKunjungan;
   @JsonKey(name: 'mulai_pada')
   DateTime mulaiPada;
   @JsonKey(name: 'selesai_pada')
   DateTime selesaiPada;
+  @JsonKey(name: 'ibu_hamil')
+  IbuHamil ibuHamil;
 
   DetailPatchKunjunganIbuHamilResponseModel({
     required this.id,
     required this.tanggalKunjungan,
-    required this.jarakTotal,
     required this.mulaiPada,
-    required this.selesaiPada
+    required this.selesaiPada,
+    required this.ibuHamil
   });
 
   factory DetailPatchKunjunganIbuHamilResponseModel.fromJson(Map<String, dynamic> json) => _$DetailPatchKunjunganIbuHamilResponseModelFromJson(json);
@@ -40,6 +40,20 @@ class DetailPatchKunjunganIbuHamilResponseModel {
   Map<String, dynamic> toJson()=>_$DetailPatchKunjunganIbuHamilResponseModelToJson(this);
 }
 
+//@JsonSerializable()
+class IbuHamil {
+  String id;
+  double jarak;
+
+  IbuHamil({
+    required this.id,
+    required this.jarak,
+  });
+
+  factory IbuHamil.fromJson(Map<String, dynamic> json) => _$IbuHamilFromJson(json);
+
+  Map<String, dynamic> toJson()=>_$IbuHamilToJson(this);
+}
 
 ErrorMessage _$ErrorMessageFromJson(Map<String, dynamic> json) => ErrorMessage(
       message: json['message'] as String,
@@ -56,17 +70,26 @@ DetailPatchKunjunganIbuHamilResponseModel
         DetailPatchKunjunganIbuHamilResponseModel(
           id: json['id'] as String,
           tanggalKunjungan: DateTime.parse(json['tanggal_kunjungan'] as String),
-          jarakTotal: json['jarak_total'] as String,
           mulaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['mulai_pada']}"),
           selesaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['selesai_pada']}"),
+          ibuHamil: IbuHamil.fromJson(json['ibu_hamil'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$DetailPatchKunjunganIbuHamilResponseModelToJson(
         DetailPatchKunjunganIbuHamilResponseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'jarak_total': instance.jarakTotal,
       'tanggal_kunjungan': instance.tanggalKunjungan.toIso8601String(),
       'mulai_pada': instance.mulaiPada.toIso8601String(),
       'selesai_pada': instance.selesaiPada.toIso8601String(),
+      'ibu_hamil': instance.ibuHamil,
+    };
+IbuHamil _$IbuHamilFromJson(Map<String, dynamic> json) => IbuHamil(
+      id: json['id'] as String,
+      jarak: (json['jarak'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$IbuHamilToJson(IbuHamil instance) => <String, dynamic>{
+      'id': instance.id,
+      'jarak': instance.jarak,
     };

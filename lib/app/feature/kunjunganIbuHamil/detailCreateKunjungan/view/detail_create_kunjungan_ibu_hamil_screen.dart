@@ -158,7 +158,7 @@ class _DetailCreateKunjunganIbuHamilViewState
                                       ),
                                       SizedBox(width:4), // Tambahkan jarak antar teks jika diperlukan
                                       Text(
-                                        state.listDataIbuHamil.jarakTotal,
+                                        "${state.listDataIbuHamil.ibuHamil!.jarak} m",
                                         style: AppTextStyles.primaryTextMedium
                                             .copyWith(
                                           fontSize: 28,

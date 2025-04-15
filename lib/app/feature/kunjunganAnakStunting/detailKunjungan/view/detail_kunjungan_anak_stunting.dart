@@ -100,7 +100,7 @@ class _DetailKunjunganAnakStuntingScreenState
             },
             builder: (context, state) {
               if (state is DetailKunjunganAnakStuntingProccessState) {
-                SizedBox(
+                return SizedBox(
                   width: MediaQuery.sizeOf(context).width,
                   height: MediaQuery.sizeOf(context).height / 1.15,
                   child: Center(
@@ -222,7 +222,7 @@ class _DetailKunjunganAnakStuntingScreenState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: state.listDataAnakStunting.jarakTotal),
+                          text: "${state.listDataAnakStunting.anak!.jarakPosyandu} m"),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       state.listDataAnakStunting.anak!.kartuKeluarga.ibu != null
                           ? Column(

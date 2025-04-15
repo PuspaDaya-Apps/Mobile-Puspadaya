@@ -171,7 +171,7 @@ class _DetailCreateKunjunganAnakTidakHadirViewState
                                           width:
                                               4), // Tambahkan jarak antar teks jika diperlukan
                                       Text(
-                                        state.listDataAnakTidakHadir.jarakTotal,
+                                        "${state.listDataAnakTidakHadir.anak!.jarakPosyandu} m",
                                         style: AppTextStyles.primaryTextMedium
                                             .copyWith(
                                           fontSize: 28,

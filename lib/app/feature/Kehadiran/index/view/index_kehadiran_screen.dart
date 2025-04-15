@@ -38,10 +38,10 @@ class IndexKehadiranScreenView extends StatefulWidget {
 class _IndexKehadiranScreenViewState extends State<IndexKehadiranScreenView> {
   @override
   void initState() {
-    // TODO: implement initState
-    if (widget.isTrue == true) {
-      context.read<IndexKehadiranBloc>().add(GetIndexKehadiranEvent());
-    }
+    // // TODO: implement initState
+    // if (widget.isTrue == true) {
+    //   context.read<IndexKehadiranBloc>().add(GetIndexKehadiranEvent());
+    // }
     super.initState();
     context.read<IndexKehadiranBloc>().add(GetIndexKehadiranEvent());
   }

@@ -28,11 +28,9 @@ class CreateKunjunganAnakStuntingBloc extends Bloc<CreateKunjunganAnakStuntingEv
       emit(CreateKunjunganAnakStuntingTokenExpiredState());
     } else {
       try {
-        double jarak = Random().nextDouble() * (7 - 0.1) + 0.1 ;
         CreateKunjunganAnakStuntingModel kunjunganAnakModel = CreateKunjunganAnakStuntingModel(
           anakId: event.idAnak, 
           mulaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-          jarakTotal: "${jarak.toStringAsFixed(1)} Km",
           tanggalKunjungan: DateTime.now()
         );
         debugPrint(kunjunganAnakModel.jenisKunjungan);

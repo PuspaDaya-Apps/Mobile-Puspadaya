@@ -236,7 +236,7 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                 reverseAnimationDuration: const Duration(milliseconds: 300),
                 TopSnackbarWidget().success("Berhasil Membuat Data Kehadiran"),
               );
-              Navigator.pop(context, true);
+              Navigator.pop(context);
             }
           },
           child: ButtonPrimary(

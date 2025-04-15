@@ -113,9 +113,9 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganIbuHamilSuccessState) {
-          Navigator.pop(context, 1);
-          Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN,
-              arguments: state.idKunjungan);
+          Navigator.pop(context, state.idKunjungan);
+          // Navigator.pushNamed(context, DETAIL_CREATE_IBU_HAMIL_KUNJUNGAN,
+          //     arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganIbuHamilFailedState) {
           showTopSnackBar(

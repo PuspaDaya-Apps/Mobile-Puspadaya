@@ -27,11 +27,9 @@ class CreateKunjunganAnakTidakHadirBloc extends Bloc<CreateKunjunganAnakTidakHad
       emit(CreateKunjunganAnakTidakHadirTokenExpiredState());
     } else {
       try {
-        double jarak = Random().nextDouble() * (7 - 0.1) + 0.1 ;
         CreateKunjunganAnakTidakHadirModel kunjunganAnakModel = CreateKunjunganAnakTidakHadirModel(
           anakId: event.idAnak, 
           mulaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-          jarakTotal: "${jarak.toStringAsFixed(1)} Km",
           tanggalKunjungan: DateTime.now()
         );
         

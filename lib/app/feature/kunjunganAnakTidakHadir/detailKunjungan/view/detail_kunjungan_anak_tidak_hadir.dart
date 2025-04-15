@@ -224,7 +224,7 @@ class _DetailKunjunganAnakTidakHadirScreenState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: state.listDataAnakTidakHadir.jarakTotal),
+                          text: "${state.listDataAnakTidakHadir.anak!.jarakPosyandu} m"),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       state.listDataAnakTidakHadir.anak!.kartuKeluarga.ibu !=
                               null

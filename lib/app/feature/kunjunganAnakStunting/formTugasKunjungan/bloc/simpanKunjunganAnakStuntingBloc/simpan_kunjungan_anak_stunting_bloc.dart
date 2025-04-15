@@ -8,6 +8,7 @@ import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/m
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/model/update_kunjungan_anak_stunting_model.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/model/update_kunjungan_anak_stunting_response_model.dart';
 
+import '../../../../../../utils/logger/logger.dart';
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../../model/CheckBoxKunjungan.dart';
 import '../../model/detail_patch_kunjungan_anak_stunting_response_model.dart';
@@ -26,7 +27,8 @@ class SimpanKunjunganAnakStuntingBloc extends Bloc<SimpanKunjunganAnakStuntingEv
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganAnakStuntingState>emit)  async {
     emit(SimpanKunjunganAnakStuntingProccessState());
 
-    if(event.listTugas.isEmpty) {
+    if(event.listTugas.isEmpty && event.anakTidakAdaDirumah.isChecked == false) {
+      logger.e("data = ${event.listTugas.length}, ${event.anakTidakAdaDirumah.isChecked}");
       emit(ListTugasNullState());
       return;
     }

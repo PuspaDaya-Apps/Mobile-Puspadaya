@@ -49,7 +49,7 @@ class FormTugasKunjunganIbuHamilApi {
   }
 
   Future<List<dynamic>> getDetailKunjunganService (String token, String idKunjungan) async {
-    final String link = ApiUtils().urlGetDetailKunjunganAnak(idKunjungan);
+    final String link = ApiUtils().urlGetDetailKunjunganIbuHamil(idKunjungan);
     final Map<String, dynamic> parameterQuery = {};
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
