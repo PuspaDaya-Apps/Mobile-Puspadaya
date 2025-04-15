@@ -90,6 +90,7 @@ class UpdateRegisterIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
+  TextEditingController _jarakController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
 
@@ -171,6 +172,10 @@ class UpdateRegisterIbuHamilViewState
     _catatanController.text = widget.data.data.catatan;
     _tabletFeController.text = widget.data.data.jumlahTabletFe.toString();
     _upperArmCircumferenceController.text = widget.data.data.lingkarLenganAtas;
+    _jarakController.text = widget.data.data.jarak % 1 == 0
+        ? widget.data.data.jarak.toInt().toString()
+        : widget.data.data.jarak.toString();
+
     _hemogoblinController.text = widget.data.data.hemoglobin == null
         ? ""
         : widget.data.data.hemoglobin!.replaceAll('.00', '');
@@ -461,8 +466,7 @@ class UpdateRegisterIbuHamilViewState
                                               .alatPengukuranAdmin.merekAlat,
                                       controller: _heightController,
                                       validator: [
-                                        (value) => Validator.required(
-                                            value),
+                                        (value) => Validator.required(value),
                                       ],
                                     ),
                                     SizedBox(
@@ -483,7 +487,8 @@ class UpdateRegisterIbuHamilViewState
                                       controller:
                                           _upperArmCircumferenceController,
                                       validator: [
-                                        (value) => Validator.required(value,
+                                        (value) => Validator.required(
+                                              value,
                                             ),
                                       ],
                                     ),
@@ -506,7 +511,8 @@ class UpdateRegisterIbuHamilViewState
                                               .alatPengukuranAdmin.merekAlat,
                                       controller: _weightController,
                                       validator: [
-                                        (value) => Validator.required(value,
+                                        (value) => Validator.required(
+                                              value,
                                             ),
                                       ],
                                     ),
@@ -573,6 +579,21 @@ class UpdateRegisterIbuHamilViewState
                               ),
                             ],
                           ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Jarak Posyandu (Meter)',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          TextFieldWidget(
+                            controller: _jarakController,
+                            hintText: 'Jarak Posyandu',
+                            keyboardType: TextInputType.number,
+                            obscureText: false,
+                            isPasswordField: false,
+                            validators: [],
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
                             'Tanggal Pertama Haid',
@@ -685,7 +706,8 @@ class UpdateRegisterIbuHamilViewState
                                       keyboardType: TextInputType.number,
                                       obscureText: false,
                                       validators: [
-                                        (value) => Validator.required(value,
+                                        (value) => Validator.required(
+                                              value,
                                             )
                                       ],
                                     ),
@@ -759,8 +781,8 @@ class UpdateRegisterIbuHamilViewState
                                       hintText: "Masukan Nama BPJS Anda",
                                       validators: selectedRadioBPJS == 2
                                           ? [
-                                              (value) => Validator.required(
-                                                  value),
+                                              (value) =>
+                                                  Validator.required(value),
                                             ]
                                           : null,
                                       isPasswordField: false,
@@ -861,6 +883,8 @@ class UpdateRegisterIbuHamilViewState
                               mainButton: () {
                                 if (_formKey.currentState!.validate()) {
                                   UpdateIbuHamilModel postData = UpdateIbuHamilModel(
+                                      jarak: double.tryParse(_jarakController.text) ??
+                                          0,
                                       alatBeratBadanId: alatUkurIbuHamilSend == null
                                           ? widget.data.data.alatBeratBadan.id
                                           : alatUkurIbuHamil.alatUkurBerat!.id,
@@ -873,8 +897,7 @@ class UpdateRegisterIbuHamilViewState
                                       alatTinggiBadanId: alatUkurIbuHamilSend == null
                                           ? widget.data.data.alatTinggiBadan.id
                                           : alatUkurIbuHamil.alatUkurTinggi!.id,
-                                      alatTinggiFundusId: alatUkurIbuHamilSend ==
-                                              null
+                                      alatTinggiFundusId: alatUkurIbuHamilSend == null
                                           ? widget.data.data.alatTinggiFundus.id
                                           : alatUkurIbuHamil
                                               .alatUkurTinggiFundus!.id,
@@ -887,8 +910,8 @@ class UpdateRegisterIbuHamilViewState
                                               _hemogoblinController.text),
                                       jumlahTabletFe:
                                           _parseInt(_tabletFeController.text),
-                                      lingkarLenganAtas: _parseDouble(
-                                          _upperArmCircumferenceController.text),
+                                      lingkarLenganAtas:
+                                          _parseDouble(_upperArmCircumferenceController.text),
                                       terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
                                       tinggiBadan: _parseDouble(_heightController.text),
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),

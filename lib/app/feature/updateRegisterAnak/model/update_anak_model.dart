@@ -23,6 +23,8 @@ class UpdateAnakModel {
   double lingkarKepalaLahir;
   @JsonKey(name: 'lingkar_lengan_atas_lahir')
   double lingkarLenganAtasLahir;
+  @JsonKey(name: 'jarak_posyandu')
+  double jarakPosyandu;
   @JsonKey(name: 'cara_lahir')
   String caraLahir;
   @JsonKey(name: 'status_kelahiran')
@@ -34,6 +36,7 @@ class UpdateAnakModel {
   Pengasuh? pengasuh; 
 
   UpdateAnakModel({
+    required this.jarakPosyandu,
     required this.nik,
     required this.namaAnak,
     required this.anakKe,
@@ -62,6 +65,7 @@ class UpdateAnakModel {
     double? tinggiBadanLahir,
     double? lingkarKepalaLahir,
     double? lingkarLenganAtasLahir,
+    double? jarakPosyandu,
     String? caraLahir,
     String? statusKelahiran,
     String? kartuKeluargaId,
@@ -70,6 +74,7 @@ class UpdateAnakModel {
     Pengasuh? pengasuh,
   }) =>
       UpdateAnakModel(
+        jarakPosyandu: jarakPosyandu ?? this.jarakPosyandu,
         nik: nik?? this.nik,
         namaAnak: namaAnak ?? this.namaAnak,
         tempatLahir: tempatLahir ?? this.tempatLahir,
@@ -141,6 +146,7 @@ class Pengasuh {
 
 UpdateAnakModel _$UpdateAnakModelFromJson(Map<String, dynamic> json) =>
     UpdateAnakModel(
+      jarakPosyandu: (json['jarak_posyandu'] as num).toDouble(),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       anakKe: (json['anak_ke'] as num).toInt(),
@@ -175,6 +181,7 @@ Map<String, dynamic> _$UpdateAnakModelToJson(UpdateAnakModel instance) =>
       'tinggi_badan_lahir': instance.tinggiBadanLahir,
       'lingkar_kepala_lahir': instance.lingkarKepalaLahir,
       'lingkar_lengan_atas_lahir': instance.lingkarLenganAtasLahir,
+      'jarak_posyandu': instance.jarakPosyandu,
       'cara_lahir': instance.caraLahir,
       'status_kelahiran': instance.statusKelahiran,
       'status_orang_tua': instance.statusOrangTua,

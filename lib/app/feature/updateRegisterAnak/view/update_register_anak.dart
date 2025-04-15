@@ -61,6 +61,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   TextEditingController ageController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
+  TextEditingController jarakPosyanduController = TextEditingController();
 
   String? selectedGender;
   String? selectedCaraLahir;
@@ -117,6 +118,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
         text: widget.getDetailAnakResponse.data!.tinggiBadanLahir);
     weightController = TextEditingController(
         text: widget.getDetailAnakResponse.data!.beratBadanLahir);
+    jarakPosyanduController = TextEditingController(
+        text: widget.getDetailAnakResponse.data!.jarakPosyandu);
 
     //! selected
     selectedGender = widget.getDetailAnakResponse.data!.jenisKelamin;
@@ -163,7 +166,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     setState(() {
       tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +217,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                       (value) => Validator.consistOf(
                           value, 16, "NIK Anak harus terdiri atas 16 digit"),
                       (value) => Validator.required(
-                          value, ),
+                            value,
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -234,8 +238,9 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     obscureText: false,
                     isPasswordField: false,
                     validators: [
-                      (value) =>
-                          Validator.required(value, ),
+                      (value) => Validator.required(
+                            value,
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -256,7 +261,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                          value, ),
+                            value,
+                          ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -283,7 +289,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               isPasswordField: false,
                               validators: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                           ],
@@ -336,7 +343,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: heightController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                             SizedBox(
@@ -349,7 +357,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: lingkarLenganController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                             SizedBox(
@@ -370,7 +379,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: weightController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                             SizedBox(
@@ -383,7 +393,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                               controller: lingkarKepalaController,
                               validator: [
                                 (value) => Validator.required(
-                                    value, ),
+                                      value,
+                                    ),
                               ],
                             ),
                           ],
@@ -441,6 +452,20 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                         selectedCaraLahir = value;
                       });
                     },
+                  ),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                  const Text(
+                    'Jarak Posyandu (Meter)',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                  TextFieldWidget(
+                    controller: jarakPosyanduController,
+                    hintText: 'Jarak Posyandu',
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    isPasswordField: false,
+                    validators: [],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -550,10 +575,14 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                         color: bluePrimaryMain,
                         mainButtonMessage: 'Simpan',
                         mainButton: () {
+                          logger.d("jarak posyandu update ${jarakPosyanduController.text}");
                           if (_formKey.currentState!.validate()) {
                             updateAnakBloc.add(UpdateAnak(
                                 id: widget.getDetailAnakResponse.data!.id!,
                                 updateAnakModel: UpdateAnakModel(
+                                    jarakPosyandu: double.tryParse(
+                                            jarakPosyanduController.text) ??
+                                        0,
                                     nik: nikController.text,
                                     namaAnak: namaController.text,
                                     anakKe: int.parse(anakKeController.text),

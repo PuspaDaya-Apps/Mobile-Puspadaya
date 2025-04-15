@@ -25,6 +25,8 @@ class UpdateIbuHamilModel {
   final String alatLingkarLenganId;
   @JsonKey(name: "tinggi_fundus_uteri")
   double? tinggiFundusUteri;
+  @JsonKey(name: "jarak")
+  double jarak;
   @JsonKey(name: "alat_tinggi_fundus_id")
   final String alatTinggiFundusId;
   @JsonKey(name: "terpapar_asap_rokok")
@@ -37,6 +39,7 @@ class UpdateIbuHamilModel {
   final String? namaBPJS;
 
   UpdateIbuHamilModel({
+    required this.jarak,
     required this.beratBadan,
     required this.alatBeratBadanId,
     required this.tinggiBadan,
@@ -62,6 +65,7 @@ class UpdateIbuHamilModel {
 
 UpdateIbuHamilModel _$UpdateIbuHamilModelFromJson(Map<String, dynamic> json) =>
     UpdateIbuHamilModel(
+      jarak: (json['jarak'] as num).toDouble(),
       beratBadan: (json['berat_badan'] as num).toDouble(),
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
       tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
@@ -99,4 +103,5 @@ Map<String, dynamic> _$UpdateIbuHamilModelToJson(
       'catatan': instance.catatan,
       'memiliki_bpjs': instance.memilkiBPJS,
       'nama_bpjs': instance.namaBPJS,
+      'jarak': instance.jarak
     };

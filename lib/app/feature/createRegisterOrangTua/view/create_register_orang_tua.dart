@@ -443,7 +443,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                 displayDuration: const Duration(milliseconds: 2200),
                 reverseAnimationDuration: const Duration(milliseconds: 300),
                 TopSnackbarWidget().error(state.error),
-              );
+              );  
             });
           }
           if (state is CreateRegisterOrangTuaSuccesState) {

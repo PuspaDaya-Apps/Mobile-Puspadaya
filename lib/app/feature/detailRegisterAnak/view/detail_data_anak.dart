@@ -242,6 +242,19 @@ class DetailDataAnak extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(text: '${detailResponse.data!.caraLahir}'),
+             SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
+            ),
+            const Text(
+              'Jarak Posyandu',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            InfoFieldWidget(text: '${detailResponse.data!.jarakPosyandu} Meter'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),

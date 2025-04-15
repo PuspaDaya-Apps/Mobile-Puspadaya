@@ -54,6 +54,9 @@ class Data {
   @JsonKey(name: "lingkar_kepala_lahir")
   final String lingkarKepalaLahir;
 
+  @JsonKey(name: "jarak_posyandu")
+  final String jarakPosyandu;
+
   @JsonKey(name: "cara_lahir")
   final String caraLahir;
 
@@ -85,6 +88,7 @@ class Data {
   final Posyandu posyandu;
 
   Data({
+    required this.jarakPosyandu,
     required this.id,
     required this.nik,
     required this.namaAnak,
@@ -418,6 +422,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       tinggiBadanLahir: json['tinggi_badan_lahir'] as String,
       lingkarLenganAtasLahir: json['lingkar_lengan_atas_lahir'] as String,
       lingkarKepalaLahir: json['lingkar_kepala_lahir'] as String,
+      jarakPosyandu: json['jarak_posyandu'] as String,
       caraLahir: json['cara_lahir'] as String,
       statusKelahiran: json['status_kelahiran'] as String,
       statusStunting: json['status_stunting'],

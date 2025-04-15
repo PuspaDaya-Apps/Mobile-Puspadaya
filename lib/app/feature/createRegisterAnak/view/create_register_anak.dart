@@ -73,6 +73,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   TextEditingController ageController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
+  TextEditingController jarakPosyanduController = TextEditingController();
   TextEditingController upperArmCircumferenceController =
       TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
@@ -294,8 +295,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   keyboardType: TextInputType.text,
                                   obscureText: false,
                                   validators: [
-                                    (value) => Validator.required(
-                                        value),
+                                    (value) => Validator.required(value),
                                   ],
                                 ),
                                 SizedBox(
@@ -314,8 +314,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   keyboardType: TextInputType.text,
                                   obscureText: false,
                                   validators: [
-                                    (value) => Validator.required(
-                                        value),
+                                    (value) => Validator.required(value),
                                   ],
                                 ),
                                 SizedBox(
@@ -415,7 +414,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                       (value) => Validator.consistOf(value, 16,
                                           "Masukkan 16 digit angka!"),
                                       (value) => Validator.required(
-                                          value, ),
+                                            value,
+                                          ),
                                     ],
                                   ),
                                 ),
@@ -484,8 +484,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -505,8 +504,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -600,7 +598,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     unit: 'cm',
                                     controller: upperArmCircumferenceController,
                                     validator: [
-                                      (value) => Validator.required(value,),
+                                      (value) => Validator.required(
+                                            value,
+                                          ),
                                     ],
                                   ),
                                   SizedBox(
@@ -620,7 +620,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     unit: 'kg',
                                     controller: weightController,
                                     validator: [
-                                      (value) => Validator.required(value,),
+                                      (value) => Validator.required(
+                                            value,
+                                          ),
                                     ],
                                   ),
                                   SizedBox(
@@ -632,7 +634,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     unit: 'cm',
                                     controller: headCircumferenceController,
                                     validator: [
-                                      (value) => Validator.required(value,),
+                                      (value) => Validator.required(
+                                            value,
+                                          ),
                                     ],
                                   ),
                                 ],
@@ -690,6 +694,20 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                               selectedCaraLahir = value;
                             });
                           },
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                        const Text(
+                          'Jarak Posyandu (Meter)',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                        TextFieldWidget(
+                          controller: jarakPosyanduController,
+                          hintText: 'Jarak Posyandu',
+                          keyboardType: TextInputType.number,
+                          obscureText: false,
+                          isPasswordField: false,
+                          validators: [],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
@@ -837,6 +855,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
                               mainButton: () {
+                                logger.d("Jarak Posyandu ${jarakPosyanduController.text}");
                                 if (_formKey.currentState!.validate()) {
                                   if (selectedStatusOrangTuaAnak == 'Wali') {
                                     logger.d('go to wali');
@@ -857,17 +876,19 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                                         namaController.text,
                                                     tempatLahir: tempatLahirController
                                                         .text,
-                                                    tanggalLahir: tanggalLahirController
-                                                        .text,
+                                                    tanggalLahir:
+                                                        tanggalLahirController
+                                                            .text,
                                                     beratBadanLahir: double.parse(
                                                         weightController.text),
+                                                    jarakPosyandu:
+                                                        double.tryParse(jarakPosyanduController.text) ??
+                                                            0,
                                                     tinggiBadanLahir: double.parse(
                                                         heightController.text),
                                                     lingkarKepalaLahir: double.parse(
-                                                        headCircumferenceController
-                                                            .text),
-                                                    lingkarLenganAtasLahir:
-                                                        double.parse(upperArmCircumferenceController.text),
+                                                        headCircumferenceController.text),
+                                                    lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
                                                     caraLahir: selectedCaraLahir!,
                                                     jenisKelamin: selectedGender!,
                                                     statusKelahiran: selectedStatusKelahiran!,
@@ -892,6 +913,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                             tanggalLahirController.text,
                                         beratBadanLahir:
                                             double.parse(weightController.text),
+                                        jarakPosyandu: double.tryParse(
+                                                jarakPosyanduController.text) ??
+                                            0,
                                         tinggiBadanLahir:
                                             double.parse(heightController.text),
                                         lingkarKepalaLahir: double.parse(
@@ -903,10 +927,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                         jenisKelamin: selectedGender!,
                                         statusKelahiran:
                                             selectedStatusKelahiran!,
-                                        disabilitasAnak:
-                                            selectedDisabilityLabelsAnak,
-                                        statusOrangTua:
-                                            selectedStatusOrangTuaAnak!,
+                                        disabilitasAnak: selectedDisabilityLabelsAnak,
+                                        statusOrangTua: selectedStatusOrangTuaAnak!,
                                         pengasuh: null)));
                                   }
                                   logger.d('go to simpan');

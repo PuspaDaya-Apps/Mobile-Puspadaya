@@ -92,6 +92,7 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
+  TextEditingController _jarakPosyanduController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
 
@@ -310,8 +311,7 @@ class _CreateRegisterIbuHamilViewState
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     validators: [
-                                      (value) => Validator.required(
-                                          value),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                   SizedBox(
@@ -329,8 +329,7 @@ class _CreateRegisterIbuHamilViewState
                                     controller: _nikController,
                                     hintText: "NIK",
                                     validators: [
-                                      (value) => Validator.required(
-                                          value),
+                                      (value) => Validator.required(value),
                                     ],
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
@@ -354,8 +353,7 @@ class _CreateRegisterIbuHamilViewState
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
                                     validators: [
-                                      (value) => Validator.required(
-                                          value),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                   SizedBox(
@@ -446,8 +444,7 @@ class _CreateRegisterIbuHamilViewState
                                       hintText: 'contoh: 150 cm',
                                       unit: 'cm',
                                       validator: [
-                                        (value) => Validator.required(
-                                            value),
+                                        (value) => Validator.required(value),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurTinggi
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -486,7 +483,8 @@ class _CreateRegisterIbuHamilViewState
                                       unit: 'kg',
                                       validator: [
                                         (value) => Validator.required(
-                                            value,),
+                                              value,
+                                            ),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurBerat
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -500,7 +498,8 @@ class _CreateRegisterIbuHamilViewState
                                       title: 'Lingkar Lengan Atas',
                                       hintText: 'contoh: 15.1',
                                       validator: [
-                                        (value) => Validator.required(value,
+                                        (value) => Validator.required(
+                                              value,
                                             ),
                                       ],
                                       unit: 'cm',
@@ -549,6 +548,20 @@ class _CreateRegisterIbuHamilViewState
                                 ),
                               ),
                             ],
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          const Text(
+                            'Jarak Posyandu (Meter)',
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          TextFieldWidget(
+                            controller: _jarakPosyanduController,
+                            hintText: 'Jarak Posyandu',
+                            keyboardType: TextInputType.number,
+                            obscureText: false,
+                            isPasswordField: false,
+                            validators: [],
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
@@ -662,7 +675,8 @@ class _CreateRegisterIbuHamilViewState
                                       controller: _tabletFeController,
                                       hintText: "Jumlah Tablet FE",
                                       validators: [
-                                        (value) => Validator.required(value,
+                                        (value) => Validator.required(
+                                              value,
                                             ),
                                       ],
                                       isPasswordField: false,
@@ -740,7 +754,8 @@ class _CreateRegisterIbuHamilViewState
                                       validators: selectedRadioBPJS == 2
                                           ? [
                                               (value) => Validator.required(
-                                                  value,),
+                                                    value,
+                                                  ),
                                             ]
                                           : null,
                                       isPasswordField: false,
@@ -842,6 +857,8 @@ class _CreateRegisterIbuHamilViewState
                                 if (_formKey.currentState!.validate() &&
                                     selectedMemilikiBPJS != null) {
                                   PostIbuHamilModel postData = PostIbuHamilModel(
+                                      jarak: double.tryParse(_jarakPosyanduController.text) ??
+                                          0,
                                       alatBeratBadanId:
                                           alatUkurIbuHamil.alatUkurBerat!.id,
                                       alatLingkarLenganId: alatUkurIbuHamil
@@ -862,12 +879,8 @@ class _CreateRegisterIbuHamilViewState
                                           _parseInt(_tabletFeController.text),
                                       lingkarLenganAtas: _parseDouble(
                                           _armCircumferenceController.text),
-                                      terpaparAsapRokok:
-                                          exposedCigaretteSmoke == 1
-                                              ? "Iya"
-                                              : "Tidak",
-                                      tinggiBadan:
-                                          _parseDouble(_heightController.text),
+                                      terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
+                                      tinggiBadan: _parseDouble(_heightController.text),
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
                                       tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
                                       tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),

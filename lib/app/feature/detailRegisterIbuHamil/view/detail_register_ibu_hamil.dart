@@ -416,6 +416,20 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
+                        'Jarak Posyandu (Meter)',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      InfoFieldWidget(
+                        text: state.data.data!.jarak % 1 == 0
+                            ? state.data.data!.jarak.toInt().toString()
+                            : state.data.data!.jarak.toString(),
+                      ),
+
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      Text(
                         'Tanggal Pertama Haid',
                         style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,

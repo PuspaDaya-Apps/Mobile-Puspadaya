@@ -25,6 +25,8 @@ class CreateAnakModel {
   double lingkarLenganAtasLahir;
   @JsonKey(name: 'cara_lahir')
   String caraLahir;
+  @JsonKey(name: 'jarak_posyandu')
+  double jarakPosyandu;
   @JsonKey(name: 'status_kelahiran')
   String statusKelahiran;
   @JsonKey(name: 'kartu_keluarga_id')
@@ -33,9 +35,10 @@ class CreateAnakModel {
   String statusOrangTua;
   @JsonKey(name: 'disabilitas_anak')
   List<String> disabilitasAnak;
-  Pengasuh? pengasuh; 
+  Pengasuh? pengasuh;
 
   CreateAnakModel({
+    required this.jarakPosyandu,
     required this.nik,
     required this.namaAnak,
     required this.anakKe,
@@ -60,6 +63,7 @@ class CreateAnakModel {
     String? tempatLahir,
     int? anakKe,
     String? tanggalLahir,
+    double? jarakPosyandu,
     String? jenisKelamin,
     double? beratBadanLahir,
     double? tinggiBadanLahir,
@@ -73,7 +77,8 @@ class CreateAnakModel {
     Pengasuh? pengasuh,
   }) =>
       CreateAnakModel(
-        nik: nik?? this.nik,
+        jarakPosyandu: jarakPosyandu?? this.jarakPosyandu,
+        nik: nik ?? this.nik,
         namaAnak: namaAnak ?? this.namaAnak,
         tempatLahir: tempatLahir ?? this.tempatLahir,
         anakKe: anakKe ?? this.anakKe,
@@ -82,7 +87,8 @@ class CreateAnakModel {
         beratBadanLahir: beratBadanLahir ?? this.beratBadanLahir,
         tinggiBadanLahir: tinggiBadanLahir ?? this.tinggiBadanLahir,
         lingkarKepalaLahir: lingkarKepalaLahir ?? this.lingkarKepalaLahir,
-        lingkarLenganAtasLahir: lingkarLenganAtasLahir ?? this.lingkarLenganAtasLahir,
+        lingkarLenganAtasLahir:
+            lingkarLenganAtasLahir ?? this.lingkarLenganAtasLahir,
         caraLahir: caraLahir ?? this.caraLahir,
         statusKelahiran: statusKelahiran ?? this.statusKelahiran,
         kartuKeluargaId: kartuKeluargaId ?? this.kartuKeluargaId,
@@ -91,9 +97,10 @@ class CreateAnakModel {
         pengasuh: pengasuh ?? this.pengasuh,
       );
 
-  factory CreateAnakModel.fromJson(Map<String, dynamic> json) => _$CreateAnakModelFromJson(json);
+  factory CreateAnakModel.fromJson(Map<String, dynamic> json) =>
+      _$CreateAnakModelFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$CreateAnakModelToJson(this);
+  Map<String, dynamic> toJson() => _$CreateAnakModelToJson(this);
 }
 
 // @JsonSerializable()
@@ -138,13 +145,15 @@ class Pengasuh {
     required this.disabilitasPengasuh,
   });
 
-  factory Pengasuh.fromJson(Map<String, dynamic> json) => _$PengasuhFromJson(json);
+  factory Pengasuh.fromJson(Map<String, dynamic> json) =>
+      _$PengasuhFromJson(json);
 
-  Map<String, dynamic> toJson()=>_$PengasuhToJson(this);
+  Map<String, dynamic> toJson() => _$PengasuhToJson(this);
 }
 
 CreateAnakModel _$CreateAnakModelFromJson(Map<String, dynamic> json) =>
     CreateAnakModel(
+      jarakPosyandu: (json['jarak_posyandu'] as num).toDouble(),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       anakKe: (json['anak_ke'] as num).toInt(),
@@ -180,6 +189,7 @@ Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
       'tinggi_badan_lahir': instance.tinggiBadanLahir,
       'lingkar_kepala_lahir': instance.lingkarKepalaLahir,
       'lingkar_lengan_atas_lahir': instance.lingkarLenganAtasLahir,
+      'jarak_posyandu': instance.jarakPosyandu,
       'cara_lahir': instance.caraLahir,
       'status_kelahiran': instance.statusKelahiran,
       'kartu_keluarga_id': instance.kartuKeluargaId,

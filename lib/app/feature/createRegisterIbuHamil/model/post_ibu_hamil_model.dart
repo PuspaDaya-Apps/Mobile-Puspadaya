@@ -31,6 +31,8 @@ class PostIbuHamilModel {
   final String alatTinggiFundusId;
   @JsonKey(name: "terpapar_asap_rokok")
   final String terpaparAsapRokok;
+  @JsonKey(name: "jarak")
+  double? jarak;
   @JsonKey(name: "catatan")
   final String catatan;
   @JsonKey(name: "memiliki_bpjs")
@@ -55,6 +57,7 @@ class PostIbuHamilModel {
     required this.alatLingkarLenganId,
     this.tinggiFundusUteri,
     required this.alatTinggiFundusId,
+    required this.jarak,
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.memilkiBPJS,
@@ -69,6 +72,7 @@ class PostIbuHamilModel {
 
 PostIbuHamilModel _$PostIbuHamilModelFromJson(Map<String, dynamic> json) =>
     PostIbuHamilModel(
+      jarak: (json['jarak'] as num?)?.toDouble(),
       ibuId: json['ibu_id'] as String,
       beratBadan: (json['berat_badan'] as num).toDouble(),
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
@@ -109,4 +113,5 @@ Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
       'memiliki_bpjs': instance.memilkiBPJS,
       'nama_bpjs': instance.namaBPJS,
       'tanggal_pengukuran': instance.tanggalPengukuran,
+      'jarak': instance.jarak,
     };

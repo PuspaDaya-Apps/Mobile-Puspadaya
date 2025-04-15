@@ -13,6 +13,7 @@ class CreateAnakApi {
       String token, CreateAnakModel createAnakModel) async {
     final String link = ApiUtils().urlPostDataAnak();
     final String body = json.encode(createAnakModel.toJson());
+    debugPrint(body);
 
     return await NetworkUtils(token: token).post(link, body).then((response) {
       debugPrint(response.toString());

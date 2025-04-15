@@ -34,6 +34,7 @@ class Data {
   String? tinggiBadanLahir;
   String? lingkarLenganAtasLahir;
   String? lingkarKepalaLahir;
+  String? jarakPosyandu;
   String? caraLahir;
   String? statusKelahiran;
   dynamic statusStunting;
@@ -48,6 +49,7 @@ class Data {
 
   Data(
       {this.id,
+      this.jarakPosyandu,
       this.pengukuranAnak,
       this.createdAt,
       this.updatedAt,
@@ -88,6 +90,7 @@ class Data {
     tinggiBadanLahir = json["tinggi_badan_lahir"];
     lingkarLenganAtasLahir = json["lingkar_lengan_atas_lahir"];
     lingkarKepalaLahir = json["lingkar_kepala_lahir"];
+    jarakPosyandu = json["jarak_posyandu"];
     caraLahir = json["cara_lahir"];
     statusKelahiran = json["status_kelahiran"];
     pengukuranAnak = json["pengukuran"] == null
@@ -128,6 +131,7 @@ class Data {
     _data["tinggi_badan_lahir"] = tinggiBadanLahir;
     _data["lingkar_lengan_atas_lahir"] = lingkarLenganAtasLahir;
     _data["lingkar_kepala_lahir"] = lingkarKepalaLahir;
+    _data["jarak_posyandu"] = jarakPosyandu;
     _data["cara_lahir"] = caraLahir;
     _data["status_kelahiran"] = statusKelahiran;
     _data["status_stunting"] = statusStunting;

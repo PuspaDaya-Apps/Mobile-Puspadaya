@@ -33,6 +33,8 @@ class Data {
   String? hemoglobin;
   @JsonKey(name: "jumlah_tablet_fe")
   final int jumlahTabletFe;
+  @JsonKey(name: "jarak")
+  final double jarak;
   @JsonKey(name: "tanggal_pertama_haid")
   final DateTime tanggalPertamaHaid;
   @JsonKey(name: "tanggal_terakhir_haid")
@@ -62,6 +64,7 @@ class Data {
 
   Data({
     required this.id,
+    required this.jarak,
     required this.usiaKehamilan,
     required this.beratBadan,
     required this.tinggiBadan,
@@ -376,6 +379,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       tinggiBadan: json['tinggi_badan'] as String,
       hemoglobin: json['hemoglobin'] as String?,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
+      jarak: (json['jarak'] as num).toDouble(),
       tanggalPertamaHaid:
           DateTime.parse(json['tanggal_pertama_haid'] as String),
       tanggalTerakhirHaid:
@@ -406,6 +410,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'tanggal_pertama_haid': instance.tanggalPertamaHaid.toIso8601String(),
       'tanggal_terakhir_haid': instance.tanggalTerakhirHaid.toIso8601String(),
       'lingkar_lengan_atas': instance.lingkarLenganAtas,
+      'jarak': instance.jarak,
       'tinggi_fundus_uteri': instance.tinggiFundusUteri,
       'terpapar_asap_rokok': instance.terpaparAsapRokok,
       'catatan': instance.catatan,
