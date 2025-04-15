@@ -152,7 +152,7 @@ class _DetailMonitoringWastingViewState
                                                 SizeConfig.calHeightMultiplier(
                                                     16)),
                                         const Text(
-                                          'Status Gizi',
+                                          'Status UnderWeight',
                                           style: TextStyle(fontSize: 12),
                                         ),
                                         SizedBox(
@@ -639,7 +639,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text('Under weight'),
+              child: Text('Underweight'),
             ),
             numeric: true,
           ),

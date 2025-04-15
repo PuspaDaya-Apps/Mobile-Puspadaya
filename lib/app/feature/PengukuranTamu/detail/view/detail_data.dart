@@ -220,7 +220,7 @@ class _DetailDataState extends State<DetailData> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text(
-                        'Status Gizi',
+                        'Status Underweight',
                         style: TextStyle(
                           fontSize: 12,
                         ),

@@ -78,75 +78,51 @@ class AlertDialogResult extends StatelessWidget {
               ),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(12)),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Status Stunting',
-                        style: AppTextStyles.primaryTextMedium.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      InfoFieldWidget(text: statusStunting),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Status Gizi',
-                        style: AppTextStyles.primaryTextMedium.copyWith(
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      Container(
-                        width: double.infinity,
-                        height: 50,
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                        decoration: BoxDecoration(
-                          color: backgroundWhite10,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            textAlign: TextAlign.start,
-                            statusGizi,
-                            style: AppTextStyles.primaryTextNormal.copyWith(
-                              color: textPrimary30,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+            Text(
+              'Status Stunting',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+              ),
             ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            InfoFieldWidget(text: statusStunting),
             SizedBox(height: SizeConfig.calHeightMultiplier(12)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Status Wasting',
-                  style: AppTextStyles.primaryTextMedium.copyWith(
+            Text(
+              'Status UnderWeight',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            Container(
+              width: double.infinity,
+              height: 50,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+              decoration: BoxDecoration(
+                color: backgroundWhite10,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  textAlign: TextAlign.start,
+                  statusGizi,
+                  style: AppTextStyles.primaryTextNormal.copyWith(
+                    color: textPrimary30,
                     fontSize: 12,
                   ),
                 ),
-                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                InfoFieldWidget(text: statusWasting),
-              ],
+              ),
             ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(12)),
+            Text(
+              'Status Wasting',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            InfoFieldWidget(text: statusWasting),
             SizedBox(height: SizeConfig.calHeightMultiplier(30)),
             ButtonPrimary(
               mainButtonMessage: mainButtonMessage,
@@ -164,7 +140,7 @@ class AlertDialogResult extends StatelessWidget {
                       color: Colors.grey,
                       fontWeight: FontWeight.w500,
                     ),
-                  ),
+                  ),  
                 ),
               ),
             ]

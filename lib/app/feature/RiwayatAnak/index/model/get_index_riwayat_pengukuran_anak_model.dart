@@ -27,6 +27,8 @@ class GetIndexRiwayatPengukuranAnakModel {
 class Datum {
     @JsonKey(name: "id")
     final String id;
+    @JsonKey(name: "created_at")
+    final DateTime? createdAt;
     @JsonKey(name: "nik")
     final String nik;
     @JsonKey(name: "nama_anak")
@@ -44,6 +46,7 @@ class Datum {
 
     Datum({
         required this.id,
+        required this.createdAt,
         required this.nik,
         required this.namaAnak,
         required this.tanggalLahir,
@@ -101,7 +104,9 @@ class Pengukuran {
 
 enum TempatPengukuran {
     @JsonValue("Posyandu")
-    POSYANDU
+    POSYANDU,
+    @JsonValue("Rumah")
+    RUMAH
 }
 
 @JsonSerializable()

@@ -83,7 +83,7 @@ class _MonitoringViewState extends State<MonitoringView>
                     labelColor: bluePrimaryMain,
                     tabs: [
                       Tab(text: 'Stunting'),
-                      Tab(text: 'Under Weight'),
+                      Tab(text: 'UnderWeight'),
                       Tab(text: 'Wasting'),
                       Tab(text: 'Ibu Hamil'),
                     ],

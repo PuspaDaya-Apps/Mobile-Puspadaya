@@ -70,7 +70,7 @@ class _DetailMonitoringUnderWeightViewState
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Detail Monitoring Under Weight',
+        title: 'Detail Monitoring UnderWeight',
         onBackPressed: () {
           Navigator.pop(context);
         },
@@ -152,7 +152,7 @@ class _DetailMonitoringUnderWeightViewState
                                                 SizeConfig.calHeightMultiplier(
                                                     16)),
                                         const Text(
-                                          'Status Gizi',
+                                          'Status UnderWeight',
                                           style: TextStyle(fontSize: 12),
                                         ),
                                         SizedBox(
@@ -638,7 +638,7 @@ class DataTableRiwayatPengukuranUnderWeight extends StatelessWidget {
             size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text('Under weight'),
+              child: Text('Underweight'),
             ),
             numeric: true,
           ),

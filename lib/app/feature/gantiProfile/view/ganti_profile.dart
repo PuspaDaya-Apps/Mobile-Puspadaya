@@ -665,8 +665,10 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     hintText: 'RT',
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
+                                    maxLength: 3,
                                     obscureText: false,
                                     validators: [
+                                      (value)=> Validator.minLength(value, 2, "RT Minimal 2 Karakter"),
                                       (value) => Validator.required(value),
                                     ],
                                   ),
@@ -675,10 +677,12 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                   child: TextFieldWidget(
                                     controller: _rwController,
                                     hintText: 'RW',
+                                    maxLength: 3,
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     validators: [
+                                      (value)=> Validator.minLength(value, 2, "RT Minimal 2 Karakter"),
                                       (value) => Validator.required(value),
                                     ],
                                   ),

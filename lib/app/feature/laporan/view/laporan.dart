@@ -82,7 +82,7 @@ class _LaporanViewState extends State<LaporanView> {
       backgroundColor: backgroundWhite10,
       body: SafeArea(
         child: ListView.builder(
-          itemCount: 4,
+          itemCount: listRaporItem.length,
           itemBuilder: (context, index) {
             CardRaporItemModel cardItem = listRaporItem[index];
             return Padding(

@@ -614,7 +614,7 @@ class DataTableRiwayatAnak extends StatelessWidget {
             size: ColumnSize.M,
             label: Align(
               alignment: Alignment.centerLeft,
-              child: Text('Under weight'),
+              child: Text('Underweight'),
             ),
             numeric: true,
           ),

@@ -28,6 +28,9 @@ Map<String, dynamic> _$GetIndexRiwayatPengukuranAnakModelToJson(
 
 Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       id: json['id'] as String,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String),
@@ -42,6 +45,7 @@ Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
 
 Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
       'id': instance.id,
+      'created_at': instance.createdAt?.toIso8601String(),
       'nik': instance.nik,
       'nama_anak': instance.namaAnak,
       'tanggal_lahir': instance.tanggalLahir.toIso8601String(),
@@ -83,6 +87,7 @@ Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>
 
 const _$TempatPengukuranEnumMap = {
   TempatPengukuran.POSYANDU: 'Posyandu',
+  TempatPengukuran.RUMAH: 'Rumah',
 };
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
