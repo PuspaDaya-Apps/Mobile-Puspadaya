@@ -10,8 +10,7 @@ class CreateKunjunganAnakStuntingModel {
   String anakId;
   @JsonKey(name: 'mulai_pada')
   String mulaiPada;
-  @JsonKey(name: 'jarak_total')
-  String jarakTotal;
+  // @JsonKey(name: 'j
   @JsonKey(name: 'tanggal_kunjungan')
   DateTime tanggalKunjungan;
 
@@ -19,7 +18,6 @@ class CreateKunjunganAnakStuntingModel {
     this.jenisKunjungan = "Anak Stunting",
     required this.anakId,
     required this.mulaiPada,
-    required this.jarakTotal,
     required this.tanggalKunjungan
   });
 
@@ -34,7 +32,6 @@ CreateKunjunganAnakStuntingModel _$CreateKunjunganAnakStuntingModelFromJson(
       jenisKunjungan: json['jenis_kunjungan'] as String,
       anakId: json['anak_id'] as String,
       mulaiPada: json['mulai_pada'] as String,
-      jarakTotal: json['jarak_total'] as String,
       tanggalKunjungan: DateTime.parse(json['tanggal_kunjungan'] as String),
     );
 
@@ -44,6 +41,5 @@ Map<String, dynamic> _$CreateKunjunganAnakStuntingModelToJson(
       'jenis_kunjungan': instance.jenisKunjungan,
       'anak_id': instance.anakId,
       'mulai_pada': instance.mulaiPada,
-      'jarak_total': instance.jarakTotal,
       'tanggal_kunjungan': instance.tanggalKunjungan.toIso8601String(),
     };
