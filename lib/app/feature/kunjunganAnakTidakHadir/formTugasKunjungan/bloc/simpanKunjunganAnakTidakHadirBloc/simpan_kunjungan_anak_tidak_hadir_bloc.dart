@@ -26,7 +26,7 @@ class SimpanKunjunganAnakTidakHadirBloc extends Bloc<SimpanKunjunganAnakTidakHad
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganAnakTidakHadirState>emit)  async {
     emit(SimpanKunjunganAnakTidakHadirProccessState());
 
-    if(event.listTugas.isEmpty) {
+    if(event.listTugas.isEmpty && event.anakTidakAdaDirumah.isChecked == false) {
       emit(ListTugasNullState());
       return;
     }

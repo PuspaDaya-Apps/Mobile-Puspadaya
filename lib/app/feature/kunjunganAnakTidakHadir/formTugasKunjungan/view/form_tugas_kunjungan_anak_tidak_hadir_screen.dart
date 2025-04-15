@@ -67,6 +67,12 @@ class _FormTugasKunjunganAnakTidakHadirViewState extends State<FormTugasKunjunga
 
   List<CheckboxKunjungan> listTugasKunjunganData = [];
 
+  CheckboxKunjungan anaktidakAdaDirumah = CheckboxKunjungan(
+    id: "0",
+    isChecked: false,
+    label: "Anak Tidak Berada di Rumah"
+  );
+
   List<XFile> imagesData = [];
 
   void _goToNextPage() {
@@ -221,17 +227,37 @@ class _FormTugasKunjunganAnakTidakHadirViewState extends State<FormTugasKunjunga
                           ),
                           const SizedBox(height: 10),
                           Column(
-                            children: List.generate(listTugasKunjunganData.length, (index) {
-                              return CheckboxListWidget(
-                                isChecked: listTugasKunjunganData[index].isChecked,
-                                label: listTugasKunjunganData[index].label,
+                            children: [
+                              Column(
+                                children: List.generate(listTugasKunjunganData.length, (index) {
+                                  return CheckboxListWidget(
+                                    isChecked: listTugasKunjunganData[index].isChecked,
+                                    label: listTugasKunjunganData[index].label,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        listTugasKunjunganData[index].isChecked = value!;                          
+                                      });
+                                    },
+                                  );
+                                }),
+                              ),
+                              CheckboxListWidget(
+                                isChecked: anaktidakAdaDirumah.isChecked,
+                                label: anaktidakAdaDirumah.label,
                                 onChanged: (value) {
                                   setState(() {
-                                    listTugasKunjunganData[index].isChecked = value!;                          
+                                    listTugasKunjunganData.clear();
+                                    listTugasKunjunganData.addAll(
+                                      state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
+                                        id: e.id, isChecked: false, label: e.namaTugas)
+                                      ).toList()
+                                    );
+
+                                    anaktidakAdaDirumah.isChecked = value!;
                                   });
-                                },
-                              );
-                            }),
+                                }
+                              )
+                            ],
                           ),
                           const SizedBox(height: 20),
                           ButtonPrimary(
@@ -267,6 +293,7 @@ class _FormTugasKunjunganAnakTidakHadirViewState extends State<FormTugasKunjunga
                 idKunjungan: widget.idKunjungan,
                 images: imagesData,
                 listTugasKunjungan: listTugasKunjunganData,
+                anakTidakAdaDirumah: anaktidakAdaDirumah,
                 setImagesValues: (value) {
                   imagesData.clear();
                   logger.i(value.length);
@@ -376,12 +403,14 @@ class UploadImage extends StatefulWidget {
       required this.listTugasKunjungan,
       required this.images,
       required this.idKunjungan,
-      required this.setImagesValues});
+      required this.setImagesValues,
+      required this.anakTidakAdaDirumah});
 
   final List<CheckboxKunjungan> listTugasKunjungan;
   List<XFile> images;
   ValueSetter<List<XFile>> setImagesValues;
   final String idKunjungan;
+  CheckboxKunjungan anakTidakAdaDirumah;
 
   @override
   _UploadImageState createState() => _UploadImageState();
@@ -613,7 +642,7 @@ class _UploadImageState extends State<UploadImage> {
                     context: context,
                     builder: (context) {
                       return AlertConfirmCreateKunjungan(
-                        totalDistance: state.model.jarakTotal,
+                        totalDistance: state.model.anak.jarakPosyandu,
                         totalDuration: formattedTime(state.model.selesaiPada.difference(state.model.mulaiPada).inSeconds),
                         kunjunganLagi: () {
                           Navigator.of(context)
@@ -706,7 +735,8 @@ class _UploadImageState extends State<UploadImage> {
                     BlocProvider.of<SimpanKunjunganAnakTidakHadirBloc>(context).add(
                       SimpanKunjungan(
                         idKunjungan: widget.idKunjungan, 
-                        listImages: widget.images, 
+                        listImages: widget.images,
+                        anakTidakAdaDirumah: widget.anakTidakAdaDirumah, 
                         listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
                       )
                     );
