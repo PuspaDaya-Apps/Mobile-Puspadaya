@@ -115,7 +115,8 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                 displayDuration: const Duration(milliseconds: 2200),
                 reverseAnimationDuration: const Duration(milliseconds: 300),
                 TopSnackbarWidget().error(stateGantiProfile.message));
-            Navigator.pop(context);
+            context.read<AlamatSaveCubit>().getDataWilayah();
+            context.read<GantiProfileBloc>().add(GetDetailUser(widget.userId));
           }
           if (stateGantiProfile is GantiProfileSuccess) {
             // BlocProvider.of<UserBloc>(context).add(GetCurrentUser());
