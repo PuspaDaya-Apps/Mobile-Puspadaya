@@ -774,13 +774,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                 .statusWasting,
                                             mainButton: () {
                                               Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK);
+                                              Navigator.pop(context, true);
                                             },
                                             mainButtonMessage:'Tambah Pengukuran',
                                             cancelButton: () {
                                               Navigator.pop(context);
-                                              Navigator.pop(context, 1); // Tutup dialog AlertDialogResult
+                                              Navigator.pop(context); // Tutup dialog AlertDialogResult
                                             },
                                             cancelButtonMessage: 'Selesai',
                                             colorMainButton: bluePrimaryMain,

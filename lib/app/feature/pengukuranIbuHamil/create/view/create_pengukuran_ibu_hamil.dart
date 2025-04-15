@@ -537,8 +537,8 @@ class _CreatePengukuranIbuHamilViewState
                             listener: (context, state) {
                               debugPrint(state.toString());
                               if (state is CreatePengukuranIbuHamilSuccesState) {
-                                Navigator.pop(context, 1);
-                                Navigator.pop(context, 1);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
                               }
                               if (state
                                   is CreatePengukuranIbuHamilFailedState) {

@@ -631,8 +631,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.pop(context);
-                                              Navigator.pop(context);
-                                              Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU);
+                                              Navigator.pop(context, true);
                                             },
                                             mainButtonMessage:
                                                 'Tambah Pengukuran',
@@ -640,7 +639,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.pop(context);
-                                              Navigator.pop(context, 1); // Tutup dialog AlertDialogResult
+                                              Navigator.pop(context); // Tutup dialog AlertDialogResult
                                             },
                                             cancelButtonMessage: 'Selesai',
                                             colorMainButton: bluePrimaryMain,

@@ -42,7 +42,17 @@ class _PengukuranViewState extends State<PengukuranView> {
   // bool isSearching = false; // State variable to manage search bar visibility
   TextEditingController searchController = TextEditingController(); // Controller for the search bar
 
-  UniqueKey uniqueKey = UniqueKey();
+  void navigatorCreate (String route) {
+    Navigator.pushNamed(context, route).then((value) {
+      setState(() {
+        
+      });
+
+      if (value == true) {
+        navigatorCreate(route);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,49 +81,53 @@ class _PengukuranViewState extends State<PengukuranView> {
               onPressed: () async {
                 switch (selectedMenu) {
                   case 'Kehadiran':
-                    final isTrue = await Navigator.pushNamed(context, CREATE_KEHADIRAN);
-                    logger.d('is true form create kehadiran $isTrue');
-                    if (isTrue == true) {
-                      setState(() {
-                        isTrueKehadiran = true;
-                      });
-                    }
+                    // final isTrue = await Navigator.pushNamed(context, CREATE_KEHADIRAN);
+                    // logger.d('is true form create kehadiran $isTrue');
+                    // if (isTrue == true) {
+                    //   setState(() {
+                    //     isTrueKehadiran = true;
+                    //   });
+                    // }
+                    navigatorCreate(CREATE_KEHADIRAN);
                     break;
                   case 'Pengukuran Anak':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK).then(
-                      (value) {
-                        if (value != null) {
-                          setState(() {
-                            logger.e("build ulang ");
-                            uniqueKey = UniqueKey();
-                          });
-                        }
-                      }
-                    );
+                    // Navigator.pushNamed(context, CREATE_PENGUKURAN_ANAK).then(
+                    //   (value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         logger.e("build ulang ");
+                    //         uniqueKey = UniqueKey();
+                    //       });
+                    //     }
+                    //   }
+                    // );
+                    navigatorCreate(CREATE_PENGUKURAN_ANAK);
                     break;
                   case 'Pengukuran Ibu Hamil':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL).then(
-                      (value) {
-                        if (value != null) {
-                          setState(() {
-                            logger.e("build ulang ");
-                            uniqueKey = UniqueKey();
-                          });
-                        }
-                      }
-                    );
+                    // Navigator.pushNamed(context, CREATE_PENGUKURAN_IBU_HAMIL).then(
+                    //   (value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         logger.e("build ulang ");
+                    //         uniqueKey = UniqueKey();
+                    //       });
+                    //     }
+                    //   }
+                    // );
+                    navigatorCreate(CREATE_PENGUKURAN_IBU_HAMIL);
                     break;
                   case 'Pengukuran Tamu':
-                    Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU).then(
-                      (value) {
-                        if (value != null) {
-                          setState(() {
-                            logger.e("build ulang ");
-                            uniqueKey = UniqueKey();
-                          });
-                        }
-                      }
-                    );
+                    // Navigator.pushNamed(context, CREATE_PENGUKURAN_TAMU).then(
+                    //   (value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         logger.e("build ulang ");
+                    //         uniqueKey = UniqueKey();
+                    //       });
+                    //     }
+                    //   }
+                    // );
+                    navigatorCreate(CREATE_PENGUKURAN_TAMU);
                     break;
 
                   default:
@@ -151,20 +165,20 @@ class _PengukuranViewState extends State<PengukuranView> {
     switch (selectedMenu) {
       case 'Kehadiran':
         return IndexKehadiranScreen(
-          key: uniqueKey,
+          key: UniqueKey(),
           isTrue: isTrueKehadiran,
         );
       case 'Pengukuran Anak':
         return IndexPengukuranAnakScreen(
-          key: uniqueKey
+          key: UniqueKey()
         );
       case 'Pengukuran Ibu Hamil':
         return IndexPengukuranIbuHamilScreen(
-          key: uniqueKey
+          key: UniqueKey()
         );
       case 'Pengukuran Tamu':
         return IndexPengukuranTamuScreen(
-          key: uniqueKey
+          key: UniqueKey()
         );
       case 'Riwayat Anak':
         return const IndexRiwayatAnakScreen();
