@@ -39,10 +39,10 @@ class _LaporanViewState extends State<LaporanView> {
   String? selectedTahun;
   List<CardRaporItemModel> listRaporItem = [
     CardRaporItemModel(
-      nama: 'Anak',
-      deskripsi: 'Unduh Rekapitulasi data Anak',
+      nama: 'Desa',
+      deskripsi: 'Unduh Rekapitulasi data Desa',
       url: 'https://arxiv.org/pdf/2307.',
-      judulRapor: 'Rekapitulasi data Anak',
+      judulRapor: 'Rekapitulasi data Desa',
     ),
     CardRaporItemModel(
       nama: 'Posyandu',
@@ -51,16 +51,16 @@ class _LaporanViewState extends State<LaporanView> {
       judulRapor: 'Rekapitulasi data Posyandu',
     ),
     CardRaporItemModel(
+      nama: 'Anak',
+      deskripsi: 'Unduh Rekapitulasi data Anak',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Anak',
+    ),
+    CardRaporItemModel(
       nama: 'Kader',
       deskripsi: 'Unduh Rekapitulasi data Kader',
       url: 'https://arxiv.org/pdf/2307.',
       judulRapor: 'Rekapitulasi data Kader',
-    ),
-    CardRaporItemModel(
-      nama: 'Desa',
-      deskripsi: 'Unduh Rekapitulasi data Desa',
-      url: 'https://arxiv.org/pdf/2307.',
-      judulRapor: 'Rekapitulasi data Desa',
     ),
     CardRaporItemModel(
       nama: 'Log Activity',
