@@ -106,7 +106,7 @@ class _DetailCreateKunjunganAnakStuntingViewState
           },
           builder: (context, state) {
             if (state is DetailCreateKunjunganAnakStuntingProccessState) {
-              SizedBox(
+              return SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height / 1.15,
                 child: Center(
