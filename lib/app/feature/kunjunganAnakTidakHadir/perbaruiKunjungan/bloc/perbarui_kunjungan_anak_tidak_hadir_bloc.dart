@@ -22,7 +22,7 @@ class PerbaruiKunjunganAnakTidakHadirBloc extends Bloc<PerbaruiKunjunganAnakTida
   Future<void> perbaruiKunjungan (SimpanKunjungan event, Emitter<PerbaruiKunjunganAnakTidakHadirState>emit)  async {
     emit(PerbaruiKunjunganAnakTidakHadirProccessState());
 
-    if(event.listTugas.isEmpty) {
+    if(event.listTugas.isEmpty && event.anakTidakAdaDirumah.isChecked == false) {
       emit(ListTugasNullState());
       return;
     }

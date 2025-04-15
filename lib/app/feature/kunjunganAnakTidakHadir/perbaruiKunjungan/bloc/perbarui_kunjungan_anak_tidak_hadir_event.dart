@@ -11,10 +11,12 @@ final class SimpanKunjungan extends PerbaruiKunjunganAnakTidakHadirEvent {
   final String idKunjungan;
   final List<XFile> listImages;
   final List<CheckboxKunjungan> listTugas;
+  final CheckboxKunjungan anakTidakAdaDirumah;
 
   const SimpanKunjungan({
     required this.idKunjungan,
     required this.listImages,
-    required this.listTugas
+    required this.listTugas,
+    required this.anakTidakAdaDirumah
   });
 }
