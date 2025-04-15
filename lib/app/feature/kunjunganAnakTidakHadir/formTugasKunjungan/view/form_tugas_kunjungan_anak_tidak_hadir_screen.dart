@@ -230,14 +230,17 @@ class _FormTugasKunjunganAnakTidakHadirViewState extends State<FormTugasKunjunga
                             children: [
                               Column(
                                 children: List.generate(listTugasKunjunganData.length, (index) {
-                                  return CheckboxListWidget(
-                                    isChecked: listTugasKunjunganData[index].isChecked,
-                                    label: listTugasKunjunganData[index].label,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        listTugasKunjunganData[index].isChecked = value!;                          
-                                      });
-                                    },
+                                  return IgnorePointer(
+                                    ignoring: anaktidakAdaDirumah.isChecked,
+                                    child: CheckboxListWidget(
+                                      isChecked: listTugasKunjunganData[index].isChecked,
+                                      label: listTugasKunjunganData[index].label,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          listTugasKunjunganData[index].isChecked = value!;                          
+                                        });
+                                      },
+                                    ),
                                   );
                                 }),
                               ),

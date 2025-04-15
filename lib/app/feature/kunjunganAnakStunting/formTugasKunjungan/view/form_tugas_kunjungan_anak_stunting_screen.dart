@@ -253,21 +253,21 @@ class _FormTugasKunjunganAnakStuntingViewState
                                 }),
                               ),
                               CheckboxListWidget(
-                              isChecked: anaktidakAdaDirumah.isChecked,
-                              label: anaktidakAdaDirumah.label,
-                              onChanged: (value) {
-                                setState(() {
-                                  listTugasKunjunganData.clear();
-                                  listTugasKunjunganData.addAll(
-                                    state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
-                                      id: e.id, isChecked: false, label: e.namaTugas)
-                                    ).toList()
-                                  );
+                                isChecked: anaktidakAdaDirumah.isChecked,
+                                label: anaktidakAdaDirumah.label,
+                                onChanged: (value) {
+                                  setState(() {
+                                    listTugasKunjunganData.clear();
+                                    listTugasKunjunganData.addAll(
+                                      state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
+                                        id: e.id, isChecked: false, label: e.namaTugas)
+                                      ).toList()
+                                    );
 
-                                  anaktidakAdaDirumah.isChecked = value!;
-                                });
-                              },
-                            )
+                                    anaktidakAdaDirumah.isChecked = value!;
+                                  });
+                                },
+                              )
                             ],
                           ),
                           const SizedBox(height: 20),

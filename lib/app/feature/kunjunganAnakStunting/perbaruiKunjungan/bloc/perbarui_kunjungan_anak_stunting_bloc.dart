@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../model/CheckBoxKunjungan.dart';
 import '../../formTugasKunjungan/model/simpan_tugas_kunjungan_anak_stunting_model.dart';
@@ -22,7 +23,8 @@ class PerbaruiKunjunganAnakStuntingBloc extends Bloc<PerbaruiKunjunganAnakStunti
   Future<void> PerbaruiKunjungan (SimpanKunjungan event, Emitter<PerbaruiKunjunganAnakStuntingState>emit)  async {
     emit(PerbaruiKunjunganAnakStuntingProccessState());
 
-    if(event.listTugas.isEmpty) {
+    if(event.listTugas.isEmpty && event.anakTidakAdaDirumah.isChecked == false) {
+      logger.e("data = ${event.listTugas.length}, ${event.anakTidakAdaDirumah.isChecked}");
       emit(ListTugasNullState());
       return;
     }
