@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/gantiKataSandi/service/ganti_kata_sandi_service.dart';
 
+import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../model/post_ganti_kata_sandi_model.dart';
 
@@ -29,6 +30,9 @@ class GantiKataSandiBloc
           emit(GantiKataSandiSuccess());
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
+        } else if (statusCode == 404) {
+          logger.d("old password salah");
+          emit(GantiKataSandiFailed(response[1].toString()));
         } else {
           emit(GantiKataSandiFailed(response[1].toString()));
         }
