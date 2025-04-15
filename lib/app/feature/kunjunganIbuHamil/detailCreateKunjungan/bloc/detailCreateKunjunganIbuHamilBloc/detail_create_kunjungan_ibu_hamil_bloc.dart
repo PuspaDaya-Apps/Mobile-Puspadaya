@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../../utils/logger/logger.dart';
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../model/detail_create_kunjungan_ibu_hamil_response_model.dart';
 import '../../service/detail_create_kunjungan_ibu_hamil_api.dart';
@@ -39,6 +40,7 @@ class DetailCreateKunjunganIbuHamilBloc extends Bloc<DetailCreateKunjunganIbuHam
           emit(DetailCreateKunjunganIbuHamilFailedState(message.message));
         }
       } catch (error) {
+        logger.e(error);
         emit(DetailCreateKunjunganIbuHamilFailedState(error.toString()));
       }
     }

@@ -29,11 +29,9 @@ class CreateKunjunganIbuHamilBloc extends Bloc<CreateKunjunganIbuHamilEvent, Cre
       emit(CreateKunjunganIbuHamilTokenExpiredState());
     } else {
       try {
-        double jarak = Random().nextDouble() * (7 - 0.1) + 0.1 ;
         CreateKunjunganIbuHamilModel kunjunganIbuHamilModel = CreateKunjunganIbuHamilModel(
           ibuHamilId: event.idIbuHamil, 
           mulaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-          jarakTotal: "${jarak.toStringAsFixed(1)} Km",
           tanggalKunjungan: DateTime.now()
         );
         debugPrint(kunjunganIbuHamilModel.jenisKunjungan);

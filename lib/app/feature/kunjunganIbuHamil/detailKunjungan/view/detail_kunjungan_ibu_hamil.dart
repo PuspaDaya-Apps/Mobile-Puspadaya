@@ -218,7 +218,7 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: state.listDataIbuHamil.jarakTotal),
+                      InfoFieldWidget(text: "${state.listDataIbuHamil.ibuHamil!.jarak} m"),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         textAlign: TextAlign.start,

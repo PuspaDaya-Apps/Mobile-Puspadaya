@@ -73,6 +73,12 @@ class _FormTugasKunjunganIbuHamilViewState
 
   List<CheckboxKunjungan> listTugasKunjunganData = [];
 
+  CheckboxKunjungan ibuHamiltidakAdaDirumah = CheckboxKunjungan(
+    id: "0",
+    isChecked: true,
+    label: "Ibu Hamil Tidak Berada di Rumah"
+  );
+
   List<XFile> imagesData = [];
 
   void _goToNextPage() {
@@ -216,6 +222,7 @@ class _FormTugasKunjunganIbuHamilViewState
                           if (valueStored.tugasKunjungan.id == tugas.id) {
                             logger.i(tugas.label);
                             tugas.isChecked = true;
+                            ibuHamiltidakAdaDirumah.isChecked = false;
                           }
                         }
                       }
@@ -240,20 +247,64 @@ class _FormTugasKunjunganIbuHamilViewState
                           ),
                           const SizedBox(height: 10),
                           Column(
-                            children: List.generate(
-                                listTugasKunjunganData.length, (index) {
-                              return CheckboxListWidget(
-                                isChecked:
-                                    listTugasKunjunganData[index].isChecked,
-                                label: listTugasKunjunganData[index].label,
+                            children: [
+                              Column(
+                                children: List.generate(
+                                    listTugasKunjunganData.length, (index) {
+                                  return IgnorePointer(
+                                    ignoring: ibuHamiltidakAdaDirumah.isChecked,
+                                    child: CheckboxListWidget(
+                                      isChecked:
+                                          listTugasKunjunganData[index].isChecked,
+                                      label: listTugasKunjunganData[index].label,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          listTugasKunjunganData[index].isChecked =
+                                              value!;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                }),
+                              ),
+                              CheckboxListWidget(
+                                isChecked: ibuHamiltidakAdaDirumah.isChecked,
+                                label: ibuHamiltidakAdaDirumah.label,
                                 onChanged: (value) {
                                   setState(() {
-                                    listTugasKunjunganData[index].isChecked =
-                                        value!;
+                                    if (value == false) {
+                                      listTugasKunjunganData.clear();
+                                      listTugasKunjunganData.addAll(state
+                                          .listTugasKunjungan.data!
+                                          .map((e) => CheckboxKunjungan(
+                                              id: e.id, isChecked: false, label: e.namaTugas))
+                                          .toList());
+
+                                      for (var valueStored
+                                          in widget.modelDetailKunjungan.kunjunganTugasKader) {
+                                        logger.i('0');
+                                        for (var tugas in listTugasKunjunganData) {
+                                          logger.i('1');
+                                          if (valueStored.tugasKunjungan.id == tugas.id) {
+                                            logger.i(tugas.label);
+                                            tugas.isChecked = true;
+                                          }
+                                        }
+                                      }
+                                    } else {
+                                      listTugasKunjunganData.clear();
+                                      listTugasKunjunganData.addAll(
+                                        state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
+                                          id: e.id, isChecked: false, label: e.namaTugas)
+                                        ).toList()
+                                      );
+                                    }
+                           
+                                    ibuHamiltidakAdaDirumah.isChecked = value!;
                                   });
                                 },
-                              );
-                            }),
+                              )
+                            ],
                           ),
                           const SizedBox(height: 20),
                           ButtonPrimary(
@@ -290,6 +341,7 @@ class _FormTugasKunjunganIbuHamilViewState
                     .toList(),
                 images: imagesData,
                 listTugasKunjungan: listTugasKunjunganData,
+                ibuHamiltidakAdaDirumah: ibuHamiltidakAdaDirumah,
                 setImagesValues: (value) {
                   imagesData.clear();
                   logger.i(value.length);
@@ -313,13 +365,15 @@ class UploadImage extends StatefulWidget {
       required this.linkImages,
       required this.images,
       required this.idKunjungan,
-      required this.setImagesValues});
+      required this.setImagesValues,
+      required this.ibuHamiltidakAdaDirumah});
 
   final List<CheckboxKunjungan> listTugasKunjungan;
   final List<String> linkImages;
   List<XFile> images;
   ValueSetter<List<XFile>> setImagesValues;
   final String idKunjungan;
+  CheckboxKunjungan ibuHamiltidakAdaDirumah;
 
   @override
   _UploadImageState createState() => _UploadImageState();
@@ -616,7 +670,8 @@ class _UploadImageState extends State<UploadImage> {
                       reverseAnimationDuration:
                           const Duration(milliseconds: 300),
                       TopSnackbarWidget()
-                          .error("Tugas Selama Kunjungan Belum Terisi"));
+                          .error("Upload Bukti Terlebih Dahulu"));
+                      
                 }
                 if (state is ListTugasNullState) {
                   showTopSnackBar(
@@ -626,7 +681,7 @@ class _UploadImageState extends State<UploadImage> {
                       reverseAnimationDuration:
                           const Duration(milliseconds: 300),
                       TopSnackbarWidget()
-                          .error("Upload Bukti Terlebih Dahulu"));
+                          .error("Tugas Selama Kunjungan Belum Terisi"));
                 }
               },
               builder: (context, state) {
@@ -654,6 +709,7 @@ class _UploadImageState extends State<UploadImage> {
                         SimpanKunjungan(
                             idKunjungan: widget.idKunjungan,
                             listImages: widget.images,
+                            ibuHamilTidakAdaDirumah: widget.ibuHamiltidakAdaDirumah,
                             listTugas: widget.listTugasKunjungan
                                 .where((e) => e.isChecked)
                                 .toList()));

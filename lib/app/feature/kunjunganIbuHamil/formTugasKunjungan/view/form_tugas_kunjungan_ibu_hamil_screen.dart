@@ -68,6 +68,12 @@ class _FormTugasKunjunganIbuHamilViewState
 
   List<CheckboxKunjungan> listTugasKunjunganData = [];
 
+  CheckboxKunjungan ibuHamiltidakAdaDirumah = CheckboxKunjungan(
+    id: "0",
+    isChecked: false,
+    label: "Ibu Hamil Tidak Berada di Rumah"
+  );
+
   List<XFile> imagesData = [];
 
   void _goToNextPage() {
@@ -224,20 +230,43 @@ class _FormTugasKunjunganIbuHamilViewState
                           ),
                           const SizedBox(height: 10),
                           Column(
-                            children: List.generate(
-                                listTugasKunjunganData.length, (index) {
-                              return CheckboxListWidget(
-                                isChecked:
-                                    listTugasKunjunganData[index].isChecked,
-                                label: listTugasKunjunganData[index].label,
+                            children: [
+                              Column(
+                                children: List.generate(
+                                    listTugasKunjunganData.length, (index) {
+                                  return IgnorePointer(
+                                    ignoring: ibuHamiltidakAdaDirumah.isChecked,
+                                    child: CheckboxListWidget(
+                                      isChecked:
+                                          listTugasKunjunganData[index].isChecked,
+                                      label: listTugasKunjunganData[index].label,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          listTugasKunjunganData[index].isChecked =
+                                              value!;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                }),
+                              ),
+                              CheckboxListWidget(
+                                isChecked: ibuHamiltidakAdaDirumah.isChecked,
+                                label: ibuHamiltidakAdaDirumah.label,
                                 onChanged: (value) {
                                   setState(() {
-                                    listTugasKunjunganData[index].isChecked =
-                                        value!;
+                                    listTugasKunjunganData.clear();
+                                    listTugasKunjunganData.addAll(
+                                      state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
+                                        id: e.id, isChecked: false, label: e.namaTugas)
+                                      ).toList()
+                                    );
+
+                                    ibuHamiltidakAdaDirumah.isChecked = value!;
                                   });
                                 },
-                              );
-                            }),
+                              )
+                            ],
                           ),
                           const SizedBox(height: 20),
                           ButtonPrimary(
@@ -271,6 +300,7 @@ class _FormTugasKunjunganIbuHamilViewState
                 idKunjungan: widget.idKunjungan,
                 images: imagesData,
                 listTugasKunjungan: listTugasKunjunganData,
+                ibuHamilTidakAdaDirumah: ibuHamiltidakAdaDirumah,
                 setImagesValues: (value) {
                   imagesData.clear();
                   logger.i(value.length);
@@ -293,12 +323,14 @@ class UploadImage extends StatefulWidget {
       required this.listTugasKunjungan,
       required this.images,
       required this.idKunjungan,
-      required this.setImagesValues});
+      required this.setImagesValues,
+      required this.ibuHamilTidakAdaDirumah});
 
   final List<CheckboxKunjungan> listTugasKunjungan;
   List<XFile> images;
   ValueSetter<List<XFile>> setImagesValues;
   final String idKunjungan;
+  CheckboxKunjungan ibuHamilTidakAdaDirumah;
 
   @override
   _UploadImageState createState() => _UploadImageState();
@@ -521,7 +553,8 @@ class _UploadImageState extends State<UploadImage> {
                     context: context,
                     builder: (context) {
                       return AlertConfirmCreateKunjungan(
-                        totalDistance: state.model.jarakTotal,
+                        totalDistance: state.model.ibuHamil.jarak.toString(),
+                        // totalDistance: "1",
                         totalDuration: formattedTime(state.model.selesaiPada
                             .difference(state.model.mulaiPada)
                             .inSeconds),
@@ -618,6 +651,7 @@ class _UploadImageState extends State<UploadImage> {
                         SimpanKunjungan(
                             idKunjungan: widget.idKunjungan,
                             listImages: widget.images,
+                            ibuHamilTidakAdaDirumah: widget.ibuHamilTidakAdaDirumah,
                             listTugas: widget.listTugasKunjungan
                                 .where((e) => e.isChecked)
                                 .toList()));

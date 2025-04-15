@@ -26,7 +26,7 @@ class SimpanKunjunganIbuHamilBloc extends Bloc<SimpanKunjunganIbuHamilEvent, Sim
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganIbuHamilState> emit) async {
     emit(SimpanKunjunganIbuHamilProccessState());
 
-    if(event.listTugas.isEmpty) {
+    if(event.listTugas.isEmpty && event.ibuHamilTidakAdaDirumah.isChecked == false) {
       emit(ListTugasNullState());
       return;
     }
