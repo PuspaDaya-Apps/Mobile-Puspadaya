@@ -62,6 +62,12 @@ class _LaporanViewState extends State<LaporanView> {
       url: 'https://arxiv.org/pdf/2307.',
       judulRapor: 'Rekapitulasi data Desa',
     ),
+    CardRaporItemModel(
+      nama: 'Log Activity',
+      deskripsi: 'Unduh Rekapitulasi data Desa',
+      url: 'https://arxiv.org/pdf/2307.',
+      judulRapor: 'Rekapitulasi data Log Activity',
+    ),
   ];
   @override
   Widget build(BuildContext context) {
