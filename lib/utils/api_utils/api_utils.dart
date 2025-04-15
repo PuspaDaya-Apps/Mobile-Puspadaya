@@ -74,6 +74,7 @@ class ApiUtils {
   String urlPatchGantiProfile() {
     String urlPatchGantiProfile = LinkApi.GANTIPROFILE;
     return _baseUrl + _apiVersion + urlPatchGantiProfile;
+    // return "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io/api/v1/users/profile";
   }
 
   //!anggota kader

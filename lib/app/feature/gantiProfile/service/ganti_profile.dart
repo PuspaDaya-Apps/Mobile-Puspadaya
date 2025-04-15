@@ -11,13 +11,13 @@ class GantiProfile {
   Future<dynamic> patchGantiProfile(
       String accessToken, PatchGantiProfileModel data) async {
     final String link = ApiUtils().urlPatchGantiProfile();
-    // final String body = json.encode(data.toJson());
-    final Map<String, dynamic> body = data.toJson();
+    final String body = json.encode(data.toJson());
+    // final Map<String, dynamic> body = data.toJson();
     debugPrint("body ${body.toString()}");
     logger.d(body);
 
     return await NetworkUtils(token: accessToken)
-        .patchFormBody(link, body)
+        .patch(link, body)
         .then((response) {
       logger.d(response.toString());
       return response;

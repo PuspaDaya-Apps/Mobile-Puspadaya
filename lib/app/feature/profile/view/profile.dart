@@ -15,24 +15,28 @@ import '../../../model/current_user_model.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../authorization/bloc/blocAuthentication/authentication_bloc.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
+import '../../home/bloc/userBloc/user_bloc.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key, required this.currentUserModel});
+  const Profile({super.key, required this.currentUserModel, required this.userBloc});
 
   final CurrentUserModel currentUserModel;
+  final UserBloc userBloc;
 
   @override
   Widget build(BuildContext context) {
     return ProfileView(
       currentUserModel: currentUserModel,
+      userBloc: userBloc,
     );
   }
 }
 
 class ProfileView extends StatefulWidget {
-  const ProfileView({super.key, required this.currentUserModel});
+  const ProfileView({super.key, required this.currentUserModel, required this.userBloc});
 
   final CurrentUserModel currentUserModel;
+  final UserBloc userBloc;
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -119,7 +123,9 @@ class _ProfileViewState extends State<ProfileView> {
                         description: "Perbarui informasi pribadi Anda.",
                         colorChevron: Colors.grey,
                         onTap: () {
-                          Navigator.pushNamed(context, UBAH_PROFILE, arguments: widget.currentUserModel.id);
+                          Navigator.pushNamed(context, UBAH_PROFILE, arguments: widget.currentUserModel.id).then((value) {
+                            widget.userBloc.add(GetCurrentUser());
+                          });
                         },
                       ),
                       CardMenuProfile(

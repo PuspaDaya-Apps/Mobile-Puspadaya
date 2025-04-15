@@ -217,29 +217,6 @@ class NetworkUtils {
     }
   }
 
-  Future<List<dynamic>> patchFormBody(String url, Map<String, dynamic>  body) async {
-    try {
-      final response = await dio.patch(
-        url,
-        data: body,
-      );
-
-      final bodyResponse = response.data;
-      final int statusResponse = response.statusCode!;
-
-      debugPrint(bodyResponse.toString());
-      debugPrint(statusResponse.toString());
-
-      if (statusResponse == 200) {
-        return [statusResponse, json.decode(json.encode(bodyResponse))];
-      } else {
-        throw bodyResponse['message'].toString();
-      }
-    } on DioException catch (e) {
-      throw e.response!.statusMessage.toString();
-    }
-  }
-
   Future<List<dynamic>> delete(String url, String body) async {
     try {
       final response = await dio.delete(url, data: body);

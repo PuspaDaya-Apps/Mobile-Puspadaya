@@ -117,6 +117,7 @@ class HomeWrapperState extends State<HomeWrapper> {
               const Jadwal(),
               Profile(
                 currentUserModel: state.currentUserModel,
+                userBloc: BlocProvider.of<UserBloc>(context),
               ),
             ];
 

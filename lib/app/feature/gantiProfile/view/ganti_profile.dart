@@ -21,6 +21,8 @@ import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+import '../../home/bloc/userBloc/user_bloc.dart';
+import '../../home/view/home_wrapper.dart';
 import '../model/patch_ganti_profile.dart';
 
 class GantiProfile extends StatelessWidget {
@@ -83,6 +85,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
     logger.d('trigger initState');
     context.read<AlamatSaveCubit>().getDataWilayah();
     context.read<GantiProfileBloc>().add(GetDetailUser(widget.userId));
+    logger.d('trigger get detail user');
   }
 
   @override
@@ -115,6 +118,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
             Navigator.pop(context);
           }
           if (stateGantiProfile is GantiProfileSuccess) {
+            // BlocProvider.of<UserBloc>(context).add(GetCurrentUser());
             showTopSnackBar(
                 Overlay.of(context),
                 animationDuration: const Duration(milliseconds: 600),
@@ -131,8 +135,20 @@ class _GantiProfileViewState extends State<GantiProfileView> {
           }
         },
         builder: (context, stateGantiProfile) {
+          if (stateGantiProfile is GantiProfileLoading) {
+            return SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
+            );
+          }
           if (stateGantiProfile is GantiProfileFormLoading) {
-             return SizedBox(
+            return SizedBox(
               height: MediaQuery.sizeOf(context).height,
               width: MediaQuery.sizeOf(context).width,
               child: Center(
@@ -145,6 +161,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
           }
 
           if (stateGantiProfile is GantiProfileFormSuccess) {
+            logger.d('trigger get detail user success');
             return BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
               builder: (context, state) {
                 if (state is GetAlamatSuccessState) {
@@ -171,6 +188,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                         element.id == stateGantiProfile.data.data.dusun.id);
                     selectedDusunId = selectedDusun!.id;
                   }
+                  logger.d("success get profil");
                   return SingleChildScrollView(
                     child: Container(
                       margin: EdgeInsets.all(20),
@@ -650,8 +668,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     validators: [
-                                      (value) => Validator.required(
-                                          value),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ),
@@ -663,8 +680,7 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     validators: [
-                                      (value) => Validator.required(
-                                          value),
+                                      (value) => Validator.required(value),
                                     ],
                                   ),
                                 ),
@@ -703,7 +719,11 @@ class _GantiProfileViewState extends State<GantiProfileView> {
                     ),
                   );
                 }
-                return Container();
+                return Container(
+                  child: Center(
+                    child: Text("Tidak ada data"),
+                  ),
+                );
               },
             );
           }
