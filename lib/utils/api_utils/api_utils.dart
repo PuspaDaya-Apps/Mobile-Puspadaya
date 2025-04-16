@@ -4,7 +4,9 @@ part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
-  final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
+  // final String _baseUrl = "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io"; //! staging
+  final String _baseUrl =
+      "http://gsg4k8os8gwsc4ksk4kkgg48.103.109.210.102.sslip.io"; //! production
   // final String _baseUrl = "https://40vg7x7b-8080.asse.devtunnels.ms";
   // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
@@ -147,9 +149,10 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlPostDataAnak;
   }
 
-  String urlGetPosyandu({String? search, int? page, int? limit}){
+  String urlGetPosyandu({String? search, int? page, int? limit}) {
     String urlGetPosyandu = LinkApi.POSYANDUURL;
-    if(limit != null) return _baseUrl + _apiVersion + urlGetPosyandu + '?limit=$limit';
+    if (limit != null)
+      return _baseUrl + _apiVersion + urlGetPosyandu + '?limit=$limit';
     return _baseUrl + _apiVersion + urlGetPosyandu;
   }
 
@@ -163,7 +166,8 @@ class ApiUtils {
     // Map<String, dynamic> parameterQuery = parameterQueryHelper(
     //   search, page, 1000
     // );
-    if(limit != null) return _baseUrl + _apiVersion + urlGetAnakPosyandu + '?limit=$limit';
+    if (limit != null)
+      return _baseUrl + _apiVersion + urlGetAnakPosyandu + '?limit=$limit';
     return _baseUrl + _apiVersion + urlGetAnakPosyandu;
   }
 
@@ -188,7 +192,8 @@ class ApiUtils {
     // Map<String, dynamic> parameterQuery = parameterQueryHelper(
     //   search, page, 1000
     // );
-    if(limit != null) return '$_baseUrl$_apiVersion$urlGetListIbuHamil?limit=$limit';
+    if (limit != null)
+      return '$_baseUrl$_apiVersion$urlGetListIbuHamil?limit=$limit';
     return _baseUrl + _apiVersion + urlGetListIbuHamil;
   }
 
@@ -653,10 +658,11 @@ class ApiUtils {
     String urlDonwloadEPPGBM = LinkApi.DOWNLOADEPPGBM;
     return _baseUrl + _apiVersion + urlDonwloadEPPGBM;
   }
-  String urlDownloadLogActivity(){
+
+  String urlDownloadLogActivity() {
     String urlDonwloadLogActivity = LinkApi.LOGAKTIVITAS;
     debugPrint('$_baseUrl$_apiVersion$urlDonwloadLogActivity');
-    return _baseUrl + _apiVersion+ urlDonwloadLogActivity;
+    return _baseUrl + _apiVersion + urlDonwloadLogActivity;
   }
 
   // ! storage
@@ -698,9 +704,8 @@ class ApiUtils {
     return "$_baseUrl$urlGetParameterGiziPerempuanBeratBadan";
   }
 
-
   //! grafik KMS
-  String urlGetGrafikKMS(String id){
+  String urlGetGrafikKMS(String id) {
     String urlGetGrafikKms = LinkApi.GRAFIKKMSURL;
     return "$_baseUrl$urlGetGrafikKms/$id";
   }
@@ -711,12 +716,14 @@ class ApiUtils {
     return _baseUrl + _apiVersion + urlGetListPosyandu;
   }
 
-  String urlGetListAnakByPosyandu({String? search, int? page, int? limit, required String id}) {
+  String urlGetListAnakByPosyandu(
+      {String? search, int? page, int? limit, required String id}) {
     String urlGetListAnakByPosyandu = LinkApi.GETANAKBYPOSYANDUURL;
     return "$_baseUrl$_apiVersion$urlGetListAnakByPosyandu/$id";
   }
 
-  String urlGetListAnakTamuByPosyandu({String? search, int? page, int? limit, required String id}) {
+  String urlGetListAnakTamuByPosyandu(
+      {String? search, int? page, int? limit, required String id}) {
     String urlGetListAnakTamuByPosyandu = LinkApi.GETANAKTAMUBYPOSYANDUURL;
     return "$_baseUrl$_apiVersion$urlGetListAnakTamuByPosyandu/$id";
   }
@@ -745,7 +752,6 @@ class ApiUtils {
     String urlGetListPengukuranTamu = LinkApi.PENGUKURANTAMUURL;
     return "$_baseUrl$_apiVersion$urlGetListPengukuranTamu/$id";
   }
-
 
   String urlGetPoint() {
     String urlGetTotalPoint = LinkApi.TOTALPOINT;

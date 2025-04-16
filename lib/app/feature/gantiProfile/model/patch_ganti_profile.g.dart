@@ -23,5 +23,5 @@ Map<String, dynamic> _$PatchGantiProfileModelToJson(
       'nomor_telepon': instance.nomorTelepon,
       'rt': instance.rt,
       'rw': instance.rw,
-      'dusun_id': instance.dusunId.toString(),
+      'dusun_id': instance.dusunId,
     };
