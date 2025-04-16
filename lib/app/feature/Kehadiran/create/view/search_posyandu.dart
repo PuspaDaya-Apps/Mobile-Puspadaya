@@ -10,6 +10,7 @@ import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../bloc/posyandu_bloc.dart';
 
 class SearchPosyandu extends StatelessWidget {
@@ -38,6 +39,9 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
   void initState() {
     context.read<PosyanduBloc>().add(GetPosyanduEvent());
     super.initState();
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -103,6 +107,13 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
             if (state is PosyanduSuccess) {
               if (state.data.data.isEmpty) {
                 return DataNotFoundScreen();
+              }
+              final filteredList = state.data.data.where((posyandu) {
+                final query = _searchController.text.toLowerCase();
+                return posyandu.namaPosyandu.toLowerCase().contains(query);
+              }).toList();
+              if (filteredList.isEmpty) {
+                return const SearchNotFound();
               }
               return ListView.builder(
                 itemCount: state.data.data.length,

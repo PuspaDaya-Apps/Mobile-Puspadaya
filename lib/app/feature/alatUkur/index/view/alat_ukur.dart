@@ -10,6 +10,7 @@ import '../../../../../config/screen_config/image_config.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../../../../view/widget/card_alat_ukur_widget.dart';
 import '../../../../view/widget/search_text_field_widget.dart';
 import '../../model/alat_ukur_Item_model.dart';
@@ -143,6 +144,9 @@ class _AlatUkurViewState extends State<AlatUkurView> {
     // Trigger fetch event when the view is initialized
     context.read<IndexAlatUkurBloc>().add(GetIndexAlatUkurKader());
     logger.d('trigger fetch');
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -224,11 +228,19 @@ class _AlatUkurViewState extends State<AlatUkurView> {
                       if (state.data.data.isEmpty) {
                         return DataNotFoundScreen();
                       }
+                      final filteredList = state.data.data.where((alatUkur) {
+                        final query = _searchController.text.toLowerCase();
+                        return alatUkur.alatPengukuranAdmin.jenisAlat
+                            .toLowerCase()
+                            .contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
                       return ListView.builder(
-                        itemCount: state
-                            .data.data.length, // Ganti dengan data yang diambil
+                        itemCount: filteredList.length, // Ganti dengan data yang diambil
                         itemBuilder: (context, index) {
-                          final alatUkurItem = state.data.data[index];
+                          final alatUkurItem = filteredList[index];
                           // Ganti dengan data yang diambil
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),

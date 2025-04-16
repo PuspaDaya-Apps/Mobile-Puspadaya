@@ -7,8 +7,8 @@ import 'package:puspadaya/app/view/widget/card_ibuhamil_widget.dart';
 import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/theme/pallet_color.dart';
-import '../../../view/screen/data_not_found_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
@@ -41,6 +41,9 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
   void initState() {
     context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
     super.initState();
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -121,18 +124,26 @@ class _RegisterIbuHamilViewState extends State<RegisterIbuHamilView> {
                       );
                     }
                     if (state is GetIndexIbuHamilSuccess) {
-                      if (state.data.data.isEmpty) {
+                       if (state.data.data.isEmpty) {
                         return NoDataScreen();
                       }
+                      final filteredList = state.data.data.where((ibu) {
+                        final query = _searchController.text.toLowerCase();
+                        return ibu.namaIbu.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
+                     
                       return PullToRefreshWidget(
                         onRefresh: () {
                           context.read<GetIndexIbuHamilBloc>().add(FetchIndexIbuHamil());
                         },
                         refreshController: refreshController,
                         child: ListView.builder(
-                          itemCount: state.data.data.length,
+                          itemCount: filteredList.length,
                           itemBuilder: (context, index) {
-                            final orangTua = state.data.data[index];
+                            final orangTua = filteredList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: CardIbuHamilWidget(

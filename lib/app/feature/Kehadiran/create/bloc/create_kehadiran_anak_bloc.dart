@@ -43,6 +43,10 @@ class CreateKehadiranAnakBloc
 
         if (statusCodeAnak == 200) {
           logger.d('succes get data anak ');
+          if (dataAnak.data.isEmpty) {
+            emit(CreateKehadiranFormAnakEmpty());
+            return;
+          }
           emit(
             CreateKeadiranFormAnakSuccess(
               dataAnak: dataAnak,
@@ -51,7 +55,8 @@ class CreateKehadiranAnakBloc
         } else if (statusCodeAnak == 401) {
           emit(TokenExpiredState());
         } else {
-          emit(CreateKehadiranFormAnakFailed('error anak : ${dataAnak.message}'));
+          emit(CreateKehadiranFormAnakFailed(
+              'error anak : ${dataAnak.message}'));
         }
       } catch (error) {
         emit(CreateKehadiranFormAnakFailed(error.toString()));

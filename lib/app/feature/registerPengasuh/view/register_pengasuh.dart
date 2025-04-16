@@ -8,6 +8,7 @@ import 'package:puspadaya/route/route_name.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_pengasuh_widget.dart';
 import '../../../view/widget/pul_to_refresh.dart';
@@ -41,6 +42,9 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
   void initState() {
     super.initState();
     BlocProvider.of<PengasuhPosyanduBloc>(context).add(GetListPengasuh());
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -103,13 +107,22 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                       if (state.pengasuhResponseModel.data!.isEmpty) {
                         return const NoDataScreen();
                       }
+                      final filteredList = state.pengasuhResponseModel.data!.where((pengasuh) {
+                        final query = _searchController.text.toLowerCase();
+                        return pengasuh.namaPengasuh.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
+                      debugPrint(filteredList.length.toString());
+                      
                       return PullToRefreshWidget(
                         onRefresh: () {
                           BlocProvider.of<PengasuhPosyanduBloc>(context).add(GetListPengasuh());
                         },
                         refreshController: refreshController,
                         child: ListView.builder(
-                          itemCount: state.pengasuhResponseModel.data!.length,
+                          itemCount: filteredList.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
@@ -117,15 +130,14 @@ class _RegisterPengasuhViewState extends State<RegisterPengasuhView> {
                                 onTap: () {
                                   Navigator.pushNamed(
                                       context, DETAIL_REGISTER_PENGASUH,
-                                      arguments: state
-                                          .pengasuhResponseModel.data![index].id);
+                                      arguments: filteredList[index].id);
                                 },
-                                nama: state.pengasuhResponseModel.data![index]
+                                nama: filteredList[index]
                                     .namaPengasuh,
-                                namaAnak: state.pengasuhResponseModel.data![index]
+                                namaAnak: filteredList[index]
                                     .anak.namaAnak,
-                                nik: state.pengasuhResponseModel.data![index].nik,
-                                isUpdate: state.pengasuhResponseModel.data![index].updatedAt != null ? true : null,
+                                nik: filteredList[index].nik,
+                                isUpdate: filteredList[index].updatedAt != null ? true : null,
                                 inRegister: true,
                               ),
                             );

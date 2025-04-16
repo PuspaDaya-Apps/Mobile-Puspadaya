@@ -7,6 +7,7 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../bloc/anak_posyandu_bloc.dart';
 import '../model/paket_from_search_anak_to_posyandu.dart';
 
@@ -43,6 +44,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
         .add(GetAnakPosyanduEvent(id: widget.idPosyandu));
     // TODO: implement initState
     super.initState();
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -85,10 +89,17 @@ class _SearchAnakViewState extends State<SearchAnakView> {
               if (state.data.data.isEmpty) {
                 return DataNotFoundScreen();
               }
+              final filteredList = state.data.data.where((anak) {
+                final query = _searchController.text.toLowerCase();
+                return anak.namaAnak.toLowerCase().contains(query);
+              }).toList();
+              if (filteredList.isEmpty) {
+                return SearchNotFound();
+              }
               return ListView.builder(
-                itemCount: state.data.data.length,
+                itemCount: filteredList.length,
                 itemBuilder: (context, index) {
-                  final dataPosyanduItem = state.data.data[index];
+                  final dataPosyanduItem = filteredList[index];
                   return Padding(
                     padding:
                         const EdgeInsets.only(left: 16, right: 16, bottom: 4),

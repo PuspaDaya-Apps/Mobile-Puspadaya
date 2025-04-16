@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/card_tambah_ibu_hamil_widget.dart';
 import '../../../view/widget/search_text_field_widget.dart';
@@ -36,6 +37,9 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   void initState() {
     context.read<CreateRegisterIbuHamilBloc>().add(FetchSearchIbuHamil());
     super.initState();
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -101,11 +105,18 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                       if (state.data.data.isEmpty) {
                         return DataNotFoundScreen();
                       }
+                      final filteredList = state.data.data.where((ibu) {
+                        final query = _searchController.text.toLowerCase();
+                        return ibu.ibu.namaIbu.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
 
                       return ListView.builder(
-                        itemCount: state.data.data.length, // Use listIbuHamil
+                        itemCount: filteredList.length, // Use listIbuHamil
                         itemBuilder: (context, index) {
-                          final ibuHamil = state.data.data[index];
+                          final ibuHamil = filteredList[index];
                           // GetAllOrangTuaResponse ibuHamil = state.data.data[index] as GetAllOrangTuaResponse; // Access the list correctly
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
