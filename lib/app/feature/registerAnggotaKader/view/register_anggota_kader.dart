@@ -9,10 +9,12 @@ import 'package:puspadaya/route/route_name.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../view/screen/error_server_screen.dart';
 import '../../../view/screen/no_data_screen.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/index_anggota_kader_bloc.dart';
+
 class RegisterAnggotaKader extends StatelessWidget {
   const RegisterAnggotaKader({super.key});
 
@@ -36,7 +38,8 @@ class RegisterAnggotaKaderView extends StatefulWidget {
 class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
   TextEditingController _searchController = TextEditingController();
 
-  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  EasyRefreshController refreshController =
+      EasyRefreshController(controlFinishRefresh: true);
 
   // List<AnggotaKaderItemModel> listKader = [
   //   AnggotaKaderItemModel(
@@ -56,6 +59,9 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
     super.initState();
     BlocProvider.of<IndexAnggotaKaderBloc>(context)
         .add(GetListAnggotaKaderEvent());
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -94,95 +100,102 @@ class _RegisterAnggotaKaderViewState extends State<RegisterAnggotaKaderView> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-          child: BlocConsumer<IndexAnggotaKaderBloc, IndexAnggotaKaderState>(
-            listener: (context, state) {
-              debugPrint(state.toString());
-            },
-            builder: (context, state) {
-              if (state is IndexAnggotaKaderProcessState) {
-                return SizedBox(
-                child: Center(
-                  child: SpinKitThreeBounce(
-                    color: bluePrimaryMain,
-                    size: 50.0,
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  Expanded(
+                    child: SearchTextFieldWidget(
+                      controller: _searchController,
+                      hintText: 'Cari Data Kader',
+                    ),
                   ),
-                ),
-              );
-              }
-              if (state is IndexAnggotaKaderSuccessState) {
-                if (state.indexAnggotaKaderResponseModel.data!.isEmpty) {
-                  return const NoDataScreen();
-                }
+                  GestureDetector(
+                    onTap: () {},
+                    child: Icon(
+                      size: 30,
+                      FluentIcons.filter_24_filled,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              Expanded(
+                child:
+                    BlocConsumer<IndexAnggotaKaderBloc, IndexAnggotaKaderState>(
+                  listener: (context, state) {
+                    debugPrint(state.toString());
+                  },
+                  builder: (context, state) {
+                    if (state is IndexAnggotaKaderProcessState) {
+                      return SizedBox(
+                        child: Center(
+                          child: SpinKitThreeBounce(
+                            color: bluePrimaryMain,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
+                    }
+                    if (state is IndexAnggotaKaderSuccessState) {
+                      if (state.indexAnggotaKaderResponseModel.data!.isEmpty) {
+                        return const NoDataScreen();
+                      }
+                      final filteredList = state
+                          .indexAnggotaKaderResponseModel.data!
+                          .where((anggotaKader) {
+                        final query = _searchController.text.toLowerCase();
+                        return anggotaKader.namaLengkap
+                            .toLowerCase()
+                            .contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
 
-                return Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 10,
-                      children: [
-                        Expanded(
-                          child: SearchTextFieldWidget(
-                            controller: _searchController,
-                            hintText: 'Cari Data Kader',
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Icon(
-                            size: 30,
-                            FluentIcons.filter_24_filled,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Expanded(
-                      child: PullToRefreshWidget(
+                      return PullToRefreshWidget(
                         onRefresh: () {
-                          BlocProvider.of<IndexAnggotaKaderBloc>(context).add(GetListAnggotaKaderEvent());
+                          BlocProvider.of<IndexAnggotaKaderBloc>(context)
+                              .add(GetListAnggotaKaderEvent());
                         },
                         refreshController: refreshController,
                         child: ListView.builder(
-                          itemCount:
-                              state.indexAnggotaKaderResponseModel.data!.length,
+                          itemCount: filteredList.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: CardAnggotakaderWidget(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                          context, DETAIL_REGISTER_ANGGOTA_KADER,
-                                          arguments: state
-                                              .indexAnggotaKaderResponseModel
-                                              .data![index]
-                                              .id)
+                                  Navigator.pushNamed(context,
+                                          DETAIL_REGISTER_ANGGOTA_KADER,
+                                          arguments:
+                                              filteredList[index].id)
                                       .then((value) {
                                     if (value != null) {
-                                      indexAnggotKaderBloc
-                                          .add(GetListAnggotaKaderEvent());
+                                      indexAnggotKaderBloc.add(
+                                          GetListAnggotaKaderEvent());
                                     }
                                   });
                                 },
-                                email: state.indexAnggotaKaderResponseModel
-                                    .data![index].nomorTelepon,
-                                profile: state.indexAnggotaKaderResponseModel
-                                    .data![index].avatar,
-                                nama: state.indexAnggotaKaderResponseModel
-                                    .data![index].namaLengkap,
+                                email: filteredList[index].nomorTelepon,
+                                profile: filteredList[index].avatar,
+                                nama: filteredList[index].namaLengkap,
                               ),
                             );
                           },
                         ),
-                      ),
-                    )
-                  ],
-                );
-              }
-              return const ErrorServerScreen();
-            },
+                      );
+                    }
+                    return const ErrorServerScreen();
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

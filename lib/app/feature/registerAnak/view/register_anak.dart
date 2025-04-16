@@ -12,6 +12,8 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../view/screen/error_server_screen.dart';
+import '../../../view/screen/no_data_screen.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/card_anak_widget.dart';
 import '../../../view/widget/pul_to_refresh.dart';
 
@@ -37,7 +39,8 @@ class RegisterAnakView extends StatefulWidget {
 class RegisterAnakViewState extends State<RegisterAnakView> {
   TextEditingController _searchController = TextEditingController();
 
-  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  EasyRefreshController refreshController =
+      EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -45,6 +48,9 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
     // Trigger fetch event when the view is initialized
     logger.d('trigger fetch');
     context.read<AnakByPosyanduBloc>().add(FetchAnak());
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -118,16 +124,26 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                         ),
                       );
                     } else if (state is AnakByPosyanduSuccess) {
-                      debugPrint(state.anakItems.length.toString());
+                      if (state.anakItems.isEmpty) {
+                        return const NoDataScreen();
+                      }
+                      final filteredList = state.anakItems.where((anak) {
+                        final query = _searchController.text.toLowerCase();
+                        return anak.nama.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
+                      debugPrint(filteredList.length.toString());
                       return PullToRefreshWidget(
                         onRefresh: () {
                           context.read<AnakByPosyanduBloc>().add(FetchAnak());
                         },
                         refreshController: refreshController,
                         child: ListView.builder(
-                          itemCount: state.anakItems.length,
+                          itemCount: filteredList.length,
                           itemBuilder: (context, index) {
-                            AnakItemModel anak = state.anakItems[index];
+                            AnakItemModel anak = filteredList[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: CardAnakWidget(
@@ -143,7 +159,8 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                                 gender: anak.jenisKelamin,
                                 tahun: anak.year,
                                 bulan: anak.bulan,
-                                isUpdate: anak.updatedAtAnak != null ? true : null,
+                                isUpdate:
+                                    anak.updatedAtAnak != null ? true : null,
                                 inRegister: true,
                               ),
                             );

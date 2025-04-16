@@ -5,10 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/card_orangtua_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/pallet_color.dart';
+import '../../../view/screen/no_data_screen.dart';
+import '../../../view/screen/search_not_found.dart';
 import '../../../view/widget/pul_to_refresh.dart';
 import '../../../view/widget/search_text_field_widget.dart';
 import '../bloc/register_orang_tua_bloc.dart';
@@ -34,7 +37,8 @@ class RegisterOrangTuaView extends StatefulWidget {
 
 class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
   TextEditingController _searchController = TextEditingController();
-  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  EasyRefreshController refreshController =
+      EasyRefreshController(controlFinishRefresh: true);
 
   @override
   void initState() {
@@ -42,6 +46,9 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
     // Trigger fetch event when the view is initialized
     logger.d('trigger fetch');
     context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pen35carian
+    });
   }
 
   @override
@@ -63,13 +70,11 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, CREATE_REGISTER_ORANG_TUA).then(
-            (value) {
-              if(value != null) {
-                context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
-              }
+          Navigator.pushNamed(context, CREATE_REGISTER_ORANG_TUA).then((value) {
+            if (value != null) {
+              context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
             }
-          );
+          });
           // Add your navigation or functionality for adding new items
           print("Floating Action Button Pressed");
         },
@@ -116,17 +121,31 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                         ),
                       );
                     } else if (state is RegisterOrangTuaSuccess) {
+                      if (state.orangTuaList.isEmpty) {
+                        return const NoDataScreen();
+                      }
                       // Render your list of Orang Tua here
+                      final filteredList = state.orangTuaList.where((orangTua) {
+                        final query = _searchController.text.toLowerCase();
+                        return orangTua.husband.toLowerCase().contains(query) ||
+                            orangTua.wife.toLowerCase().contains(query) ||
+                            orangTua.kk.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
                       return PullToRefreshWidget(
                         onRefresh: () {
-                          context.read<RegisterOrangTuaBloc>().add(FetchOrangTua());
+                          context
+                              .read<RegisterOrangTuaBloc>()
+                              .add(FetchOrangTua());
                         },
                         refreshController: refreshController,
                         child: ListView.builder(
-                          itemCount: state.orangTuaList
+                          itemCount: filteredList
                               .length, // Ganti dengan data yang diambil
                           itemBuilder: (context, index) {
-                            final orangTua = state.orangTuaList[index]; //
+                            final orangTua = filteredList[index]; //
                             // Ganti dengan data yang diambil
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
@@ -142,7 +161,10 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                                 namaAyah: orangTua.husband,
                                 namaIbu: orangTua.wife,
                                 profile: orangTua.initial,
-                                isUpdate: orangTua.updatedAtAyah != null && orangTua.updatedAtIbu != null ? true : null,
+                                isUpdate: orangTua.updatedAtAyah != null &&
+                                        orangTua.updatedAtIbu != null
+                                    ? true
+                                    : null,
                                 inRegister: true,
                               ),
                             );

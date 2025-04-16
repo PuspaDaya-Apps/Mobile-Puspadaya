@@ -45,6 +45,10 @@ class CreateKehadiranIbuHamilBloc
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCodeIbuHamil == 200) {
           logger.d('succes get data anak ibu hamil');
+          if(dataIbuHamil.data.isEmpty) {
+            emit(CreateKehadiranFormIbuHamilEmpty());
+            return;
+          }
           emit(
             CreateKeadiranFormIbuHamilSuccess(
               dataIbuHamil: dataIbuHamil,
