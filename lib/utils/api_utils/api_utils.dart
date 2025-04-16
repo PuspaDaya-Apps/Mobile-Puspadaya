@@ -655,8 +655,8 @@ class ApiUtils {
   }
   String urlDownloadLogActivity(){
     String urlDonwloadLogActivity = LinkApi.LOGAKTIVITAS;
-    debugPrint('$_baseUrl$urlDonwloadLogActivity');
-    return _baseUrl + urlDonwloadLogActivity;
+    debugPrint('$_baseUrl$_apiVersion$urlDonwloadLogActivity');
+    return _baseUrl + _apiVersion+ urlDonwloadLogActivity;
   }
 
   // ! storage
