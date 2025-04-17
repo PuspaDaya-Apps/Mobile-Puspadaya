@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 
@@ -21,6 +22,9 @@ class AuthorizationBloc extends Bloc<AuthorizationEvent, AuthorizationState> {
       SharedPrefUtils().removeDataWilayah();
       SharedPrefUtils().removeAlatUkurAnak();
       SharedPrefUtils().removeAlatUkurIbuHamil();
+      // logut external id 
+      OneSignal.logout();
+
       debugPrint("step 4");
       emit(AuthorizationFalse());
     });

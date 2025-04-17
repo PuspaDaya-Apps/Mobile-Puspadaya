@@ -46,3 +46,4 @@ android/app/.cxx/
 android/app/.cxx
 /android/app/.cxx
 
+/lib/utils/constant/env.dart

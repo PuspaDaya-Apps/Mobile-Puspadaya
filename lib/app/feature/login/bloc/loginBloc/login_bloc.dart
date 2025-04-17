@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../model/refreshtoken_model.dart';
@@ -27,7 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<GetCurrentUserEvent>(getCurrentUser);
   }
 
-  Future<void> login (SendLoginEvent event, Emitter<LoginState> emit) async {
+  Future<void> login(SendLoginEvent event, Emitter<LoginState> emit) async {
     emit(LoginProcessState());
 
     try {
@@ -35,20 +36,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       int statusCode = response[0] as int;
       debugPrint('status code = ${statusCode.toString()}');
-      LoginResponseModel loginResponseModel = LoginResponseModel.fromJson(response[1]);
+      LoginResponseModel loginResponseModel =
+          LoginResponseModel.fromJson(response[1]);
       debugPrint(loginResponseModel.toString());
 
-      if(statusCode == 200) {
-        if(event.rememberAccount) {
-          SharedPrefUtils().storedAccount(json.encode(event.loginModel.toJson()));
+      if (statusCode == 200) {
+        if (event.rememberAccount) {
+          SharedPrefUtils()
+              .storedAccount(json.encode(event.loginModel.toJson()));
         }
 
-        SharedPrefUtils().storedAccessToken(loginResponseModel.data!.accessToken);
+        SharedPrefUtils()
+            .storedAccessToken(loginResponseModel.data!.accessToken);
         SharedPrefUtils().storedRefreshToken(json.encode(RefreshTokenModel(
-          refreshExpiredAt: loginResponseModel.data!.refreshExpiredAt,
-          refreshToken: loginResponseModel.data!.refreshToken
-        ).toJson()));
-        
+                refreshExpiredAt: loginResponseModel.data!.refreshExpiredAt,
+                refreshToken: loginResponseModel.data!.refreshToken)
+            .toJson()));
+
         emit(LoginSuccessState(loginResponseModel.data!.accessToken));
       } else {
         emit(LoginFailedState(loginResponseModel.message));
@@ -59,17 +63,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<void> getCurrentUser (GetCurrentUserEvent event, Emitter<LoginState> emit) async {
+  Future<void> getCurrentUser(
+      GetCurrentUserEvent event, Emitter<LoginState> emit) async {
     emit(CurrentUserProccesState());
 
     try {
-      List<dynamic> response = await LoginApi().getCurrentUserService(event.accessToken);
+      List<dynamic> response =
+          await LoginApi().getCurrentUserService(event.accessToken);
 
       int statusCode = response[0] as int;
-      GetCurrentUserResponseModel getCurrentUserResponseModel = GetCurrentUserResponseModel.fromJson(response[1]);
+      GetCurrentUserResponseModel getCurrentUserResponseModel =
+          GetCurrentUserResponseModel.fromJson(response[1]);
 
-      if(statusCode == 200) {
-        SharedPrefUtils().storedCurrentUser(jsonEncode(getCurrentUserResponseModel.data!.toJson()));
+      if (statusCode == 200) {
+        SharedPrefUtils().storedCurrentUser(
+            jsonEncode(getCurrentUserResponseModel.data!.toJson()));
+
+        // subject id ketika login agar onesignal bisa memberikan informasi norifikasi berdasarkan id user
+        OneSignal.login(getCurrentUserResponseModel.data!.id);
 
         emit(CurrentUserSuccesState());
       } else {
