@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
+import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../model/refreshtoken_model.dart';
 import '../../model/get_current_user_response_model.dart';
@@ -75,12 +76,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       GetCurrentUserResponseModel getCurrentUserResponseModel =
           GetCurrentUserResponseModel.fromJson(response[1]);
 
-      if (statusCode == 200) {
+      if (statusCode == 200)  {
         SharedPrefUtils().storedCurrentUser(
             jsonEncode(getCurrentUserResponseModel.data!.toJson()));
 
         // subject id ketika login agar onesignal bisa memberikan informasi norifikasi berdasarkan id user
         OneSignal.login(getCurrentUserResponseModel.data!.id);
+        String? externalId = await OneSignal.User.getExternalId();
+        logger.d(externalId);
 
         emit(CurrentUserSuccesState());
       } else {

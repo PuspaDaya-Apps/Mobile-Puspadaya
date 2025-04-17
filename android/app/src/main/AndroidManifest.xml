@@ -12,6 +12,8 @@
 
     <!-- Izin tambahan untuk Android 11+ (API 30) jika perlu akses penuh -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
 
 
     <application
