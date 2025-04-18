@@ -279,7 +279,7 @@ class _DetailPengukuranIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
-                        'Hemogoblin',
+                        'Hemoglobin',
                         style: TextStyle(
                           fontSize: 12,
                         ),

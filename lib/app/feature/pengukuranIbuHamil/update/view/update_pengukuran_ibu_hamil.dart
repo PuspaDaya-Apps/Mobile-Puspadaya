@@ -81,7 +81,7 @@ class _UpdatePengukuranIbuHamilViewState
   TextEditingController _upperArmCircumferenceController =
       TextEditingController();
   TextEditingController _tinggiFundusController = TextEditingController();
-  TextEditingController _hemogoblinController = TextEditingController();
+  TextEditingController _hemoglobinController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
@@ -100,12 +100,14 @@ class _UpdatePengukuranIbuHamilViewState
         TextEditingController(text: widget.detailPengukuran.data!.beratBadan);
     _upperArmCircumferenceController = TextEditingController(
         text: widget.detailPengukuran.data!.lingkarLenganAtas);
-    _tinggiFundusController = widget.detailPengukuran.data!.tinggiFundusUteri == null 
-      ? TextEditingController() 
-      : TextEditingController(text: widget.detailPengukuran.data!.tinggiFundusUteri);
-    _hemogoblinController = widget.detailPengukuran.data!.hemoglobin == null 
-      ? TextEditingController()
-      : TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
+    _tinggiFundusController =
+        widget.detailPengukuran.data!.tinggiFundusUteri == null
+            ? TextEditingController()
+            : TextEditingController(
+                text: widget.detailPengukuran.data!.tinggiFundusUteri);
+    _hemoglobinController = widget.detailPengukuran.data!.hemoglobin == null
+        ? TextEditingController()
+        : TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
     _tabletFeController = TextEditingController(
         text: widget.detailPengukuran.data!.jumlahTabletFe.toString());
     _catatanController =
@@ -180,15 +182,15 @@ class _UpdatePengukuranIbuHamilViewState
         builder: (context, stateAlatUkur) {
           if (stateAlatUkur is AlatUkurSaveProccessState) {
             return SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height,
-                child: Center(
-                  child: SpinKitThreeBounce(
-                    color: bluePrimaryMain,
-                    size: 50.0,
-                  ),
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
                 ),
-              );
+              ),
+            );
           }
           if (stateAlatUkur is AlatUkurSaveSuccessState) {
             return Scaffold(
@@ -347,8 +349,12 @@ class _UpdatePengukuranIbuHamilViewState
                                       hintText: 'contoh: 6.5',
                                       unit: 'cm',
                                       tool: alatUkurIbuHamilSend == null
-                                          ? widget.detailPengukuran.data!.alatTinggiFundus.jenisAlat
-                                          : alatUkurIbuHamilSend!.alatUkurTinggiFundus!.alatPengukuranAdmin.merekAlat,
+                                          ? widget.detailPengukuran.data!
+                                              .alatTinggiFundus.jenisAlat
+                                          : alatUkurIbuHamilSend!
+                                              .alatUkurTinggiFundus!
+                                              .alatPengukuranAdmin
+                                              .merekAlat,
                                       controller: _tinggiFundusController,
                                     ),
                                     // radio button
@@ -359,7 +365,7 @@ class _UpdatePengukuranIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
-                            'Hemogoblin',
+                            'Hemoglobin',
                             style: AppTextStyles.primaryTextNormal.copyWith(
                               fontSize: 12,
                             ),
@@ -372,8 +378,8 @@ class _UpdatePengukuranIbuHamilViewState
                             children: [
                               Expanded(
                                 child: TextFieldWidget(
-                                  controller: _hemogoblinController,
-                                  hintText: "Hemogoblin",
+                                  controller: _hemoglobinController,
+                                  hintText: "Hemoglobin",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
@@ -473,56 +479,68 @@ class _UpdatePengukuranIbuHamilViewState
                             hintText: 'Masukan Catatan',
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          BlocConsumer<UpdatePengukuranIbuHamilBloc, UpdatePengukuranIbuHamilState>(
+                          BlocConsumer<UpdatePengukuranIbuHamilBloc,
+                              UpdatePengukuranIbuHamilState>(
                             listener: (context, state) {
                               debugPrint(state.toString());
-                              if(state is UpdatePengukuranIbuHamilFailedState) {
+                              if (state
+                                  is UpdatePengukuranIbuHamilFailedState) {
                                 showTopSnackBar(
-                                  Overlay.of(context),
-                                  animationDuration: const Duration(milliseconds: 600),
-                                  displayDuration: const Duration(milliseconds: 2200),
-                                  reverseAnimationDuration: const Duration(milliseconds: 300),
-                                  TopSnackbarWidget().error(state.error)
-                                );
+                                    Overlay.of(context),
+                                    animationDuration:
+                                        const Duration(milliseconds: 600),
+                                    displayDuration:
+                                        const Duration(milliseconds: 2200),
+                                    reverseAnimationDuration:
+                                        const Duration(milliseconds: 300),
+                                    TopSnackbarWidget().error(state.error));
                               }
-                              if(state is UpdatePengukuranIbuHamilSuccesState) {
-                                Navigator.pop(context,1);
+                              if (state
+                                  is UpdatePengukuranIbuHamilSuccesState) {
+                                Navigator.pop(context, 1);
                               }
                             },
                             builder: (context, state) {
                               return ButtonPrimary(
                                 color: bluePrimaryMain,
                                 mainButtonMessage: 'Simpan',
-                                isLoading: state is UpdatePengukuranIbuHamilProcessState ? true : null,
+                                isLoading: state
+                                        is UpdatePengukuranIbuHamilProcessState
+                                    ? true
+                                    : null,
                                 mainButton: () {
-                                  updatePengukuranIbuHamilBloc.add(SendUpdatePengukuranIbuHamilEvent(
-                                    pengukuranId: widget.detailPengukuran.data!.id,
+                                  updatePengukuranIbuHamilBloc
+                                      .add(SendUpdatePengukuranIbuHamilEvent(
+                                    pengukuranId:
+                                        widget.detailPengukuran.data!.id,
                                     pengukuranIbuHamilModel: UpdatePengukuranIbuHamilModel(
-                                      tempatPengukuran: selectedPosyandu, 
-                                      beratBadan: double.parse(_weightController.text), 
-                                      tinggiBadan: double.parse(_heightController.text), 
-                                      tinggiFundusUteri: _tinggiFundusController.text == "" 
-                                      ? null 
-                                      : double.parse(_tinggiFundusController.text), 
-                                      lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text), 
-                                      hemoglobin: _hemogoblinController.text == "" 
-                                      ? null 
-                                      : double.parse(_hemogoblinController.text), 
-                                      terpaparAsapRokok: exposedCigaretteSmoke == 1? "Iya" : "Tidak", 
-                                      jumlahTabletFe: int.parse(_tabletFeController.text), 
-                                      alatBeratBadanId: alatUkurIbuHamilSend == null
-                                        ? widget.detailPengukuran.data!.alatBeratBadan.id
-                                        : alatUkurIbuHamilSend!.alatUkurBerat!.id,
-                                      alatTinggiBadanId: alatUkurIbuHamilSend == null
-                                        ? widget.detailPengukuran.data!.alatTinggiBadan.id
-                                        : alatUkurIbuHamilSend!.alatUkurTinggi!.id, 
-                                      alatTinggiFundusUteriId: alatUkurIbuHamilSend == null
-                                        ? widget.detailPengukuran.data!.alatTinggiFundus.id
-                                        : alatUkurIbuHamilSend!.alatUkurTinggiFundus!.id, 
-                                      alatLingkarLenganAtasId: alatUkurIbuHamilSend == null
-                                        ? widget.detailPengukuran.data!.alatLingkarLengan.id
-                                        : alatUkurIbuHamilSend!.alatUkurLingkarLengan!.id
-                                    ),
+                                        tempatPengukuran: selectedPosyandu,
+                                        beratBadan: double.parse(
+                                            _weightController.text),
+                                        tinggiBadan: double.parse(
+                                            _heightController.text),
+                                        tinggiFundusUteri: _tinggiFundusController.text == ""
+                                            ? null
+                                            : double.parse(
+                                                _tinggiFundusController.text),
+                                        lingkarLenganAtas: double.parse(
+                                            _upperArmCircumferenceController
+                                                .text),
+                                        hemoglobin: _hemoglobinController.text == ""
+                                            ? null
+                                            : double.parse(
+                                                _hemoglobinController.text),
+                                        terpaparAsapRokok: exposedCigaretteSmoke == 1
+                                            ? "Iya"
+                                            : "Tidak",
+                                        jumlahTabletFe:
+                                            int.parse(_tabletFeController.text),
+                                        alatBeratBadanId: alatUkurIbuHamilSend == null
+                                            ? widget.detailPengukuran.data!.alatBeratBadan.id
+                                            : alatUkurIbuHamilSend!.alatUkurBerat!.id,
+                                        alatTinggiBadanId: alatUkurIbuHamilSend == null ? widget.detailPengukuran.data!.alatTinggiBadan.id : alatUkurIbuHamilSend!.alatUkurTinggi!.id,
+                                        alatTinggiFundusUteriId: alatUkurIbuHamilSend == null ? widget.detailPengukuran.data!.alatTinggiFundus.id : alatUkurIbuHamilSend!.alatUkurTinggiFundus!.id,
+                                        alatLingkarLenganAtasId: alatUkurIbuHamilSend == null ? widget.detailPengukuran.data!.alatLingkarLengan.id : alatUkurIbuHamilSend!.alatUkurLingkarLengan!.id),
                                   ));
                                 },
                               );

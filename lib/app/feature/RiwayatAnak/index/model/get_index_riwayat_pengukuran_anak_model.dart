@@ -112,7 +112,7 @@ enum TempatPengukuran {
 @JsonSerializable()
 class Posyandu {
     @JsonKey(name: "nama_posyandu")
-    final NamaPosyandu namaPosyandu;
+    final String namaPosyandu;
 
     Posyandu({
         required this.namaPosyandu,
@@ -121,11 +121,6 @@ class Posyandu {
     factory Posyandu.fromJson(Map<String, dynamic> json) => _$PosyanduFromJson(json);
 
     Map<String, dynamic> toJson() => _$PosyanduToJson(this);
-}
-
-enum NamaPosyandu {
-    @JsonValue("Melati 3")
-    MELATI_3
 }
 
 @JsonSerializable()

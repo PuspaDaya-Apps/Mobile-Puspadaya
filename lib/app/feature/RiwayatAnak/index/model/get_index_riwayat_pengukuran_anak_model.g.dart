@@ -91,16 +91,12 @@ const _$TempatPengukuranEnumMap = {
 };
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
-      namaPosyandu: $enumDecode(_$NamaPosyanduEnumMap, json['nama_posyandu']),
+      namaPosyandu: json['nama_posyandu'] as String,
     );
 
 Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{
-      'nama_posyandu': _$NamaPosyanduEnumMap[instance.namaPosyandu]!,
+      'nama_posyandu': instance.namaPosyandu,
     };
-
-const _$NamaPosyanduEnumMap = {
-  NamaPosyandu.MELATI_3: 'Melati 3',
-};
 
 Links _$LinksFromJson(Map<String, dynamic> json) => Links(
       first: json['first'] as String,

@@ -85,7 +85,7 @@ class _CreateRegisterIbuHamilViewState
   TextEditingController _uterineFundusHeightController =
       TextEditingController();
   TextEditingController _armCircumferenceController = TextEditingController();
-  TextEditingController _hemogoblinController = TextEditingController();
+  TextEditingController hemoglobinController = TextEditingController();
   TextEditingController _firstDateHaidController = TextEditingController();
   TextEditingController _lastDateHaidController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
@@ -517,7 +517,7 @@ class _CreateRegisterIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
-                            'Hemogoblin',
+                            'Hemoglobin',
                             style: AppTextStyles.primaryTextNormal.copyWith(
                               fontSize: 12,
                             ),
@@ -530,11 +530,11 @@ class _CreateRegisterIbuHamilViewState
                             children: [
                               Expanded(
                                 child: TextFieldWidget(
-                                  controller: _hemogoblinController,
-                                  hintText: "Hemogoblin",
+                                  controller: hemoglobinController,
+                                  hintText: "Hemoglobin",
                                   // validators: [
                                   //   (value) => Validator.required(
-                                  //       value, 'Hemogoblin Wajib diisi'),
+                                  //       value, 'hemoglobin Wajib diisi'),
                                   // ],
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
@@ -870,10 +870,10 @@ class _CreateRegisterIbuHamilViewState
                                       beratBadan:
                                           _parseDouble(_weightController.text),
                                       catatan: _catatanController.text,
-                                      hemoglobin: _hemogoblinController.text == ""
+                                      hemoglobin: hemoglobinController.text == ""
                                           ? null
                                           : _parseDouble(
-                                              _hemogoblinController.text),
+                                              hemoglobinController.text),
                                       ibuId: ibuId,
                                       jumlahTabletFe:
                                           _parseInt(_tabletFeController.text),

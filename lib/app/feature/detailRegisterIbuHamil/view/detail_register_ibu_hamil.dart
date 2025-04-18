@@ -391,7 +391,7 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Text(
-                        'Hemoboglin',
+                        'Hemoglobin',
                         style: AppTextStyles.primaryTextNormal.copyWith(
                           fontSize: 12,
                         ),

@@ -83,7 +83,7 @@ class UpdateRegisterIbuHamilViewState
       TextEditingController();
   TextEditingController _uterineFundusHeightController =
       TextEditingController();
-  TextEditingController _hemogoblinController = TextEditingController();
+  TextEditingController _hemoglobinController = TextEditingController();
   TextEditingController _firstDateHaidController = TextEditingController();
   TextEditingController _lastDateHaidController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
@@ -176,7 +176,7 @@ class UpdateRegisterIbuHamilViewState
         ? widget.data.data.jarak.toInt().toString()
         : widget.data.data.jarak.toString();
 
-    _hemogoblinController.text = widget.data.data.hemoglobin == null
+    _hemoglobinController.text = widget.data.data.hemoglobin == null
         ? ""
         : widget.data.data.hemoglobin!.replaceAll('.00', '');
     _uterineFundusHeightController.text =
@@ -547,7 +547,7 @@ class UpdateRegisterIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
-                            'Hemogoblin',
+                            'Hemoglobin',
                             style: AppTextStyles.primaryTextNormal.copyWith(
                               fontSize: 12,
                             ),
@@ -560,14 +560,14 @@ class UpdateRegisterIbuHamilViewState
                             children: [
                               Expanded(
                                 child: TextFieldWidget(
-                                  controller: _hemogoblinController,
-                                  hintText: "Hemogoblin",
+                                  controller: _hemoglobinController,
+                                  hintText: "Hemoglobin",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                   // validators: [
                                   //   (value) => Validator.required(
-                                  //       value, 'Hemogoblin Wajib Diisi'),
+                                  //       value, 'Hemoglobin Wajib Diisi'),
                                   // ],
                                 ),
                               ),
@@ -904,10 +904,10 @@ class UpdateRegisterIbuHamilViewState
                                       beratBadan:
                                           _parseDouble(_weightController.text),
                                       catatan: _catatanController.text,
-                                      hemoglobin: _hemogoblinController.text == ""
+                                      hemoglobin: _hemoglobinController.text == ""
                                           ? null
                                           : _parseDouble(
-                                              _hemogoblinController.text),
+                                              _hemoglobinController.text),
                                       jumlahTabletFe:
                                           _parseInt(_tabletFeController.text),
                                       lingkarLenganAtas:

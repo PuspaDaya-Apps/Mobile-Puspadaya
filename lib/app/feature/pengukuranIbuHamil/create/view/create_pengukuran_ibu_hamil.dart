@@ -83,7 +83,7 @@ class _CreatePengukuranIbuHamilViewState
   TextEditingController _upperArmCircumferenceController =
       TextEditingController();
   TextEditingController _tinggiFundusUteriController = TextEditingController();
-  TextEditingController _hemogoblinController = TextEditingController();
+  TextEditingController Controller = TextEditingController();
   int? exposedCigaretteSmoke = 0;
   TextEditingController _tabletFeController = TextEditingController();
   TextEditingController _catatanController = TextEditingController();
@@ -410,7 +410,7 @@ class _CreatePengukuranIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
-                            'Hemogoblin',
+                            'Hemoglobin',
                             style: AppTextStyles.primaryTextNormal.copyWith(
                               fontSize: 12,
                             ),
@@ -423,12 +423,12 @@ class _CreatePengukuranIbuHamilViewState
                             children: [
                               Expanded(
                                 child: TextFieldWidget(
-                                  controller: _hemogoblinController,
-                                  hintText: "Hemogoblin",
+                                  controller: Controller,
+                                  hintText: "Hemoglobin',",
                                   isPasswordField: false,
                                   // validators: [
                                   //   (value) => Validator.required(value,
-                                  //       'Harap Masukan Jumlah Hemogoblin'),
+                                  //       'Harap Masukan Jumlah Hemoglobin','),
                                   // ],
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
@@ -590,9 +590,9 @@ class _CreatePengukuranIbuHamilViewState
                                                 ? null 
                                                 : double.parse(_tinggiFundusUteriController.text),
                                                 lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text),
-                                                hemoglobin: _hemogoblinController.text == "" 
+                                                hemoglobin: Controller.text == "" 
                                                 ? null 
-                                                : double.parse(_hemogoblinController.text),
+                                                : double.parse(Controller.text),
                                                 terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak",
                                                 jumlahTabletFe: int.parse(_tabletFeController.text),
                                                 alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id,
