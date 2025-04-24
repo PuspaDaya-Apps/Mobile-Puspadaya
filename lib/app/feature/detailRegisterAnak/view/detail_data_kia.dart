@@ -217,7 +217,7 @@ class _DetailDataKIAViewState extends State<DetailDataKIAView> {
           ),
           Text('Riwayat Pengukuran'),
           RiwayatPengukuranDataKIA(
-            data: widget.detailResponse.data?.pengukuranAnak ?? [],
+            data: widget.detailResponse.data.pengukuran != null ? widget.detailResponse.data.pengukuran! : [],
           ),
         ],
       ),
@@ -335,7 +335,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
                 child: Text(
                   e.tanggalPengukuran != null
                       ? DateFormat('dd-MM-yyyy')
-                          .format(DateTime.parse(e.tanggalPengukuran!))
+                          .format(e.tanggalPengukuran)
                       : '-',
                 ),
               )),

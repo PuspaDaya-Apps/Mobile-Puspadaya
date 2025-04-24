@@ -109,7 +109,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     tempatLahirController = TextEditingController(
         text: widget.getDetailAnakResponse.data!.tempatLahir);
     tanggalLahirController = TextEditingController(
-        text: widget.getDetailAnakResponse.data!.tanggalLahir);
+        text: widget.getDetailAnakResponse.data!.tanggalLahir?.toLocal().toString().split(' ')[0]);
     lingkarLenganController = TextEditingController(
         text: widget.getDetailAnakResponse.data!.lingkarLenganAtasLahir);
     lingkarKepalaController = TextEditingController(
