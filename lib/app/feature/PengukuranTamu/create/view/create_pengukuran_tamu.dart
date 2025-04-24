@@ -347,7 +347,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                         tool: alatUkurTamu.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          (value) => Validator.required(value,),
+                                          // (value) => Validator.required(value,),
                                           (value) => Validator.minNumber(
                                               value, 45, "min 45 max 110"),
                                           (value) => Validator.maxNumber(
@@ -360,8 +360,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     Expanded(
                                       child: MeasurementWidget(
                                         validator: [
-                                          (value) => Validator.required(value,
-                                              ),
+                                          // (value) => Validator.required(value,
+                                          //     ),
                                         ],
                                         title: 'Berat Badan',
                                         hintText: 'contoh: 6.5',
@@ -390,8 +390,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               hintText: 'contoh: 13.5',
                                               unit: 'cm',
                                               validator: [
-                                                (value) => Validator.required(
-                                                    value,),
+                                                // (value) => Validator.required(
+                                                //     value,),
                                               ],
                                               tool: alatUkurTamu
                                                   .alatUkurLingkarKepala
@@ -406,9 +406,9 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               title: 'Lingkar Lengan Atas',
                                               hintText: 'contoh: 35',
                                               validator: [
-                                                (value) => Validator.required(
-                                                    value,
-                                                    ),
+                                                // (value) => Validator.required(
+                                                //     value,
+                                                //     ),
                                               ],
                                               unit: 'cm',
                                               tool: alatUkurTamu
@@ -700,10 +700,10 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                                 mainButton: () {
                                                   if (isAgeLessThanSixMonths ==
                                                       true) {
-                                                    headCircumferenceController
-                                                        .text = '0';
-                                                    upperArmCircumferenceController
-                                                        .text = '0';
+                                                    // headCircumferenceController
+                                                    //     .text = '0';
+                                                    // upperArmCircumferenceController
+                                                    //     .text = '0';
                                                     mpasiValue = '-';
                                                   } else {
                                                     asiEksklusifValue = '-';
@@ -726,19 +726,21 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                                     PengukuranTamuModel(
                                                       tanggalPengukuran: DateTime.now(),
                                                       posisiBadan: selectedPosition,
-                                                      beratBadan: double.parse(
-                                                        weightController.text
-                                                      ),
+                                                      beratBadan: weightController.text.isNotEmpty
+                                                      ? double.parse(weightController.text)
+                                                      : null,
                                                       alatBeratBadanId: alatUkurTamu.alatUkurBerat!.id,
-                                                      tinggiBadan: double.parse(
-                                                        heightController.text
-                                                      ),
+                                                      tinggiBadan: heightController.text.isNotEmpty
+                                                      ? double.parse(heightController.text)
+                                                      : null,
                                                       alatTinggiBadanId: alatUkurTamu.alatUkurTinggi!.id,
-                                                      lingkarLenganAtas:double.parse(
-                                                        upperArmCircumferenceController.text
-                                                      ),
+                                                      lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty
+                                                      ? double.parse(upperArmCircumferenceController.text)
+                                                      : null,
                                                       alatLingkarLenganId: alatUkurTamu.alatUkurLingkarLengan?.id,
-                                                      lingkarKepala: double.parse(headCircumferenceController.text),
+                                                      lingkarKepala: headCircumferenceController.text.isNotEmpty
+                                                      ? double.parse(headCircumferenceController.text)
+                                                      : null,
                                                       alatLingkarKepalaId: alatUkurTamu.alatUkurLingkarLengan?.id,
                                                       asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
                                                       mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
