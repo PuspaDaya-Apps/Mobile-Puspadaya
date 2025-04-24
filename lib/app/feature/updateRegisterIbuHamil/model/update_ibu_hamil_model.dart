@@ -18,7 +18,7 @@ class UpdateIbuHamilModel {
   @JsonKey(name: "tanggal_pertama_haid")
   final String tanggalPertamaHaid;
   @JsonKey(name: "tanggal_terakhir_haid")
-  final String tanggalTerakhirHaid;
+  String? tanggalTerakhirHaid;
   @JsonKey(name: "lingkar_lengan_atas")
   final double lingkarLenganAtas;
   @JsonKey(name: "alat_lingkar_lengan_id")
@@ -47,7 +47,7 @@ class UpdateIbuHamilModel {
     this.hemoglobin,
     required this.jumlahTabletFe,
     required this.tanggalPertamaHaid,
-    required this.tanggalTerakhirHaid,
+    this.tanggalTerakhirHaid,
     required this.lingkarLenganAtas,
     required this.alatLingkarLenganId,
     this.tinggiFundusUteri,
@@ -73,7 +73,7 @@ UpdateIbuHamilModel _$UpdateIbuHamilModelFromJson(Map<String, dynamic> json) =>
       hemoglobin: (json['hemoglobin'] as num?)?.toDouble(),
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       tanggalPertamaHaid: json['tanggal_pertama_haid'] as String,
-      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] as String,
+      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] as String?,
       lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
       alatLingkarLenganId: json['alat_lingkar_lengan_id'] as String,
       tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num?)?.toDouble(),

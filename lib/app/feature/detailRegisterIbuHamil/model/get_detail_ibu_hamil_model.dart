@@ -38,7 +38,7 @@ class Data {
   @JsonKey(name: "tanggal_pertama_haid")
   final DateTime tanggalPertamaHaid;
   @JsonKey(name: "tanggal_terakhir_haid")
-  final DateTime tanggalTerakhirHaid;
+  final dynamic tanggalTerakhirHaid;
   @JsonKey(name: "lingkar_lengan_atas")
   final String lingkarLenganAtas;
   @JsonKey(name: "tinggi_fundus_uteri")
@@ -382,8 +382,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       jarak: (json['jarak'] as num).toDouble(),
       tanggalPertamaHaid:
           DateTime.parse(json['tanggal_pertama_haid'] as String),
-      tanggalTerakhirHaid:
-          DateTime.parse(json['tanggal_terakhir_haid'] as String),
+      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] == "-"
+      ? json['tanggal_terakhir_haid'] as String
+      : DateTime.parse(json['tanggal_terakhir_haid'] as String),
       lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,

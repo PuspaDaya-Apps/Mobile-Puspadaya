@@ -165,8 +165,11 @@ class UpdateRegisterIbuHamilViewState
 
     _firstDateHaidController.text =
         convertDateToYYMMDD(widget.data.data.tanggalPertamaHaid);
-    _lastDateHaidController.text =
+    if(widget.data.data.tanggalTerakhirHaid != "-") {
+      _lastDateHaidController.text =
         convertDateToYYMMDD(widget.data.data.tanggalTerakhirHaid);
+    }
+    
     _heightController.text = widget.data.data.tinggiBadan;
     _weightController.text = widget.data.data.beratBadan;
     _catatanController.text = widget.data.data.catatan;
@@ -632,10 +635,10 @@ class UpdateRegisterIbuHamilViewState
                             },
                             hintText: "Pilih Tanggal",
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Tanggal harus dipilih";
-                              }
-                              return null;
+                              // if (value == null || value.isEmpty) {
+                              //   return "Tanggal harus dipilih";
+                              // }
+                              // return null;
                             },
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -916,7 +919,9 @@ class UpdateRegisterIbuHamilViewState
                                       tinggiBadan: _parseDouble(_heightController.text),
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
                                       tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
-                                      tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+                                      tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty
+                                      ? _formatDate(_lastDateHaidController.text)
+                                      : null,
                                       memilkiBPJS: selectedMemilikiBPJS!,
                                       namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text : selectedNamaBPJS);
 
