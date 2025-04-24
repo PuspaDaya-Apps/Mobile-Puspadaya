@@ -293,7 +293,7 @@ class _DetailMonitoringIbuHamilViewState
                       ),
                     ),
                     DataTableRiwayatPengukuranIbuHamil(
-                      tanggalTerakhirHaid: state.data.data.tanggalTerakhirHaid,
+                      tanggalAwalHaid: state.data.data.tanggalPertamaHaid,
                       data: state.data.data.pengukuranIbuHamil,
                     ),
                   ],
@@ -309,21 +309,22 @@ class _DetailMonitoringIbuHamilViewState
 }
 
 class DataTableRiwayatPengukuranIbuHamil extends StatelessWidget {
-  DateTime tanggalTerakhirHaid;
+  DateTime tanggalAwalHaid;
   List<GetDetailMonitoringIbuHamil.PengukuranIbuHamil> data;
-  DataTableRiwayatPengukuranIbuHamil({super.key, required this.data,required this.tanggalTerakhirHaid});
+  DataTableRiwayatPengukuranIbuHamil({super.key, required this.data,required this.tanggalAwalHaid});
 
   // Fungsi untuk menghitung usia kehamilan
   String hitungUsiaKehamilan(DateTime tanggalPengukuran) {
-    final selisihHari = tanggalPengukuran.difference(tanggalTerakhirHaid).inDays;
+    final selisihHari = tanggalPengukuran.difference(tanggalAwalHaid).inDays;
     final usiaMinggu = selisihHari ~/ 7;
     final bulan = usiaMinggu ~/ 4;
     final minggu = usiaMinggu % 4;
     return "$bulan bulan $minggu minggu";
   }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.sizeOf(context).height / 1.68,
       child: DataTable2(
         columnSpacing: 12,
