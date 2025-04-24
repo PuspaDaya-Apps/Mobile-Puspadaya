@@ -14,6 +14,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/validator/validator.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../model/alat_ukur_response_model.dart';
 import '../../../../model/alat_ukur_save_model.dart';
@@ -99,10 +100,22 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
     super.initState();
     BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
 
-    heightController = TextEditingController(text: widget.paket.data.data!.tinggiBadan);
-    weightController = TextEditingController(text: widget.paket.data.data!.beratBadan);
-    upperArmCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarLenganAtas);
-    headCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarKepala);
+    if(widget.paket.data.data!.tinggiBadan != "-") {
+      heightController = TextEditingController(text: widget.paket.data.data!.tinggiBadan);
+    }
+
+    if(widget.paket.data.data!.beratBadan != "-") {
+      weightController = TextEditingController(text: widget.paket.data.data!.beratBadan);
+    }
+
+    if(widget.paket.data.data!.lingkarLenganAtas != "-") {
+      upperArmCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarLenganAtas);
+    }
+
+    if(widget.paket.data.data!.lingkarKepala != "-") {
+      headCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarKepala);
+    }
+
     catatanController = TextEditingController(text: widget.paket.data.data!.catatan);
     keluhanController = TextEditingController(text: widget.paket.data.data!.keluhan);
 
@@ -120,14 +133,18 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
 
     if (widget.paket.data.data!.mpasi == "Iya") {
       mpasiValue = 1;
-    } else {
+    } else if (widget.paket.data.data!.mpasi == "Tidak") {
       mpasiValue = 0;
+    } else {
+      mpasiValue = 3;
     }
 
     if (widget.paket.data.data!.asiEksklusif == "Iya") {
       asiEksklusifValue = 1;
-    } else {
+    } else if (widget.paket.data.data!.asiEksklusif == "Tidak") {
       asiEksklusifValue = 0;
+    } else {
+      mpasiValue = 3;
     }
   }
 
@@ -305,6 +322,14 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                     MeasurementWidget(
                                       title: 'Tinggi Badan',
                                       hintText: 'contoh: 13.5',
+                                      validator: [
+                                          // (value) => Validator.required(value,
+                                          //     ),
+                                          (value) => Validator.minNumber(
+                                              value, 45, "min 45 max 110"),
+                                          (value) => Validator.maxNumber(
+                                              value, 110, "min 45 max 110"),
+                                        ],
                                       unit: 'cm',
                                       tool: alatUkurAnakSend == null 
                                       ? widget.paket.data.data!.alatTinggiBadan.jenisAlat 
@@ -514,17 +539,20 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                         alatTinggiBadanId: alatUkurAnakSend == null 
                                       ? widget.paket.data.data!.alatTinggiBadan.id 
                                       : alatUkurAnak.alatUkurTinggi!.id,
-                                        beratBadan:
-                                            double.parse(weightController.text),
-                                        tinggiBadan:
-                                            double.parse(heightController.text),
-                                        lingkarKepala: double.parse(
-                                            headCircumferenceController.text),
-                                        lingkarLenganAtas: double.parse(
-                                            upperArmCircumferenceController.text),
-                                        asiEksklusif:
-                                            asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
-                                        mpasi: mpasiValue == 1 ? 'Iya' : 'Tidak',
+                                        beratBadan: weightController.text.isNotEmpty
+                                        ? double.parse(weightController.text)
+                                        : null,
+                                        tinggiBadan: heightController.text.isNotEmpty
+                                        ? double.parse(heightController.text)
+                                        : null,
+                                        lingkarKepala: headCircumferenceController.text.isNotEmpty
+                                        ? double.parse(headCircumferenceController.text)
+                                        : null,
+                                        lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty
+                                        ? double.parse(upperArmCircumferenceController.text)
+                                        : null,
+                                        asiEksklusif: asiEksklusifValue == 3 ? "-":  asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
+                                        mpasi: mpasiValue == 3 ? "-" : mpasiValue == 1 ? 'Iya' : 'Tidak',
                                         tanggalPengukuran:
                                             widget.paket.data.data!.tanggalPengukuran,
                                         catatan: catatanController.text,
