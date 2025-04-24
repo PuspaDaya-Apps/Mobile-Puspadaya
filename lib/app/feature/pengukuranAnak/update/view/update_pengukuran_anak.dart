@@ -71,10 +71,10 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
   late String selectedPosyandu;
   late String selectedPosition;
 
-  late TextEditingController heightController;
-  late TextEditingController weightController;
-  late TextEditingController upperArmCircumferenceController;
-  late TextEditingController headCircumferenceController;
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController headCircumferenceController = TextEditingController();
   late TextEditingController catatanController;
   late TextEditingController keluhanController;
 
@@ -97,7 +97,6 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
 
   @override
   void initState() {
-    super.initState();
     BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
 
     if(widget.paket.data.data!.tinggiBadan != "-") {
@@ -131,21 +130,27 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
       selectedPosition = "Berdiri";
     }
 
-    if (widget.paket.data.data!.mpasi == "Iya") {
-      mpasiValue = 1;
-    } else if (widget.paket.data.data!.mpasi == "Tidak") {
-      mpasiValue = 0;
-    } else {
+    if (widget.paket.data.data!.mpasi == '-') {
       mpasiValue = 3;
+    } else {
+      if (widget.paket.data.data!.mpasi == 'Iya') {
+        mpasiValue = 1;
+      } else {
+        mpasiValue = 0;
+      }
     }
 
-    if (widget.paket.data.data!.asiEksklusif == "Iya") {
-      asiEksklusifValue = 1;
-    } else if (widget.paket.data.data!.asiEksklusif == "Tidak") {
-      asiEksklusifValue = 0;
+    if (widget.paket.data.data!.asiEksklusif == '-') {
+      asiEksklusifValue = 3;
     } else {
-      mpasiValue = 3;
+      if (widget.paket.data.data!.asiEksklusif == 'Iya') {
+        asiEksklusifValue = 1;
+      } else {
+        asiEksklusifValue = 0;
+      }
     }
+
+    super.initState();
   }
 
   @override
