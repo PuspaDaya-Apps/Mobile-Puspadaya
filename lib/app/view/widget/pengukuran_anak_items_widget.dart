@@ -8,6 +8,8 @@ class PengukuranAnakItems extends StatelessWidget {
   final String date;
   final String place;
   final VoidCallback onTap;
+  final bool? pengukuranIsNull;
+
   const PengukuranAnakItems({
     super.key,
     required this.onTap,
@@ -15,6 +17,7 @@ class PengukuranAnakItems extends StatelessWidget {
     required this.name,
     required this.date,
     required this.nik,
+    this.pengukuranIsNull
   });
 
   @override
@@ -33,7 +36,9 @@ class PengukuranAnakItems extends StatelessWidget {
                 vertical: 4,
               ),
               decoration: BoxDecoration(
-                color: bluePrimary50,
+                color: pengukuranIsNull != null
+                ? bluePrimary50
+                : goldPrimaryMain,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Column(
@@ -99,7 +104,9 @@ class PengukuranAnakItems extends StatelessWidget {
       ),
       trailing: Icon(
         Icons.arrow_forward_ios,
-        color: bluePrimary50,
+        color: pengukuranIsNull != null
+        ? bluePrimary50
+        : goldPrimaryMain,
       ),
     );
   }
