@@ -8,13 +8,13 @@ class UpdatePengukuranIbuHamilModel {
   String tempatPengukuran;
 
   @JsonKey(name: "berat_badan")
-  double beratBadan;
+  double? beratBadan;
   @JsonKey(name: "tinggi_badan")
-  double tinggiBadan;
+  double? tinggiBadan;
   @JsonKey(name: "tinggi_fundus_uteri")
   double? tinggiFundusUteri;
   @JsonKey(name: "lingkar_lengan_atas")
-  double lingkarLenganAtas;
+  double? lingkarLenganAtas;
 
   double? hemoglobin;
   @JsonKey(name: "terpapar_asap_rokok")
@@ -34,10 +34,10 @@ class UpdatePengukuranIbuHamilModel {
 
   UpdatePengukuranIbuHamilModel({
     required this.tempatPengukuran,
-    required this.beratBadan,
-    required this.tinggiBadan,
+    this.beratBadan,
+    this.tinggiBadan,
     this.tinggiFundusUteri,
-    required this.lingkarLenganAtas,
+    this.lingkarLenganAtas,
     this.hemoglobin,
     required this.terpaparAsapRokok,
     required this.jumlahTabletFe,
@@ -58,10 +58,10 @@ UpdatePengukuranIbuHamilModel _$UpdatePengukuranIbuHamilModelFromJson(
         Map<String, dynamic> json) =>
     UpdatePengukuranIbuHamilModel(
       tempatPengukuran: json['tempat_pengukuran'] as String,
-      beratBadan: (json['berat_badan'] as num).toDouble(),
-      tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
-      tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num).toDouble(),
-      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
+      beratBadan: (json['berat_badan'] as num?)?.toDouble(),
+      tinggiBadan: (json['tinggi_badan'] as num?)?.toDouble(),
+      tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num?)?.toDouble(),
+      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num?)?.toDouble(),
       hemoglobin: (json['hemoglobin'] as num).toDouble(),
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
