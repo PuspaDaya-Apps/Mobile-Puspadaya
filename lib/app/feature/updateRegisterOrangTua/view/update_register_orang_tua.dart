@@ -344,8 +344,11 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                   tanggalLahirAyahController.text = DateFormat('yyyy-MM-dd')
                       .format(detailData.data.ayah.tanggalLahir);
                   alamatAyahController.text = detailData.data.ayah.alamat;
-                  teleponAyahController.text =
-                      detailData.data.ayah.nomorTelepon;
+
+                  if(detailData.data.ayah.nomorTelepon != "0") {
+                    teleponAyahController.text = detailData.data.ayah.nomorTelepon;
+                  }
+                  
                   rTAyahController.text = detailData.data.ayah.rt;
                   rWAyahController.text = detailData.data.ayah.rw;
                   selectedGolDarahAyah = detailData.data.ayah.golDarah;
@@ -370,7 +373,10 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                       detailData.data.ibu.tanggalMelahirkanSebelumnya != null
                           ? detailData.data.ibu.tanggalMelahirkanSebelumnya!
                           : "";
-                  teleponIbuController.text = detailData.data.ibu.nomorTelepon;
+                  if(detailData.data.ibu.nomorTelepon != "0") {
+                    teleponIbuController.text = detailData.data.ibu.nomorTelepon;
+                  }
+                  
                   rTIbuController.text = detailData.data.ibu.rt;
                   rWIbuController.text = detailData.data.ibu.rw;
                   jumlahAnakIbuController.text =
@@ -1332,16 +1338,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.minLength(
-                                                  value,
-                                                  10,
-                                                  "Masukkan nomor yang benar!"),
+                                              // (value) => Validator.minLength(
+                                              //     value,
+                                              //     10,
+                                              //     "Masukkan nomor yang benar!"),
                                               (value) => Validator.maxLength(
                                                   value,
                                                   13,
                                                   "Masukkan nomor yang benar!"),
-                                              (value) =>
-                                                  Validator.required(value),
+                                              // (value) =>
+                                              //     Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -2282,16 +2288,16 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                             obscureText: false,
                                             isPasswordField: false,
                                             validators: [
-                                              (value) => Validator.minLength(
-                                                  value,
-                                                  10,
-                                                  "Masukkan nomor yang benar!"),
+                                              // (value) => Validator.minLength(
+                                              //     value,
+                                              //     10,
+                                              //     "Masukkan nomor yang benar!"),
                                               (value) => Validator.maxLength(
                                                   value,
                                                   13,
                                                   "Masukkan nomor yang benar!"),
-                                              (value) =>
-                                                  Validator.required(value),
+                                              // (value) =>
+                                              //     Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(
@@ -2530,9 +2536,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     namaAyah:
                                                         namaAyahController.text,
                                                     nik: nikAyahController.text,
-                                                    nomorTelepon:
-                                                        teleponAyahController
-                                                            .text,
+                                                    nomorTelepon: teleponAyahController.text.isNotEmpty 
+                                                    ? teleponAyahController.text
+                                                    : null,
                                                     rt: rTAyahController.text,
                                                     rw: rWAyahController.text,
                                                     tempatLahir:
@@ -2579,9 +2585,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     namaIbu:
                                                         namaIbuController.text,
                                                     nik: nikIbuController.text,
-                                                    nomorTelepon:
-                                                        teleponIbuController
-                                                            .text,
+                                                    nomorTelepon: teleponIbuController.text.isNotEmpty
+                                                    ? teleponIbuController.text
+                                                    : null,
                                                     rt: rTIbuController.text,
                                                     rw: rWIbuController.text,
                                                     tempatLahir:
