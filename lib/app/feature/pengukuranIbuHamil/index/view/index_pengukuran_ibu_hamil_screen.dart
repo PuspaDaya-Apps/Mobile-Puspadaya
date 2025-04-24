@@ -109,7 +109,12 @@ class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHa
                       date: DateFormat("d MMMM y", "ID_id").format(state
                           .indexPengukuranIbuHamilResponseModel
                           .data![index]
-                          .tanggalPengukuran)),
+                          .tanggalPengukuran),
+                      pengukuranIsNull: state.indexPengukuranIbuHamilResponseModel.data![index].tinggiBadan != null &&
+                        state.indexPengukuranIbuHamilResponseModel.data![index].beratBadan != null &&
+                        state.indexPengukuranIbuHamilResponseModel.data![index].lingkarLenganAtas != null
+                      ? true : null,
+                    ),
                 );
               },
             ),
