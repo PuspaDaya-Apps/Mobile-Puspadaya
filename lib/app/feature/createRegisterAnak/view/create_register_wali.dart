@@ -914,11 +914,11 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.minLength(
-                                value, 10, "Masukkan nomor yang benar!"),
+                            // (value) => Validator.minLength(
+                            //     value, 10, "Masukkan nomor yang benar!"),
                             (value) => Validator.maxLength(
                                 value, 13, "Masukkan nomor yang benar!"),
-                            (value) => Validator.required(value),
+                            // (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1060,8 +1060,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                               alamatLengkap:
                                                   _alamatController.text,
                                               dusunId: selectedDusun!.id,
-                                              noTelepon:
-                                                  _teleponController.text,
+                                              noTelepon: _teleponController.text.isNotEmpty
+                                              ?_teleponController.text
+                                              : null,
                                               golDarah: selectedGolDarahWali!,
                                               nomorKartuKeluarga:
                                                   _kkController.text,

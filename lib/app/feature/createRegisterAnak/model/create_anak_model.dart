@@ -121,7 +121,7 @@ class Pengasuh {
   @JsonKey(name: 'dusun_id')
   String dusunId;
   @JsonKey(name: 'no_telepon')
-  String noTelepon;
+  String? noTelepon;
   @JsonKey(name: 'gol_darah')
   String golDarah;
   @JsonKey(name: 'nomor_kartu_keluarga')
@@ -139,7 +139,7 @@ class Pengasuh {
     required this.rw,
     required this.alamatLengkap,
     required this.dusunId,
-    required this.noTelepon,
+    this.noTelepon,
     required this.golDarah,
     required this.nomorKartuKeluarga,
     required this.disabilitasPengasuh,
@@ -208,7 +208,7 @@ Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
       rw: json['rw'] as String,
       alamatLengkap: json['alamat_lengkap'] as String,
       dusunId: json['dusun_id'] as String,
-      noTelepon: json['no_telepon'] as String,
+      noTelepon: json['no_telepon'] as String?,
       golDarah: json['gol_darah'] as String,
       nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
       disabilitasPengasuh: (json['disabilitas_pengasuh'] as List<dynamic>)

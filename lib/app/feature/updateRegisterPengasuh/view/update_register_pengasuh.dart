@@ -135,8 +135,11 @@ class _UpdateRegisterPengasuhViewState
         text: widget.paket.detailPengasuhResponseModel.data!.rt);
     _rWWaliController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.rw);
-    _teleponWaliController = TextEditingController(
-        text: widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon);
+
+    if(widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon != "0") {
+      _teleponWaliController = TextEditingController(text: widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon);
+    }
+    
     _alamatWaliController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.alamatLengkap);
 
@@ -852,7 +855,9 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(value),
+                            (value) => Validator.maxLength(
+                                value, 13, "Masukkan nomor yang benar!"),
+                            // (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -964,8 +969,9 @@ class _UpdateRegisterPengasuhViewState
                                           alamatLengkap:
                                               _alamatWaliController.text,
                                           dusunId: selectedDusun!.id,
-                                          noTelepon:
-                                              _teleponWaliController.text,
+                                          noTelepon: _teleponWaliController.text.isNotEmpty
+                                          ? _teleponWaliController.text
+                                          : null,
                                           golDarah: selectedGolDarahWali!,
                                           nomorKartuKeluarga:
                                               _nomorKKController.text,
