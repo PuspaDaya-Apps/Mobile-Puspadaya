@@ -284,7 +284,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         tempatLahirAyahController.text.isNotEmpty &&
         tanggalLahirAyahController.text.isNotEmpty &&
         alamatAyahController.text.isNotEmpty &&
-        teleponAyahController.text.isNotEmpty &&
         rTAyahController.text.isNotEmpty &&
         rWAyahController.text.isNotEmpty &&
         selectedKabupatenAyah != null &&
@@ -314,7 +313,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         tempatLahirAyahController.text.isNotEmpty &&
         tanggalLahirAyahController.text.isNotEmpty &&
         alamatAyahController.text.isNotEmpty &&
-        teleponAyahController.text.isNotEmpty &&
         rTAyahController.text.isNotEmpty &&
         rWAyahController.text.isNotEmpty &&
         selectedKabupatenAyah != null &&
