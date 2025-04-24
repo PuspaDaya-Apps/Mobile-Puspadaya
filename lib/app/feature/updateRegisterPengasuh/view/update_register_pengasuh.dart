@@ -855,8 +855,8 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.maxLength(
-                                value, 13, "Masukkan nomor yang benar!"),
+                            // (value) => Validator.maxLength(
+                            //     value, 13, "Masukkan nomor yang benar!"),
                             // (value) => Validator.required(value),
                           ],
                         ),

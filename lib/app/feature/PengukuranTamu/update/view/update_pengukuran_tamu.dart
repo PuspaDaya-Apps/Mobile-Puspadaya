@@ -300,10 +300,10 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                       hintText: 'contoh: 13.5',
                                       validator: [
                                           // (value) => Validator.required(value,),
-                                          (value) => Validator.minNumber(
-                                              value, 45, "min 45 max 110"),
-                                          (value) => Validator.maxNumber(
-                                              value, 110, "min 45 max 110"),
+                                          // (value) => Validator.minNumber(
+                                          //     value, 45, "min 45 max 110"),
+                                          // (value) => Validator.maxNumber(
+                                          //     value, 110, "min 45 max 110"),
                                         ],
                                       unit: 'cm',
                                       tool: alatUkurAnakSend == null 

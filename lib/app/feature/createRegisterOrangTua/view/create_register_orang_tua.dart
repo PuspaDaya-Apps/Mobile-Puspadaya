@@ -1564,10 +1564,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             //     value,
                                             //     10,
                                             //     "Masukkan nomor yang benar!"),
-                                            (value) => Validator.maxLength(
-                                                value,
-                                                13,
-                                                "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.maxLength(
+                                            //     value,
+                                            //     13,
+                                            //     "Masukkan nomor yang benar!"),
                                             // (value) => Validator.required(
                                             //       value,
                                             //     ),
@@ -2698,10 +2698,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                             //     value,
                                             //     10,
                                             //     "Masukkan nomor yang benar!"),
-                                            (value) => Validator.maxLength(
-                                                value,
-                                                13,
-                                                "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.maxLength(
+                                            //     value,
+                                            //     13,
+                                            //     "Masukkan nomor yang benar!"),
                                             // (value) => Validator.required(
                                             //       value,
                                             //     ),

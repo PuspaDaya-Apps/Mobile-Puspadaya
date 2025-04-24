@@ -494,10 +494,10 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         validator: [
                                           // (value) => Validator.required(value,
                                           //     ),
-                                          (value) => Validator.minNumber(
-                                              value, 45, "min 45 max 110"),
-                                          (value) => Validator.maxNumber(
-                                              value, 110, "min 45 max 110"),
+                                          // (value) => Validator.minNumber(
+                                          //     value, 45, "min 45 max 110"),
+                                          // (value) => Validator.maxNumber(
+                                          //     value, 110, "min 45 max 110"),
                                         ],
                                         // tool: 'Microtoise',
                                         controller: heightController,

@@ -325,10 +325,10 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                       validator: [
                                           // (value) => Validator.required(value,
                                           //     ),
-                                          (value) => Validator.minNumber(
-                                              value, 45, "min 45 max 110"),
-                                          (value) => Validator.maxNumber(
-                                              value, 110, "min 45 max 110"),
+                                          // (value) => Validator.minNumber(
+                                          //     value, 45, "min 45 max 110"),
+                                          // (value) => Validator.maxNumber(
+                                          //     value, 110, "min 45 max 110"),
                                         ],
                                       unit: 'cm',
                                       tool: alatUkurAnakSend == null 

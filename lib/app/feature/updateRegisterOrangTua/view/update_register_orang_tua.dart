@@ -1342,10 +1342,10 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               //     value,
                                               //     10,
                                               //     "Masukkan nomor yang benar!"),
-                                              (value) => Validator.maxLength(
-                                                  value,
-                                                  13,
-                                                  "Masukkan nomor yang benar!"),
+                                              // (value) => Validator.maxLength(
+                                              //     value,
+                                              //     13,
+                                              //     "Masukkan nomor yang benar!"),
                                               // (value) =>
                                               //     Validator.required(value),
                                             ],
@@ -2292,10 +2292,10 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                               //     value,
                                               //     10,
                                               //     "Masukkan nomor yang benar!"),
-                                              (value) => Validator.maxLength(
-                                                  value,
-                                                  13,
-                                                  "Masukkan nomor yang benar!"),
+                                              // (value) => Validator.maxLength(
+                                              //     value,
+                                              //     13,
+                                              //     "Masukkan nomor yang benar!"),
                                               // (value) =>
                                               //     Validator.required(value),
                                             ],

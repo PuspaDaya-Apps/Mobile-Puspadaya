@@ -916,8 +916,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           validators: [
                             // (value) => Validator.minLength(
                             //     value, 10, "Masukkan nomor yang benar!"),
-                            (value) => Validator.maxLength(
-                                value, 13, "Masukkan nomor yang benar!"),
+                            // (value) => Validator.maxLength(
+                            //     value, 13, "Masukkan nomor yang benar!"),
                             // (value) => Validator.required(value),
                           ],
                         ),
