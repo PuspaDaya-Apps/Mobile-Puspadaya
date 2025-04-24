@@ -13,6 +13,7 @@ import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../view/widget/chart_kmb.dart';
+import '../../../view/widget/nullable_utils_table.dart';
 import '../cubit/select_chart_cubit.dart';
 import '../model/get_detail_anak_response.dart' as GetDetailAnakResponse;
 
@@ -217,7 +218,9 @@ class _DetailDataKIAViewState extends State<DetailDataKIAView> {
           ),
           Text('Riwayat Pengukuran'),
           RiwayatPengukuranDataKIA(
-            data: widget.detailResponse.data.pengukuran != null ? widget.detailResponse.data.pengukuran! : [],
+            data: widget.detailResponse.data.pengukuran != null
+                ? widget.detailResponse.data.pengukuran!
+                : [],
           ),
         ],
       ),
@@ -236,7 +239,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
       child: DataTable2(
         columnSpacing: 12,
         horizontalMargin: 12,
-        minWidth: 960,
+        minWidth: 1200,
         columns: [
           DataColumn2(
             size: ColumnSize.S,
@@ -257,7 +260,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('BB(Kg)'),
@@ -265,7 +268,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TB(cm)'),
@@ -273,7 +276,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Lila(cm)'),
@@ -281,7 +284,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TP(cm)'),
@@ -298,7 +301,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Stunting'),
@@ -306,7 +309,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Underweight'),
@@ -314,7 +317,7 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Wasting'),
@@ -331,38 +334,34 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text('${index + 1}'))),
               DataCell(Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  e.tanggalPengukuran != null
-                      ? DateFormat('dd-MM-yyyy')
-                          .format(e.tanggalPengukuran)
-                      : '-',
-                ),
-              )),
+                  alignment: Alignment.centerLeft,
+                  child: NullableUtilsTable(
+                      value: DateFormat('dd-MM-yyyy')
+                          .format(e.tanggalPengukuran)))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.beratBadan.toString() ?? '-'))),
+                  child: NullableUtilsTable(value:e.beratBadan.toString() ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.tinggiBadan.toString() ?? '-'))),
+                  child: NullableUtilsTable(value:e.tinggiBadan.toString() ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.lingkarLenganAtas.toString() ?? '-'))),
+                  child: NullableUtilsTable(value:e.lingkarLenganAtas.toString() ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.lingkarKepala.toString() ?? '-'))),
+                  child: NullableUtilsTable(value:e.lingkarKepala.toString() ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.namaKader?.toString() ?? '-'))),
+                  child: NullableUtilsTable(value:e.namaKader?.toString() ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusStunting ?? '-'))),
+                  child: NullableUtilsTable(value:e.statusStunting ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusGizi ?? '-'))),
+                  child: NullableUtilsTable(value:e.statusGizi ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusGizi ?? '-'))),
+                  child: NullableUtilsTable(value:e.statusGizi ))),
             ]);
           },
         ),

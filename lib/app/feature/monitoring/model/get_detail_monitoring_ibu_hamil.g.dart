@@ -189,19 +189,19 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
       deletedAt: json['deleted_at'] == null
           ? null
           : DateTime.parse(json['deleted_at'] as String),
-      usiaIbuHamil: (json['usia_ibu_hamil'] as num).toInt(),
-      usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
+      usiaIbuHamil: (json['usia_ibu_hamil'] as num?)?.toInt(),
+      usiaKehamilan: (json['usia_kehamilan'] as num?)?.toInt(),
       tempatPengukuran: json['tempat_pengukuran'] as String,
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
-      beratBadan: json['berat_badan'] as String,
-      tinggiBadan: json['tinggi_badan'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
       hemoglobin: json['hemoglobin'] as String?,
-      terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
-      jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
+      terpaparAsapRokok: json['terpapar_asap_rokok'] as String?,
+      jumlahTabletFe: (json['jumlah_tablet_fe'] as num?)?.toInt(),
       catatan: json['catatan'],
-      kader: Ayah.fromJson(json['kader'] as Map<String, dynamic>),
+      kader: Kader.fromJson(json['kader'] as Map<String, dynamic>),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
     );
 
@@ -249,4 +249,14 @@ Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{
       'deleted_at': instance.deletedAt?.toIso8601String(),
       'nama_posyandu': instance.namaPosyandu,
       'alamat': instance.alamat,
+    };
+
+Kader _$KaderFromJson(Map<String, dynamic> json) => Kader(
+      id: json['id'] as String,
+      nama: json['nama'] as String,
+    );
+
+Map<String, dynamic> _$KaderToJson(Kader instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama': instance.nama,
     };

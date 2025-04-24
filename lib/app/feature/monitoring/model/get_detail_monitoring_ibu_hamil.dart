@@ -251,31 +251,31 @@ class PengukuranIbuHamil {
     @JsonKey(name: "deleted_at")
     final DateTime? deletedAt;
     @JsonKey(name: "usia_ibu_hamil")
-    final int usiaIbuHamil;
+    final int? usiaIbuHamil;
     @JsonKey(name: "usia_kehamilan")
-    final int usiaKehamilan;
+    final int? usiaKehamilan;
     @JsonKey(name: "tempat_pengukuran")
     final String tempatPengukuran;
     @JsonKey(name: "tanggal_pengukuran")
     final DateTime tanggalPengukuran;
     @JsonKey(name: "berat_badan")
-    final String beratBadan;
+    final String? beratBadan;
     @JsonKey(name: "tinggi_badan")
-    final String tinggiBadan;
+    final String? tinggiBadan;
     @JsonKey(name: "tinggi_fundus_uteri")
     final String? tinggiFundusUteri;
     @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
+    final String? lingkarLenganAtas;
     @JsonKey(name: "hemoglobin")
     final String? hemoglobin;
     @JsonKey(name: "terpapar_asap_rokok")
-    final String terpaparAsapRokok;
+    final String? terpaparAsapRokok;
     @JsonKey(name: "jumlah_tablet_fe")
-    final int jumlahTabletFe;
+    final int? jumlahTabletFe;
     @JsonKey(name: "catatan")
     final dynamic catatan;
     @JsonKey(name: "kader")
-    final Ayah kader;
+    final Kader kader;
     @JsonKey(name: "posyandu")
     final Posyandu posyandu;
 
@@ -332,4 +332,20 @@ class Posyandu {
     factory Posyandu.fromJson(Map<String, dynamic> json) => _$PosyanduFromJson(json);
 
     Map<String, dynamic> toJson() => _$PosyanduToJson(this);
+}
+@JsonSerializable()
+class Kader {
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "nama")
+    final String nama;
+
+    Kader({
+        required this.id,
+        required this.nama,
+    });
+
+    factory Kader.fromJson(Map<String, dynamic> json) => _$KaderFromJson(json);
+
+    Map<String, dynamic> toJson() => _$KaderToJson(this);
 }

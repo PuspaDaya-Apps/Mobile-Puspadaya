@@ -11,6 +11,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/info_field_widget.dart';
+import '../../../../view/widget/nullable_utils_table.dart';
 import '../bloc/detail_riwayat_pengukuran_ibu_hamil_bloc.dart';
 
 class DetailRiwayatIbuHamil extends StatelessWidget {
@@ -329,8 +330,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       DataTableRiwayatIbuHamil(
-                        tanggalTerakhirHaid:
-                            state.data.data.tanggalTerakhirHaid,
+                        tanggalAwalHaid: state.data.data.tanggalPertamaHaid,
                         data: state.data.data.pengukuranIbuHamil,
                       )
                     ],
@@ -347,13 +347,12 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
 }
 
 class DataTableRiwayatIbuHamil extends StatelessWidget {
-  final DateTime tanggalTerakhirHaid;
+  final DateTime tanggalAwalHaid;
   final List<GetDetailRiwayatPengukuranIbuHamilModel.PengukuranIbuHamil> data;
   const DataTableRiwayatIbuHamil(
-      {required this.tanggalTerakhirHaid, required this.data, super.key});
+      {required this.tanggalAwalHaid, required this.data, super.key});
   String hitungUsiaKehamilan(DateTime tanggalPengukuran) {
-    final selisihHari =
-        tanggalPengukuran.difference(tanggalTerakhirHaid).inDays;
+    final selisihHari = tanggalPengukuran.difference(tanggalAwalHaid).inDays;
     final usiaMinggu = selisihHari ~/ 7;
     final bulan = usiaMinggu ~/ 4;
     final minggu = usiaMinggu % 4;
@@ -367,7 +366,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
       child: DataTable2(
         columnSpacing: 12,
         horizontalMargin: 12,
-        minWidth: 900,
+        minWidth: 1200,
         columns: [
           DataColumn2(
             size: ColumnSize.S,
@@ -396,7 +395,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TB(cm)'),
@@ -404,7 +403,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('BB(Kg)'),
@@ -412,7 +411,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Lila(cm)'),
@@ -420,7 +419,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TFU(cm)'),
@@ -428,7 +427,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('HB(g/dl)'),
@@ -436,7 +435,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TAK'),
@@ -444,7 +443,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Tablet FE'),
@@ -452,7 +451,7 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             fixedWidth: 200,
             label: Align(
               alignment: Alignment.centerLeft,
@@ -466,39 +465,47 @@ class DataTableRiwayatIbuHamil extends StatelessWidget {
           (index) {
             final e = data[index];
             return DataRow(cells: [
-              DataCell(
-                  Align(alignment: Alignment.centerLeft, child: Text('2'))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.tanggalPengukuran != null
-                      ? DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)
-                      : '-'))),
+                  child: Text('${index + 1}'))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(hitungUsiaKehamilan(e.tanggalPengukuran)))),
-              DataCell(Align(
-                  alignment: Alignment.centerLeft, child: Text(e.tinggiBadan))),
-              DataCell(Align(
-                  alignment: Alignment.centerLeft, child: Text(e.beratBadan))),
+                  child: NullableUtilsTable(
+                      value: DateFormat('dd-MM-yyyy')
+                          .format(e.tanggalPengukuran)))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.lingkarLenganAtas))),
+                  child: NullableUtilsTable(
+                      value: hitungUsiaKehamilan(e.tanggalPengukuran)))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.tinggiFundusUteri ?? '-'))),
+                  child: NullableUtilsTable(value: e.tinggiBadan))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.hemoglobin ?? '-'))),
+                  child: NullableUtilsTable(value: e.beratBadan))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.terpaparAsapRokok))),
+                  child: NullableUtilsTable(value: e.lingkarLenganAtas))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.jumlahTabletFe > 0
+                  child: NullableUtilsTable(value: e.tinggiFundusUteri))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: NullableUtilsTable(value: e.hemoglobin))),
+              DataCell(Align(
+                  alignment: Alignment.centerLeft,
+                  child: NullableUtilsTable(value: e.terpaparAsapRokok))),
+              DataCell(Align(
+                alignment: Alignment.centerLeft,
+                child: NullableUtilsTable(
+                  value: (e.jumlahTabletFe ?? 0) > 0
                       ? e.jumlahTabletFe.toString()
-                      : '-'))),
+                      : null,
+                ),
+              )),
               DataCell(Align(
-                  alignment: Alignment.centerLeft, child: Text(e.kader.namaLengkap))),
+                  alignment: Alignment.centerLeft,
+                  child: NullableUtilsTable(value: e.kader.namaLengkap))),
             ]);
           },
         ),

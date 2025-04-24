@@ -13,6 +13,7 @@ import '../../../../../../config/screen_config/size_config.dart';
 import '../../../../../../config/theme/text_style.dart';
 import '../../../../view/widget/chart_kmb.dart';
 import '../../../../view/widget/info_field_widget.dart';
+import '../../../../view/widget/nullable_utils_table.dart';
 import '../../model/get_detail_monitoring_anak.dart' as GetDetailMonitoringAnak;
 import '../bloc/detail_data_wasting_bloc.dart';
 import '../cubit/select_chart_cubit.dart';
@@ -566,7 +567,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
       child: DataTable2(
         columnSpacing: 12,
         horizontalMargin: 12,
-        minWidth: 960,
+        minWidth: 1200,
         columns: [
           DataColumn2(
             size: ColumnSize.S,
@@ -587,7 +588,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('BB(Kg)'),
@@ -595,7 +596,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TB(cm)'),
@@ -603,7 +604,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Lila(cm)'),
@@ -611,7 +612,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.S,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('TP(cm)'),
@@ -628,7 +629,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Stunting'),
@@ -636,7 +637,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Underweight'),
@@ -644,7 +645,7 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
             numeric: true,
           ),
           DataColumn2(
-            size: ColumnSize.M,
+            size: ColumnSize.L,
             label: Align(
               alignment: Alignment.centerLeft,
               child: Text('Wasting'),
@@ -662,36 +663,34 @@ class DataTableRiwayatPengukuranWasting extends StatelessWidget {
                   child: Text('${index + 1}'))),
               DataCell(Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  e.tanggalPengukuran != null
-                      ? DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)
-                      : '-',
-                ),
+                child: NullableUtilsTable(
+                    value:
+                        DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)),
               )),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.beratBadan ?? '-'))),
+                  child: NullableUtilsTable(value: e.beratBadan))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.tinggiBadan ?? '-'))),
+                  child: NullableUtilsTable(value: e.tinggiBadan))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.lingkarLenganAtas ?? '-'))),
+                  child: NullableUtilsTable(value: e.lingkarLenganAtas))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.lingkarKepala ?? '-'))),
+                  child: NullableUtilsTable(value: e.lingkarKepala))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.namaKader?.toString() ?? '-'))),
+                  child: NullableUtilsTable(value: e.namaKader?.toString()))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusStunting ?? '-'))),
+                  child: NullableUtilsTable(value: e.statusStunting))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusGizi ?? '-'))),
+                  child: NullableUtilsTable(value: e.statusGizi))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(e.statusGizi ?? '-'))),
+                  child: NullableUtilsTable(value: e.statusGizi))),
             ]);
           },
         ),
