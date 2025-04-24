@@ -44,7 +44,7 @@ class Data {
   List<Pengukuran>? pengukuranAnak;
   List<DisabilitasAnak>? disabilitasAnak;
   KartuKeluarga? kartuKeluarga;
-  dynamic pengasuhAnak;
+  PengasuhAnak? pengasuhAnak;
   Posyandu2? posyandu;
 
   Data(
@@ -110,7 +110,9 @@ class Data {
     kartuKeluarga = json["kartu_keluarga"] == null
         ? null
         : KartuKeluarga.fromJson(json["kartu_keluarga"]);
-    pengasuhAnak = json["pengasuhAnak"];
+    pengasuhAnak = json["pengasuhAnak"] == null
+        ? null
+        : PengasuhAnak.fromJson(json["pengasuhAnak"]);
     posyandu =
         json["posyandu"] == null ? null : Posyandu2.fromJson(json["posyandu"]);
   }
@@ -152,6 +154,30 @@ class Data {
     return _data;
   }
 }
+
+class PengasuhAnak {
+  String id;
+
+  PengasuhAnak({
+    required this.id
+  });
+
+  factory PengasuhAnak.fromJson(Map<String, dynamic> json) => _$PengasuhAnakFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PengasuhAnakToJson(this);
+}
+
+PengasuhAnak _$PengasuhAnakFromJson(
+        Map<String, dynamic> json) =>
+    PengasuhAnak(
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$PengasuhAnakToJson(
+        PengasuhAnak instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
 
 class Posyandu2 {
   String? id;

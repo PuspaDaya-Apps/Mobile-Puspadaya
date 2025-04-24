@@ -8,7 +8,6 @@ import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../bloc/detail_register_anak_bloc.dart';
 import '../model/get_detail_anak_response.dart';
-import 'detail_data_wali.dart';
 
 class DetailDataAnak extends StatelessWidget {
   final DetailRegisterAnakBloc detailRegisterAnakBloc;
@@ -26,8 +25,8 @@ class DetailDataAnak extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasDisabilities = (detailResponse.data!.disabilitasAnak != null &&
-            detailResponse.data!.disabilitasAnak!.isNotEmpty);
+    bool hasDisabilities = (detailResponse.data!.disabilitasAnak != null && detailResponse.data!.disabilitasAnak!.isNotEmpty);
+    
     return Container(
       child: SingleChildScrollView(
         child: Column(
@@ -341,11 +340,9 @@ class DetailDataAnak extends StatelessWidget {
                     color: bluePrimaryMain,
                     mainButtonMessage: 'Lihat Data Wali',
                     mainButton: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailDataWali(),
-                        ),
+                      Navigator.pushNamed(
+                        context, DETAIL_REGISTER_PENGASUH,
+                        arguments: detailResponse.data!.pengasuhAnak!.id
                       );
                     },
                   )
