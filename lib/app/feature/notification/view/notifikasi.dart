@@ -53,29 +53,29 @@ class _NotifikasiViewState extends State<NotifikasiView> {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: NotificationEmpty(),
-        // child: ListView(
-        //   children: groupedNotifications.entries.map((entry) {
-        //     return Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         // Header Grup (Hari ini, Kemarin, dll.)
-        //         Padding(
-        //           padding: const EdgeInsets.all(10.0),
-        //           child: Text(
-        //             entry.key,
-        //             style: AppTextStyles.primaryTextSemibold.copyWith(
-        //               fontSize: 18,
-        //             ),
-        //           ),
-        //         ),
-        //         // List Notifikasi di dalam Grup
-        //         ...entry.value
-        //             .map((notifikasi) => _buildNotification(notifikasi)),
-        //       ],
-        //     );
-        //   }).toList(),
-        // ),
+        // child: NotificationEmpty(),
+        child: ListView(
+          children: groupedNotifications.entries.map((entry) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header Grup (Hari ini, Kemarin, dll.)
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    entry.key,
+                    style: AppTextStyles.primaryTextSemibold.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                // List Notifikasi di dalam Grup
+                ...entry.value
+                    .map((notifikasi) => _buildNotification(notifikasi)),
+              ],
+            );
+          }).toList(),
+        ),
       ),
     );
   }
