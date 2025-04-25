@@ -94,20 +94,26 @@ class _UpdatePengukuranIbuHamilViewState
   void initState() {
     BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
 
-    _heightController =
-        TextEditingController(text: widget.detailPengukuran.data!.tinggiBadan);
-    _weightController =
-        TextEditingController(text: widget.detailPengukuran.data!.beratBadan);
-    _upperArmCircumferenceController = TextEditingController(
-        text: widget.detailPengukuran.data!.lingkarLenganAtas);
-    _tinggiFundusController =
-        widget.detailPengukuran.data!.tinggiFundusUteri == null
-            ? TextEditingController()
-            : TextEditingController(
-                text: widget.detailPengukuran.data!.tinggiFundusUteri);
-    _hemoglobinController = widget.detailPengukuran.data!.hemoglobin == null
-        ? TextEditingController()
-        : TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
+    if(widget.detailPengukuran.data!.tinggiBadan != "-") {
+      _heightController = TextEditingController(text: widget.detailPengukuran.data!.tinggiBadan);
+    }
+
+    if(widget.detailPengukuran.data!.beratBadan != "-") {
+      _weightController = TextEditingController(text: widget.detailPengukuran.data!.beratBadan);
+    }
+
+    if(widget.detailPengukuran.data!.lingkarLenganAtas != "-") {
+      _upperArmCircumferenceController = TextEditingController(text: widget.detailPengukuran.data!.lingkarLenganAtas);
+    }
+
+    if(widget.detailPengukuran.data!.tinggiFundusUteri != "-") {
+      _tinggiFundusController = TextEditingController(text: widget.detailPengukuran.data!.tinggiFundusUteri);
+    }
+
+    if(widget.detailPengukuran.data!.hemoglobin != "-") {
+      _hemoglobinController = TextEditingController(text: widget.detailPengukuran.data!.hemoglobin);
+    }
+
     _tabletFeController = TextEditingController(
         text: widget.detailPengukuran.data!.jumlahTabletFe.toString());
     _catatanController =
@@ -515,21 +521,21 @@ class _UpdatePengukuranIbuHamilViewState
                                         widget.detailPengukuran.data!.id,
                                     pengukuranIbuHamilModel: UpdatePengukuranIbuHamilModel(
                                         tempatPengukuran: selectedPosyandu,
-                                        beratBadan: double.parse(
-                                            _weightController.text),
-                                        tinggiBadan: double.parse(
-                                            _heightController.text),
-                                        tinggiFundusUteri: _tinggiFundusController.text == ""
-                                            ? null
-                                            : double.parse(
-                                                _tinggiFundusController.text),
-                                        lingkarLenganAtas: double.parse(
-                                            _upperArmCircumferenceController
-                                                .text),
-                                        hemoglobin: _hemoglobinController.text == ""
-                                            ? null
-                                            : double.parse(
-                                                _hemoglobinController.text),
+                                        beratBadan: _weightController.text.isNotEmpty
+                                        ? double.parse(_weightController.text)
+                                        : null,
+                                        tinggiBadan: _heightController.text.isNotEmpty
+                                        ? double.parse(_heightController.text)
+                                        : null,
+                                        tinggiFundusUteri: _tinggiFundusController.text.isNotEmpty
+                                        ? double.parse(_tinggiFundusController.text)
+                                        : null,
+                                        lingkarLenganAtas: _upperArmCircumferenceController.text.isNotEmpty
+                                        ? double.parse(_upperArmCircumferenceController.text)
+                                        : null,
+                                        hemoglobin: _hemoglobinController.text.isNotEmpty
+                                        ? double.parse(_hemoglobinController.text)
+                                        : null,
                                         terpaparAsapRokok: exposedCigaretteSmoke == 1
                                             ? "Iya"
                                             : "Tidak",

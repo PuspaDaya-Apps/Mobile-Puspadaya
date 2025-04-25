@@ -10,12 +10,12 @@ class UpdatePengukuranTamuModel {
   String posisiBadan;
   
   @JsonKey(name : 'berat_badan')
-  double beratBadan;
+  double? beratBadan;
   @JsonKey(name : 'alat_berat_badan_id')
   String alatBeratBadanId;
   
   @JsonKey(name : 'tinggi_badan')
-  double tinggiBadan;
+  double? tinggiBadan;
   @JsonKey(name : 'alat_tinggi_badan_id')
   String alatTinggiBadanId;
 

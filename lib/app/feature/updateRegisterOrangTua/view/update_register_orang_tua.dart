@@ -1350,8 +1350,6 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   nullable: true,
                                                   13,
                                                   "Masukkan nomor yang benar!"),
-                                              // (value) =>
-                                              //     Validator.required(value),
                                             ],
                                           ),
                                           SizedBox(

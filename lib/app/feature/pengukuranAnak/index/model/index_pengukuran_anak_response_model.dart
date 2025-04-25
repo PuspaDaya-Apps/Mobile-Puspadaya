@@ -31,13 +31,19 @@ class Data {
   String tanggalPengukuran;
   @JsonKey(name: 'tempat_pengukuran')
   String tempatPengukuran;
+  @JsonKey(name: 'berat_badan')
+  String? beratBadan;
+  @JsonKey(name: 'tinggi_badan')
+  String? tinggiBadan;
 
   Data({
     required this.id,
     required this.namaAnak,
     required this.nik,
     required this.tanggalPengukuran,
-    required this.tempatPengukuran
+    required this.tempatPengukuran,
+    this.beratBadan,
+    this.tinggiBadan
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -92,6 +98,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       nik: json['nik'] as String,
       tanggalPengukuran: json['tanggal_pengukuran'] as String,
       tempatPengukuran: json['tempat_pengukuran'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -100,6 +108,8 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'nik': instance.nik,
       'tanggal_pengukuran': instance.tanggalPengukuran,
       'tempat_pengukuran': instance.tempatPengukuran,
+      'berat_badan': instance.beratBadan,
+      'tinggi_badan': instance.tinggiBadan,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
