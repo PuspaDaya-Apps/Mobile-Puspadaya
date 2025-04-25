@@ -1,10 +1,10 @@
-// part of 'notification_bloc.dart';
+part of 'notification_bloc.dart';
 
-// sealed class NotificationEvent extends Equatable {
-//   const NotificationEvent();
+sealed class NotificationEvent extends Equatable {
+  const NotificationEvent();
 
-//   @override
-//   List<Object> get props => [];
-// }
+  @override
+  List<Object> get props => [];
+}
 
-// final class GetNotification extends NotificationEvent{}
+final class GetNotification extends NotificationEvent{}

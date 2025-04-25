@@ -119,4 +119,8 @@ abstract class LinkApi {
 
   //! log aktivitas
   static const LOGAKTIVITAS = '/log-activity/export-entity-logs';
+
+  //! notification
+
+  static const NOTIFICATIONURL = "/notification";
 }
