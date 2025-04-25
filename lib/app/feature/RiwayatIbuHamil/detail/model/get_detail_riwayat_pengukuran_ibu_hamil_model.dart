@@ -44,13 +44,13 @@ class Data {
     @JsonKey(name: "tanggal_terakhir_haid")
     final DateTime? tanggalTerakhirHaid;
     @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
+    final String? lingkarLenganAtas;
     @JsonKey(name: "tinggi_fundus_uteri")
     final String? tinggiFundusUteri;
     @JsonKey(name: "terpapar_asap_rokok")
     final String terpaparAsapRokok;
     @JsonKey(name: "catatan")
-    final String catatan;
+    final String? catatan;
     @JsonKey(name: "ibu_anak")
     final IbuAnak ibuAnak;
     @JsonKey(name: "pengukuran_ibu_hamil")
@@ -127,7 +127,7 @@ class IbuAnak {
     @JsonKey(name: "posyandu")
     final Posyandu posyandu;
     @JsonKey(name: "jenis_disabilitas")
-    final List<dynamic> jenisDisabilitas;
+    final List<JenisDisabilitas> jenisDisabilitas;
 
     IbuAnak({
         required this.id,
@@ -443,13 +443,13 @@ class PengukuranIbuHamil {
     @JsonKey(name: "tanggal_pengukuran")
     final DateTime tanggalPengukuran;
     @JsonKey(name: "berat_badan")
-    final String beratBadan;
+    final String? beratBadan;
     @JsonKey(name: "tinggi_badan")
-    final String tinggiBadan;
+    final String? tinggiBadan;
     @JsonKey(name: "tinggi_fundus_uteri")
     final String? tinggiFundusUteri;
     @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
+    final String? lingkarLenganAtas;
     @JsonKey(name: "hemoglobin")
     final String? hemoglobin;
     @JsonKey(name: "terpapar_asap_rokok")

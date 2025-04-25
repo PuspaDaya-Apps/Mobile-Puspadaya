@@ -43,10 +43,10 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       tanggalTerakhirHaid: json['tanggal_terakhir_haid'] == null
           ? null
           : DateTime.parse(json['tanggal_terakhir_haid'] as String),
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
-      catatan: json['catatan'] as String,
+      catatan: json['catatan'] as String?,
       ibuAnak: IbuAnak.fromJson(json['ibu_anak'] as Map<String, dynamic>),
       pengukuranIbuHamil: (json['pengukuran_ibu_hamil'] as List<dynamic>)
           .map((e) => PengukuranIbuHamil.fromJson(e as Map<String, dynamic>))
@@ -104,7 +104,9 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
           json['kartu_keluarga'] as Map<String, dynamic>),
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
-      jenisDisabilitas: json['jenis_disabilitas'] as List<dynamic>,
+      jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>)
+          .map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
@@ -366,10 +368,10 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
       usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
       tempatPengukuran: json['tempat_pengukuran'] as String,
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
-      beratBadan: json['berat_badan'] as String,
-      tinggiBadan: json['tinggi_badan'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
       hemoglobin: json['hemoglobin'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
