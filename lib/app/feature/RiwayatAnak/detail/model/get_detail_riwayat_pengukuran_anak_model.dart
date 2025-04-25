@@ -52,11 +52,11 @@ class Data {
     @JsonKey(name: "status_kelahiran")
     final String statusKelahiran;
     @JsonKey(name: "status_stunting")
-    final String statusStunting;
+    final String? statusStunting;
     @JsonKey(name: "status_gizi")
-    final String statusGizi;
+    final String? statusGizi;
     @JsonKey(name: "status_wasting")
-    final String statusWasting;
+    final String? statusWasting;
     @JsonKey(name: "status_orang_tua")
     final String statusOrangTua;
     @JsonKey(name: "pengukuran")
@@ -285,19 +285,19 @@ class Pengukuran {
     @JsonKey(name: "tanggal_pengukuran")
     final DateTime tanggalPengukuran;
     @JsonKey(name: "berat_badan")
-    final String beratBadan;
+    final String? beratBadan;
     @JsonKey(name: "tinggi_badan")
-    final String tinggiBadan;
+    final String? tinggiBadan;
     @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
+    final String? lingkarLenganAtas;
     @JsonKey(name: "lingkar_kepala")
-    final String lingkarKepala;
+    final String? lingkarKepala;
     @JsonKey(name: "nama_kader")
     final String? namaKader;
     @JsonKey(name: "status_stunting")
-    final String statusStunting;
+    final String? statusStunting;
     @JsonKey(name: "status_gizi")
-    final String statusGizi;
+    final String? statusGizi;
 
     Pengukuran({
         required this.tanggalPengukuran,

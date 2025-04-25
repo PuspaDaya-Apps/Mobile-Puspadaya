@@ -340,19 +340,19 @@ class RiwayatPengukuranDataKIA extends StatelessWidget {
                           .format(e.tanggalPengukuran)))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: NullableUtilsTable(value:e.beratBadan.toString() ))),
+                  child: NullableUtilsTable(value:e.beratBadan))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: NullableUtilsTable(value:e.tinggiBadan.toString() ))),
+                  child: NullableUtilsTable(value:e.tinggiBadan ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: NullableUtilsTable(value:e.lingkarLenganAtas.toString() ))),
+                  child: NullableUtilsTable(value:e.lingkarLenganAtas ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: NullableUtilsTable(value:e.lingkarKepala.toString() ))),
+                  child: NullableUtilsTable(value:e.lingkarKepala ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
-                  child: NullableUtilsTable(value:e.namaKader?.toString() ))),
+                  child: NullableUtilsTable(value:e.namaKader ))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
                   child: NullableUtilsTable(value:e.statusStunting ))),
