@@ -12,12 +12,12 @@ class PengukuranAnakModel {
   String posisiBadan;
   
   @JsonKey(name : 'berat_badan')
-  double beratBadan;
+  double? beratBadan;
   @JsonKey(name : 'alat_berat_badan_id')
   String alatBeratBadanId;
   
   @JsonKey(name : 'tinggi_badan')
-  double tinggiBadan;
+  double? tinggiBadan;
   @JsonKey(name : 'alat_tinggi_badan_id')
   String alatTinggiBadanId;
 
@@ -44,9 +44,10 @@ class PengukuranAnakModel {
     required this.tempatPengukuran,
     required this.tanggalPengukuran,
     required this.posisiBadan,
-    required this.beratBadan,
+
+    this.beratBadan,
     required this.alatBeratBadanId,
-    required this.tinggiBadan,
+    this.tinggiBadan,
     required this.alatTinggiBadanId,
 
     this.lingkarLenganAtas,
@@ -72,9 +73,9 @@ PengukuranAnakModel _$PengukuranAnakModelFromJson(Map<String, dynamic> json) =>
       tempatPengukuran: json['tempat_pengukuran'] as String,
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
       posisiBadan: json['posisi_badan'] as String,
-      beratBadan: (json['berat_badan'] as num).toDouble(),
+      beratBadan: (json['berat_badan'] as num?)?.toDouble(),
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
-      tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
+      tinggiBadan: (json['tinggi_badan'] as num?)?.toDouble(),
       alatTinggiBadanId: json['alat_tinggi_badan_id'] as String,
       lingkarLenganAtas: (json['lingkar_lengan_atas'] as num?)?.toDouble(),
       alatLingkarLenganId: json['alat_lingkar_lengan_id'] as String?,

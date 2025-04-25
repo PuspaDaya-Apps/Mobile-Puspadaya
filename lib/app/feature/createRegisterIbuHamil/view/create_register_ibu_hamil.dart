@@ -601,10 +601,10 @@ class _CreateRegisterIbuHamilViewState
                             },
                             hintText: "Pilih Tanggal",
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Tanggal Wajib dipilih";
-                              }
-                              return null;
+                              // if (value == null || value.isEmpty) {
+                              //   return "Tanggal Wajib dipilih";
+                              // }
+                              // return null;
                             },
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -883,7 +883,9 @@ class _CreateRegisterIbuHamilViewState
                                       tinggiBadan: _parseDouble(_heightController.text),
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
                                       tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
-                                      tanggalTerakhirHaid: _formatDate(_lastDateHaidController.text),
+                                      tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty
+                                      ? _formatDate(_lastDateHaidController.text)
+                                      : null,
                                       memilkiBPJS: selectedMemilikiBPJS!,
                                       namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text : selectedNamaBPJS,
                                       tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()));

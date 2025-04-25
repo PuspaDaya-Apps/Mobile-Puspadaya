@@ -341,8 +341,8 @@ class _CreatePengukuranIbuHamilViewState
                                           ?.alatPengukuranAdmin.jenisAlat,
                                       controller: _heightController,
                                       validator: [
-                                        (value) => Validator.required(value,
-                                            ),
+                                        // (value) => Validator.required(value,
+                                        //     ),
                                       ],
                                     ),
                                     SizedBox(
@@ -354,8 +354,8 @@ class _CreatePengukuranIbuHamilViewState
                                       hintText: 'contoh: 24',
                                       unit: 'cm',
                                       validator: [
-                                        (value) => Validator.required(value,
-                                            ),
+                                        // (value) => Validator.required(value,
+                                        //     ),
                                       ],
                                       tool: alatUkurIbuHamil
                                           .alatUkurLingkarLengan
@@ -376,8 +376,8 @@ class _CreatePengukuranIbuHamilViewState
                                       title: 'Berat Badan',
                                       hintText: 'contoh: 50',
                                       validator: [
-                                        (value) => Validator.required(
-                                            value, ),
+                                        // (value) => Validator.required(
+                                        //     value, ),
                                       ],
                                       unit: 'kg',
                                       tool: alatUkurIbuHamil.alatUkurBerat
@@ -584,13 +584,19 @@ class _CreatePengukuranIbuHamilViewState
                                                 ibuHamilId: paket.id,
                                                 tempatPengukuran: selectedPosyandu,
                                                 tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()),
-                                                beratBadan: double.parse(_weightController.text),
-                                                tinggiBadan: double.parse(_heightController.text),
-                                                tinggiFundusUteri: _tinggiFundusUteriController.text == "" 
-                                                ? null 
-                                                : double.parse(_tinggiFundusUteriController.text),
-                                                lingkarLenganAtas: double.parse(_upperArmCircumferenceController.text),
-                                                hemoglobin: Controller.text == "" 
+                                                beratBadan: _weightController.text.isNotEmpty
+                                                ? double.parse(_weightController.text)
+                                                : null,
+                                                tinggiBadan: _heightController.text.isNotEmpty
+                                                ? double.parse(_heightController.text)
+                                                : null,
+                                                tinggiFundusUteri: _tinggiFundusUteriController.text.isNotEmpty 
+                                                ? double.parse(_tinggiFundusUteriController.text)
+                                                : null,
+                                                lingkarLenganAtas: _upperArmCircumferenceController.text.isNotEmpty
+                                                ? double.parse(_upperArmCircumferenceController.text)
+                                                : null,
+                                                hemoglobin: Controller.text.isEmpty 
                                                 ? null 
                                                 : double.parse(Controller.text),
                                                 terpaparAsapRokok: exposedCigaretteSmoke! == 1 ? "Iya" : "Tidak",

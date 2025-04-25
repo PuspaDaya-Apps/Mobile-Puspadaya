@@ -8,6 +8,7 @@ class PengukuranTamuItems extends StatelessWidget {
   final String place;
   final String date;
   final VoidCallback onTap;
+  final bool? pengukuranIsNull;
 
   const PengukuranTamuItems({
     super.key,
@@ -16,6 +17,7 @@ class PengukuranTamuItems extends StatelessWidget {
     required this.date,
     required this.nik,
     required this.place,
+    this.pengukuranIsNull
   });
 
   @override
@@ -34,7 +36,9 @@ class PengukuranTamuItems extends StatelessWidget {
                 vertical: 4,
               ),
               decoration: BoxDecoration(
-                color: bluePrimary50,
+                color: pengukuranIsNull != null
+                ? bluePrimary50
+                : goldPrimaryMain,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Column(
@@ -100,7 +104,9 @@ class PengukuranTamuItems extends StatelessWidget {
       ),
       trailing: Icon(
         Icons.arrow_forward_ios,
-        color: bluePrimary50,
+        color: pengukuranIsNull != null
+        ? bluePrimary50
+        : goldPrimaryMain,
       ),
     );
   }

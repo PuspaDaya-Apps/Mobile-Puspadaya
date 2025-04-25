@@ -123,6 +123,8 @@ class _IndexPengukuranAnakScreenViewState extends State<IndexPengukuranAnakScree
                           .tanggalPengukuran,
                       place: state.indexPengukuranAnakResponseModel.data![index]
                           .tempatPengukuran,
+                      pengukuranIsNull: state.indexPengukuranAnakResponseModel.data![index].beratBadan != null &&  state.indexPengukuranAnakResponseModel.data![index].tinggiBadan != null
+                      ? true : null,
                     ));
               },
             ),

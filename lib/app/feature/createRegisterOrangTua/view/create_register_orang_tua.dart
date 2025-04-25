@@ -284,7 +284,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         tempatLahirAyahController.text.isNotEmpty &&
         tanggalLahirAyahController.text.isNotEmpty &&
         alamatAyahController.text.isNotEmpty &&
-        teleponAyahController.text.isNotEmpty &&
         rTAyahController.text.isNotEmpty &&
         rWAyahController.text.isNotEmpty &&
         selectedKabupatenAyah != null &&
@@ -314,7 +313,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         tempatLahirAyahController.text.isNotEmpty &&
         tanggalLahirAyahController.text.isNotEmpty &&
         alamatAyahController.text.isNotEmpty &&
-        teleponAyahController.text.isNotEmpty &&
         rTAyahController.text.isNotEmpty &&
         rWAyahController.text.isNotEmpty &&
         selectedKabupatenAyah != null &&
@@ -1560,17 +1558,17 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           key: teleponAyahKey,
                                           isPasswordField: false,
                                           validators: [
-                                            (value) => Validator.minLength(
-                                                value,
-                                                10,
-                                                "Masukkan nomor yang benar!"),
-                                            (value) => Validator.maxLength(
-                                                value,
-                                                13,
-                                                "Masukkan nomor yang benar!"),
-                                            (value) => Validator.required(
-                                                  value,
-                                                ),
+                                            // (value) => Validator.minLength(
+                                            //     value,
+                                            //     10,
+                                            //     "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.maxLength(
+                                            //     value,
+                                            //     13,
+                                            //     "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.required(
+                                            //       value,
+                                            //     ),
                                           ],
                                         ),
                                         SizedBox(
@@ -2694,17 +2692,17 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                           obscureText: false,
                                           isPasswordField: false,
                                           validators: [
-                                            (value) => Validator.minLength(
-                                                value,
-                                                10,
-                                                "Masukkan nomor yang benar!"),
-                                            (value) => Validator.maxLength(
-                                                value,
-                                                13,
-                                                "Masukkan nomor yang benar!"),
-                                            (value) => Validator.required(
-                                                  value,
-                                                ),
+                                            // (value) => Validator.minLength(
+                                            //     value,
+                                            //     10,
+                                            //     "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.maxLength(
+                                            //     value,
+                                            //     13,
+                                            //     "Masukkan nomor yang benar!"),
+                                            // (value) => Validator.required(
+                                            //       value,
+                                            //     ),
                                           ],
                                         ),
                                         SizedBox(
@@ -2950,9 +2948,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     namaAyah:
                                                         namaAyahController.text,
                                                     nik: nikAyahController.text,
-                                                    nomorTelepon:
-                                                        teleponAyahController
-                                                            .text,
+                                                    nomorTelepon: teleponAyahController.text.isNotEmpty 
+                                                    ? teleponAyahController.text
+                                                    : null,
                                                     rt: rTAyahController.text,
                                                     rw: rWAyahController.text,
                                                     tempatLahir:
@@ -2997,9 +2995,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                                     namaIbu:
                                                         namaIbuController.text,
                                                     nik: nikIbuController.text,
-                                                    nomorTelepon:
-                                                        teleponIbuController
-                                                            .text,
+                                                    nomorTelepon: teleponIbuController.text.isNotEmpty
+                                                    ? teleponIbuController.text
+                                                    : null,
                                                     rt: rTIbuController.text,
                                                     rw: rWIbuController.text,
                                                     tempatLahir:

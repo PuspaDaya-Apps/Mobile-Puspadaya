@@ -27,12 +27,21 @@ class Data {
   String nik;
   @JsonKey(name: 'tanggal_pengukuran')
   DateTime tanggalPengukuran;
+  @JsonKey(name: 'tinggi_badan')
+  String? tinggiBadan;
+  @JsonKey(name: 'berat_badan')
+  String? beratBadan;
+  @JsonKey(name: 'lingkar_lengan_atas')
+  String? lingkarLenganAtas;
 
   Data({
     required this.id,
     required this.namaIbu,
     required this.nik,
     required this.tanggalPengukuran,
+    this.beratBadan,
+    this.tinggiBadan,
+    this.lingkarLenganAtas
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -84,6 +93,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       namaIbu: json['nama_ibu'] as String,
       nik: json['nik'] as String,
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
+      tinggiBadan: json['tinggi_badan'] as String?,
+      beratBadan: json['berat_badan'] as String?,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -91,6 +103,9 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'nama_ibu': instance.namaIbu,
       'nik': instance.nik,
       'tanggal_pengukuran': instance.tanggalPengukuran.toIso8601String(),
+      'tinggi_badan': instance.tinggiBadan,
+      'berat_badan': instance.beratBadan,
+      'lingkar_lengan_atas': instance.lingkarLenganAtas,
     };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(

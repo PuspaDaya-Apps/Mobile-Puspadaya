@@ -112,6 +112,8 @@ class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScree
                     nik: state.indexPengukuranTamuResponseModel.data![index].nik,
                     date: DateFormat("d MMMM y", "ID_id").format(state.indexPengukuranTamuResponseModel.data![index].tanggalPengukuran),
                     place: state.indexPengukuranTamuResponseModel.data![index].posyanduAsal,
+                    pengukuranIsNull: state.indexPengukuranTamuResponseModel.data![index].beratBadan != null && state.indexPengukuranTamuResponseModel.data![index].tinggiBadan != null
+                    ? true : null,
                   ),
                 );
               },

@@ -11,13 +11,13 @@ class PostPengukuranIbuHamilModel {
   String tanggalPengukuran;
 
   @JsonKey(name: "berat_badan")
-  double beratBadan;
+  double? beratBadan;
   @JsonKey(name: "tinggi_badan")
-  double tinggiBadan;
+  double? tinggiBadan;
   @JsonKey(name: "tinggi_fundus_uteri")
   double? tinggiFundusUteri;
   @JsonKey(name: "lingkar_lengan_atas")
-  double lingkarLenganAtas;
+  double? lingkarLenganAtas;
 
   double? hemoglobin;
   @JsonKey(name: "terpapar_asap_rokok")
@@ -39,10 +39,10 @@ class PostPengukuranIbuHamilModel {
     required this.ibuHamilId,
     required this.tempatPengukuran,
     required this.tanggalPengukuran,
-    required this.beratBadan,
-    required this.tinggiBadan,
+    this.beratBadan,
+    this.tinggiBadan,
     this.tinggiFundusUteri,
-    required this.lingkarLenganAtas,
+    this.lingkarLenganAtas,
     this.hemoglobin,
     required this.terpaparAsapRokok,
     required this.jumlahTabletFe,
@@ -65,10 +65,10 @@ PostPengukuranIbuHamilModel _$PostPengukuranIbuHamilModelFromJson(
       ibuHamilId: json['ibu_hamil_id'] as String,
       tempatPengukuran: json['tempat_pengukuran'] as String,
       tanggalPengukuran: json['tanggal_pengukuran'] as String,
-      beratBadan: (json['berat_badan'] as num).toDouble(),
-      tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
+      beratBadan: (json['berat_badan'] as num?)?.toDouble(),
+      tinggiBadan: (json['tinggi_badan'] as num?)?.toDouble(),
       tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num?)?.toDouble(),
-      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
+      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num?)?.toDouble(),
       hemoglobin: (json['hemoglobin'] as num?)?.toDouble(),
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),

@@ -41,7 +41,7 @@ class Ayah {
   @JsonKey(name: "tanggal_lahir")
   final String tanggalLahir;
   @JsonKey(name: "nomor_telepon")
-  final String nomorTelepon;
+  String? nomorTelepon;
   @JsonKey(name: "rt")
   final String rt;
   @JsonKey(name: "rw")
@@ -61,7 +61,7 @@ class Ayah {
     required this.namaAyah,
     required this.tempatLahir,
     required this.tanggalLahir,
-    required this.nomorTelepon,
+    this.nomorTelepon,
     required this.rt,
     required this.rw,
     required this.dusunId,
@@ -147,7 +147,7 @@ class Ibu {
   @JsonKey(name: "alamat")
   final String alamat;
   @JsonKey(name: "nomor_telepon")
-  final String nomorTelepon;
+  String? nomorTelepon;
   @JsonKey(name: "gol_darah")
   final String golDarah;
   @JsonKey(name: "jenis_kb")
@@ -169,7 +169,7 @@ class Ibu {
     required this.rw,
     required this.dusunId,
     required this.alamat,
-    required this.nomorTelepon,
+    this.nomorTelepon,
     required this.golDarah,
     required this.jenisKb,
     this.tanggalMelahirkanSebelumnya,
@@ -236,7 +236,7 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       namaAyah: json['nama_ayah'] as String,
       tempatLahir: json['tempat_lahir'] as String,
       tanggalLahir: json['tanggal_lahir'] as String,
-      nomorTelepon: json['nomor_telepon'] as String,
+      nomorTelepon: json['nomor_telepon'] as String?,
       rt: json['rt'] as String,
       rw: json['rw'] as String,
       dusunId: json['dusun_id'] as String,
@@ -282,7 +282,7 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       rw: json['rw'] as String,
       dusunId: json['dusun_id'] as String,
       alamat: json['alamat'] as String,
-      nomorTelepon: json['nomor_telepon'] as String,
+      nomorTelepon: json['nomor_telepon'] as String?,
       golDarah: json['gol_darah'] as String,
       jenisKb: json['jenis_kb'] as String,
       tanggalMelahirkanSebelumnya: json['tanggal_melahirkan_sebelumnya'] as String?,

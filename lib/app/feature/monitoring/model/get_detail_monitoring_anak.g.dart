@@ -159,13 +159,13 @@ Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
 
 Pengukuran _$PengukuranFromJson(Map<String, dynamic> json) => Pengukuran(
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
-      beratBadan: json['berat_badan'] as String,
-      tinggiBadan: json['tinggi_badan'] as String,
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
-      lingkarKepala: json['lingkar_kepala'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
+      lingkarKepala: json['lingkar_kepala'] as String?,
       namaKader: json['nama_kader'] as String?,
-      statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
+      statusStunting: json['status_stunting'] as String?,
+      statusGizi: json['status_gizi'] as String?,
     );
 
 Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>

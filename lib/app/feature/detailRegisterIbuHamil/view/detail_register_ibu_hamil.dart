@@ -448,8 +448,10 @@ class _DetailRegisterIbuHamilViewState
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       InfoFieldWidget(
-                          text: DateFormat('d MMMM y', 'id_ID')
-                              .format(state.data.data!.tanggalTerakhirHaid)),
+                          text: state.data.data!.tanggalTerakhirHaid != "-"
+                          ? DateFormat('d MMMM y', 'id_ID').format(state.data.data!.tanggalTerakhirHaid)
+                          : state.data.data!.tanggalTerakhirHaid
+                      ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
