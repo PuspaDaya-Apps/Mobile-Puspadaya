@@ -42,7 +42,7 @@ class Data {
     @JsonKey(name: "tanggal_pertama_haid")
     final DateTime tanggalPertamaHaid;
     @JsonKey(name: "tanggal_terakhir_haid")
-    final DateTime tanggalTerakhirHaid;
+    final DateTime? tanggalTerakhirHaid;
     @JsonKey(name: "lingkar_lengan_atas")
     final String lingkarLenganAtas;
     @JsonKey(name: "tinggi_fundus_uteri")

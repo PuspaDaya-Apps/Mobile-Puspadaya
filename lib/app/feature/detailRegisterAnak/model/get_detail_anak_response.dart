@@ -1,665 +1,555 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'get_detail_anak_response.g.dart';
+
+@JsonSerializable()
 class GetDetailAnakResponse {
-  String? message;
-  Data? data;
+  @JsonKey(name: "message")
+  final String message;
+  @JsonKey(name: "data")
+  final Data data;
 
-  GetDetailAnakResponse({this.message, this.data});
-
-  GetDetailAnakResponse.fromJson(Map<String, dynamic> json) {
-    message = json["message"];
-    data = json["data"] == null ? null : Data.fromJson(json["data"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["message"] = message;
-    if (data != null) {
-      _data["data"] = data?.toJson();
-    }
-    return _data;
-  }
-}
-
-class Data {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nik;
-  String? namaAnak;
-  String? tempatLahir;
-  int? anakKe;
-  String? tanggalLahir;
-  String? jenisKelamin;
-  String? beratBadanLahir;
-  String? tinggiBadanLahir;
-  String? lingkarLenganAtasLahir;
-  String? lingkarKepalaLahir;
-  String? jarakPosyandu;
-  String? caraLahir;
-  String? statusKelahiran;
-  dynamic statusStunting;
-  dynamic statusGizi;
-  dynamic statusWasting;
-  String? statusOrangTua;
-  List<Pengukuran>? pengukuranAnak;
-  List<DisabilitasAnak>? disabilitasAnak;
-  KartuKeluarga? kartuKeluarga;
-  PengasuhAnak? pengasuhAnak;
-  Posyandu2? posyandu;
-
-  Data(
-      {this.id,
-      this.jarakPosyandu,
-      this.pengukuranAnak,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nik,
-      this.namaAnak,
-      this.tempatLahir,
-      this.anakKe,
-      this.tanggalLahir,
-      this.jenisKelamin,
-      this.beratBadanLahir,
-      this.tinggiBadanLahir,
-      this.lingkarLenganAtasLahir,
-      this.lingkarKepalaLahir,
-      this.caraLahir,
-      this.statusKelahiran,
-      this.statusStunting,
-      this.statusGizi,
-      this.statusWasting,
-      this.statusOrangTua,
-      this.disabilitasAnak,
-      this.kartuKeluarga,
-      this.pengasuhAnak,
-      this.posyandu});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nik = json["nik"];
-    namaAnak = json["nama_anak"];
-    tempatLahir = json["tempat_lahir"];
-    anakKe = json["anak_ke"];
-    tanggalLahir = json["tanggal_lahir"];
-    jenisKelamin = json["jenis_kelamin"];
-    beratBadanLahir = json["berat_badan_lahir"];
-    tinggiBadanLahir = json["tinggi_badan_lahir"];
-    lingkarLenganAtasLahir = json["lingkar_lengan_atas_lahir"];
-    lingkarKepalaLahir = json["lingkar_kepala_lahir"];
-    jarakPosyandu = json["jarak_posyandu"];
-    caraLahir = json["cara_lahir"];
-    statusKelahiran = json["status_kelahiran"];
-    pengukuranAnak = json["pengukuran"] == null
-        ? null
-        : (json["pengukuran"] as List)
-            .map((e) => Pengukuran.fromJson(e))
-            .toList();
-    statusStunting = json["status_stunting"];
-    statusGizi = json["status_gizi"];
-    statusWasting = json["status_wasting"];
-    statusOrangTua = json["status_orang_tua"];
-    disabilitasAnak = json["disabilitasAnak"] == null
-        ? null
-        : (json["disabilitasAnak"] as List)
-            .map((e) => DisabilitasAnak.fromJson(e))
-            .toList();
-    kartuKeluarga = json["kartu_keluarga"] == null
-        ? null
-        : KartuKeluarga.fromJson(json["kartu_keluarga"]);
-    pengasuhAnak = json["pengasuhAnak"] == null
-        ? null
-        : PengasuhAnak.fromJson(json["pengasuhAnak"]);
-    posyandu =
-        json["posyandu"] == null ? null : Posyandu2.fromJson(json["posyandu"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nik"] = nik;
-    _data["nama_anak"] = namaAnak;
-    _data["tempat_lahir"] = tempatLahir;
-    _data["anak_ke"] = anakKe;
-    _data["tanggal_lahir"] = tanggalLahir;
-    _data["jenis_kelamin"] = jenisKelamin;
-    _data["berat_badan_lahir"] = beratBadanLahir;
-    _data["tinggi_badan_lahir"] = tinggiBadanLahir;
-    _data["lingkar_lengan_atas_lahir"] = lingkarLenganAtasLahir;
-    _data["lingkar_kepala_lahir"] = lingkarKepalaLahir;
-    _data["jarak_posyandu"] = jarakPosyandu;
-    _data["cara_lahir"] = caraLahir;
-    _data["status_kelahiran"] = statusKelahiran;
-    _data["status_stunting"] = statusStunting;
-    _data["status_gizi"] = statusGizi;
-    _data["status_wasting"] = statusWasting;
-    _data["status_orang_tua"] = statusOrangTua;
-    if (disabilitasAnak != null) {
-      _data["disabilitasAnak"] =
-          disabilitasAnak?.map((e) => e.toJson()).toList();
-    }
-    if (kartuKeluarga != null) {
-      _data["kartu_keluarga"] = kartuKeluarga?.toJson();
-    }
-    _data["pengasuhAnak"] = pengasuhAnak;
-    if (posyandu != null) {
-      _data["posyandu"] = posyandu?.toJson();
-    }
-    return _data;
-  }
-}
-
-class PengasuhAnak {
-  String id;
-
-  PengasuhAnak({
-    required this.id
+  GetDetailAnakResponse({
+    required this.message,
+    required this.data,
   });
 
-  factory PengasuhAnak.fromJson(Map<String, dynamic> json) => _$PengasuhAnakFromJson(json);
+  factory GetDetailAnakResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetDetailAnakResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetDetailAnakResponseToJson(this);
+}
+
+@JsonSerializable()
+class Data {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "nama_anak")
+  final String namaAnak;
+  @JsonKey(name: "tempat_lahir")
+  final String tempatLahir;
+  @JsonKey(name: "anak_ke")
+  final int anakKe;
+  @JsonKey(name: "tanggal_lahir")
+  final DateTime tanggalLahir;
+  @JsonKey(name: "jenis_kelamin")
+  final String jenisKelamin;
+  @JsonKey(name: "berat_badan_lahir")
+  final String beratBadanLahir;
+  @JsonKey(name: "tinggi_badan_lahir")
+  final String tinggiBadanLahir;
+  @JsonKey(name: "lingkar_lengan_atas_lahir")
+  final String lingkarLenganAtasLahir;
+  @JsonKey(name: "lingkar_kepala_lahir")
+  final String lingkarKepalaLahir;
+  @JsonKey(name: "jarak_posyandu")
+  final String? jarakPosyandu;
+  @JsonKey(name: "cara_lahir")
+  final String caraLahir;
+  @JsonKey(name: "status_kelahiran")
+  final String? statusKelahiran;
+  @JsonKey(name: "status_stunting")
+  final String? statusStunting;
+  @JsonKey(name: "status_gizi")
+  final String? statusGizi;
+  @JsonKey(name: "status_wasting")
+  final String? statusWasting;
+  @JsonKey(name: "status_orang_tua")
+  final String statusOrangTua;
+  @JsonKey(name: "disabilitasAnak", defaultValue: [])
+  final List<DisabilitasAnak>? disabilitasAnak;
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluarga kartuKeluarga;
+  @JsonKey(name: "pengasuhAnak")
+  final PengasuhAnak? pengasuhAnak;
+  @JsonKey(name: "pengukuran", defaultValue: [])
+  final List<Pengukuran>? pengukuran;
+  @JsonKey(name: "posyandu")
+  final Posyandu posyandu;
+
+  Data({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nik,
+    required this.namaAnak,
+    required this.tempatLahir,
+    required this.anakKe,
+    required this.tanggalLahir,
+    required this.jenisKelamin,
+    required this.beratBadanLahir,
+    required this.tinggiBadanLahir,
+    required this.lingkarLenganAtasLahir,
+    required this.lingkarKepalaLahir,
+    required this.jarakPosyandu,
+    required this.caraLahir,
+    required this.statusKelahiran,
+    required this.statusStunting,
+    required this.statusGizi,
+    required this.statusWasting,
+    required this.statusOrangTua,
+    required this.disabilitasAnak,
+    required this.kartuKeluarga,
+    required this.pengasuhAnak,
+    required this.pengukuran,
+    required this.posyandu,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DataToJson(this);
+}
+
+@JsonSerializable()
+class DisabilitasAnak {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nama_disabilitas")
+  final String namaDisabilitas;
+
+  DisabilitasAnak({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaDisabilitas,
+  });
+
+  factory DisabilitasAnak.fromJson(Map<String, dynamic> json) =>
+      _$DisabilitasAnakFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DisabilitasAnakToJson(this);
+}
+
+@JsonSerializable()
+class KartuKeluarga {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nomor_kartu_keluarga")
+  final String nomorKartuKeluarga;
+  @JsonKey(name: "ibu")
+  final Ibu? ibu;
+  @JsonKey(name: "ayah")
+  final Ayah? ayah;
+
+  KartuKeluarga({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nomorKartuKeluarga,
+    required this.ibu,
+    required this.ayah,
+  });
+
+  factory KartuKeluarga.fromJson(Map<String, dynamic> json) =>
+      _$KartuKeluargaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KartuKeluargaToJson(this);
+}
+//ibu
+@JsonSerializable()
+class Ibu {
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "created_at")
+    final DateTime? createdAt;
+    @JsonKey(name: "updated_at")
+    final DateTime? updatedAt;
+    @JsonKey(name: "deleted_at")
+    final DateTime? deletedAt;
+    @JsonKey(name: "nik")
+    final String nik;
+    @JsonKey(name: "nama_ibu")
+    final String namaIbu;
+    @JsonKey(name: "tempat_lahir")
+    final String tempatLahir;
+    @JsonKey(name: "tanggal_lahir")
+    final DateTime tanggalLahir;
+    @JsonKey(name: "rt")
+    final String rt;
+    @JsonKey(name: "rw")
+    final String rw;
+    @JsonKey(name: "alamat")
+    final String alamat;
+    @JsonKey(name: "nomor_telepon")
+    final String nomorTelepon;
+    @JsonKey(name: "gol_darah")
+    final String golDarah;
+    @JsonKey(name: "jenis_kb")
+    final String jenisKb;
+    @JsonKey(name: "tanggal_melahirkan_sebelumnya")
+    final DateTime tanggalMelahirkanSebelumnya;
+    @JsonKey(name: "jumlah_anak")
+    final int jumlahAnak;
+    @JsonKey(name: "user_id")
+    final String? userId;
+    @JsonKey(name: "posyandu")
+    final PosyanduIbu posyandu;
+    @JsonKey(name: "jenis_disabilitas", defaultValue: [])
+    final List<JenisDisabilitasIbu>? jenisDisabilitas;
+
+    Ibu({
+        required this.id,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.deletedAt,
+        required this.nik,
+        required this.namaIbu,
+        required this.tempatLahir,
+        required this.tanggalLahir,
+        required this.rt,
+        required this.rw,
+        required this.alamat,
+        required this.nomorTelepon,
+        required this.golDarah,
+        required this.jenisKb,
+        required this.tanggalMelahirkanSebelumnya,
+        required this.jumlahAnak,
+        required this.userId,
+        required this.posyandu,
+        required this.jenisDisabilitas,
+    });
+
+    factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);
+
+    Map<String, dynamic> toJson() => _$IbuToJson(this);
+}
+
+@JsonSerializable()
+class JenisDisabilitasIbu {
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "created_at")
+    final DateTime? createdAt;
+    @JsonKey(name: "updated_at")
+    final DateTime? updatedAt;
+    @JsonKey(name: "deleted_at")
+    final DateTime? deletedAt;
+    @JsonKey(name: "nama_disabilitas")
+    final String namaDisabilitas;
+
+    JenisDisabilitasIbu({
+        required this.id,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.deletedAt,
+        required this.namaDisabilitas,
+    });
+
+    factory JenisDisabilitasIbu.fromJson(Map<String, dynamic> json) => _$JenisDisabilitasIbuFromJson(json);
+
+    Map<String, dynamic> toJson() => _$JenisDisabilitasIbuToJson(this);
+}
+
+@JsonSerializable()
+class PosyanduIbu {
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "created_at")
+    final DateTime? createdAt;
+    @JsonKey(name: "updated_at")
+    final DateTime? updatedAt;
+    @JsonKey(name: "deleted_at")
+    final DateTime? deletedAt;
+    @JsonKey(name: "nama_posyandu")
+    final String namaPosyandu;
+    @JsonKey(name: "alamat")
+    final String? alamat;
+
+    PosyanduIbu({
+        required this.id,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.deletedAt,
+        required this.namaPosyandu,
+        required this.alamat,
+    });
+
+    factory PosyanduIbu.fromJson(Map<String, dynamic> json) => _$PosyanduIbuFromJson(json);
+
+    Map<String, dynamic> toJson() => _$PosyanduIbuToJson(this);
+}
+// ayah
+@JsonSerializable()
+class Ayah {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "nama_ayah")
+  final String namaAyah;
+  @JsonKey(name: "tempat_lahir")
+  final String tempatLahir;
+  @JsonKey(name: "tanggal_lahir")
+  final DateTime tanggalLahir;
+  @JsonKey(name: "nomor_telepon")
+  final String nomorTelepon;
+  @JsonKey(name: "rt")
+  final String rt;
+  @JsonKey(name: "rw")
+  final String rw;
+  @JsonKey(name: "alamat")
+  final String alamat;
+  @JsonKey(name: "gol_darah")
+  final String golDarah;
+  @JsonKey(name: "user_id")
+  final String? userId;
+  @JsonKey(name: "posyandu")
+  final PosyanduAyah posyandu;
+  @JsonKey(name: "jenis_disabilitas", defaultValue: [])
+  final List<JenisDisabilitasAyah>? jenisDisabilitas;
+
+  Ayah({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nik,
+    required this.namaAyah,
+    required this.tempatLahir,
+    required this.tanggalLahir,
+    required this.nomorTelepon,
+    required this.rt,
+    required this.rw,
+    required this.alamat,
+    required this.golDarah,
+    required this.userId,
+    required this.posyandu,
+    required this.jenisDisabilitas,
+  });
+
+  factory Ayah.fromJson(Map<String, dynamic> json) => _$AyahFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AyahToJson(this);
+}
+
+@JsonSerializable()
+class JenisDisabilitasAyah {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nama_disabilitas")
+  final String namaDisabilitas;
+
+  JenisDisabilitasAyah({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaDisabilitas,
+  });
+
+  factory JenisDisabilitasAyah.fromJson(Map<String, dynamic> json) =>
+      _$JenisDisabilitasAyahFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JenisDisabilitasAyahToJson(this);
+}
+
+@JsonSerializable()
+class PosyanduAyah {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nama_posyandu")
+  final String namaPosyandu;
+  @JsonKey(name: "alamat")
+  final String? alamat;
+
+  PosyanduAyah({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaPosyandu,
+    required this.alamat,
+  });
+
+  factory PosyanduAyah.fromJson(Map<String, dynamic> json) =>
+      _$PosyanduAyahFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PosyanduAyahToJson(this);
+}
+// pengasuh
+@JsonSerializable()
+class PengasuhAnak {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "status_hubungan")
+  final String statusHubungan;
+  @JsonKey(name: "nik")
+  final String nik;
+  @JsonKey(name: "nama_pengasuh")
+  final String namaPengasuh;
+  @JsonKey(name: "tempat_lahir")
+  final String tempatLahir;
+  @JsonKey(name: "tanggal_lahir")
+  final DateTime tanggalLahir;
+  @JsonKey(name: "rt")
+  final String rt;
+  @JsonKey(name: "rw")
+  final String rw;
+  @JsonKey(name: "alamat_lengkap")
+  final String alamatLengkap;
+  @JsonKey(name: "gol_darah")
+  final String golDarah;
+  @JsonKey(name: "kartu_keluarga")
+  final KartuKeluargaPengasuh kartuKeluarga;
+
+  PengasuhAnak({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.statusHubungan,
+    required this.nik,
+    required this.namaPengasuh,
+    required this.tempatLahir,
+    required this.tanggalLahir,
+    required this.rt,
+    required this.rw,
+    required this.alamatLengkap,
+    required this.golDarah,
+    required this.kartuKeluarga,
+  });
+
+  factory PengasuhAnak.fromJson(Map<String, dynamic> json) =>
+      _$PengasuhAnakFromJson(json);
 
   Map<String, dynamic> toJson() => _$PengasuhAnakToJson(this);
 }
 
-PengasuhAnak _$PengasuhAnakFromJson(
-        Map<String, dynamic> json) =>
-    PengasuhAnak(
-      id: json['id'] as String,
-    );
+@JsonSerializable()
+class KartuKeluargaPengasuh {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nomor_kartu_keluarga")
+  final String nomorKartuKeluarga;
 
-Map<String, dynamic> _$PengasuhAnakToJson(
-        PengasuhAnak instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-    };
+  KartuKeluargaPengasuh({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.nomorKartuKeluarga,
+  });
 
-class Posyandu2 {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? namaPosyandu;
-  dynamic alamat;
+  factory KartuKeluargaPengasuh.fromJson(Map<String, dynamic> json) =>
+      _$KartuKeluargaPengasuhFromJson(json);
 
-  Posyandu2(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.namaPosyandu,
-      this.alamat});
-
-  Posyandu2.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    namaPosyandu = json["nama_posyandu"];
-    alamat = json["alamat"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nama_posyandu"] = namaPosyandu;
-    _data["alamat"] = alamat;
-    return _data;
-  }
+  Map<String, dynamic> toJson() => _$KartuKeluargaPengasuhToJson(this);
 }
-
-class KartuKeluarga {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nomorKartuKeluarga;
-  Ibu? ibu;
-  Ayah? ayah;
-
-  KartuKeluarga(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nomorKartuKeluarga,
-      this.ibu,
-      this.ayah});
-
-  KartuKeluarga.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nomorKartuKeluarga = json["nomor_kartu_keluarga"];
-    ibu = json["ibu"] == null ? null : Ibu.fromJson(json["ibu"]);
-    ayah = json["ayah"] == null ? null : Ayah.fromJson(json["ayah"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nomor_kartu_keluarga"] = nomorKartuKeluarga;
-    if (ibu != null) {
-      _data["ibu"] = ibu?.toJson();
-    }
-    if (ayah != null) {
-      _data["ayah"] = ayah?.toJson();
-    }
-    return _data;
-  }
-}
-
-class Ayah {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nik;
-  String? namaAyah;
-  String? tempatLahir;
-  String? tanggalLahir;
-  String? nomorTelepon;
-  String? rt;
-  String? rw;
-  String? alamat;
-  String? golDarah;
-  dynamic userId;
-  Posyandu1? posyandu;
-  KartuKeluarga2? kartuKeluarga;
-  List<dynamic>? jenisDisabilitas;
-
-  Ayah(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nik,
-      this.namaAyah,
-      this.tempatLahir,
-      this.tanggalLahir,
-      this.nomorTelepon,
-      this.rt,
-      this.rw,
-      this.alamat,
-      this.golDarah,
-      this.userId,
-      this.posyandu,
-      this.kartuKeluarga,
-      this.jenisDisabilitas});
-
-  Ayah.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nik = json["nik"];
-    namaAyah = json["nama_ayah"];
-    tempatLahir = json["tempat_lahir"];
-    tanggalLahir = json["tanggal_lahir"];
-    nomorTelepon = json["nomor_telepon"];
-    rt = json["rt"];
-    rw = json["rw"];
-    alamat = json["alamat"];
-    golDarah = json["gol_darah"];
-    userId = json["user_id"];
-    posyandu =
-        json["posyandu"] == null ? null : Posyandu1.fromJson(json["posyandu"]);
-    kartuKeluarga = json["kartu_keluarga"] == null
-        ? null
-        : KartuKeluarga2.fromJson(json["kartu_keluarga"]);
-    jenisDisabilitas = json["jenis_disabilitas"] ?? [];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nik"] = nik;
-    _data["nama_ayah"] = namaAyah;
-    _data["tempat_lahir"] = tempatLahir;
-    _data["tanggal_lahir"] = tanggalLahir;
-    _data["nomor_telepon"] = nomorTelepon;
-    _data["rt"] = rt;
-    _data["rw"] = rw;
-    _data["alamat"] = alamat;
-    _data["gol_darah"] = golDarah;
-    _data["user_id"] = userId;
-    if (posyandu != null) {
-      _data["posyandu"] = posyandu?.toJson();
-    }
-    if (kartuKeluarga != null) {
-      _data["kartu_keluarga"] = kartuKeluarga?.toJson();
-    }
-    if (jenisDisabilitas != null) {
-      _data["jenis_disabilitas"] = jenisDisabilitas;
-    }
-    return _data;
-  }
-}
-
-class KartuKeluarga2 {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nomorKartuKeluarga;
-
-  KartuKeluarga2(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nomorKartuKeluarga});
-
-  KartuKeluarga2.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nomorKartuKeluarga = json["nomor_kartu_keluarga"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nomor_kartu_keluarga"] = nomorKartuKeluarga;
-    return _data;
-  }
-}
-
-class Posyandu1 {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? namaPosyandu;
-  dynamic alamat;
-
-  Posyandu1(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.namaPosyandu,
-      this.alamat});
-
-  Posyandu1.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    namaPosyandu = json["nama_posyandu"];
-    alamat = json["alamat"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nama_posyandu"] = namaPosyandu;
-    _data["alamat"] = alamat;
-    return _data;
-  }
-}
-
-class Ibu {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nik;
-  String? namaIbu;
-  String? tempatLahir;
-  String? tanggalLahir;
-  String? rt;
-  String? rw;
-  String? alamat;
-  String? nomorTelepon;
-  String? golDarah;
-  String? jenisKb;
-  String? tanggalMelahirkanSebelumnya;
-  int? jumlahAnak;
-  dynamic userId;
-  Posyandu? posyandu;
-  KartuKeluarga1? kartuKeluarga;
-  List<dynamic>? jenisDisabilitas;
-
-  Ibu(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nik,
-      this.namaIbu,
-      this.tempatLahir,
-      this.tanggalLahir,
-      this.rt,
-      this.rw,
-      this.alamat,
-      this.nomorTelepon,
-      this.golDarah,
-      this.jenisKb,
-      this.tanggalMelahirkanSebelumnya,
-      this.jumlahAnak,
-      this.userId,
-      this.posyandu,
-      this.kartuKeluarga,
-      this.jenisDisabilitas});
-
-  Ibu.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nik = json["nik"];
-    namaIbu = json["nama_ibu"];
-    tempatLahir = json["tempat_lahir"];
-    tanggalLahir = json["tanggal_lahir"];
-    rt = json["rt"];
-    rw = json["rw"];
-    alamat = json["alamat"];
-    nomorTelepon = json["nomor_telepon"];
-    golDarah = json["gol_darah"];
-    jenisKb = json["jenis_kb"];
-    tanggalMelahirkanSebelumnya = json["tanggal_melahirkan_sebelumnya"];
-    jumlahAnak = json["jumlah_anak"];
-    userId = json["user_id"];
-    posyandu =
-        json["posyandu"] == null ? null : Posyandu.fromJson(json["posyandu"]);
-    kartuKeluarga = json["kartu_keluarga"] == null
-        ? null
-        : KartuKeluarga1.fromJson(json["kartu_keluarga"]);
-    jenisDisabilitas = json["jenis_disabilitas"] ?? [];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nik"] = nik;
-    _data["nama_ibu"] = namaIbu;
-    _data["tempat_lahir"] = tempatLahir;
-    _data["tanggal_lahir"] = tanggalLahir;
-    _data["rt"] = rt;
-    _data["rw"] = rw;
-    _data["alamat"] = alamat;
-    _data["nomor_telepon"] = nomorTelepon;
-    _data["gol_darah"] = golDarah;
-    _data["jenis_kb"] = jenisKb;
-    _data["tanggal_melahirkan_sebelumnya"] = tanggalMelahirkanSebelumnya;
-    _data["jumlah_anak"] = jumlahAnak;
-    _data["user_id"] = userId;
-    if (posyandu != null) {
-      _data["posyandu"] = posyandu?.toJson();
-    }
-    if (kartuKeluarga != null) {
-      _data["kartu_keluarga"] = kartuKeluarga?.toJson();
-    }
-    if (jenisDisabilitas != null) {
-      _data["jenis_disabilitas"] = jenisDisabilitas;
-    }
-    return _data;
-  }
-}
-
-class KartuKeluarga1 {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? nomorKartuKeluarga;
-
-  KartuKeluarga1(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.nomorKartuKeluarga});
-
-  KartuKeluarga1.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    nomorKartuKeluarga = json["nomor_kartu_keluarga"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nomor_kartu_keluarga"] = nomorKartuKeluarga;
-    return _data;
-  }
-}
-
-class Posyandu {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? namaPosyandu;
-  dynamic alamat;
-
-  Posyandu(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.namaPosyandu,
-      this.alamat});
-
-  Posyandu.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    namaPosyandu = json["nama_posyandu"];
-    alamat = json["alamat"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nama_posyandu"] = namaPosyandu;
-    _data["alamat"] = alamat;
-    return _data;
-  }
-}
-
-class DisabilitasAnak {
-  String? id;
-  String? createdAt;
-  String? updatedAt;
-  dynamic deletedAt;
-  String? namaDisabilitas;
-
-  DisabilitasAnak(
-      {this.id,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.namaDisabilitas});
-
-  DisabilitasAnak.fromJson(Map<String, dynamic> json) {
-    id = json["id"];
-    createdAt = json["created_at"];
-    updatedAt = json["updated_at"];
-    deletedAt = json["deleted_at"];
-    namaDisabilitas = json["nama_disabilitas"];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["id"] = id;
-    _data["created_at"] = createdAt;
-    _data["updated_at"] = updatedAt;
-    _data["deleted_at"] = deletedAt;
-    _data["nama_disabilitas"] = namaDisabilitas;
-    return _data;
-  }
-}
-
-
+// pengukuran
+@JsonSerializable()
 class Pengukuran {
-    String? tanggalPengukuran;
-    String? beratBadan;
-    String? tinggiBadan;
-    String? lingkarLenganAtas;
-    String? lingkarKepala;
-    String? namaKader;
-    String? statusStunting;
-    String? statusGizi;
+  @JsonKey(name: "tanggal_pengukuran")
+  final DateTime tanggalPengukuran;
+  @JsonKey(name: "berat_badan")
+  final String? beratBadan;
+  @JsonKey(name: "tinggi_badan")
+  final String? tinggiBadan;
+  @JsonKey(name: "lingkar_lengan_atas")
+  final String? lingkarLenganAtas;
+  @JsonKey(name: "lingkar_kepala")
+  final String? lingkarKepala;
+  @JsonKey(name: "nama_kader")
+  final String namaKader;
+  @JsonKey(name: "status_stunting")
+  final String? statusStunting;
+  @JsonKey(name: "status_gizi")
+  final String? statusGizi;
 
-    Pengukuran({this.tanggalPengukuran, this.beratBadan, this.tinggiBadan, this.lingkarLenganAtas, this.lingkarKepala, this.namaKader, this.statusStunting, this.statusGizi});
+  Pengukuran({
+    required this.tanggalPengukuran,
+    required this.beratBadan,
+    required this.tinggiBadan,
+    required this.lingkarLenganAtas,
+    required this.lingkarKepala,
+    required this.namaKader,
+    required this.statusStunting,
+    required this.statusGizi,
+  });
 
-    Pengukuran.fromJson(Map<String, dynamic> json) {
-        tanggalPengukuran = json["tanggal_pengukuran"];
-        beratBadan = json["berat_badan"];
-        tinggiBadan = json["tinggi_badan"];
-        lingkarLenganAtas = json["lingkar_lengan_atas"];
-        lingkarKepala = json["lingkar_kepala"];
-        namaKader = json["nama_kader"];
-        statusStunting = json["status_stunting"];
-        statusGizi = json["status_gizi"];
-    }
+  factory Pengukuran.fromJson(Map<String, dynamic> json) =>
+      _$PengukuranFromJson(json);
 
-    Map<String, dynamic> toJson() {
-        final Map<String, dynamic> _data = <String, dynamic>{};
-        _data["tanggal_pengukuran"] = tanggalPengukuran;
-        _data["berat_badan"] = beratBadan;
-        _data["tinggi_badan"] = tinggiBadan;
-        _data["lingkar_lengan_atas"] = lingkarLenganAtas;
-        _data["lingkar_kepala"] = lingkarKepala;
-        _data["nama_kader"] = namaKader;
-        _data["status_stunting"] = statusStunting;
-        _data["status_gizi"] = statusGizi;
-        return _data;
-    }
+  Map<String, dynamic> toJson() => _$PengukuranToJson(this);
+}
+// posyandu
+@JsonSerializable()
+class Posyandu {
+  @JsonKey(name: "id")
+  final String id;
+  @JsonKey(name: "created_at")
+  final DateTime? createdAt;
+  @JsonKey(name: "updated_at")
+  final DateTime? updatedAt;
+  @JsonKey(name: "deleted_at")
+  final DateTime? deletedAt;
+  @JsonKey(name: "nama_posyandu")
+  final String namaPosyandu;
+  @JsonKey(name: "alamat")
+  final String? alamat;
+
+  Posyandu({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.namaPosyandu,
+    required this.alamat,
+  });
+
+  factory Posyandu.fromJson(Map<String, dynamic> json) =>
+      _$PosyanduFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PosyanduToJson(this);
 }
