@@ -124,7 +124,7 @@ class _UpdateRegisterPengasuhViewState
             .nomorKartuKeluarga);
     _nikController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.nik);
-      
+
     _namaController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.namaPengasuh);
     _tempatLahirController = TextEditingController(
@@ -136,10 +136,13 @@ class _UpdateRegisterPengasuhViewState
     _rWWaliController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.rw);
 
-    if(widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon != "0") {
-      _teleponWaliController = TextEditingController(text: widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon);
+    if (widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon !=
+        "0") {
+      _teleponWaliController = TextEditingController(
+          text:
+              widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon);
     }
-    
+
     _alamatWaliController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.alamatLengkap);
 
@@ -855,9 +858,16 @@ class _UpdateRegisterPengasuhViewState
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            // (value) => Validator.maxLength(
-                            //     value, 13, "Masukkan nomor yang benar!"),
-                            // (value) => Validator.required(value),
+                            (value) => Validator.minLength(
+                                value,
+                                nullable: true,
+                                10,
+                                "Masukkan nomor yang benar!"),
+                            (value) => Validator.maxLength(
+                                value,
+                                nullable: true,
+                                13,
+                                "Masukkan nomor yang benar!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -969,9 +979,10 @@ class _UpdateRegisterPengasuhViewState
                                           alamatLengkap:
                                               _alamatWaliController.text,
                                           dusunId: selectedDusun!.id,
-                                          noTelepon: _teleponWaliController.text.isNotEmpty
-                                          ? _teleponWaliController.text
-                                          : null,
+                                          noTelepon: _teleponWaliController
+                                                  .text.isNotEmpty
+                                              ? _teleponWaliController.text
+                                              : null,
                                           golDarah: selectedGolDarahWali!,
                                           nomorKartuKeluarga:
                                               _nomorKKController.text,

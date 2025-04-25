@@ -33,8 +33,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
           ? null
           : DateTime.parse(json['deleted_at'] as String),
       usiaKehamilan: (json['usia_kehamilan'] as num).toInt(),
-      beratBadan: json['berat_badan'] as String,
-      tinggiBadan: json['tinggi_badan'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?,
       hemoglobin: json['hemoglobin'] as String?,
       namaBpjs: json['nama_bpjs'] as String?,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
