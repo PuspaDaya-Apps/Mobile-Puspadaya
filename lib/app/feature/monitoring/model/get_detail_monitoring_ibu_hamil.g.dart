@@ -37,12 +37,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       hemoglobin: json['hemoglobin'] as String?,
       namaBpjs: json['nama_bpjs'] as String?,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
-      tanggalPertamaHaid:
-          DateTime.parse(json['tanggal_pertama_haid'] as String),
-      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] == null
-          ? null
-          : DateTime.parse(json['tanggal_terakhir_haid'] as String),
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
+      tanggalPertamaHaid: json['tanggal_pertama_haid'] as String,
+      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] as String?,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String,
       catatan: json['catatan'] as String,
@@ -63,8 +60,8 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'hemoglobin': instance.hemoglobin,
       'nama_bpjs': instance.namaBpjs,
       'jumlah_tablet_fe': instance.jumlahTabletFe,
-      'tanggal_pertama_haid': instance.tanggalPertamaHaid.toIso8601String(),
-      'tanggal_terakhir_haid': instance.tanggalTerakhirHaid?.toIso8601String(),
+      'tanggal_pertama_haid': instance.tanggalPertamaHaid,
+      'tanggal_terakhir_haid': instance.tanggalTerakhirHaid,
       'lingkar_lengan_atas': instance.lingkarLenganAtas,
       'tinggi_fundus_uteri': instance.tinggiFundusUteri,
       'terpapar_asap_rokok': instance.terpaparAsapRokok,
@@ -192,8 +189,10 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['deleted_at'] as String),
       usiaIbuHamil: (json['usia_ibu_hamil'] as num?)?.toInt(),
       usiaKehamilan: (json['usia_kehamilan'] as num?)?.toInt(),
-      tempatPengukuran: json['tempat_pengukuran'] as String,
-      tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
+      tempatPengukuran: json['tempat_pengukuran'] as String?,
+      tanggalPengukuran: json['tanggal_pengukuran'] == null
+          ? null
+          : DateTime.parse(json['tanggal_pengukuran'] as String),
       beratBadan: json['berat_badan'] as String?,
       tinggiBadan: json['tinggi_badan'] as String?,
       tinggiFundusUteri: json['tinggi_fundus_uteri'] as String?,
@@ -201,7 +200,7 @@ PengukuranIbuHamil _$PengukuranIbuHamilFromJson(Map<String, dynamic> json) =>
       hemoglobin: json['hemoglobin'] as String?,
       terpaparAsapRokok: json['terpapar_asap_rokok'] as String?,
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num?)?.toInt(),
-      catatan: json['catatan'],
+      catatan: json['catatan'] as String?,
       kader: Kader.fromJson(json['kader'] as Map<String, dynamic>),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
     );
@@ -215,7 +214,7 @@ Map<String, dynamic> _$PengukuranIbuHamilToJson(PengukuranIbuHamil instance) =>
       'usia_ibu_hamil': instance.usiaIbuHamil,
       'usia_kehamilan': instance.usiaKehamilan,
       'tempat_pengukuran': instance.tempatPengukuran,
-      'tanggal_pengukuran': instance.tanggalPengukuran.toIso8601String(),
+      'tanggal_pengukuran': instance.tanggalPengukuran?.toIso8601String(),
       'berat_badan': instance.beratBadan,
       'tinggi_badan': instance.tinggiBadan,
       'tinggi_fundus_uteri': instance.tinggiFundusUteri,

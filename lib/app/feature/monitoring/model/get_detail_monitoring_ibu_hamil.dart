@@ -40,11 +40,11 @@ class Data {
     @JsonKey(name: "jumlah_tablet_fe")
     final int jumlahTabletFe;
     @JsonKey(name: "tanggal_pertama_haid")
-    final DateTime tanggalPertamaHaid;
+    final String tanggalPertamaHaid;
     @JsonKey(name: "tanggal_terakhir_haid")
-    final DateTime? tanggalTerakhirHaid;
+    final String? tanggalTerakhirHaid;
     @JsonKey(name: "lingkar_lengan_atas")
-    final String lingkarLenganAtas;
+    final String? lingkarLenganAtas;
     @JsonKey(name: "tinggi_fundus_uteri")
     final String? tinggiFundusUteri;
     @JsonKey(name: "terpapar_asap_rokok")
@@ -255,9 +255,9 @@ class PengukuranIbuHamil {
     @JsonKey(name: "usia_kehamilan")
     final int? usiaKehamilan;
     @JsonKey(name: "tempat_pengukuran")
-    final String tempatPengukuran;
+    final String? tempatPengukuran;
     @JsonKey(name: "tanggal_pengukuran")
-    final DateTime tanggalPengukuran;
+    final DateTime? tanggalPengukuran;
     @JsonKey(name: "berat_badan")
     final String? beratBadan;
     @JsonKey(name: "tinggi_badan")
@@ -273,7 +273,7 @@ class PengukuranIbuHamil {
     @JsonKey(name: "jumlah_tablet_fe")
     final int? jumlahTabletFe;
     @JsonKey(name: "catatan")
-    final dynamic catatan;
+    final String? catatan;
     @JsonKey(name: "kader")
     final Kader kader;
     @JsonKey(name: "posyandu")

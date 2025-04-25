@@ -161,7 +161,7 @@ class _DetailMonitoringUnderWeightViewState
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
                                         InfoFieldWidget(
-                                          text: state.data.data.statusGizi,
+                                          text: state.data.data.statusGizi??'-',
                                           color: redPrimaryMain,
                                         ),
                                       ],

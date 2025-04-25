@@ -161,7 +161,7 @@ class _DetailMonitoringWastingViewState
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
                                         InfoFieldWidget(
-                                          text: state.data.data.statusWasting,
+                                          text: state.data.data.statusWasting??'-',
                                           color: redPrimaryMain,
                                         ),
                                       ],

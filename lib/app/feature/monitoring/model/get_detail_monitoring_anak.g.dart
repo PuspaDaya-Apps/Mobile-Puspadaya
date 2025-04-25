@@ -26,8 +26,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
-      statusWasting: json['status_wasting'] as String,
+      statusGizi: json['status_gizi'] as String?,
+      statusWasting: json['status_wasting'] as String?,
       usia: json['usia'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),

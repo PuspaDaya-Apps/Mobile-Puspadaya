@@ -294,7 +294,7 @@ class _DetailMonitoringIbuHamilViewState
                       ),
                     ),
                     DataTableRiwayatPengukuranIbuHamil(
-                      tanggalAwalHaid: state.data.data.tanggalPertamaHaid,
+                        tanggalAwalHaid: DateTime.parse(state.data.data.tanggalPertamaHaid),
                       data: state.data.data.pengukuranIbuHamil,
                     ),
                   ],
@@ -441,14 +441,18 @@ class DataTableRiwayatPengukuranIbuHamil extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: NullableUtilsTable(
-                      value:
-                          DateFormat('dd-MM-yyyy').format(e.tanggalPengukuran)),
+                      value: e.tanggalPengukuran != null
+                          ? DateFormat('dd-MM-yyyy')
+                              .format(e.tanggalPengukuran!)
+                          : null),
                 ),
               ),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
                   child: NullableUtilsTable(
-                      value: hitungUsiaKehamilan(e.tanggalPengukuran)))),
+                      value: e.tanggalPengukuran != null
+                          ? hitungUsiaKehamilan(e.tanggalPengukuran!)
+                          : null))),
               DataCell(Align(
                   alignment: Alignment.centerLeft,
                   child: NullableUtilsTable(value: e.tinggiBadan))),

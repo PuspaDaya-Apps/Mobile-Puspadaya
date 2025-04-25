@@ -30,9 +30,9 @@ class Data {
     @JsonKey(name: "jenis_kelamin")
     final String jenisKelamin;
     @JsonKey(name: "status_gizi")
-    final String statusGizi;
+    final String? statusGizi;
     @JsonKey(name: "status_wasting")
-    final String statusWasting;
+    final String? statusWasting;
     @JsonKey(name: "usia")
     final String usia;
     @JsonKey(name: "kartu_keluarga")
