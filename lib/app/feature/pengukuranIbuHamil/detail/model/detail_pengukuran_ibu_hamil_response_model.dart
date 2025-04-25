@@ -91,7 +91,7 @@ class IbuHamil {
   @JsonKey(name: "tanggal_pertama_haid")
   DateTime tanggalPertamaHaid;
   @JsonKey(name: "tanggal_terakhir_haid")
-  DateTime tanggalTerakhirHaid;
+  dynamic tanggalTerakhirHaid;
 
   IbuHamil({
     required this.id,
@@ -191,8 +191,9 @@ IbuHamil _$IbuHamilFromJson(Map<String, dynamic> json) => IbuHamil(
       nik: json['nik'] as String,
       tanggalPertamaHaid:
           DateTime.parse(json['tanggal_pertama_haid'] as String),
-      tanggalTerakhirHaid:
-          DateTime.parse(json['tanggal_terakhir_haid'] as String),
+      tanggalTerakhirHaid: json['tanggal_terakhir_haid'] != "-"
+      ? DateTime.parse(json['tanggal_terakhir_haid'] as String)
+      : json['tanggal_terakhir_haid'] as String,
     );
 
 Map<String, dynamic> _$IbuHamilToJson(IbuHamil instance) => <String, dynamic>{

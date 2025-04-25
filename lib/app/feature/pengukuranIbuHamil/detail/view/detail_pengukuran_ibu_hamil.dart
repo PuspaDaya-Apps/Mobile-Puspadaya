@@ -333,11 +333,21 @@ class _DetailPengukuranIbuHamilViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: DateFormat('d MMMM y').format(state
+                          text: state
                               .detailPengukuranIbuHamilResponseModel
                               .data!
                               .ibuHamil
-                              .tanggalTerakhirHaid)),
+                              .tanggalTerakhirHaid != "-"
+                      ? DateFormat('d MMMM y').format(state
+                              .detailPengukuranIbuHamilResponseModel
+                              .data!
+                              .ibuHamil
+                              .tanggalTerakhirHaid)
+                      : state
+                              .detailPengukuranIbuHamilResponseModel
+                              .data!
+                              .ibuHamil
+                              .tanggalTerakhirHaid),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
