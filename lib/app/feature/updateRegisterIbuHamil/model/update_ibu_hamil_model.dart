@@ -4,11 +4,11 @@ import 'package:json_annotation/json_annotation.dart';
 // @JsonSerializable()
 class UpdateIbuHamilModel {
   @JsonKey(name: "berat_badan")
-  final double beratBadan;
+  double? beratBadan;
   @JsonKey(name: "alat_berat_badan_id")
   final String alatBeratBadanId;
   @JsonKey(name: "tinggi_badan")
-  final double tinggiBadan;
+  double? tinggiBadan;
   @JsonKey(name: "alat_tinggi_badan_id")
   final String alatTinggiBadanId;
   @JsonKey(name: "hemoglobin")
@@ -20,7 +20,7 @@ class UpdateIbuHamilModel {
   @JsonKey(name: "tanggal_terakhir_haid")
   String? tanggalTerakhirHaid;
   @JsonKey(name: "lingkar_lengan_atas")
-  final double lingkarLenganAtas;
+  double? lingkarLenganAtas;
   @JsonKey(name: "alat_lingkar_lengan_id")
   final String alatLingkarLenganId;
   @JsonKey(name: "tinggi_fundus_uteri")
@@ -40,15 +40,15 @@ class UpdateIbuHamilModel {
 
   UpdateIbuHamilModel({
     required this.jarak,
-    required this.beratBadan,
+    this.beratBadan,
     required this.alatBeratBadanId,
-    required this.tinggiBadan,
+    this.tinggiBadan,
     required this.alatTinggiBadanId,
     this.hemoglobin,
     required this.jumlahTabletFe,
     required this.tanggalPertamaHaid,
     this.tanggalTerakhirHaid,
-    required this.lingkarLenganAtas,
+    this.lingkarLenganAtas,
     required this.alatLingkarLenganId,
     this.tinggiFundusUteri,
     required this.alatTinggiFundusId,
@@ -66,15 +66,15 @@ class UpdateIbuHamilModel {
 UpdateIbuHamilModel _$UpdateIbuHamilModelFromJson(Map<String, dynamic> json) =>
     UpdateIbuHamilModel(
       jarak: (json['jarak'] as num).toDouble(),
-      beratBadan: (json['berat_badan'] as num).toDouble(),
+      beratBadan: (json['berat_badan'] as num?)?.toDouble(),
       alatBeratBadanId: json['alat_berat_badan_id'] as String,
-      tinggiBadan: (json['tinggi_badan'] as num).toDouble(),
+      tinggiBadan: (json['tinggi_badan'] as num?)?.toDouble(),
       alatTinggiBadanId: json['alat_tinggi_badan_id'] as String,
       hemoglobin: (json['hemoglobin'] as num?)?.toDouble(),
       jumlahTabletFe: (json['jumlah_tablet_fe'] as num).toInt(),
       tanggalPertamaHaid: json['tanggal_pertama_haid'] as String,
       tanggalTerakhirHaid: json['tanggal_terakhir_haid'] as String?,
-      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num).toDouble(),
+      lingkarLenganAtas: (json['lingkar_lengan_atas'] as num?)?.toDouble(),
       alatLingkarLenganId: json['alat_lingkar_lengan_id'] as String,
       tinggiFundusUteri: (json['tinggi_fundus_uteri'] as num?)?.toDouble(),
       alatTinggiFundusId: json['alat_tinggi_fundus_id'] as String,
