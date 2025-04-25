@@ -170,11 +170,26 @@ class UpdateRegisterIbuHamilViewState
         convertDateToYYMMDD(widget.data.data.tanggalTerakhirHaid);
     }
     
-    _heightController.text = widget.data.data.tinggiBadan;
-    _weightController.text = widget.data.data.beratBadan;
+    if(widget.data.data.tinggiBadan != "-") {
+      _heightController.text = widget.data.data.tinggiBadan;
+    }
+
+    if(widget.data.data.beratBadan != "-") {
+      _weightController.text = widget.data.data.beratBadan;
+    }
+
+    if(widget.data.data.lingkarLenganAtas != "-") {
+      _upperArmCircumferenceController.text = widget.data.data.lingkarLenganAtas;
+    }
+
+    if(widget.data.data.tinggiFundusUteri! != "-") {
+      _uterineFundusHeightController.text = widget.data.data.tinggiFundusUteri!;
+    }
+    
+    
     _catatanController.text = widget.data.data.catatan;
     _tabletFeController.text = widget.data.data.jumlahTabletFe.toString();
-    _upperArmCircumferenceController.text = widget.data.data.lingkarLenganAtas;
+    
     _jarakController.text = widget.data.data.jarak % 1 == 0
         ? widget.data.data.jarak.toInt().toString()
         : widget.data.data.jarak.toString();
@@ -182,8 +197,7 @@ class UpdateRegisterIbuHamilViewState
     _hemoglobinController.text = widget.data.data.hemoglobin == null
         ? ""
         : widget.data.data.hemoglobin!.replaceAll('.00', '');
-    _uterineFundusHeightController.text =
-        widget.data.data.tinggiFundusUteri ?? "";
+    
 
     switch (widget.data.data.namaBPJS) {
       case null:
@@ -469,7 +483,7 @@ class UpdateRegisterIbuHamilViewState
                                               .alatPengukuranAdmin.merekAlat,
                                       controller: _heightController,
                                       validator: [
-                                        (value) => Validator.required(value),
+                                        // (value) => Validator.required(value),
                                       ],
                                     ),
                                     SizedBox(
@@ -490,9 +504,9 @@ class UpdateRegisterIbuHamilViewState
                                       controller:
                                           _upperArmCircumferenceController,
                                       validator: [
-                                        (value) => Validator.required(
-                                              value,
-                                            ),
+                                        // (value) => Validator.required(
+                                        //       value,
+                                        //     ),
                                       ],
                                     ),
                                   ],
@@ -514,9 +528,9 @@ class UpdateRegisterIbuHamilViewState
                                               .alatPengukuranAdmin.merekAlat,
                                       controller: _weightController,
                                       validator: [
-                                        (value) => Validator.required(
-                                              value,
-                                            ),
+                                        // (value) => Validator.required(
+                                        //       value,
+                                        //     ),
                                       ],
                                     ),
                                     SizedBox(
@@ -904,8 +918,9 @@ class UpdateRegisterIbuHamilViewState
                                           ? widget.data.data.alatTinggiFundus.id
                                           : alatUkurIbuHamil
                                               .alatUkurTinggiFundus!.id,
-                                      beratBadan:
-                                          _parseDouble(_weightController.text),
+                                      beratBadan: _weightController.text.isNotEmpty
+                                      ? _parseDouble(_weightController.text)
+                                      : null,
                                       catatan: _catatanController.text,
                                       hemoglobin: _hemoglobinController.text == ""
                                           ? null
@@ -913,10 +928,13 @@ class UpdateRegisterIbuHamilViewState
                                               _hemoglobinController.text),
                                       jumlahTabletFe:
                                           _parseInt(_tabletFeController.text),
-                                      lingkarLenganAtas:
-                                          _parseDouble(_upperArmCircumferenceController.text),
+                                      lingkarLenganAtas: _upperArmCircumferenceController.text.isNotEmpty
+                                      ? _parseDouble(_upperArmCircumferenceController.text)
+                                      : null,
                                       terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
-                                      tinggiBadan: _parseDouble(_heightController.text),
+                                      tinggiBadan: _heightController.text.isNotEmpty
+                                      ? _parseDouble(_heightController.text)
+                                      : null,
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
                                       tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
                                       tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty

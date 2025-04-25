@@ -117,18 +117,23 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
 
     catatanController = TextEditingController(text: widget.paket.data.data!.catatan);
     keluhanController = TextEditingController(text: widget.paket.data.data!.keluhan);
-
+    
     if (widget.paket.data.data!.tempatPengukuran == "Posyandu") {
       selectedPosyandu = "Posyandu";
     } else {
       selectedPosyandu = "Rumah";
     }
 
-    if (widget.paket.data.data!.posisiBadan == "Terlentang") {
-      selectedPosition = "Terlentang";
+    if(widget.paket.data.data!.posisiBadan == "-") {
+      selectedPosition = "-";
     } else {
-      selectedPosition = "Berdiri";
+      if (widget.paket.data.data!.posisiBadan == "Terlentang") {
+        selectedPosition = "Terlentang";
+      } else {
+        selectedPosition = "Berdiri";
+      }
     }
+    
 
     if (widget.paket.data.data!.mpasi == '-') {
       mpasiValue = 3;
