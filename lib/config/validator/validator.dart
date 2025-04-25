@@ -24,8 +24,6 @@ class Validator {
     return null;
   }
 
-
-
   static String? minLength(String? value, int min, String message,
       {bool nullable = false}) {
     if ((value == null || value.isEmpty)) {
@@ -83,6 +81,30 @@ class Validator {
     if (number == null || number > max) {
       return message;
     }
+    return null;
+  }
+
+  static String? rangeNumber(
+    String? value,
+    double min,
+    double max,
+    String message, {
+    bool nullable = false,
+  }) {
+    if (value == null || value.isEmpty) {
+      if (nullable) return null;
+      return "Isi terlebih dahulu!";
+    }
+
+    if (value.contains(',')) {
+      return "Tidak Bisa Menggunakan Koma";
+    }
+
+    double? number = double.tryParse(value);
+    if (number == null || number < min || number > max) {
+      return message;
+    }
+
     return null;
   }
 

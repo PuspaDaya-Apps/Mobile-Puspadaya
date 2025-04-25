@@ -339,18 +339,9 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                       title: 'Tinggi Badan',
                                       hintText: 'contoh: 13.5',
                                       validator: [
-                                        (value) => Validator.minNumber(
-                                            value, 45, "min 45 max 110",
+                                        (value) => Validator.rangeNumber(
+                                            value, 45, 110, "min 45 max 110",
                                             nullable: true),
-                                        (value) => Validator.maxNumber(
-                                            value, 110, "min 45 max 110",
-                                            nullable: true),
-                                        // (value) => Validator.required(value,
-                                        //     ),
-                                        // (value) => Validator.minNumber(
-                                        //     value, 45, "min 45 max 110"),
-                                        // (value) => Validator.maxNumber(
-                                        //     value, 110, "min 45 max 110"),
                                       ],
                                       unit: 'cm',
                                       tool: alatUkurAnakSend == null
@@ -559,57 +550,64 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                 color: bluePrimaryMain,
                                 mainButtonMessage: 'Simpan',
                                 mainButton: () {
-                                  updatePengukuranAnakBloc
-                                      .add(SendUpdatePengukuranAnakEvent(
-                                    pengukuranId: widget.paket.pengukuranId,
-                                    pengukuranAnakModel: PengukuranAnakModel(
-                                        tempatPengukuran: selectedPosyandu,
-                                        posisiBadan: selectedPosition,
-                                        alatBeratBadanId: alatUkurAnakSend == null
-                                            ? widget.paket.data.data!
-                                                .alatBeratBadan.id
-                                            : alatUkurAnak.alatUkurBerat!.id,
-                                        alatLingkarKepalaId: alatUkurAnakSend == null
-                                            ? widget.paket.data.data!
-                                                .alatLingkarKepala.id
-                                            : alatUkurAnak
-                                                .alatUkurLingkarKepala!.id,
-                                        alatLingkarLenganId: alatUkurAnakSend == null
-                                            ? widget.paket.data.data!
-                                                .alatLingkarLengan.id
-                                            : alatUkurAnak
-                                                .alatUkurLingkarLengan!.id,
-                                        alatTinggiBadanId: alatUkurAnakSend == null
-                                            ? widget.paket.data.data!
-                                                .alatTinggiBadan.id
-                                            : alatUkurAnak.alatUkurTinggi!.id,
-                                        beratBadan: weightController.text.isNotEmpty
-                                            ? double.parse(
-                                                weightController.text)
-                                            : null,
-                                        tinggiBadan: heightController.text.isNotEmpty
-                                            ? double.parse(
-                                                heightController.text)
-                                            : null,
-                                        lingkarKepala: headCircumferenceController.text.isNotEmpty
-                                            ? double.parse(headCircumferenceController.text)
-                                            : null,
-                                        lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty ? double.parse(upperArmCircumferenceController.text) : null,
-                                        asiEksklusif: asiEksklusifValue == 3
-                                            ? "-"
-                                            : asiEksklusifValue == 1
-                                                ? 'Iya'
-                                                : 'Tidak',
-                                        mpasi: mpasiValue == 3
-                                            ? "-"
-                                            : mpasiValue == 1
-                                                ? 'Iya'
-                                                : 'Tidak',
-                                        tanggalPengukuran: widget.paket.data.data!.tanggalPengukuran,
-                                        catatan: catatanController.text,
-                                        keluhan: keluhanController.text,
-                                        anakId: widget.paket.data.data!.anak.id),
-                                  ));
+                                  if (_formKey.currentState!.validate()) {
+                                    updatePengukuranAnakBloc
+                                        .add(SendUpdatePengukuranAnakEvent(
+                                      pengukuranId: widget.paket.pengukuranId,
+                                      pengukuranAnakModel: PengukuranAnakModel(
+                                          tempatPengukuran: selectedPosyandu,
+                                          posisiBadan: selectedPosition,
+                                          alatBeratBadanId: alatUkurAnakSend == null
+                                              ? widget
+                                                  .paket.data.data!.alatBeratBadan.id
+                                              : alatUkurAnak.alatUkurBerat!.id,
+                                          alatLingkarKepalaId:
+                                              alatUkurAnakSend == null
+                                                  ? widget.paket.data.data!
+                                                      .alatLingkarKepala.id
+                                                  : alatUkurAnak
+                                                      .alatUkurLingkarKepala!
+                                                      .id,
+                                          alatLingkarLenganId:
+                                              alatUkurAnakSend == null
+                                                  ? widget.paket.data.data!
+                                                      .alatLingkarLengan.id
+                                                  : alatUkurAnak
+                                                      .alatUkurLingkarLengan!
+                                                      .id,
+                                          alatTinggiBadanId: alatUkurAnakSend == null
+                                              ? widget.paket.data.data!
+                                                  .alatTinggiBadan.id
+                                              : alatUkurAnak.alatUkurTinggi!.id,
+                                          beratBadan:
+                                              weightController.text.isNotEmpty
+                                                  ? double.parse(
+                                                      weightController.text)
+                                                  : null,
+                                          tinggiBadan: heightController
+                                                  .text.isNotEmpty
+                                              ? double.parse(heightController.text)
+                                              : null,
+                                          lingkarKepala: headCircumferenceController.text.isNotEmpty ? double.parse(headCircumferenceController.text) : null,
+                                          lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty ? double.parse(upperArmCircumferenceController.text) : null,
+                                          asiEksklusif: asiEksklusifValue == 3
+                                              ? "-"
+                                              : asiEksklusifValue == 1
+                                                  ? 'Iya'
+                                                  : 'Tidak',
+                                          mpasi: mpasiValue == 3
+                                              ? "-"
+                                              : mpasiValue == 1
+                                                  ? 'Iya'
+                                                  : 'Tidak',
+                                          tanggalPengukuran: widget.paket.data.data!.tanggalPengukuran,
+                                          catatan: catatanController.text,
+                                          keluhan: keluhanController.text,
+                                          anakId: widget.paket.data.data!.anak.id),
+                                    ));
+                                  } else {
+                                    logger.d('form not valid');
+                                  }
                                 },
                               );
                             },

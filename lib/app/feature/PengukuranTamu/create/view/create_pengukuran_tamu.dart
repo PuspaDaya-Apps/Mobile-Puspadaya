@@ -365,11 +365,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                         tool: alatUkurTamu.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          (value) => Validator.minNumber(
-                                              value, 45, "min 45 max 110",
-                                              nullable: true),
-                                          (value) => Validator.maxNumber(
-                                              value, 110, "min 45 max 110",
+                                           (value) => Validator.rangeNumber(
+                                              value, 45, 110, "min 45 max 110",
                                               nullable: true),
                                         ],
                                         // tool: 'Microtoise',
