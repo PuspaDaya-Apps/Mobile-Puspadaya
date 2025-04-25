@@ -38,7 +38,7 @@ class Data {
   @JsonKey(name: "anak_ke")
   final int anakKe;
   @JsonKey(name: "tanggal_lahir")
-  final DateTime tanggalLahir;
+  final String tanggalLahir;
   @JsonKey(name: "jenis_kelamin")
   final String jenisKelamin;
   @JsonKey(name: "berat_badan_lahir")
@@ -501,7 +501,7 @@ class Pengukuran {
   @JsonKey(name: "lingkar_kepala")
   final String? lingkarKepala;
   @JsonKey(name: "nama_kader")
-  final String namaKader;
+  final String? namaKader;
   @JsonKey(name: "status_stunting")
   final String? statusStunting;
   @JsonKey(name: "status_gizi")

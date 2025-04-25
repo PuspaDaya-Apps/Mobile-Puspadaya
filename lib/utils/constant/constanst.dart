@@ -6,7 +6,7 @@ import '../../app/model/CheckBoxKunjungan.dart';
   ];
 
   final List<String> selectPosition = [
-    '-'
+    '-',
     'Terlentang',
     'Berdiri',
   ];

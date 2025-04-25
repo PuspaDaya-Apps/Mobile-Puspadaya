@@ -111,7 +111,7 @@ class DetailDataAnak extends StatelessWidget {
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: '${detailResponse.data!.tanggalLahir}'),
+                          text: '${detailResponse.data.tanggalLahir}'),
                     ],
                   ),
                 ),
