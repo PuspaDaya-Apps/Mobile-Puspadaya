@@ -492,12 +492,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         tool: alatUkurAnak.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          // (value) => Validator.required(value,
-                                          //     ),
-                                          // (value) => Validator.minNumber(
-                                          //     value, 45, "min 45 max 110"),
-                                          // (value) => Validator.maxNumber(
-                                          //     value, 110, "min 45 max 110"),
+                                          (value) => Validator.minNumber(
+                                              value, 45, "min 45 max 110",
+                                              nullable: true),
+                                          (value) => Validator.maxNumber(
+                                              value, 110, "min 45 max 110",
+                                              nullable: true),
                                         ],
                                         // tool: 'Microtoise',
                                         controller: heightController,
@@ -776,10 +776,12 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                               Navigator.pop(context);
                                               Navigator.pop(context, true);
                                             },
-                                            mainButtonMessage:'Tambah Pengukuran',
+                                            mainButtonMessage:
+                                                'Tambah Pengukuran',
                                             cancelButton: () {
                                               Navigator.pop(context);
-                                              Navigator.pop(context); // Tutup dialog AlertDialogResult
+                                              Navigator.pop(
+                                                  context); // Tutup dialog AlertDialogResult
                                             },
                                             cancelButtonMessage: 'Selesai',
                                             colorMainButton: bluePrimaryMain,
@@ -891,27 +893,27 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                             DateTime.now(),
                                                         posisiBadan:
                                                             selectedPosition,
-                                                        beratBadan: weightController.text.isNotEmpty
-                                                        ? double.parse(weightController.text)
-                                                        : null,
+                                                        beratBadan: weightController
+                                                                .text.isNotEmpty
+                                                            ? double.parse(
+                                                                weightController
+                                                                    .text)
+                                                            : null,
                                                         alatBeratBadanId:
                                                             alatUkurAnak
                                                                 .alatUkurBerat!
                                                                 .id,
-                                                        tinggiBadan: heightController.text.isNotEmpty
-                                                        ? double.parse(heightController.text)
-                                                        : null,
-                                                        alatTinggiBadanId:
-                                                            alatUkurAnak
-                                                                .alatUkurTinggi!
-                                                                .id,
-                                                        lingkarLenganAtas:upperArmCircumferenceController.text.isNotEmpty
-                                                        ? double.parse(upperArmCircumferenceController.text)
-                                                        : null,
+                                                        tinggiBadan:
+                                                            heightController
+                                                                    .text
+                                                                    .isNotEmpty
+                                                                ? double.parse(
+                                                                    heightController.text)
+                                                                : null,
+                                                        alatTinggiBadanId: alatUkurAnak.alatUkurTinggi!.id,
+                                                        lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty ? double.parse(upperArmCircumferenceController.text) : null,
                                                         alatLingkarLenganId: alatUkurAnak.alatUkurLingkarLengan?.id,
-                                                        lingkarKepala: headCircumferenceController.text.isNotEmpty
-                                                        ? double.parse(headCircumferenceController.text)
-                                                        : null,
+                                                        lingkarKepala: headCircumferenceController.text.isNotEmpty ? double.parse(headCircumferenceController.text) : null,
                                                         alatLingkarKepalaId: alatUkurAnak.alatUkurLingkarLengan?.id,
                                                         asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
                                                         mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),

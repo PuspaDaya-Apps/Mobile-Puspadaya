@@ -61,7 +61,8 @@ class UpdatePengukuranTamuView extends StatefulWidget {
   final PaketToUpdatePengukuranTamuModel paket;
 
   @override
-  State<UpdatePengukuranTamuView> createState() => _UpdatePengukuranTamuViewState();
+  State<UpdatePengukuranTamuView> createState() =>
+      _UpdatePengukuranTamuViewState();
 }
 
 class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
@@ -71,9 +72,10 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController upperArmCircumferenceController =
+      TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
-  
+
   late TextEditingController catatanController;
   late TextEditingController keluhanController;
 
@@ -81,7 +83,7 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
     'Terlentang',
     'Berdiri',
   ];
-  
+
   late int asiEksklusifValue;
   late int mpasiValue;
 
@@ -93,26 +95,32 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
   void initState() {
     BlocProvider.of<AlatUkurSaveBloc>(context).add(GetAlatUkur());
 
-    if(widget.paket.data.data!.tinggiBadan != "-") {
-      heightController = TextEditingController(text: widget.paket.data.data!.tinggiBadan);
+    if (widget.paket.data.data!.tinggiBadan != "-") {
+      heightController =
+          TextEditingController(text: widget.paket.data.data!.tinggiBadan);
     }
 
-    if(widget.paket.data.data!.beratBadan != "-") {
-      weightController = TextEditingController(text: widget.paket.data.data!.beratBadan);
+    if (widget.paket.data.data!.beratBadan != "-") {
+      weightController =
+          TextEditingController(text: widget.paket.data.data!.beratBadan);
     }
 
-    if(widget.paket.data.data!.lingkarLenganAtas != "-") {
-      upperArmCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarLenganAtas);
+    if (widget.paket.data.data!.lingkarLenganAtas != "-") {
+      upperArmCircumferenceController = TextEditingController(
+          text: widget.paket.data.data!.lingkarLenganAtas);
     }
 
-    if(widget.paket.data.data!.lingkarKepala != "-") {
-      headCircumferenceController = TextEditingController(text: widget.paket.data.data!.lingkarKepala);
+    if (widget.paket.data.data!.lingkarKepala != "-") {
+      headCircumferenceController =
+          TextEditingController(text: widget.paket.data.data!.lingkarKepala);
     }
 
-    catatanController = TextEditingController(text: widget.paket.data.data!.catatan);
-    keluhanController = TextEditingController(text: widget.paket.data.data!.keluhan);
+    catatanController =
+        TextEditingController(text: widget.paket.data.data!.catatan);
+    keluhanController =
+        TextEditingController(text: widget.paket.data.data!.keluhan);
 
-    if(widget.paket.data.data!.posisiBadan == "-") {
+    if (widget.paket.data.data!.posisiBadan == "-") {
       selectedPosition = "-";
     } else {
       if (widget.paket.data.data!.posisiBadan == "Terlentang") {
@@ -147,7 +155,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
 
   @override
   Widget build(BuildContext context) {
-    final updatePengukuranTamuBloc = BlocProvider.of<UpdatePengukuranTamuBloc>(context);
+    final updatePengukuranTamuBloc =
+        BlocProvider.of<UpdatePengukuranTamuBloc>(context);
     final saveAlatUkurBloc = BlocProvider.of<SaveAlatUkurBloc>(context);
 
     return BlocListener<GetAlatUkurBloc, GetAlatUkurState>(
@@ -206,15 +215,13 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
               ),
             );
           }
-          if(stateListAlatUkur is AlatUkurSaveSuccessState) {
+          if (stateListAlatUkur is AlatUkurSaveSuccessState) {
             return Scaffold(
               backgroundColor: backgroundWhite10,
               appBar: PrimaryAppBar(
                 title: "Perbarui Pengukuran",
                 actions: [
-                  __buildChangeMeasuringToolsButton(
-                    context,
-                    saveAlatUkurBloc)
+                  __buildChangeMeasuringToolsButton(context, saveAlatUkurBloc)
                 ],
                 onBackPressed: () => Navigator.pop(context),
               ),
@@ -222,8 +229,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                 child: SingleChildScrollView(
                   child: Container(
                     margin: const EdgeInsets.all(20),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 25, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -256,7 +263,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                           SizedBox(
                             height: SizeConfig.calHeightMultiplier(8),
                           ),
-                          InfoFieldWidget(text: widget.paket.data.data!.anak.nik),
+                          InfoFieldWidget(
+                              text: widget.paket.data.data!.anak.nik),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           const Text(
                             'Posyandu Asal',
@@ -267,7 +275,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                           SizedBox(
                             height: SizeConfig.calHeightMultiplier(8),
                           ),
-                          InfoFieldWidget(text: widget.paket.data.data!.anak.nik),
+                          InfoFieldWidget(
+                              text: widget.paket.data.data!.anak.nik),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Container(
                             width: double.infinity,
@@ -309,32 +318,40 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                       title: 'Tinggi Badan',
                                       hintText: 'contoh: 13.5',
                                       validator: [
-                                          // (value) => Validator.required(value,),
-                                          // (value) => Validator.minNumber(
-                                          //     value, 45, "min 45 max 110"),
-                                          // (value) => Validator.maxNumber(
-                                          //     value, 110, "min 45 max 110"),
-                                        ],
+                                        (value) => Validator.minNumber(
+                                            value, 45, "min 45 max 110",
+                                            nullable: true),
+                                        (value) => Validator.maxNumber(
+                                            value, 110, "min 45 max 110",
+                                            nullable: true),
+                                      ],
                                       unit: 'cm',
-                                      tool: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatTinggiBadan.jenisAlat 
-                                      : alatUkurAnak.alatUkurTinggi!.alatPengukuranAdmin.merekAlat,
+                                      tool: alatUkurAnakSend == null
+                                          ? widget.paket.data.data!
+                                              .alatTinggiBadan.jenisAlat
+                                          : alatUkurAnak.alatUkurTinggi!
+                                              .alatPengukuranAdmin.merekAlat,
                                       controller: heightController,
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16),
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Lengan Atas',
                                       hintText: 'contoh: 3.5',
                                       unit: 'cm',
-                                      tool: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatLingkarLengan.jenisAlat 
-                                      : alatUkurAnak.alatUkurLingkarLengan!.alatPengukuranAdmin.merekAlat,
-                                      controller: upperArmCircumferenceController,
+                                      tool: alatUkurAnakSend == null
+                                          ? widget.paket.data.data!
+                                              .alatLingkarLengan.jenisAlat
+                                          : alatUkurAnak.alatUkurLingkarLengan!
+                                              .alatPengukuranAdmin.merekAlat,
+                                      controller:
+                                          upperArmCircumferenceController,
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16),
                                     ),
                                     Text(
                                       'Asi Ekskusif',
@@ -350,7 +367,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         CustomRadioButton(
                                           value: 1,
@@ -363,8 +381,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                           label: 'Ya',
                                         ),
                                         SizedBox(
-                                          width:
-                                              SizeConfig.calHeightMultiplier(16),
+                                          width: SizeConfig.calHeightMultiplier(
+                                              16),
                                         ),
                                         CustomRadioButton(
                                           value: 0,
@@ -390,25 +408,31 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                       title: 'Berat Badan',
                                       hintText: 'contoh: 6.5',
                                       unit: 'kg',
-                                      tool: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatBeratBadan.jenisAlat 
-                                      : alatUkurAnak.alatUkurBerat!.alatPengukuranAdmin.merekAlat,
+                                      tool: alatUkurAnakSend == null
+                                          ? widget.paket.data.data!
+                                              .alatBeratBadan.jenisAlat
+                                          : alatUkurAnak.alatUkurBerat!
+                                              .alatPengukuranAdmin.merekAlat,
                                       controller: weightController,
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16),
                                     ),
                                     MeasurementWidget(
                                       title: 'Lingkar Kepala',
                                       hintText: 'contoh: 6.5',
                                       unit: 'cm',
-                                      tool: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatLingkarKepala.jenisAlat 
-                                      : alatUkurAnak.alatUkurLingkarKepala!.alatPengukuranAdmin.merekAlat,
+                                      tool: alatUkurAnakSend == null
+                                          ? widget.paket.data.data!
+                                              .alatLingkarKepala.jenisAlat
+                                          : alatUkurAnak.alatUkurLingkarKepala!
+                                              .alatPengukuranAdmin.merekAlat,
                                       controller: headCircumferenceController,
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(16),
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16),
                                     ),
                                     Text(
                                       'MPASI',
@@ -424,7 +448,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                     Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         CustomRadioButton(
                                           value: 1,
@@ -483,7 +508,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                             hintText: 'Masukan Keluhan',
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                          BlocConsumer<UpdatePengukuranTamuBloc,UpdatePengukuranTamuState>(
+                          BlocConsumer<UpdatePengukuranTamuBloc,
+                              UpdatePengukuranTamuState>(
                             listener: (context, state) {
                               if (state is UpdatePengukuranTamuSuccesState) {
                                 Navigator.pop(context, 1);
@@ -509,42 +535,65 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                   updatePengukuranTamuBloc
                                       .add(SendUpdatePengukuranTamuEvent(
                                     pengukuranId: widget.paket.pengukuranId,
-                                    pengukuranTamuModel: UpdatePengukuranTamuModel(
-                                        posisiBadan: selectedPosition,
-                                        alatBeratBadanId: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatBeratBadan.id 
-                                      : alatUkurAnak.alatUkurBerat!.id,
-                                        alatLingkarKepalaId: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatLingkarKepala.id 
-                                      : alatUkurAnak.alatUkurLingkarKepala!.id,
-                                        alatLingkarLenganId: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatLingkarLengan.id 
-                                      : alatUkurAnak.alatUkurLingkarLengan!.id,
-                                        alatTinggiBadanId: alatUkurAnakSend == null 
-                                      ? widget.paket.data.data!.alatTinggiBadan.id 
-                                      : alatUkurAnak.alatUkurTinggi!.id,
-                                        
-                                        beratBadan: weightController.text.isNotEmpty
-                                        ? double.parse(weightController.text)
-                                        : null,
-                                        tinggiBadan: heightController.text.isNotEmpty
-                                        ? double.parse(heightController.text)
-                                        : null,
-                                        lingkarKepala: headCircumferenceController.text.isNotEmpty
-                                        ? double.parse(headCircumferenceController.text)
-                                        : null,
-                                        lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty
-                                        ? double.parse(upperArmCircumferenceController.text)
-                                        : null,
-                                        
-                                        asiEksklusif: asiEksklusifValue == 3 ? "-" : asiEksklusifValue == 1 ? 'Iya' : 'Tidak',
-                                        mpasi: mpasiValue == 3 ? "-" : mpasiValue == 1 ? 'Iya' : 'Tidak',
-                                        
-                                        tanggalPengukuran:
-                                            widget.paket.data.data!.tanggalPengukuran,
-                                        catatan: catatanController.text,
-                                        keluhan: keluhanController.text,
-                                        ),
+                                    pengukuranTamuModel:
+                                        UpdatePengukuranTamuModel(
+                                      posisiBadan: selectedPosition,
+                                      alatBeratBadanId: alatUkurAnakSend == null
+                                          ? widget.paket.data.data!
+                                              .alatBeratBadan.id
+                                          : alatUkurAnak.alatUkurBerat!.id,
+                                      alatLingkarKepalaId:
+                                          alatUkurAnakSend == null
+                                              ? widget.paket.data.data!
+                                                  .alatLingkarKepala.id
+                                              : alatUkurAnak
+                                                  .alatUkurLingkarKepala!.id,
+                                      alatLingkarLenganId:
+                                          alatUkurAnakSend == null
+                                              ? widget.paket.data.data!
+                                                  .alatLingkarLengan.id
+                                              : alatUkurAnak
+                                                  .alatUkurLingkarLengan!.id,
+                                      alatTinggiBadanId:
+                                          alatUkurAnakSend == null
+                                              ? widget.paket.data.data!
+                                                  .alatTinggiBadan.id
+                                              : alatUkurAnak.alatUkurTinggi!.id,
+                                      beratBadan: weightController
+                                              .text.isNotEmpty
+                                          ? double.parse(weightController.text)
+                                          : null,
+                                      tinggiBadan: heightController
+                                              .text.isNotEmpty
+                                          ? double.parse(heightController.text)
+                                          : null,
+                                      lingkarKepala: headCircumferenceController
+                                              .text.isNotEmpty
+                                          ? double.parse(
+                                              headCircumferenceController.text)
+                                          : null,
+                                      lingkarLenganAtas:
+                                          upperArmCircumferenceController
+                                                  .text.isNotEmpty
+                                              ? double.parse(
+                                                  upperArmCircumferenceController
+                                                      .text)
+                                              : null,
+                                      asiEksklusif: asiEksklusifValue == 3
+                                          ? "-"
+                                          : asiEksklusifValue == 1
+                                              ? 'Iya'
+                                              : 'Tidak',
+                                      mpasi: mpasiValue == 3
+                                          ? "-"
+                                          : mpasiValue == 1
+                                              ? 'Iya'
+                                              : 'Tidak',
+                                      tanggalPengukuran: widget
+                                          .paket.data.data!.tanggalPengukuran,
+                                      catatan: catatanController.text,
+                                      keluhan: keluhanController.text,
+                                    ),
                                   ));
                                 },
                               );
@@ -564,7 +613,8 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
     );
   }
 
-  Widget __buildChangeMeasuringToolsButton(context, SaveAlatUkurBloc saveAlatUkurBloc) {
+  Widget __buildChangeMeasuringToolsButton(
+      context, SaveAlatUkurBloc saveAlatUkurBloc) {
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -619,6 +669,3 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
     );
   }
 }
-
-  
-

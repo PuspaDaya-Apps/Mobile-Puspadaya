@@ -54,7 +54,9 @@ class CreatePengukuranTamu extends StatelessWidget {
           create: (context) => SaveAlatUkurBloc(),
         ),
       ],
-      child: CreatePengukuranTamuView(dataAnak: dataAnak,),
+      child: CreatePengukuranTamuView(
+        dataAnak: dataAnak,
+      ),
     );
   }
 }
@@ -64,7 +66,8 @@ class CreatePengukuranTamuView extends StatefulWidget {
   final PaketToCreatePengukuranTamuModel dataAnak;
 
   @override
-  State<CreatePengukuranTamuView> createState() => _CreatePengukuranTamuViewState();
+  State<CreatePengukuranTamuView> createState() =>
+      _CreatePengukuranTamuViewState();
 }
 
 class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
@@ -74,7 +77,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController = TextEditingController();
+  TextEditingController upperArmCircumferenceController =
+      TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
@@ -117,7 +121,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
   Widget build(BuildContext context) {
     double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 5;
 
-    final createPengukuranTamuBloc = BlocProvider.of<CreatePengukuranTamuBloc>(context);
+    final createPengukuranTamuBloc =
+        BlocProvider.of<CreatePengukuranTamuBloc>(context);
     final saveAlatUkurBloc = BlocProvider.of<SaveAlatUkurBloc>(context);
 
     return BlocListener<GetAlatUkurBloc, GetAlatUkurState>(
@@ -189,7 +194,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                 child: SingleChildScrollView(
                   child: Container(
                     margin: const EdgeInsets.all(20),
-                    padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 25, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -203,7 +209,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                         children: [
                           AnimatedContainer(
                             // color: Colors.red,
-                            duration: const Duration(milliseconds: 300), // Durasi animasi
+                            duration: const Duration(
+                                milliseconds: 300), // Durasi animasi
                             curve: Curves.easeInOut, // Kurva animasi
                             height: _isExpanded
                                 ? sizeHeighofSingleForm * 2
@@ -216,34 +223,45 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                     'Asal Posyandu',
                                     style: TextStyle(fontSize: 12),
                                   ),
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(8)),
                                   InfoFieldWidget(
-                                    text: widget.dataAnak.dataPosyandu.namaPosyandu
-                                  ),
-                                  SizedBox(height:SizeConfig.calHeightMultiplier(16)),
+                                      text: widget
+                                          .dataAnak.dataPosyandu.namaPosyandu),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   const Text(
                                     'Nama',
                                     style: TextStyle(fontSize: 12),
                                   ),
-                                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(8)),
                                   InfoFieldWidget(
-                                    text: widget.dataAnak.dataTamu.namaAnak
-                                  ),
-                                  SizedBox(height:SizeConfig.calHeightMultiplier(16)),
+                                      text: widget.dataAnak.dataTamu.namaAnak),
+                                  SizedBox(
+                                      height:
+                                          SizeConfig.calHeightMultiplier(16)),
                                   Visibility(
                                     visible: _isExpanded,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         const Text(
                                           'NIK',
                                           style: TextStyle(fontSize: 12),
                                         ),
-                                        SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                                        SizedBox(
+                                            height:
+                                                SizeConfig.calHeightMultiplier(
+                                                    8)),
                                         InfoFieldWidget(
-                                          text: widget.dataAnak.dataTamu.nik
-                                        ),
+                                            text: widget.dataAnak.dataTamu.nik),
                                         SizedBox(
                                             height:
                                                 SizeConfig.calHeightMultiplier(
@@ -257,8 +275,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                                 SizeConfig.calHeightMultiplier(
                                                     8)),
                                         InfoFieldWidget(
-                                          text: widget.dataAnak.dataTamu.usia
-                                        ),
+                                            text:
+                                                widget.dataAnak.dataTamu.usia),
                                         SizedBox(
                                             height:
                                                 SizeConfig.calHeightMultiplier(
@@ -347,11 +365,12 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                         tool: alatUkurTamu.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                          // (value) => Validator.required(value,),
-                                          // (value) => Validator.minNumber(
-                                          //     value, 45, "min 45 max 110"),
-                                          // (value) => Validator.maxNumber(
-                                          //     value, 110, "min 45 max 110"),
+                                          (value) => Validator.minNumber(
+                                              value, 45, "min 45 max 110",
+                                              nullable: true),
+                                          (value) => Validator.maxNumber(
+                                              value, 110, "min 45 max 110",
+                                              nullable: true),
                                         ],
                                         // tool: 'Microtoise',
                                         controller: heightController,
@@ -637,7 +656,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.pop(context);
-                                              Navigator.pop(context); // Tutup dialog AlertDialogResult
+                                              Navigator.pop(
+                                                  context); // Tutup dialog AlertDialogResult
                                             },
                                             cancelButtonMessage: 'Selesai',
                                             colorMainButton: bluePrimaryMain,
@@ -645,7 +665,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                         },
                                       );
                                     }
-                                    if (state is CreatePengukuranTamuFailedState) {
+                                    if (state
+                                        is CreatePengukuranTamuFailedState) {
                                       debugPrint(state.error);
                                       showTopSnackBar(
                                           Overlay.of(context),
@@ -658,7 +679,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                           TopSnackbarWidget()
                                               .error(state.error));
                                     }
-                                    if (state is CreatePengukuranTamuNullErrorState) {
+                                    if (state
+                                        is CreatePengukuranTamuNullErrorState) {
                                       showTopSnackBar(
                                           Overlay.of(context),
                                           animationDuration:
@@ -693,7 +715,8 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                             context: context,
                                             builder: (context) {
                                               return AlertDialogAnakSave(
-                                                isAgeLessThanSixMonths: isAgeLessThanSixMonths!,
+                                                isAgeLessThanSixMonths:
+                                                    isAgeLessThanSixMonths!,
                                                 cancelButton: () {
                                                   Navigator.pop(context);
                                                 },
@@ -722,33 +745,34 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
                                                   //   upperArmCircumferenceController.text =
                                                   //       '';
                                                   // lingkar kepala, lingkar lengan atas, mpasi, tunjukan asi ekslusif
-                                                  createPengukuranTamuBloc.add(SendPengukuranTamuEvent(
-                                                    PengukuranTamuModel(
-                                                      tanggalPengukuran: DateTime.now(),
-                                                      posisiBadan: selectedPosition,
+                                                  createPengukuranTamuBloc.add(SendPengukuranTamuEvent(PengukuranTamuModel(
+                                                      tanggalPengukuran:
+                                                          DateTime.now(),
+                                                      posisiBadan:
+                                                          selectedPosition,
                                                       beratBadan: weightController.text.isNotEmpty
-                                                      ? double.parse(weightController.text)
-                                                      : null,
-                                                      alatBeratBadanId: alatUkurTamu.alatUkurBerat!.id,
+                                                          ? double.parse(weightController
+                                                              .text)
+                                                          : null,
+                                                      alatBeratBadanId: alatUkurTamu
+                                                          .alatUkurBerat!.id,
                                                       tinggiBadan: heightController.text.isNotEmpty
-                                                      ? double.parse(heightController.text)
-                                                      : null,
-                                                      alatTinggiBadanId: alatUkurTamu.alatUkurTinggi!.id,
+                                                          ? double.parse(heightController
+                                                              .text)
+                                                          : null,
+                                                      alatTinggiBadanId: alatUkurTamu
+                                                          .alatUkurTinggi!.id,
                                                       lingkarLenganAtas: upperArmCircumferenceController.text.isNotEmpty
-                                                      ? double.parse(upperArmCircumferenceController.text)
-                                                      : null,
+                                                          ? double.parse(upperArmCircumferenceController.text)
+                                                          : null,
                                                       alatLingkarLenganId: alatUkurTamu.alatUkurLingkarLengan?.id,
-                                                      lingkarKepala: headCircumferenceController.text.isNotEmpty
-                                                      ? double.parse(headCircumferenceController.text)
-                                                      : null,
+                                                      lingkarKepala: headCircumferenceController.text.isNotEmpty ? double.parse(headCircumferenceController.text) : null,
                                                       alatLingkarKepalaId: alatUkurTamu.alatUkurLingkarLengan?.id,
                                                       asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
                                                       mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
                                                       keluhan: keluhanController.text,
                                                       catatan: catatanController.text,
-                                                      anakId: widget.dataAnak.dataTamu.id)
-                                                  
-                                                    ));
+                                                      anakId: widget.dataAnak.dataTamu.id)));
                                                 },
                                                 cancelButtonMessage: 'Tidak',
                                                 mainButtonMessage:
