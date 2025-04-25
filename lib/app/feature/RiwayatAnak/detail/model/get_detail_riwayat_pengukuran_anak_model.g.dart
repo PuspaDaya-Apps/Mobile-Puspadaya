@@ -43,9 +43,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       lingkarKepalaLahir: json['lingkar_kepala_lahir'] as String,
       caraLahir: json['cara_lahir'] as String,
       statusKelahiran: json['status_kelahiran'] as String,
-      statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
-      statusWasting: json['status_wasting'] as String,
+      statusStunting: json['status_stunting'] as String?,
+      statusGizi: json['status_gizi'] as String?,
+      statusWasting: json['status_wasting'] as String?,
       statusOrangTua: json['status_orang_tua'] as String,
       pengukuran: (json['pengukuran'] as List<dynamic>?)
           ?.map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
@@ -207,13 +207,13 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
 
 Pengukuran _$PengukuranFromJson(Map<String, dynamic> json) => Pengukuran(
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
-      beratBadan: json['berat_badan'] as String,
-      tinggiBadan: json['tinggi_badan'] as String,
-      lingkarLenganAtas: json['lingkar_lengan_atas'] as String,
-      lingkarKepala: json['lingkar_kepala'] as String,
+      beratBadan: json['berat_badan'] as String?,
+      tinggiBadan: json['tinggi_badan'] as String?,
+      lingkarLenganAtas: json['lingkar_lengan_atas'] as String?,
+      lingkarKepala: json['lingkar_kepala'] as String?,
       namaKader: json['nama_kader'] as String?,
-      statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
+      statusStunting: json['status_stunting'] as String?,
+      statusGizi: json['status_gizi'] as String?,
     );
 
 Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>

@@ -12,14 +12,17 @@ class NullableUtilsTable extends StatelessWidget {
 
     return isEmpty
         ? Container(
+            // width: 20,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: redPrimary50, // Pastikan redPrimary50 sudah didefinisikan
               borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text(
-              '-',
-              style: TextStyle(color: Colors.white),
+            child: Center(
+              child: const Text(
+                '-',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           )
         : Text(value!);
