@@ -756,4 +756,10 @@ class ApiUtils {
     String urlGetTotalPoint = LinkApi.TOTALPOINT;
     return '$_baseUrl$_apiVersion$urlGetTotalPoint';
   }
+
+  //! notification
+  String urlGetNotification() {
+    String urlGetNotification = LinkApi.NOTIFICATIONURL;
+    return '$_baseUrl$_apiVersion$urlGetNotification';
+  }
 }

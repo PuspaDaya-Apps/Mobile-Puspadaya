@@ -444,7 +444,7 @@ class _CreateRegisterIbuHamilViewState
                                       hintText: 'contoh: 150 cm',
                                       unit: 'cm',
                                       validator: [
-                                        (value) => Validator.required(value),
+                                        // (value) => Validator.required(value),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurTinggi
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -482,9 +482,9 @@ class _CreateRegisterIbuHamilViewState
                                       hintText: 'contoh: 50.5',
                                       unit: 'kg',
                                       validator: [
-                                        (value) => Validator.required(
-                                              value,
-                                            ),
+                                        // (value) => Validator.required(
+                                        //       value,
+                                        //     ),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurBerat
                                           ?.alatPengukuranAdmin.jenisAlat,
@@ -498,9 +498,9 @@ class _CreateRegisterIbuHamilViewState
                                       title: 'Lingkar Lengan Atas',
                                       hintText: 'contoh: 15.1',
                                       validator: [
-                                        (value) => Validator.required(
-                                              value,
-                                            ),
+                                        // (value) => Validator.required(
+                                        //       value,
+                                        //     ),
                                       ],
                                       unit: 'cm',
                                       tool: alatUkurIbuHamil
@@ -867,8 +867,9 @@ class _CreateRegisterIbuHamilViewState
                                           alatUkurIbuHamil.alatUkurTinggi!.id,
                                       alatTinggiFundusId: alatUkurIbuHamil
                                           .alatUkurTinggiFundus!.id,
-                                      beratBadan:
-                                          _parseDouble(_weightController.text),
+                                      beratBadan: _weightController.text.isNotEmpty
+                                      ? _parseDouble(_weightController.text)
+                                      : null,
                                       catatan: _catatanController.text,
                                       hemoglobin: hemoglobinController.text == ""
                                           ? null
@@ -877,10 +878,13 @@ class _CreateRegisterIbuHamilViewState
                                       ibuId: ibuId,
                                       jumlahTabletFe:
                                           _parseInt(_tabletFeController.text),
-                                      lingkarLenganAtas: _parseDouble(
-                                          _armCircumferenceController.text),
+                                      lingkarLenganAtas: _armCircumferenceController.text.isNotEmpty
+                                      ? _parseDouble(_armCircumferenceController.text)
+                                      : null,
                                       terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
-                                      tinggiBadan: _parseDouble(_heightController.text),
+                                      tinggiBadan: _heightController.text.isNotEmpty
+                                      ? _parseDouble(_heightController.text)
+                                      : null,
                                       tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
                                       tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
                                       tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty

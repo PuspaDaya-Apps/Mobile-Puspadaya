@@ -1,27 +1,27 @@
-// part of 'notification_bloc.dart';
+part of 'notification_bloc.dart';
 
-// sealed class NotificationState extends Equatable {
-//   const NotificationState();
+sealed class NotificationState extends Equatable {
+  const NotificationState();
   
-//   @override
-//   List<Object> get props => [];
-// }
+  @override
+  List<Object> get props => [];
+}
 
-// final class NotificationInitial extends NotificationState {}
+final class NotificationInitial extends NotificationState {}
 
-// final class NotificationProcessState extends NotificationState {}
+final class NotificationProcessState extends NotificationState {}
 
-// final class NotificationSuccessState extends NotificationState {
-//   final NotificationResponseModel NotificationResponseModel;
+final class NotificationSuccessState extends NotificationState {
+  final NotificationResponseModel notificationResponseModel;
 
-//   const NotificationSuccessState(this.NotificationResponseModel);
-// }
+  const NotificationSuccessState(this.notificationResponseModel);
+}
 
-// final class NotificationFailedState extends NotificationState {
-//   final String error;
+final class NotificationFailedState extends NotificationState {
+  final String error;
 
-//   const NotificationFailedState(this.error);
-// }
+  const NotificationFailedState(this.error);
+}
 
-// final class NotificationTokenExpiredState extends NotificationState {}
+final class NotificationTokenExpiredState extends NotificationState {}
 

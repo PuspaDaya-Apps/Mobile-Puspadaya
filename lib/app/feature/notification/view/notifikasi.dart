@@ -1,13 +1,22 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/icon/home_menu_icon.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../view/screen/error_server_screen.dart';
+import '../../../view/screen/no_data_screen.dart';
+import '../../../view/widget/pul_to_refresh.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../bloc/notification_bloc.dart';
+import '../model/notification_response_model.dart';
 import '../model/notifikasi_model.dart';
 
 class Notifikasi extends StatelessWidget {
@@ -15,7 +24,10 @@ class Notifikasi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const NotifikasiView();
+    return BlocProvider(
+      create: (context) => NotificationBloc(),
+      child: const NotifikasiView(),
+    );
   }
 }
 
@@ -27,21 +39,27 @@ class NotifikasiView extends StatefulWidget {
 }
 
 class _NotifikasiViewState extends State<NotifikasiView> {
-  // Contoh daftar notifikasi dengan timestamp
-  final List<NotifikasiModel> notifications = List.generate(
-    1,
-    (index) => NotifikasiModel(
-      title: 'Notifikasi $index',
-      message:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. $index',
-      timestamp: DateTime.now().subtract(Duration(hours: index * 6)),
-    ),
-  );
+  EasyRefreshController refreshController = EasyRefreshController(controlFinishRefresh: true);
+  // // Contoh daftar notifikasi dengan timestamp
+  // final List<NotifikasiModel> notifications = List.generate(
+  //   1,
+  //   (index) => NotifikasiModel(
+  //     title: 'Notifikasi $index',
+  //     message:
+  //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. $index',
+  //     timestamp: DateTime.now().subtract(Duration(hours: index * 6)),
+  //   ),
+  // );
+  @override
+  void initState() {
+    BlocProvider.of<NotificationBloc>(context).add(GetNotification());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // Grouping notifikasi berdasarkan tanggal
-    final groupedNotifications = _groupByDate(notifications);
+    // final groupedNotifications = _groupByDate(notifications);
 
     return Scaffold(
       appBar: PrimaryAppBar(
@@ -54,33 +72,66 @@ class _NotifikasiViewState extends State<NotifikasiView> {
       backgroundColor: Colors.white,
       body: SafeArea(
         // child: NotificationEmpty(),
-        child: ListView(
-          children: groupedNotifications.entries.map((entry) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header Grup (Hari ini, Kemarin, dll.)
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    entry.key,
-                    style: AppTextStyles.primaryTextSemibold.copyWith(
-                      fontSize: 18,
-                    ),
-                  ),
+        child: BlocConsumer<NotificationBloc, NotificationState>(
+          listener: (context, state) {
+            if(state is NotificationFailedState) {
+              debugPrint(state.error);
+              showTopSnackBar(
+                Overlay.of(context),
+                animationDuration: const Duration(
+                  milliseconds: 600
                 ),
-                // List Notifikasi di dalam Grup
-                ...entry.value
-                    .map((notifikasi) => _buildNotification(notifikasi)),
-              ],
+                displayDuration: const Duration(
+                  milliseconds: 2200
+                ),
+                reverseAnimationDuration: const Duration(
+                  milliseconds: 300
+                ),
+                TopSnackbarWidget().error(state.error)
+              );
+            }
+            if(state is NotificationTokenExpiredState) {
+              
+            }
+          },
+          builder: (context, state) {
+            if(state is NotificationProcessState) {
+              return Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              );
+            } 
+            if(state is NotificationSuccessState) {
+              if(state.notificationResponseModel.data!.isEmpty) {
+                return Center(
+                  child: const NoDataScreen(),
+                );
+              }
+              return PullToRefreshWidget(
+                onRefresh: () {
+                  BlocProvider.of<NotificationBloc>(context).add(GetNotification());
+                },
+                refreshController: refreshController,
+                child: ListView.builder(
+                  itemCount: state.notificationResponseModel.data!.length,
+                  itemBuilder:(context, index) {
+                    return _buildNotification(state.notificationResponseModel.data![index]);
+                    },
+                ),
+              );
+            }
+            return Center(
+              child: const ErrorServerScreen()
             );
-          }).toList(),
-        ),
+          }
+        )
       ),
     );
   }
 
-  Container _buildNotification(NotifikasiModel notif) {
+  Container _buildNotification(Data notification) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -109,28 +160,31 @@ class _NotifikasiViewState extends State<NotifikasiView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              notif.title,
+              notification.judul,
               style: AppTextStyles.primaryTextMedium.copyWith(
                 color: Colors.black,
+                fontWeight: FontWeight.w600,
                 fontSize: 16,
               ),
             ),
-            Text(
-              DateFormat('HH:mm').format(notif.timestamp),
-              style: AppTextStyles.primaryTextMedium.copyWith(
-                color: Colors.black,
-                fontSize: 12,
-              ),
-            ),
+            // Text(
+            //   DateFormat('HH:mm').format(notif.timestamp),
+            //   style: AppTextStyles.primaryTextMedium.copyWith(
+            //     color: Colors.black,
+            //     fontSize: 12,
+            //   ),
+            // ),
           ],
         ),
         subtitle: Text(
           overflow: TextOverflow.ellipsis,
-          maxLines: 3,
-          notif.message,
+          maxLines: 5,
+          textAlign: TextAlign.left,
+          notification.pesan,
           style: AppTextStyles.primaryTextNormal.copyWith(
             color: textSecondary1,
-            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            fontSize: 12,
           ),
         ),
       ),
@@ -138,8 +192,7 @@ class _NotifikasiViewState extends State<NotifikasiView> {
   }
 
   // Fungsi untuk mengelompokkan notifikasi berdasarkan hari (Hari ini, Kemarin, dll.)
-  Map<String, List<NotifikasiModel>> _groupByDate(
-      List<NotifikasiModel> notifs) {
+  Map<String, List<NotifikasiModel>> _groupByDate(List<NotifikasiModel> notifs) {
     Map<String, List<NotifikasiModel>> groupedData = {};
     DateTime now = DateTime.now();
 
