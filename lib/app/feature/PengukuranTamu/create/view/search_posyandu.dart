@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/getPosyanduBloc/get_posyandu_bloc.dart';
 import 'search_anak.dart';
@@ -39,6 +40,9 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
   void initState() {
     BlocProvider.of<GetPosyanduBloc>(context).add(GetPosyandu());
     super.initState();
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -101,6 +105,14 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
               );
             }
             if(state is GetPosyanduSuccessState) {
+              final filteredList =
+                  state.getListPosyanduResponseModel.data!.where((posyandu) {
+                final query = _searchController.text.toLowerCase();
+                return posyandu.namaPosyandu.toLowerCase().contains(query);
+              }).toList();
+              if (filteredList.isEmpty) {
+                return SearchNotFound();
+              }
               if (state.getListPosyanduResponseModel.data!.isEmpty) {
                 return SizedBox(
                   width: MediaQuery.sizeOf(context).width,
@@ -109,7 +121,7 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
                 );
               }
               return ListView.builder(
-                itemCount: state.getListPosyanduResponseModel.data!.length,
+                itemCount: filteredList.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
@@ -126,7 +138,7 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return SearchAnak(
-                                dataPosyandu: state.getListPosyanduResponseModel.data![index],
+                                dataPosyandu: filteredList[index],
                               );
                             },
                           ));
@@ -161,7 +173,7 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                state.getListPosyanduResponseModel.data![index].namaPosyandu,
+                                filteredList[index].namaPosyandu,
                                 style: AppTextStyles.primaryTextMedium.copyWith(
                                   fontSize: 14,
                                   color: Colors.white,
@@ -180,8 +192,8 @@ class _SearchPosyanduViewState extends State<SearchPosyanduView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: state.getListPosyanduResponseModel.data![index].alamat 
-                                    ?? "${state.getListPosyanduResponseModel.data![index].dusun.namaDusun}, ${state.getListPosyanduResponseModel.data![index].dusun.desaKelurahan.namaDesaKelurahan}, ${state.getListPosyanduResponseModel.data![index].dusun.desaKelurahan.kecamatan.namaKecamatan}",
+                                    text: filteredList[index].alamat 
+                                    ?? "${filteredList[index].dusun.namaDusun}, ${filteredList[index].dusun.desaKelurahan.namaDesaKelurahan}, ${filteredList[index].dusun.desaKelurahan.kecamatan.namaKecamatan}",
                                     style:
                                         AppTextStyles.primaryTextNormal.copyWith(
                                       fontSize: 12,
