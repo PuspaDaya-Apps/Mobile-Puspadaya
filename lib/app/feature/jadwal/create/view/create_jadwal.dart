@@ -46,6 +46,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
 
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       cancelText: "Batalkan",
@@ -58,11 +59,13 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
-    setState(() {
-      _selectedDate = pickedDate;
-      _dateController.text = "${pickedDate?.toLocal()}".split(' ')[0];
-    });
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = pickedDate;
+        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
     }
+  }
 
   Future<void> _selectStartTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
@@ -155,7 +158,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                   reverseAnimationDuration: const Duration(milliseconds: 300),
                   TopSnackbarWidget().success("Berhasil Membuat Jadwal"),
                 );
-                Navigator.pop(context,true);
+                Navigator.pop(context, true);
               }
             },
             builder: (context, state) {
@@ -186,8 +189,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -286,8 +288,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                           obscureText: false,
                           isPasswordField: false,
                           validators: [
-                            (value) => Validator.required(
-                                value),
+                            (value) => Validator.required(value),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

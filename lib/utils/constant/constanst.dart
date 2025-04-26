@@ -1,15 +1,17 @@
 import '../../app/model/CheckBoxKunjungan.dart';
 
-  final List<String> selectPosyandu = [
-    'Posyandu', 
-    'Rumah'
-  ];
+final List<String> selectPosyandu = ['Posyandu', 'Rumah'];
 
-  final List<String> selectPosition = [
-    '-',
-    'Terlentang',
-    'Berdiri',
-  ];
+final List<String> selectPosition = [
+  '-',
+  'Terlentang',
+  'Berdiri',
+];
+final List<String> selectStatusKegiatan = [
+  'Belum dimulai',
+  'Sedang Berjalan',
+  'Selesai',
+];
 
 final List<String> selectGender = [
   'Laki-laki',
@@ -46,7 +48,6 @@ List<String> selectGolDarah = [
   'O',
   '-',
 ];
-
 
 final List<String> selectStatusHubunganDenganAnak = [
   'Nenek',

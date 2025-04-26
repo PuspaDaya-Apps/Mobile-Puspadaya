@@ -11,8 +11,10 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../config/theme/shadow.dart';
+import '../../../../../utils/constant/constanst.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/widget/date_time_picker_widget.dart';
+import '../../../../view/widget/dropdown_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../model/list_data_tamu_model.dart';
@@ -56,8 +58,12 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
   late TabController _tabController;
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
+  DateTime? _selectedDate;
   String _durasiKehadiran = "00:00";
   String _duration = "-";
+  String selectedStatusKegiatan = "Sedang Berjalan";
+  DateTime? tanggalKegiatan;
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
   final _formKey = GlobalKey<FormState>();
@@ -101,6 +107,26 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
       });
       _updateDuration();
       _updateDurationKehadiran();
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      cancelText: "Batalkan",
+      confirmText: "OK",
+      currentDate: DateTime.now(),
+      helpText: "Pilih Tanggal",
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = pickedDate;
+        _dateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
     }
   }
 
@@ -261,13 +287,13 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                   logger.d('valid');
                   PostCreateKehadiranModel data = PostCreateKehadiranModel(
                       tanggalPelaksanaan:
-                          DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                          DateFormat('yyyy-MM-dd').format(_selectedDate!),
                       waktuMulai:
                           _startTimeController.text.replaceAll('.', ':'),
                       waktuSelesai:
                           _endTimeController.text.replaceAll('.', ':'),
                       durasi: _durasiKehadiran,
-                      statusKegiatan: "Sedang Berjalan",
+                      statusKegiatan: selectedStatusKegiatan,
                       kehadiranAnak: selectedAnakIds,
                       kehadiranIbuHamil: selectedIbuHamilIds,
                       kehadiranTamu: selectedTamuIds);
@@ -384,17 +410,62 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
-            Text(
-              'Durasi',
-              style: AppTextStyles.primaryTextNormal.copyWith(
-                color: Colors.white,
-                fontSize: 12,
-              ),
+            Row(
+              spacing: 8,
+              children: [
+                // durasi
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Durasi',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.calHeightMultiplier(8),
+                      ),
+                      InfoFieldWidget(text: _duration),
+                    ],
+                  ),
+                ),
+                // tanggal
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tanggal',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.calHeightMultiplier(8),
+                      ),
+                      DateTimePickerWidget(
+                        isDate: true,
+                        controller: _dateController,
+                        selectDate: () {
+                          _selectDate(context);
+                        },
+                        hintText: "Pilih Tanggal Kehadiran",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Tanggal harus dipilih";
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: SizeConfig.calHeightMultiplier(8),
-            ),
-            InfoFieldWidget(text: _duration),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
@@ -408,7 +479,23 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
             SizedBox(
               height: SizeConfig.calHeightMultiplier(8),
             ),
-            InfoFieldWidget(text: 'Sedang Berjalan'),
+            DropdownWidget(
+              hint: "Pilih Status Kegiatan",
+              value: selectedStatusKegiatan,
+              validator: (value) {
+                if (value == null) {
+                  return 'Pilih Status Kegiatan';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                setState(() {
+                  selectedStatusKegiatan = value;
+                });
+              },
+              items: selectStatusKegiatan,
+            ),
+            // InfoFieldWidget(text: 'Sedang Berjalan'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),

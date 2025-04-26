@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
-import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../config/screen_config/image_config.dart';
@@ -265,18 +265,49 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),
-          Text(
-            'Durasi',
-            style: AppTextStyles.primaryTextNormal.copyWith(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+          Row(
+            spacing: 8,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Durasi',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                        text: HelperData().konversiDurasiHHMMKeString(data.durasi)),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tanggal',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                      text: DateFormat('dd MMMM yyyy', 'id_ID').format(data.tanggalPelaksanaan)),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: SizeConfig.calHeightMultiplier(8),
-          ),
-          InfoFieldWidget(
-              text: HelperData().konversiDurasiHHMMKeString(data.durasi)),
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),
