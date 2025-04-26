@@ -10,6 +10,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_anak_model.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 
 class SearchAnak extends StatelessWidget {
@@ -124,11 +125,20 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                 );
               }
               if (state is GetListAnakSuccessState) {
+                final filteredList = state.getListAnakResponseModel.data!.where((anak) {
+                  final query = searchController.text.toLowerCase();
+                  return anak.namaAnak
+                      .toLowerCase()
+                      .contains(query);
+                }).toList();
+                if (filteredList.isEmpty) {
+                  return SearchNotFound();
+                }
                 if (state.getListAnakResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
                 return ListView.builder(
-                  itemCount: state.getListAnakResponseModel.data!.length,
+                  itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -137,14 +147,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                             Navigator.pop(
                                 context,
                                 PaketToCreatePengukuranAnakModel(
-                                    id: state.getListAnakResponseModel
-                                        .data![index].id,
-                                    namaAnak: state.getListAnakResponseModel
-                                        .data![index].namaAnak,
-                                    nik: state.getListAnakResponseModel
-                                        .data![index].nik,
-                                    usia: state.getListAnakResponseModel
-                                        .data![index].usia));
+                                    id: filteredList[index].id,
+                                    namaAnak: filteredList[index].namaAnak,
+                                    nik: filteredList[index].nik,
+                                    usia: filteredList[index].usia));
                           },
                           title: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,7 +167,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  state.getListAnakResponseModel.data![index]
+                                  filteredList[index]
                                       .namaAnak,
                                   style:
                                       AppTextStyles.primaryTextMedium.copyWith(
@@ -190,8 +196,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: state.getListAnakResponseModel
-                                            .data![index].nik,
+                                        text: filteredList[index].nik,
                                         style: AppTextStyles.primaryTextNormal
                                             .copyWith(
                                           fontSize: 12,
@@ -222,8 +227,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: state.getListAnakResponseModel
-                                            .data![index].namaIbu,
+                                        text: filteredList[index].namaIbu,
                                         style: AppTextStyles.primaryTextNormal
                                             .copyWith(
                                           fontSize: 12,

@@ -424,7 +424,7 @@ class _CreatePengukuranIbuHamilViewState
                               Expanded(
                                 child: TextFieldWidget(
                                   controller: Controller,
-                                  hintText: "Hemoglobin',",
+                                  hintText: "Hemoglobin",
                                   isPasswordField: false,
                                   // validators: [
                                   //   (value) => Validator.required(value,

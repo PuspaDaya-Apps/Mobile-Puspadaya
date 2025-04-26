@@ -10,6 +10,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../model/paketToScreen/paket_to_create_pengukuran_ibu_hamil_model.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../Bloc/getListIbuHamilBloc/get_list_ibu_hamil_bloc.dart';
 
@@ -120,11 +121,20 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                 );
               }
               if (state is GetListIbuHamilSuccessState) {
+                final filteredList = state.getListIbuHamilResponseModel.data!.where((ibu) {
+                  final query = _searchController.text.toLowerCase();
+                  return ibu.namaIbu
+                      .toLowerCase()
+                      .contains(query);
+                }).toList();
+                if (filteredList.isEmpty) {
+                  return SearchNotFound();
+                }
                 if (state.getListIbuHamilResponseModel.data!.isEmpty) {
                   return const NoDataScreen();
                 }
                 return ListView.builder(
-                  itemCount: state.getListIbuHamilResponseModel.data!.length,
+                  itemCount: filteredList.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -133,17 +143,11 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                             Navigator.pop(
                                 context,
                                 PaketToCreatePengukuranIbuHamilModel(
-                                    id: state.getListIbuHamilResponseModel
-                                        .data![index].id,
-                                    namaIbu: state.getListIbuHamilResponseModel
-                                        .data![index].namaIbu,
-                                    usiaIbuHamil: state
-                                        .getListIbuHamilResponseModel
-                                        .data![index]
+                                    id: filteredList[index].id,
+                                    namaIbu: filteredList[index].namaIbu,
+                                    usiaIbuHamil: filteredList[index]
                                         .usiaIbu,
-                                    usiaKandungan: state
-                                        .getListIbuHamilResponseModel
-                                        .data![index]
+                                    usiaKandungan: filteredList[index]
                                         .usiaKehamilan));
                           },
                           title: Column(
@@ -161,8 +165,7 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
-                                  state.getListIbuHamilResponseModel
-                                      .data![index].namaIbu,
+                                  filteredList[index].namaIbu,
                                   style:
                                       AppTextStyles.primaryTextMedium.copyWith(
                                     fontSize: 14,
@@ -181,8 +184,7 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: state.getListIbuHamilResponseModel
-                                          .data![index].nik,
+                                      text: filteredList[index].nik,
                                       style: AppTextStyles.primaryTextNormal
                                           .copyWith(
                                         fontSize: 12,

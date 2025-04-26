@@ -15,6 +15,7 @@ import '../../../../model/paketToScreen/paket_to_create_pengukuran_tamu_model.da
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 // ignore: library_prefixes
+import '../../../../view/screen/search_not_found.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/getAnakTamuBloc/get_anak_tamu_bloc.dart';
 import '../model/get_list_posyandu_response_model.dart' show Data;
@@ -51,7 +52,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetAnakTamuBloc>(context).add(GetAnakTamu(widget.dataPosyandu.id));
+    BlocProvider.of<GetAnakTamuBloc>(context)
+        .add(GetAnakTamu(widget.dataPosyandu.id));
   }
 
   @override
@@ -75,50 +77,50 @@ class _SearchAnakViewState extends State<SearchAnakView> {
       body: SafeArea(
         child: BlocConsumer<GetAnakTamuBloc, GetAnakTamuState>(
           listener: (context, state) {
-              debugPrint(state.toString());
-              if (state is GetAnakTamuFailedState) {
-                debugPrint(state.error);
-                showTopSnackBar(
+            debugPrint(state.toString());
+            if (state is GetAnakTamuFailedState) {
+              debugPrint(state.error);
+              showTopSnackBar(
                   Overlay.of(context),
-                  animationDuration: const Duration(
-                    milliseconds: 600
-                  ),
-                  displayDuration: const Duration(
-                    milliseconds: 2200
-                  ),
-                  reverseAnimationDuration: const Duration(
-                    milliseconds: 300
-                  ),
-                  TopSnackbarWidget().error(state.error)
-                );
-              }
-            },
+                  animationDuration: const Duration(milliseconds: 600),
+                  displayDuration: const Duration(milliseconds: 2200),
+                  reverseAnimationDuration: const Duration(milliseconds: 300),
+                  TopSnackbarWidget().error(state.error));
+            }
+          },
           builder: (context, state) {
-            if(state is GetAnakTamuProccessState) {
+            if (state is GetAnakTamuProccessState) {
               return SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height,
                 child: Center(
-                  child:CircularProgressIndicator(
-                    color: bluePrimaryMain,
-                  ) 
-                  ),
+                    child: CircularProgressIndicator(
+                  color: bluePrimaryMain,
+                )),
               );
             }
-            if(state is GetAnakTamuSuccessState) {
-              if(state.getListTamuResponseModel.data!.isEmpty) {
+            if (state is GetAnakTamuSuccessState) {
+              final filteredList =
+                  state.getListTamuResponseModel.data!.where((anak) {
+                final query = _searchController.text.toLowerCase();
+                return anak.namaAnak.toLowerCase().contains(query);
+              }).toList();
+              if (filteredList.isEmpty) {
+                return SearchNotFound();
+              }
+              if (state.getListTamuResponseModel.data!.isEmpty) {
                 return SizedBox(
-                  width: MediaQuery.sizeOf(context).width,
-                  height: MediaQuery.sizeOf(context).height,
-                  child: const NoDataScreen()
-                );
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                    child: const NoDataScreen());
               }
 
               return ListView.builder(
-                itemCount: state.getListTamuResponseModel.data!.length,
+                itemCount: filteredList.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4),
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, bottom: 4),
                     child: Card(
                       color: Colors.white,
                       shadowColor: Colors.black.withValues(alpha: .1),
@@ -128,9 +130,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                       ),
                       child: ListTile(
                         onTap: () {
-                          String nama = state.getListTamuResponseModel.data![index].namaAnak;
-                          String nik = state.getListTamuResponseModel.data![index].nik;
-                          String namaIbu = state.getListTamuResponseModel.data![index].kartuKeluarga.ibu.namaIbu;
+                          String nama = filteredList[index].namaAnak;
+                          String nik =
+                              filteredList[index].nik;
+                          String namaIbu = filteredList[index].kartuKeluarga.ibu.namaIbu;
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -185,7 +188,12 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
-                                    InfoFieldWidget(text: state.getListTamuResponseModel.data![index].pengukuran?.posyandu.namaPosyandu ?? "Belum Melakukan Pengukuran"),
+                                    InfoFieldWidget(
+                                        text: filteredList[index]
+                                                .pengukuran
+                                                ?.posyandu
+                                                .namaPosyandu ??
+                                            "Belum Melakukan Pengukuran"),
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(16)),
@@ -194,14 +202,19 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                       style: TextStyle(fontSize: 12),
                                     ),
                                     SizedBox(
-                                      height: SizeConfig.calHeightMultiplier(8)
-                                    ),
+                                        height:
+                                            SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                      text: state.getListTamuResponseModel.data![index].pengukuran != null
-                                      ? DateFormat("d MMMM y", "ID_id").format(state.getListTamuResponseModel.data![index].pengukuran!.tanggalPengukuran)
-                                      : "Belum Melakukan Pengukuran" 
-                                    ),
-                                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                        text: filteredList[index].pengukuran !=
+                                                null
+                                            ? DateFormat("d MMMM y", "ID_id")
+                                                .format(filteredList[index]
+                                                    .pengukuran!
+                                                    .tanggalPengukuran)
+                                            : "Belum Melakukan Pengukuran"),
+                                    SizedBox(
+                                        height:
+                                            SizeConfig.calHeightMultiplier(16)),
                                   ],
                                 ),
                                 mainButton: () {
@@ -211,10 +224,11 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                     MaterialPageRoute(
                                       builder: (context) {
                                         return CreatePengukuranTamu(
-                                          dataAnak: PaketToCreatePengukuranTamuModel(
-                                            dataPosyandu: widget.dataPosyandu,
-                                            dataTamu: state.getListTamuResponseModel.data![index]
-                                          ),
+                                          dataAnak:
+                                              PaketToCreatePengukuranTamuModel(
+                                                  dataPosyandu:
+                                                      widget.dataPosyandu,
+                                                  dataTamu: filteredList[index]),
                                         );
                                       },
                                     ),
@@ -243,7 +257,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                state.getListTamuResponseModel.data![index].namaAnak,
+                                filteredList[index]
+                                    .namaAnak,
                                 style: AppTextStyles.primaryTextMedium.copyWith(
                                   fontSize: 14,
                                   color: Colors.white,
@@ -256,14 +271,15 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 children: [
                                   TextSpan(
                                     text: "NIK : ",
-                                    style:    AppTextStyles.primaryTextNormal.copyWith(
+                                    style: AppTextStyles.primaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: state.getListTamuResponseModel.data![index].nik,
-                                    style:
-                                        AppTextStyles.primaryTextNormal.copyWith(
+                                    text: filteredList[index].nik,
+                                    style: AppTextStyles.primaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -276,15 +292,15 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 children: [
                                   TextSpan(
                                     text: "Nama Ibu: ",
-                                    style:
-                                        AppTextStyles.primaryTextNormal.copyWith(
+                                    style: AppTextStyles.primaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: state.getListTamuResponseModel.data![index].kartuKeluarga.ibu.namaIbu,
-                                    style:
-                                        AppTextStyles.primaryTextNormal.copyWith(
+                                    text: filteredList[index].kartuKeluarga.ibu.namaIbu,
+                                    style: AppTextStyles.primaryTextNormal
+                                        .copyWith(
                                       fontSize: 12,
                                     ),
                                   ),
@@ -305,10 +321,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
             }
 
             return SizedBox(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height,
-              child: ErrorServerScreen()
-            );
+                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery.sizeOf(context).height,
+                child: ErrorServerScreen());
           },
         ),
       ),
