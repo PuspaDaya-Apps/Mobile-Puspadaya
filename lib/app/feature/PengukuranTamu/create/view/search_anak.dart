@@ -16,6 +16,7 @@ import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 // ignore: library_prefixes
 import '../../../../view/screen/search_not_found.dart';
+import '../../../../view/widget/search_text_field_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/getAnakTamuBloc/get_anak_tamu_bloc.dart';
 import '../model/get_list_posyandu_response_model.dart' show Data;
@@ -70,12 +71,33 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundWhite10,
-      appBar: PrimaryAppBar(
-        title: 'Pilih Anak',
-        background: Colors.white,
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(MediaQuery.sizeOf(context).height * 0.05),
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.only(left: 16.0,right: 16,top:0,bottom: 8),
+            child: SearchTextFieldWidget(
+              hintText: 'Cari Anak',
+              controller: _searchController,
+            ),
+          ),
+        ),
+        title: Text(
+          'Pilih Anak',
+          style: AppTextStyles.primaryTextSemibold.copyWith(
+            fontSize: 16,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: BlocConsumer<GetAnakTamuBloc, GetAnakTamuState>(
@@ -134,9 +156,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                       child: ListTile(
                         onTap: () {
                           String nama = filteredList[index].namaAnak;
-                          String nik =
-                              filteredList[index].nik;
-                          String namaIbu = filteredList[index].kartuKeluarga.ibu.namaIbu;
+                          String nik = filteredList[index].nik;
+                          String namaIbu =
+                              filteredList[index].kartuKeluarga.ibu.namaIbu;
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -231,7 +253,8 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                               PaketToCreatePengukuranTamuModel(
                                                   dataPosyandu:
                                                       widget.dataPosyandu,
-                                                  dataTamu: filteredList[index]),
+                                                  dataTamu:
+                                                      filteredList[index]),
                                         );
                                       },
                                     ),
@@ -260,8 +283,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
-                                filteredList[index]
-                                    .namaAnak,
+                                filteredList[index].namaAnak,
                                 style: AppTextStyles.primaryTextMedium.copyWith(
                                   fontSize: 14,
                                   color: Colors.white,
@@ -301,7 +323,10 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: filteredList[index].kartuKeluarga.ibu.namaIbu,
+                                    text: filteredList[index]
+                                        .kartuKeluarga
+                                        .ibu
+                                        .namaIbu,
                                     style: AppTextStyles.primaryTextNormal
                                         .copyWith(
                                       fontSize: 12,
