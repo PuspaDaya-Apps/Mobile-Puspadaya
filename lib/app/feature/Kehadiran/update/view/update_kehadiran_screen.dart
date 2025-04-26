@@ -65,13 +65,13 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  DateTime? _selectedDate;
+  late DateTime _selectedDate = DateTime.now(); // Inisialisasi dengan nilai default
   DateTime? tanggalKegiatan;
   late String selectedStatusKegiatan;
   String _durasiKehadiran = "00:00";
   String _duration = "-";
-  TimeOfDay? _startTime;
-  TimeOfDay? _endTime;
+  late TimeOfDay _startTime = TimeOfDay.now();
+  late TimeOfDay _endTime= TimeOfDay.now();
   final _formKey = GlobalKey<FormState>();
   List<String> selectedAnakIds = [];
   List<String> selectedIbuHamilIds = [];
@@ -101,6 +101,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
     _dateController.text = DateFormat('yyyy-MM-dd', 'id_ID').format(widget.data.data.tanggalPelaksanaan);
     _duration =
         HelperData().konversiDurasiHHMMKeString(widget.data.data.durasi);
+    _selectedDate = widget.data.data.tanggalPelaksanaan;
 
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
     // Isi data dari detail
@@ -133,7 +134,9 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
       helpText: "Pilih Waktu Mulai",
       cancelText: "Batalkan",
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _startTime!= null
+          ? TimeOfDay.fromDateTime(widget.data.data.tanggalPelaksanaan)
+          : _startTime ?? TimeOfDay.now(),
     );
 
     if (pickedTime != null) {
@@ -152,7 +155,9 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
       helpText: "Pilih Waktu Selesai",
       cancelText: "Batalkan",
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _endTime!= null
+          ? TimeOfDay.fromDateTime(widget.data.data.tanggalPelaksanaan)
+          : _endTime ?? TimeOfDay.now(),
     );
 
     if (pickedTime != null) {
@@ -327,7 +332,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
                   logger.d(
                       'waktu selesai ${_endTimeController.text.replaceAll('.', ':')}');
                   logger.d(
-                      'tanggal pelaksanaan ${DateFormat('yyyy-MM-dd').format(DateTime.now())} ');
+                      'tanggal pelaksanaan ${DateFormat('yyyy-MM-dd').format(_selectedDate)} ');
                   logger.d('valid');
                   PostCreateKehadiranModel data = PostCreateKehadiranModel(
                       tanggalPelaksanaan:
