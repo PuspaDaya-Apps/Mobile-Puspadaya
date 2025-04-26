@@ -4,6 +4,7 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
+import '../../../../view/widget/search_text_field_widget.dart';
 
 class SearchAnak extends StatelessWidget {
   const SearchAnak({super.key});
@@ -23,6 +24,12 @@ class SearchAnakView extends StatefulWidget {
 
 class _SearchAnakViewState extends State<SearchAnakView> {
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -78,12 +85,35 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundWhite10,
-      appBar: PrimaryAppBar(
-        title: 'Pilih Anak',
-        background: Colors.white,
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        bottom: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.sizeOf(context).height * 0.05),
+          child: Container(
+            // color: Colors.red,
+            padding:
+                const EdgeInsets.only(left: 16.0, right: 16, top: 0, bottom: 8),
+            child: SearchTextFieldWidget(
+              hintText: 'Cari Anak',
+              controller: _searchController,
+            ),
+          ),
+        ),
+        title: Text(
+          'Pilih Anak',
+          style: AppTextStyles.primaryTextSemibold.copyWith(
+            fontSize: 16,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: ListView.builder(

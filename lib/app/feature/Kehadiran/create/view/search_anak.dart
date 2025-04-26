@@ -8,6 +8,7 @@ import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../config/theme/text_style.dart';
 import '../../../../view/screen/data_not_found_screen.dart';
 import '../../../../view/screen/search_not_found.dart';
+import '../../../../view/widget/search_text_field_widget.dart';
 import '../bloc/anak_posyandu_bloc.dart';
 import '../model/paket_from_search_anak_to_posyandu.dart';
 
@@ -60,12 +61,33 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundWhite10,
-      appBar: PrimaryAppBar(
-        title: 'Pilih Anak',
-        background: Colors.white,
-        onBackPressed: () {
-          Navigator.pop(context);
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(MediaQuery.sizeOf(context).height * 0.05),
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.only(left: 16.0,right: 16,top:0,bottom: 8),
+            child: SearchTextFieldWidget(
+              hintText: 'Cari Anak',
+              controller: _searchController,
+            ),
+          ),
+        ),
+        title: Text(
+          'Pilih Anak',
+          style: AppTextStyles.primaryTextSemibold.copyWith(
+            fontSize: 16,
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: BlocBuilder<AnakPosyanduBloc, AnakPosyanduState>(
