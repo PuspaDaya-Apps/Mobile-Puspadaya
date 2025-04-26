@@ -54,6 +54,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
     super.initState();
     BlocProvider.of<GetAnakTamuBloc>(context)
         .add(GetAnakTamu(widget.dataPosyandu.id));
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override

@@ -39,6 +39,9 @@ class _SearchIbuHamilViewState extends State<SearchIbuHamilView> {
   @override
   void initState() {
     BlocProvider.of<GetListIbuHamilBloc>(context).add(GetListIbuHamil());
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
     super.initState();
   }
 

@@ -39,6 +39,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
   void initState() {
     super.initState();
     BlocProvider.of<GetListAnakBloc>(context).add(GetListAnak());
+    searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
