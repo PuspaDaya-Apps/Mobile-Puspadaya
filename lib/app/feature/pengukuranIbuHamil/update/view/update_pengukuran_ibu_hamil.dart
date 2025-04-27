@@ -16,6 +16,7 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/validator/validator.dart';
 import '../../../../../utils/constant/constanst.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../model/alat_ukur_response_model.dart';
@@ -388,6 +389,12 @@ class _UpdatePengukuranIbuHamilViewState
                                   hintText: "Hemoglobin",
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
+                                  validators: [
+                                    (value) => Validator.mustPositiveNumber(
+                                      value: value,
+                                      nullabel: true
+                                    ),
+                                  ],
                                   obscureText: false,
                                 ),
                               ),

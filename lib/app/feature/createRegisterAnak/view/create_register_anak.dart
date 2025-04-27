@@ -505,6 +505,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           isPasswordField: false,
                           validators: [
                             (value) => Validator.required(value),
+                            (value) => Validator.mustPositiveNumber(
+                              value: value
+                            ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

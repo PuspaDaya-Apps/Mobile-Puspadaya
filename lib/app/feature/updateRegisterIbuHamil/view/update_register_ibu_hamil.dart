@@ -582,10 +582,14 @@ class UpdateRegisterIbuHamilViewState
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
-                                  // validators: [
+                                  validators: [
                                   //   (value) => Validator.required(
                                   //       value, 'Hemoglobin Wajib Diisi'),
-                                  // ],
+                                    (value) => Validator.mustPositiveNumber(
+                                      value: value,
+                                      nullabel: true
+                                    ),
+                                  ],
                                 ),
                               ),
                               Text(

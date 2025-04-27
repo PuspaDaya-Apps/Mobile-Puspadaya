@@ -426,10 +426,14 @@ class _CreatePengukuranIbuHamilViewState
                                   controller: Controller,
                                   hintText: "Hemoglobin",
                                   isPasswordField: false,
-                                  // validators: [
+                                  validators: [
                                   //   (value) => Validator.required(value,
                                   //       'Harap Masukan Jumlah Hemoglobin','),
-                                  // ],
+                                    (value) => Validator.mustPositiveNumber(
+                                      value: value,
+                                      nullabel: true
+                                    ),
+                                  ],
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                 ),

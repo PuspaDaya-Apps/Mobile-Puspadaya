@@ -532,10 +532,14 @@ class _CreateRegisterIbuHamilViewState
                                 child: TextFieldWidget(
                                   controller: hemoglobinController,
                                   hintText: "Hemoglobin",
-                                  // validators: [
+                                  validators: [
                                   //   (value) => Validator.required(
                                   //       value, 'hemoglobin Wajib diisi'),
-                                  // ],
+                                    (value) => Validator.mustPositiveNumber(
+                                      value: value,
+                                      nullabel: true
+                                    ),
+                                  ],
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,

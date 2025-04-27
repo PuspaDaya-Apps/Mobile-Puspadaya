@@ -261,8 +261,11 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                            value,
-                          ),
+                        value,
+                      ),
+                      (value) => Validator.mustPositiveNumber(
+                        value: value
+                      ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),

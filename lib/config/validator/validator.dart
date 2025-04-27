@@ -172,4 +172,22 @@ class Validator {
     }
     return null;
   }
+
+  static String? mustPositiveNumber({required String value, bool? nullabel}) {
+    double? number = double.tryParse(value);
+
+    if(nullabel == null && value.isNotEmpty) {
+      if(number != null) {
+        if(number <= 0) {
+          return "Angka harus positif";
+        } else{
+          null;
+        }
+      } else {
+        return "Inputan tidak benar";
+      }
+    } 
+
+   return null;
+  }
 }
