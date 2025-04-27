@@ -38,3 +38,4 @@ void main() async {
   // We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
   OneSignal.Notifications.requestPermission(true);
 }
+

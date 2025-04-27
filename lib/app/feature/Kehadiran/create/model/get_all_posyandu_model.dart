@@ -34,7 +34,7 @@ class Datum {
     @JsonKey(name: "dusun")
     final Dusun dusun;
     @JsonKey(name: "puskesmas")
-    final String? puskesmas;
+    final Puskesmas? puskesmas;
 
     Datum({
         required this.id,
@@ -153,4 +153,22 @@ class Meta {
     factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 
     Map<String, dynamic> toJson() => _$MetaToJson(this);
+}
+
+
+@JsonSerializable()
+class Puskesmas {
+    @JsonKey(name: "id")
+    final String id;
+    @JsonKey(name: "nama_puskesmas")
+    final String namaPuskesmas;
+
+    Puskesmas({
+        required this.id,
+        required this.namaPuskesmas,
+    });
+
+    factory Puskesmas.fromJson(Map<String, dynamic> json) => _$PuskesmasFromJson(json);
+
+    Map<String, dynamic> toJson() => _$PuskesmasToJson(this);
 }

@@ -29,7 +29,9 @@ Datum _$DatumFromJson(Map<String, dynamic> json) => Datum(
       namaPosyandu: json['nama_posyandu'] as String,
       alamat: json['alamat'] as String?,
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
-      puskesmas: json['puskesmas'] as String?,
+      puskesmas: json['puskesmas'] == null
+          ? null
+          : Puskesmas.fromJson(json['puskesmas'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DatumToJson(Datum instance) => <String, dynamic>{
@@ -105,4 +107,14 @@ Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
       'totalItems': instance.totalItems,
       'currentPage': instance.currentPage,
       'totalPages': instance.totalPages,
+    };
+
+Puskesmas _$PuskesmasFromJson(Map<String, dynamic> json) => Puskesmas(
+      id: json['id'] as String,
+      namaPuskesmas: json['nama_puskesmas'] as String,
+    );
+
+Map<String, dynamic> _$PuskesmasToJson(Puskesmas instance) => <String, dynamic>{
+      'id': instance.id,
+      'nama_puskesmas': instance.namaPuskesmas,
     };
