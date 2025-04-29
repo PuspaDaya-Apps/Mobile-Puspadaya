@@ -139,7 +139,6 @@ class CardAnakWidget extends StatelessWidget {
                                           color: textPrimary10.withOpacity(0.7),
                                           fontWeight: FontWeight.w400),
                                       children: [
-                                        if (tahun == 0)
                                           TextSpan(
                                             text: tahun.toString(),
                                             style: TextStyle(
@@ -148,7 +147,6 @@ class CardAnakWidget extends StatelessWidget {
                                                       26),
                                             ),
                                           ),
-                                        if (tahun == 0)
                                           TextSpan(
                                             text: ' Tahun ',
                                             style: TextStyle(
