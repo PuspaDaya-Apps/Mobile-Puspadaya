@@ -493,7 +493,7 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
                                           (value) => Validator.rangeNumber(
-                                              value, 45, 110, "min 45 max 110",
+                                              value, 45, 120, "min 45 max 120",
                                               nullable: true),
                                           // (value) => Validator.minNumber(
                                           //     value, 45, "min 45 max 110",

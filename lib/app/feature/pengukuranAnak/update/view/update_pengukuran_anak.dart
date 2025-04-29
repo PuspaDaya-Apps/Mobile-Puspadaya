@@ -340,7 +340,7 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                       hintText: 'contoh: 13.5',
                                       validator: [
                                         (value) => Validator.rangeNumber(
-                                            value, 45, 110, "min 45 max 110",
+                                            value, 45, 120, "min 45 max 120",
                                             nullable: true),
                                       ],
                                       unit: 'cm',
