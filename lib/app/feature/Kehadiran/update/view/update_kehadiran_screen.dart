@@ -65,13 +65,14 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  late DateTime _selectedDate = DateTime.now(); // Inisialisasi dengan nilai default
+  late DateTime _selectedDate =
+      DateTime.now(); // Inisialisasi dengan nilai default
   DateTime? tanggalKegiatan;
   late String selectedStatusKegiatan;
-  String _durasiKehadiran = "00:00";
+  late String _durasiKehadiran = "00:00";
   String _duration = "-";
   late TimeOfDay _startTime = TimeOfDay.now();
-  late TimeOfDay _endTime= TimeOfDay.now();
+  late TimeOfDay _endTime = TimeOfDay.now();
   final _formKey = GlobalKey<FormState>();
   List<String> selectedAnakIds = [];
   List<String> selectedIbuHamilIds = [];
@@ -80,6 +81,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
 
   @override
   void initState() {
+    super.initState();
     logger.d("update kehadiran init state");
     context
         .read<UpdateKehadiranAnakBloc>()
@@ -87,7 +89,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
     context
         .read<UpdateKehadiranIbuHamilBloc>()
         .add(UpdateKehadiranEventFormIbuHamilLoaded());
-    super.initState();
+
     _tabController = TabController(
       length: 3,
       vsync: this,
@@ -97,8 +99,17 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
         widget.data.data.waktuMulai.replaceAll(':', '.');
     _endTimeController.text =
         widget.data.data.waktuSelesai.replaceAll(':', '.');
+    _startTime = TimeOfDay(
+      hour: int.parse(widget.data.data.waktuMulai.split(':')[0]),
+      minute: int.parse(widget.data.data.waktuMulai.split(':')[1]),
+    );
+    _endTime = TimeOfDay(
+      hour: int.parse(widget.data.data.waktuSelesai.split(':')[0]),
+      minute: int.parse(widget.data.data.waktuSelesai.split(':')[1]),
+    );
     selectedStatusKegiatan = widget.data.data.statusKegiatan;
-    _dateController.text = DateFormat('yyyy-MM-dd', 'id_ID').format(widget.data.data.tanggalPelaksanaan);
+    _dateController.text = DateFormat('yyyy-MM-dd', 'id_ID')
+        .format(widget.data.data.tanggalPelaksanaan);
     _duration =
         HelperData().konversiDurasiHHMMKeString(widget.data.data.durasi);
     _selectedDate = widget.data.data.tanggalPelaksanaan;
@@ -119,6 +130,9 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
         .toList();
     selectedTamuIds =
         widget.data.data.kehadiranTamu.map((tamu) => tamu.anakId).toList();
+      _updateDuration();
+      _updateDurationKehadiran();
+
 
     logger.d(
         'selectedAnakID ${selectedAnakIds.join(', ')}'); //sudah berisi id dari anak id
@@ -134,7 +148,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
       helpText: "Pilih Waktu Mulai",
       cancelText: "Batalkan",
       context: context,
-      initialTime: _startTime!= null
+      initialTime: _startTime != null
           ? TimeOfDay.fromDateTime(widget.data.data.tanggalPelaksanaan)
           : _startTime ?? TimeOfDay.now(),
     );
@@ -155,7 +169,7 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
       helpText: "Pilih Waktu Selesai",
       cancelText: "Batalkan",
       context: context,
-      initialTime: _endTime!= null
+      initialTime: _endTime != null
           ? TimeOfDay.fromDateTime(widget.data.data.tanggalPelaksanaan)
           : _endTime ?? TimeOfDay.now(),
     );
@@ -239,14 +253,17 @@ class _UpdateKehadiranViewState extends State<UpdateKehadiranView>
   bool _validateTime() {
     if (_startTime != null && _endTime != null) {
       final DateTime startDateTime = DateTime(
-        _startTime!.hour,
-        _startTime!.minute,
+        _startTime.hour,
+        _startTime.minute,
       );
 
       final DateTime endDateTime = DateTime(
-        _endTime!.hour,
-        _endTime!.minute,
+        _endTime.hour,
+        _endTime.minute,
       );
+
+      logger.d(startDateTime);
+      logger.d(endDateTime);
 
       return endDateTime.isAfter(startDateTime);
     }
