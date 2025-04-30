@@ -123,4 +123,7 @@ abstract class LinkApi {
   //! notification
 
   static const NOTIFICATIONURL = "/notification";
+
+  //! total Kunjungan(Kader Monitoring System),
+  static const TOTALKUNJUNGANURL="/kunjungan-kader/count";
 }

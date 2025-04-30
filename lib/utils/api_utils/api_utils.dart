@@ -762,4 +762,10 @@ class ApiUtils {
     String urlGetNotification = LinkApi.NOTIFICATIONURL;
     return '$_baseUrl$_apiVersion$urlGetNotification';
   }
+
+  //! kunjungan count
+  String urlGetTotalKunjungan() {
+    String urlGetTotalKunjungan = LinkApi.TOTALKUNJUNGANURL;
+    return '$_baseUrl$_apiVersion$urlGetTotalKunjungan';
+  }
 }

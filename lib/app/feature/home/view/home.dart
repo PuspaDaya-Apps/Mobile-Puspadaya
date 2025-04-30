@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:puspadaya/app/feature/home/bloc/grafikKunjungan/bloc/grafik_kunjungan_bloc.dart';
+import 'package:puspadaya/app/feature/home/bloc/totalKunjunganBloc/bloc/total_kunjungan_bloc.dart';
 import 'package:puspadaya/app/view/widget/MenuHomeItems.dart';
 import 'package:puspadaya/app/view/widget/home_card_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
@@ -42,6 +43,9 @@ class Home extends StatelessWidget {
         BlocProvider(
           create: (context) => GrafikKunjunganBloc(),
         ),
+        BlocProvider(
+          create: (context) => TotalKunjunganBloc(),
+        ),
       ],
       child: HomeView(currentUserModel: currentUserModel),
     );
@@ -66,6 +70,8 @@ class _HomeViewState extends State<HomeView> {
         .add(GetJadwalHome(context));
     BlocProvider.of<GrafikKunjunganBloc>(context)
         .add(GetGrafikKunjunganEvent());
+    BlocProvider.of<TotalKunjunganBloc>(context)
+        .add(TotalKunjunganFetchEvent());
   }
 
   @override
@@ -167,10 +173,41 @@ class _HomeViewState extends State<HomeView> {
                   return const SizedBox();
                 },
               ),
-              CardMessages(
-                title: "Anda telah berkunjung 4 kali bulan ini.",
-                message:
-                    "Terus melangkah menuju pelayanan masyarakat lebih baik!",
+              BlocBuilder<TotalKunjunganBloc, TotalKunjunganState>(
+                builder: (context, state) {
+                  if (state is TotalKunjunganLoading) {
+                    return SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: MediaQuery.sizeOf(context).height / 7.4,
+                      child: Center(
+                        child: SpinKitThreeBounce(
+                          color: bluePrimaryMain,
+                          size: 50.0,
+                        ),
+                      ),
+                    );
+                  }
+                  if (state is TotalKunjunganFailed) {
+                    return Center(
+                      child: Text('${state.message}'),
+                    );
+                  }
+                  if (state is TotalKunjunganSuccess) {
+                    logger.d('total kunjungan = ${state.totalKunjungan.data}');
+                    if (state.totalKunjungan.data <= 0) {
+                      return const SizedBox();
+                    } else {
+                      logger.d(state.totalKunjungan.data);
+                      return CardMessages(
+                        title:
+                            "Anda telah berkunjung ${state.totalKunjungan.data} kali bulan ini.",
+                        message:
+                            "Terus melangkah menuju pelayanan masyarakat lebih baik!",
+                      );
+                    }
+                  }
+                  return Container();
+                },
               ),
               BlocBuilder<GrafikKunjunganBloc, GrafikKunjunganState>(
                 builder: (context, state) {
@@ -628,7 +665,11 @@ class ProfileSection extends StatelessWidget {
   final String role;
   final String posyandu;
 
-  const ProfileSection({super.key, required this.name, required this.role, required this.posyandu});
+  const ProfileSection(
+      {super.key,
+      required this.name,
+      required this.role,
+      required this.posyandu});
 
   @override
   Widget build(BuildContext context) {
@@ -716,7 +757,6 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         iconMenu: FontAwesomeIcons.userPlus,
         colorIcon: bluePrimary40,
         onTap: () {
-          
           Navigator.pushNamed(context, REGISTER);
         },
       ),
@@ -774,14 +814,15 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
         colorIcon: purplePrimary50,
         // Dalam Home (HomeView atau item menu Beban Kerja):
         onTap: () async {
-          final result = await Navigator.pushNamed(context, BEBAN_KERJA) as bool; //nilai akan di tangkap disini
+          final result = await Navigator.pushNamed(context, BEBAN_KERJA)
+              as bool; //nilai akan di tangkap disini
           if (result == true) {
             // Rebuild Home via callback ke atas
-              if (context.mounted) {
-                final homeWrapperState =
-                    context.findAncestorStateOfType<HomeWrapperState>(); //get homeWrapperState menggunakan globalKey
-                homeWrapperState?.rebuildHome();
-              }
+            if (context.mounted) {
+              final homeWrapperState = context.findAncestorStateOfType<
+                  HomeWrapperState>(); //get homeWrapperState menggunakan globalKey
+              homeWrapperState?.rebuildHome();
+            }
           }
         },
       ),

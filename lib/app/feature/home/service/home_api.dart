@@ -44,4 +44,14 @@ class HomeApi {
       return response;
     });
   }
+
+   Future<List<dynamic>> totalKunjungan (String token) async {
+    final String link = ApiUtils().urlGetTotalKunjungan();
+    final Map<String, dynamic> parameterQuery = {};
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
 }
