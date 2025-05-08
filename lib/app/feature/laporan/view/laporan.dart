@@ -43,31 +43,31 @@ class _LaporanViewState extends State<LaporanView> {
       nama: 'Desa',
       deskripsi: 'Unduh data Desa',
       url: 'https://arxiv.org/pdf/23071.',
-      judulRapor: 'Rekapitulasi data Desa',
+      judulRapor: 'Rapor data Desa',
     ),
     CardRaporItemModel(
       nama: 'Posyandu',
       deskripsi: 'Unduh data Posyandu',
       url: 'https://arxiv.org/pdf/23072.',
-      judulRapor: 'Rekapitulasi data Posyandu',
+      judulRapor: 'Rapor data Posyandu',
     ),
     CardRaporItemModel(
       nama: 'Anak',
       deskripsi: 'Unduh data Anak',
       url: 'https://arxiv.org/pdf/23073.',
-      judulRapor: 'Rekapitulasi data Anak',
+      judulRapor: 'Rapor data Anak',
     ),
     CardRaporItemModel(
       nama: 'Kader',
       deskripsi: 'Unduh data Kader',
       url: 'https://arxiv.org/pdf/23074.',
-      judulRapor: 'Rekapitulasi data Kader',
+      judulRapor: 'Rapor data Kader',
     ),
     CardRaporItemModel(
       nama: 'Log Activity',
       deskripsi: 'Unduh data Log Activity',
       url: ApiUtils().urlDownloadLogActivity(),
-      judulRapor: 'Rekapitulasi data Log Activity',
+      judulRapor: 'Rapor data Log Activity',
     ),
   ];
   @override
