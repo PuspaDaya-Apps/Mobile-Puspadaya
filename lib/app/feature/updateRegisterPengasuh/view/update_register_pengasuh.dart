@@ -185,7 +185,7 @@ class _UpdateRegisterPengasuhViewState
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1950); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1945); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(

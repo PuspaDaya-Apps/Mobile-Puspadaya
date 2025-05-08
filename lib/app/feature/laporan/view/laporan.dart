@@ -41,25 +41,25 @@ class _LaporanViewState extends State<LaporanView> {
   List<CardRaporItemModel> listRaporItem = [
     CardRaporItemModel(
       nama: 'Desa',
-      deskripsi: 'Unduh Rekapitulasi data Desa',
+      deskripsi: 'Unduh data Desa',
       url: 'https://arxiv.org/pdf/23071.',
       judulRapor: 'Rekapitulasi data Desa',
     ),
     CardRaporItemModel(
       nama: 'Posyandu',
-      deskripsi: 'Unduh Rekapitulasi data Posyandu',
+      deskripsi: 'Unduh data Posyandu',
       url: 'https://arxiv.org/pdf/23072.',
       judulRapor: 'Rekapitulasi data Posyandu',
     ),
     CardRaporItemModel(
       nama: 'Anak',
-      deskripsi: 'Unduh Rekapitulasi data Anak',
+      deskripsi: 'Unduh data Anak',
       url: 'https://arxiv.org/pdf/23073.',
       judulRapor: 'Rekapitulasi data Anak',
     ),
     CardRaporItemModel(
       nama: 'Kader',
-      deskripsi: 'Unduh Rekapitulasi data Kader',
+      deskripsi: 'Unduh data Kader',
       url: 'https://arxiv.org/pdf/23074.',
       judulRapor: 'Rekapitulasi data Kader',
     ),

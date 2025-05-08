@@ -104,7 +104,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   Future<void> _selectDateAyah(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1945); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -188,7 +188,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   Future<void> _selectDateIbu(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
-    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1945); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
@@ -213,7 +213,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
   Future<void> _selectDateKelahiranSebelumnyaIbu(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = now; // Set initial date to the year 1945
-    DateTime firstDate = DateTime(2000); // Set the first date to the year 1945
+    DateTime firstDate = DateTime(1975); // Set the first date to the year 1945
     DateTime lastDate = now; // Set the last date to the current date
 
     DateTime? pickedDate = await showDatePicker(
