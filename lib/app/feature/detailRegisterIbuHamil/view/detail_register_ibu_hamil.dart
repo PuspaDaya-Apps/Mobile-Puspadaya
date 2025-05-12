@@ -144,7 +144,7 @@ class _DetailRegisterIbuHamilViewState
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(8)),
                               InfoFieldWidget(
-                                  text: state.data.data!.ibuAnak.nomorTelepon),
+                                  text: state.data.data!.ibuAnak.nomorTelepon?? "-"),
                               SizedBox(
                                   height: SizeConfig.calHeightMultiplier(16)),
                               Text(

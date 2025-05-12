@@ -167,7 +167,7 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       rt: json['rt'] as String,
       rw: json['rw'] as String,
       alamat: json['alamat'] as String,
-      nomorTelepon: json['nomor_telepon'] as String,
+      nomorTelepon: json['nomor_telepon'] as String?,
       golDarah: json['gol_darah'] as String,
       jenisKb: json['jenis_kb'] as String,
       tanggalMelahirkanSebelumnya:
@@ -270,7 +270,7 @@ Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
       namaAyah: json['nama_ayah'] as String,
       tempatLahir: json['tempat_lahir'] as String,
       tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String),
-      nomorTelepon: json['nomor_telepon'] as String,
+      nomorTelepon: json['nomor_telepon'] as String?,
       rt: json['rt'] as String,
       rw: json['rw'] as String,
       alamat: json['alamat'] as String,

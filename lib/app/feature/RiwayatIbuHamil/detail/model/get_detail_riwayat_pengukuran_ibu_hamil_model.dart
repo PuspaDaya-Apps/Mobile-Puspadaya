@@ -107,7 +107,7 @@ class IbuAnak {
     @JsonKey(name: "alamat")
     final String alamat;
     @JsonKey(name: "nomor_telepon")
-    final String nomorTelepon;
+    final String? nomorTelepon;
     @JsonKey(name: "gol_darah")
     final String golDarah;
     @JsonKey(name: "jenis_kb")
@@ -178,7 +178,7 @@ class Ayah {
     @JsonKey(name: "tanggal_lahir")
     final DateTime tanggalLahir;
     @JsonKey(name: "nomor_telepon")
-    final String nomorTelepon;
+    final String? nomorTelepon;
     @JsonKey(name: "rt")
     final String rt;
     @JsonKey(name: "rw")
