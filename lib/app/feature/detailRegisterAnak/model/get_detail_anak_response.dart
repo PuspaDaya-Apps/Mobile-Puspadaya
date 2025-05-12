@@ -193,7 +193,7 @@ class Ibu {
     @JsonKey(name: "alamat")
     final String alamat;
     @JsonKey(name: "nomor_telepon")
-    final String nomorTelepon;
+    final String? nomorTelepon;
     @JsonKey(name: "gol_darah")
     final String golDarah;
     @JsonKey(name: "jenis_kb")
@@ -310,7 +310,7 @@ class Ayah {
   @JsonKey(name: "tanggal_lahir")
   final DateTime tanggalLahir;
   @JsonKey(name: "nomor_telepon")
-  final String nomorTelepon;
+  final String? nomorTelepon;
   @JsonKey(name: "rt")
   final String rt;
   @JsonKey(name: "rw")
@@ -318,7 +318,7 @@ class Ayah {
   @JsonKey(name: "alamat")
   final String alamat;
   @JsonKey(name: "gol_darah")
-  final String golDarah;
+  final String golDarah; 
   @JsonKey(name: "user_id")
   final String? userId;
   @JsonKey(name: "posyandu")

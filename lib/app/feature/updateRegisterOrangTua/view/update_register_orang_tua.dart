@@ -347,7 +347,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
 
                   if (detailData.data.ayah.nomorTelepon != "0") {
                     teleponAyahController.text =
-                        detailData.data.ayah.nomorTelepon;
+                        detailData.data.ayah.nomorTelepon??"-";
                   }
 
                   rTAyahController.text = detailData.data.ayah.rt;
@@ -376,7 +376,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                           : "";
                   if (detailData.data.ibu.nomorTelepon != "0") {
                     teleponIbuController.text =
-                        detailData.data.ibu.nomorTelepon;
+                        detailData.data.ibu.nomorTelepon??"-";
                   }
 
                   rTIbuController.text = detailData.data.ibu.rt;
