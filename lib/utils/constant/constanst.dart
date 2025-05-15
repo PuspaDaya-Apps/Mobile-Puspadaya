@@ -113,6 +113,20 @@ List<String> bulan = [
   "November",
   "Desember"
 ];
+final List<String> listBulanAkr = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'Mei',
+    'Jun',
+    'Jul',
+    'Ags',
+    'Sep',
+    'Okt',
+    'Nov',
+    'Des'
+  ];
 
 List<String> selectTahun = [
   (DateTime.now().year - 1).toString(),

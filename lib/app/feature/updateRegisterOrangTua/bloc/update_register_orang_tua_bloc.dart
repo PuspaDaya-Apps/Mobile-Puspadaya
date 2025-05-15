@@ -42,10 +42,14 @@ class UpdateRegisterOrangTuaBloc
           emit(UpdateRegisterOrangTuaFailedState(response[1].toString()));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
+        }else if (statusCode ==400){
+          logger.d("got trigger 400");
+
         } else {
-          UpdateRegisterOrangTuaFailedState("Terdapat Error");
+          emit(UpdateRegisterOrangTuaFailedState("Terdapat Error"));
         }
       } catch (e) {
+        logger.d('error $e');
         emit(UpdateRegisterOrangTuaFailedState(e.toString()));
       }
     }

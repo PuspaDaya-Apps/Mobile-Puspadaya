@@ -29,10 +29,8 @@ class GrafikKunjunganBloc
             await HomeApi().grafikKunjunganService(accessToken);
 
         int statusCode = response[0] as int;
-        final List<GrafikKunjunganResponseModel> dataGrafik =
-            (response[1] as List)
-                .map((e) => GrafikKunjunganResponseModel.fromJson(e))
-                .toList();
+        final GrafikKunjunganResponseModel dataGrafik = 
+            GrafikKunjunganResponseModel.fromJson(response[1]);
 
         if (statusCode == 200) {
           logger.d("success get grafik kunjungan");

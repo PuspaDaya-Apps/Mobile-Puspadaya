@@ -9,13 +9,15 @@ part of 'grafik_kunjungan_response_model.dart';
 GrafikKunjunganResponseModel _$GrafikKunjunganResponseModelFromJson(
         Map<String, dynamic> json) =>
     GrafikKunjunganResponseModel(
-      bulan: json['bulan'] as String,
-      total: (json['total'] as num).toInt(),
+      message: json['message'] as String,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => (e as num).toInt())
+          .toList(),
     );
 
 Map<String, dynamic> _$GrafikKunjunganResponseModelToJson(
         GrafikKunjunganResponseModel instance) =>
     <String, dynamic>{
-      'bulan': instance.bulan,
-      'total': instance.total,
+      'message': instance.message,
+      'data': instance.data,
     };

@@ -21,7 +21,7 @@ final class GrafikKunjunganFailed extends GrafikKunjunganState {
 }
 
 final class GrafikKunjunganSuccess extends GrafikKunjunganState {
-  final List<GrafikKunjunganResponseModel> grafikKunjungan;
+  final GrafikKunjunganResponseModel grafikKunjungan;
   const GrafikKunjunganSuccess(this.grafikKunjungan);
   @override
   List<Object> get props => [grafikKunjungan];

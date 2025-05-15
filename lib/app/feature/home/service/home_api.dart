@@ -36,7 +36,7 @@ class HomeApi {
   }
 
   Future<List<dynamic>> grafikKunjunganService (String token) async {
-    final String link = ApiUtils().urlGetGrafikKunjungan();
+    final String link = ApiUtils().urlGetGrafikKunjunganKetuaKader();
     final Map<String, dynamic> parameterQuery = {};
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {

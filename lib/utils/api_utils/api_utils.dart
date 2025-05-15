@@ -626,6 +626,10 @@ class ApiUtils {
     String urlGetGrafikKunjungan = LinkApi.KUNJUNGANURL;
     return "$_baseUrl$_apiVersion$urlGetGrafikKunjungan/grafik-kunjungan";
   }
+  String urlGetGrafikKunjunganKetuaKader() {
+    String urlGetGrafikKunjungan = LinkApi.KUNJUNGANURL;
+    return "$_baseUrl$_apiVersion$urlGetGrafikKunjungan/ketua-kader-count";
+  }
 
   String urlGetDetailKunjunganAnak(String id) {
     String urlGetDetailKunjunganAnak = LinkApi.KUNJUNGANURL;

@@ -283,11 +283,30 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
     super.dispose();
   }
 
-  void _goToNextTab() {
-    _tabController.animateTo(1); // Pindah ke tab Data Ibu
+ void _goToNextTab() {
+  final phoneNumber = teleponAyahController.text;
+  logger.d('Validating phone: $phoneNumber (${phoneNumber.length} digits)');
+
+  // Validasi 2: Cek length 10-13 karakter
+  if (phoneNumber.length < 10 || phoneNumber.length > 13) {
+    logger.d('Phone number length invalid');
+    showTopSnackBar(
+      Overlay.of(context),
+      animationDuration: const Duration(milliseconds: 600),
+      displayDuration: const Duration(milliseconds: 2200),
+      reverseAnimationDuration: const Duration(milliseconds: 300),
+      TopSnackbarWidget().error("Nomor telepon harus 10-13 digit"),
+    );
+    return; // Hentikan proses
   }
 
+  // Jika semua validasi passed:
+  logger.d('Phone number valid, proceeding to next tab');
+  _tabController.animateTo(1); // Pindah ke tab ibu
+}
+
   void _navigateBack() {
+    
     _tabController.animateTo(0);
   }
 

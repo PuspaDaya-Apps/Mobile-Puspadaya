@@ -17,6 +17,7 @@ import 'package:puspadaya/route/route_name.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/theme/shadow.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../model/current_user_model.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
@@ -232,6 +233,7 @@ class _HomeViewState extends State<HomeView> {
                     logger.d(state.grafikKunjungan);
                     return GraphData(
                       dataGrafik: state.grafikKunjungan,
+                      roleUser: widget.currentUserModel.role.namaRole,
                     );
                   }
                   return Container();
@@ -974,39 +976,22 @@ class CardMessages extends StatelessWidget {
 }
 
 class GraphData extends StatelessWidget {
-  final List<GrafikKunjunganResponseModel> dataGrafik;
+  final GrafikKunjunganResponseModel dataGrafik;
+  final String roleUser;
 
-  GraphData({super.key, required this.dataGrafik});
+  GraphData({super.key, required this.dataGrafik, required this.roleUser});
 
-  final List<String> listMonth = const [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"
-  ];
+  
+
 
   @override
   Widget build(BuildContext context) {
     List<BarChartGroupData> dataChart = List.generate(12, (index) {
-      final bulan = listMonth[index];
-      final data = dataGrafik.firstWhere(
-        (item) => item.bulan == bulan,
-        orElse: () => GrafikKunjunganResponseModel(
-            bulan: dataGrafik[index].bulan, total: dataGrafik[index].total),
-      );
       return BarChartGroupData(
         x: index,
         barRods: [
           BarChartRodData(
-            toY: data.total.toDouble(),
+            toY: dataGrafik.data[index].toDouble(),
             color: Colors.red,
             width: 16,
           ),
@@ -1038,7 +1023,7 @@ class GraphData extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Grafik Kunjungan Ketua Kader',
+            'Grafik Kunjungan $roleUser',
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.bold,
@@ -1064,7 +1049,7 @@ class GraphData extends StatelessWidget {
                     touchTooltipData: BarTouchTooltipData(
                       getTooltipColor: (_) => bluePrimary40,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        final month = listMonth[group.x.toInt()];
+                        final month = bulan[group.x.toInt()];
                         return BarTooltipItem(
                           '$month\n${rod.toY.toInt()} Kunjungan',
                           TextStyle(color: Colors.white),
