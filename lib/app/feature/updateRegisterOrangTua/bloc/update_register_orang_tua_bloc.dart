@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/model/patch_orang_tua_body.dart';
+import 'package:puspadaya/app/model/validation_error_model.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -42,9 +43,31 @@ class UpdateRegisterOrangTuaBloc
           emit(UpdateRegisterOrangTuaFailedState(response[1].toString()));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
-        }else if (statusCode ==400){
+        } else if (statusCode == 400) {
           logger.d("got trigger 400");
+          ValidationErrorModel validationError =
+              ValidationErrorModel.fromJson(response[1]);
+          // Coba ambil error dari beberapa kemungkinan field
+          final possibleFields = [
+            'ayah.nomor_telepon',
+            'ibu.nomor_telepon',
+            'ayah',
+            'ibu',
+          ];
+          String? getFirstAvailableError(
+              Map<String, List<String>> errors, List<String> fields) {
+            for (var field in fields) {
+              if (errors[field]?.isNotEmpty == true) {
+                return errors[field]!.first;
+              }
+            }
+            return null;
+          }
 
+          final errorMessage =
+              getFirstAvailableError(validationError.errors, possibleFields) ??
+                  validationError.message;
+          emit(UpdateRegisterOrangTuaFailedState(errorMessage));
         } else {
           emit(UpdateRegisterOrangTuaFailedState("Terdapat Error"));
         }
