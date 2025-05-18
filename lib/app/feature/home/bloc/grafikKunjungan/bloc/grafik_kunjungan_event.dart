@@ -8,5 +8,6 @@ sealed class GrafikKunjunganEvent extends Equatable {
 }
 
 final class GetGrafikKunjunganEvent extends GrafikKunjunganEvent {
-  const GetGrafikKunjunganEvent();
+  final String role;
+  const GetGrafikKunjunganEvent(this.role);
 }
