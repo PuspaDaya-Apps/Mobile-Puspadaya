@@ -622,10 +622,12 @@ class ApiUtils {
     return "$_baseUrl$_apiVersion$urlGetDataIbuHamilKunjungan/ibu-hamil-tidak-hadir";
   }
 
-  String urlGetGrafikKunjungan() {
+
+  String urlGetGrafikKunjunganKader() {
     String urlGetGrafikKunjungan = LinkApi.KUNJUNGANURL;
     return "$_baseUrl$_apiVersion$urlGetGrafikKunjungan/grafik-kunjungan";
   }
+
   String urlGetGrafikKunjunganKetuaKader() {
     String urlGetGrafikKunjungan = LinkApi.KUNJUNGANURL;
     return "$_baseUrl$_apiVersion$urlGetGrafikKunjungan/ketua-kader-count";

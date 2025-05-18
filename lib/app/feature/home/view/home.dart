@@ -70,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
     BlocProvider.of<JadwalPosyanduHomeBloc>(context)
         .add(GetJadwalHome(context));
     BlocProvider.of<GrafikKunjunganBloc>(context)
-        .add(GetGrafikKunjunganEvent());
+        .add(GetGrafikKunjunganEvent(widget.currentUserModel.role.namaRole));
     BlocProvider.of<TotalKunjunganBloc>(context)
         .add(TotalKunjunganFetchEvent());
   }
@@ -1032,7 +1032,7 @@ class GraphData extends StatelessWidget {
           ),
           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
           Text(
-            'Menampilkan grafik jumlah kunjungan yang telah dilakukan ketua kader',
+            'Menampilkan grafik jumlah kunjungan yang telah dilakukan $roleUser',
             style: TextStyle(
               fontSize: 8,
               fontWeight: FontWeight.w500,

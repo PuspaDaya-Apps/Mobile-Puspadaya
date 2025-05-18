@@ -122,7 +122,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200) {
+      if (statusResponse == 200|| statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -143,7 +143,7 @@ class NetworkUtils {
       debugPrint(statusResponse.toString());
       logger.e(bodyResponse.toString());
 
-      if (statusResponse == 200 || statusResponse == 201) {
+      if (statusResponse == 200 || statusResponse == 201 || statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -164,7 +164,7 @@ class NetworkUtils {
       debugPrint(bodyResponse['message'].toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200 || statusResponse == 201) {
+      if (statusResponse == 200 || statusResponse == 201 || statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -184,7 +184,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200) {
+      if (statusResponse == 200 || statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -207,7 +207,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200) {
+      if (statusResponse == 200 || statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -227,7 +227,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200) {
+      if (statusResponse == 200 || statusResponse == 400) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();

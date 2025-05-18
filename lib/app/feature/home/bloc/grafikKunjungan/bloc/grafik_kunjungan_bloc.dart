@@ -25,11 +25,22 @@ class GrafikKunjunganBloc
       emit(TokenExpiredState());
     } else {
       try {
-        List<dynamic> response =
-            await HomeApi().grafikKunjunganService(accessToken);
+        List<dynamic> response = [];
+        logger.d('role is ${event.role}');
+        if (event.role == "Ketua Kader") {
+          logger.d('role is ketua kader');
+          // ketua kader
+           response =
+              await HomeApi().grafikKunjunganKetuaKaderService(accessToken);
+        } else if (event.role == "Kader") {
+          logger.d('role is kader');
+          // kader
+           response =
+              await HomeApi().grafikKunjunganKaderService(accessToken);
+        }
 
         int statusCode = response[0] as int;
-        final GrafikKunjunganResponseModel dataGrafik = 
+        final GrafikKunjunganResponseModel dataGrafik =
             GrafikKunjunganResponseModel.fromJson(response[1]);
 
         if (statusCode == 200) {

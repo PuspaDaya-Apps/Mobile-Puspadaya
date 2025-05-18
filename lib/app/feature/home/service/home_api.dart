@@ -35,8 +35,17 @@ class HomeApi {
     });
   }
 
-  Future<List<dynamic>> grafikKunjunganService (String token) async {
+  Future<List<dynamic>> grafikKunjunganKetuaKaderService (String token) async {
     final String link = ApiUtils().urlGetGrafikKunjunganKetuaKader();
+    final Map<String, dynamic> parameterQuery = {};
+
+    return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {
+      debugPrint(response.toString());
+      return response;
+    });
+  }
+  Future<List<dynamic>> grafikKunjunganKaderService (String token) async {
+    final String link = ApiUtils().urlGetGrafikKunjunganKader();
     final Map<String, dynamic> parameterQuery = {};
 
     return await NetworkUtils(token: token).get(link, parameterQuery).then((response) {

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:puspadaya/app/model/validation_error_model.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -55,6 +56,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             .toJson()));
 
         emit(LoginSuccessState(loginResponseModel.data!.accessToken));
+      } else if (statusCode == 400) {
+        ValidationErrorModel validationError =
+            ValidationErrorModel.fromJson(response[1]);
+        logger.e(validationError.errors.toString());
+        final errorMessage = validationError.errors['username']?.first ?? validationError.message;
+        emit(LoginFailedState(errorMessage));
       } else {
         emit(LoginFailedState(loginResponseModel.message));
       }
@@ -76,7 +83,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       GetCurrentUserResponseModel getCurrentUserResponseModel =
           GetCurrentUserResponseModel.fromJson(response[1]);
 
-      if (statusCode == 200)  {
+      if (statusCode == 200) {
         SharedPrefUtils().storedCurrentUser(
             jsonEncode(getCurrentUserResponseModel.data!.toJson()));
 
