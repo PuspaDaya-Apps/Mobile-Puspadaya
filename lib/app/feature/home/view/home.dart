@@ -19,8 +19,11 @@ import 'package:puspadaya/utils/logger/logger.dart';
 import '../../../../config/theme/shadow.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../model/current_user_model.dart';
+import '../../../view/widget/alert_dialog_content.dart';
+import '../../../view/widget/alert_dialog_widget.dart';
 import '../../authorization/bloc/blocAuthorization/authorization_bloc.dart';
 import '../bloc/cardDataHomeBloc/card_data_home_bloc.dart';
+import '../bloc/internetBloc/internet_bloc.dart';
 import '../bloc/jadwalPosyanduHomeBloc/jadwal_posyandu_home_bloc.dart';
 import '../model/card_home_response_model.dart';
 import '../model/grafik_kunjungan_response_model.dart';
@@ -47,6 +50,7 @@ class Home extends StatelessWidget {
         BlocProvider(
           create: (context) => TotalKunjunganBloc(),
         ),
+        BlocProvider(create: (context) => InternetBloc())
       ],
       child: HomeView(currentUserModel: currentUserModel),
     );
@@ -73,12 +77,13 @@ class _HomeViewState extends State<HomeView> {
         .add(GetGrafikKunjunganEvent(widget.currentUserModel.role.namaRole));
     BlocProvider.of<TotalKunjunganBloc>(context)
         .add(TotalKunjunganFetchEvent());
+    BlocProvider.of<InternetBloc>(context).add(InternetObserve());
   }
 
   @override
   Widget build(BuildContext context) {
     final authorizationBloc = BlocProvider.of<AuthorizationBloc>(context);
-
+    final internetBloc = BlocProvider.of<InternetBloc>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -87,6 +92,7 @@ class _HomeViewState extends State<HomeView> {
           child: ListView(
             children: [
               ProfileSection(
+                bloc: internetBloc,
                 name: widget.currentUserModel.namaLengkap,
                 role: widget.currentUserModel.role.namaRole,
                 posyandu: widget.currentUserModel.posyandu.namaPosyandu,
@@ -663,6 +669,7 @@ class JadwalCard extends StatelessWidget {
 }
 
 class ProfileSection extends StatelessWidget {
+  final InternetBloc bloc;
   final String name;
   final String role;
   final String posyandu;
@@ -671,68 +678,251 @@ class ProfileSection extends StatelessWidget {
       {super.key,
       required this.name,
       required this.role,
-      required this.posyandu});
+      required this.posyandu,
+      required this.bloc});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        spacing: SizeConfig.calWidthMultiplier(12),
-        children: [
-          Image(
-            image: AssetImage(userImageDefault),
-            height: SizeConfig.calMultiplierImage(50),
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Hallo, $name',
-                  maxLines: 1,
-                  overflow: TextOverflow.clip,
-                  style: AppTextStyles.primaryTextSemibold.copyWith(
-                    color: textPrimary10,
-                    fontSize: 12,
-                  ),
+    return BlocListener<InternetBloc, InternetState>(
+      listener: (context, state) {
+        if (state is InternetConnected &&
+            state.showPopup &&
+            state.fromChecked) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialogContent(
+                mainButtonMessage: 'Tutup',
+                colorMainButton: bluePrimaryMain,
+                mainButton: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                title: "Cek Status Internet",
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Center(
+                      child: Text(
+                        'Status Internet Anda Sekarang Adalah',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Online',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: greenPrimaryMain,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                  ],
                 ),
-                Text(
-                  '$role - $posyandu',
-                  style: TextStyle(
-                    color: textSecondary1,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                NOTIFIKASI, // Kirimkan nama fitur sebagai argumen
               );
             },
-            child: Container(
-              width: SizeConfig.calWidthMultiplier(30),
-              height: SizeConfig.calHeightMultiplier(30),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: bluePrimaryMain.withValues(alpha: 0.3),
-              ),
-              child: Center(
-                child: FaIcon(
-                  FontAwesomeIcons.solidBell,
-                  color: bluePrimaryMain,
-                  size: 18,
+          );
+        } else if (state is InternetDisconnected &&
+            state.showPopup &&
+            state.fromChecked) {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialogContent(
+                mainButtonMessage: 'Tutup',
+                colorMainButton: bluePrimaryMain,
+                mainButton: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                title: "Cek Status Internet",
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Center(
+                      child: Text(
+                        'Status Internet Anda Sekarang Adalah',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Offline',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: redPrimaryMain,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                  ],
                 ),
+              );
+            },
+          );
+        } else if (state is InternetLoading) {
+          showGeneralDialog(
+            context: context,
+            barrierDismissible: false, // Tidak bisa ditutup dengan tap di luar
+            barrierColor:
+                Colors.black.withValues(alpha: 0.5), // Latar semi-transparan
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return PopScope(
+                canPop: false, // Blok tombol back
+                child: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.width * 0.3,
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: SpinKitThreeBounce(
+                      color: bluePrimaryMain,
+                      size: MediaQuery.of(context).size.width * 0.1,
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Row(
+          spacing: SizeConfig.calWidthMultiplier(12),
+          children: [
+            Image(
+              image: AssetImage(userImageDefault),
+              height: SizeConfig.calMultiplierImage(50),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Hallo, $name',
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
+                    style: AppTextStyles.primaryTextSemibold.copyWith(
+                      color: textPrimary10,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Text(
+                    '$role - $posyandu',
+                    style: TextStyle(
+                      color: textSecondary1,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
-        ],
+            BlocSelector<InternetBloc, InternetState, bool>(
+              selector: (state) => state.isDisconnected,
+              builder: (context, isDisconneected) {
+                return GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialogContent(
+                          mainButtonMessage: 'Cek Status Internet',
+                          colorMainButton: bluePrimaryMain,
+                          mainButton: () {
+                            bloc.add(CheckInternet());
+                            Navigator.pop(context);
+                          },
+                          title: "Status Internet",
+                          content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 24,
+                              ),
+                              Text('Status Internet Anda Adalah'),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                isDisconneected ? 'Offline' : 'Online',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: isDisconneected
+                                      ? redPrimaryMain
+                                      : greenPrimaryMain,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 24,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: SizeConfig.calWidthMultiplier(28),
+                    height: SizeConfig.calHeightMultiplier(28),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color:
+                          isDisconneected ? redPrimaryMain : greenPrimaryMain,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                  ),
+                );
+              },
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  NOTIFIKASI, // Kirimkan nama fitur sebagai argumen
+                );
+              },
+              child: Container(
+                width: SizeConfig.calWidthMultiplier(30),
+                height: SizeConfig.calHeightMultiplier(30),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: bluePrimaryMain.withValues(alpha: 0.3),
+                ),
+                child: Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.solidBell,
+                    color: bluePrimaryMain,
+                    size: 18,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -980,9 +1170,6 @@ class GraphData extends StatelessWidget {
   final String roleUser;
 
   GraphData({super.key, required this.dataGrafik, required this.roleUser});
-
-  
-
 
   @override
   Widget build(BuildContext context) {
