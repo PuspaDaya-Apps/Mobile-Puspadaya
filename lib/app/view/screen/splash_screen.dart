@@ -31,16 +31,19 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         debugPrint(state.toString());
-        if(state is AuthenticationFirstTime) {
-          BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationFalseEvent());
+        if (state is AuthenticationFirstTime) {
+          BlocProvider.of<AuthorizationBloc>(context)
+              .add(AuthorizationFalseEvent());
           Navigator.pushReplacementNamed(context, ONBOARDING);
         }
-        if(state is AuthenticationTrue) {
-          BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationTrueEvent());
+        if (state is AuthenticationTrue) {
+          BlocProvider.of<AuthorizationBloc>(context)
+              .add(AuthorizationTrueEvent());
           Navigator.pushReplacementNamed(context, HOME);
         }
-        if(state is AuthenticationFalse) {
-          BlocProvider.of<AuthorizationBloc>(context).add(AuthorizationFalseEvent());
+        if (state is AuthenticationFalse) {
+          BlocProvider.of<AuthorizationBloc>(context)
+              .add(AuthorizationFalseEvent());
           Navigator.pushReplacementNamed(context, LOGIN);
         }
       },
@@ -63,14 +66,14 @@ class _SplashScreenState extends State<SplashScreen> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding:
-                  EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
+                    EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
                 child: Text(
-                  "V. 0.2.1",
+                  "V. 2.0.1",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: SizeConfig.calMultiplierText(18),
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600),
+                      fontSize: SizeConfig.calMultiplierText(18),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
             )
