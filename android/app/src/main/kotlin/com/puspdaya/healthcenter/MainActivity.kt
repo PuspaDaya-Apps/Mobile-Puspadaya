@@ -1,4 +1,4 @@
-package com.example.mobile_puspadaya
+package com.puspdaya.healthcenter
 
 import io.flutter.embedding.android.FlutterActivity
 
