@@ -171,44 +171,46 @@ class _CheckListJobKunjunganAnakTidakHadirViewState
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Pilih tugas yang sudah dilakukan',
-            style: AppTextStyles.primaryTextMedium.copyWith(
-              fontSize: 16,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Pilih tugas yang sudah dilakukan',
+              style: AppTextStyles.primaryTextMedium.copyWith(
+                fontSize: 16,
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          ...listOfCheckboxKunjunganAnakTidakHadir.asMap().entries.map((entry) {
-            int index = entry.key;
-            CheckboxKunjungan item = entry.value;
-
-            return CheckboxListWidget(
-              isChecked: item.isChecked,
-              label: item.label,
-              onChanged: (value) {
-                if (index == listOfCheckboxKunjunganAnakTidakHadir.length - 1 &&
-                    value == true) {
-                  // Disable other checkboxes if the last one is selected
-                  for (int i = 0;
-                      i < listOfCheckboxKunjunganAnakTidakHadir.length - 1;
-                      i++) {
-                    listOfCheckboxKunjunganAnakTidakHadir[i].isChecked = false;
+            const SizedBox(height: 10),
+            ...listOfCheckboxKunjunganAnakTidakHadir.asMap().entries.map((entry) {
+              int index = entry.key;
+              CheckboxKunjungan item = entry.value;
+        
+              return CheckboxListWidget(
+                isChecked: item.isChecked,
+                label: item.label,
+                onChanged: (value) {
+                  if (index == listOfCheckboxKunjunganAnakTidakHadir.length - 1 &&
+                      value == true) {
+                    // Disable other checkboxes if the last one is selected
+                    for (int i = 0;
+                        i < listOfCheckboxKunjunganAnakTidakHadir.length - 1;
+                        i++) {
+                      listOfCheckboxKunjunganAnakTidakHadir[i].isChecked = false;
+                    }
                   }
-                }
-                _updateCheckbox(index, value);
-              },
-            );
-          }).toList(),
-          const SizedBox(height: 20),
-          ButtonPrimary(
-            color: bluePrimaryMain,
-            mainButtonMessage: 'Simpan',
-            mainButton: widget.goToNext,
-          ),
-        ],
+                  _updateCheckbox(index, value);
+                },
+              );
+            }).toList(),
+            const SizedBox(height: 20),
+            ButtonPrimary(
+              color: bluePrimaryMain,
+              mainButtonMessage: 'Simpan',
+              mainButton: widget.goToNext,
+            ),
+          ],
+        ),
       ),
     );
   }

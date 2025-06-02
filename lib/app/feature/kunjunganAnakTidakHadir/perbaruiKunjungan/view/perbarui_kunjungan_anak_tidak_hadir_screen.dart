@@ -237,114 +237,116 @@ class _FormTugasKunjunganAnakTidakHadirViewState
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Pilih tugas yang sudah dilakukan',
-                            style: AppTextStyles.primaryTextMedium.copyWith(
-                              fontSize: 16,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Column(
-                            children: [
-                              Column(
-                                children: List.generate(
-                                    listTugasKunjunganData.length, (index) {
-                                  return IgnorePointer(
-                                    ignoring: anaktidakAdaDirumah.isChecked,
-                                    child: CheckboxListWidget(
-                                      isChecked:
-                                          listTugasKunjunganData[index].isChecked,
-                                      label: listTugasKunjunganData[index].label,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          listTugasKunjunganData[index].isChecked =
-                                              value!;
-                                        });
-                                      },
-                                    ),
-                                  );
-                                }),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pilih tugas yang sudah dilakukan',
+                              style: AppTextStyles.primaryTextMedium.copyWith(
+                                fontSize: 16,
                               ),
-                              CheckboxListWidget(
-                                isChecked: anaktidakAdaDirumah.isChecked,
-                                label: anaktidakAdaDirumah.label,
-                                onChanged: (value) {
-                                  setState(() {
-                                    if (value == false) {
-                                      listTugasKunjunganData.clear();
-                                      listTugasKunjunganData.addAll(state
-                                          .listTugasKunjungan.data!
-                                          .map((e) => CheckboxKunjungan(
-                                              id: e.id, isChecked: false, label: e.namaTugas))
-                                          .toList());
-
-                                      for (var valueStored
-                                          in widget.modelDetailKunjungan.kunjunganTugasKader) {
-                                        logger.i('0');
-                                        for (var tugas in listTugasKunjunganData) {
-                                          logger.i('1');
-                                          if (valueStored.tugasKunjungan.id == tugas.id) {
-                                            logger.i(tugas.label);
-                                            tugas.isChecked = true;
+                            ),
+                            const SizedBox(height: 10),
+                            Column(
+                              children: [
+                                Column(
+                                  children: List.generate(
+                                      listTugasKunjunganData.length, (index) {
+                                    return IgnorePointer(
+                                      ignoring: anaktidakAdaDirumah.isChecked,
+                                      child: CheckboxListWidget(
+                                        isChecked:
+                                            listTugasKunjunganData[index].isChecked,
+                                        label: listTugasKunjunganData[index].label,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            listTugasKunjunganData[index].isChecked =
+                                                value!;
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                CheckboxListWidget(
+                                  isChecked: anaktidakAdaDirumah.isChecked,
+                                  label: anaktidakAdaDirumah.label,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == false) {
+                                        listTugasKunjunganData.clear();
+                                        listTugasKunjunganData.addAll(state
+                                            .listTugasKunjungan.data!
+                                            .map((e) => CheckboxKunjungan(
+                                                id: e.id, isChecked: false, label: e.namaTugas))
+                                            .toList());
+                        
+                                        for (var valueStored
+                                            in widget.modelDetailKunjungan.kunjunganTugasKader) {
+                                          logger.i('0');
+                                          for (var tugas in listTugasKunjunganData) {
+                                            logger.i('1');
+                                            if (valueStored.tugasKunjungan.id == tugas.id) {
+                                              logger.i(tugas.label);
+                                              tugas.isChecked = true;
+                                            }
                                           }
                                         }
+                                      } else {
+                                        listTugasKunjunganData.clear();
+                                        listTugasKunjunganData.addAll(
+                                          state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
+                                            id: e.id, isChecked: false, label: e.namaTugas)
+                                          ).toList()
+                                        );
                                       }
-                                    } else {
-                                      listTugasKunjunganData.clear();
-                                      listTugasKunjunganData.addAll(
-                                        state.listTugasKunjungan.data!.map((e) => CheckboxKunjungan(
-                                          id: e.id, isChecked: false, label: e.namaTugas)
-                                        ).toList()
-                                      );
-                                    }
-                           
-                                    anaktidakAdaDirumah.isChecked = value!;
+                             
+                                      anaktidakAdaDirumah.isChecked = value!;
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                            // ...widget.listTugasKunjungan.asMap().entries.map((entry) {
+                            //   int index = entry.key;
+                            //   CheckboxKunjungan item = entry.value;
+                        
+                            //   return CheckboxListWidget(
+                            //     isChecked: item.isChecked,
+                            //     label: item.label,
+                            //     onChanged: (value) {
+                            //       if (index == widget.listTugasKunjungan.length - 1 &&
+                            //           value == true) {
+                            //         // Disable other checkboxes if the last one is selected
+                            //         for (int i = 0;
+                            //             i < widget.listTugasKunjungan.length - 1;
+                            //             i++) {
+                            //           widget.listTugasKunjungan[i].isChecked = true;
+                            //         }
+                            //       }
+                            //       _updateCheckbox(index, value);
+                            //     },
+                            //   );
+                            // }).toList(),
+                            const SizedBox(height: 20),
+                            ButtonPrimary(
+                                color: bluePrimaryMain,
+                                mainButtonMessage: 'Simpan',
+                                mainButton: () {
+                                  setState(() {
+                                    _currentPage++;
                                   });
-                                },
-                              )
-                            ],
-                          ),
-                          // ...widget.listTugasKunjungan.asMap().entries.map((entry) {
-                          //   int index = entry.key;
-                          //   CheckboxKunjungan item = entry.value;
-
-                          //   return CheckboxListWidget(
-                          //     isChecked: item.isChecked,
-                          //     label: item.label,
-                          //     onChanged: (value) {
-                          //       if (index == widget.listTugasKunjungan.length - 1 &&
-                          //           value == true) {
-                          //         // Disable other checkboxes if the last one is selected
-                          //         for (int i = 0;
-                          //             i < widget.listTugasKunjungan.length - 1;
-                          //             i++) {
-                          //           widget.listTugasKunjungan[i].isChecked = true;
-                          //         }
-                          //       }
-                          //       _updateCheckbox(index, value);
-                          //     },
-                          //   );
-                          // }).toList(),
-                          const SizedBox(height: 20),
-                          ButtonPrimary(
-                              color: bluePrimaryMain,
-                              mainButtonMessage: 'Simpan',
-                              mainButton: () {
-                                setState(() {
-                                  _currentPage++;
-                                });
-                                _pageController.animateToPage(
-                                  _currentPage,
-                                  duration: const Duration(milliseconds: 300),
-                                  curve: Curves.easeInOut,
-                                );
-                                // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
-                                // widget.setTugasValue(widget.listTugasKunjungan);
-                              }),
-                        ],
+                                  _pageController.animateToPage(
+                                    _currentPage,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
+                                  // logger.i("jumlah di LIST =  ${widget.listTugasKunjungan.where((e) => e.isChecked).toList().length}");
+                                  // widget.setTugasValue(widget.listTugasKunjungan);
+                                }),
+                          ],
+                        ),
                       ),
                     );
                   }

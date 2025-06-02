@@ -1,32 +1,40 @@
 class ValidationErrorModel {
+  final String? statusCode;
   final String message;
-  final Map<String, List<String>> errors;
+  final Map<String, List<String>>? errors;
 
   ValidationErrorModel({
+    this.statusCode,
     required this.message,
-    required this.errors,
+    this.errors,
   });
 
   factory ValidationErrorModel.fromJson(Map<String, dynamic> json) {
     final parsedErrors = <String, List<String>>{};
 
-    final rawErrors = json['errors'] as Map<String, dynamic>;
+    // Cek apakah `errors` ada dan valid
+    if (json['errors'] is Map<String, dynamic>) {
+      final rawErrors = json['errors'] as Map<String, dynamic>;
 
-    rawErrors.forEach((field, value) {
-      if (value is List) {
-        parsedErrors[field] = List<String>.from(value);
-      } else if (value is Map) {
-        // handle nested fields: ayah.nomor_telepon, ibu.email, dll
-        value.forEach((subField, subValue) {
-          final key = '$field.$subField';
-          parsedErrors[key] = List<String>.from(subValue);
-        });
-      }
-    });
+      rawErrors.forEach((field, value) {
+        if (value is List) {
+          parsedErrors[field] = List<String>.from(value);
+        } else if (value is Map) {
+          // untuk nested field seperti "ayah.nomor_telepon"
+          value.forEach((subField, subValue) {
+            final key = '$field.$subField';
+            if (subValue is List) {
+              parsedErrors[key] = List<String>.from(subValue);
+            }
+          });
+        }
+      });
+    }
 
     return ValidationErrorModel(
+      statusCode: json['statusCode']?.toString(),
       message: json['message'] ?? 'Validation Error',
-      errors: parsedErrors,
+      errors: parsedErrors.isEmpty ? null : parsedErrors,
     );
   }
 }

@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/jadwal/create/model/post_jadwal_posyandu_model.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../../../model/validation_error_model.dart';
 import '../service/post_jadwal_posyandu.dart';
 
 part 'jadwal_create_event.dart';
@@ -29,7 +33,11 @@ class JadwalCreateBloc extends Bloc<JadwalCreateEvent, JadwalCreateState> {
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {
-          emit(JadwalCreateFailed(response[1].toString()));
+          ValidationErrorModel validationError =
+              ValidationErrorModel.fromJson(response[1]);
+          // logger.e(validationError.errors.toString());
+
+          emit(JadwalCreateFailed(validationError.message));
         }
       } catch (error) {
         emit(JadwalCreateFailed(error.toString()));
