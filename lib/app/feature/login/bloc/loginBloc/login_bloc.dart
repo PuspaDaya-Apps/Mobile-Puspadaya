@@ -60,7 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ValidationErrorModel validationError =
             ValidationErrorModel.fromJson(response[1]);
         logger.e(validationError.errors.toString());
-        final errorMessage = validationError.errors['username']?.first ?? validationError.message;
+        final errorMessage = validationError.errors?['username']?.first ?? validationError.message;
         emit(LoginFailedState(errorMessage));
       } else {
         emit(LoginFailedState(loginResponseModel.message));

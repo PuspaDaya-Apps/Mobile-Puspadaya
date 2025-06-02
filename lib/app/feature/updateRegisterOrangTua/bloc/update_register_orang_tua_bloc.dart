@@ -65,7 +65,7 @@ class UpdateRegisterOrangTuaBloc
           }
 
           final errorMessage =
-              getFirstAvailableError(validationError.errors, possibleFields) ??
+              getFirstAvailableError(validationError.errors!, possibleFields) ??
                   validationError.message;
           emit(UpdateRegisterOrangTuaFailedState(errorMessage));
         } else {

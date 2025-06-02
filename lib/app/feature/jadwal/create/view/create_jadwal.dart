@@ -46,7 +46,6 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
   TimeOfDay? _startTime;
   TimeOfDay? _endTime;
 
-
   Future<void> _selectDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       cancelText: "Batalkan",
@@ -159,7 +158,15 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                   TopSnackbarWidget().success("Berhasil Membuat Jadwal"),
                 );
                 Navigator.pop(context, true);
+              } else if (state is JadwalCreateFailed) {
+                showTopSnackBar(
+                    Overlay.of(context),
+                    animationDuration: const Duration(milliseconds: 600),
+                    displayDuration: const Duration(milliseconds: 2200),
+                    reverseAnimationDuration: const Duration(milliseconds: 300),
+                    TopSnackbarWidget().error(state.message));
               }
+              ;
             },
             builder: (context, state) {
               return Container(
