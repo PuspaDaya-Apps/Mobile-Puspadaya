@@ -2585,15 +2585,18 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                   ayah: PatchOrangTua.Ayah(
                                                     alamat: alamatAyahController
                                                         .text,
-                                                    nomorKartuKeluarga:
-                                                        kkAyahController.text,
+                                                    nomorKartuKeluarga: kkAyahController.text == detailData.data.ayah.kartuKeluarga.nomorKartuKeluarga 
+                                                    ? null 
+                                                    : kkAyahController.text,
                                                     dusunId:
                                                         selectedDusunAyah!.id,
                                                     golDarah:
                                                         selectedGolDarahAyah!,
                                                     namaAyah:
                                                         namaAyahController.text,
-                                                    nik: nikAyahController.text,
+                                                    nik: nikAyahController.text == detailData.data.ayah.nik
+                                                    ? null
+                                                    : nikAyahController.text,
                                                     nomorTelepon:
                                                         teleponAyahController
                                                                 .text.isNotEmpty
@@ -2633,15 +2636,18 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                         selectedJenisKBIbu!,
                                                     alamat: alamatIbuController
                                                         .text,
-                                                    nomorKartuKeluarga:
-                                                        kkIbuController.text,
+                                                    nomorKartuKeluarga: kkIbuController.text == detailData.data.ibu.kartuKeluarga.nomorKartuKeluarga
+                                                    ? null
+                                                    : kkIbuController.text,
                                                     dusunId:
                                                         selectedDusunIbu!.id,
                                                     golDarah:
                                                         selectedGolDarahIbu!,
                                                     namaIbu:
                                                         namaIbuController.text,
-                                                    nik: nikIbuController.text,
+                                                    nik: nikIbuController.text == detailData.data.ibu.nik
+                                                    ? null
+                                                    : nikIbuController.text,
                                                     nomorTelepon:
                                                         teleponIbuController
                                                                 .text.isNotEmpty
