@@ -161,7 +161,7 @@ class _RegisterOrangTuaViewState extends State<RegisterOrangTuaView> {
                                 namaAyah: orangTua.husband,
                                 namaIbu: orangTua.wife,
                                 profile: orangTua.initial,
-                                isUpdate: orangTua.updatedAtAyah != null &&
+                                isUpdate: orangTua.updatedAtAyah != null ||
                                         orangTua.updatedAtIbu != null
                                     ? true
                                     : null,
