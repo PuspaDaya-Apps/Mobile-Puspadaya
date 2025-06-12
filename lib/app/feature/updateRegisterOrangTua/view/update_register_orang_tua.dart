@@ -2422,23 +2422,58 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                           SizedBox(
                                               height: SizeConfig
                                                   .calHeightMultiplier(8)),
-                                          DateTimePickerWidget(
-                                            isDate: true,
-                                            controller:
-                                                tanggalKelahiranAnakSebelumnyaIbuController,
-                                            selectDate: () {
-                                              _selectDateKelahiranSebelumnyaIbu(
-                                                  context);
-                                            },
-                                            hintText:
-                                                "Tanggal Lahiran Anak Sebelumnya",
-                                            // validator: (value) {
-                                            //   if (value == null ||
-                                            //       value.isEmpty) {
-                                            //     return "Tanggal harus dipilih";
-                                            //   }
-                                            //   return null;
-                                            // },
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            spacing: 10,
+                                            children: [
+                                              Flexible(
+                                                child: DateTimePickerWidget(
+                                                  isDate: true,
+                                                  controller:
+                                                      tanggalKelahiranAnakSebelumnyaIbuController,
+                                                  selectDate: () {
+                                                    _selectDateKelahiranSebelumnyaIbu(
+                                                        context);
+                                                  },
+                                                  hintText:
+                                                      "Tanggal Lahiran Anak Sebelumnya",
+                                                  // validator: (value) {
+                                                  //   if (value == null ||
+                                                  //       value.isEmpty) {
+                                                  //     return "Tanggal harus dipilih";
+                                                  //   }
+                                                  //   return null;
+                                                  // },
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                // height: 100,
+                                                child: ElevatedButton(
+                                                 onPressed:  () {
+                                                  setState(() {
+                                                    tanggalKelahiranAnakSebelumnyaIbuController.text = "";
+                                                  });
+                                                 },
+                                                 style: ElevatedButton.styleFrom(
+                                                    backgroundColor: redPrimaryMain,
+                                                    foregroundColor: Colors.white,
+                                                    // minimumSize: Size(double.infinity, 52),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                  ),
+                                                 child: Text(
+                                                  "Hapus",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                  ),
+                                                 ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           SizedBox(
                                               height: SizeConfig
@@ -2583,13 +2618,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                     }).toList(),
                                                   ),
                                                   ibu: PatchOrangTua.Ibu(
-                                                    tanggalMelahirkanSebelumnya:
-                                                        tanggalKelahiranAnakSebelumnyaIbuController
-                                                                    .text !=
-                                                                ""
-                                                            ? tanggalKelahiranAnakSebelumnyaIbuController
-                                                                .text
-                                                            : null,
+                                                    tanggalMelahirkanSebelumnya: tanggalKelahiranAnakSebelumnyaIbuController.text !=""
+                                                      ? tanggalKelahiranAnakSebelumnyaIbuController.text
+                                                      : null,
                                                     jumlahAnak:
                                                         jumlahAnakIbuController
                                                                     .text !=
