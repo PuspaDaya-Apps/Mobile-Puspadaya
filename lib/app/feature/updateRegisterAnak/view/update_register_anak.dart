@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
@@ -15,6 +16,7 @@ import '../../../view/widget/dropdown_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../bloc/update_anak_bloc.dart';
 import '../model/update_anak_model.dart';
@@ -109,7 +111,9 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     tempatLahirController = TextEditingController(
         text: widget.getDetailAnakResponse.data!.tempatLahir);
     tanggalLahirController = TextEditingController(
-        text: widget.getDetailAnakResponse.data!.tanggalLahir?.toString().split(' ')[0]);
+        text: widget.getDetailAnakResponse.data!.tanggalLahir
+            ?.toString()
+            .split(' ')[0]);
     lingkarLenganController = TextEditingController(
         text: widget.getDetailAnakResponse.data!.lingkarLenganAtasLahir);
     lingkarKepalaController = TextEditingController(
@@ -261,11 +265,9 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     isPasswordField: false,
                     validators: [
                       (value) => Validator.required(
-                        value,
-                      ),
-                      (value) => Validator.mustPositiveNumber(
-                        value: value
-                      ),
+                            value,
+                          ),
+                      (value) => Validator.mustPositiveNumber(value: value),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -571,6 +573,15 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                     listener: (context, state) {
                       if (state is UpdateAnakSuccessState) {
                         Navigator.pop(context, 1);
+                      } else if (state is UpdateAnakFailedState) {
+                        showTopSnackBar(
+                            Overlay.of(context),
+                            animationDuration:
+                                const Duration(milliseconds: 600),
+                            displayDuration: const Duration(milliseconds: 2200),
+                            reverseAnimationDuration:
+                                const Duration(milliseconds: 300),
+                            TopSnackbarWidget().error(state.error));
                       }
                     },
                     builder: (context, state) {
@@ -578,7 +589,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                         color: bluePrimaryMain,
                         mainButtonMessage: 'Simpan',
                         mainButton: () {
-                          logger.d("jarak posyandu update ${jarakPosyanduController.text}");
+                          logger.d(
+                              "jarak posyandu update ${jarakPosyanduController.text}");
                           if (_formKey.currentState!.validate()) {
                             updateAnakBloc.add(UpdateAnak(
                                 id: widget.getDetailAnakResponse.data!.id!,

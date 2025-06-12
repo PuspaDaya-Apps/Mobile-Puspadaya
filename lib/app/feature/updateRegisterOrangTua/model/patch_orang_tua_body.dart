@@ -31,9 +31,9 @@ class PatchOrangTuaBody {
 //@JsonSerializable()
 class Ayah {
   @JsonKey(name: "nomor_kartu_keluarga")
-  final String nomorKartuKeluarga;
+  String? nomorKartuKeluarga;
   @JsonKey(name: "nik")
-  final String nik;
+  String nik;
   @JsonKey(name: "nama_ayah")
   final String namaAyah;
   @JsonKey(name: "tempat_lahir")
@@ -56,7 +56,7 @@ class Ayah {
   final List<JenisDisabilitas> jenisDisabilitas;
 
   Ayah({
-    required this.nomorKartuKeluarga,
+    this.nomorKartuKeluarga,
     required this.nik,
     required this.namaAyah,
     required this.tempatLahir,
@@ -129,9 +129,9 @@ class JenisDisabilitas {
 //@JsonSerializable()
 class Ibu {
   @JsonKey(name: "nomor_kartu_keluarga")
-  final String nomorKartuKeluarga;
+  String? nomorKartuKeluarga;
   @JsonKey(name: "nik")
-  final String nik;
+  String nik;
   @JsonKey(name: "nama_ibu")
   final String namaIbu;
   @JsonKey(name: "tempat_lahir")
@@ -160,7 +160,7 @@ class Ibu {
   final List<JenisDisabilitas> jenisDisabilitas;
 
   Ibu({
-    required this.nomorKartuKeluarga,
+    this.nomorKartuKeluarga,
     required this.nik,
     required this.namaIbu,
     required this.tempatLahir,
@@ -231,7 +231,7 @@ Map<String, dynamic> _$PatchOrangTuaBodyToJson(PatchOrangTuaBody instance) =>
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
-      nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
+      nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String?,
       nik: json['nik'] as String,
       namaAyah: json['nama_ayah'] as String,
       tempatLahir: json['tempat_lahir'] as String,
@@ -273,7 +273,7 @@ Map<String, dynamic> _$JenisDisabilitasToJson(JenisDisabilitas instance) =>
     };
 
 Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
-      nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
+      nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String?,
       nik: json['nik'] as String,
       namaIbu: json['nama_ibu'] as String,
       tempatLahir: json['tempat_lahir'] as String,
