@@ -2594,9 +2594,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                         selectedGolDarahAyah!,
                                                     namaAyah:
                                                         namaAyahController.text,
-                                                    nik: nikAyahController.text == detailData.data.ayah.nik
-                                                    ? null
-                                                    : nikAyahController.text,
+                                                    nik: nikAyahController.text,
                                                     nomorTelepon:
                                                         teleponAyahController
                                                                 .text.isNotEmpty
@@ -2645,9 +2643,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                                         selectedGolDarahIbu!,
                                                     namaIbu:
                                                         namaIbuController.text,
-                                                    nik: nikIbuController.text == detailData.data.ibu.nik
-                                                    ? null
-                                                    : nikIbuController.text,
+                                                    nik: nikIbuController.text,
                                                     nomorTelepon:
                                                         teleponIbuController
                                                                 .text.isNotEmpty
