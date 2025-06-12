@@ -199,7 +199,7 @@ class Ibu {
     @JsonKey(name: "jenis_kb")
     final String jenisKb;
     @JsonKey(name: "tanggal_melahirkan_sebelumnya")
-    final DateTime tanggalMelahirkanSebelumnya;
+    final DateTime? tanggalMelahirkanSebelumnya;
     @JsonKey(name: "jumlah_anak")
     final int jumlahAnak;
     @JsonKey(name: "user_id")
