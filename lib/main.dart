@@ -1,5 +1,3 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -27,10 +25,10 @@ void main() async {
     ),
   );
 
-  // Enable verbose logging for debugging (remove in production)
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   // Initialize with your OneSignal App ID
   OneSignal.initialize(ONESIGNAL_APP_ID);
+  // Enable verbose logging for debugging (remove in production)
   // Use this method to prompt for push notifications.
   // We recommend removing this method after testing and instead use In-App Messages to prompt for notification permission.
   OneSignal.Notifications.requestPermission(true);
