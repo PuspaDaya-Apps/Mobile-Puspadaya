@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/bloc/create_register_orang_tua_bloc.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ayah.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ibu.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/top_snackbar/top_snackbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../utils/logger/logger.dart';
-import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
-import '../bloc/create_register_orang_tua_bloc.dart';
-import '../cubit/orang_tua_cubit.dart';
-import 'create_register_ayah.dart';
 
 class CreateRegisterOrangTua extends StatelessWidget {
   const CreateRegisterOrangTua({super.key});
@@ -29,8 +30,8 @@ class CreateRegisterOrangTua extends StatelessWidget {
         BlocProvider<CreateRegisterOrangTuaBloc>(
           create: (BuildContext context) => CreateRegisterOrangTuaBloc(),
         ),
-        BlocProvider<OrangTuaCubit>(
-            create: (BuildContext context) => OrangTuaCubit()),
+        BlocProvider<OrangTuaFormCubit>(
+            create: (BuildContext context) => OrangTuaFormCubit()),
       ],
       child: CreateRegisterOrangTuaView(),
     );
@@ -48,6 +49,7 @@ class CreateRegisterOrangTuaView extends StatefulWidget {
 class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late OrangTuaFormCubit orangTuaCubit;
 
   // Data yang akan dikumpulkan
 
@@ -60,11 +62,13 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
+    orangTuaCubit = context.read<OrangTuaFormCubit>();
   }
 
   void _submitAllData() {
-    final cubit = context.read<OrangTuaCubit>();
-    final postData = cubit.getPostBody();
+    PostOrangTuaBody postData = orangTuaCubit.getPostBody();
+    // post_orang_tua postData = orangTuaCubit.getPostBody();
+    logger.d(postData);
     context
         .read<CreateRegisterOrangTuaBloc>()
         .add(SendRegisterOrangTua(postOrangTuaBody: postData));
@@ -79,7 +83,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   @override
   Widget build(BuildContext context) {
-    final orangTuaCubit = context.read<OrangTuaCubit>();
+
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(

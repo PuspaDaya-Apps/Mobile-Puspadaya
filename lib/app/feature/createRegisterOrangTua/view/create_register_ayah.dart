@@ -2,31 +2,31 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_cubit.dart';
+import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart' as post_orang_tua_body;
+import 'package:puspadaya/app/model/data_wilayah_model.dart';
+import 'package:puspadaya/app/view/widget/checkbox_list_widget.dart';
+import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
+import 'package:puspadaya/app/view/widget/dropdown_widget.dart';
+import 'package:puspadaya/app/view/widget/outline_button_widget.dart';
+import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+import 'package:puspadaya/app/view/widget/top_snackbar/top_snackbar_widget.dart';
+import 'package:puspadaya/config/screen_config/image_config.dart';
+import 'package:puspadaya/config/screen_config/size_config.dart';
+import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/utils/constant/constanst.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import '../../../../config/screen_config/image_config.dart';
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/pallet_color.dart';
-import '../../../../config/theme/text_style.dart';
-import '../../../../utils/constant/constanst.dart';
-import '../../../../utils/logger/logger.dart';
-import '../../../model/data_wilayah_model.dart';
-import '../../../view/widget/checkbox_list_widget.dart';
-import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/outline_button_widget.dart';
-import '../../../view/widget/primary_button_widget.dart';
-import '../../../view/widget/text_field_widget2.dart';
-import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
-import '../model/post_orang_tua_body.dart' as post_orang_tua_body;
 
 class CreateRegisterAyah extends StatelessWidget {
   final VoidCallback onNext;
-  final OrangTuaCubit cubit;
+  final OrangTuaFormCubit cubit;
 
   const CreateRegisterAyah(
       {super.key, required this.onNext, required this.cubit});
@@ -50,7 +50,7 @@ class CreateRegisterAyah extends StatelessWidget {
 }
 
 class CreateRegisterAyahView extends StatefulWidget {
-  final OrangTuaCubit cubit;
+  final OrangTuaFormCubit cubit;
   final VoidCallback onNext;
   const CreateRegisterAyahView(
       {super.key, required this.onNext, required this.cubit});
