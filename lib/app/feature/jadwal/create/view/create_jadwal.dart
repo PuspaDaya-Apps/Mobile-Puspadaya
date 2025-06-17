@@ -288,6 +288,7 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         TextFieldWidget(
+                          
                           maxLength: 25,
                           controller: _locationController,
                           hintText: "Masukan Lokasi Kegiatan",

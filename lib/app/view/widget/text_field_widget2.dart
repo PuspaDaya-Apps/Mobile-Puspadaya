@@ -1,10 +1,9 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
-import 'package:puspadaya/config/theme/pallet_color.dart';
-import 'package:puspadaya/config/validator/validator.dart';
 
-class TextFieldWidget extends StatelessWidget {
+import '../../../config/theme/pallet_color.dart';
+
+class TextFieldWidget2 extends StatelessWidget {
+  final GlobalKey<FormFieldState>? formFieldKey;
   final int? maxLength;
   final TextEditingController controller;
   final String hintText;
@@ -13,28 +12,31 @@ class TextFieldWidget extends StatelessWidget {
   final bool isPasswordField;
   final VoidCallback? onToggleVisibility;
   final bool? isEnable;
-  // final FormFieldValidator<String>? validator;
-  final List<String? Function(String)>? validators;
-  final ValueSetter? valueSet;
-  final FocusNode? focusNode;
 
-  TextFieldWidget(
+  final ValueSetter? valueSet;
+  final FocusNode focusNode;
+  final String? Function(String?)? validator;
+
+  TextFieldWidget2(
       {super.key,
-      this.focusNode,
+      this.formFieldKey,
+      required this.focusNode,
       this.isEnable,
+      this.validator,
       required this.controller,
       required this.hintText,
       required this.keyboardType,
       required this.obscureText,
       required this.isPasswordField,
       this.onToggleVisibility,
-      this.validators,
       this.maxLength,
       this.valueSet});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: formFieldKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       focusNode: focusNode,
       maxLength: maxLength,
       enabled: isEnable ?? true,
@@ -82,18 +84,11 @@ class TextFieldWidget extends StatelessWidget {
                 onPressed: onToggleVisibility,
               )
             : null,
-      ),
-      validator: (value) => validators != null
-          ? Validator.validateField(
-              value!,
-              validators!,
-            )
-          : null, // Call validateField only if validators are provided
+      ), // Call validateField only if validators are provided
+      validator: validator,
       onChanged: (value) {
-        if (valueSet != null) {
-          valueSet!(
-              value); // Gunakan valueSet untuk update eksternal tanpa mereset controller
-        }
+        // Hanya trigger perubahan jika benar-benar diperlukan
+        valueSet?.call(value);
       },
     );
   }
