@@ -7,7 +7,8 @@ import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cu
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart' as post_orang_tua_body;
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart'
+    as post_orang_tua_body;
 import 'package:puspadaya/app/model/data_wilayah_model.dart';
 import 'package:puspadaya/app/view/widget/checkbox_list_widget.dart';
 import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
@@ -23,8 +24,6 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
-
 
 class CreateRegisterIbu extends StatelessWidget {
   final VoidCallback onSave;
@@ -391,6 +390,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         children: [
                           Expanded(
                             child: TextFieldWidget2(
+                              fieldName: 'kkIbu',
+                              onTap: () {},
                               focusNode: kkIbuFocusNode,
                               formFieldKey: kkIbuKey,
                               controller: kkIbuController,
@@ -398,11 +399,11 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validator: FormBuilderValidators.compose([
+                              clientValidators: [
                                 FormBuilderValidators.required(),
                                 FormBuilderValidators.numeric(),
                                 FormBuilderValidators.equalLength(16),
-                              ]),
+                              ],
                             ),
                           ),
                           GestureDetector(
@@ -483,6 +484,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         children: [
                           Expanded(
                             child: TextFieldWidget2(
+                                fieldName: 'nikIbu',
                                 focusNode: nikIbuFocusNode,
                                 formFieldKey: nikIbuKey,
                                 controller: nikIbuController,
@@ -490,11 +492,12 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validator: FormBuilderValidators.compose([
+                                onTap: () {},
+                                clientValidators: [
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.numeric(),
                                   FormBuilderValidators.equalLength(16),
-                                ])),
+                                ]),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -553,6 +556,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
+                      fieldName: 'namaIbu',
+                      onTap: () {},
                       focusNode: namaIbuFocusNode,
                       formFieldKey: namaIbuKey,
                       controller: namaIbuController,
@@ -560,9 +565,9 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                       isPasswordField: false,
                       keyboardType: TextInputType.text,
                       obscureText: false,
-                      validator: FormBuilderValidators.compose([
+                      clientValidators: [
                         FormBuilderValidators.required(),
-                      ])),
+                      ]),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -580,6 +585,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             TextFieldWidget2(
+                              fieldName: 'tempatLahirIbu',
+                              onTap: () {},
                               focusNode: tempatLahirIbuFocusNode,
                               formFieldKey: tempatLahirIbuKey,
                               controller: tempatLahirIbuController,
@@ -587,9 +594,9 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               keyboardType: TextInputType.text,
                               obscureText: false,
                               isPasswordField: false,
-                              validator: FormBuilderValidators.compose([
+                              clientValidators: [
                                 FormBuilderValidators.required(),
-                              ]),
+                              ],
                             ),
                           ],
                         ),
@@ -999,6 +1006,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     children: [
                       Expanded(
                         child: TextFieldWidget2(
+                            fieldName: 'rtIbu',
+                            onTap: () {},
                             controller: rTIbuController,
                             focusNode: rtIbuFocusNode,
                             formFieldKey: rtIbuKey,
@@ -1006,36 +1015,39 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                             isPasswordField: false,
                             keyboardType: TextInputType.number,
                             obscureText: false,
-                            validator: FormBuilderValidators.compose(
-                                [FormBuilderValidators.required()])),
+                            clientValidators: [
+                              FormBuilderValidators.required()
+                            ]),
                       ),
                       Expanded(
                         child: TextFieldWidget2(
-                            focusNode: rwIbuFocusNode,
-                            formFieldKey: rwIbuKey,
-                            controller: rWIbuController,
-                            hintText: 'RW',
-                            isPasswordField: false,
-                            keyboardType: TextInputType.number,
-                            obscureText: false,
-                            validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required()],
-                            )),
+                          onTap: () {},
+                          fieldName: 'rwIbu ',
+                          focusNode: rwIbuFocusNode,
+                          formFieldKey: rwIbuKey,
+                          controller: rWIbuController,
+                          hintText: 'RW',
+                          isPasswordField: false,
+                          keyboardType: TextInputType.number,
+                          obscureText: false,
+                          clientValidators: [FormBuilderValidators.required()],
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
-                      focusNode: alamatIbuFocusNode,
-                      formFieldKey: alamatIbuKey,
-                      controller: alamatIbuController,
-                      hintText: 'Masukan alamat lengkap',
-                      keyboardType: TextInputType.text,
-                      obscureText: false,
-                      isPasswordField: false,
-                      validator: FormBuilderValidators.compose(
-                        [FormBuilderValidators.required()],
-                      )),
+                    onTap: () {},
+                    fieldName: 'alamatIbu',
+                    focusNode: alamatIbuFocusNode,
+                    formFieldKey: alamatIbuKey,
+                    controller: alamatIbuController,
+                    hintText: 'Masukan alamat lengkap',
+                    keyboardType: TextInputType.text,
+                    obscureText: false,
+                    isPasswordField: false,
+                    clientValidators: [FormBuilderValidators.required()],
+                  ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Nomor Telepon (WA aktif)',
@@ -1043,21 +1055,22 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
-                      controller: teleponIbuController,
-                      focusNode: teleponIbuFocusNode,
-                      formFieldKey: teleponIbuKey,
-                      hintText: 'Masukan nomor telepon',
-                      keyboardType: TextInputType.phone,
-                      obscureText: false,
-                      isPasswordField: false,
-                      validator: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.minLength(10,
-                              checkNullOrEmpty: false),
-                          FormBuilderValidators.maxLength(13,
-                              checkNullOrEmpty: false)
-                        ],
-                      )),
+                    onTap: () {},
+                    fieldName: 'teleponIbu',
+                    controller: teleponIbuController,
+                    focusNode: teleponIbuFocusNode,
+                    formFieldKey: teleponIbuKey,
+                    hintText: 'Masukan nomor telepon',
+                    keyboardType: TextInputType.phone,
+                    obscureText: false,
+                    isPasswordField: false,
+                    clientValidators: [
+                      FormBuilderValidators.minLength(10,
+                          checkNullOrEmpty: false),
+                      FormBuilderValidators.maxLength(13,
+                          checkNullOrEmpty: false)
+                    ],
+                  ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1155,16 +1168,17 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
-                      focusNode: jumlahAnakIbuFocusNode,
-                      formFieldKey: jumlahAnakIbuKey,
-                      controller: jumlahAnakIbuController,
-                      hintText: 'Jumlah Anak',
-                      keyboardType: TextInputType.number,
-                      obscureText: false,
-                      isPasswordField: false,
-                      validator: FormBuilderValidators.compose(
-                        [FormBuilderValidators.numeric()],
-                      )),
+                    fieldName: 'jumlahAnakIbu',
+                    onTap: () {},
+                    focusNode: jumlahAnakIbuFocusNode,
+                    formFieldKey: jumlahAnakIbuKey,
+                    controller: jumlahAnakIbuController,
+                    hintText: 'Jumlah Anak',
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    isPasswordField: false,
+                    clientValidators: [FormBuilderValidators.numeric()],
+                  ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
                     'Disabilitas',

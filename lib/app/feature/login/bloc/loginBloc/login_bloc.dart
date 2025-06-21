@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:puspadaya/app/model/validation_error_model.dart';
+import 'package:puspadaya/config/validator/validation_error_model.dart';
 
 import '../../../../../utils/logger/logger.dart';
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -28,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 
     on<GetCurrentUserEvent>(getCurrentUser);
+    on<ResetFormEvent>((event, emit) => emit(LoginInitial()));
   }
 
   Future<void> login(SendLoginEvent event, Emitter<LoginState> emit) async {
@@ -57,11 +59,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         emit(LoginSuccessState(loginResponseModel.data!.accessToken));
       } else if (statusCode == 400) {
+        logger.e("error 400 login");
         ValidationErrorModel validationError =
             ValidationErrorModel.fromJson(response[1]);
-        logger.e(validationError.errors.toString());
-        final errorMessage = validationError.errors?['username']?.first ?? validationError.message;
-        emit(LoginFailedState(errorMessage));
+        if (validationError.errors == null) {
+          logger.d('validationError.message = ${validationError.message}');
+          emit(LoginFailedState(validationError.message));
+        } else {
+          logger.d('validationError.errors = ${validationError.errors}');
+          emit(LoginFailedFormState(validationError.errors));
+        }
       } else {
         emit(LoginFailedState(loginResponseModel.message));
       }

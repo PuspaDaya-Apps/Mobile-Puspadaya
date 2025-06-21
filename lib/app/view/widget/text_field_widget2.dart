@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/config/validator/form_error_provider.dart';
 
 import '../../../config/theme/pallet_color.dart';
 
 class TextFieldWidget2 extends StatelessWidget {
+  final String fieldName; // ini harus sama dengan nama key dari error
   final GlobalKey<FormFieldState>? formFieldKey;
   final int? maxLength;
   final TextEditingController controller;
@@ -12,29 +14,35 @@ class TextFieldWidget2 extends StatelessWidget {
   final bool isPasswordField;
   final VoidCallback? onToggleVisibility;
   final bool? isEnable;
-
+  final GestureTapCallback onTap;
   final ValueSetter? valueSet;
   final FocusNode focusNode;
-  final String? Function(String?)? validator;
+  final List<FormFieldValidator<String>>? clientValidators;
 
-  TextFieldWidget2(
-      {super.key,
-      this.formFieldKey,
-      required this.focusNode,
-      this.isEnable,
-      this.validator,
-      required this.controller,
-      required this.hintText,
-      required this.keyboardType,
-      required this.obscureText,
-      required this.isPasswordField,
-      this.onToggleVisibility,
-      this.maxLength,
-      this.valueSet});
+  TextFieldWidget2({
+    super.key,
+    this.formFieldKey,
+    this.isEnable,
+    this.onToggleVisibility,
+    this.maxLength,
+    this.valueSet,
+    required this.focusNode,
+    required this.controller,
+    required this.hintText,
+    required this.keyboardType,
+    required this.obscureText,
+    required this.isPasswordField,
+    required this.onTap,
+    required this.clientValidators,
+    required this.fieldName,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final errorProvider = FormErrorProvider.of(context);
+    final serverError = errorProvider?.errors?[fieldName]?.join(', ');
     return TextFormField(
+      onTap: onTap,
       key: formFieldKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       focusNode: focusNode,
@@ -45,6 +53,7 @@ class TextFieldWidget2 extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
+        errorText: serverError,
         hintText: hintText,
         hintStyle:
             Theme.of(context).textTheme.bodySmall!.copyWith(color: Colors.grey),
@@ -85,7 +94,24 @@ class TextFieldWidget2 extends StatelessWidget {
               )
             : null,
       ), // Call validateField only if validators are provided
-      validator: validator,
+      validator: (value) {
+        // client validator
+        if (clientValidators != null) {
+          for (var validator in clientValidators!) {
+            final error = validator(value);
+            if (error != null) {
+              return error;
+            }
+          }
+        }
+        // 2. Server validation (ambil dari state/error provider)
+        if (serverError != null) {
+          final error = serverError;
+          if (error != null) {
+            return error;
+          }
+        }
+      },
       onChanged: (value) {
         // Hanya trigger perubahan jika benar-benar diperlukan
         valueSet?.call(value);

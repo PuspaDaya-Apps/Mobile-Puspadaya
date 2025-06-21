@@ -2,6 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:puspadaya/config/validator/form_error_provider.dart';
+import 'package:puspadaya/config/validator/form_field_data.dart';
+import 'package:puspadaya/config/validator/validation_scroll.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/image_config.dart';
@@ -46,10 +51,17 @@ class LoginScreenView extends StatefulWidget {
 }
 
 class _LoginScreenViewState extends State<LoginScreenView> {
+  final _formKey = GlobalKey<FormState>();
   final List<String> image = <String>[login1Vector, login2Vector];
 
   late TextEditingController usernameController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
+
+  late FocusNode usernameFocusNode = FocusNode();
+  late FocusNode passwordFocusNode = FocusNode();
+
+  final GlobalKey<FormFieldState> usernameKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> passwordKey = GlobalKey<FormFieldState>();
 
   bool ingatSaya = false;
 
@@ -57,6 +69,46 @@ class _LoginScreenViewState extends State<LoginScreenView> {
   void initState() {
     super.initState();
     BlocProvider.of<RememberMeCubit>(context).loadAccount();
+  }
+
+  // ! function ini akan secara otomatis tertrigger ketika ada error dari client validator maupun server validator
+  void _submitForm(LoginBloc loginBloc) {
+    // Langkah 1: Jalankan validasi form
+    if (_formKey.currentState!.validate()) {
+      // ! form valid save to local
+      if (usernameController.text == "" || passwordController.text == "") {
+        loginBloc.add(NullErrorEvent());
+      } else {
+        loginBloc.add(SendLoginEvent(
+            rememberAccount: ingatSaya,
+            loginModel: LoginModel(
+                username: usernameController.text,
+                password: passwordController.text)));
+      }
+    } else {
+      // JIKA FORM TIDAK VALID
+      print('Form tidak valid. Mencari error pertama...');
+
+      // Buat daftar field Anda secara berurutan sesuai tampilan di UI
+      // Ini PENTING agar scroll menuju ke error PALING ATAS
+      final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+        usernameKey: usernameFocusNode,
+        passwordKey: passwordFocusNode,
+      };
+      // logger.d(fieldMap);
+      ValidationScroll.validationScrollFirstClient(fieldMap);
+    }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    usernameKey.currentState?.dispose();
+    passwordKey.currentState?.dispose();
+    usernameFocusNode.dispose();
+    passwordFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -139,119 +191,188 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                   ),
                                 );
                               }
+
                               return Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Expanded(
                                       child: BlocBuilder<LoginBloc, LoginState>(
+                                    // buildWhen: (_, state) => state is LoginFailedFormState || state is LoginSuccessState,
                                     builder: (context, state) {
-                                      return Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          TextFieldUsernameLoginWidget(
-                                            key: const Key('Username'),
-                                            title: 'Username',
-                                            keyboard: TextInputType.number,
-                                            hintText: 'Masukan Nomor Telepon',
-                                            textController: usernameController,
-                                            errortext: null,
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                SizeConfig.calHeightMultiplier(
-                                                    15),
-                                          ),
-                                          TextFieldPasswordLoginWidget(
-                                            key: const Key('password'),
-                                            title: 'Kata Sandi',
-                                            keyboard:
-                                                TextInputType.visiblePassword,
-                                            hintText: 'Masukan Kata Sandi',
-                                            textController: passwordController,
-                                            errortext: null,
-                                          ),
-                                          SizedBox(
-                                              height: SizeConfig
-                                                  .calHeightMultiplier(8)),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                      logger.d('state saat ini $state');
+                                      Map<String, List<String>>? errors;
+                                      if (state is LoginFailedFormState) {
+                                        errors = state.error;
+                                        final fieldMap =
+                                            <String, FormFieldData>{
+                                          'username': FormFieldData(
+                                              key: usernameKey,
+                                              focusNode:
+                                                  usernameFocusNode), //username dan password harus sama dengan error validate server
+                                          'password': FormFieldData(
+                                              key: passwordKey,
+                                              focusNode: passwordFocusNode),
+                                          // ... tambahkan field lainnya
+                                        };
+                                        usernameKey.currentState?.validate();
+                                        passwordKey.currentState?.validate();
+                                        ValidationScroll
+                                            .validationScrollFirstServer(
+                                                context,
+                                                errors ?? {},
+                                                fieldMap);
+                                        // logger.d(errors);
+                                      }
+                                      return Form(
+                                        key: _formKey,
+                                        child: FormErrorProvider(
+                                          errors: errors,
+                                          child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
-                                              // CheckboxLoginWidget(ingatSaya: ingatSaya),
+                                              TextFieldUsernameLoginWidget(
+                                                onTap: () {
+                                                  context
+                                                      .read<LoginBloc>()
+                                                      .add(ResetFormEvent());
+                                                },
+                                                fieldName: "username",
+                                                clientValidators: [
+                                                  FormBuilderValidators.required(
+                                                      errorText:
+                                                          "Isi Terlebih Dahulu"),
+                                                  FormBuilderValidators.numeric(
+                                                      errorText: 'Harus angka'),
+                                                ],
+                                                focusNode: usernameFocusNode,
+                                                formFieldKey: usernameKey,
+                                                title: 'Username',
+                                                keyboard: TextInputType.number,
+                                                hintText:
+                                                    'Masukan Nomor Telepon',
+                                                textController:
+                                                    usernameController,
+                                              ),
+                                              SizedBox(
+                                                height: SizeConfig
+                                                    .calHeightMultiplier(15),
+                                              ),
+                                              TextFieldPasswordLoginWidget(
+                                                onTap: () {
+                                                  context
+                                                      .read<LoginBloc>()
+                                                      .add(ResetFormEvent());
+                                                },
+                                                fieldName: "password",
+                                                clientValidators: [
+                                                  FormBuilderValidators
+                                                      .required(
+                                                    errorText:
+                                                        "password wajib diisini",
+                                                  ),
+                                                ],
+                                                focusNode: passwordFocusNode,
+                                                formFieldKey: passwordKey,
+                                                title: 'Kata Sandi',
+                                                keyboard: TextInputType
+                                                    .visiblePassword,
+                                                hintText: 'Masukan Kata Sandi',
+                                                textController:
+                                                    passwordController,
+                                              ),
+                                              SizedBox(
+                                                  height: SizeConfig
+                                                      .calHeightMultiplier(8)),
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                                  Transform.scale(
-                                                    scale: 1.3,
-                                                    child: Checkbox(
-                                                        value: ingatSaya,
-                                                        shape:
-                                                            RoundedRectangleBorder(
+                                                  // CheckboxLoginWidget(ingatSaya: ingatSaya),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Transform.scale(
+                                                        scale: 1.3,
+                                                        child: Checkbox(
+                                                            value: ingatSaya,
+                                                            shape: RoundedRectangleBorder(
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
                                                                             5)),
-                                                        side: const BorderSide(
-                                                            width: 1,
-                                                            color: stroke10),
-                                                        activeColor: stroke10,
-                                                        checkColor:
-                                                            Colors.white,
-                                                        visualDensity:
-                                                            const VisualDensity(
-                                                                horizontal: -4,
-                                                                vertical: -4),
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            ingatSaya =
-                                                                !ingatSaya;
-                                                          });
-                                                        }),
+                                                            side: const BorderSide(
+                                                                width: 1,
+                                                                color:
+                                                                    stroke10),
+                                                            activeColor:
+                                                                stroke10,
+                                                            checkColor:
+                                                                Colors.white,
+                                                            visualDensity:
+                                                                const VisualDensity(
+                                                                    horizontal:
+                                                                        -4,
+                                                                    vertical:
+                                                                        -4),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                ingatSaya =
+                                                                    !ingatSaya;
+                                                              });
+                                                            }),
+                                                      ),
+                                                      const SizedBox(width: 4),
+                                                      Text('Ingat Saya',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  textPrimary10,
+                                                              fontSize: SizeConfig
+                                                                  .calMultiplierText(
+                                                                      12),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400))
+                                                    ],
                                                   ),
-                                                  const SizedBox(width: 4),
-                                                  Text('Ingat Saya',
-                                                      style: TextStyle(
-                                                          color: textPrimary10,
+                                                  GestureDetector(
+                                                      onTap: () async {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                const Center(
+                                                                    child:
+                                                                        LupaKataSandiView()));
+                                                      },
+                                                      child: Text(
+                                                        'Lupa Kata Sandi?',
+                                                        style: TextStyle(
+                                                          color: textUrgent,
                                                           fontSize: SizeConfig
                                                               .calMultiplierText(
-                                                                  12),
+                                                                  13),
                                                           fontWeight:
-                                                              FontWeight.w400))
+                                                              FontWeight.w500,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .underline,
+                                                          decorationColor:
+                                                              textUrgent,
+                                                        ),
+                                                      ))
                                                 ],
-                                              ),
-                                              GestureDetector(
-                                                  onTap: () async {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            const Center(
-                                                                child:
-                                                                    LupaKataSandiView()));
-                                                  },
-                                                  child: Text(
-                                                    'Lupa Kata Sandi?',
-                                                    style: TextStyle(
-                                                      color: textUrgent,
-                                                      fontSize: SizeConfig
-                                                          .calMultiplierText(
-                                                              13),
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      decoration: TextDecoration
-                                                          .underline,
-                                                      decorationColor:
-                                                          textUrgent,
-                                                    ),
-                                                  ))
+                                              )
                                             ],
-                                          )
-                                        ],
+                                          ),
+                                        ),
                                       );
                                     },
                                   )),
@@ -344,22 +465,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                         }
                                         return ElevatedButton(
                                             onPressed: () {
-                                              if (usernameController.text ==
-                                                      "" ||
-                                                  passwordController.text ==
-                                                      "") {
-                                                loginBloc.add(NullErrorEvent());
-                                              } else {
-                                                loginBloc.add(SendLoginEvent(
-                                                    rememberAccount: ingatSaya,
-                                                    loginModel: LoginModel(
-                                                        username:
-                                                            usernameController
-                                                                .text,
-                                                        password:
-                                                            passwordController
-                                                                .text)));
-                                              }
+                                              _submitForm(loginBloc);
                                             },
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: buttonPriamary,

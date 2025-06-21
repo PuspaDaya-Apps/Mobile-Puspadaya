@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/model/patch_orang_tua_body.dart';
-import 'package:puspadaya/app/model/validation_error_model.dart';
+import 'package:puspadaya/config/validator/validation_error_model.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';

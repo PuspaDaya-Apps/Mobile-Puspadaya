@@ -6,7 +6,8 @@ import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cu
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart' as post_orang_tua_body;
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart'
+    as post_orang_tua_body;
 import 'package:puspadaya/app/model/data_wilayah_model.dart';
 import 'package:puspadaya/app/view/widget/checkbox_list_widget.dart';
 import 'package:puspadaya/app/view/widget/date_time_picker_widget.dart';
@@ -388,6 +389,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                           Expanded(
                             flex: 3, // Mengatur lebar TextField
                             child: TextFieldWidget2(
+                              fieldName: 'kkAyah',
+                              onTap: () {},
                               formFieldKey: kkAyahKey,
                               focusNode: kkAyahFocusNode,
                               controller: kkAyahController,
@@ -395,11 +398,15 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                               isPasswordField: false,
                               keyboardType: TextInputType.number,
                               obscureText: false,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                                FormBuilderValidators.equalLength(16),
-                              ]),
+                              clientValidators: [
+                                FormBuilderValidators.required(
+                                    errorText: "Isi terlebih dahulu!"),
+                                FormBuilderValidators.numeric(
+                                    errorText: "KK harus berupa angka!"),
+                                FormBuilderValidators.equalLength(16,
+                                    errorText:
+                                        "KK harus terdiri dari 16 angka!"),
+                              ],
                             ),
                           ),
                           GestureDetector(
@@ -491,6 +498,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                         children: [
                           Expanded(
                             child: TextFieldWidget2(
+                                onTap: () {},
                                 focusNode: nikAyahFocusNode,
                                 formFieldKey: nikAyahKey,
                                 controller: nikAyahController,
@@ -498,11 +506,16 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(),
-                                  FormBuilderValidators.numeric(),
-                                  FormBuilderValidators.equalLength(16),
-                                ])),
+                                fieldName: 'nikAyah',
+                                clientValidators: [
+                                  FormBuilderValidators.required(
+                                      errorText: "Isi terlebih dahulu!"),
+                                  FormBuilderValidators.numeric(
+                                      errorText: "NIK harus berupa angka!"),
+                                  FormBuilderValidators.equalLength(16,
+                                      errorText:
+                                          "NIK harus terdiri dari 16 angka!"),
+                                ]),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -562,6 +575,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
+                    onTap: () {},
+                    fieldName: 'namaAyah',
                     focusNode: namaAyahFocusNode,
                     formFieldKey: namaAyahKey,
                     controller: namaAyahController,
@@ -569,9 +584,10 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     isPasswordField: false,
                     keyboardType: TextInputType.text,
                     obscureText: false,
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
+                    clientValidators: [
+                      FormBuilderValidators.required(
+                          errorText: "Isi terlebih dahulu!"),
+                    ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
@@ -590,6 +606,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             TextFieldWidget2(
+                              onTap: () {},
+                              fieldName: 'tempatLahirAyah',
                               formFieldKey: tempatLahirAyahKey,
                               controller: tempatLahirAyahController,
                               hintText: 'Tempat Lahir',
@@ -597,9 +615,10 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                               obscureText: false,
                               isPasswordField: false,
                               focusNode: tempatLahirAyahFocusNode,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
-                              ]),
+                              clientValidators: [
+                                FormBuilderValidators.required(
+                                    errorText: "Isi terlebih dahulu!"),
+                              ],
                             ),
                           ],
                         ),
@@ -615,20 +634,17 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                             ),
                             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                             DateTimePickerWidget(
-                              key: tanggalLahirAyahKey,
-                              controller: tanggalLahirAyahController,
-                              hintText: 'Tanggal Lahir',
-                              selectDate: () {
-                                _selectDateAyah(context);
-                              },
-                              isDate: true,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Tanggal harus dipilih";
-                                }
-                                return null;
-                              },
-                            ),
+                                key: tanggalLahirAyahKey,
+                                controller: tanggalLahirAyahController,
+                                hintText: 'Tanggal Lahir',
+                                selectDate: () {
+                                  _selectDateAyah(context);
+                                },
+                                isDate: true,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(
+                                      errorText: "Isi terlebih dahulu!"),
+                                ])),
                           ],
                         ),
                       )
@@ -1014,6 +1030,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     children: [
                       Expanded(
                         child: TextFieldWidget2(
+                          fieldName: 'rtAyah',
+                          onTap: () {},
                           focusNode: rtAyahFocusNode,
                           formFieldKey: rtAyahKey,
                           controller: rTAyahController,
@@ -1021,13 +1039,15 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                           isPasswordField: false,
                           keyboardType: TextInputType.number,
                           obscureText: false,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
-                          ]),
+                          clientValidators: [
+                            FormBuilderValidators.required(errorText: "Isi RT"),
+                          ],
                         ),
                       ),
                       Expanded(
                         child: TextFieldWidget2(
+                            fieldName: 'rwAyah',
+                            onTap: () {},
                             controller: rWAyahController,
                             hintText: 'RW',
                             focusNode: rwAyahFocusNode,
@@ -1035,14 +1055,17 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                             isPasswordField: false,
                             keyboardType: TextInputType.number,
                             obscureText: false,
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(),
-                            ])),
+                            clientValidators: [
+                              FormBuilderValidators.required(
+                                  errorText: "Isi RW"),
+                            ]),
                       ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
+                    onTap: () {},
+                    fieldName: 'alamatAyah',
                     controller: alamatAyahController,
                     hintText: 'Masukan alamat lengkap',
                     keyboardType: TextInputType.text,
@@ -1050,9 +1073,10 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     obscureText: false,
                     formFieldKey: alamatAyahKey,
                     isPasswordField: false,
-                    validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
-                    ]),
+                    clientValidators: [
+                      FormBuilderValidators.required(
+                          errorText: "Isi Terlebih Dahulu"),
+                    ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -1061,6 +1085,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   TextFieldWidget2(
+                    fieldName: 'teleponAyah',
+                    onTap: () {},
                     controller: teleponAyahController,
                     focusNode: teleponAyahFocusNode,
                     hintText: 'Masukan nomor telepon',
@@ -1068,12 +1094,12 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     obscureText: false,
                     formFieldKey: teleponAyahKey,
                     isPasswordField: false,
-                    validator: FormBuilderValidators.compose([
+                    clientValidators: [
                       FormBuilderValidators.minLength(10,
                           checkNullOrEmpty: false),
                       FormBuilderValidators.maxLength(13,
                           checkNullOrEmpty: false),
-                    ]),
+                    ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -1083,12 +1109,10 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                   DropdownWidget(
                     key: selectedGolDarahAyahKey,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Golongan harus dipilih";
-                      }
-                      return null;
-                    },
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: "Golongan harud dipilih"),
+                    ]),
                     items: selectGolDarah,
                     hint: 'Golongan Darah',
                     value: selectedGolDarahAyah,

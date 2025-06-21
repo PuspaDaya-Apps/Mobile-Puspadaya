@@ -5,18 +5,28 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 class TextFieldPasswordLoginWidget extends StatefulWidget {
   const TextFieldPasswordLoginWidget({
     super.key,
+    required this.formFieldKey,
+    required this.focusNode,
+    required this.clientValidators,
     required this.title,
     required this.keyboard,
     required this.textController,
     required this.hintText,
-    this.errortext,
+    required this.fieldName,
+    this.serverValidator,
+    this.errortext, required this.onTap,
   });
-
+  final String fieldName; 
+  final GlobalKey<FormFieldState>? formFieldKey;
+  final FocusNode focusNode;
+  final List<FormFieldValidator<String>>? clientValidators;
+  final FormFieldValidator<String>? serverValidator;
   final String title;
   final TextInputType keyboard;
   final TextEditingController textController;
   final String hintText;
   final String? errortext;
+    final GestureTapCallback onTap;
 
   @override
   State<TextFieldPasswordLoginWidget> createState() =>
@@ -43,10 +53,31 @@ class _TextFieldPasswordLoginWidgetState
                 fontWeight: FontWeight.w600),
           ),
           SizedBox(height: SizeConfig.calHeightMultiplier(6)),
-          TextField(
+          TextFormField(
+            onTap: widget.onTap,
+            key: widget.formFieldKey,
             controller: widget.textController,
             obscureText: hiddenText,
             keyboardType: widget.keyboard,
+            focusNode: widget.focusNode,
+            validator: (value) {
+              // client validator
+              if (widget.clientValidators != null) {
+                for (var validator in widget.clientValidators!) {
+                  final error = validator(value);
+                  if (error != null) {
+                    return error;
+                  }
+                }
+              }
+              // server validator
+              if (widget.serverValidator != null) {
+                return widget.serverValidator!(value);
+              }
+
+              // return
+              return null;
+            },
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: SizeConfig.calWidthMultiplier(12),
@@ -56,7 +87,7 @@ class _TextFieldPasswordLoginWidgetState
                     color: textPrimary30.withOpacity(0.6),
                     fontSize: SizeConfig.calMultiplierText(13),
                     fontWeight: FontWeight.w400),
-                errorText: widget.errortext,
+                // errorText: widget.errortext,
                 errorStyle: TextStyle(
                     fontSize: SizeConfig.calMultiplierText(13),
                     fontWeight: FontWeight.w400),

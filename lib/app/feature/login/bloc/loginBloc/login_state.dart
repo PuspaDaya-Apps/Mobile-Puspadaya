@@ -29,6 +29,14 @@ final class LoginFailedState extends LoginState {
   const LoginFailedState(this.error);
 }
 
+// state untuk handle error form karena validasi dari server
+final class LoginFailedFormState extends LoginState {
+  // ! state yang digunakan untuk menghandle error dari form 
+  final Map<String, List<String>>? error; //menyimpan list dari error
+
+  const LoginFailedFormState(this.error);
+}
+
 final class CurrentUserProccesState extends LoginState {}
 
 final class CurrentUserSuccesState extends LoginState {}
