@@ -34,7 +34,7 @@ class InternetBloc extends Bloc<InternetEvent, InternetState> {
     _subscription = checkInternetEvery5Seconds().listen((
       InternetConnectionStatus status,
     ) {
-      logger.d('Connection Status: $status');
+      // logger.d('Connection Status: $status');
       add(
         InternetNotify(
           isConnected: status == InternetConnectionStatus.connected,

@@ -24,3 +24,6 @@ class GetCurrentUserEvent extends LoginEvent {
 
   const GetCurrentUserEvent(this.accessToken);
 }
+// resetformevent untuk mereset form
+class ResetFormEvent extends LoginEvent {
+}

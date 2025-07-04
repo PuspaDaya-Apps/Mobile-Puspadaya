@@ -6,7 +6,7 @@ import 'package:puspadaya/app/feature/jadwal/create/model/post_jadwal_posyandu_m
 import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
-import '../../../../model/validation_error_model.dart';
+import '../../../../../config/validator/validation_error_model.dart';
 import '../service/post_jadwal_posyandu.dart';
 
 part 'jadwal_create_event.dart';

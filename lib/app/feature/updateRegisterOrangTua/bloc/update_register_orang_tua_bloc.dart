@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:puspadaya/app/feature/updateRegisterOrangTua/model/patch_orang_tua_body.dart';
-import 'package:puspadaya/app/model/validation_error_model.dart';
+import 'package:puspadaya/config/validator/validation_error_model.dart';
 
 import '../../../../utils/logger/logger.dart';
 import '../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
@@ -69,11 +69,13 @@ class UpdateRegisterOrangTuaBloc
                   validationError.message;
           emit(UpdateRegisterOrangTuaFailedState(errorMessage));
         } else {
+          logger.d("got trigger else error");
           emit(UpdateRegisterOrangTuaFailedState("Terdapat Error"));
         }
       } catch (e) {
         logger.d('error $e');
-        emit(UpdateRegisterOrangTuaFailedState(e.toString()));
+        final String error = "Nomor Kartu Keluarga Telah Terdaftar";
+        emit(UpdateRegisterOrangTuaFailedState(error));
       }
     }
   }

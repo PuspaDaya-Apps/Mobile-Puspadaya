@@ -2,6 +2,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:puspadaya/app/view/screen/data_not_found_screen.dart';
+import 'package:puspadaya/app/view/screen/search_not_found.dart';
 
 import '../../../../../config/theme/pallet_color.dart';
 import '../../../../../route/route_name.dart';
@@ -42,6 +44,10 @@ class _IndexAnakFaktoResikoViewState extends State<IndexAnakFaktoResikoView> {
     // Trigger fetch event when the view is initialized
     logger.d('trigger fetch');
     context.read<AnakByPosyanduBloc>().add(FetchAnak());
+
+    _searchController.addListener(() {
+      setState(() {}); // Rebuild untuk update pencarian
+    });
   }
 
   @override
@@ -100,10 +106,22 @@ class _IndexAnakFaktoResikoViewState extends State<IndexAnakFaktoResikoView> {
                       );
                     } else if (state is AnakByPosyanduSuccess) {
                       debugPrint(state.anakItems.length.toString());
+                      if (state.anakItems.isEmpty) {
+                        return DataNotFoundScreen();
+                      }
+                      final filteredList = state.anakItems.where((anak) {
+                        final query = _searchController.text.toLowerCase();
+                        return anak.nama
+                            .toLowerCase()
+                            .contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
                       return ListView.builder(
-                        itemCount: state.anakItems.length,
+                        itemCount: filteredList.length,
                         itemBuilder: (context, index) {
-                          AnakItemModel anak = state.anakItems[index];
+                          AnakItemModel anak = filteredList[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: CardAnakWidget(
