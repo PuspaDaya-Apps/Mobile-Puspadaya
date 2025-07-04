@@ -69,11 +69,13 @@ class UpdateRegisterOrangTuaBloc
                   validationError.message;
           emit(UpdateRegisterOrangTuaFailedState(errorMessage));
         } else {
+          logger.d("got trigger else error");
           emit(UpdateRegisterOrangTuaFailedState("Terdapat Error"));
         }
       } catch (e) {
         logger.d('error $e');
-        emit(UpdateRegisterOrangTuaFailedState(e.toString()));
+        final String error = "Nomor Kartu Keluarga Telah Terdaftar";
+        emit(UpdateRegisterOrangTuaFailedState(error));
       }
     }
   }
