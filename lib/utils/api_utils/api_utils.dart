@@ -5,7 +5,7 @@ part 'api_name.dart';
 class ApiUtils {
   //!Base URL
   // final String _baseUrl =
-      // "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io"; //! staging
+  // "http://now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io"; //! staging
   final String _baseUrl =
       "http://gsg4k8os8gwsc4ksk4kkgg48.103.109.210.102.sslip.io"; //! production
   // final String _baseUrl = "https://40vg7x7b-8080.asse.devtunnels.ms";
