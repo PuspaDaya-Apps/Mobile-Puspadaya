@@ -30,7 +30,7 @@ class CreateRegisterAyah extends StatelessWidget {
   final OrangTuaFormCubit cubit;
 
   const CreateRegisterAyah(
-      {super.key, required this.onNext, required this.cubit});
+      {Key? key, required this.onNext, required this.cubit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,7 @@ class CreateRegisterAyah extends StatelessWidget {
         ),
       ],
       child: CreateRegisterAyahView(
+        key: key,
         cubit: cubit,
         onNext: onNext,
       ),
@@ -54,13 +55,14 @@ class CreateRegisterAyahView extends StatefulWidget {
   final OrangTuaFormCubit cubit;
   final VoidCallback onNext;
   const CreateRegisterAyahView(
-      {super.key, required this.onNext, required this.cubit});
+      {Key? key, required this.onNext, required this.cubit}) : super(key: key);
 
   @override
-  State<CreateRegisterAyahView> createState() => _CreateRegisterAyahViewState();
+  State<CreateRegisterAyahView> createState() => CreateRegisterAyahViewState();
 }
 
-class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
+class CreateRegisterAyahViewState extends State<CreateRegisterAyahView>
+    with AutomaticKeepAliveClientMixin {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController(); // Untuk
   // Controller untuk Data Ayah dan Data Ibu
@@ -184,7 +186,13 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
     });
   }
 
+  void submitTest() {
+    logger.d('submit test');
+  }
+
   bool _isGenerateAyahValid() {
+    logger.d(
+        'tanggalLahirAyahController.text = ${tanggalLahirAyahController.text}');
     return tempatLahirAyahController.text.isNotEmpty &&
         tanggalLahirAyahController.text.isNotEmpty &&
         selectedKabupatenAyah !=
@@ -193,7 +201,9 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
             null; // Check if selectedDusunAyahId is not null
   }
 
-  void _submitForm() {
+
+  bool submitForm() {
+    logger.d('submit form');
     // Langkah 1: Jalankan validasi form
     if (_formKey.currentState!.validate()) {
       // ! form valid save to local
@@ -216,10 +226,15 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
           return post_orang_tua_body.JenisDisabilitas(namaDisabilitas: e);
         }).toList(),
       );
+      // logger.d('ayah data is ${ayah.toJson()}');
 
       widget.cubit.updateAyah(ayah);
 
+      logger.d('ayah data is ${widget.cubit.getAyahData().toJson()}');
+
       widget.onNext();
+
+      return true;
     } else {
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
@@ -271,17 +286,41 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
           break;
         }
       }
+      return false;
     }
   }
 
   @override
   void initState() {
+    super.initState();
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
-    // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
     selectedDisabilitiesAyah =
         List<bool>.from(List.filled(disabilities.length, false));
-    super.initState();
+    final currentState = widget.cubit.state;
+    if (currentState is OrangTuaLoaded && currentState.ayah != null) {
+      final ayah = currentState.ayah!;
+      kkAyahController.text = ayah.nomorKartuKeluarga;
+      nikAyahController.text = ayah.nik;
+      namaAyahController.text = ayah.namaAyah;
+      tempatLahirAyahController.text = ayah.tempatLahir;
+      tanggalLahirAyahController.text = ayah.tanggalLahir;
+      alamatAyahController.text = ayah.alamat;
+      teleponAyahController.text = ayah.nomorTelepon ?? '';
+      rTAyahController.text = ayah.rt;
+      rWAyahController.text = ayah.rw;
+      selectedGolDarahAyah = ayah.golDarah;
+
+      // ✅ restore disabilitas
+      for (var i = 0; i < disabilities.length; i++) {
+        if (ayah.jenisDisabilitas
+            .any((d) => d.namaDisabilitas == disabilities[i])) {
+          selectedDisabilitiesAyah[i] = true;
+          selectedDisabilityLabelsAyah.add(disabilities[i]);
+        }
+      }
+      // selectedDesaAyah = ayah.dusunId.desaKelurahan.namaDesaKelurahan;
+    }
   }
 
   @override
@@ -322,7 +361,11 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Memanggil super untuk wantKeepAlive
     return BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
       builder: (context, stateDataWilayah) {
         logger.d('stateDataWilayah is ${stateDataWilayah.toString()}');
@@ -1096,9 +1139,11 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     isPasswordField: false,
                     clientValidators: [
                       FormBuilderValidators.minLength(10,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false,
+                          errorText: "Minimal 10 digit"),
                       FormBuilderValidators.maxLength(13,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false,
+                          errorText: "Maksimal 13 digit"),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1179,7 +1224,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     mainButtonMessage: 'Selanjutnya',
                     mainButton: () {
                       logger.d('trigger button next');
-                      _submitForm();
+                      submitForm();
                       // _goToNextTab();
                     },
                   ),
