@@ -57,10 +57,11 @@ class CreateRegisterIbuView extends StatefulWidget {
       {super.key, required this.onSave, required this.cubit});
 
   @override
-  State<CreateRegisterIbuView> createState() => _CreateRegisterIbuViewState();
+  State<CreateRegisterIbuView> createState() => CreateRegisterIbuViewState();
 }
 
-class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
+class CreateRegisterIbuViewState extends State<CreateRegisterIbuView>
+    with AutomaticKeepAliveClientMixin {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController(); // Untuk
   // ? ibu
@@ -222,7 +223,11 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
         selectedKecamatanIbu != null; // Check if selectedDusunIbuId is not null
   }
 
-  void _submitForm() {
+  void submitTest(){
+    logger.d('submit test');
+  }
+
+  void submitForm() {
     // Langkah 1: Jalankan validasi form
     if (_formKey.currentState!.validate()) {
       // JIKA FORM VALID
@@ -257,10 +262,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
         }).toList(),
       );
       widget.cubit.updateIbu(ibu);
+      logger.d('data ayah ${widget.cubit.getAyahData().toJson()}');
+      logger.d('data ibu ${widget.cubit.getIbuData().toJson()}');
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Data Valid!')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(content: Text('Data Valid!')),
+      // );
+      widget.onSave(); // Panggil callback onSave untuk melanjutkan
     } else {
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
@@ -330,7 +338,11 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context); // Memanggil super untuk AutomaticKeepAliveClientMixin
     return BlocBuilder<AlamatSaveCubit, AlamatSaveState>(
       builder: (context, stateDataWilayah) {
         if (stateDataWilayah is GetAlamatProccessState) {
@@ -1066,9 +1078,9 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     isPasswordField: false,
                     clientValidators: [
                       FormBuilderValidators.minLength(10,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false, errorText: 'Minimal 10'),
                       FormBuilderValidators.maxLength(13,
-                          checkNullOrEmpty: false)
+                          checkNullOrEmpty: false, errorText: 'Minimal 13')
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1235,7 +1247,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     mainButtonMessage: 'Simpan',
                     mainButton: () {
                       logger.d("trigger simpan");
-                      _submitForm();
+                      submitForm();
                       // bool isValidAllDataAyah = validateAyah();
                       // logger.d('is validate Data ayah $isValidAllDataAyah');
                       // if (isValidAllDataAyah) {

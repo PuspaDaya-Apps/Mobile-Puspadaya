@@ -203,7 +203,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                       logger.d('state saat ini $state');
                                       Map<String, List<String>>? errors;
                                       if (state is LoginFailedFormState) {
-                                        errors = state.error;
+                                        errors = state.error; 
                                         final fieldMap =
                                             <String, FormFieldData>{
                                           'username': FormFieldData(
@@ -213,7 +213,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                           'password': FormFieldData(
                                               key: passwordKey,
                                               focusNode: passwordFocusNode),
-                                          // ... tambahkan field lainnya
+                                        
                                         };
                                         usernameKey.currentState?.validate();
                                         passwordKey.currentState?.validate();
@@ -222,7 +222,6 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                                                 context,
                                                 errors ?? {},
                                                 fieldMap);
-                                        // logger.d(errors);
                                       }
                                       return Form(
                                         key: _formKey,

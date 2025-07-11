@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:puspadaya/app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../model/post_orang_tua_body.dart' as post_orang_tua;
 part 'orang_tua_form_state.dart';
 
@@ -17,6 +18,23 @@ class OrangTuaFormCubit extends Cubit<OrangTuaFormState> {
     final currentState = state;
     if (currentState is OrangTuaLoaded) {
       emit(currentState.copyWith(ibu: ibu));
+    }
+  }
+  post_orang_tua.Ayah getAyahData () {
+    final currentState = state;
+    if (currentState is OrangTuaLoaded) {
+      return currentState.ayah!;
+    } else {
+      throw Exception("Data ayah belum lengkap");
+    }
+  }
+
+  post_orang_tua.Ibu getIbuData(){
+    final currentState = state;
+    if (currentState is OrangTuaLoaded) {
+      return currentState.ibu!;
+    } else {
+      throw Exception("Data ibu belum lengkap");
     }
   }
 

@@ -107,10 +107,11 @@ class TextFieldWidget2 extends StatelessWidget {
         // 2. Server validation (ambil dari state/error provider)
         if (serverError != null) {
           final error = serverError;
-          if (error != null) {
+          if (error.isNotEmpty) {
             return error;
           }
         }
+        return null;
       },
       onChanged: (value) {
         // Hanya trigger perubahan jika benar-benar diperlukan
