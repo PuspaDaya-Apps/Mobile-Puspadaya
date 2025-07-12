@@ -7,17 +7,20 @@ class DateTimePickerWidget extends StatelessWidget {
   final bool isDate;
   final FormFieldValidator<String>? validator;
   final VoidCallback? selectDate;
+  final FocusNode? focusNode;
   const DateTimePickerWidget(
       {super.key,
       required this.controller,
       required this.hintText,
       this.validator,
       this.selectDate,
+      this.focusNode,
       required this.isDate});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       controller: controller,
       onTap: selectDate,
       style: Theme.of(context).textTheme.bodySmall,
