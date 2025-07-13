@@ -1319,7 +1319,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               .add(customDisability);
 
                           //penyamaan value dan length
-                          widget.selectedDisabilitiesIbu.add(false);
+                          widget.selectedDisabilitiesAyah.add(false);
                         });
                       },
                     );
