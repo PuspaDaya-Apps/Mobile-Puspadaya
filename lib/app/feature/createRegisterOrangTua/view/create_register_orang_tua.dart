@@ -48,8 +48,6 @@ class CreateRegisterOrangTua extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => GenerateKkCubit()),
-        BlocProvider(create: (context) => GenerateNikCubit()),
         BlocProvider<AlamatSaveCubit>(
           create: (BuildContext context) => AlamatSaveCubit(),
         ),
@@ -716,13 +714,75 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
             _tabController.index == 0) {
           // Trigger penyimpanan otomatis form Ibu
           logger.d('trigger submit ayah form when pindah ke ibu');
-          bool valid = submitIbuForm();
-          if (!valid) {
-            // Batalkan pindah tab: kembali ke tab Ibu
-            _tabController.animateTo(1);
+          if (_formIbukey.currentState!.validate()) {
+            // Jika form Ibu valid, lanjutkan ke tab Ayah
+            logger.d('form ibu valid');
+            _tabController.animateTo(0);
+          } else {
+            // JIKA FORM TIDAK VALID
+            logger.d('Form tidak valid. Mencari error pertama...');
+
+            // Buat daftar field Anda secara berurutan sesuai tampilan di UI
+            // Ini PENTING agar scroll menuju ke error PALING ATAS
+            final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+              kkIbuKey: kkIbuFocusNode,
+              nikIbuKey: nikIbuFocusNode,
+              namaIbuKey: namaIbuFocusNode,
+              tempatLahirIbuKey: tempatLahirIbuFocusNode,
+              tanggalLahirIbuKey: tanggalLahirIbuFocusNode,
+              rtIbuKey: rtIbuFocusNode,
+              rwIbuKey: rwIbuFocusNode,
+              selectedKabupatenIbuKey: selectedKabupatenIbuFocusNode,
+              selectedKecamatanIbuKey: selectedKecamatanIbuFocusNode,
+              selectedDesaIbuKey: selectedDesaIbuFocusNode,
+              selectedDusunIbuKey: selectedDusunIbuFocusNode,
+              alamatIbuKey: alamatIbuFocusNode,
+              teleponIbuKey: teleponIbuFocusNode,
+              selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
+              selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
+              tanggalKelahiranAnakSebelumnyaIbuKey:
+                  tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+              jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
+            };
+            // logger.d(fieldMap);
+
+            // Cari field pertama yang memiliki error
+            for (var entry in fieldMap.entries) {
+              final key = entry.key;
+              final focusNode = entry.value;
+
+              logger.d(
+                  'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+              // Cek apakah field ini punya error
+              if (key.currentState?.hasError ?? false) {
+                // Jika ya, scroll ke field ini
+
+                print(
+                    'Field ${entry.key} has error: ${key.currentState?.hasError}');
+                print('Current context: ${key.currentContext}');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Scrollable.ensureVisible(
+                    key.currentContext!,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    alignment: 0.3,
+                  );
+                  focusNode.requestFocus();
+                });
+
+                // Hentikan loop karena kita hanya butuh fokus ke error pertama
+                break;
+              }
+            }
+             _tabController.animateTo(1);
           }
-          // submitIbuForm();
         }
+        // bool valid = submitIbuForm();
+        // if (!valid) {
+        //   // Batalkan pindah tab: kembali ke tab Ibu
+        //   _tabController.animateTo(1);
+        // }
+        // submitIbuForm();
       }
     });
   }

@@ -14,6 +14,7 @@ import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_u
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_wasting.dart';
 import 'package:puspadaya/app/feature/monitoring/index/view/monitoring.dart';
 import 'package:puspadaya/app/feature/parameterGizi/view/parameter_gizi.dart';
+import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_register_orang_tua.dart';
 import '../app/feature/Kehadiran/create/view/create_kehadiran_screen.dart';
 import '../app/feature/Kehadiran/detail/view/detail_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/CreateRegisterOrangTua/view/create_register_orang_tua.dart';
