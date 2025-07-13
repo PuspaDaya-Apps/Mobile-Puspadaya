@@ -17,8 +17,8 @@ class CreateRegisterOrangTuaBloc
     });
     on<SendRegisterOrangTua>(registerOrangTua);
   }
-  Future<void> registerOrangTua(SendRegisterOrangTua event,
-      Emitter<CreateRegisterOrangTuaState> emit) async {
+  Future<void> registerOrangTua(SendRegisterOrangTua event, Emitter<CreateRegisterOrangTuaState> emit) async {
+    emit(CreateRegisterOrangTuaLoading()); 
         
     final accesTokenValue = await SharedPrefUtils().getAccessToken();
     logger.d(accesTokenValue);
@@ -27,7 +27,7 @@ class CreateRegisterOrangTuaBloc
       emit(TokenExpiredState());
     } else {
       try {
-        emit(CreateRegisterOrangTuaLoading()); // Reset state sebelum request
+       // Reset state sebelum request
         PostOrangTuaBody dataToPost = event.postOrangTuaBody;
         // Assuming dataAyah and dataIbu are already defined and populated
         logger.d('parsing to db');

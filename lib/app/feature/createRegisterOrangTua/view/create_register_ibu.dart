@@ -21,6 +21,7 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../bloc/create_register_orang_tua_bloc.dart';
 import '../model/alamat_orang_tua_model.dart';
 
 class CreateRegisterIbu extends StatelessWidget {
@@ -50,7 +51,6 @@ class CreateRegisterIbu extends StatelessWidget {
   DataKecamatan? selectedKecamatanIbu;
   DataDesaKelurahan? selectedDesaIbu;
   DataDusun? selectedDusunIbu;
-
 
   String selectedJenisKB;
   String selectedGolDarahIbu;
@@ -228,7 +228,8 @@ class CreateRegisterIbu extends StatelessWidget {
         rTIbuController: rTIbuController,
         rWIbuController: rWIbuController,
         jumlahAnakIbuController: jumlahAnakIbuController,
-        tanggalKelahiranAnakSebelumnyaIbuController: tanggalKelahiranAnakSebelumnyaIbuController,
+        tanggalKelahiranAnakSebelumnyaIbuController:
+            tanggalKelahiranAnakSebelumnyaIbuController,
         dataKabupatenKotaIbu: dataKabupatenKotaIbu,
         dataKecamatanIbu: dataKecamatanIbu,
         dataDesaKelurahanIbu: dataDesaKelurahanIbu,
@@ -257,7 +258,8 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedGolDarahIbuKey: selectedGolDarahIbuKey,
         jenisKBKey: jenisKBKey,
         jumlahAnakIbuKey: jumlahAnakIbuKey,
-        tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
+        tanggalKelahiranAnakSebelumnyaIbuKey:
+            tanggalKelahiranAnakSebelumnyaIbuKey,
         kkIbuFocusNode: kkIbuFocusNode,
         nikIbuFocusNode: nikIbuFocusNode,
         namaIbuFocusNode: namaIbuFocusNode,
@@ -274,7 +276,8 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
         jenisKBFocusNode: jenisKBFocusNode,
         jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+        tanggalKelahiranAnakSebelumnyaIbuFocusNode:
+            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
         onSelectDate: onSelectDate,
         removeDisability: removeDisability,
         toggleDisabilityIbu: toggleDisabilityIbu,
@@ -541,12 +544,12 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     GestureDetector(
                       onTap: () {
                         // Validasi sebelum mengizinkan generate
-                          // logger.d(
-                          //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
-                          // logger.d(
-                          //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
-                          // logger.d(
-                          //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
+                        // logger.d(
+                        //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
+                        // logger.d(
+                        //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
+                        // logger.d(
+                        //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
                         if (widget.isGenerateIbuValid()) {
                           // Logika untuk generate
                           print("Generate button pressed");
@@ -815,7 +818,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                           child: Text(item.namaKabupatenKota),
                         );
                       }).toList(),
-                      onChanged: (value) => widget.handleKabupatenIbuChanged(value!),
+                      onChanged: (value) =>
+                          widget.handleKabupatenIbuChanged(value!),
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -1311,7 +1315,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         setState(() {
                           disabilities.add(customDisability);
                           widget.selectedDisabilitiesIbu.add(true);
-                          widget.selectedDisabilityLabelsIbu.add(customDisability);
+                          widget.selectedDisabilityLabelsIbu
+                              .add(customDisability);
 
                           //penyamaan value dan length
                           widget.selectedDisabilitiesIbu.add(false);
@@ -1323,12 +1328,18 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                widget.submitIbuForm();
-                
+            BlocBuilder<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
+              builder: (context, state) {
+                return ButtonPrimary(
+                  color: bluePrimaryMain,
+                  mainButtonMessage: 'Simpan',
+                  isLoading: state is CreateRegisterOrangTuaLoading
+                  ? true 
+                  : null,
+                  mainButton: () {
+                    widget.submitIbuForm();
+                  },
+                );
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
