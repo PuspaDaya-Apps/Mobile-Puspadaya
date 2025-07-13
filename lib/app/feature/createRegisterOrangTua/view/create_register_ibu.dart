@@ -25,12 +25,23 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-class CreateRegisterIbu extends StatelessWidget {
-  final VoidCallback onSave;
-  final OrangTuaFormCubit cubit;
+import '../model/alamat_orang_tua_model.dart';
 
-  const CreateRegisterIbu(
-      {super.key, required this.onSave, required this.cubit});
+class CreateRegisterIbu extends StatelessWidget {
+  final ValueSetter<List<dynamic>> onSave;
+  final ValueSetter<List<dynamic>> onSaveDispose;
+  // final OrangTuaFormCubit cubit;
+  final post_orang_tua_body.PostOrangTuaBody orangTuaTemp;
+  final AlamatOrangTua alamatIbu;
+
+  const CreateRegisterIbu({
+    super.key, 
+    required this.onSave, 
+    required this.onSaveDispose, 
+    // required this.cubit, 
+    required this.orangTuaTemp,
+    required this.alamatIbu
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,23 +55,38 @@ class CreateRegisterIbu extends StatelessWidget {
       ],
       child: CreateRegisterIbuView(
         onSave: onSave,
-        cubit: cubit,
+        onSaveDispose: onSaveDispose,
+        // cubit: cubit,
+        orangTuaTemp: orangTuaTemp,
+        alamatIbu: alamatIbu,
       ),
     );
   }
 }
 
 class CreateRegisterIbuView extends StatefulWidget {
-  final VoidCallback onSave;
-  final OrangTuaFormCubit cubit;
-  const CreateRegisterIbuView(
-      {super.key, required this.onSave, required this.cubit});
+  final ValueSetter<List<dynamic>> onSave;
+  final ValueSetter<List<dynamic>> onSaveDispose;
+  // final OrangTuaFormCubit cubit;
+  final post_orang_tua_body.PostOrangTuaBody orangTuaTemp;
+  final AlamatOrangTua alamatIbu;
+
+  const CreateRegisterIbuView({
+    super.key, 
+    required this.onSave, 
+    required this.onSaveDispose, 
+    // required this.cubit,
+    required this.orangTuaTemp,
+    required this.alamatIbu
+  });
 
   @override
   State<CreateRegisterIbuView> createState() => _CreateRegisterIbuViewState();
 }
 
 class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
+  bool firstload = true;
+
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController(); // Untuk
   // ? ibu
@@ -68,18 +94,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController =
-      TextEditingController();
-  final TextEditingController tanggalLahirIbuController =
-      TextEditingController();
+  final TextEditingController tempatLahirIbuController = TextEditingController();
+  final TextEditingController tanggalLahirIbuController = TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
   final TextEditingController rWIbuController = TextEditingController();
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
-      TextEditingController();
-  final TextEditingController jumlahAnakIbuController =
-      TextEditingController(text: '0');
+  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController = TextEditingController();
+  final TextEditingController jumlahAnakIbuController = TextEditingController(text: '0');
 
   //? selected
   List<DataKabupatenKota> dataKabupatenKotaIbu = [];
@@ -93,7 +115,6 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
   DataDusun? selectedDusunIbu;
 
   String selectedJenisKBIbu = '-';
-  String? selectedGolonnganDarahIbu;
   String selectedGolDarahIbu = '-';
 
   // Status checkbox untuk disabilitas
@@ -104,31 +125,21 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
   final GlobalKey<FormFieldState> kkIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaIbuKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rwIbuKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> jumlahAnakIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jumlahAnakIbuKey = GlobalKey<FormFieldState>();
 
-  final GlobalKey<FormFieldState> selectedKabupatenIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedKecamatanIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDesaIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDusunIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedJenisKBIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedGolDarahIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKabupatenIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedJenisKBIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahIbuKey = GlobalKey<FormFieldState>();
 
   // focus node
   final FocusNode kkIbuFocusNode = FocusNode();
@@ -256,7 +267,18 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
           return post_orang_tua_body.JenisDisabilitas(namaDisabilitas: e);
         }).toList(),
       );
-      widget.cubit.updateIbu(ibu);
+      // widget.cubit.updateIbu(ibu);
+
+      // alamat ayah
+      AlamatOrangTua alamatIbu = AlamatOrangTua(
+        kabupaten: selectedKabupatenIbu,
+        kecamatan: selectedKecamatanIbu,
+        desa: selectedDesaIbu,
+        dusun: selectedDusunIbu
+      );
+
+      //[data ibu, alamatOrangTua]
+      widget.onSave([ibu, alamatIbu]);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Data Valid!')),
@@ -264,6 +286,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
     } else {
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
+
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 60),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ibu tidak sesuai\nharap cek kembali"));
 
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
@@ -283,8 +312,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
         teleponIbuKey: teleponIbuFocusNode,
         selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
         selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuKey:
-            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+        tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
         jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
       };
       // logger.d(fieldMap);
@@ -324,9 +352,86 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
     // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
-    selectedDisabilitiesIbu =
-        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu =List<bool>.from(List.filled(disabilities.length, false));
+
+    //restore data form
+    if(widget.orangTuaTemp.ibu != null) {
+      //textfield
+      kkIbuController.text = widget.orangTuaTemp.ibu!.nomorKartuKeluarga;
+      nikIbuController.text = widget.orangTuaTemp.ibu!.nik;
+      namaIbuController.text = widget.orangTuaTemp.ibu!.namaIbu;
+      tempatLahirIbuController.text = widget.orangTuaTemp.ibu!.tempatLahir;
+      tanggalLahirIbuController.text = widget.orangTuaTemp.ibu!.tanggalLahir;
+      alamatIbuController.text = widget.orangTuaTemp.ibu!.alamat;
+      teleponIbuController.text = widget.orangTuaTemp.ibu!.nomorTelepon??"";
+      rTIbuController.text = widget.orangTuaTemp.ibu!.rt;
+      rWIbuController.text = widget.orangTuaTemp.ibu!.rw;
+      tanggalKelahiranAnakSebelumnyaIbuController.text = widget.orangTuaTemp.ibu!.tanggalMelahirkanSebelumnya??"";
+      jumlahAnakIbuController.text = widget.orangTuaTemp.ibu!.jumlahAnak.toString();
+
+      //dropdown
+      selectedJenisKBIbu = widget.orangTuaTemp.ibu!.jenisKb;
+      selectedGolDarahIbu = widget.orangTuaTemp.ibu!.golDarah;
+
+      //disabilitas
+      selectedDisabilityLabelsIbu = widget.orangTuaTemp.ibu!.jenisDisabilitas.map((e) => e.namaDisabilitas).toList();
+    }
+
+    firstload = true;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    //save current form
+    try{
+      post_orang_tua_body.Ibu ibu = post_orang_tua_body.Ibu(
+        tanggalMelahirkanSebelumnya:
+          tanggalKelahiranAnakSebelumnyaIbuController.text != ""
+              ? tanggalKelahiranAnakSebelumnyaIbuController.text
+              : null,
+        jumlahAnak: jumlahAnakIbuController.text != ""
+            ? int.parse(jumlahAnakIbuController.text)
+            : 0,
+        jenisKb: selectedJenisKBIbu,
+        alamat: alamatIbuController.text,
+        nomorKartuKeluarga: kkIbuController.text,
+        dusunId: selectedDusunIbu!.id,
+        golDarah: selectedGolDarahIbu,
+        namaIbu: namaIbuController.text,
+        nik: nikIbuController.text,
+        nomorTelepon: teleponIbuController.text.isNotEmpty
+            ? teleponIbuController.text
+            : null,
+        rt: rTIbuController.text,
+        rw: rWIbuController.text,
+        tempatLahir: tempatLahirIbuController.text,
+        tanggalLahir: tanggalLahirIbuController.text,
+        jenisDisabilitas: selectedDisabilityLabelsIbu.map((e) {
+          return post_orang_tua_body.JenisDisabilitas(namaDisabilitas: e);
+        }).toList(),
+      );
+
+      // widget.cubit.updateIbu(Ibu);
+
+      // alamat ayah
+      AlamatOrangTua alamatIbu = AlamatOrangTua(
+        kabupaten: selectedKabupatenIbu,
+        kecamatan: selectedKecamatanIbu,
+        desa: selectedDesaIbu,
+        dusun: selectedDusunIbu
+      );
+
+      //[data ibu, alamatOrangTua]
+      widget.onSaveDispose([ibu, alamatIbu]);
+    } catch (error) {
+      logger.e(error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Data ayah tidak tersimpan!')),
+      );
+    }
+    
+    super.dispose();
   }
 
   @override
@@ -346,12 +451,42 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
           );
         }
         if (stateDataWilayah is GetAlamatSuccessState) {
-          logger.d(
-              'length data wilayah ${stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota.length}');
-          if (dataKabupatenKotaIbu.isEmpty) {
-            dataKabupatenKotaIbu.addAll(
-                stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota);
+          try{
+            // logger.d('length data wilayah ${stateDataWilayah.dataWilIbuModel.provinsi.kabupatenKota.length}');
+            if (firstload) {
+              dataKabupatenKotaIbu.clear();
+              dataKabupatenKotaIbu.addAll(stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota);
+
+              //restore pilihan alamat Ibu saat pengembalian data
+              if(widget.alamatIbu.kabupaten != null ) {
+                logger.i("terjadi");
+                selectedKabupatenIbu = dataKabupatenKotaIbu.firstWhere((value) => value.id == widget.alamatIbu.kabupaten!.id);
+                dataKecamatanIbu.clear();
+                dataKecamatanIbu = dataKabupatenKotaIbu.firstWhere((value) => value.id == widget.alamatIbu.kabupaten!.id).kecamatan;
+              }
+
+              if(widget.alamatIbu.kecamatan != null) {
+                selectedKecamatanIbu = dataKecamatanIbu.firstWhere((value) => value.id == widget.alamatIbu.kecamatan!.id);
+                dataDesaKelurahanIbu.clear();
+                dataDesaKelurahanIbu = dataKecamatanIbu.firstWhere((value) => value.id == widget.alamatIbu.kecamatan!.id).desaKelurahan;
+              }
+
+              if(widget.alamatIbu.desa != null) {
+                selectedDesaIbu = dataDesaKelurahanIbu.firstWhere((value) => value.id == widget.alamatIbu.desa!.id);
+                dataDusunIbu.clear();
+                dataDusunIbu = dataDesaKelurahanIbu.firstWhere((value) => value.id == widget.alamatIbu.desa!.id).dusun;
+              }
+
+              if(widget.alamatIbu.dusun != null) {
+                selectedDusunIbu = dataDusunIbu.firstWhere((value) => value.id == widget.alamatIbu.dusun!.id);
+              }
+
+              firstload = false;
+            }      
+          } catch(error) {
+            logger.e(error);
           }
+
           return Form(
             key: _formKey,
             child: SingleChildScrollView(
@@ -400,9 +535,15 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               keyboardType: TextInputType.number,
                               obscureText: false,
                               clientValidators: [
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                                FormBuilderValidators.equalLength(16),
+                                FormBuilderValidators.required(
+                                  errorText: "Isi terlebih dahulu!"
+                                ),
+                                FormBuilderValidators.numeric(
+                                  errorText: "KK harus berupa angka!"
+                                ),
+                                FormBuilderValidators.equalLength(16,
+                                  errorText: "KK harus terdiri dari 16 angka!"
+                                ),
                               ],
                             ),
                           ),
@@ -494,9 +635,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                                 obscureText: false,
                                 onTap: () {},
                                 clientValidators: [
-                                  FormBuilderValidators.required(),
-                                  FormBuilderValidators.numeric(),
-                                  FormBuilderValidators.equalLength(16),
+                                  FormBuilderValidators.required(
+                                      errorText: "Isi terlebih dahulu!"),
+                                  FormBuilderValidators.numeric(
+                                      errorText: "NIK harus berupa angka!"),
+                                  FormBuilderValidators.equalLength(16,
+                                      errorText:
+                                          "NIK harus terdiri dari 16 angka!"),
                                 ]),
                           ),
                           GestureDetector(
@@ -566,7 +711,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                       keyboardType: TextInputType.text,
                       obscureText: false,
                       clientValidators: [
-                        FormBuilderValidators.required(),
+                        FormBuilderValidators.required(
+                          errorText: "Isi terlebih dahulu!"),
                       ]),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   Row(
@@ -595,7 +741,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               obscureText: false,
                               isPasswordField: false,
                               clientValidators: [
-                                FormBuilderValidators.required(),
+                                FormBuilderValidators.required(
+                                  errorText: "Isi terlebih dahulu!"),
                               ],
                             ),
                           ],
@@ -1016,7 +1163,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                             keyboardType: TextInputType.number,
                             obscureText: false,
                             clientValidators: [
-                              FormBuilderValidators.required()
+                              FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
                             ]),
                       ),
                       Expanded(
@@ -1030,7 +1178,10 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                           isPasswordField: false,
                           keyboardType: TextInputType.number,
                           obscureText: false,
-                          clientValidators: [FormBuilderValidators.required()],
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                              errorText: "Isi terlebih dahulu!"),
+                          ],
                         ),
                       ),
                     ],
@@ -1046,7 +1197,10 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     keyboardType: TextInputType.text,
                     obscureText: false,
                     isPasswordField: false,
-                    clientValidators: [FormBuilderValidators.required()],
+                    clientValidators: [
+                      FormBuilderValidators.required(
+                        errorText: "Isi terlebih dahulu!"),
+                      ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
@@ -1065,10 +1219,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     obscureText: false,
                     isPasswordField: false,
                     clientValidators: [
+                      FormBuilderValidators.numeric(errorText: "format nomor telepon salah", checkNullOrEmpty: false),
                       FormBuilderValidators.minLength(10,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false,
+                          errorText: "nomor telepon tidak sesuai"),
                       FormBuilderValidators.maxLength(13,
-                          checkNullOrEmpty: false)
+                          checkNullOrEmpty: false,
+                          errorText: "nomor telepon tidak sesuai")
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1177,7 +1334,10 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     keyboardType: TextInputType.number,
                     obscureText: false,
                     isPasswordField: false,
-                    clientValidators: [FormBuilderValidators.numeric()],
+                    clientValidators: [
+                      FormBuilderValidators.numeric(
+                        errorText: "Harus menggunakan angka"
+                      )],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(

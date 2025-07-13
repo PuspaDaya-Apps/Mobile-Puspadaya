@@ -4,9 +4,9 @@ import 'package:json_annotation/json_annotation.dart';
 // @JsonSerializable()
 class PostOrangTuaBody {
   @JsonKey(name: "ayah")
-  final Ayah ayah;
+  Ayah? ayah;
   @JsonKey(name: "ibu")
-  final Ibu ibu;
+  Ibu? ibu;
 
   PostOrangTuaBody({
     required this.ayah,

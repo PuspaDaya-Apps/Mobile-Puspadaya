@@ -6,6 +6,7 @@ import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cu
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/alamat_orang_tua_model.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart'
     as post_orang_tua_body;
 import 'package:puspadaya/app/model/data_wilayah_model.dart';
@@ -26,41 +27,93 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 class CreateRegisterAyah extends StatelessWidget {
-  final VoidCallback onNext;
-  final OrangTuaFormCubit cubit;
+  final ValueSetter<List<dynamic>> onNext;
+  final ValueSetter<List<dynamic>> onSaveDispose;
+  // final OrangTuaFormCubit cubit;
+  final post_orang_tua_body.PostOrangTuaBody orangTuaTemp;
+  final AlamatOrangTua alamatAyah;
 
-  const CreateRegisterAyah(
-      {super.key, required this.onNext, required this.cubit});
+  // final DataKabupatenKota? kabupatenAyah;
+  // final DataKecamatan? kecamatanAyah;
+  // final DataDesaKelurahan? desaAyah;
+  // final DataDusun? dusunAyah;
+
+  const CreateRegisterAyah({
+    super.key, 
+    required this.onNext, 
+    // required this.cubit, 
+    required this.orangTuaTemp,
+    required this.alamatAyah,
+    required this.onSaveDispose
+
+    // required this.kabupatenAyah,
+    // required this.kecamatanAyah,
+    // required this.desaAyah,
+    // required this.dusunAyah
+  });
 
   @override
   Widget build(BuildContext context) {
+    // logger.i("atas Kab = ${kabupatenAyah?.namaKabupatenKota}\nKec = ${kecamatanAyah?.namaKecamatan}\nDesa = ${desaAyah?.namaDesaKelurahan}\ndusun = ${dusunAyah?.namaDusun}");
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => GenerateKkCubit()),
         BlocProvider(create: (context) => GenerateNikCubit()),
-        BlocProvider<AlamatSaveCubit>(
-          create: (BuildContext context) => AlamatSaveCubit(),
-        ),
+        BlocProvider(create: (context) => AlamatSaveCubit())
+        // BlocProvider<AlamatSaveCubit>(
+        //   create: (BuildContext context) => AlamatSaveCubit(),
+        // ),
       ],
       child: CreateRegisterAyahView(
-        cubit: cubit,
+        // cubit: cubit,
         onNext: onNext,
+        onSaveDispose: onSaveDispose,
+        orangTuaTemp: orangTuaTemp,
+        alamatAyah: alamatAyah,
+
+        // kabupatenAyah: kabupatenAyah,
+        // kecamatanAyah: kecamatanAyah,
+        // desaAyah: desaAyah,
+        // dusunAyah: dusunAyah,
       ),
     );
   }
 }
 
 class CreateRegisterAyahView extends StatefulWidget {
-  final OrangTuaFormCubit cubit;
-  final VoidCallback onNext;
-  const CreateRegisterAyahView(
-      {super.key, required this.onNext, required this.cubit});
+  // final OrangTuaFormCubit cubit;
+  final ValueSetter<List<dynamic>> onNext;
+  final ValueSetter<List<dynamic>> onSaveDispose;
+  final post_orang_tua_body.PostOrangTuaBody orangTuaTemp;
+  final AlamatOrangTua alamatAyah;
+
+  // final DataKabupatenKota? kabupatenAyah;
+  // final DataKecamatan? kecamatanAyah;
+  // final DataDesaKelurahan? desaAyah;
+  // final DataDusun? dusunAyah;
+
+  const CreateRegisterAyahView({
+    super.key, 
+    required this.onNext,
+    required this.onSaveDispose,
+    // required this.cubit, 
+    required this.orangTuaTemp,
+    required this.alamatAyah
+
+    // required this.kabupatenAyah,
+    // required this.kecamatanAyah,
+    // required this.desaAyah,
+    // required this.dusunAyah
+  });
 
   @override
   State<CreateRegisterAyahView> createState() => _CreateRegisterAyahViewState();
 }
 
 class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
+  bool firstload = true;
+
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController(); // Untuk
   // Controller untuk Data Ayah dan Data Ibu
@@ -68,10 +121,8 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController =
-      TextEditingController();
-  final TextEditingController tanggalLahirAyahController =
-      TextEditingController();
+  final TextEditingController tempatLahirAyahController = TextEditingController();
+  final TextEditingController tanggalLahirAyahController = TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -99,25 +150,18 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
   final GlobalKey<FormFieldState> kkAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaAyahKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirAyahKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rwAyahKey = GlobalKey<FormFieldState>();
 
-  final GlobalKey<FormFieldState> selectedKabupatenAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedKecamatanAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDesaAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDusunAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedGolDarahAyahKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKabupatenAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahAyahKey = GlobalKey<FormFieldState>();
 
   // !ayah fokus node
   final FocusNode kkAyahFocusNode = FocusNode();
@@ -217,12 +261,31 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
         }).toList(),
       );
 
-      widget.cubit.updateAyah(ayah);
+      // widget.cubit.updateAyah(ayah);
 
-      widget.onNext();
+      // alamat ayah
+      AlamatOrangTua alamatAyah = AlamatOrangTua(
+        kabupaten: selectedKabupatenAyah,
+        kecamatan: selectedKecamatanAyah,
+        desa: selectedDesaAyah,
+        dusun: selectedDusunAyah
+      );
+
+      //[data ayah, alamatOrangTua]
+      widget.onNext([
+        ayah, 
+        alamatAyah
+      ]);
     } else {
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
+
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 60),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ayah tidak sesuai\nharap cek kembali"));
 
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
@@ -236,6 +299,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
         rtAyahKey: rtAyahFocusNode,
         rwAyahKey: rwAyahFocusNode,
         alamatAyahKey: alamatAyahFocusNode,
+
         selectedKabupatenAyahKey: selectedKabupatenAyahFocusNode,
         selectedKecamatanAyahKey: selectedKecamatanAyahFocusNode,
         selectedDesaAyahKey: selectedDesaAyahFocusNode,
@@ -246,11 +310,11 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
 
       // Cari field pertama yang memiliki error
       for (var entry in fieldMap.entries) {
+
         final key = entry.key;
         final focusNode = entry.value;
 
-        logger.d(
-            'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+        logger.d('key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
         // Cek apakah field ini punya error
         if (key.currentState?.hasError ?? false) {
           // Jika ya, scroll ke field ini
@@ -279,13 +343,77 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
     // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
-    selectedDisabilitiesAyah =
-        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesAyah = List<bool>.from(List.filled(disabilities.length, false));
+
+    // restore data form
+    if(widget.orangTuaTemp.ayah != null) {
+      //text field
+      kkAyahController.text = widget.orangTuaTemp.ayah!.nomorKartuKeluarga;
+      nikAyahController.text = widget.orangTuaTemp.ayah!.nik;
+      namaAyahController.text = widget.orangTuaTemp.ayah!.namaAyah;
+      tempatLahirAyahController.text = widget.orangTuaTemp.ayah!.tempatLahir;
+      tanggalLahirAyahController.text = widget.orangTuaTemp.ayah!.tanggalLahir;
+      alamatAyahController.text = widget.orangTuaTemp.ayah!.alamat;
+      teleponAyahController.text = widget.orangTuaTemp.ayah!.nomorTelepon??("");
+      rTAyahController.text = widget.orangTuaTemp.ayah!.rt;
+      rWAyahController.text = widget.orangTuaTemp.ayah!.rw;
+      
+      // logger.i("Kab = ${widget.kabupatenAyah?.namaKabupatenKota}\nKec = ${widget.kecamatanAyah?.namaKecamatan}\nDesa = ${widget.desaAyah?.namaDesaKelurahan}\ndusun = ${widget.dusunAyah?.namaDusun}");
+
+      // dropdown
+      selectedGolDarahAyah = widget.orangTuaTemp.ayah!.golDarah;
+
+      selectedDisabilityLabelsAyah = widget.orangTuaTemp.ayah!.jenisDisabilitas.map((e) => e.namaDisabilitas).toList();
+      //  detailData.data.ibu.jenisDisabilitas!.map((e) => e.namaDisabilitas).toList();
+    }
+
+    firstload = true;
     super.initState();
   }
 
   @override
   void dispose() {
+    //save current form
+      try{
+        post_orang_tua_body.Ayah ayah = post_orang_tua_body.Ayah(
+        alamat: alamatAyahController.text,
+        nomorKartuKeluarga: kkAyahController.text,
+        dusunId: selectedDusunAyah!.id,
+        golDarah: selectedGolDarahAyah,
+        namaAyah: namaAyahController.text,
+        nik: nikAyahController.text,
+        nomorTelepon: teleponAyahController.text.isNotEmpty
+            ? teleponAyahController.text
+            : null,
+        rt: rTAyahController.text,
+        rw: rWAyahController.text,
+        tempatLahir: tempatLahirAyahController.text,
+        tanggalLahir: tanggalLahirAyahController.text,
+        jenisDisabilitas: selectedDisabilityLabelsAyah.map((e) {
+          return post_orang_tua_body.JenisDisabilitas(namaDisabilitas: e);
+        }).toList(),
+      );
+
+      // widget.cubit.updateAyah(ayah);
+
+      // alamat ayah
+      AlamatOrangTua alamatAyah = AlamatOrangTua(
+        kabupaten: selectedKabupatenAyah,
+        kecamatan: selectedKecamatanAyah,
+        desa: selectedDesaAyah,
+        dusun: selectedDusunAyah
+      );
+
+      //[data ayah, alamatOrangTua]
+      widget.onSaveDispose([ayah, alamatAyah]);
+    } catch (error) {
+      logger.e(error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Data ayah tidak tersimpan!')),
+      );
+    }
+    
+
     // 1. Dispose ScrollController
     _scrollController.dispose();
 
@@ -340,12 +468,42 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
           );
         }
         if (stateDataWilayah is GetAlamatSuccessState) {
-          logger.d(
-              'length data wilayah ${stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota.length}');
-          if (dataKabupatenKotaAyah.isEmpty) {
-            dataKabupatenKotaAyah.addAll(
-                stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota);
+          try{
+            // logger.d('length data wilayah ${stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota.length}');
+            if (firstload) {
+              dataKabupatenKotaAyah.clear();
+              dataKabupatenKotaAyah.addAll(stateDataWilayah.dataWilayahModel.provinsi.kabupatenKota);
+
+              //restore pilihan alamat ayah saat pengembalian data
+              if(widget.alamatAyah.kabupaten != null ) {
+                logger.i("terjadi");
+                selectedKabupatenAyah = dataKabupatenKotaAyah.firstWhere((value) => value.id == widget.alamatAyah.kabupaten!.id);
+                dataKecamatanAyah.clear();
+                dataKecamatanAyah = dataKabupatenKotaAyah.firstWhere((value) => value.id == widget.alamatAyah.kabupaten!.id).kecamatan;
+              }
+
+              if(widget.alamatAyah.kecamatan != null) {
+                selectedKecamatanAyah = dataKecamatanAyah.firstWhere((value) => value.id == widget.alamatAyah.kecamatan!.id);
+                dataDesaKelurahanAyah.clear();
+                dataDesaKelurahanAyah = dataKecamatanAyah.firstWhere((value) => value.id == widget.alamatAyah.kecamatan!.id).desaKelurahan;
+              }
+
+              if(widget.alamatAyah.desa != null) {
+                selectedDesaAyah = dataDesaKelurahanAyah.firstWhere((value) => value.id == widget.alamatAyah.desa!.id);
+                dataDusunAyah.clear();
+                dataDusunAyah = dataDesaKelurahanAyah.firstWhere((value) => value.id == widget.alamatAyah.desa!.id).dusun;
+              }
+
+              if(widget.alamatAyah.dusun != null) {
+                selectedDusunAyah = dataDusunAyah.firstWhere((value) => value.id == widget.alamatAyah.dusun!.id);
+              }
+
+              firstload = false;
+            }      
+          } catch(error) {
+            logger.e(error);
           }
+          
 
           return Form(
             autovalidateMode: AutovalidateMode.disabled,
@@ -404,8 +562,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                                 FormBuilderValidators.numeric(
                                     errorText: "KK harus berupa angka!"),
                                 FormBuilderValidators.equalLength(16,
-                                    errorText:
-                                        "KK harus terdiri dari 16 angka!"),
+                                    errorText: "KK harus terdiri dari 16 angka!"),
                               ],
                             ),
                           ),
@@ -663,8 +820,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     children: [
                       Expanded(
                         child: IgnorePointer(
-                          ignoring:
-                              dataKabupatenKotaAyah.isNotEmpty ? false : true,
+                          ignoring: dataKabupatenKotaAyah.isNotEmpty ? false : true,
                           child: DropdownButtonFormField2<DataKabupatenKota>(
                             isExpanded: true,
                             style: AppTextStyles.primaryTextNormal.copyWith(
@@ -1040,7 +1196,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           clientValidators: [
-                            FormBuilderValidators.required(errorText: "Isi RT"),
+                            FormBuilderValidators.required(errorText: "Isi Terlebih Dahulu"),
                           ],
                         ),
                       ),
@@ -1056,8 +1212,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                             keyboardType: TextInputType.number,
                             obscureText: false,
                             clientValidators: [
-                              FormBuilderValidators.required(
-                                  errorText: "Isi RW"),
+                              FormBuilderValidators.required(errorText: "Isi Terlebih Dahulu"),
                             ]),
                       ),
                     ],
@@ -1074,8 +1229,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     formFieldKey: alamatAyahKey,
                     isPasswordField: false,
                     clientValidators: [
-                      FormBuilderValidators.required(
-                          errorText: "Isi Terlebih Dahulu"),
+                      FormBuilderValidators.required(errorText: "Isi Terlebih Dahulu"),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1095,10 +1249,13 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     formFieldKey: teleponAyahKey,
                     isPasswordField: false,
                     clientValidators: [
+                      FormBuilderValidators.numeric(errorText: "format nomor telepon salah", checkNullOrEmpty: false),
                       FormBuilderValidators.minLength(10,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false,
+                          errorText: "nomor telepon tidak sesuai"),
                       FormBuilderValidators.maxLength(13,
-                          checkNullOrEmpty: false),
+                          checkNullOrEmpty: false,
+                          errorText: "nomor telepon tidak sesuai"),
                     ],
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1111,7 +1268,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     key: selectedGolDarahAyahKey,
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
-                          errorText: "Golongan harud dipilih"),
+                          errorText: "Golongan harus dipilih"),
                     ]),
                     items: selectGolDarah,
                     hint: 'Golongan Darah',

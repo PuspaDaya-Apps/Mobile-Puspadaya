@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
@@ -5,6 +7,7 @@ import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit
 import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/bloc/create_register_orang_tua_bloc.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/alamat_orang_tua_model.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ayah.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ibu.dart';
@@ -13,7 +16,6 @@ import 'package:puspadaya/app/view/widget/top_snackbar/top_snackbar_widget.dart'
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 
 class CreateRegisterOrangTua extends StatelessWidget {
   const CreateRegisterOrangTua({super.key});
@@ -30,8 +32,8 @@ class CreateRegisterOrangTua extends StatelessWidget {
         BlocProvider<CreateRegisterOrangTuaBloc>(
           create: (BuildContext context) => CreateRegisterOrangTuaBloc(),
         ),
-        BlocProvider<OrangTuaFormCubit>(
-            create: (BuildContext context) => OrangTuaFormCubit()),
+        // BlocProvider<OrangTuaFormCubit>(
+        //     create: (BuildContext context) => OrangTuaFormCubit()),
       ],
       child: CreateRegisterOrangTuaView(),
     );
@@ -46,10 +48,28 @@ class CreateRegisterOrangTuaView extends StatefulWidget {
       _CreateRegisterOrangTuaViewState();
 }
 
-class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
-    with SingleTickerProviderStateMixin {
+
+
+class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late OrangTuaFormCubit orangTuaCubit;
+  // late OrangTuaFormCubit orangTuaCubit;
+
+  PostOrangTuaBody orangTuaTemp = PostOrangTuaBody(ayah: null, ibu: null);
+
+  AlamatOrangTua alamatAyah = AlamatOrangTua(
+    kabupaten: null,
+    kecamatan: null,
+    desa: null,
+    dusun: null
+  );
+
+  AlamatOrangTua alamatIbu = AlamatOrangTua(
+    kabupaten: null,
+    kecamatan: null,
+    desa: null,
+    dusun: null
+  );
+
 
   // Data yang akan dikumpulkan
 
@@ -62,16 +82,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
-    orangTuaCubit = context.read<OrangTuaFormCubit>();
+    // orangTuaCubit = context.read<OrangTuaFormCubit>();
   }
 
   void _submitAllData() {
-    PostOrangTuaBody postData = orangTuaCubit.getPostBody();
+    // PostOrangTuaBody postData = orangTuaCubit.getPostBody();
     // post_orang_tua postData = orangTuaCubit.getPostBody();
-    logger.d(postData);
-    context
-        .read<CreateRegisterOrangTuaBloc>()
-        .add(SendRegisterOrangTua(postOrangTuaBody: postData));
+    // logger.d(postData);
+    context.read<CreateRegisterOrangTuaBloc>().add(SendRegisterOrangTua(postOrangTuaBody: orangTuaTemp));
   }
 
   @override
@@ -92,8 +110,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           Navigator.pop(context);
         },
       ),
-      body:
-          BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
+      body: BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
         listener: (context, state) {
           if (state is CreateRegisterOrangTuaFailedState) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -131,6 +148,26 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: TabBar(
+                      onTap: (value) {
+                        //refresh halaman untuk perbarui variabel di class turunan
+                        setState(() {
+                          logger.i("perbarui");
+                        });
+
+                        if(value == 1) {
+                          if(orangTuaTemp.ayah != null) {
+                            _tabController.animateTo(1);
+                          } else {
+                            _tabController.animateTo(0);
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              animationDuration: const Duration(milliseconds: 600),
+                              displayDuration: const Duration(milliseconds: 2200),
+                              reverseAnimationDuration:const Duration(milliseconds: 300),
+                              TopSnackbarWidget().error("Data ayah belum tersimpan\nharap tekan tombol selanjutnya"));
+                          }
+                        }
+                      },
                       isScrollable: false,
                       padding: EdgeInsets.zero,
                       indicatorSize: TabBarIndicatorSize.tab,
@@ -157,14 +194,75 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                       children: [
                         // ! Ayah
                         CreateRegisterAyah(
-                          cubit: orangTuaCubit,
-                          onNext: () => _tabController.animateTo(1),
+                          // key: Key("create ayah ${Random()}"),
+                          // cubit: orangTuaCubit,
+                          onNext: (value) {
+                            //[data ayah, AlamatOrangTua]
+                            orangTuaTemp.ayah = value[0];
+
+                            alamatAyah = value[1];
+
+                            logger.i(alamatAyah.kabupaten!.namaKabupatenKota);
+                            logger.i(alamatAyah.kecamatan!.namaKecamatan);
+                            logger.i(alamatAyah.desa!.namaDesaKelurahan)  ;
+                            logger.i(alamatAyah.dusun!.namaDusun);
+                            // logger.i("Kab = ${alam?.namaKabupatenKota}\nKec = ${selectedKecamatanAyah?.namaKecamatan}\nDesa = ${selectedDesaAyah?.namaDesaKelurahan}\ndusun = ${selectedDusunAyah?.namaDusun}");                            
+
+                            if(orangTuaTemp.ayah != null){
+                              _tabController.animateTo(1);
+                            }
+                          },
+                          onSaveDispose: (value) {
+                            //[data ayah, AlamatOrangTua]
+                            orangTuaTemp.ayah = value[0];
+
+                            alamatAyah = value[1];
+
+                            logger.i(alamatAyah.kabupaten!.namaKabupatenKota);
+                            logger.i(alamatAyah.kecamatan!.namaKecamatan);
+                            logger.i(alamatAyah.desa!.namaDesaKelurahan)  ;
+                            logger.i(alamatAyah.dusun!.namaDusun);
+                          },
+
+                          //passing data
+                          orangTuaTemp: orangTuaTemp,
+                          alamatAyah: alamatAyah
+                          // kabupatenAyah: selectedKabupatenAyah,
+                          // kecamatanAyah: selectedKecamatanAyah,
+                          // desaAyah: selectedDesaAyah,
+                          // dusunAyah: selectedDusunAyah,
                         ),
 
                         //!IBU
                         CreateRegisterIbu(
-                          cubit: orangTuaCubit,
-                          onSave: () => _submitAllData(),
+                          // key: Key("Create Ibu ${Random()}"),
+                          // cubit: orangTuaCubit,
+                          onSave: (value) {
+                            orangTuaTemp.ibu = value[0];
+
+                            alamatIbu = value[1];
+
+                            logger.i(alamatIbu.kabupaten!.namaKabupatenKota);
+                            logger.i(alamatIbu.kecamatan!.namaKecamatan);
+                            logger.i(alamatIbu.desa!.namaDesaKelurahan)  ;
+                            logger.i(alamatIbu.dusun!.namaDusun);
+
+                            _submitAllData();
+                          },
+
+                          onSaveDispose: (value) {
+                            orangTuaTemp.ibu = value[0];
+
+                            alamatIbu = value[1];
+
+                            logger.i(alamatIbu.kabupaten!.namaKabupatenKota);
+                            logger.i(alamatIbu.kecamatan!.namaKecamatan);
+                            logger.i(alamatIbu.desa!.namaDesaKelurahan)  ;
+                            logger.i(alamatIbu.dusun!.namaDusun);
+                          },
+                          //passing data
+                          orangTuaTemp: orangTuaTemp,
+                          alamatIbu: alamatIbu
                         ),
                       ],
                     ),
