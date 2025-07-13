@@ -1133,7 +1133,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
               isPasswordField: false,
               clientValidators: [
                 FormBuilderValidators.numeric(
-                              errorText: "Nomor harus berupa angka!"),
+                              errorText: "Nomor harus berupa angka!", checkNullOrEmpty: false),
                 FormBuilderValidators.minLength(10,
                     checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
                 FormBuilderValidators.maxLength(13,
