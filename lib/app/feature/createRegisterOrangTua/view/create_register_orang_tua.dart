@@ -274,7 +274,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     });
   }
 
-  void submitAyahForm() {
+  bool submitAyahForm() {
     logger.d('submit form');
     // Langkah 1: Jalankan validasi form
     if (_formAyahkey.currentState!.validate()) {
@@ -285,6 +285,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       // logger.d('ayah data is ${widget.cubit.getAyahData().toJson()}');
 
       // widget.onNext();
+      _tabController.animateTo(1);
+      return true;
     } else {
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
@@ -336,6 +338,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           break;
         }
       }
+      return false;
     }
   }
 
@@ -512,7 +515,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       selectedKecamatanIbu = null;
       selectedDesaIbu = null;
       selectedDusunIbu = null;
-       logger.d('set selectedKabupatenIbu to ${selectedKabupatenIbu?.id ?? '-'}');
+      logger
+          .d('set selectedKabupatenIbu to ${selectedKabupatenIbu?.id ?? '-'}');
     });
   }
 
@@ -560,13 +564,67 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     });
   }
 
-  void submitIbuForm() {
+  bool submitIbuForm() {
     // Langkah 1: Jalankan validasi form
     if (_formIbukey.currentState!.validate()) {
       // JIKA FORM VALID
       // Lakukan aksi selanjutnya, seperti menyimpan data atau pindah halaman
       logger.d('form valid dari ibu');
       // _goToNextTab(); // Contoh aksi
+      // logger.d(_formAyahkey.currentState!.validate());
+
+      // Validate the form
+      PostOrangTuaBody dataOrangTua = PostOrangTuaBody(
+        ayah: Ayah(
+          alamat: alamatAyahController.text,
+          nomorKartuKeluarga: kkAyahController.text,
+          dusunId: selectedDusunAyah!.id,
+          golDarah: selectedGolDarahAyah,
+          namaAyah: namaAyahController.text,
+          nik: nikAyahController.text,
+          nomorTelepon: teleponAyahController.text.isNotEmpty
+              ? teleponAyahController.text
+              : null,
+          rt: rTAyahController.text,
+          rw: rWAyahController.text,
+          tempatLahir: tempatLahirAyahController.text,
+          tanggalLahir: tanggalLahirAyahController.text,
+          jenisDisabilitas: selectedDisabilityLabelsAyah.map((e) {
+            return JenisDisabilitas(namaDisabilitas: e);
+          }).toList(),
+        ),
+        ibu: Ibu(
+          tanggalMelahirkanSebelumnya:
+              tanggalKelahiranAnakSebelumnyaIbuController.text != ""
+                  ? tanggalKelahiranAnakSebelumnyaIbuController.text
+                  : null,
+          jumlahAnak: jumlahAnakIbuController.text != ""
+              ? int.parse(jumlahAnakIbuController.text)
+              : 0,
+          jenisKb: selectedJenisKBIbu,
+          alamat: alamatIbuController.text,
+          nomorKartuKeluarga: kkIbuController.text,
+          dusunId: selectedDusunIbu!.id,
+          golDarah: selectedGolDarahIbu,
+          namaIbu: namaIbuController.text,
+          nik: nikIbuController.text,
+          nomorTelepon: teleponIbuController.text.isNotEmpty
+              ? teleponIbuController.text
+              : null,
+          rt: rTIbuController.text,
+          rw: rWIbuController.text,
+          tempatLahir: tempatLahirIbuController.text,
+          tanggalLahir: tanggalLahirIbuController.text,
+          jenisDisabilitas: selectedDisabilityLabelsIbu.map((e) {
+            return JenisDisabilitas(namaDisabilitas: e);
+          }).toList(),
+        ),
+      );
+
+      context
+          .read<CreateRegisterOrangTuaBloc>()
+          .add(SendRegisterOrangTua(postOrangTuaBody: dataOrangTua));
+      return true;
     } else {
       // JIKA FORM TIDAK VALID
       logger.d('Form tidak valid. Mencari error pertama...');
@@ -622,6 +680,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           break;
         }
       }
+      return false;
     }
   }
 
@@ -639,7 +698,33 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         List<bool>.from(List.filled(disabilities.length, false));
     selectedDisabilitiesIbu =
         List<bool>.from(List.filled(disabilities.length, false));
+
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        // Cek jika pindah dari tab Ayah (0) ke tab Ibu (1)
+        if (_tabController.previousIndex == 0 && _tabController.index == 1) {
+          // Trigger penyimpanan otomatis form Ayah
+          logger.d('trigger submit ayah form when pindah ke ibu');
+          bool valid = submitAyahForm();
+          if (!valid) {
+            // Batalkan pindah tab: kembali ke tab Ayah
+            _tabController.animateTo(0);
+          }
+        } else if (_tabController.previousIndex == 1 &&
+            _tabController.index == 0) {
+          // Trigger penyimpanan otomatis form Ibu
+          logger.d('trigger submit ayah form when pindah ke ibu');
+          bool valid = submitIbuForm();
+          if (!valid) {
+            // Batalkan pindah tab: kembali ke tab Ibu
+            _tabController.animateTo(1);
+          }
+          // submitIbuForm();
+        }
+      }
+    });
   }
 
   @override
@@ -970,8 +1055,10 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                   selectedDusunIbu: selectedDusunIbu,
                                   selectedGolDarahIbu: selectedGolDarahIbu,
                                   selectedKecamatanIbu: selectedKecamatanIbu,
-                                  selectedDisabilitiesIbu: selectedDisabilitiesIbu,
-                                  selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
+                                  selectedDisabilitiesIbu:
+                                      selectedDisabilitiesIbu,
+                                  selectedDisabilityLabelsIbu:
+                                      selectedDisabilityLabelsIbu,
                                   dataKecamatanIbu: dataKecamatanIbu,
                                   dataDesaKelurahanIbu: dataDesaKelurahanIbu,
                                   dataDusunIbu: dataDusunIbu,
@@ -1039,1354 +1126,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                   onSelectDateKelahiranSebelumnya:
                                       _selectDateKelahiranSebelumnyaIbu,
                                   submitIbuForm: submitIbuForm)
-                              // Container(),
-                              // Form(
-                              //   key: _formIbukey,
-                              //   child: SingleChildScrollView(
-                              //     controller: _ibuScrollController,
-                              //     child: Column(
-                              //       crossAxisAlignment:
-                              //           CrossAxisAlignment.start,
-                              //       mainAxisAlignment: MainAxisAlignment.start,
-                              //       children: [
-                              //         const Text(
-                              //           'Nomor Kartu Keluarga',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         BlocConsumer<GenerateKkCubit,
-                              //             GenerateKkState>(
-                              //           listener: (context, stateKK) {
-                              //             if (stateKK is GenerateKKSuccess) {
-                              //               kkIbuController.text = stateKK
-                              //                   .data.data.nomorKartuKeluarga;
-                              //             }
-                              //           },
-                              //           builder: (context, stateKK) {
-                              //             if (stateKK is GenerateKKLoading) {
-                              //               return SizedBox(
-                              //                 child: Center(
-                              //                   child: SpinKitThreeBounce(
-                              //                     color: bluePrimaryMain,
-                              //                     size: 50.0,
-                              //                   ),
-                              //                 ),
-                              //               );
-                              //             }
-                              //             return Row(
-                              //               crossAxisAlignment:
-                              //                   CrossAxisAlignment.center,
-                              //               mainAxisAlignment:
-                              //                   MainAxisAlignment.center,
-                              //               spacing: 8,
-                              //               children: [
-                              //                 Expanded(
-                              //                   child: TextFieldWidget2(
-                              //                     controller: kkIbuController,
-                              //                     formFieldKey: kkIbuKey,
-                              //                     hintText: 'Masukan Nomor KK',
-                              //                     isPasswordField: false,
-                              //                     keyboardType:
-                              //                         TextInputType.number,
-                              //                     obscureText: false,
-                              //                     fieldName: 'kk_ibu',
-                              //                     onTap: () {},
-                              //                     focusNode: kkIbuFocusNode,
-                              //                     clientValidators: [
-                              //                       FormBuilderValidators.required(
-                              //                           errorText:
-                              //                               "Isi terlebih dahulu!"),
-                              //                       FormBuilderValidators.numeric(
-                              //                           errorText:
-                              //                               "KK harus berupa angka!"),
-                              //                       FormBuilderValidators
-                              //                           .equalLength(16,
-                              //                               errorText:
-                              //                                   "KK harus terdiri dari 16 angka!"),
-                              //                     ],
-                              //                   ),
-                              //                 ),
-                              //                 GestureDetector(
-                              //                   onTap: () {
-                              //                     // Validasi sebelum mengizinkan generate
-                              //                     if (_isGenerateIbuValid()) {
-                              //                       // Logika untuk generate
-                              //                       logger.d(
-                              //                           'provinsi id ibu ${state.dataWilayahModel.provinsi.id}');
-                              //                       logger.d(
-                              //                           'kabupaten id ibu ${selectedKabupatenIbu?.id}');
-                              //                       logger.d(
-                              //                           'kecataman id ibu ${selectedKecamatanIbu?.id}');
-                              //                       print(
-                              //                           "Generate button pressed");
-
-                              //                       context
-                              //                           .read<GenerateKkCubit>()
-                              //                           .getGenerateKK(
-                              //                               state
-                              //                                   .dataWilayahModel
-                              //                                   .provinsi
-                              //                                   .id,
-                              //                               selectedKabupatenIbu!
-                              //                                   .id,
-                              //                               selectedKecamatanIbu!
-                              //                                   .id,
-                              //                               tanggalLahirIbuController
-                              //                                   .text);
-                              //                     } else {
-                              //                       // Tampilkan snackbar atau dialog jika form tidak valid
-                              //                       showTopSnackBar(
-                              //                           Overlay.of(context),
-                              //                           animationDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       600),
-                              //                           displayDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       2200),
-                              //                           reverseAnimationDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       300),
-                              //                           TopSnackbarWidget().error(
-                              //                               'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
-                              //                     }
-                              //                   },
-                              //                   child: Image(
-                              //                     width: 38,
-                              //                     height: 38,
-                              //                     color: greenPrimaryMain,
-                              //                     image: AssetImage(
-                              //                       imageRestart,
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             );
-                              //           },
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'NIK',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-
-                              //         BlocConsumer<GenerateNikCubit,
-                              //             GenerateNikState>(
-                              //           listener: (context, state) {
-                              //             if (state is GenerateNikSuccess) {
-                              //               nikIbuController.text = state
-                              //                   .data.data.nomorIndukKeluarga;
-                              //             }
-                              //           },
-                              //           builder: (context, state) {
-                              //             if (state is GenerateNikLoading) {
-                              //               return SizedBox(
-                              //                 child: Center(
-                              //                   child: SpinKitThreeBounce(
-                              //                     color: bluePrimaryMain,
-                              //                     size: 50.0,
-                              //                   ),
-                              //                 ),
-                              //               );
-                              //             }
-                              //             return Row(
-                              //               crossAxisAlignment:
-                              //                   CrossAxisAlignment.start,
-                              //               mainAxisAlignment:
-                              //                   MainAxisAlignment.start,
-                              //               spacing: 8,
-                              //               children: [
-                              //                 Expanded(
-                              //                   child: TextFieldWidget2(
-                              //                     controller: nikIbuController,
-                              //                     fieldName: 'nik_ibu',
-                              //                     focusNode: nikIbuFocusNode,
-                              //                     formFieldKey: nikIbuKey,
-                              //                     onTap: () {},
-                              //                     hintText: 'Masukan NIK',
-                              //                     isPasswordField: false,
-                              //                     keyboardType:
-                              //                         TextInputType.number,
-                              //                     obscureText: false,
-                              //                     clientValidators: [
-                              //                       FormBuilderValidators.required(
-                              //                           errorText:
-                              //                               "Isi terlebih dahulu!"),
-                              //                       FormBuilderValidators.numeric(
-                              //                           errorText:
-                              //                               "NIK harus berupa angka!"),
-                              //                       FormBuilderValidators
-                              //                           .equalLength(16,
-                              //                               errorText:
-                              //                                   "NIK harus terdiri dari 16 angka!"),
-                              //                     ],
-                              //                   ),
-                              //                 ),
-                              //                 GestureDetector(
-                              //                   onTap: () {
-                              //                     if (kkIbuController
-                              //                         .text.isEmpty) {
-                              //                       showTopSnackBar(
-                              //                           Overlay.of(context),
-                              //                           animationDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       600),
-                              //                           displayDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       2200),
-                              //                           reverseAnimationDuration:
-                              //                               const Duration(
-                              //                                   milliseconds:
-                              //                                       300),
-                              //                           TopSnackbarWidget().error(
-                              //                               'KK Harus Diisi Terlebih Dahulu'));
-                              //                     } else {
-                              //                       // Validasi sebelum mengizinkan generate
-                              //                       if (_isGenerateIbuValid()) {
-                              //                         // Logika untuk generate
-                              //                         print(
-                              //                             "Generate button pressed");
-                              //                         context
-                              //                             .read<
-                              //                                 GenerateNikCubit>()
-                              //                             .getGenerateNik(
-                              //                                 kkIbuController
-                              //                                     .text,
-                              //                                 tanggalLahirIbuController
-                              //                                     .text);
-                              //                       } else {
-                              //                         // Tampilkan snackbar atau dialog jika form tidak valid
-                              //                         showTopSnackBar(
-                              //                             Overlay.of(context),
-                              //                             animationDuration:
-                              //                                 const Duration(
-                              //                                     milliseconds:
-                              //                                         600),
-                              //                             displayDuration:
-                              //                                 const Duration(
-                              //                                     milliseconds:
-                              //                                         2200),
-                              //                             reverseAnimationDuration:
-                              //                                 const Duration(
-                              //                                     milliseconds:
-                              //                                         300),
-                              //                             TopSnackbarWidget().error(
-                              //                                 'Lengkapi data lahir & alamat untuk membuat Nomor KK!'));
-                              //                       }
-                              //                     }
-                              //                   },
-                              //                   child: Image(
-                              //                     width: 38,
-                              //                     height: 38,
-                              //                     color: greenPrimaryMain,
-                              //                     image: AssetImage(
-                              //                       imageRestart,
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             );
-                              //           },
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Nama',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         TextFieldWidget2(
-                              //           fieldName: 'nama_ibu',
-                              //           focusNode: namaIbuFocusNode,
-                              //           onTap: () {},
-                              //           controller: namaIbuController,
-                              //           formFieldKey: namaIbuKey,
-                              //           hintText: 'Masukan Nama',
-                              //           isPasswordField: false,
-                              //           keyboardType: TextInputType.text,
-                              //           obscureText: false,
-                              //           clientValidators: [
-                              //             FormBuilderValidators.required(
-                              //                 errorText:
-                              //                     "Isi terlebih dahulu!"),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         Row(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.center,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           spacing: 8,
-                              //           children: [
-                              //             Expanded(
-                              //               child: Column(
-                              //                 crossAxisAlignment:
-                              //                     CrossAxisAlignment.start,
-                              //                 mainAxisAlignment:
-                              //                     MainAxisAlignment.start,
-                              //                 children: [
-                              //                   const Text(
-                              //                     'Tempat Lahir',
-                              //                     style:
-                              //                         TextStyle(fontSize: 12),
-                              //                   ),
-                              //                   SizedBox(
-                              //                       height: SizeConfig
-                              //                           .calHeightMultiplier(
-                              //                               8)),
-                              //                   TextFieldWidget2(
-                              //                     controller:
-                              //                         tempatLahirIbuController,
-                              //                     focusNode:
-                              //                         tempatLahirIbuFocusNode,
-                              //                     onTap: () {},
-                              //                     formFieldKey:
-                              //                         tempatLahirIbuKey,
-                              //                     fieldName: 'tempat_lahir_ibu',
-                              //                     hintText: 'Tempat Lahir',
-                              //                     keyboardType:
-                              //                         TextInputType.text,
-                              //                     obscureText: false,
-                              //                     isPasswordField: false,
-                              //                     clientValidators: [
-                              //                       FormBuilderValidators.required(
-                              //                           errorText:
-                              //                               "Isi terlebih dahulu!"),
-                              //                     ],
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //             Expanded(
-                              //               child: Column(
-                              //                 crossAxisAlignment:
-                              //                     CrossAxisAlignment.start,
-                              //                 mainAxisAlignment:
-                              //                     MainAxisAlignment.start,
-                              //                 children: [
-                              //                   const Text(
-                              //                     'Tanggal Lahir',
-                              //                     style:
-                              //                         TextStyle(fontSize: 12),
-                              //                   ),
-                              //                   SizedBox(
-                              //                       height: SizeConfig
-                              //                           .calHeightMultiplier(
-                              //                               8)),
-                              //                   DateTimePickerWidget(
-                              //                     controller:
-                              //                         tanggalLahirIbuController,
-                              //                     hintText: 'Tanggal Lahir',
-                              //                     selectDate: () {
-                              //                       _selectDateIbu(context);
-                              //                     },
-                              //                     isDate: true,
-                              //                     validator:
-                              //                         FormBuilderValidators
-                              //                             .compose(
-                              //                       [
-                              //                         FormBuilderValidators
-                              //                             .required(
-                              //                                 errorText:
-                              //                                     "Isi terlebih dahulu!"),
-                              //                       ],
-                              //                     ),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             )
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Alamat',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         Row(
-                              //           spacing: 8,
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.center,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: [
-                              //             Expanded(
-                              //               child: IgnorePointer(
-                              //                 ignoring: dataKabupatenKotaIbu
-                              //                         .isNotEmpty
-                              //                     ? false
-                              //                     : true,
-                              //                 child: DropdownButtonFormField2<
-                              //                     DataKabupatenKota>(
-                              //                   isExpanded: true,
-                              //                   style: AppTextStyles
-                              //                       .primaryTextNormal
-                              //                       .copyWith(
-                              //                     fontSize: 12,
-                              //                   ),
-                              //                   value:
-                              //                       selectedKabupatenIbu, // Ini bisa null
-                              //                   hint: Text(
-                              //                     "Kabupaten",
-                              //                     style: AppTextStyles
-                              //                         .secoundaryTextNormal
-                              //                         .copyWith(
-                              //                       fontSize: 12,
-                              //                     ),
-                              //                   ),
-                              //                   buttonStyleData:
-                              //                       const ButtonStyleData(
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   dropdownStyleData:
-                              //                       DropdownStyleData(
-                              //                     decoration: BoxDecoration(
-                              //                       border: Border.all(
-                              //                           color: Colors.grey),
-                              //                       borderRadius:
-                              //                           const BorderRadius.only(
-                              //                         bottomRight:
-                              //                             Radius.circular(10),
-                              //                         bottomLeft:
-                              //                             Radius.circular(10),
-                              //                       ),
-                              //                       color: backgroundWhite10,
-                              //                     ),
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   items: dataKabupatenKotaIbu
-                              //                       .map((item) {
-                              //                     return DropdownMenuItem<
-                              //                         DataKabupatenKota>(
-                              //                       value: item,
-                              //                       child: Text(
-                              //                           item.namaKabupatenKota),
-                              //                     );
-                              //                   }).toList(),
-                              //                   onChanged: (value) =>
-                              //                       _handleKabupatenIbuChanged(
-                              //                           value!),
-                              //                   onSaved: (value) {},
-                              //                   validator: null,
-                              //                   decoration: InputDecoration(
-                              //                     contentPadding:
-                              //                         EdgeInsets.symmetric(
-                              //                             horizontal: 12,
-                              //                             vertical: 12),
-                              //                     hintText: "Kabupaten",
-                              //                     hintStyle: Theme.of(context)
-                              //                         .textTheme
-                              //                         .bodySmall!
-                              //                         .copyWith(
-                              //                           color: Colors.grey,
-                              //                         ),
-                              //                     filled: true,
-                              //                     fillColor: backgroundWhite10,
-                              //                     border: OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide: BorderSide.none,
-                              //                     ),
-                              //                     enabledBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     focusedBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.only(
-                              //                               topRight: Radius
-                              //                                   .circular(10),
-                              //                               topLeft:
-                              //                                   Radius.circular(
-                              //                                       10)),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     errorBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color:
-                              //                                   redPrimaryMain),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //             Expanded(
-                              //               child: IgnorePointer(
-                              //                 ignoring:
-                              //                     dataKecamatanIbu.isNotEmpty
-                              //                         ? false
-                              //                         : true,
-                              //                 child: DropdownButtonFormField2<
-                              //                     DataKecamatan>(
-                              //                   isExpanded: true,
-                              //                   style: AppTextStyles
-                              //                       .primaryTextNormal
-                              //                       .copyWith(
-                              //                     fontSize: 12,
-                              //                   ),
-                              //                   value:
-                              //                       selectedKecamatanIbu, // Ini bisa null
-                              //                   hint: Text(
-                              //                     "Kecamatan",
-                              //                     style: AppTextStyles
-                              //                         .secoundaryTextNormal
-                              //                         .copyWith(
-                              //                       fontSize: 12,
-                              //                     ),
-                              //                   ),
-                              //                   buttonStyleData:
-                              //                       const ButtonStyleData(
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   dropdownStyleData:
-                              //                       DropdownStyleData(
-                              //                     decoration: BoxDecoration(
-                              //                       border: Border.all(
-                              //                           color: Colors.grey),
-                              //                       borderRadius:
-                              //                           const BorderRadius.only(
-                              //                         bottomRight:
-                              //                             Radius.circular(10),
-                              //                         bottomLeft:
-                              //                             Radius.circular(10),
-                              //                       ),
-                              //                       color: backgroundWhite10,
-                              //                     ),
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   items: dataKecamatanIbu
-                              //                       .map((item) {
-                              //                     return DropdownMenuItem<
-                              //                         DataKecamatan>(
-                              //                       value: item,
-                              //                       child: Text(
-                              //                           item.namaKecamatan),
-                              //                     );
-                              //                   }).toList(),
-                              //                   onChanged: (value) =>
-                              //                       _handleKecamatanIbuChanged(
-                              //                           value!),
-                              //                   onSaved: (value) {},
-                              //                   validator: null,
-                              //                   decoration: InputDecoration(
-                              //                     contentPadding:
-                              //                         EdgeInsets.symmetric(
-                              //                             horizontal: 12,
-                              //                             vertical: 12),
-                              //                     hintText: "Kecamatan",
-                              //                     hintStyle: Theme.of(context)
-                              //                         .textTheme
-                              //                         .bodySmall!
-                              //                         .copyWith(
-                              //                           color: Colors.grey,
-                              //                         ),
-                              //                     filled: true,
-                              //                     fillColor: backgroundWhite10,
-                              //                     border: OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide: BorderSide.none,
-                              //                     ),
-                              //                     enabledBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     focusedBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.only(
-                              //                               topRight: Radius
-                              //                                   .circular(10),
-                              //                               topLeft:
-                              //                                   Radius.circular(
-                              //                                       10)),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     errorBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color:
-                              //                                   redPrimaryMain),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         Row(
-                              //           spacing: 8,
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.center,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: [
-                              //             Expanded(
-                              //               child: IgnorePointer(
-                              //                 ignoring: dataDesaKelurahanIbu
-                              //                         .isNotEmpty
-                              //                     ? false
-                              //                     : true,
-                              //                 child: DropdownButtonFormField2<
-                              //                     DataDesaKelurahan>(
-                              //                   isExpanded: true,
-                              //                   style: AppTextStyles
-                              //                       .primaryTextNormal
-                              //                       .copyWith(
-                              //                     fontSize: 12,
-                              //                   ),
-                              //                   value:
-                              //                       selectedDesaIbu, // Ini bisa null
-                              //                   hint: Text(
-                              //                     "Desa",
-                              //                     style: AppTextStyles
-                              //                         .secoundaryTextNormal
-                              //                         .copyWith(
-                              //                       fontSize: 12,
-                              //                     ),
-                              //                   ),
-                              //                   buttonStyleData:
-                              //                       const ButtonStyleData(
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   dropdownStyleData:
-                              //                       DropdownStyleData(
-                              //                     decoration: BoxDecoration(
-                              //                       border: Border.all(
-                              //                           color: Colors.grey),
-                              //                       borderRadius:
-                              //                           const BorderRadius.only(
-                              //                         bottomRight:
-                              //                             Radius.circular(10),
-                              //                         bottomLeft:
-                              //                             Radius.circular(10),
-                              //                       ),
-                              //                       color: backgroundWhite10,
-                              //                     ),
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   items: dataDesaKelurahanIbu
-                              //                       .map((item) {
-                              //                     return DropdownMenuItem<
-                              //                         DataDesaKelurahan>(
-                              //                       value: item,
-                              //                       child: Text(
-                              //                           item.namaDesaKelurahan),
-                              //                     );
-                              //                   }).toList(),
-                              //                   onChanged: (value) =>
-                              //                       _handleDesaIbuChanged(
-                              //                           value!),
-                              //                   onSaved: (value) {},
-                              //                   validator: null,
-                              //                   decoration: InputDecoration(
-                              //                     contentPadding:
-                              //                         EdgeInsets.symmetric(
-                              //                             horizontal: 12,
-                              //                             vertical: 12),
-                              //                     hintText: "Desa",
-                              //                     hintStyle: Theme.of(context)
-                              //                         .textTheme
-                              //                         .bodySmall!
-                              //                         .copyWith(
-                              //                           color: Colors.grey,
-                              //                         ),
-                              //                     filled: true,
-                              //                     fillColor: backgroundWhite10,
-                              //                     border: OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide: BorderSide.none,
-                              //                     ),
-                              //                     enabledBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     focusedBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.only(
-                              //                               topRight: Radius
-                              //                                   .circular(10),
-                              //                               topLeft:
-                              //                                   Radius.circular(
-                              //                                       10)),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     errorBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color:
-                              //                                   redPrimaryMain),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //             Expanded(
-                              //               child: IgnorePointer(
-                              //                 ignoring: dataDusunIbu.isNotEmpty
-                              //                     ? false
-                              //                     : true,
-                              //                 child: DropdownButtonFormField2<
-                              //                     DataDusun>(
-                              //                   isExpanded: true,
-                              //                   style: AppTextStyles
-                              //                       .primaryTextNormal
-                              //                       .copyWith(
-                              //                     fontSize: 12,
-                              //                   ),
-                              //                   value:
-                              //                       selectedDusunIbu, // Ini bisa null
-                              //                   hint: Text(
-                              //                     "Dusun",
-                              //                     style: AppTextStyles
-                              //                         .secoundaryTextNormal
-                              //                         .copyWith(
-                              //                       fontSize: 12,
-                              //                     ),
-                              //                   ),
-                              //                   buttonStyleData:
-                              //                       const ButtonStyleData(
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   dropdownStyleData:
-                              //                       DropdownStyleData(
-                              //                     decoration: BoxDecoration(
-                              //                       border: Border.all(
-                              //                           color: Colors.grey),
-                              //                       borderRadius:
-                              //                           const BorderRadius.only(
-                              //                         bottomRight:
-                              //                             Radius.circular(10),
-                              //                         bottomLeft:
-                              //                             Radius.circular(10),
-                              //                       ),
-                              //                       color: backgroundWhite10,
-                              //                     ),
-                              //                     elevation: 0,
-                              //                   ),
-                              //                   items: dataDusunIbu.map((item) {
-                              //                     return DropdownMenuItem<
-                              //                         DataDusun>(
-                              //                       value: item,
-                              //                       child: Text(item.namaDusun),
-                              //                     );
-                              //                   }).toList(),
-                              //                   onChanged: (value) =>
-                              //                       _handleDusunIbuChanged(
-                              //                           value!),
-                              //                   onSaved: (value) {},
-                              //                   validator: null,
-                              //                   decoration: InputDecoration(
-                              //                     contentPadding:
-                              //                         EdgeInsets.symmetric(
-                              //                             horizontal: 12,
-                              //                             vertical: 12),
-                              //                     hintText: "Dusun",
-                              //                     hintStyle: Theme.of(context)
-                              //                         .textTheme
-                              //                         .bodySmall!
-                              //                         .copyWith(
-                              //                           color: Colors.grey,
-                              //                         ),
-                              //                     filled: true,
-                              //                     fillColor: backgroundWhite10,
-                              //                     border: OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide: BorderSide.none,
-                              //                     ),
-                              //                     enabledBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     focusedBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.only(
-                              //                               topRight: Radius
-                              //                                   .circular(10),
-                              //                               topLeft:
-                              //                                   Radius.circular(
-                              //                                       10)),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color: Colors.grey),
-                              //                     ),
-                              //                     errorBorder:
-                              //                         OutlineInputBorder(
-                              //                       borderRadius:
-                              //                           BorderRadius.circular(
-                              //                               10),
-                              //                       borderSide:
-                              //                           const BorderSide(
-                              //                               width: 1,
-                              //                               color:
-                              //                                   redPrimaryMain),
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         Row(
-                              //           spacing: 8,
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.center,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           children: [
-                              //             Expanded(
-                              //               child: TextFieldWidget2(
-                              //                 fieldName: 'rt_ibu',
-                              //                 focusNode: rtIbuFocusNode,
-                              //                 onTap: () {},
-                              //                 formFieldKey: rtIbuKey,
-                              //                 controller: rTIbuController,
-                              //                 hintText: 'RT',
-                              //                 isPasswordField: false,
-                              //                 keyboardType:
-                              //                     TextInputType.number,
-                              //                 obscureText: false,
-                              //                 clientValidators: [
-                              //                   FormBuilderValidators.required(
-                              //                       errorText:
-                              //                           "Isi terlebih dahulu!"),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //             Expanded(
-                              //               child: TextFieldWidget2(
-                              //                 fieldName: 'rw_ibu',
-                              //                 focusNode: rwIbuFocusNode,
-                              //                 onTap: () {},
-                              //                 controller: rWIbuController,
-                              //                 formFieldKey: rwIbuKey,
-                              //                 hintText: 'RW',
-                              //                 isPasswordField: false,
-                              //                 keyboardType:
-                              //                     TextInputType.number,
-                              //                 obscureText: false,
-                              //                 clientValidators: [
-                              //                   FormBuilderValidators.required(
-                              //                       errorText:
-                              //                           "Isi terlebih dahulu!"),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         TextFieldWidget2(
-                              //           controller: alamatIbuController,
-                              //           fieldName: 'alamat_ibu',
-                              //           onTap: () {},
-                              //           focusNode: alamatIbuFocusNode,
-                              //           formFieldKey: alamatIbuKey,
-                              //           hintText: 'Masukan alamat lengkap',
-                              //           keyboardType: TextInputType.text,
-                              //           obscureText: false,
-                              //           isPasswordField: false,
-                              //           clientValidators: [
-                              //             FormBuilderValidators.required(
-                              //                 errorText:
-                              //                     "Isi terlebih dahulu!"),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Nomor Telepon (WA aktif)',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         TextFieldWidget2(
-                              //           controller: teleponIbuController,
-                              //           hintText: 'Masukan nomor telepon',
-                              //           keyboardType: TextInputType.phone,
-                              //           fieldName: 'nomor_telepon_ibu',
-                              //           focusNode: teleponIbuFocusNode,
-                              //           formFieldKey: teleponIbuKey,
-                              //           onTap: () {},
-                              //           obscureText: false,
-                              //           isPasswordField: false,
-                              //           clientValidators: [
-                              //             FormBuilderValidators.minLength(10,
-                              //                 checkNullOrEmpty: false,
-                              //                 errorText: "Minimal 10 digit"),
-                              //             FormBuilderValidators.maxLength(13,
-                              //                 checkNullOrEmpty: false,
-                              //                 errorText: "Maksimal 13 digit"),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         Row(
-                              //           crossAxisAlignment:
-                              //               CrossAxisAlignment.center,
-                              //           mainAxisAlignment:
-                              //               MainAxisAlignment.center,
-                              //           spacing: 8,
-                              //           children: [
-                              //             Expanded(
-                              //               child: Column(
-                              //                 crossAxisAlignment:
-                              //                     CrossAxisAlignment.start,
-                              //                 mainAxisAlignment:
-                              //                     MainAxisAlignment.start,
-                              //                 children: [
-                              //                   const Text(
-                              //                     'Jenis KB',
-                              //                     style:
-                              //                         TextStyle(fontSize: 12),
-                              //                   ),
-                              //                   SizedBox(
-                              //                       height: SizeConfig
-                              //                           .calHeightMultiplier(
-                              //                               8)),
-                              //                   DropdownWidget(
-                              //                     validator: (value) {
-                              //                       if (value == null ||
-                              //                           value.isEmpty) {
-                              //                         return "Jenis KB harus dipilih";
-                              //                       }
-                              //                       return null;
-                              //                     },
-                              //                     items: selectJenisKB,
-                              //                     hint: 'Jenis KB',
-                              //                     value: selectedJenisKBIbu,
-                              //                     onChanged: (value) => _handleJenisKBChanged(value),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //             Expanded(
-                              //               child: Column(
-                              //                 crossAxisAlignment:
-                              //                     CrossAxisAlignment.start,
-                              //                 mainAxisAlignment:
-                              //                     MainAxisAlignment.start,
-                              //                 children: [
-                              //                   const Text(
-                              //                     'Golongan Darah',
-                              //                     style:
-                              //                         TextStyle(fontSize: 12),
-                              //                   ),
-                              //                   SizedBox(
-                              //                       height: SizeConfig
-                              //                           .calHeightMultiplier(
-                              //                               8)),
-                              //                   DropdownWidget(
-                              //                     validator: (value) {
-                              //                       if (value == null ||
-                              //                           value.isEmpty) {
-                              //                         return "Golongan Darah harus dipilih";
-                              //                       }
-                              //                       return null;
-                              //                     },
-                              //                     items: selectGolDarah,
-                              //                     hint: 'Golongan Darah',
-                              //                     value: selectedGolDarahIbu,
-                              //                     onChanged: (value) => _handleGolonganDarahIbuChanged(value),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             )
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Tanggal lahiran Anak Sebelumnya',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         DateTimePickerWidget(
-                              //           isDate: true,
-                              //           controller:
-                              //               tanggalKelahiranAnakSebelumnyaIbuController,
-                              //           selectDate: () {
-                              //             _selectDateKelahiranSebelumnyaIbu(
-                              //                 context);
-                              //           },
-                              //           hintText:
-                              //               "Tanggal Lahiran Anak Sebelumnya",
-                              //           // validator: (value) {
-                              //           //   if (value == null ||
-                              //           //       value.isEmpty) {
-                              //           //     return "Tanggal harus dipilih";
-                              //           //   }
-                              //           //   return null;
-                              //           // },
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Jumlah Anak',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         TextFieldWidget2(
-                              //           controller: jumlahAnakIbuController,
-                              //           hintText: 'Jumlah Anak',
-                              //           keyboardType: TextInputType.number,
-                              //           obscureText: false,
-                              //           isPasswordField: false,
-                              //           fieldName: 'jumlah_anak_ibu',
-                              //           focusNode: jumlahAnakIbuFocusNode,
-                              //           onTap: () {},
-                              //           formFieldKey: jumlahAnakIbuKey,
-                              //           clientValidators: [
-                              //             // (value) => Validator.required(value,
-                              //             //     "Jumlah Anak tidak boleh kosong"),
-                              //           ],
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         const Text(
-                              //           'Disabilitas',
-                              //           style: TextStyle(fontSize: 12),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         // Tampilkan disabilitas yang dipilih
-                              //         Column(
-                              //           children: selectedDisabilityLabelsIbu
-                              //               .map((label) {
-                              //             return ListTile(
-                              //               title: Text(
-                              //                 label,
-                              //                 style: AppTextStyles
-                              //                     .primaryTextNormal
-                              //                     .copyWith(
-                              //                   fontSize: 14,
-                              //                 ),
-                              //               ),
-                              //               trailing: IconButton(
-                              //                 icon: Icon(Icons.delete,
-                              //                     color: Colors.red),
-                              //                 onPressed: () {
-                              //                   _removeDisabilityIbu(label);
-                              //                 },
-                              //               ),
-                              //             );
-                              //           }).toList(),
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     8)),
-                              //         OutlineButton(
-                              //           color: Colors.grey,
-                              //           mainButtonMessage: 'Tambah Disabilitas',
-                              //           mainButton: () {
-                              //             showDialog(
-                              //               context: context,
-                              //               builder: (context) {
-                              //                 return DialogDisabilitas(
-                              //                   disabilities: disabilities,
-                              //                   selectedDisabilities:
-                              //                       selectedDisabilitiesIbu,
-                              //                   onToggleDisability:
-                              //                       _toggleDisabilityIbu,
-                              //                   onAddCustomDisability:
-                              //                       (String customDisability) {
-                              //                     setState(() {
-                              //                       disabilities
-                              //                           .add(customDisability);
-                              //                       selectedDisabilitiesIbu
-                              //                           .add(true);
-                              //                       selectedDisabilityLabelsIbu
-                              //                           .add(customDisability);
-                              //                     });
-                              //                   },
-                              //                 );
-                              //               },
-                              //             );
-                              //           },
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     16)),
-                              //         ButtonPrimary(
-                              //           color: bluePrimaryMain,
-                              //           mainButtonMessage: 'Simpan',
-                              //           mainButton: () {
-                              //             //   bool isValidAllDataAyah =
-                              //             //       validateAyah();
-                              //             //   logger.d(
-                              //             //       'is validate Data ayah $isValidAllDataAyah');
-                              //             //   if (isValidAllDataAyah) {
-                              //             //     print('Form valid');
-                              //             //     // Validate the form
-                              //             //     if (formkey.currentState!
-                              //             //         .validate()) {
-                              //             //       PostOrangTuaBody dataOrangTua =
-                              //             //           PostOrangTuaBody(
-                              //             //         ayah: Ayah(
-                              //             //           alamat: alamatAyahController
-                              //             //               .text,
-                              //             //           nomorKartuKeluarga:
-                              //             //               kkAyahController.text,
-                              //             //           dusunId:
-                              //             //               selectedDusunAyah!.id,
-                              //             //           golDarah:
-                              //             //               selectedGolDarahAyah!,
-                              //             //           namaAyah:
-                              //             //               namaAyahController.text,
-                              //             //           nik: nikAyahController.text,
-                              //             //           nomorTelepon:
-                              //             //               teleponAyahController
-                              //             //                       .text.isNotEmpty
-                              //             //                   ? teleponAyahController
-                              //             //                       .text
-                              //             //                   : null,
-                              //             //           rt: rTAyahController.text,
-                              //             //           rw: rWAyahController.text,
-                              //             //           tempatLahir:
-                              //             //               tempatLahirAyahController
-                              //             //                   .text,
-                              //             //           tanggalLahir:
-                              //             //               tanggalLahirAyahController
-                              //             //                   .text,
-                              //             //           jenisDisabilitas:
-                              //             //               selectedDisabilityLabelsAyah
-                              //             //                   .map((e) {
-                              //             //             return JenisDisabilitas(
-                              //             //                 namaDisabilitas: e);
-                              //             //           }).toList(),
-                              //             //         ),
-                              //             //         ibu: Ibu(
-                              //             //           tanggalMelahirkanSebelumnya:
-                              //             //               tanggalKelahiranAnakSebelumnyaIbuController
-                              //             //                           .text !=
-                              //             //                       ""
-                              //             //                   ? tanggalKelahiranAnakSebelumnyaIbuController
-                              //             //                       .text
-                              //             //                   : null,
-                              //             //           jumlahAnak:
-                              //             //               jumlahAnakIbuController
-                              //             //                           .text !=
-                              //             //                       ""
-                              //             //                   ? int.parse(
-                              //             //                       jumlahAnakIbuController
-                              //             //                           .text)
-                              //             //                   : 0,
-                              //             //           jenisKb:
-                              //             //               selectedJenisKBIbu!,
-                              //             //           alamat: alamatIbuController
-                              //             //               .text,
-                              //             //           nomorKartuKeluarga:
-                              //             //               kkIbuController.text,
-                              //             //           dusunId:
-                              //             //               selectedDusunIbu!.id,
-                              //             //           golDarah:
-                              //             //               selectedGolDarahIbu!,
-                              //             //           namaIbu:
-                              //             //               namaIbuController.text,
-                              //             //           nik: nikIbuController.text,
-                              //             //           nomorTelepon:
-                              //             //               teleponIbuController
-                              //             //                       .text.isNotEmpty
-                              //             //                   ? teleponIbuController
-                              //             //                       .text
-                              //             //                   : null,
-                              //             //           rt: rTIbuController.text,
-                              //             //           rw: rWIbuController.text,
-                              //             //           tempatLahir:
-                              //             //               tempatLahirIbuController
-                              //             //                   .text,
-                              //             //           tanggalLahir:
-                              //             //               tanggalLahirIbuController
-                              //             //                   .text,
-                              //             //           jenisDisabilitas:
-                              //             //               selectedDisabilityLabelsIbu
-                              //             //                   .map((e) {
-                              //             //             return JenisDisabilitas(
-                              //             //                 namaDisabilitas: e);
-                              //             //           }).toList(),
-                              //             //         ),
-                              //             //       );
-
-                              //             //       context
-                              //             //           .read<
-                              //             //               CreateRegisterOrangTuaBloc>()
-                              //             //           .add(SendRegisterOrangTua(
-                              //             //               postOrangTuaBody:
-                              //             //                   dataOrangTua));
-                              //             //     } else {
-                              //             //       print("Form tidak valid");
-                              //             //       showTopSnackBar(
-                              //             //           Overlay.of(context),
-                              //             //           animationDuration:
-                              //             //               const Duration(
-                              //             //                   milliseconds: 600),
-                              //             //           displayDuration:
-                              //             //               const Duration(
-                              //             //                   milliseconds: 2200),
-                              //             //           reverseAnimationDuration:
-                              //             //               const Duration(
-                              //             //                   milliseconds: 300),
-                              //             //           TopSnackbarWidget().error(
-                              //             //               'Terdapat data yang kosong pada data Ibu, harap di cek kembali'));
-                              //             //     }
-                              //             //   } else {
-                              //             //     showTopSnackBar(
-                              //             //         Overlay.of(context),
-                              //             //         animationDuration:
-                              //             //             const Duration(
-                              //             //                 milliseconds: 600),
-                              //             //         displayDuration:
-                              //             //             const Duration(
-                              //             //                 milliseconds: 2200),
-                              //             //         reverseAnimationDuration:
-                              //             //             const Duration(
-                              //             //                 milliseconds: 300),
-                              //             //         TopSnackbarWidget().error(
-                              //             //             'Terdapat data Ayah yang kosong, harap di cek kembali'));
-                              //             //   }
-                              //           },
-                              //         ),
-                              //         SizedBox(
-                              //             height:
-                              //                 SizeConfig.calHeightMultiplier(
-                              //                     20)),
-                              //         Center(
-                              //           child: GestureDetector(
-                              //             // onTap: _navigateBack,
-                              //             child: Text(
-                              //               'Kembali Ke data Ayah',
-                              //               style: AppTextStyles
-                              //                   .secoundaryTextMedium
-                              //                   .copyWith(
-                              //                 fontSize: 16,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                         );
