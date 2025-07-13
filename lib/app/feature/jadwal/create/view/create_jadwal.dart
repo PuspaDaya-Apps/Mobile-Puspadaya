@@ -53,8 +53,9 @@ class _CreateJadwalViewState extends State<CreateJadwalView> {
       currentDate: DateTime.now(),
       helpText: "Pilih Tanggal",
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: DateTime.now(), 
+      firstDate: DateTime.now().subtract(const Duration(days: 365)), //set first date to 1 year ago
+      // set last date to 5 years from now
       lastDate: DateTime.now().add(const Duration(days: 365 * 5)),
     );
 
