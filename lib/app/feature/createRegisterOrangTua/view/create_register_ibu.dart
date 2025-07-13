@@ -1109,6 +1109,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RT harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1126,6 +1128,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RW harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1164,6 +1168,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               obscureText: false,
               isPasswordField: false,
               clientValidators: [
+                FormBuilderValidators.numeric(
+                    errorText: "Nomor harus berupa angka!"),
                 FormBuilderValidators.minLength(10,
                     checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
                 FormBuilderValidators.maxLength(13,
