@@ -50,6 +50,7 @@ class CreateRegisterAyah extends StatelessWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAyah;
+  List<bool> selectedDisabilitiesIbu;
   List<String> selectedDisabilityLabelsAyah;
 
   //! validate formKeyController
@@ -132,6 +133,7 @@ class CreateRegisterAyah extends StatelessWidget {
     this.selectedGolDarahAyah = '',
     // selected disabilities
     this.selectedDisabilitiesAyah = const [],
+    this.selectedDisabilitiesIbu = const [],
     this.selectedDisabilityLabelsAyah = const [],
     // form key
     required this.kkAyahKey,
@@ -209,6 +211,7 @@ class CreateRegisterAyah extends StatelessWidget {
         selectedDusunAyah: selectedDusunAyah,
         selectedGolDarahAyah: selectedGolDarahAyah,
         selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+        selectedDisabilitiesIbu: selectedDisabilitiesIbu,
         selectedDisabilityLabelsAyah: selectedDisabilityLabelsAyah,
         kkAyahKey: kkAyahKey,
         nikAyahKey: nikAyahKey,
@@ -283,6 +286,7 @@ class CreateRegisterAyahView extends StatefulWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAyah;
+  List<bool> selectedDisabilitiesIbu;
   List<String> selectedDisabilityLabelsAyah;
 
   //! validate formKeyController
@@ -364,6 +368,7 @@ class CreateRegisterAyahView extends StatefulWidget {
     this.selectedGolDarahAyah = '',
     // selected disabilities
     this.selectedDisabilitiesAyah = const [],
+    this.selectedDisabilitiesIbu = const [],
     this.selectedDisabilityLabelsAyah = const [],
     // form key
     required this.kkAyahKey,
@@ -1181,15 +1186,17 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                   context: context,
                   builder: (context) {
                     return DialogDisabilitas(
-                      disabilities: disabilities,
+                      valueDisabilities: disabilities,
                       selectedDisabilities: widget.selectedDisabilitiesAyah,
                       onToggleDisability: widget.toggleDisabilityAyah,
                       onAddCustomDisability: (String customDisability) {
                         setState(() {
                           disabilities.add(customDisability);
                           widget.selectedDisabilitiesAyah.add(true);
-                          widget.selectedDisabilityLabelsAyah
-                              .add(customDisability);
+                          widget.selectedDisabilityLabelsAyah.add(customDisability);
+
+                          //penyamaan value dan length
+                          widget.selectedDisabilitiesIbu.add(false);
                         });
                       },
                     );
@@ -1215,14 +1222,14 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
 }
 
 class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
+  final List<String> valueDisabilities;
   final List<bool> selectedDisabilities;
   final Function(int) onToggleDisability;
   final Function(String) onAddCustomDisability;
 
   const DialogDisabilitas({
     Key? key,
-    required this.disabilities,
+    required this.valueDisabilities,
     required this.selectedDisabilities,
     required this.onToggleDisability,
     required this.onAddCustomDisability,
@@ -1260,10 +1267,10 @@ class _DialogDisabilitasState extends State<DialogDisabilitas> {
             SizedBox(height: SizeConfig.calHeightMultiplier(6)),
 
             // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
+            ...List.generate(widget.valueDisabilities.length, (index) {
               return CheckboxListWidget(
                 isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
+                label: widget.valueDisabilities[index],
                 onChanged: (bool? value) {
                   setState(() {
                     widget.onToggleDisability(index);

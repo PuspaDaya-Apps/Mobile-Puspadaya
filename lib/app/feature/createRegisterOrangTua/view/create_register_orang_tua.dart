@@ -31,14 +31,14 @@ import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../config/screen_config/size_config.dart';
+// import '../../../../config/screen_config/size_config.dart';
 // import '../../../../config/theme/text_style.dart';
 // import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
-import '../../../view/widget/checkbox_list_widget.dart';
-import '../../../view/widget/primary_button_widget.dart';
+// import '../../../view/widget/checkbox_list_widget.dart';
+// import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 // import '../../../view/widget/date_time_picker_widget.dart';
 // import '../../../view/widget/dropdown_widget.dart';
@@ -118,6 +118,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAyah = [];
+  // List<String> valueDisabilitiesAyah = [];
   List<String> selectedDisabilityLabelsAyah = [];
 
   // !ayah fokus node
@@ -391,6 +392,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu = [];
+  // List<String> valueDisabilitiesIbu = [];
   List<String> selectedDisabilityLabelsIbu = [];
 
   // ? validate Ibu key
@@ -679,11 +681,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
-    // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
-    selectedDisabilitiesAyah =
-        List<bool>.from(List.filled(disabilities.length, false));
-    selectedDisabilitiesIbu =
-        List<bool>.from(List.filled(disabilities.length, false));
+    // Inisialisasi value disabilities dengan panjang yang sama dengan disabilities
+    // valueDisabilitiesAyah = disabilities;
+    // valueDisabilitiesIbu = disabilities;
+
+    selectedDisabilitiesAyah = List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu = List<bool>.from(List.filled(disabilities.length, false));
 
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
 
@@ -728,8 +731,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
               teleponIbuKey: teleponIbuFocusNode,
               selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
               selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
-              tanggalKelahiranAnakSebelumnyaIbuKey:
-                  tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+              tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
               jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
             };
             // logger.d(fieldMap);
@@ -762,7 +764,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                 break;
               }
             }
-             _tabController.animateTo(1);
+             _tabController.animateTo(0);
           }
         }
       }
@@ -1008,6 +1010,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                 selectedDusunAyah: selectedDusunAyah,
                                 selectedGolDarahAyah: selectedGolDarahAyah,
                                 selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+                                selectedDisabilitiesIbu: selectedDisabilitiesIbu,
                                 selectedDisabilityLabelsAyah: selectedDisabilityLabelsAyah,
                                 selectedKabupatenAyahFocusNode: selectedKabupatenAyahFocusNode,
                                 selectedKecamatanAyahFocusNode: selectedKecamatanAyahFocusNode,
@@ -1076,6 +1079,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                   selectedGolDarahIbu: selectedGolDarahIbu,
                                   selectedKecamatanIbu: selectedKecamatanIbu,
                                   selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+                                  selectedDisabilitiesAyah: selectedDisabilitiesAyah,
                                   selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
                                   dataKecamatanIbu: dataKecamatanIbu,
                                   dataDesaKelurahanIbu: dataDesaKelurahanIbu,
@@ -1139,109 +1143,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
-  final List<bool> selectedDisabilities;
-  final Function(int) onToggleDisability;
-  final Function(String) onAddCustomDisability;
-
-  const DialogDisabilitas({
-    Key? key,
-    required this.disabilities,
-    required this.selectedDisabilities,
-    required this.onToggleDisability,
-    required this.onAddCustomDisability,
-  }) : super(key: key);
-
-  @override
-  State<DialogDisabilitas> createState() => _DialogDisabilitasState();
-}
-
-class _DialogDisabilitasState extends State<DialogDisabilitas> {
-  bool isOtherChecked = false;
-  TextEditingController otherDisabilityController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        padding: EdgeInsets.all(32),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Pilih Disabilitas',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: SizeConfig.calHeightMultiplier(16),
-              ),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(6)),
-
-            // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
-              return CheckboxListWidget(
-                isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
-                onChanged: (bool? value) {
-                  setState(() {
-                    widget.onToggleDisability(index);
-                  });
-                },
-              );
-            }),
-
-            // Checkbox untuk opsi "Lainnya"
-            // Checkbox untuk opsi "Lainnya"
-            CheckboxListWidget(
-              isChecked: isOtherChecked,
-              label: "Lainnya",
-              onChanged: (bool? value) {
-                setState(() {
-                  isOtherChecked = value ?? false;
-                  if (!isOtherChecked) {
-                    otherDisabilityController.clear();
-                  }
-                });
-              },
-            ),
-
-            // TextField muncul jika "Lainnya" dipilih
-            if (isOtherChecked)
-              TextField(
-                controller: otherDisabilityController,
-                decoration: InputDecoration(
-                  hintText: "Masukkan jenis disabilitas lainnya",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-
-            ButtonPrimary(
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                if (isOtherChecked &&
-                    otherDisabilityController.text.isNotEmpty) {
-                  widget.onAddCustomDisability(otherDisabilityController.text);
-                }
-                Navigator.pop(context);
-              },
-              color: bluePrimaryMain,
-            ),
-          ],
         ),
       ),
     );

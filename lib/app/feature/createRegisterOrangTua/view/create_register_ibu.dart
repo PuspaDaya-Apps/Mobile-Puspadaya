@@ -57,6 +57,7 @@ class CreateRegisterIbu extends StatelessWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -151,6 +152,7 @@ class CreateRegisterIbu extends StatelessWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -226,8 +228,7 @@ class CreateRegisterIbu extends StatelessWidget {
         rTIbuController: rTIbuController,
         rWIbuController: rWIbuController,
         jumlahAnakIbuController: jumlahAnakIbuController,
-        tanggalKelahiranAnakSebelumnyaIbuController:
-            tanggalKelahiranAnakSebelumnyaIbuController,
+        tanggalKelahiranAnakSebelumnyaIbuController: tanggalKelahiranAnakSebelumnyaIbuController,
         dataKabupatenKotaIbu: dataKabupatenKotaIbu,
         dataKecamatanIbu: dataKecamatanIbu,
         dataDesaKelurahanIbu: dataDesaKelurahanIbu,
@@ -238,6 +239,7 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedDusunIbu: selectedDusunIbu,
         selectedGolDarahIbu: selectedGolDarahIbu,
         selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+        selectedDisabilitiesAyah: selectedDisabilitiesAyah,
         selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
         kkIbuKey: kkIbuKey,
         nikIbuKey: nikIbuKey,
@@ -255,8 +257,7 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedGolDarahIbuKey: selectedGolDarahIbuKey,
         jenisKBKey: jenisKBKey,
         jumlahAnakIbuKey: jumlahAnakIbuKey,
-        tanggalKelahiranAnakSebelumnyaIbuKey:
-            tanggalKelahiranAnakSebelumnyaIbuKey,
+        tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
         kkIbuFocusNode: kkIbuFocusNode,
         nikIbuFocusNode: nikIbuFocusNode,
         namaIbuFocusNode: namaIbuFocusNode,
@@ -273,8 +274,7 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
         jenisKBFocusNode: jenisKBFocusNode,
         jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuFocusNode:
-            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+        tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
         onSelectDate: onSelectDate,
         removeDisability: removeDisability,
         toggleDisabilityIbu: toggleDisabilityIbu,
@@ -325,6 +325,7 @@ class CreateRegisterIbuView extends StatefulWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -418,6 +419,7 @@ class CreateRegisterIbuView extends StatefulWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -1302,15 +1304,17 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   context: context,
                   builder: (context) {
                     return DialogDisabilitas(
-                      disabilities: disabilities,
+                      valueDisabilities: disabilities,
                       selectedDisabilities: widget.selectedDisabilitiesIbu,
                       onToggleDisability: widget.toggleDisabilityIbu,
                       onAddCustomDisability: (String customDisability) {
                         setState(() {
                           disabilities.add(customDisability);
                           widget.selectedDisabilitiesIbu.add(true);
-                          widget.selectedDisabilityLabelsIbu
-                              .add(customDisability);
+                          widget.selectedDisabilityLabelsIbu.add(customDisability);
+
+                          //penyamaan value dan length
+                          widget.selectedDisabilitiesIbu.add(false);
                         });
                       },
                     );
@@ -1347,14 +1351,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
 }
 
 class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
+  final List<String> valueDisabilities;
   final List<bool> selectedDisabilities;
   final Function(int) onToggleDisability;
   final Function(String) onAddCustomDisability;
 
   const DialogDisabilitas({
     Key? key,
-    required this.disabilities,
+    required this.valueDisabilities,
     required this.selectedDisabilities,
     required this.onToggleDisability,
     required this.onAddCustomDisability,
@@ -1392,10 +1396,10 @@ class _DialogDisabilitasState extends State<DialogDisabilitas> {
             SizedBox(height: SizeConfig.calHeightMultiplier(6)),
 
             // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
+            ...List.generate(widget.valueDisabilities.length, (index) {
               return CheckboxListWidget(
                 isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
+                label: widget.valueDisabilities[index],
                 onChanged: (bool? value) {
                   setState(() {
                     widget.onToggleDisability(index);
