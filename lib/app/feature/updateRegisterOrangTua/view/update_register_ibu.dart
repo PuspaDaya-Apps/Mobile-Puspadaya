@@ -21,6 +21,8 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../bloc/update_register_orang_tua_bloc.dart';
+
 class UpdateRegisterIbu extends StatelessWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
@@ -49,12 +51,12 @@ class UpdateRegisterIbu extends StatelessWidget {
   DataDesaKelurahan? selectedDesaIbu;
   DataDusun? selectedDusunIbu;
 
-
   String selectedJenisKB;
   String selectedGolDarahIbu;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -149,6 +151,7 @@ class UpdateRegisterIbu extends StatelessWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -236,6 +239,7 @@ class UpdateRegisterIbu extends StatelessWidget {
         selectedDusunIbu: selectedDusunIbu,
         selectedGolDarahIbu: selectedGolDarahIbu,
         selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+        selectedDisabilitiesAyah: selectedDisabilitiesAyah,
         selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
         kkIbuKey: kkIbuKey,
         nikIbuKey: nikIbuKey,
@@ -323,6 +327,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -416,6 +421,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -537,12 +543,12 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                     GestureDetector(
                       onTap: () {
                         // Validasi sebelum mengizinkan generate
-                          // logger.d(
-                          //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
-                          // logger.d(
-                          //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
-                          // logger.d(
-                          //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
+                        // logger.d(
+                        //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
+                        // logger.d(
+                        //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
+                        // logger.d(
+                        //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
                         if (widget.isGenerateIbuValid()) {
                           // Logika untuk generate
                           print("Generate button pressed");
@@ -811,7 +817,8 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                           child: Text(item.namaKabupatenKota),
                         );
                       }).toList(),
-                      onChanged: (value) => widget.handleKabupatenIbuChanged(value!),
+                      onChanged: (value) =>
+                          widget.handleKabupatenIbuChanged(value!),
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -1101,6 +1108,8 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RT harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1118,6 +1127,8 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RW harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1156,6 +1167,9 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
               obscureText: false,
               isPasswordField: false,
               clientValidators: [
+                FormBuilderValidators.numeric(
+                    errorText: "Nomor harus berupa angka!",
+                    checkNullOrEmpty: false),
                 FormBuilderValidators.minLength(10,
                     checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
                 FormBuilderValidators.maxLength(13,
@@ -1309,6 +1323,9 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                           widget.selectedDisabilitiesIbu.add(true);
                           widget.selectedDisabilityLabelsIbu
                               .add(customDisability);
+
+                          // penyamaan value dan length
+                          widget.selectedDisabilitiesAyah.add(false);
                         });
                       },
                     );
@@ -1317,12 +1334,18 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                widget.submitIbuForm();
-                
+            BlocBuilder<UpdateRegisterOrangTuaBloc, UpdateRegisterOrangTuaState>(
+              builder: (context, state) {
+                return ButtonPrimary(
+                  color: bluePrimaryMain,
+                  mainButtonMessage: 'Simpan',
+                  isLoading: state is UpdateRegisterOrangTuaLoading
+                  ? true
+                  : null,
+                  mainButton: () {
+                    widget.submitIbuForm();
+                  },
+                );
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),

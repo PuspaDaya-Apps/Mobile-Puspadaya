@@ -1,8 +1,17 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/bloc/create_register_orang_tua_bloc.dart';
+// import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterOrangTua/model/alamat_orang_tua_model.dart';
+import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+// import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ayah.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ibu.dart';
 // import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
@@ -17,29 +26,31 @@ import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_registe
 //     as DusunModel;
 
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
-import 'package:puspadaya/config/screen_config/image_config.dart';
+// import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+// import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/text_style.dart';
-import '../../../../config/validator/validator.dart';
+// import '../../../../config/screen_config/size_config.dart';
+// import '../../../../config/theme/text_style.dart';
+// import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
-import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/outline_button_widget.dart';
-import '../../../view/widget/primary_button_widget.dart';
-import '../../../view/widget/textField_widget.dart';
+// import '../../../view/widget/checkbox_list_widget.dart';
+// import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../alatUkur/detail/view/detail_alat_ukur.dart';
-import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
-import '../bloc/create_register_orang_tua_bloc.dart';
-import '../model/post_orang_tua_body.dart';
+// import '../../../view/widget/date_time_picker_widget.dart';
+// import '../../../view/widget/dropdown_widget.dart';
+// import '../../../view/widget/outline_button_widget.dart';
+// import '../../../view/widget/primary_button_widget.dart';
+// import '../../../view/widget/textField_widget.dart';
+// import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+// import '../../alatUkur/detail/view/detail_alat_ukur.dart';
+// import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
+// import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
+// import '../bloc/create_register_orang_tua_bloc.dart';
+// import '../model/post_orang_tua_body.dart';
 
 class CreateRegisterOrangTua extends StatelessWidget {
   const CreateRegisterOrangTua({super.key});
@@ -85,10 +96,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController =
-      TextEditingController();
-  final TextEditingController tanggalLahirAyahController =
-      TextEditingController();
+  final TextEditingController tempatLahirAyahController = TextEditingController();
+  final TextEditingController tanggalLahirAyahController = TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -109,6 +118,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAyah = [];
+  // List<String> valueDisabilitiesAyah = [];
   List<String> selectedDisabilityLabelsAyah = [];
 
   // !ayah fokus node
@@ -133,26 +143,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final GlobalKey<FormFieldState> kkAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaAyahKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirAyahKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtAyahKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rwAyahKey = GlobalKey<FormFieldState>();
 
   // ? Ayah selected formkey
-  final GlobalKey<FormFieldState> selectedKabupatenAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedKecamatanAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDesaAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDusunAyahKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedGolDarahAyahKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKabupatenAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunAyahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahAyahKey = GlobalKey<FormFieldState>();
 
   //? function handler controler ayah
 
@@ -289,6 +292,13 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
 
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 600),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ayah tidak sesuai\nharap cek kembali"));
+
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
       final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -345,18 +355,14 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   final TextEditingController kkIbuController = TextEditingController();
   final TextEditingController nikIbuController = TextEditingController();
   final TextEditingController namaIbuController = TextEditingController();
-  final TextEditingController tempatLahirIbuController =
-      TextEditingController();
-  final TextEditingController tanggalLahirIbuController =
-      TextEditingController();
+  final TextEditingController tempatLahirIbuController = TextEditingController();
+  final TextEditingController tanggalLahirIbuController = TextEditingController();
   final TextEditingController alamatIbuController = TextEditingController();
   final TextEditingController teleponIbuController = TextEditingController();
   final TextEditingController rTIbuController = TextEditingController();
   final TextEditingController rWIbuController = TextEditingController();
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController =
-      TextEditingController();
-  final TextEditingController jumlahAnakIbuController =
-      TextEditingController(text: '0');
+  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController = TextEditingController();
+  final TextEditingController jumlahAnakIbuController = TextEditingController(text: '0');
 
   // focus node ibu
   final FocusNode kkIbuFocusNode = FocusNode();
@@ -393,39 +399,30 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu = [];
+  // List<String> valueDisabilitiesIbu = [];
   List<String> selectedDisabilityLabelsIbu = [];
 
   // ? validate Ibu key
   final GlobalKey<FormFieldState> kkIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> namaIbuKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tempatLahirIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalLahirIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> alamatIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> teleponIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rtIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> rwIbuKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> jumlahAnakIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jumlahAnakIbuKey = GlobalKey<FormFieldState>();
 //!selected
 
 // ? Ibu
-  final GlobalKey<FormFieldState> selectedKabupatenIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedKecamatanIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDesaIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedDusunIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedJenisKBIbuKey =
-      GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedGolDarahIbuKey =
-      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKabupatenIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedJenisKBIbuKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahIbuKey = GlobalKey<FormFieldState>();
 
   //? function handler controler Ibu
 
@@ -619,13 +616,18 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         ),
       );
 
-      context
-          .read<CreateRegisterOrangTuaBloc>()
-          .add(SendRegisterOrangTua(postOrangTuaBody: dataOrangTua));
+      context.read<CreateRegisterOrangTuaBloc>().add(SendRegisterOrangTua(postOrangTuaBody: dataOrangTua));
       return true;
     } else {
       // JIKA FORM TIDAK VALID
       logger.d('Form tidak valid. Mencari error pertama...');
+
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 600),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ibu tidak sesuai\nharap cek kembali"));
 
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
@@ -682,7 +684,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     }
   }
 
-  @override
+ @override
   void initState() {
     super.initState();
     _tabController = TabController(
@@ -691,11 +693,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
-    // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
-    selectedDisabilitiesAyah =
-        List<bool>.from(List.filled(disabilities.length, false));
-    selectedDisabilitiesIbu =
-        List<bool>.from(List.filled(disabilities.length, false));
+    // Inisialisasi value disabilities dengan panjang yang sama dengan disabilities
+    // valueDisabilitiesAyah = disabilities;
+    // valueDisabilitiesIbu = disabilities;
+
+    selectedDisabilitiesAyah = List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu = List<bool>.from(List.filled(disabilities.length, false));
 
     // final List<ProvinsiModel.Datum> selectProvinsi = [];
 
@@ -740,8 +743,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
               teleponIbuKey: teleponIbuFocusNode,
               selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
               selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
-              tanggalKelahiranAnakSebelumnyaIbuKey:
-                  tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+              tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
               jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
             };
             // logger.d(fieldMap);
@@ -774,15 +776,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                 break;
               }
             }
-             _tabController.animateTo(1);
+             _tabController.animateTo(0);
           }
         }
-        // bool valid = submitIbuForm();
-        // if (!valid) {
-        //   // Batalkan pindah tab: kembali ke tab Ibu
-        //   _tabController.animateTo(1);
-        // }
-        // submitIbuForm();
       }
     });
   }
@@ -916,8 +912,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           Navigator.pop(context);
         },
       ),
-      body:
-          BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
+      body: BlocListener<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
         listener: (context, state) {
           if (state is CreateRegisterOrangTuaFailedState) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -955,6 +950,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                       borderRadius: BorderRadius.circular(7),
                     ),
                     child: TabBar(
+                      onTap: (value) {},
                       isScrollable: false,
                       padding: EdgeInsets.zero,
                       indicatorSize: TabBarIndicatorSize.tab,
@@ -1014,10 +1010,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                 kkAyahController: kkAyahController,
                                 nikAyahController: nikAyahController,
                                 namaAyahController: namaAyahController,
-                                tempatLahirAyahController:
-                                    tempatLahirAyahController,
-                                tanggalLahirAyahController:
-                                    tanggalLahirAyahController,
+                                tempatLahirAyahController: tempatLahirAyahController,
+                                tanggalLahirAyahController: tanggalLahirAyahController,
                                 alamatAyahController: alamatAyahController,
                                 teleponAyahController: teleponAyahController,
                                 rTAyahController: rTAyahController,
@@ -1027,28 +1021,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                 selectedDesaAyah: selectedDesaAyah,
                                 selectedDusunAyah: selectedDusunAyah,
                                 selectedGolDarahAyah: selectedGolDarahAyah,
-                                selectedDisabilitiesAyah:
-                                    selectedDisabilitiesAyah,
-                                selectedDisabilityLabelsAyah:
-                                    selectedDisabilityLabelsAyah,
-                                selectedKabupatenAyahFocusNode:
-                                    selectedKabupatenAyahFocusNode,
-                                selectedKecamatanAyahFocusNode:
-                                    selectedKecamatanAyahFocusNode,
-                                selectedDesaAyahFocusNode:
-                                    selectedDesaAyahFocusNode,
-                                selectedDusunAyahFocusNode:
-                                    selectedDusunAyahFocusNode,
-                                selectedGolDarahAyahFocusNode:
-                                    selectedGolDarahAyahFocusNode,
-                                selectedKabupatenAyahKey:
-                                    selectedKabupatenAyahKey,
-                                selectedKecamatanAyahKey:
-                                    selectedKecamatanAyahKey,
+                                selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+                                selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+                                selectedDisabilityLabelsAyah: selectedDisabilityLabelsAyah,
+                                selectedKabupatenAyahFocusNode: selectedKabupatenAyahFocusNode,
+                                selectedKecamatanAyahFocusNode: selectedKecamatanAyahFocusNode,
+                                selectedDesaAyahFocusNode: selectedDesaAyahFocusNode,
+                                selectedDusunAyahFocusNode: selectedDusunAyahFocusNode,
+                                selectedGolDarahAyahFocusNode: selectedGolDarahAyahFocusNode,
+                                selectedKabupatenAyahKey: selectedKabupatenAyahKey,
+                                selectedKecamatanAyahKey: selectedKecamatanAyahKey,
                                 selectedDesaAyahKey: selectedDesaAyahKey,
                                 selectedDusunAyahKey: selectedDusunAyahKey,
-                                selectedGolDarahAyahKey:
-                                    selectedGolDarahAyahKey,
+                                selectedGolDarahAyahKey: selectedGolDarahAyahKey,
                                 kkAyahKey: kkAyahKey,
                                 nikAyahKey: nikAyahKey,
                                 namaAyahKey: namaAyahKey,
@@ -1058,8 +1043,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                 teleponAyahKey: teleponAyahKey,
                                 rtAyahKey: rtAyahKey,
                                 rwAyahKey: rwAyahKey,
-                                tanggalLahirAyahFocusNode:
-                                    tanggalLahirAyahFocusNode,
+                                tanggalLahirAyahFocusNode: tanggalLahirAyahFocusNode,
                                 alamatAyahFocusNode: alamatAyahFocusNode,
                                 teleponAyahFocusNode: teleponAyahFocusNode,
                                 rtAyahFocusNode: rtAyahFocusNode,
@@ -1071,24 +1055,19 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                 kkAyahFocusNode: kkAyahFocusNode,
                                 nikAyahFocusNode: nikAyahFocusNode,
                                 namaAyahFocusNode: namaAyahFocusNode,
-                                tempatLahirAyahFocusNode:
-                                    tempatLahirAyahFocusNode,
+                                tempatLahirAyahFocusNode: tempatLahirAyahFocusNode,
                                 onSelectDate: _selectDateAyah,
                                 removeDisability: _removeDisabilityAyah,
                                 toggleDisabilityAyah: _toggleDisabilityAyah,
                                 isGenerateAyahValid: _isGenerateAyahValid,
                                 dataWilayahModel: state.dataWilayahModel,
-                                handleKabupatenAyahChanged:
-                                    _handleKabupatenAyahChanged,
-                                handleKecamatanAyahChanged:
-                                    _handleKecamatanAyahChanged,
+                                handleKabupatenAyahChanged: _handleKabupatenAyahChanged,
+                                handleKecamatanAyahChanged: _handleKecamatanAyahChanged,
                                 handleDesaAyahChanged: _handleDesaAyahChanged,
                                 handleDusunAyahChanged: _handleDusunAyahChanged,
-                                handleGolDarahAyahChanged:
-                                    _handleGolonganDarahAyahChanged,
+                                handleGolDarahAyahChanged:_handleGolonganDarahAyahChanged,
                                 submitAyahForm: submitAyahForm,
                               ),
-
                               //!IBU
                               CreateRegisterIbu(
                                   formIbukey: _formIbukey,
@@ -1096,29 +1075,24 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                   kkIbuController: kkIbuController,
                                   nikIbuController: nikIbuController,
                                   namaIbuController: namaIbuController,
-                                  tempatLahirIbuController:
-                                      tempatLahirIbuController,
-                                  tanggalLahirIbuController:
-                                      tanggalLahirIbuController,
+                                  tempatLahirIbuController: tempatLahirIbuController,
+                                  tanggalLahirIbuController: tanggalLahirIbuController,
                                   alamatIbuController: alamatIbuController,
                                   teleponIbuController: teleponIbuController,
                                   rTIbuController: rTIbuController,
                                   rWIbuController: rWIbuController,
                                   selectedJenisKB: selectedJenisKBIbu,
-                                  jumlahAnakIbuController:
-                                      jumlahAnakIbuController,
-                                  tanggalKelahiranAnakSebelumnyaIbuController:
-                                      tanggalKelahiranAnakSebelumnyaIbuController,
+                                  jumlahAnakIbuController: jumlahAnakIbuController,
+                                  tanggalKelahiranAnakSebelumnyaIbuController: tanggalKelahiranAnakSebelumnyaIbuController,
                                   dataKabupatenKotaIbu: dataKabupatenKotaIbu,
                                   selectedKabupatenIbu: selectedKabupatenIbu,
                                   selectedDesaIbu: selectedDesaIbu,
                                   selectedDusunIbu: selectedDusunIbu,
                                   selectedGolDarahIbu: selectedGolDarahIbu,
                                   selectedKecamatanIbu: selectedKecamatanIbu,
-                                  selectedDisabilitiesIbu:
-                                      selectedDisabilitiesIbu,
-                                  selectedDisabilityLabelsIbu:
-                                      selectedDisabilityLabelsIbu,
+                                  selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+                                  selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+                                  selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
                                   dataKecamatanIbu: dataKecamatanIbu,
                                   dataDesaKelurahanIbu: dataDesaKelurahanIbu,
                                   dataDusunIbu: dataDusunIbu,
@@ -1133,58 +1107,41 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                                   rwIbuKey: rwIbuKey,
                                   jenisKBKey: selectedJenisKBIbuKey,
                                   jumlahAnakIbuKey: jumlahAnakIbuKey,
-                                  tanggalKelahiranAnakSebelumnyaIbuKey:
-                                      tanggalKelahiranAnakSebelumnyaIbuKey,
-                                  selectedKabupatenIbuKey:
-                                      selectedKabupatenIbuKey,
-                                  selectedKecamatanIbuKey:
-                                      selectedKecamatanIbuKey,
+                                  tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
+                                  selectedKabupatenIbuKey: selectedKabupatenIbuKey,
+                                  selectedKecamatanIbuKey: selectedKecamatanIbuKey,
                                   selectedDesaIbuKey: selectedDesaIbuKey,
                                   selectedDusunIbuKey: selectedDusunIbuKey,
-                                  selectedGolDarahIbuKey:
-                                      selectedGolDarahIbuKey,
+                                  selectedGolDarahIbuKey: selectedGolDarahIbuKey,
                                   kkIbuFocusNode: kkIbuFocusNode,
                                   nikIbuFocusNode: nikIbuFocusNode,
                                   namaIbuFocusNode: namaIbuFocusNode,
-                                  tempatLahirIbuFocusNode:
-                                      tempatLahirIbuFocusNode,
-                                  tanggalLahirIbuFocusNode:
-                                      tanggalLahirIbuFocusNode,
+                                  tempatLahirIbuFocusNode: tempatLahirIbuFocusNode,
+                                  tanggalLahirIbuFocusNode: tanggalLahirIbuFocusNode,
                                   alamatIbuFocusNode: alamatIbuFocusNode,
                                   teleponIbuFocusNode: teleponIbuFocusNode,
                                   rtIbuFocusNode: rtIbuFocusNode,
                                   rwIbuFocusNode: rwIbuFocusNode,
                                   jenisKBFocusNode: selectedJenisKBIbuFocusNode,
-                                  jumlahAnakIbuFocusNode:
-                                      jumlahAnakIbuFocusNode,
-                                  tanggalKelahiranAnakSebelumnyaIbuFocusNode:
-                                      tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-                                  selectedKabupatenIbuFocusNode:
-                                      selectedKabupatenIbuFocusNode,
-                                  selectedKecamatanIbuFocusNode:
-                                      selectedKecamatanIbuFocusNode,
-                                  selectedDesaIbuFocusNode:
-                                      selectedDesaIbuFocusNode,
-                                  selectedDusunIbuFocusNode:
-                                      selectedDusunIbuFocusNode,
-                                  selectedGolDarahIbuFocusNode:
-                                      selectedGolDarahIbuFocusNode,
+                                  jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
+                                  tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+                                  selectedKabupatenIbuFocusNode: selectedKabupatenIbuFocusNode,
+                                  selectedKecamatanIbuFocusNode: selectedKecamatanIbuFocusNode,
+                                  selectedDesaIbuFocusNode: selectedDesaIbuFocusNode,
+                                  selectedDusunIbuFocusNode: selectedDusunIbuFocusNode,
+                                  selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
                                   onSelectDate: _selectDateIbu,
                                   removeDisability: _removeDisabilityIbu,
                                   toggleDisabilityIbu: _toggleDisabilityIbu,
                                   isGenerateIbuValid: _isGenerateIbuValid,
                                   dataWilayahModel: state.dataWilayahModel,
-                                  handleKabupatenIbuChanged:
-                                      _handleKabupatenIbuChanged,
-                                  handleKecamatanIbuChanged:
-                                      _handleKecamatanIbuChanged,
+                                  handleKabupatenIbuChanged: _handleKabupatenIbuChanged,
+                                  handleKecamatanIbuChanged: _handleKecamatanIbuChanged,
                                   handleDesaIbuChanged: _handleDesaIbuChanged,
                                   handleDusunIbuChanged: _handleDusunIbuChanged,
-                                  handleGolDarahIbuChanged:
-                                      _handleGolonganDarahIbuChanged,
+                                  handleGolDarahIbuChanged: _handleGolonganDarahIbuChanged,
                                   handleJenisKBChanged: _handleJenisKBChanged,
-                                  onSelectDateKelahiranSebelumnya:
-                                      _selectDateKelahiranSebelumnyaIbu,
+                                  onSelectDateKelahiranSebelumnya: _selectDateKelahiranSebelumnyaIbu,
                                   submitIbuForm: submitIbuForm)
                             ],
                           ),
@@ -1198,109 +1155,6 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
-  final List<bool> selectedDisabilities;
-  final Function(int) onToggleDisability;
-  final Function(String) onAddCustomDisability;
-
-  const DialogDisabilitas({
-    Key? key,
-    required this.disabilities,
-    required this.selectedDisabilities,
-    required this.onToggleDisability,
-    required this.onAddCustomDisability,
-  }) : super(key: key);
-
-  @override
-  State<DialogDisabilitas> createState() => _DialogDisabilitasState();
-}
-
-class _DialogDisabilitasState extends State<DialogDisabilitas> {
-  bool isOtherChecked = false;
-  TextEditingController otherDisabilityController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        padding: EdgeInsets.all(32),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Pilih Disabilitas',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: SizeConfig.calHeightMultiplier(16),
-              ),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(6)),
-
-            // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
-              return CheckboxListWidget(
-                isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
-                onChanged: (bool? value) {
-                  setState(() {
-                    widget.onToggleDisability(index);
-                  });
-                },
-              );
-            }),
-
-            // Checkbox untuk opsi "Lainnya"
-            // Checkbox untuk opsi "Lainnya"
-            CheckboxListWidget(
-              isChecked: isOtherChecked,
-              label: "Lainnya",
-              onChanged: (bool? value) {
-                setState(() {
-                  isOtherChecked = value ?? false;
-                  if (!isOtherChecked) {
-                    otherDisabilityController.clear();
-                  }
-                });
-              },
-            ),
-
-            // TextField muncul jika "Lainnya" dipilih
-            if (isOtherChecked)
-              TextField(
-                controller: otherDisabilityController,
-                decoration: InputDecoration(
-                  hintText: "Masukkan jenis disabilitas lainnya",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-
-            ButtonPrimary(
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                if (isOtherChecked &&
-                    otherDisabilityController.text.isNotEmpty) {
-                  widget.onAddCustomDisability(otherDisabilityController.text);
-                }
-                Navigator.pop(context);
-              },
-              color: bluePrimaryMain,
-            ),
-          ],
         ),
       ),
     );

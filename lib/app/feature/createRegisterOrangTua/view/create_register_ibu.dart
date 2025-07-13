@@ -21,6 +21,9 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../bloc/create_register_orang_tua_bloc.dart';
+import '../model/alamat_orang_tua_model.dart';
+
 class CreateRegisterIbu extends StatelessWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
@@ -49,12 +52,12 @@ class CreateRegisterIbu extends StatelessWidget {
   DataDesaKelurahan? selectedDesaIbu;
   DataDusun? selectedDusunIbu;
 
-
   String selectedJenisKB;
   String selectedGolDarahIbu;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -149,6 +152,7 @@ class CreateRegisterIbu extends StatelessWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -236,6 +240,7 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedDusunIbu: selectedDusunIbu,
         selectedGolDarahIbu: selectedGolDarahIbu,
         selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+        selectedDisabilitiesAyah: selectedDisabilitiesAyah,
         selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
         kkIbuKey: kkIbuKey,
         nikIbuKey: nikIbuKey,
@@ -323,6 +328,7 @@ class CreateRegisterIbuView extends StatefulWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -416,6 +422,7 @@ class CreateRegisterIbuView extends StatefulWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -537,12 +544,12 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     GestureDetector(
                       onTap: () {
                         // Validasi sebelum mengizinkan generate
-                          // logger.d(
-                          //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
-                          // logger.d(
-                          //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
-                          // logger.d(
-                          //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
+                        // logger.d(
+                        //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
+                        // logger.d(
+                        //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
+                        // logger.d(
+                        //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
                         if (widget.isGenerateIbuValid()) {
                           // Logika untuk generate
                           print("Generate button pressed");
@@ -811,7 +818,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                           child: Text(item.namaKabupatenKota),
                         );
                       }).toList(),
-                      onChanged: (value) => widget.handleKabupatenIbuChanged(value!),
+                      onChanged: (value) =>
+                          widget.handleKabupatenIbuChanged(value!),
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -1101,6 +1109,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RT harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1118,6 +1128,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     clientValidators: [
                       FormBuilderValidators.required(
                           errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.numeric(
+                          errorText: "RW harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1156,6 +1168,8 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               obscureText: false,
               isPasswordField: false,
               clientValidators: [
+                FormBuilderValidators.numeric(
+                    errorText: "Nomor harus berupa angka!", checkNullOrEmpty: false),
                 FormBuilderValidators.minLength(10,
                     checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
                 FormBuilderValidators.maxLength(13,
@@ -1300,7 +1314,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   context: context,
                   builder: (context) {
                     return DialogDisabilitas(
-                      disabilities: disabilities,
+                      valueDisabilities: disabilities,
                       selectedDisabilities: widget.selectedDisabilitiesIbu,
                       onToggleDisability: widget.toggleDisabilityIbu,
                       onAddCustomDisability: (String customDisability) {
@@ -1309,6 +1323,9 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                           widget.selectedDisabilitiesIbu.add(true);
                           widget.selectedDisabilityLabelsIbu
                               .add(customDisability);
+
+                          //penyamaan value dan length
+                          widget.selectedDisabilitiesAyah.add(false);
                         });
                       },
                     );
@@ -1317,12 +1334,18 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            ButtonPrimary(
-              color: bluePrimaryMain,
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                widget.submitIbuForm();
-                
+            BlocBuilder<CreateRegisterOrangTuaBloc, CreateRegisterOrangTuaState>(
+              builder: (context, state) {
+                return ButtonPrimary(
+                  color: bluePrimaryMain,
+                  mainButtonMessage: 'Simpan',
+                  isLoading: state is CreateRegisterOrangTuaLoading
+                  ? true 
+                  : null,
+                  mainButton: () {
+                    widget.submitIbuForm();
+                  },
+                );
               },
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(20)),
@@ -1345,14 +1368,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
 }
 
 class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
+  final List<String> valueDisabilities;
   final List<bool> selectedDisabilities;
   final Function(int) onToggleDisability;
   final Function(String) onAddCustomDisability;
 
   const DialogDisabilitas({
     Key? key,
-    required this.disabilities,
+    required this.valueDisabilities,
     required this.selectedDisabilities,
     required this.onToggleDisability,
     required this.onAddCustomDisability,
@@ -1390,10 +1413,10 @@ class _DialogDisabilitasState extends State<DialogDisabilitas> {
             SizedBox(height: SizeConfig.calHeightMultiplier(6)),
 
             // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
+            ...List.generate(widget.valueDisabilities.length, (index) {
               return CheckboxListWidget(
                 isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
+                label: widget.valueDisabilities[index],
                 onChanged: (bool? value) {
                   setState(() {
                     widget.onToggleDisability(index);
