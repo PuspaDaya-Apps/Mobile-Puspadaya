@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:puspadaya/config/screen_config/size_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
+import 'package:puspadaya/config/validator/form_error_provider.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 class TextFieldPasswordLoginWidget extends StatefulWidget {
   const TextFieldPasswordLoginWidget({
@@ -14,9 +16,10 @@ class TextFieldPasswordLoginWidget extends StatefulWidget {
     required this.hintText,
     required this.fieldName,
     this.serverValidator,
-    this.errortext, required this.onTap,
+    this.errortext,
+    required this.onTap,
   });
-  final String fieldName; 
+  final String fieldName;
   final GlobalKey<FormFieldState>? formFieldKey;
   final FocusNode focusNode;
   final List<FormFieldValidator<String>>? clientValidators;
@@ -26,7 +29,7 @@ class TextFieldPasswordLoginWidget extends StatefulWidget {
   final TextEditingController textController;
   final String hintText;
   final String? errortext;
-    final GestureTapCallback onTap;
+  final GestureTapCallback onTap;
 
   @override
   State<TextFieldPasswordLoginWidget> createState() =>
@@ -39,6 +42,9 @@ class _TextFieldPasswordLoginWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final errorProvider = FormErrorProvider.of(context);
+    final serverError = errorProvider?.errors?[widget.fieldName]?.join(', ');
+    logger.d('server error in textfield $serverError');
     return SizedBox(
       width: MediaQuery.sizeOf(context).width,
       child: Column(
@@ -71,8 +77,11 @@ class _TextFieldPasswordLoginWidgetState
                 }
               }
               // server validator
-              if (widget.serverValidator != null) {
-                return widget.serverValidator!(value);
+              if (serverError != null) {
+                final error = serverError;
+                if (error != null) {
+                  return error;
+                }
               }
 
               // return

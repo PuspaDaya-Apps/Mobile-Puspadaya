@@ -18,6 +18,8 @@ class UpdateRegisterOrangTuaBloc
   }
   Future<void> registerOrangTua(SendUpdateRegisterOrangTua event,
       Emitter<UpdateRegisterOrangTuaState> emit) async {
+    emit(UpdateRegisterOrangTuaLoading()); 
+    
     final accesTokenValue = await SharedPrefUtils().getAccessToken();
     logger.d(accesTokenValue);
 
@@ -25,7 +27,7 @@ class UpdateRegisterOrangTuaBloc
       emit(TokenExpiredState());
     } else {
       try {
-        emit(UpdateRegisterOrangTuaLoading()); // Reset state sebelum request
+        // Reset state sebelum request
         String ayahId = event.ayahId;
         PatchOrangTuaBody dataToPatch = event.patchOrangTuaBody;
         // Assuming dataAyah and dataIbu are already defined and populated
