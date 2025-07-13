@@ -55,6 +55,7 @@ class UpdateRegisterIbu extends StatelessWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -149,6 +150,7 @@ class UpdateRegisterIbu extends StatelessWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -236,6 +238,7 @@ class UpdateRegisterIbu extends StatelessWidget {
         selectedDusunIbu: selectedDusunIbu,
         selectedGolDarahIbu: selectedGolDarahIbu,
         selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+        selectedDisabilitiesAyah: selectedDisabilitiesAyah,
         selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
         kkIbuKey: kkIbuKey,
         nikIbuKey: nikIbuKey,
@@ -323,6 +326,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
+  List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
 
   //! validate formKeyController
@@ -416,6 +420,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
     this.selectedGolDarahIbu = '-',
     // selected disabilities
     this.selectedDisabilitiesIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
     this.selectedDisabilityLabelsIbu = const [],
     // form key
     required this.kkIbuKey,
@@ -1309,6 +1314,9 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                           widget.selectedDisabilitiesIbu.add(true);
                           widget.selectedDisabilityLabelsIbu
                               .add(customDisability);
+
+                          // penyamaan value dan length
+                          widget.selectedDisabilitiesAyah.add(false);
                         });
                       },
                     );

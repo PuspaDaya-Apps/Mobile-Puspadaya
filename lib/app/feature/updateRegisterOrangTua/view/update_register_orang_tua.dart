@@ -1186,6 +1186,7 @@ class _UpdateRegisterOrangTuaViewState
                                   selectedGolDarahAyah: selectedGolDarahAyah,
                                   selectedDisabilitiesAyah:
                                       selectedDisabilitiesAyah,
+                                  selectedDisabilitiesIbu: selectedDisabilitiesIbu,
                                   selectedDisabilityLabelsAyah:
                                       selectedDisabilityLabelsAyah,
                                   selectedKabupatenAyahFocusNode:
@@ -1275,6 +1276,7 @@ class _UpdateRegisterOrangTuaViewState
                                     selectedKecamatanIbu: selectedKecamatanIbu,
                                     selectedDisabilitiesIbu:
                                         selectedDisabilitiesIbu,
+                                    selectedDisabilitiesAyah: selectedDisabilitiesAyah,
                                     selectedDisabilityLabelsIbu:
                                         selectedDisabilityLabelsIbu,
                                     dataKecamatanIbu: dataKecamatanIbu,
@@ -1359,109 +1361,6 @@ class _UpdateRegisterOrangTuaViewState
               },
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class DialogDisabilitas extends StatefulWidget {
-  final List<String> disabilities;
-  final List<bool> selectedDisabilities;
-  final Function(int) onToggleDisability;
-  final Function(String) onAddCustomDisability;
-
-  const DialogDisabilitas({
-    Key? key,
-    required this.disabilities,
-    required this.selectedDisabilities,
-    required this.onToggleDisability,
-    required this.onAddCustomDisability,
-  }) : super(key: key);
-
-  @override
-  State<DialogDisabilitas> createState() => _DialogDisabilitasState();
-}
-
-class _DialogDisabilitasState extends State<DialogDisabilitas> {
-  bool isOtherChecked = false;
-  TextEditingController otherDisabilityController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      contentPadding: EdgeInsets.zero,
-      content: Container(
-        padding: EdgeInsets.all(32),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Pilih Disabilitas',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: SizeConfig.calHeightMultiplier(16),
-              ),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(6)),
-
-            // Checklist untuk disabilitas yang tersedia
-            ...List.generate(widget.disabilities.length, (index) {
-              return CheckboxListWidget(
-                isChecked: widget.selectedDisabilities[index],
-                label: widget.disabilities[index],
-                onChanged: (bool? value) {
-                  setState(() {
-                    widget.onToggleDisability(index);
-                  });
-                },
-              );
-            }),
-
-            // Checkbox untuk opsi "Lainnya"
-            // Checkbox untuk opsi "Lainnya"
-            CheckboxListWidget(
-              isChecked: isOtherChecked,
-              label: "Lainnya",
-              onChanged: (bool? value) {
-                setState(() {
-                  isOtherChecked = value ?? false;
-                  if (!isOtherChecked) {
-                    otherDisabilityController.clear();
-                  }
-                });
-              },
-            ),
-
-            // TextField muncul jika "Lainnya" dipilih
-            if (isOtherChecked)
-              TextField(
-                controller: otherDisabilityController,
-                decoration: InputDecoration(
-                  hintText: "Masukkan jenis disabilitas lainnya",
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-
-            ButtonPrimary(
-              mainButtonMessage: 'Simpan',
-              mainButton: () {
-                if (isOtherChecked &&
-                    otherDisabilityController.text.isNotEmpty) {
-                  widget.onAddCustomDisability(otherDisabilityController.text);
-                }
-                Navigator.pop(context);
-              },
-              color: bluePrimaryMain,
-            ),
-          ],
         ),
       ),
     );
