@@ -1,17 +1,17 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'dart:math';
+// import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:puspadaya/app/feature/alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
-import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_kk_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterAnak/cubit/generate_nik_cubit.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/bloc/create_register_orang_tua_bloc.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
-import 'package:puspadaya/app/feature/createRegisterOrangTua/model/alamat_orang_tua_model.dart';
+// import 'package:puspadaya/app/feature/createRegisterOrangTua/cubit/orang_tua_form_cubit.dart';
+// import 'package:puspadaya/app/feature/createRegisterOrangTua/model/alamat_orang_tua_model.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/model/post_orang_tua_body.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
+// import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ayah.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ibu.dart';
 // import 'package:puspadaya/app/feature/alamat/model/get_provinsi_response.dart'
@@ -26,29 +26,31 @@ import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_registe
 //     as DusunModel;
 
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
-import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
-import 'package:puspadaya/config/screen_config/image_config.dart';
+// import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+// import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
-import '../../../../config/theme/text_style.dart';
-import '../../../../config/validator/validator.dart';
+// import '../../../../config/theme/text_style.dart';
+// import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/data_wilayah_model.dart';
-import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/outline_button_widget.dart';
+import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
-import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
-import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
-import '../../alatUkur/detail/view/detail_alat_ukur.dart';
-import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
-import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
-import '../bloc/create_register_orang_tua_bloc.dart';
-import '../model/post_orang_tua_body.dart';
+// import '../../../view/widget/date_time_picker_widget.dart';
+// import '../../../view/widget/dropdown_widget.dart';
+// import '../../../view/widget/outline_button_widget.dart';
+// import '../../../view/widget/primary_button_widget.dart';
+// import '../../../view/widget/textField_widget.dart';
+// import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
+// import '../../alatUkur/detail/view/detail_alat_ukur.dart';
+// import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
+// import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
+// import '../bloc/create_register_orang_tua_bloc.dart';
+// import '../model/post_orang_tua_body.dart';
 
 class CreateRegisterOrangTua extends StatelessWidget {
   const CreateRegisterOrangTua({super.key});
@@ -668,7 +670,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     }
   }
 
-  @override
+ @override
   void initState() {
     super.initState();
     _tabController = TabController(
@@ -677,109 +679,95 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     );
     logger.d('trigger fetch');
     context.read<AlamatSaveCubit>().getDataWilayah();
-    // orangTuaCubit = context.read<OrangTuaFormCubit>();
+    // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
+    selectedDisabilitiesAyah =
+        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesIbu =
+        List<bool>.from(List.filled(disabilities.length, false));
+
+    // final List<ProvinsiModel.Datum> selectProvinsi = [];
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        // Cek jika pindah dari tab Ayah (0) ke tab Ibu (1)
+        if (_tabController.previousIndex == 0 && _tabController.index == 1) {
+          // Trigger penyimpanan otomatis form Ayah
+          logger.d('trigger submit ayah form when pindah ke ibu');
+          bool valid = submitAyahForm();
+          if (!valid) {
+            // Batalkan pindah tab: kembali ke tab Ayah
+            _tabController.animateTo(0);
+          }
+        } else if (_tabController.previousIndex == 1 &&
+            _tabController.index == 0) {
+          // Trigger penyimpanan otomatis form Ibu
+          logger.d('trigger submit ayah form when pindah ke ibu');
+          if (_formIbukey.currentState!.validate()) {
+            // Jika form Ibu valid, lanjutkan ke tab Ayah
+            logger.d('form ibu valid');
+            _tabController.animateTo(0);
+          } else {
+            // JIKA FORM TIDAK VALID
+            logger.d('Form tidak valid. Mencari error pertama...');
+
+            // Buat daftar field Anda secara berurutan sesuai tampilan di UI
+            // Ini PENTING agar scroll menuju ke error PALING ATAS
+            final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+              kkIbuKey: kkIbuFocusNode,
+              nikIbuKey: nikIbuFocusNode,
+              namaIbuKey: namaIbuFocusNode,
+              tempatLahirIbuKey: tempatLahirIbuFocusNode,
+              tanggalLahirIbuKey: tanggalLahirIbuFocusNode,
+              rtIbuKey: rtIbuFocusNode,
+              rwIbuKey: rwIbuFocusNode,
+              selectedKabupatenIbuKey: selectedKabupatenIbuFocusNode,
+              selectedKecamatanIbuKey: selectedKecamatanIbuFocusNode,
+              selectedDesaIbuKey: selectedDesaIbuFocusNode,
+              selectedDusunIbuKey: selectedDusunIbuFocusNode,
+              alamatIbuKey: alamatIbuFocusNode,
+              teleponIbuKey: teleponIbuFocusNode,
+              selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
+              selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
+              tanggalKelahiranAnakSebelumnyaIbuKey:
+                  tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+              jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
+            };
+            // logger.d(fieldMap);
+
+            // Cari field pertama yang memiliki error
+            for (var entry in fieldMap.entries) {
+              final key = entry.key;
+              final focusNode = entry.value;
+
+              logger.d(
+                  'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+              // Cek apakah field ini punya error
+              if (key.currentState?.hasError ?? false) {
+                // Jika ya, scroll ke field ini
+
+                print(
+                    'Field ${entry.key} has error: ${key.currentState?.hasError}');
+                print('Current context: ${key.currentContext}');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Scrollable.ensureVisible(
+                    key.currentContext!,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    alignment: 0.3,
+                  );
+                  focusNode.requestFocus();
+                });
+
+                // Hentikan loop karena kita hanya butuh fokus ke error pertama
+                break;
+              }
+            }
+             _tabController.animateTo(1);
+          }
+        }
+      }
+    });
   }
-
-  // void _submitAllData() {
-  //   // PostOrangTuaBody postData = orangTuaCubit.getPostBody();
-  //   // post_orang_tua postData = orangTuaCubit.getPostBody();
-  //   // logger.d(postData);
-  //   context.read<CreateRegisterOrangTuaBloc>().add(SendRegisterOrangTua(postOrangTuaBody: orangTuaTemp));
-  //   // Inisialisasi selectedDisabilitiesIbu dengan panjang yang sama dengan disabilities
-  //   selectedDisabilitiesAyah =
-  //       List<bool>.from(List.filled(disabilities.length, false));
-  //   selectedDisabilitiesIbu =
-  //       List<bool>.from(List.filled(disabilities.length, false));
-
-  //   // final List<ProvinsiModel.Datum> selectProvinsi = [];
-
-  //   _tabController.addListener(() {
-  //     if (_tabController.indexIsChanging) {
-  //       // Cek jika pindah dari tab Ayah (0) ke tab Ibu (1)
-  //       if (_tabController.previousIndex == 0 && _tabController.index == 1) {
-  //         // Trigger penyimpanan otomatis form Ayah
-  //         logger.d('trigger submit ayah form when pindah ke ibu');
-  //         bool valid = submitAyahForm();
-  //         if (!valid) {
-  //           // Batalkan pindah tab: kembali ke tab Ayah
-  //           _tabController.animateTo(0);
-  //         }
-  //       } else if (_tabController.previousIndex == 1 &&
-  //           _tabController.index == 0) {
-  //         // Trigger penyimpanan otomatis form Ibu
-  //         logger.d('trigger submit ayah form when pindah ke ibu');
-  //         if (_formIbukey.currentState!.validate()) {
-  //           // Jika form Ibu valid, lanjutkan ke tab Ayah
-  //           logger.d('form ibu valid');
-  //           _tabController.animateTo(0);
-  //         } else {
-  //           // JIKA FORM TIDAK VALID
-  //           logger.d('Form tidak valid. Mencari error pertama...');
-
-  //           // Buat daftar field Anda secara berurutan sesuai tampilan di UI
-  //           // Ini PENTING agar scroll menuju ke error PALING ATAS
-  //           final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
-  //             kkIbuKey: kkIbuFocusNode,
-  //             nikIbuKey: nikIbuFocusNode,
-  //             namaIbuKey: namaIbuFocusNode,
-  //             tempatLahirIbuKey: tempatLahirIbuFocusNode,
-  //             tanggalLahirIbuKey: tanggalLahirIbuFocusNode,
-  //             rtIbuKey: rtIbuFocusNode,
-  //             rwIbuKey: rwIbuFocusNode,
-  //             selectedKabupatenIbuKey: selectedKabupatenIbuFocusNode,
-  //             selectedKecamatanIbuKey: selectedKecamatanIbuFocusNode,
-  //             selectedDesaIbuKey: selectedDesaIbuFocusNode,
-  //             selectedDusunIbuKey: selectedDusunIbuFocusNode,
-  //             alamatIbuKey: alamatIbuFocusNode,
-  //             teleponIbuKey: teleponIbuFocusNode,
-  //             selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
-  //             selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
-  //             tanggalKelahiranAnakSebelumnyaIbuKey:
-  //                 tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-  //             jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
-  //           };
-  //           // logger.d(fieldMap);
-
-  //           // Cari field pertama yang memiliki error
-  //           for (var entry in fieldMap.entries) {
-  //             final key = entry.key;
-  //             final focusNode = entry.value;
-
-  //             logger.d(
-  //                 'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
-  //             // Cek apakah field ini punya error
-  //             if (key.currentState?.hasError ?? false) {
-  //               // Jika ya, scroll ke field ini
-
-  //               print(
-  //                   'Field ${entry.key} has error: ${key.currentState?.hasError}');
-  //               print('Current context: ${key.currentContext}');
-  //               WidgetsBinding.instance.addPostFrameCallback((_) {
-  //                 Scrollable.ensureVisible(
-  //                   key.currentContext!,
-  //                   duration: const Duration(milliseconds: 500),
-  //                   curve: Curves.easeInOut,
-  //                   alignment: 0.3,
-  //                 );
-  //                 focusNode.requestFocus();
-  //               });
-
-  //               // Hentikan loop karena kita hanya butuh fokus ke error pertama
-  //               break;
-  //             }
-  //           }
-  //            _tabController.animateTo(1);
-  //         }
-  //       }
-  //       // bool valid = submitIbuForm();
-  //       // if (!valid) {
-  //       //   // Batalkan pindah tab: kembali ke tab Ibu
-  //       //   _tabController.animateTo(1);
-  //       // }
-  //       // submitIbuForm();
-  //     }
-  //   });
-  // }
 
   @override
   void dispose() {
