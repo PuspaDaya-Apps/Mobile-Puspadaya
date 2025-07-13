@@ -1074,6 +1074,8 @@ class _UpdateRegisterAyahViewState extends State<UpdateRegisterAyahView> {
                     obscureText: false,
                     clientValidators: [
                       FormBuilderValidators.required(errorText: "Isi RT"),
+                      FormBuilderValidators.numeric(
+                        errorText: "RT harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1090,6 +1092,8 @@ class _UpdateRegisterAyahViewState extends State<UpdateRegisterAyahView> {
                     obscureText: false,
                     clientValidators: [
                       FormBuilderValidators.required(errorText: "Isi RW"),
+                      FormBuilderValidators.numeric(
+                        errorText: "RW harus berupa angka!"),
                     ],
                   ),
                 ),
@@ -1128,6 +1132,8 @@ class _UpdateRegisterAyahViewState extends State<UpdateRegisterAyahView> {
               key: widget.teleponAyahKey,
               isPasswordField: false,
               clientValidators: [
+                FormBuilderValidators.numeric(
+                    errorText: "Nomor harus berupa angka!"),
                 FormBuilderValidators.minLength(10,
                     checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
                 FormBuilderValidators.maxLength(13,

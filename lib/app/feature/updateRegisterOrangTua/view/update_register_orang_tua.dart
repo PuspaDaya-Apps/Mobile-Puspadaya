@@ -304,6 +304,13 @@ class _UpdateRegisterOrangTuaViewState
       // JIKA FORM TIDAK VALID
       print('Form tidak valid. Mencari error pertama...');
 
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 600),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ayah tidak sesuai\nharap cek kembali"));
+
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
       final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -653,6 +660,13 @@ class _UpdateRegisterOrangTuaViewState
       // JIKA FORM TIDAK VALID
       logger.d('Form tidak valid. Mencari error pertama...');
 
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 600),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data ibu tidak sesuai\nharap cek kembali"));
+
       // Buat daftar field Anda secara berurutan sesuai tampilan di UI
       // Ini PENTING agar scroll menuju ke error PALING ATAS
       final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -804,7 +818,7 @@ class _UpdateRegisterOrangTuaViewState
                 break;
               }
             }
-            _tabController.animateTo(1);
+            _tabController.animateTo(0);
           }
         }
         // submitIbuForm();
