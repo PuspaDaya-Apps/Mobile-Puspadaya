@@ -21,9 +21,7 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../model/alamat_orang_tua_model.dart';
-
-class CreateRegisterIbu extends StatelessWidget {
+class UpdateRegisterIbu extends StatelessWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
 
@@ -118,7 +116,7 @@ class CreateRegisterIbu extends StatelessWidget {
   final void Function(dynamic) handleJenisKBChanged;
   final void Function() submitIbuForm;
 
-  CreateRegisterIbu({
+  UpdateRegisterIbu({
     super.key,
     // form
     required this.formIbukey,
@@ -212,7 +210,7 @@ class CreateRegisterIbu extends StatelessWidget {
         BlocProvider(create: (context) => GenerateKkCubit()),
         BlocProvider(create: (context) => GenerateNikCubit()),
       ],
-      child: CreateRegisterIbuView(
+      child: UpdateRegisterIbuView(
         selectedJenisKB: selectedJenisKB,
         formIbukey: formIbukey,
         ibuScrollController: ibuScrollController,
@@ -293,7 +291,7 @@ class CreateRegisterIbu extends StatelessWidget {
   }
 }
 
-class CreateRegisterIbuView extends StatefulWidget {
+class UpdateRegisterIbuView extends StatefulWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
 
@@ -385,7 +383,7 @@ class CreateRegisterIbuView extends StatefulWidget {
 
   final Future<void> Function(BuildContext) onSelectDateKelahiranSebelumnya;
   final void Function() submitIbuForm;
-  CreateRegisterIbuView({
+  UpdateRegisterIbuView({
     super.key,
     // form
     required this.formIbukey,
@@ -473,10 +471,10 @@ class CreateRegisterIbuView extends StatefulWidget {
   });
 
   @override
-  State<CreateRegisterIbuView> createState() => _CreateRegisterIbuViewState();
+  State<UpdateRegisterIbuView> createState() => _UpdateRegisterIbuViewState();
 }
 
-class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
+class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
   @override
   Widget build(BuildContext context) {
     return Form(

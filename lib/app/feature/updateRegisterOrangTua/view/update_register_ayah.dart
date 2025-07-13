@@ -21,188 +21,163 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../model/alamat_orang_tua_model.dart';
+class UpdateRegisterAyah extends StatelessWidget {
+  final GlobalKey<FormState> formAyahkey;
+  final ScrollController ayahScrollController;
 
-class CreateRegisterIbu extends StatelessWidget {
-  final GlobalKey<FormState> formIbukey;
-  final ScrollController ibuScrollController;
+  final TextEditingController kkAyahController;
+  final TextEditingController nikAyahController;
+  final TextEditingController namaAyahController;
+  final TextEditingController tempatLahirAyahController;
+  final TextEditingController tanggalLahirAyahController;
+  final TextEditingController alamatAyahController;
+  final TextEditingController teleponAyahController;
+  final TextEditingController rTAyahController;
+  final TextEditingController rWAyahController;
 
-  final TextEditingController kkIbuController;
-  final TextEditingController nikIbuController;
-  final TextEditingController namaIbuController;
-  final TextEditingController tempatLahirIbuController;
-  final TextEditingController tanggalLahirIbuController;
-  final TextEditingController alamatIbuController;
-  final TextEditingController teleponIbuController;
-  final TextEditingController rTIbuController;
-  final TextEditingController rWIbuController;
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController;
+  //? ayah selected
+  List<DataKabupatenKota> dataKabupatenKotaAyah;
+  List<DataKecamatan> dataKecamatanAyah;
+  List<DataDesaKelurahan> dataDesaKelurahanAyah;
+  List<DataDusun> dataDusunAyah;
 
-  final TextEditingController jumlahAnakIbuController;
+  DataKabupatenKota? selectedKabupatenAyah;
+  DataKecamatan? selectedKecamatanAyah;
+  DataDesaKelurahan? selectedDesaAyah;
+  DataDusun? selectedDusunAyah;
 
-  //? Ibu selected
-  List<DataKabupatenKota> dataKabupatenKotaIbu;
-  List<DataKecamatan> dataKecamatanIbu;
-  List<DataDesaKelurahan> dataDesaKelurahanIbu;
-  List<DataDusun> dataDusunIbu;
-
-  DataKabupatenKota? selectedKabupatenIbu;
-  DataKecamatan? selectedKecamatanIbu;
-  DataDesaKelurahan? selectedDesaIbu;
-  DataDusun? selectedDusunIbu;
-
-
-  String selectedJenisKB;
-  String selectedGolDarahIbu;
+  String selectedGolDarahAyah;
 
   // Status checkbox untuk disabilitas
-  List<bool> selectedDisabilitiesIbu;
-  List<String> selectedDisabilityLabelsIbu;
+  List<bool> selectedDisabilitiesAyah;
+  List<String> selectedDisabilityLabelsAyah;
 
   //! validate formKeyController
-  // ? Ibu
-  final GlobalKey<FormFieldState> kkIbuKey;
-  final GlobalKey<FormFieldState> nikIbuKey;
-  final GlobalKey<FormFieldState> namaIbuKey;
-  final GlobalKey<FormFieldState> tempatLahirIbuKey;
-  final GlobalKey<FormFieldState> tanggalLahirIbuKey;
-  final GlobalKey<FormFieldState> alamatIbuKey;
-  final GlobalKey<FormFieldState> teleponIbuKey;
-  final GlobalKey<FormFieldState> rtIbuKey;
-  final GlobalKey<FormFieldState> rwIbuKey;
+  // ? Ayah
+  final GlobalKey<FormFieldState> kkAyahKey;
+  final GlobalKey<FormFieldState> nikAyahKey;
+  final GlobalKey<FormFieldState> namaAyahKey;
+  final GlobalKey<FormFieldState> tempatLahirAyahKey;
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey;
+  final GlobalKey<FormFieldState> alamatAyahKey;
+  final GlobalKey<FormFieldState> teleponAyahKey;
+  final GlobalKey<FormFieldState> rtAyahKey;
+  final GlobalKey<FormFieldState> rwAyahKey;
 
-  final GlobalKey<FormFieldState> selectedKabupatenIbuKey;
-  final GlobalKey<FormFieldState> selectedKecamatanIbuKey;
-  final GlobalKey<FormFieldState> selectedDesaIbuKey;
-  final GlobalKey<FormFieldState> selectedDusunIbuKey;
-  final GlobalKey<FormFieldState> selectedGolDarahIbuKey;
-  final GlobalKey<FormFieldState> jenisKBKey;
-  final GlobalKey<FormFieldState> jumlahAnakIbuKey;
-  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey;
+  final GlobalKey<FormFieldState> selectedKabupatenAyahKey;
+  final GlobalKey<FormFieldState> selectedKecamatanAyahKey;
+  final GlobalKey<FormFieldState> selectedDesaAyahKey;
+  final GlobalKey<FormFieldState> selectedDusunAyahKey;
+  final GlobalKey<FormFieldState> selectedGolDarahAyahKey;
 
-  // !Ibu fokus node
-  final FocusNode kkIbuFocusNode;
-  final FocusNode nikIbuFocusNode;
-  final FocusNode namaIbuFocusNode;
-  final FocusNode tempatLahirIbuFocusNode;
-  final FocusNode tanggalLahirIbuFocusNode;
-  final FocusNode alamatIbuFocusNode;
-  final FocusNode teleponIbuFocusNode;
-  final FocusNode rtIbuFocusNode;
-  final FocusNode rwIbuFocusNode;
+  // !ayah fokus node
+  final FocusNode kkAyahFocusNode;
+  final FocusNode nikAyahFocusNode;
+  final FocusNode namaAyahFocusNode;
+  final FocusNode tempatLahirAyahFocusNode;
+  final FocusNode tanggalLahirAyahFocusNode;
+  final FocusNode alamatAyahFocusNode;
+  final FocusNode teleponAyahFocusNode;
+  final FocusNode rtAyahFocusNode;
+  final FocusNode rwAyahFocusNode;
 
-  final FocusNode selectedKabupatenIbuFocusNode;
-  final FocusNode selectedKecamatanIbuFocusNode;
-  final FocusNode selectedDesaIbuFocusNode;
-  final FocusNode selectedDusunIbuFocusNode;
-  final FocusNode selectedGolDarahIbuFocusNode;
-  final FocusNode jenisKBFocusNode;
-  final FocusNode jumlahAnakIbuFocusNode;
-  final FocusNode tanggalKelahiranAnakSebelumnyaIbuFocusNode;
+  final FocusNode selectedKabupatenAyahFocusNode;
+  final FocusNode selectedKecamatanAyahFocusNode;
+  final FocusNode selectedDesaAyahFocusNode;
+  final FocusNode selectedDusunAyahFocusNode;
+  final FocusNode selectedGolDarahAyahFocusNode;
 
+  // function for remove, toogle, and add disabilities
   final Future<void> Function(BuildContext) onSelectDate;
-
-  final Future<void> Function(BuildContext) onSelectDateKelahiranSebelumnya;
   final void Function(String) removeDisability;
-  final void Function(int) toggleDisabilityIbu;
-  //  bool _isGenerateIbuValid() {
-  final bool Function() isGenerateIbuValid;
+  final void Function(int) toggleDisabilityAyah;
+  //  bool _isGenerateAyahValid() {
+  final bool Function() isGenerateAyahValid;
 
   final DataWilayahModel dataWilayahModel;
 
-  final void Function(DataKabupatenKota) handleKabupatenIbuChanged;
-  final void Function(DataKecamatan) handleKecamatanIbuChanged;
-  final void Function(DataDesaKelurahan) handleDesaIbuChanged;
-  final void Function(DataDusun) handleDusunIbuChanged;
-  final void Function(dynamic) handleGolDarahIbuChanged;
-  final void Function(dynamic) handleJenisKBChanged;
-  final void Function() submitIbuForm;
+  final void Function(DataKabupatenKota) handleKabupatenAyahChanged;
+  final void Function(DataKecamatan) handleKecamatanAyahChanged;
+  final void Function(DataDesaKelurahan) handleDesaAyahChanged;
+  final void Function(DataDusun) handleDusunAyahChanged;
+  final void Function(dynamic) handleGolDarahAyahChanged;
+  final void Function() submitAyahForm;
 
-  CreateRegisterIbu({
-    super.key,
+  UpdateRegisterAyah({
     // form
-    required this.formIbukey,
+    required this.formAyahkey,
     // scroll
-    required this.ibuScrollController,
+    required this.ayahScrollController,
     // controllers
-    required this.kkIbuController,
-    required this.nikIbuController,
-    required this.namaIbuController,
-    required this.tempatLahirIbuController,
-    required this.tanggalLahirIbuController,
-    required this.alamatIbuController,
-    required this.teleponIbuController,
-    required this.rTIbuController,
-    required this.rWIbuController,
-    required this.selectedJenisKB,
-    required this.jumlahAnakIbuController,
-    required this.tanggalKelahiranAnakSebelumnyaIbuController,
-    // data wilIbu
-    required this.dataKabupatenKotaIbu,
-    required this.dataKecamatanIbu,
-    required this.dataDesaKelurahanIbu,
-    required this.dataDusunIbu,
-    // selected wilIbu
-    this.selectedKabupatenIbu,
-    this.selectedKecamatanIbu,
-    this.selectedDesaIbu,
-    this.selectedDusunIbu,
+    required this.kkAyahController,
+    required this.nikAyahController,
+    required this.namaAyahController,
+    required this.tempatLahirAyahController,
+    required this.tanggalLahirAyahController,
+    required this.alamatAyahController,
+    required this.teleponAyahController,
+    required this.rTAyahController,
+    required this.rWAyahController,
+    // data wilayah
+    required this.dataKabupatenKotaAyah,
+    required this.dataKecamatanAyah,
+    required this.dataDesaKelurahanAyah,
+    required this.dataDusunAyah,
+    // selected wilayah
+    this.selectedKabupatenAyah,
+    this.selectedKecamatanAyah,
+    this.selectedDesaAyah,
+    this.selectedDusunAyah,
     // selected golongan darah
-    this.selectedGolDarahIbu = '-',
+    this.selectedGolDarahAyah = '',
     // selected disabilities
-    this.selectedDisabilitiesIbu = const [],
-    this.selectedDisabilityLabelsIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
+    this.selectedDisabilityLabelsAyah = const [],
     // form key
-    required this.kkIbuKey,
-    required this.nikIbuKey,
-    required this.namaIbuKey,
-    required this.tempatLahirIbuKey,
-    required this.tanggalLahirIbuKey,
-    required this.alamatIbuKey,
-    required this.teleponIbuKey,
-    required this.rtIbuKey,
-    required this.rwIbuKey,
-    required this.jenisKBKey,
-    required this.jumlahAnakIbuKey,
-    required this.tanggalKelahiranAnakSebelumnyaIbuKey,
-    // selected wilIbu key
-    required this.selectedKabupatenIbuKey,
-    required this.selectedKecamatanIbuKey,
-    required this.selectedDesaIbuKey,
-    required this.selectedDusunIbuKey,
-    required this.selectedGolDarahIbuKey,
+    required this.kkAyahKey,
+    required this.nikAyahKey,
+    required this.namaAyahKey,
+    required this.tempatLahirAyahKey,
+    required this.tanggalLahirAyahKey,
+    required this.alamatAyahKey,
+    required this.teleponAyahKey,
+    required this.rtAyahKey,
+    required this.rwAyahKey,
+    // selected wilayah key
+    required this.selectedKabupatenAyahKey,
+    required this.selectedKecamatanAyahKey,
+    required this.selectedDesaAyahKey,
+    required this.selectedDusunAyahKey,
+    required this.selectedGolDarahAyahKey,
     // focus node
-    required this.kkIbuFocusNode,
-    required this.nikIbuFocusNode,
-    required this.namaIbuFocusNode,
-    required this.tempatLahirIbuFocusNode,
-    required this.tanggalLahirIbuFocusNode,
-    required this.alamatIbuFocusNode,
-    required this.teleponIbuFocusNode,
-    required this.rtIbuFocusNode,
-    required this.rwIbuFocusNode,
-    required this.jenisKBFocusNode,
-    required this.jumlahAnakIbuFocusNode,
-    required this.tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-    // focus node wilIbu
-    required this.selectedKabupatenIbuFocusNode,
-    required this.selectedKecamatanIbuFocusNode,
-    required this.selectedDesaIbuFocusNode,
-    required this.selectedDusunIbuFocusNode,
-    required this.selectedGolDarahIbuFocusNode,
+    required this.kkAyahFocusNode,
+    required this.nikAyahFocusNode,
+    required this.namaAyahFocusNode,
+    required this.tempatLahirAyahFocusNode,
+    required this.tanggalLahirAyahFocusNode,
+    required this.alamatAyahFocusNode,
+    required this.teleponAyahFocusNode,
+    required this.rtAyahFocusNode,
+    required this.rwAyahFocusNode,
+    // focus node wilayah
+    required this.selectedKabupatenAyahFocusNode,
+    required this.selectedKecamatanAyahFocusNode,
+    required this.selectedDesaAyahFocusNode,
+    required this.selectedDusunAyahFocusNode,
+    required this.selectedGolDarahAyahFocusNode,
     required this.onSelectDate,
     required this.removeDisability,
-    required this.toggleDisabilityIbu,
-    required this.isGenerateIbuValid,
+    required this.toggleDisabilityAyah,
+    required this.isGenerateAyahValid,
     required this.dataWilayahModel,
-    required this.handleKabupatenIbuChanged,
-    required this.handleKecamatanIbuChanged,
-    required this.handleDesaIbuChanged,
-    required this.handleDusunIbuChanged,
-    required this.handleGolDarahIbuChanged,
-    required this.handleJenisKBChanged,
-    required this.onSelectDateKelahiranSebelumnya,
-    required this.submitIbuForm,
+    required this.handleKabupatenAyahChanged,
+    required this.handleKecamatanAyahChanged,
+    required this.handleDesaAyahChanged,
+    required this.handleDusunAyahChanged,
+    required this.handleGolDarahAyahChanged,
+
+    required this.submitAyahForm,
+    super.key,
   });
 
   @override
@@ -212,277 +187,241 @@ class CreateRegisterIbu extends StatelessWidget {
         BlocProvider(create: (context) => GenerateKkCubit()),
         BlocProvider(create: (context) => GenerateNikCubit()),
       ],
-      child: CreateRegisterIbuView(
-        selectedJenisKB: selectedJenisKB,
-        formIbukey: formIbukey,
-        ibuScrollController: ibuScrollController,
-        kkIbuController: kkIbuController,
-        nikIbuController: nikIbuController,
-        namaIbuController: namaIbuController,
-        tempatLahirIbuController: tempatLahirIbuController,
-        tanggalLahirIbuController: tanggalLahirIbuController,
-        alamatIbuController: alamatIbuController,
-        teleponIbuController: teleponIbuController,
-        rTIbuController: rTIbuController,
-        rWIbuController: rWIbuController,
-        jumlahAnakIbuController: jumlahAnakIbuController,
-        tanggalKelahiranAnakSebelumnyaIbuController:
-            tanggalKelahiranAnakSebelumnyaIbuController,
-        dataKabupatenKotaIbu: dataKabupatenKotaIbu,
-        dataKecamatanIbu: dataKecamatanIbu,
-        dataDesaKelurahanIbu: dataDesaKelurahanIbu,
-        dataDusunIbu: dataDusunIbu,
-        selectedKabupatenIbu: selectedKabupatenIbu,
-        selectedKecamatanIbu: selectedKecamatanIbu,
-        selectedDesaIbu: selectedDesaIbu,
-        selectedDusunIbu: selectedDusunIbu,
-        selectedGolDarahIbu: selectedGolDarahIbu,
-        selectedDisabilitiesIbu: selectedDisabilitiesIbu,
-        selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
-        kkIbuKey: kkIbuKey,
-        nikIbuKey: nikIbuKey,
-        namaIbuKey: namaIbuKey,
-        tempatLahirIbuKey: tempatLahirIbuKey,
-        tanggalLahirIbuKey: tanggalLahirIbuKey,
-        alamatIbuKey: alamatIbuKey,
-        teleponIbuKey: teleponIbuKey,
-        rtIbuKey: rtIbuKey,
-        rwIbuKey: rwIbuKey,
-        selectedKabupatenIbuKey: selectedKabupatenIbuKey,
-        selectedKecamatanIbuKey: selectedKecamatanIbuKey,
-        selectedDesaIbuKey: selectedDesaIbuKey,
-        selectedDusunIbuKey: selectedDusunIbuKey,
-        selectedGolDarahIbuKey: selectedGolDarahIbuKey,
-        jenisKBKey: jenisKBKey,
-        jumlahAnakIbuKey: jumlahAnakIbuKey,
-        tanggalKelahiranAnakSebelumnyaIbuKey:
-            tanggalKelahiranAnakSebelumnyaIbuKey,
-        kkIbuFocusNode: kkIbuFocusNode,
-        nikIbuFocusNode: nikIbuFocusNode,
-        namaIbuFocusNode: namaIbuFocusNode,
-        tempatLahirIbuFocusNode: tempatLahirIbuFocusNode,
-        tanggalLahirIbuFocusNode: tanggalLahirIbuFocusNode,
-        alamatIbuFocusNode: alamatIbuFocusNode,
-        teleponIbuFocusNode: teleponIbuFocusNode,
-        rtIbuFocusNode: rtIbuFocusNode,
-        rwIbuFocusNode: rwIbuFocusNode,
-        selectedKabupatenIbuFocusNode: selectedKabupatenIbuFocusNode,
-        selectedKecamatanIbuFocusNode: selectedKecamatanIbuFocusNode,
-        selectedDesaIbuFocusNode: selectedDesaIbuFocusNode,
-        selectedDusunIbuFocusNode: selectedDusunIbuFocusNode,
-        selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
-        jenisKBFocusNode: jenisKBFocusNode,
-        jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuFocusNode:
-            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+      child: UpdateRegisterAyahView(
+        formAyahkey: formAyahkey,
+        ayahScrollController: ayahScrollController,
+        kkAyahController: kkAyahController,
+        nikAyahController: nikAyahController,
+        namaAyahController: namaAyahController,
+        tempatLahirAyahController: tempatLahirAyahController,
+        tanggalLahirAyahController: tanggalLahirAyahController,
+        alamatAyahController: alamatAyahController,
+        teleponAyahController: teleponAyahController,
+        rTAyahController: rTAyahController,
+        rWAyahController: rWAyahController,
+        dataKabupatenKotaAyah: dataKabupatenKotaAyah,
+        dataKecamatanAyah: dataKecamatanAyah,
+        dataDesaKelurahanAyah: dataDesaKelurahanAyah,
+        dataDusunAyah: dataDusunAyah,
+        selectedKabupatenAyah: selectedKabupatenAyah,
+        selectedKecamatanAyah: selectedKecamatanAyah,
+        selectedDesaAyah: selectedDesaAyah,
+        selectedDusunAyah: selectedDusunAyah,
+        selectedGolDarahAyah: selectedGolDarahAyah,
+        selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+        selectedDisabilityLabelsAyah: selectedDisabilityLabelsAyah,
+        kkAyahKey: kkAyahKey,
+        nikAyahKey: nikAyahKey,
+        namaAyahKey: namaAyahKey,
+        tempatLahirAyahKey: tempatLahirAyahKey,
+        tanggalLahirAyahKey: tanggalLahirAyahKey,
+        alamatAyahKey: alamatAyahKey,
+        teleponAyahKey: teleponAyahKey,
+        rtAyahKey: rtAyahKey,
+        rwAyahKey: rwAyahKey,
+        selectedKabupatenAyahKey: selectedKabupatenAyahKey,
+        selectedKecamatanAyahKey: selectedKecamatanAyahKey,
+        selectedDesaAyahKey: selectedDesaAyahKey,
+        selectedDusunAyahKey: selectedDusunAyahKey,
+        selectedGolDarahAyahKey: selectedGolDarahAyahKey,
+        kkAyahFocusNode: kkAyahFocusNode,
+        nikAyahFocusNode: nikAyahFocusNode,
+        namaAyahFocusNode: namaAyahFocusNode,
+        tempatLahirAyahFocusNode: tempatLahirAyahFocusNode,
+        tanggalLahirAyahFocusNode: tanggalLahirAyahFocusNode,
+        alamatAyahFocusNode: alamatAyahFocusNode,
+        teleponAyahFocusNode: teleponAyahFocusNode,
+        rtAyahFocusNode: rtAyahFocusNode,
+        rwAyahFocusNode: rwAyahFocusNode,
+        selectedKabupatenAyahFocusNode: selectedKabupatenAyahFocusNode,
+        selectedKecamatanAyahFocusNode: selectedKecamatanAyahFocusNode,
+        selectedDesaAyahFocusNode: selectedDesaAyahFocusNode,
+        selectedDusunAyahFocusNode: selectedDusunAyahFocusNode,
+        selectedGolDarahAyahFocusNode: selectedGolDarahAyahFocusNode,
         onSelectDate: onSelectDate,
         removeDisability: removeDisability,
-        toggleDisabilityIbu: toggleDisabilityIbu,
-        isGenerateIbuValid: isGenerateIbuValid,
+        toggleDisabilityAyah: toggleDisabilityAyah,
+        isGenerateAyahValid: isGenerateAyahValid,
         dataWilayahModel: dataWilayahModel,
-        handleDesaIbuChanged: handleDesaIbuChanged,
-        handleDusunIbuChanged: handleDusunIbuChanged,
-        handleGolDarahIbuChanged: handleGolDarahIbuChanged,
-        handleKabupatenIbuChanged: handleKabupatenIbuChanged,
-        handleKecamatanIbuChanged: handleKecamatanIbuChanged,
-        handleJenisKBChanged: handleJenisKBChanged,
-        onSelectDateKelahiranSebelumnya: onSelectDateKelahiranSebelumnya,
-        submitIbuForm: submitIbuForm,
+        handleDesaAyahChanged: handleDesaAyahChanged,
+        handleDusunAyahChanged: handleDusunAyahChanged,
+        handleGolDarahAyahChanged: handleGolDarahAyahChanged,
+        handleKabupatenAyahChanged: handleKabupatenAyahChanged,
+        handleKecamatanAyahChanged: handleKecamatanAyahChanged,
+        submitAyahForm: submitAyahForm,
       ),
     );
   }
 }
 
-class CreateRegisterIbuView extends StatefulWidget {
-  final GlobalKey<FormState> formIbukey;
-  final ScrollController ibuScrollController;
+class UpdateRegisterAyahView extends StatefulWidget {
+  final GlobalKey<FormState> formAyahkey;
+  final ScrollController ayahScrollController;
 
-  final TextEditingController kkIbuController;
-  final TextEditingController nikIbuController;
-  final TextEditingController namaIbuController;
-  final TextEditingController tempatLahirIbuController;
-  final TextEditingController tanggalLahirIbuController;
-  final TextEditingController alamatIbuController;
-  final TextEditingController teleponIbuController;
-  final TextEditingController rTIbuController;
-  final TextEditingController rWIbuController;
-  final TextEditingController jumlahAnakIbuController;
-  final TextEditingController tanggalKelahiranAnakSebelumnyaIbuController;
+  final TextEditingController kkAyahController;
+  final TextEditingController nikAyahController;
+  final TextEditingController namaAyahController;
+  final TextEditingController tempatLahirAyahController;
+  final TextEditingController tanggalLahirAyahController;
+  final TextEditingController alamatAyahController;
+  final TextEditingController teleponAyahController;
+  final TextEditingController rTAyahController;
+  final TextEditingController rWAyahController;
 
-  //? Ibu selected
-  List<DataKabupatenKota> dataKabupatenKotaIbu;
-  List<DataKecamatan> dataKecamatanIbu;
-  List<DataDesaKelurahan> dataDesaKelurahanIbu;
-  List<DataDusun> dataDusunIbu;
+  //? ayah selected
+  List<DataKabupatenKota> dataKabupatenKotaAyah;
+  List<DataKecamatan> dataKecamatanAyah;
+  List<DataDesaKelurahan> dataDesaKelurahanAyah;
+  List<DataDusun> dataDusunAyah;
 
-  DataKabupatenKota? selectedKabupatenIbu;
-  DataKecamatan? selectedKecamatanIbu;
-  DataDesaKelurahan? selectedDesaIbu;
-  DataDusun? selectedDusunIbu;
-  String selectedJenisKB;
-  // String selectedJenisKBIbu = '-';
-  String selectedGolDarahIbu;
+  DataKabupatenKota? selectedKabupatenAyah;
+  DataKecamatan? selectedKecamatanAyah;
+  DataDesaKelurahan? selectedDesaAyah;
+  DataDusun? selectedDusunAyah;
+
+  String selectedGolDarahAyah;
 
   // Status checkbox untuk disabilitas
-  List<bool> selectedDisabilitiesIbu;
-  List<String> selectedDisabilityLabelsIbu;
+  List<bool> selectedDisabilitiesAyah;
+  List<String> selectedDisabilityLabelsAyah;
 
   //! validate formKeyController
-  // ? Ibu
-  final GlobalKey<FormFieldState> kkIbuKey;
-  final GlobalKey<FormFieldState> nikIbuKey;
-  final GlobalKey<FormFieldState> namaIbuKey;
-  final GlobalKey<FormFieldState> tempatLahirIbuKey;
-  final GlobalKey<FormFieldState> tanggalLahirIbuKey;
-  final GlobalKey<FormFieldState> alamatIbuKey;
-  final GlobalKey<FormFieldState> teleponIbuKey;
-  final GlobalKey<FormFieldState> rtIbuKey;
-  final GlobalKey<FormFieldState> rwIbuKey;
+  // ? Ayah
+  final GlobalKey<FormFieldState> kkAyahKey;
+  final GlobalKey<FormFieldState> nikAyahKey;
+  final GlobalKey<FormFieldState> namaAyahKey;
+  final GlobalKey<FormFieldState> tempatLahirAyahKey;
+  final GlobalKey<FormFieldState> tanggalLahirAyahKey;
+  final GlobalKey<FormFieldState> alamatAyahKey;
+  final GlobalKey<FormFieldState> teleponAyahKey;
+  final GlobalKey<FormFieldState> rtAyahKey;
+  final GlobalKey<FormFieldState> rwAyahKey;
 
-  final GlobalKey<FormFieldState> selectedKabupatenIbuKey;
-  final GlobalKey<FormFieldState> selectedKecamatanIbuKey;
-  final GlobalKey<FormFieldState> selectedDesaIbuKey;
-  final GlobalKey<FormFieldState> selectedDusunIbuKey;
-  final GlobalKey<FormFieldState> selectedGolDarahIbuKey;
-  final GlobalKey<FormFieldState> jenisKBKey;
-  final GlobalKey<FormFieldState> jumlahAnakIbuKey;
-  final GlobalKey<FormFieldState> tanggalKelahiranAnakSebelumnyaIbuKey;
+  final GlobalKey<FormFieldState> selectedKabupatenAyahKey;
+  final GlobalKey<FormFieldState> selectedKecamatanAyahKey;
+  final GlobalKey<FormFieldState> selectedDesaAyahKey;
+  final GlobalKey<FormFieldState> selectedDusunAyahKey;
+  final GlobalKey<FormFieldState> selectedGolDarahAyahKey;
 
-  // !Ibu fokus node
-  final FocusNode kkIbuFocusNode;
-  final FocusNode nikIbuFocusNode;
-  final FocusNode namaIbuFocusNode;
-  final FocusNode tempatLahirIbuFocusNode;
-  final FocusNode tanggalLahirIbuFocusNode;
-  final FocusNode alamatIbuFocusNode;
-  final FocusNode teleponIbuFocusNode;
-  final FocusNode rtIbuFocusNode;
-  final FocusNode rwIbuFocusNode;
+  // !ayah fokus node
+  final FocusNode kkAyahFocusNode;
+  final FocusNode nikAyahFocusNode;
+  final FocusNode namaAyahFocusNode;
+  final FocusNode tempatLahirAyahFocusNode;
+  final FocusNode tanggalLahirAyahFocusNode;
+  final FocusNode alamatAyahFocusNode;
+  final FocusNode teleponAyahFocusNode;
+  final FocusNode rtAyahFocusNode;
+  final FocusNode rwAyahFocusNode;
 
-  final FocusNode selectedKabupatenIbuFocusNode;
-  final FocusNode selectedKecamatanIbuFocusNode;
-  final FocusNode selectedDesaIbuFocusNode;
-  final FocusNode selectedDusunIbuFocusNode;
-  final FocusNode selectedGolDarahIbuFocusNode;
-  final FocusNode jenisKBFocusNode;
-  final FocusNode jumlahAnakIbuFocusNode;
-  final FocusNode tanggalKelahiranAnakSebelumnyaIbuFocusNode;
+  final FocusNode selectedKabupatenAyahFocusNode;
+  final FocusNode selectedKecamatanAyahFocusNode;
+  final FocusNode selectedDesaAyahFocusNode;
+  final FocusNode selectedDusunAyahFocusNode;
+  final FocusNode selectedGolDarahAyahFocusNode;
 
+  // function for remove, toogle, and add disabilities
   final Future<void> Function(BuildContext) onSelectDate;
   final void Function(String) removeDisability;
-  final void Function(int) toggleDisabilityIbu;
-  //  bool _isGenerateIbuValid() {
-  final bool Function() isGenerateIbuValid;
+  final void Function(int) toggleDisabilityAyah;
+  //  bool _isGenerateAyahValid() {
+  final bool Function() isGenerateAyahValid;
 
   final DataWilayahModel dataWilayahModel;
 
-  final void Function(DataKabupatenKota) handleKabupatenIbuChanged;
-  final void Function(DataKecamatan) handleKecamatanIbuChanged;
-  final void Function(DataDesaKelurahan) handleDesaIbuChanged;
-  final void Function(DataDusun) handleDusunIbuChanged;
-  final void Function(dynamic) handleGolDarahIbuChanged;
-  final void Function(dynamic) handleJenisKBChanged;
-
-  final Future<void> Function(BuildContext) onSelectDateKelahiranSebelumnya;
-  final void Function() submitIbuForm;
-  CreateRegisterIbuView({
-    super.key,
+  final void Function(DataKabupatenKota) handleKabupatenAyahChanged;
+  final void Function(DataKecamatan) handleKecamatanAyahChanged;
+  final void Function(DataDesaKelurahan) handleDesaAyahChanged;
+  final void Function(DataDusun) handleDusunAyahChanged;
+  final void Function(dynamic) handleGolDarahAyahChanged;
+  final void Function() submitAyahForm;
+  UpdateRegisterAyahView({
     // form
-    required this.formIbukey,
+    required this.formAyahkey,
     // scroll
-    required this.ibuScrollController,
+    required this.ayahScrollController,
     // controllers
-    required this.kkIbuController,
-    required this.nikIbuController,
-    required this.namaIbuController,
-    required this.tempatLahirIbuController,
-    required this.tanggalLahirIbuController,
-    required this.alamatIbuController,
-    required this.teleponIbuController,
-    required this.rTIbuController,
-    required this.rWIbuController,
-    required this.jumlahAnakIbuController,
-    required this.tanggalKelahiranAnakSebelumnyaIbuController,
-    // data wilIbu
-    required this.dataKabupatenKotaIbu,
-    required this.dataKecamatanIbu,
-    required this.dataDesaKelurahanIbu,
-    required this.dataDusunIbu,
-    // selected wilIbu
-    this.selectedKabupatenIbu,
-    this.selectedKecamatanIbu,
-    this.selectedDesaIbu,
-    this.selectedDusunIbu,
+    required this.kkAyahController,
+    required this.nikAyahController,
+    required this.namaAyahController,
+    required this.tempatLahirAyahController,
+    required this.tanggalLahirAyahController,
+    required this.alamatAyahController,
+    required this.teleponAyahController,
+    required this.rTAyahController,
+    required this.rWAyahController,
+    // data wilayah
+    required this.dataKabupatenKotaAyah,
+    required this.dataKecamatanAyah,
+    required this.dataDesaKelurahanAyah,
+    required this.dataDusunAyah,
+    // selected wilayah
+    this.selectedKabupatenAyah,
+    this.selectedKecamatanAyah,
+    this.selectedDesaAyah,
+    this.selectedDusunAyah,
     // selected golongan darah
-    required this.selectedJenisKB,
-    this.selectedGolDarahIbu = '-',
+    this.selectedGolDarahAyah = '',
     // selected disabilities
-    this.selectedDisabilitiesIbu = const [],
-    this.selectedDisabilityLabelsIbu = const [],
+    this.selectedDisabilitiesAyah = const [],
+    this.selectedDisabilityLabelsAyah = const [],
     // form key
-    required this.kkIbuKey,
-    required this.nikIbuKey,
-    required this.namaIbuKey,
-    required this.tempatLahirIbuKey,
-    required this.tanggalLahirIbuKey,
-    required this.alamatIbuKey,
-    required this.teleponIbuKey,
-    required this.rtIbuKey,
-    required this.rwIbuKey,
-    required this.jenisKBKey,
-    required this.jumlahAnakIbuKey,
-    required this.tanggalKelahiranAnakSebelumnyaIbuKey,
-    // selected wilIbu key
-    required this.selectedKabupatenIbuKey,
-    required this.selectedKecamatanIbuKey,
-    required this.selectedDesaIbuKey,
-    required this.selectedDusunIbuKey,
-    required this.selectedGolDarahIbuKey,
+    required this.kkAyahKey,
+    required this.nikAyahKey,
+    required this.namaAyahKey,
+    required this.tempatLahirAyahKey,
+    required this.tanggalLahirAyahKey,
+    required this.alamatAyahKey,
+    required this.teleponAyahKey,
+    required this.rtAyahKey,
+    required this.rwAyahKey,
+    // selected wilayah key
+    required this.selectedKabupatenAyahKey,
+    required this.selectedKecamatanAyahKey,
+    required this.selectedDesaAyahKey,
+    required this.selectedDusunAyahKey,
+    required this.selectedGolDarahAyahKey,
     // focus node
-    required this.kkIbuFocusNode,
-    required this.nikIbuFocusNode,
-    required this.namaIbuFocusNode,
-    required this.tempatLahirIbuFocusNode,
-    required this.tanggalLahirIbuFocusNode,
-    required this.alamatIbuFocusNode,
-    required this.teleponIbuFocusNode,
-    required this.rtIbuFocusNode,
-    required this.rwIbuFocusNode,
-    required this.jenisKBFocusNode,
-    required this.jumlahAnakIbuFocusNode,
-    required this.tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-    // focus node wilIbu
-    required this.selectedKabupatenIbuFocusNode,
-    required this.selectedKecamatanIbuFocusNode,
-    required this.selectedDesaIbuFocusNode,
-    required this.selectedDusunIbuFocusNode,
-    required this.selectedGolDarahIbuFocusNode,
+    required this.kkAyahFocusNode,
+    required this.nikAyahFocusNode,
+    required this.namaAyahFocusNode,
+    required this.tempatLahirAyahFocusNode,
+    required this.tanggalLahirAyahFocusNode,
+    required this.alamatAyahFocusNode,
+    required this.teleponAyahFocusNode,
+    required this.rtAyahFocusNode,
+    required this.rwAyahFocusNode,
+    // focus node wilayah
+    required this.selectedKabupatenAyahFocusNode,
+    required this.selectedKecamatanAyahFocusNode,
+    required this.selectedDesaAyahFocusNode,
+    required this.selectedDusunAyahFocusNode,
+    required this.selectedGolDarahAyahFocusNode,
     required this.onSelectDate,
     required this.removeDisability,
-    required this.toggleDisabilityIbu,
-    required this.isGenerateIbuValid,
+    required this.toggleDisabilityAyah,
+    required this.isGenerateAyahValid,
     required this.dataWilayahModel,
-    required this.handleKabupatenIbuChanged,
-    required this.handleKecamatanIbuChanged,
-    required this.handleDesaIbuChanged,
-    required this.handleDusunIbuChanged,
-    required this.handleGolDarahIbuChanged,
-    required this.handleJenisKBChanged,
-    required this.onSelectDateKelahiranSebelumnya,
-    required this.submitIbuForm,
+    required this.handleKabupatenAyahChanged,
+    required this.handleKecamatanAyahChanged,
+    required this.handleDesaAyahChanged,
+    required this.handleDusunAyahChanged,
+    required this.handleGolDarahAyahChanged,
+    required this.submitAyahForm,
+    super.key,
   });
 
   @override
-  State<CreateRegisterIbuView> createState() => _CreateRegisterIbuViewState();
+  State<UpdateRegisterAyahView> createState() => _UpdateRegisterAyahViewState();
 }
 
-class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
+class _UpdateRegisterAyahViewState extends State<UpdateRegisterAyahView> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: widget.formIbukey,
+      key: widget.formAyahkey,
       child: SingleChildScrollView(
-        controller: widget.ibuScrollController,
+        controller: widget.ayahScrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -491,11 +430,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               'Nomor Kartu Keluarga',
               style: TextStyle(fontSize: 12),
             ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
             BlocConsumer<GenerateKkCubit, GenerateKkState>(
               listener: (context, stateKK) {
                 if (stateKK is GenerateKKSuccess) {
-                  widget.kkIbuController.text =
+                  widget.kkAyahController.text =
                       stateKK.data.data.nomorKartuKeluarga;
                 }
               },
@@ -516,16 +457,17 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                   spacing: 8,
                   children: [
                     Expanded(
+                      flex: 3, // Mengatur lebar TextField
                       child: TextFieldWidget2(
-                        controller: widget.kkIbuController,
-                        formFieldKey: widget.kkIbuKey,
-                        hintText: 'Masukan Nomor KK',
+                        onTap: () {},
+                        fieldName: 'kk_ayah',
+                        formFieldKey: widget.kkAyahKey,
+                        controller: widget.kkAyahController,
+                        focusNode: widget.kkAyahFocusNode,
+                        hintText: 'Masukan Nomor Kartu Keluarga',
                         isPasswordField: false,
                         keyboardType: TextInputType.number,
                         obscureText: false,
-                        fieldName: 'kk_ibu',
-                        onTap: () {},
-                        focusNode: widget.kkIbuFocusNode,
                         clientValidators: [
                           FormBuilderValidators.required(
                               errorText: "Isi terlebih dahulu!"),
@@ -538,22 +480,31 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Validasi sebelum mengizinkan generate
-                          // logger.d(
-                          //     'provinsi id ibu ${widget.dataWilayahModel.provinsi.id}');
-                          // logger.d(
-                          //     'kabupaten id ibu ${widget.selectedKabupatenIbu?.id}');
-                          // logger.d(
-                          //     'kecataman id ibu ${widget.selectedKecamatanIbu?.id}');
-                        if (widget.isGenerateIbuValid()) {
-                          // Logika untuk generate
-                          print("Generate button pressed");
+                        logger.d('provinsi id ayah  ');
 
+                        // logger.d(
+                        //     'provinsi id ayah ${widget.dataWilayahModel.provinsi.id}');
+                        // logger.d(
+                        //     'kabupaten id ayah ${widget.selectedKabupatenAyah?.id}');
+                        // logger.d(
+                        //     'kecamatan id ayah ${widget.selectedKecamatanAyah?.id}');
+                        // logger.d(
+                        //     'tanggal lahir ayah ${widget.tanggalLahirAyahController.text}');
+                        // Validasi sebelum mengizinkan generate
+                        if (widget.isGenerateAyahValid()) {
+                          logger.d(
+                              'provinsi id ayah ${widget.dataWilayahModel.provinsi.id}');
+                          logger.d(
+                              'kabupaten id ayah ${widget.selectedKabupatenAyah?.id}');
+                          logger.d(
+                              'kecamatan id ayah ${widget.selectedKecamatanAyah?.id}');
+                          // Logika untuk generate
                           context.read<GenerateKkCubit>().getGenerateKK(
                               widget.dataWilayahModel.provinsi.id,
-                              widget.selectedKabupatenIbu!.id,
-                              widget.selectedKecamatanIbu!.id,
-                              widget.tanggalLahirIbuController.text);
+                              widget.selectedKabupatenAyah!.id,
+                              widget.selectedKecamatanAyah!.id,
+                              widget.tanggalLahirAyahController.text);
+                          print("Generate button pressed");
                         } else {
                           // Tampilkan snackbar atau dialog jika form tidak valid
                           showTopSnackBar(
@@ -581,18 +532,28 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 );
               },
             ),
+
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'NIK',
               style: TextStyle(fontSize: 12),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-
             BlocConsumer<GenerateNikCubit, GenerateNikState>(
               listener: (context, state) {
                 if (state is GenerateNikSuccess) {
-                  widget.nikIbuController.text =
+                  widget.nikAyahController.text =
                       state.data.data.nomorIndukKeluarga;
+                }
+                if (state is GenerateNikFailed) {
+                  showTopSnackBar(
+                      Overlay.of(context),
+                      animationDuration: const Duration(milliseconds: 600),
+                      displayDuration: const Duration(milliseconds: 2200),
+                      reverseAnimationDuration:
+                          const Duration(milliseconds: 300),
+                      TopSnackbarWidget()
+                          .error('KK harus terisi terlebih dahulu'));
                 }
               },
               builder: (context, state) {
@@ -606,18 +567,19 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     ),
                   );
                 }
+
                 return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 8,
                   children: [
                     Expanded(
                       child: TextFieldWidget2(
-                        controller: widget.nikIbuController,
-                        fieldName: 'nik_ibu',
-                        focusNode: widget.nikIbuFocusNode,
-                        formFieldKey: widget.nikIbuKey,
+                        fieldName: 'nik_ayah',
                         onTap: () {},
+                        formFieldKey: widget.nikAyahKey,
+                        controller: widget.nikAyahController,
+                        focusNode: widget.nikAyahFocusNode,
                         hintText: 'Masukan NIK',
                         isPasswordField: false,
                         keyboardType: TextInputType.number,
@@ -634,7 +596,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (widget.kkIbuController.text.isEmpty) {
+                        if (widget.kkAyahController.text.isEmpty) {
                           showTopSnackBar(
                               Overlay.of(context),
                               animationDuration:
@@ -644,15 +606,15 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                               reverseAnimationDuration:
                                   const Duration(milliseconds: 300),
                               TopSnackbarWidget()
-                                  .error('KK Harus Diisi Terlebih Dahulu'));
+                                  .error('KK harus terisi terlebih dahulu!'));
                         } else {
                           // Validasi sebelum mengizinkan generate
-                          if (widget.isGenerateIbuValid()) {
+                          if (widget.isGenerateAyahValid()) {
                             // Logika untuk generate
                             print("Generate button pressed");
                             context.read<GenerateNikCubit>().getGenerateNik(
-                                widget.kkIbuController.text,
-                                widget.tanggalLahirIbuController.text);
+                                widget.kkAyahController.text,
+                                widget.tanggalLahirAyahController.text);
                           } else {
                             // Tampilkan snackbar atau dialog jika form tidak valid
                             showTopSnackBar(
@@ -681,6 +643,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 );
               },
             ),
+
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
               'Nama',
@@ -688,11 +651,11 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
             TextFieldWidget2(
-              fieldName: 'nama_ibu',
-              focusNode: widget.namaIbuFocusNode,
+              fieldName: 'nama_ayah',
               onTap: () {},
-              controller: widget.namaIbuController,
-              formFieldKey: widget.namaIbuKey,
+              formFieldKey: widget.namaAyahKey,
+              controller: widget.namaAyahController,
+              focusNode: widget.namaAyahFocusNode,
               hintText: 'Masukan Nama',
               isPasswordField: false,
               keyboardType: TextInputType.text,
@@ -719,11 +682,11 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       TextFieldWidget2(
-                        controller: widget.tempatLahirIbuController,
-                        focusNode: widget.tempatLahirIbuFocusNode,
+                        formFieldKey: widget.tempatLahirAyahKey,
                         onTap: () {},
-                        formFieldKey: widget.tempatLahirIbuKey,
-                        fieldName: 'tempat_lahir_ibu',
+                        fieldName: 'tempat_lahir_ayah',
+                        focusNode: widget.tempatLahirAyahFocusNode,
+                        controller: widget.tempatLahirAyahController,
                         hintText: 'Tempat Lahir',
                         keyboardType: TextInputType.text,
                         obscureText: false,
@@ -747,7 +710,9 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                       ),
                       SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                       DateTimePickerWidget(
-                        controller: widget.tanggalLahirIbuController,
+                        key: widget.tanggalLahirAyahKey,
+                        focusNode: widget.tanggalLahirAyahFocusNode,
+                        controller: widget.tanggalLahirAyahController,
                         hintText: 'Tanggal Lahir',
                         selectDate: () {
                           widget.onSelectDate(context);
@@ -779,13 +744,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 Expanded(
                   child: IgnorePointer(
                     ignoring:
-                        widget.dataKabupatenKotaIbu.isNotEmpty ? false : true,
+                        widget.dataKabupatenKotaAyah.isNotEmpty ? false : true,
                     child: DropdownButtonFormField2<DataKabupatenKota>(
                       isExpanded: true,
                       style: AppTextStyles.primaryTextNormal.copyWith(
                         fontSize: 12,
                       ),
-                      value: widget.selectedKabupatenIbu, // Ini bisa null
+                      value: widget.selectedKabupatenAyah, // Ini bisa null
                       hint: Text(
                         "Kabupaten",
                         style: AppTextStyles.secoundaryTextNormal.copyWith(
@@ -806,14 +771,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         ),
                         elevation: 0,
                       ),
-                      key: widget.selectedKabupatenIbuKey,
-                      items: widget.dataKabupatenKotaIbu.map((item) {
+                      key: widget.selectedKabupatenAyahKey,
+                      items: widget.dataKabupatenKotaAyah.map((item) {
                         return DropdownMenuItem<DataKabupatenKota>(
                           value: item,
                           child: Text(item.namaKabupatenKota),
                         );
                       }).toList(),
-                      onChanged: (value) => widget.handleKabupatenIbuChanged(value!),
+                      onChanged: (value) => widget.handleKabupatenAyahChanged(value!),
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -853,13 +818,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 ),
                 Expanded(
                   child: IgnorePointer(
-                    ignoring: widget.dataKecamatanIbu.isNotEmpty ? false : true,
+                    ignoring:
+                        widget.dataKecamatanAyah.isNotEmpty ? false : true,
                     child: DropdownButtonFormField2<DataKecamatan>(
                       isExpanded: true,
                       style: AppTextStyles.primaryTextNormal.copyWith(
                         fontSize: 12,
                       ),
-                      value: widget.selectedKecamatanIbu, // Ini bisa null
+                      value: widget.selectedKecamatanAyah, // Ini bisa null
                       hint: Text(
                         "Kecamatan",
                         style: AppTextStyles.secoundaryTextNormal.copyWith(
@@ -880,14 +846,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         ),
                         elevation: 0,
                       ),
-                      items: widget.dataKecamatanIbu.map((item) {
+                      items: widget.dataKecamatanAyah.map((item) {
                         return DropdownMenuItem<DataKecamatan>(
                           value: item,
                           child: Text(item.namaKecamatan),
                         );
                       }).toList(),
-                      onChanged: (value) =>
-                          widget.handleKecamatanIbuChanged(value!),
+                      onChanged: (value) => widget.handleKecamatanAyahChanged(value!),
+                      key: widget.selectedKecamatanAyahKey,
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -936,13 +902,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 Expanded(
                   child: IgnorePointer(
                     ignoring:
-                        widget.dataDesaKelurahanIbu.isNotEmpty ? false : true,
+                        widget.dataDesaKelurahanAyah.isNotEmpty ? false : true,
                     child: DropdownButtonFormField2<DataDesaKelurahan>(
                       isExpanded: true,
                       style: AppTextStyles.primaryTextNormal.copyWith(
                         fontSize: 12,
                       ),
-                      value: widget.selectedDesaIbu, // Ini bisa null
+                      value: widget.selectedDesaAyah, // Ini bisa null
                       hint: Text(
                         "Desa",
                         style: AppTextStyles.secoundaryTextNormal.copyWith(
@@ -963,13 +929,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         ),
                         elevation: 0,
                       ),
-                      items: widget.dataDesaKelurahanIbu.map((item) {
+                      items: widget.dataDesaKelurahanAyah.map((item) {
                         return DropdownMenuItem<DataDesaKelurahan>(
                           value: item,
                           child: Text(item.namaDesaKelurahan),
                         );
                       }).toList(),
-                      onChanged: (value) => widget.handleDesaIbuChanged(value!),
+                      onChanged: (value) => widget.handleDesaAyahChanged(value!),
+                      key: widget.selectedDesaAyahKey,
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -1009,13 +976,13 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 ),
                 Expanded(
                   child: IgnorePointer(
-                    ignoring: widget.dataDusunIbu.isNotEmpty ? false : true,
+                    ignoring: widget.dataDusunAyah.isNotEmpty ? false : true,
                     child: DropdownButtonFormField2<DataDusun>(
                       isExpanded: true,
                       style: AppTextStyles.primaryTextNormal.copyWith(
                         fontSize: 12,
                       ),
-                      value: widget.selectedDusunIbu, // Ini bisa null
+                      value: widget.selectedDusunAyah, // Ini bisa null
                       hint: Text(
                         "Dusun",
                         style: AppTextStyles.secoundaryTextNormal.copyWith(
@@ -1036,14 +1003,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         ),
                         elevation: 0,
                       ),
-                      items: widget.dataDusunIbu.map((item) {
+                      key: widget.selectedDusunAyahKey,
+                      items: widget.dataDusunAyah.map((item) {
                         return DropdownMenuItem<DataDusun>(
                           value: item,
                           child: Text(item.namaDusun),
                         );
                       }).toList(),
-                      onChanged: (value) =>
-                          widget.handleDusunIbuChanged(value!),
+                      onChanged: (value) => widget.handleDusunAyahChanged(value!),
                       onSaved: (value) {},
                       validator: null,
                       decoration: InputDecoration(
@@ -1091,35 +1058,33 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               children: [
                 Expanded(
                   child: TextFieldWidget2(
-                    fieldName: 'rt_ibu',
-                    focusNode: widget.rtIbuFocusNode,
+                    formFieldKey: widget.rtAyahKey,
+                    fieldName: 'rt_ayah',
+                    controller: widget.rTAyahController,
+                    focusNode: widget.rtAyahFocusNode,
                     onTap: () {},
-                    formFieldKey: widget.rtIbuKey,
-                    controller: widget.rTIbuController,
                     hintText: 'RT',
                     isPasswordField: false,
                     keyboardType: TextInputType.number,
                     obscureText: false,
                     clientValidators: [
-                      FormBuilderValidators.required(
-                          errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.required(errorText: "Isi RT"),
                     ],
                   ),
                 ),
                 Expanded(
                   child: TextFieldWidget2(
-                    fieldName: 'rw_ibu',
-                    focusNode: widget.rwIbuFocusNode,
                     onTap: () {},
-                    controller: widget.rWIbuController,
-                    formFieldKey: widget.rwIbuKey,
+                    controller: widget.rWAyahController,
                     hintText: 'RW',
+                    fieldName: 'rw_ayah',
+                    focusNode: widget.rwAyahFocusNode,
+                    formFieldKey: widget.rwAyahKey,
                     isPasswordField: false,
                     keyboardType: TextInputType.number,
                     obscureText: false,
                     clientValidators: [
-                      FormBuilderValidators.required(
-                          errorText: "Isi terlebih dahulu!"),
+                      FormBuilderValidators.required(errorText: "Isi RW"),
                     ],
                   ),
                 ),
@@ -1127,18 +1092,18 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
             TextFieldWidget2(
-              controller: widget.alamatIbuController,
-              fieldName: 'alamat_ibu',
+              fieldName: 'alamat_ayah',
+              focusNode: widget.alamatAyahFocusNode,
               onTap: () {},
-              focusNode: widget.alamatIbuFocusNode,
-              formFieldKey: widget.alamatIbuKey,
+              controller: widget.alamatAyahController,
               hintText: 'Masukan alamat lengkap',
               keyboardType: TextInputType.text,
               obscureText: false,
+              key: widget.alamatAyahKey,
               isPasswordField: false,
               clientValidators: [
                 FormBuilderValidators.required(
-                    errorText: "Isi terlebih dahulu!"),
+                    errorText: "Isi Terlebih Dahulu"),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1148,14 +1113,14 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
             TextFieldWidget2(
-              controller: widget.teleponIbuController,
+              controller: widget.teleponAyahController,
+              fieldName: 'telepon_ayah',
+              focusNode: widget.teleponAyahFocusNode,
+              onTap: () {},
               hintText: 'Masukan nomor telepon',
               keyboardType: TextInputType.phone,
-              fieldName: 'nomor_telepon_ibu',
-              focusNode: widget.teleponIbuFocusNode,
-              formFieldKey: widget.teleponIbuKey,
-              onTap: () {},
               obscureText: false,
+              key: widget.teleponAyahKey,
               isPasswordField: false,
               clientValidators: [
                 FormBuilderValidators.minLength(10,
@@ -1165,108 +1130,21 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 8,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Jenis KB',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Jenis KB harus dipilih";
-                          }
-                          return null;
-                        },
-                        items: selectJenisKB,
-                        hint: 'Jenis KB',
-                        value: widget.selectedJenisKB,
-                        onChanged: (value) =>
-                            widget.handleJenisKBChanged(value),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Golongan Darah',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                      DropdownWidget(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Golongan Darah harus dipilih";
-                          }
-                          return null;
-                        },
-                        items: selectGolDarah,
-                        hint: 'Golongan Darah',
-                        value: widget.selectedGolDarahIbu,
-                        onChanged: (value) =>
-                            widget.handleGolDarahIbuChanged(value),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
-              'Tanggal lahiran Anak Sebelumnya',
+              'Golongan Darah',
               style: TextStyle(fontSize: 12),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-            DateTimePickerWidget(
-              focusNode: widget.tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-              key: widget.tanggalKelahiranAnakSebelumnyaIbuKey,
-              isDate: true,
-              controller: widget.tanggalKelahiranAnakSebelumnyaIbuController,
-              selectDate: () {
-                widget.onSelectDateKelahiranSebelumnya(context);
-              },
-              hintText: "Tanggal Lahiran Anak Sebelumnya",
-              // validator: (value) {
-              //   if (value == null ||
-              //       value.isEmpty) {
-              //     return "Tanggal harus dipilih";
-              //   }
-              //   return null;
-              // },
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-            const Text(
-              'Jumlah Anak',
-              style: TextStyle(fontSize: 12),
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-            TextFieldWidget2(
-              controller: widget.jumlahAnakIbuController,
-              hintText: 'Jumlah Anak',
-              keyboardType: TextInputType.number,
-              obscureText: false,
-              isPasswordField: false,
-              fieldName: 'jumlah_anak_ibu',
-              focusNode: widget.jumlahAnakIbuFocusNode,
-              onTap: () {},
-              formFieldKey: widget.jumlahAnakIbuKey,
-              clientValidators: [
-                // (value) => Validator.required(value,
-                //     "Jumlah Anak tidak boleh kosong"),
-              ],
+            DropdownWidget(
+              key: widget.selectedGolDarahAyahKey,
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(
+                    errorText: "Golongan harus dipilih"),
+              ]),
+              items: selectGolDarah,
+              hint: 'Golongan Darah',
+              value: widget.selectedGolDarahAyah,
+              onChanged: (value) => widget.handleGolDarahAyahChanged(value!),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(
@@ -1276,7 +1154,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
             SizedBox(height: SizeConfig.calHeightMultiplier(8)),
             // Tampilkan disabilitas yang dipilih
             Column(
-              children: widget.selectedDisabilityLabelsIbu.map((label) {
+              children: widget.selectedDisabilityLabelsAyah.map((label) {
                 return ListTile(
                   title: Text(
                     label,
@@ -1298,18 +1176,19 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
               color: Colors.grey,
               mainButtonMessage: 'Tambah Disabilitas',
               mainButton: () {
+                logger.d("tambah disabilitas");
                 showDialog(
                   context: context,
                   builder: (context) {
                     return DialogDisabilitas(
                       disabilities: disabilities,
-                      selectedDisabilities: widget.selectedDisabilitiesIbu,
-                      onToggleDisability: widget.toggleDisabilityIbu,
+                      selectedDisabilities: widget.selectedDisabilitiesAyah,
+                      onToggleDisability: widget.toggleDisabilityAyah,
                       onAddCustomDisability: (String customDisability) {
                         setState(() {
                           disabilities.add(customDisability);
-                          widget.selectedDisabilitiesIbu.add(true);
-                          widget.selectedDisabilityLabelsIbu
+                          widget.selectedDisabilitiesAyah.add(true);
+                          widget.selectedDisabilityLabelsAyah
                               .add(customDisability);
                         });
                       },
@@ -1321,23 +1200,12 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             ButtonPrimary(
               color: bluePrimaryMain,
-              mainButtonMessage: 'Simpan',
+              mainButtonMessage: 'Selanjutnya',
               mainButton: () {
-                widget.submitIbuForm();
-                
+                // _goToNextTab();
+                logger.d("selanjutnya");
+                widget.submitAyahForm();
               },
-            ),
-            SizedBox(height: SizeConfig.calHeightMultiplier(20)),
-            Center(
-              child: GestureDetector(
-                // onTap: _navigateBack,
-                child: Text(
-                  'Kembali Ke data Ayah',
-                  style: AppTextStyles.secoundaryTextMedium.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
             ),
           ],
         ),
