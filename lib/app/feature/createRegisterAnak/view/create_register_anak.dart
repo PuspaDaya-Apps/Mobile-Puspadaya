@@ -2,7 +2,11 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:puspadaya/app/feature/createRegisterAnak/model/create_anak_model.dart';
+import 'package:puspadaya/app/view/widget/dropdown_widget2.dart';
+import 'package:puspadaya/app/view/widget/measure_widget2.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
@@ -17,7 +21,6 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
@@ -54,12 +57,13 @@ class CreateRegisterAnakView extends StatefulWidget {
 
 class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   final _formKey = GlobalKey<FormState>();
+  final scrollController = ScrollController();
   bool _isExpanded = false;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesAnak = [];
   List<String> selectedDisabilityLabelsAnak = [];
-
+  //! controller
   TextEditingController nomorKKController = TextEditingController();
   TextEditingController namaAyahController = TextEditingController();
   TextEditingController namaIbuController = TextEditingController();
@@ -77,7 +81,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   TextEditingController upperArmCircumferenceController =
       TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
-  TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
 
   String? selectedGender;
@@ -87,6 +90,71 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   String? selectedProvinsiIbu;
   String? selectedKabupatenIbu;
   String? selectedKecamatanIbu;
+
+  //! focus node
+  FocusNode nomorKKFocusNode = FocusNode();
+  FocusNode namaAyahFocusNode = FocusNode();
+  FocusNode namaIbuFocusNode = FocusNode();
+  FocusNode nikFocusNode = FocusNode();
+  FocusNode namaFocusNode = FocusNode();
+  FocusNode anakKeFocusNode = FocusNode();
+  FocusNode tempatLahirFocusNode = FocusNode();
+  FocusNode tanggalLahirFocusNode = FocusNode();
+  FocusNode lingkarLenganFocusNode = FocusNode();
+  FocusNode lingkarKepalaFocusNode = FocusNode();
+  FocusNode ageFocusNode = FocusNode();
+  FocusNode heightFocusNode = FocusNode();
+  FocusNode weightFocusNode = FocusNode();
+  FocusNode jarakPosyanduFocusNode = FocusNode();
+  FocusNode upperArmCircumferenceFocusNode = FocusNode();
+  FocusNode headCircumferenceFocusNode = FocusNode();
+  FocusNode keluhanFocusNode = FocusNode();
+  FocusNode genderFocusNode = FocusNode();
+  FocusNode caraLahirFocusNode = FocusNode();
+  FocusNode statusKelahiranFocusNode = FocusNode();
+  FocusNode statusOrangTuaAnakFocusNode = FocusNode();
+
+  // !formFieldStateKey
+  final GlobalKey<FormFieldState> nomorKKFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaAyahFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaIbuFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> nikFormFieldKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> anakKeFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> lingkarLenganFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> lingkarKepalaFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> ageFormFieldKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> heightFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> weightFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jarakPosyanduFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> upperArmCircumferenceFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> headCircumferenceFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> keluhanFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> genderFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> caraLahirFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> statusKelahiranFormFieldKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> statusOrangTuaAnakFormFieldKey =
+      GlobalKey<FormFieldState>();
 
   late PaketToCreateAnakModel paketToCreateAnakModel;
 
@@ -109,6 +177,120 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
         selectedDisabilitiesAnak[index] = false;
       }
     });
+  }
+
+  void submitForm(CreateAnakBloc createAnakBloc) {
+    logger.d("Jarak Posyandu ${jarakPosyanduController.text}");
+    if (_formKey.currentState!.validate()) {
+      if (selectedStatusOrangTuaAnak == 'Wali') {
+        logger.d('go to wali');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return CreateRegisterWali(
+                paket: PaketToCreateWaliModel(
+                    createAnakModel: CreateAnakModel(
+                        kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+                        nik: nikController.text,
+                        anakKe: int.parse(anakKeController.text),
+                        namaAnak: namaController.text,
+                        tempatLahir: tempatLahirController.text,
+                        tanggalLahir: tanggalLahirController.text,
+                        beratBadanLahir: double.parse(weightController.text),
+                        jarakPosyandu:
+                            double.tryParse(jarakPosyanduController.text) ?? 0,
+                        tinggiBadanLahir: double.parse(heightController.text),
+                        lingkarKepalaLahir:
+                            double.parse(headCircumferenceController.text),
+                        lingkarLenganAtasLahir:
+                            double.parse(upperArmCircumferenceController.text),
+                        caraLahir: selectedCaraLahir!,
+                        jenisKelamin: selectedGender!,
+                        statusKelahiran: selectedStatusKelahiran!,
+                        disabilitasAnak: selectedDisabilityLabelsAnak,
+                        statusOrangTua: selectedStatusOrangTuaAnak!,
+                        pengasuh: null),
+                    createAnakBloc: createAnakBloc),
+              );
+            },
+          ),
+        );
+      } else {
+        createAnakBloc.add(CreateAnak(CreateAnakModel(
+            kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+            nik: nikController.text,
+            anakKe: int.parse(anakKeController.text),
+            namaAnak: namaController.text,
+            tempatLahir: tempatLahirController.text,
+            tanggalLahir: tanggalLahirController.text,
+            beratBadanLahir: double.parse(weightController.text),
+            jarakPosyandu: double.tryParse(jarakPosyanduController.text) ?? 0,
+            tinggiBadanLahir: double.parse(heightController.text),
+            lingkarKepalaLahir: double.parse(headCircumferenceController.text),
+            lingkarLenganAtasLahir:
+                double.parse(upperArmCircumferenceController.text),
+            caraLahir: selectedCaraLahir!,
+            jenisKelamin: selectedGender!,
+            statusKelahiran: selectedStatusKelahiran!,
+            disabilitasAnak: selectedDisabilityLabelsAnak,
+            statusOrangTua: selectedStatusOrangTuaAnak!,
+            pengasuh: null)));
+      }
+      logger.d('go to simpan');
+    } else {
+      logger.d("form tidak valid");
+      final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+        nomorKKFormFieldKey: nomorKKFocusNode,
+        nikFormFieldKey: nikFocusNode,
+        namaAyahFormFieldKey: namaAyahFocusNode,
+        namaIbuFormFieldKey: namaIbuFocusNode,
+        namaFormFieldKey: namaFocusNode,
+        anakKeFormFieldKey: anakKeFocusNode,
+        tempatLahirFormFieldKey: tempatLahirFocusNode,
+        tanggalLahirFormFieldKey: tanggalLahirFocusNode,
+        weightFormFieldKey: weightFocusNode,
+        heightFormFieldKey: heightFocusNode,
+        headCircumferenceFormFieldKey: headCircumferenceFocusNode,
+        upperArmCircumferenceFormFieldKey: upperArmCircumferenceFocusNode,
+        lingkarLenganFormFieldKey: lingkarLenganFocusNode,
+        jarakPosyanduFormFieldKey: jarakPosyanduFocusNode,
+        lingkarKepalaFormFieldKey: lingkarKepalaFocusNode,
+        caraLahirFormFieldKey: caraLahirFocusNode,
+        statusKelahiranFormFieldKey: statusKelahiranFocusNode,
+        statusOrangTuaAnakFormFieldKey: statusOrangTuaAnakFocusNode,
+        genderFormFieldKey: genderFocusNode
+      };
+      // logger.d(fieldMap);
+
+      // Cari field pertama yang memiliki error
+      for (var entry in fieldMap.entries) {
+        final key = entry.key;
+        final focusNode = entry.value;
+
+        logger.d(
+            'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+        // Cek apakah field ini punya error
+        if (key.currentState?.hasError ?? false) {
+          // Jika ya, scroll ke field ini
+
+          print('Field ${entry.key} has error: ${key.currentState?.hasError}');
+          print('Current context: ${key.currentContext}');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Scrollable.ensureVisible(
+              key.currentContext!,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              alignment: 0.3,
+            );
+            focusNode.requestFocus();
+          });
+
+          // Hentikan loop karena kita hanya butuh fokus ke error pertama
+          break;
+        }
+      }
+    }
   }
 
   @override
@@ -141,12 +323,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
     });
   }
 
-  // void _generateNIK(String nomorKK,Date tanggalLahir) {
-  //   context.read<GenerateNikCubit>().getGenerateNik(nomorKK, tanggalLahir);
-  //   // Set the generated NIK to the controller
-  //   nikController.text = nik;
-  // }
-
   bool _isGenerateAnakValid() {
     return tempatLahirController.text.isNotEmpty &&
         tanggalLahirController.text.isNotEmpty &&
@@ -170,6 +346,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: scrollController,
           child: Container(
             margin: EdgeInsets.all(20),
             padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
@@ -202,6 +379,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                           TextFormField(
+                            focusNode: nomorKKFocusNode,
+                            key: nomorKKFormFieldKey,
                             readOnly: true,
                             validator: null,
                             onTap: () async {
@@ -404,18 +583,24 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 Expanded(
                                   flex:
                                       7, // Adjust this value to make the TextField larger
-                                  child: TextFieldWidget(
+                                  child: TextFieldWidget2(
+                                    fieldName: 'nik',
+                                    focusNode: nikFocusNode,
+                                    formFieldKey: nikFormFieldKey,
+                                    onTap: () {},
                                     controller: nikController,
                                     hintText: 'NIK',
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     isPasswordField: false,
-                                    validators: [
-                                      (value) => Validator.consistOf(value, 16,
-                                          "Masukkan 16 digit angka!"),
-                                      (value) => Validator.required(
-                                            value,
-                                          ),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
+                                      FormBuilderValidators.numeric(
+                                          errorText: "KK harus berupa angka!"),
+                                      FormBuilderValidators.equalLength(16,
+                                          errorText:
+                                              "KK harus terdiri dari 16 angka!"),
                                     ],
                                   ),
                                 ),
@@ -477,14 +662,19 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'nama',
+                          focusNode: namaFocusNode,
+                          onTap: () {},
+                          formFieldKey: namaFormFieldKey,
                           controller: namaController,
                           hintText: 'Nama',
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(value),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -497,17 +687,23 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          onTap: () {},
+                          fieldName: 'anak_ke',
+                          focusNode: anakKeFocusNode,
+                          formFieldKey: anakKeFormFieldKey,
                           controller: anakKeController,
                           hintText: 'Anak Ke',
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(value),
-                            (value) => Validator.mustPositiveNumber(
-                              value: value
-                            ),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
+                            FormBuilderValidators.numeric(
+                                errorText: "Anak ke harus berupa angka!"),
+                            FormBuilderValidators.min(1,
+                                errorText: "Anak ke minimal 1!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -528,14 +724,19 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    onTap: () {},
+                                    fieldName: 'tempat_lahir',
+                                    focusNode: tempatLahirFocusNode,
+                                    formFieldKey: tempatLahirFormFieldKey,
                                     controller: tempatLahirController,
                                     hintText: 'Tempat Lahir',
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
                                     isPasswordField: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                 ],
@@ -554,6 +755,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   DateTimePickerWidget(
+                                    focusNode: tanggalLahirFocusNode,
+                                    key: tanggalLahirFormFieldKey,
                                     controller: tanggalLahirController,
                                     hintText: 'Tanggal Lahir',
                                     selectDate: () {
@@ -583,27 +786,35 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  MeasurementWidget(
+                                  MeasurementWidget2(
+                                    fieldName: 'tinggi_lahir',
+                                    focusNode: heightFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: heightFormFieldKey,
                                     title: 'Tinggi Lahir',
                                     hintText: 'contoh: 37.5',
                                     unit: 'cm',
                                     controller: heightController,
-                                    validator: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
                                   ),
-                                  MeasurementWidget(
+                                  MeasurementWidget2(
+                                    fieldName: 'lingkar_lengan',
+                                    focusNode: lingkarLenganFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: lingkarLenganFormFieldKey,
                                     title: 'Lingkar Lengan',
                                     hintText: 'contoh: 3.5',
                                     unit: 'cm',
                                     controller: upperArmCircumferenceController,
-                                    validator: [
-                                      (value) => Validator.required(
-                                            value,
-                                          ),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                   SizedBox(
@@ -617,29 +828,35 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  MeasurementWidget(
+                                  MeasurementWidget2(
+                                    fieldName: 'berat_lahir',
+                                    focusNode: weightFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: weightFormFieldKey,
                                     title: 'Berat Lahir',
                                     hintText: 'contoh: 9.5',
                                     unit: 'kg',
                                     controller: weightController,
-                                    validator: [
-                                      (value) => Validator.required(
-                                            value,
-                                          ),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                   SizedBox(
                                     height: SizeConfig.calHeightMultiplier(16),
                                   ),
-                                  MeasurementWidget(
+                                  MeasurementWidget2(
+                                    fieldName: 'lingkar_kepala',
+                                    focusNode: headCircumferenceFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: headCircumferenceFormFieldKey,
                                     title: 'Lingkar Kepala',
                                     hintText: 'contoh: 6.5',
                                     unit: 'cm',
                                     controller: headCircumferenceController,
-                                    validator: [
-                                      (value) => Validator.required(
-                                            value,
-                                          ),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                 ],
@@ -656,7 +873,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: genderFocusNode,
+                          formFieldKey: genderFormFieldKey,
                           items: selectGender,
                           hint: 'Jenis Kelamin',
                           value: selectedGender,
@@ -670,6 +889,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             setState(() {
                               selectedGender = value;
                             });
+                            genderFormFieldKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -682,7 +902,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: caraLahirFocusNode,
+                          formFieldKey: caraLahirFormFieldKey,
                           items: selectCaraLahir,
                           hint: 'Cara Lahir',
                           value: selectedCaraLahir,
@@ -696,6 +918,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             setState(() {
                               selectedCaraLahir = value;
                             });
+                            caraLahirFormFieldKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -704,13 +927,17 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'jarak_posyandu',
+                          focusNode: jarakPosyanduFocusNode,
+                          onTap: () {},
+                          formFieldKey: jarakPosyanduFormFieldKey,
                           controller: jarakPosyanduController,
                           hintText: 'Jarak Posyandu',
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [],
+                          clientValidators: [],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
@@ -722,7 +949,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: statusKelahiranFocusNode,
+                          formFieldKey: statusKelahiranFormFieldKey,
                           items: selectStatusKelahiran,
                           hint: 'Status Kelahiran',
                           value: selectedStatusKelahiran,
@@ -736,6 +965,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             setState(() {
                               selectedStatusKelahiran = value;
                             });
+                            statusKelahiranFormFieldKey.currentState
+                                ?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -748,7 +979,9 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: statusOrangTuaAnakFocusNode,
+                          formFieldKey: statusOrangTuaAnakFormFieldKey,
                           items: selectStatusOrangTuaAnak,
                           hint: 'Status Orang Tua Anak',
                           value: selectedStatusOrangTuaAnak,
@@ -764,6 +997,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                             });
                             logger.d(
                                 'status orang tua anak $selectedStatusOrangTuaAnak');
+                            statusOrangTuaAnakFormFieldKey.currentState
+                                ?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -858,86 +1093,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
                               mainButton: () {
-                                logger.d("Jarak Posyandu ${jarakPosyanduController.text}");
-                                if (_formKey.currentState!.validate()) {
-                                  if (selectedStatusOrangTuaAnak == 'Wali') {
-                                    logger.d('go to wali');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return CreateRegisterWali(
-                                            paket: PaketToCreateWaliModel(
-                                                createAnakModel: CreateAnakModel(
-                                                    kartuKeluargaId:
-                                                        paketToCreateAnakModel
-                                                            .idKartuKeluarga,
-                                                    nik: nikController.text,
-                                                    anakKe: int.parse(
-                                                        anakKeController.text),
-                                                    namaAnak:
-                                                        namaController.text,
-                                                    tempatLahir: tempatLahirController
-                                                        .text,
-                                                    tanggalLahir:
-                                                        tanggalLahirController
-                                                            .text,
-                                                    beratBadanLahir: double.parse(
-                                                        weightController.text),
-                                                    jarakPosyandu:
-                                                        double.tryParse(jarakPosyanduController.text) ??
-                                                            0,
-                                                    tinggiBadanLahir: double.parse(
-                                                        heightController.text),
-                                                    lingkarKepalaLahir: double.parse(
-                                                        headCircumferenceController.text),
-                                                    lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
-                                                    caraLahir: selectedCaraLahir!,
-                                                    jenisKelamin: selectedGender!,
-                                                    statusKelahiran: selectedStatusKelahiran!,
-                                                    disabilitasAnak: selectedDisabilityLabelsAnak,
-                                                    statusOrangTua: selectedStatusOrangTuaAnak!,
-                                                    pengasuh: null),
-                                                createAnakBloc: createAnakBloc),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  } else {
-                                    createAnakBloc.add(CreateAnak(CreateAnakModel(
-                                        kartuKeluargaId: paketToCreateAnakModel
-                                            .idKartuKeluarga,
-                                        nik: nikController.text,
-                                        anakKe:
-                                            int.parse(anakKeController.text),
-                                        namaAnak: namaController.text,
-                                        tempatLahir: tempatLahirController.text,
-                                        tanggalLahir:
-                                            tanggalLahirController.text,
-                                        beratBadanLahir:
-                                            double.parse(weightController.text),
-                                        jarakPosyandu: double.tryParse(
-                                                jarakPosyanduController.text) ??
-                                            0,
-                                        tinggiBadanLahir:
-                                            double.parse(heightController.text),
-                                        lingkarKepalaLahir: double.parse(
-                                            headCircumferenceController.text),
-                                        lingkarLenganAtasLahir: double.parse(
-                                            upperArmCircumferenceController
-                                                .text),
-                                        caraLahir: selectedCaraLahir!,
-                                        jenisKelamin: selectedGender!,
-                                        statusKelahiran:
-                                            selectedStatusKelahiran!,
-                                        disabilitasAnak: selectedDisabilityLabelsAnak,
-                                        statusOrangTua: selectedStatusOrangTuaAnak!,
-                                        pengasuh: null)));
-                                  }
-                                  logger.d('go to simpan');
-                                } else {
-                                  logger.d("form tidak valid");
-                                }
+                                submitForm(createAnakBloc);
                               },
                             );
                           },

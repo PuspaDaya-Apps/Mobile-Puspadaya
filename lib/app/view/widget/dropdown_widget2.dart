@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
-class DropdownWidget extends StatelessWidget {
+class DropdownWidget2 extends StatelessWidget {
   final List<String> items;
   final ValueChanged<dynamic>? onChanged;
+  final FocusNode focusNode;
+  final GlobalKey<FormFieldState>? formFieldKey;
   final ValueChanged<dynamic>? onSaved;
   final String hint;
   final String? value; // Ubah menjadi nullable
   final FormFieldValidator<String>? validator;
 
-  DropdownWidget({
+  DropdownWidget2({
     super.key,
+    required this.focusNode,
+    this.formFieldKey,
     required this.items,
     this.onChanged,
     required this.hint,
@@ -24,6 +28,8 @@ class DropdownWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
+      focusNode: focusNode,
+      key: formFieldKey,
 
       isExpanded: true,
       style: AppTextStyles.primaryTextNormal.copyWith(

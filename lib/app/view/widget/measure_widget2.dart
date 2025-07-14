@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+import 'package:puspadaya/config/theme/text_style.dart';
+import 'package:puspadaya/config/screen_config/size_config.dart';
+import 'package:puspadaya/app/view/widget/textField_widget.dart';
+import 'package:puspadaya/config/validator/form_error_provider.dart';
+
+class MeasurementWidget2 extends StatelessWidget {
+  final String title;
+  final String fieldName;
+  final GlobalKey<FormFieldState>? formFieldKey;
+  final FocusNode focusNode;
+  final GestureTapCallback onTap;
+  final String hintText;
+  final String unit;
+    final List<FormFieldValidator<String>>? clientValidators;
+  final String? tool;
+  final TextEditingController controller;
+
+  MeasurementWidget2({
+    Key? key,
+    required this.fieldName,
+    this.formFieldKey,
+    required this.focusNode,
+    required this.onTap,
+    this.clientValidators,
+    required this.title,
+    required this.hintText,
+    required this.unit,
+    this.tool,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(
+          height: SizeConfig.calHeightMultiplier(8),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: TextFieldWidget2(
+                fieldName: fieldName,
+                focusNode: focusNode,
+                onTap: onTap,
+                formFieldKey:formFieldKey ,
+                controller: controller,
+                hintText: hintText,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                obscureText: false,
+                isPasswordField: false,
+                clientValidators: clientValidators ?? [],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              unit,
+              style: AppTextStyles.primaryTextNormal.copyWith(
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: SizeConfig.calHeightMultiplier(4),
+        ),
+        tool != null
+        ? Text(
+          'Alat : $tool',
+          style: AppTextStyles.primaryTextNormal.copyWith(
+            fontSize: 10,
+          ),
+        )
+      : const SizedBox.shrink(),
+      ],
+    );
+  }
+}

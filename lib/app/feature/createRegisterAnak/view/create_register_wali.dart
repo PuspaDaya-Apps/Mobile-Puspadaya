@@ -2,8 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/dropdown_widget2.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
@@ -15,7 +19,6 @@ import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
@@ -70,21 +73,25 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   // List<DusunModel.Datum> selectDusun = [];
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nikController = TextEditingController();
+  final scrollController = ScrollController();
 
-  TextEditingController _kkController = TextEditingController();
+  //  ! controller
 
-  TextEditingController _namaController = TextEditingController();
+  final TextEditingController _nikController = TextEditingController();
 
-  TextEditingController _tempatLahirController = TextEditingController();
-  TextEditingController _tanggalLahirController = TextEditingController();
-  TextEditingController _alamatController = TextEditingController();
+  final TextEditingController _kkController = TextEditingController();
 
-  TextEditingController _teleponController = TextEditingController();
+  final TextEditingController _namaController = TextEditingController();
 
-  TextEditingController _rTController = TextEditingController();
+  final TextEditingController _tempatLahirController = TextEditingController();
+  final TextEditingController _tanggalLahirController = TextEditingController();
+  final TextEditingController _alamatController = TextEditingController();
 
-  TextEditingController _rWController = TextEditingController();
+  final TextEditingController _teleponController = TextEditingController();
+
+  final TextEditingController _rTController = TextEditingController();
+
+  final TextEditingController _rWController = TextEditingController();
 
   // Controller untuk Data Wali
   String? selectedStatusHubunganDenganAnak;
@@ -100,6 +107,35 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
   DataKecamatan? selectedKecamatan;
   DataDesaKelurahan? selectedDesa;
   DataDusun? selectedDusun;
+
+  //! focus node
+  final FocusNode _nikFocusNode = FocusNode();
+  final FocusNode _kkFocusNode = FocusNode();
+  final FocusNode _namaFocusNode = FocusNode();
+  final FocusNode _tempatLahirFocusNode = FocusNode();
+  final FocusNode _tanggalLahirFocusNode = FocusNode();
+  final FocusNode _alamatFocusNode = FocusNode();
+  final FocusNode _teleponFocusNode = FocusNode();
+  final FocusNode _rTFocusNode = FocusNode();
+  final FocusNode _rWFocusNode = FocusNode();
+  final FocusNode _statusHubunganFocusNode = FocusNode();
+  final FocusNode _golDarahFocusNode = FocusNode();
+
+  //! form field state key
+  final GlobalKey<FormFieldState> nikWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> kkWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirWaliKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirWaliKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> alamatWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> teleponWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rTWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rWWaliKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> statusHubunganWaliKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> golDarahWaliKey = GlobalKey<FormFieldState>();
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesWali = [];
@@ -167,6 +203,73 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
     });
   }
 
+  void submitForm(CreateAnakBloc createAnakBloc) async {
+    if (_formKey.currentState!.validate()) {
+      createAnakBloc.add(CreateAnak(widget.paket.createAnakModel.copyWith(
+          pengasuh: Pengasuh(
+              statusHubungan: selectedStatusHubunganDenganAnak!,
+              nik: _nikController.text,
+              namaPengasuh: _namaController.text,
+              tempatLahir: _tempatLahirController.text,
+              tanggalLahir: _tanggalLahirController.text,
+              rt: _rTController.text,
+              rw: _rWController.text,
+              alamatLengkap: _alamatController.text,
+              dusunId: selectedDusun!.id,
+              noTelepon: _teleponController.text.isNotEmpty
+                  ? _teleponController.text
+                  : null,
+              golDarah: selectedGolDarahWali!,
+              nomorKartuKeluarga: _kkController.text,
+              disabilitasPengasuh: selectedDisabilityLabelsWali))));
+    } else {
+      logger.d("form tidak valid");
+      final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+        statusHubunganWaliKey: _statusHubunganFocusNode,
+        kkWaliKey: _kkFocusNode,
+        nikWaliKey: _nikFocusNode,
+        namaWaliKey: _namaFocusNode,
+        tempatLahirWaliKey: _tempatLahirFocusNode,
+        tanggalLahirWaliKey: _tanggalLahirFocusNode,
+        rTWaliKey: _rTFocusNode,
+        rWWaliKey: _rWFocusNode,
+        alamatWaliKey: _alamatFocusNode,
+        teleponWaliKey: _teleponFocusNode,
+        teleponWaliKey: _teleponFocusNode,
+        golDarahWaliKey: _golDarahFocusNode,
+      };
+      // logger.d(fieldMap);
+
+      // Cari field pertama yang memiliki error
+      for (var entry in fieldMap.entries) {
+        final key = entry.key;
+        final focusNode = entry.value;
+
+        logger.d(
+            'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+        // Cek apakah field ini punya error
+        if (key.currentState?.hasError ?? false) {
+          // Jika ya, scroll ke field ini
+
+          print('Field ${entry.key} has error: ${key.currentState?.hasError}');
+          print('Current context: ${key.currentContext}');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Scrollable.ensureVisible(
+              key.currentContext!,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              alignment: 0.3,
+            );
+            focusNode.requestFocus();
+          });
+
+          // Hentikan loop karena kita hanya butuh fokus ke error pertama
+          break;
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final createAnakBloc = BlocProvider.of<CreateAnakBloc>(context);
@@ -219,7 +322,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: _statusHubunganFocusNode,
+                          formFieldKey: statusHubunganWaliKey,
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
@@ -233,6 +338,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
                             });
+                            statusHubunganWaliKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -265,18 +371,24 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  child: TextFieldWidget(
+                                  child: TextFieldWidget2(
+                                    fieldName: 'kk_wali',
+                                    focusNode: _kkFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: kkWaliKey,
                                     controller: _kkController,
                                     hintText: 'Masukan Nomor Kartu Keluarga',
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
-                                    validators: [
-                                      (value) => Validator.required(
-                                            value,
-                                          ),
-                                      (value) => Validator.consistOf(value, 16,
-                                          "Masukkan 16 digit angka!"),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
+                                      FormBuilderValidators.numeric(
+                                          errorText: "KK harus berupa angka!"),
+                                      FormBuilderValidators.equalLength(16,
+                                          errorText:
+                                              "KK harus terdiri dari 16 angka!"),
                                     ],
                                   ),
                                 ),
@@ -353,16 +465,24 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                 Expanded(
                                   flex:
                                       7, // Adjust this value to make the TextField larger
-                                  child: TextFieldWidget(
+                                  child: TextFieldWidget2(
+                                    fieldName: 'nik_wali',
+                                    focusNode: _nikFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: nikWaliKey,
                                     controller: _nikController,
                                     hintText: 'Masukan NIK',
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
                                     isPasswordField: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
-                                      (value) => Validator.consistOf(value, 16,
-                                          "Masukkan 16 digit angka!"),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
+                                      FormBuilderValidators.numeric(
+                                          errorText: "KK harus berupa angka!"),
+                                      FormBuilderValidators.equalLength(16,
+                                          errorText:
+                                              "KK harus terdiri dari 16 angka!"),
                                     ],
                                   ),
                                 ),
@@ -409,14 +529,19 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'nama_wali',
+                          focusNode: _namaFocusNode,
+                          formFieldKey: namaWaliKey,
+                          onTap: () {},
                           controller: _namaController,
                           hintText: 'Masukan Nama',
                           isPasswordField: false,
                           keyboardType: TextInputType.text,
                           obscureText: false,
-                          validators: [
-                            (value) => Validator.required(value),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -437,14 +562,19 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    fieldName: 'tempat_lahir_wali',
+                                    focusNode: _tempatLahirFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: tempatLahirWaliKey,
                                     controller: _tempatLahirController,
                                     hintText: 'Tempat Lahir',
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
                                     isPasswordField: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                 ],
@@ -463,6 +593,8 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   DateTimePickerWidget(
+                                    focusNode: _tanggalLahirFocusNode,
+                                    key: tanggalLahirWaliKey,
                                     controller: _tanggalLahirController,
                                     hintText: 'Tanggal Lahir',
                                     selectDate: () {
@@ -863,42 +995,55 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: TextFieldWidget(
+                              child: TextFieldWidget2(
+                                onTap: () {},
+                                fieldName: 'rt_wali',
+                                focusNode: _rTFocusNode,
+                                formFieldKey: rTWaliKey,
                                 controller: _rTController,
                                 hintText: 'RT',
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [
-                                  (value) => Validator.required(value),
+                                clientValidators: [
+                                  FormBuilderValidators.required(
+                                      errorText: "Isi terlebih dahulu!"),
                                 ],
                               ),
                             ),
                             Expanded(
-                              child: TextFieldWidget(
+                              child: TextFieldWidget2(
+                                fieldName: 'rw_wali',
+                                focusNode: _rWFocusNode,
+                                onTap: () {},
+                                formFieldKey: rWWaliKey,
                                 controller: _rWController,
                                 hintText: 'RW',
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [
-                                  (value) => Validator.required(value),
+                                clientValidators: [
+                                  FormBuilderValidators.required(
+                                      errorText: "Isi terlebih dahulu!"),
                                 ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'alamat_lengkap_wali',
+                          focusNode: _alamatFocusNode,
+                          onTap: () {},
+                          formFieldKey: alamatWaliKey,
                           controller: _alamatController,
                           hintText: 'Masukan alamat lengkap',
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(
-                                  value,
-                                ),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -907,23 +1052,26 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'no_telepon_wali',
+                          focusNode: _teleponFocusNode,
+                          onTap: () {},
+                          formFieldKey: teleponWaliKey,
                           controller: _teleponController,
                           hintText: 'Masukan nomor telepon',
                           keyboardType: TextInputType.phone,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.minLength(
-                                nullable: true,
-                                value,
-                                10,
-                                "Masukkan nomor yang benar!"),
-                            (value) => Validator.maxLength(
-                                nullable: true,
-                                value,
-                                13,
-                                "Masukkan nomor yang benar!"),
+                          clientValidators: [
+                            FormBuilderValidators.numeric(
+                                errorText: "Nomor harus berupa angka!",
+                                checkNullOrEmpty: false),
+                            FormBuilderValidators.minLength(10,
+                                checkNullOrEmpty: false,
+                                errorText: "Minimal 10 digit"),
+                            FormBuilderValidators.maxLength(13,
+                                checkNullOrEmpty: false,
+                                errorText: "Maksimal 13 digit"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -932,7 +1080,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          focusNode: _golDarahFocusNode,
+                          formFieldKey: golDarahWaliKey,
                           items: selectGolDarah,
                           hint: 'Golongan Darah',
                           validator: (value) {
@@ -946,6 +1096,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             setState(() {
                               selectedGolDarahWali = value;
                             });
+                            golDarahWaliKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1047,36 +1198,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Selanjutnya',
                               mainButton: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  createAnakBloc.add(CreateAnak(
-                                      widget.paket.createAnakModel.copyWith(
-                                          pengasuh: Pengasuh(
-                                              statusHubungan:
-                                                  selectedStatusHubunganDenganAnak!,
-                                              nik: _nikController.text,
-                                              namaPengasuh:
-                                                  _namaController.text,
-                                              tempatLahir:
-                                                  _tempatLahirController.text,
-                                              tanggalLahir:
-                                                  _tanggalLahirController.text,
-                                              rt: _rTController.text,
-                                              rw: _rWController.text,
-                                              alamatLengkap:
-                                                  _alamatController.text,
-                                              dusunId: selectedDusun!.id,
-                                              noTelepon: _teleponController
-                                                      .text.isNotEmpty
-                                                  ? _teleponController.text
-                                                  : null,
-                                              golDarah: selectedGolDarahWali!,
-                                              nomorKartuKeluarga:
-                                                  _kkController.text,
-                                              disabilitasPengasuh:
-                                                  selectedDisabilityLabelsWali))));
-                                } else {
-                                  print("Form tidak valid");
-                                }
+                                submitForm(widget.paket.createAnakBloc);
                               },
                             );
                           },
