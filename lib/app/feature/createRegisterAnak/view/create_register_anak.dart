@@ -761,6 +761,8 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                     hintText: 'Tanggal Lahir',
                                     selectDate: () {
                                       _selectDate(context);
+                                      tanggalLahirFormFieldKey.currentState!
+                                          .validate();
                                     },
                                     isDate: true,
                                     validator: (value) {

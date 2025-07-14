@@ -219,7 +219,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
               noTelepon: _teleponController.text.isNotEmpty
                   ? _teleponController.text
                   : null,
-              golDarah: selectedGolDarahWali!,
+              golDarah: selectedGolDarahWali,
               nomorKartuKeluarga: _kkController.text,
               disabilitasPengasuh: selectedDisabilityLabelsWali))));
     } else {

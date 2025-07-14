@@ -74,25 +74,27 @@ class CreateRegisterIbuHamilView extends StatefulWidget {
 class _CreateRegisterIbuHamilViewState
     extends State<CreateRegisterIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
+  final scrollController = ScrollController();
 
   bool _isExpanded = false;
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _ageController = TextEditingController();
-  TextEditingController _nikController = TextEditingController();
-  TextEditingController _namaSuamiController = TextEditingController();
-  TextEditingController _heightController = TextEditingController();
-  TextEditingController _weightController = TextEditingController();
-  TextEditingController _uterineFundusHeightController =
+  // !controller
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _nikController = TextEditingController();
+  final TextEditingController _namaSuamiController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _uterineFundusHeightController =
       TextEditingController();
-  TextEditingController _armCircumferenceController = TextEditingController();
-  TextEditingController hemoglobinController = TextEditingController();
-  TextEditingController _firstDateHaidController = TextEditingController();
-  TextEditingController _lastDateHaidController = TextEditingController();
+  final TextEditingController _armCircumferenceController = TextEditingController();
+  final TextEditingController hemoglobinController = TextEditingController();
+  final TextEditingController _firstDateHaidController = TextEditingController();
+  final TextEditingController _lastDateHaidController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
-  TextEditingController _tabletFeController = TextEditingController();
-  TextEditingController _catatanController = TextEditingController();
+  final TextEditingController _tabletFeController = TextEditingController();
+  final TextEditingController _catatanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
-  TextEditingController _jarakPosyanduController = TextEditingController();
+  final TextEditingController _jarakPosyanduController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
 
@@ -105,6 +107,39 @@ class _CreateRegisterIbuHamilViewState
 
   AlatUkurSaveModel alatUkurIbuHamil = AlatUkurSaveModel();
   AlatUkurResponseModel? listAlatUkur;
+
+  // !focus node
+  final FocusNode _nameFocusNode = FocusNode();
+  final FocusNode _ageFocusNode = FocusNode();
+  final FocusNode _nikFocusNode = FocusNode();
+  final FocusNode _namaSuamiFocusNode = FocusNode();
+  final FocusNode _heightFocusNode = FocusNode();
+  final FocusNode _weightFocusNode = FocusNode();
+  final FocusNode _uterineFundusHeightFocusNode = FocusNode();
+  final FocusNode _armCircumferenceFocusNode = FocusNode();
+  final FocusNode _hemoglobinFocusNode = FocusNode();
+  final FocusNode _firstDateHaidFocusNode = FocusNode();
+  final FocusNode _lastDateHaidFocusNode = FocusNode();
+  final FocusNode _tabletFeFocusNode = FocusNode();
+  final FocusNode _catatanFocusNode = FocusNode();
+  final FocusNode _jarakPosyanduFocusNode = FocusNode();
+
+  //! form field key
+  final GlobalKey<FormFieldState> nameKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> ageKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> nikKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaSuamiKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> heightKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> weightKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> uterineFundusHeightKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> armCircumferenceKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> hemoglobinKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> firstDateHaidKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> lastDateHaidKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tabletFeKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> catatanKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jarakPosyanduKey = GlobalKey<FormFieldState>();
 
   @override
   void initState() {
