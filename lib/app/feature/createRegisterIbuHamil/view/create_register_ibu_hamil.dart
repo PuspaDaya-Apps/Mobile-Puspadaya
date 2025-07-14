@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:puspadaya/app/view/widget/dropdown_widget2.dart';
+import 'package:puspadaya/app/view/widget/measure_widget2.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -86,15 +90,18 @@ class _CreateRegisterIbuHamilViewState
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _uterineFundusHeightController =
       TextEditingController();
-  final TextEditingController _armCircumferenceController = TextEditingController();
+  final TextEditingController _armCircumferenceController =
+      TextEditingController();
   final TextEditingController hemoglobinController = TextEditingController();
-  final TextEditingController _firstDateHaidController = TextEditingController();
+  final TextEditingController _firstDateHaidController =
+      TextEditingController();
   final TextEditingController _lastDateHaidController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
   final TextEditingController _tabletFeController = TextEditingController();
   final TextEditingController _catatanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
-  final TextEditingController _jarakPosyanduController = TextEditingController();
+  final TextEditingController _jarakPosyanduController =
+      TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
 
@@ -123,6 +130,7 @@ class _CreateRegisterIbuHamilViewState
   final FocusNode _tabletFeFocusNode = FocusNode();
   final FocusNode _catatanFocusNode = FocusNode();
   final FocusNode _jarakPosyanduFocusNode = FocusNode();
+  final FocusNode _selectedPosyanduFocusNode = FocusNode();
 
   //! form field key
   final GlobalKey<FormFieldState> nameKey = GlobalKey<FormFieldState>();
@@ -133,13 +141,18 @@ class _CreateRegisterIbuHamilViewState
   final GlobalKey<FormFieldState> weightKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> uterineFundusHeightKey =
       GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> armCircumferenceKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> armCircumferenceKey =
+      GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> hemoglobinKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> firstDateHaidKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> firstDateHaidKey =
+      GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> lastDateHaidKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> tabletFeKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> catatanKey = GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> jarakPosyanduKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> jarakPosyanduKey =
+      GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedPosyanduKey =
+      GlobalKey<FormFieldState>();
 
   @override
   void initState() {
@@ -195,6 +208,109 @@ class _CreateRegisterIbuHamilViewState
       return DateFormat('yyyy-MM-dd').format(parsedDate);
     } catch (e) {
       return "0000-00-00"; // Jika format salah, kirim default atau kosong
+    }
+  }
+
+  void submitForm() {
+    if (_ageController.text.isEmpty || _nikController.text.isEmpty || _namaSuamiController.text.isEmpty) {
+      showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().error("Harap pilih ibu hamil terlebih dahulu"));
+    } else {
+      if (_formKey.currentState!.validate() && selectedMemilikiBPJS != null) {
+        PostIbuHamilModel postData = PostIbuHamilModel(
+            jarak: double.tryParse(_jarakPosyanduController.text) ?? 0,
+            alatBeratBadanId: alatUkurIbuHamil.alatUkurBerat!.id,
+            alatLingkarLenganId: alatUkurIbuHamil.alatUkurLingkarLengan!.id,
+            alatTinggiBadanId: alatUkurIbuHamil.alatUkurTinggi!.id,
+            alatTinggiFundusId: alatUkurIbuHamil.alatUkurTinggiFundus!.id,
+            beratBadan: _weightController.text.isNotEmpty
+                ? _parseDouble(_weightController.text)
+                : null,
+            catatan: _catatanController.text,
+            hemoglobin: hemoglobinController.text == ""
+                ? null
+                : _parseDouble(hemoglobinController.text),
+            ibuId: ibuId,
+            jumlahTabletFe: _parseInt(_tabletFeController.text),
+            lingkarLenganAtas: _armCircumferenceController.text.isNotEmpty
+                ? _parseDouble(_armCircumferenceController.text)
+                : null,
+            terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
+            tinggiBadan: _heightController.text.isNotEmpty
+                ? _parseDouble(_heightController.text)
+                : null,
+            tinggiFundusUteri: _uterineFundusHeightController.text == ""
+                ? null
+                : _parseDouble(_uterineFundusHeightController.text),
+            tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
+            tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty
+                ? _formatDate(_lastDateHaidController.text)
+                : null,
+            memilkiBPJS: selectedMemilikiBPJS!,
+            namaBPJS: selectedRadioBPJS == 2
+                ? _namaBPJSController.text
+                : selectedNamaBPJS,
+            tanggalPengukuran:
+                DateFormat("y-MM-dd", "ID_id").format(DateTime.now()));
+        context
+            .read<CreateRegisterIbuHamilBloc>()
+            .add(PostCreateIbuHamil(postData));
+      } else {
+        logger.i("Form Tidak Boleh Kosong");
+        final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+          selectedPosyanduKey: _selectedPosyanduFocusNode,
+          heightKey: _heightFocusNode,
+          weightKey: _weightFocusNode,
+          uterineFundusHeightKey: _uterineFundusHeightFocusNode,
+          armCircumferenceKey: _armCircumferenceFocusNode,
+          hemoglobinKey: _hemoglobinFocusNode,
+          jarakPosyanduKey: _jarakPosyanduFocusNode,
+          firstDateHaidKey: _firstDateHaidFocusNode,
+          lastDateHaidKey: _lastDateHaidFocusNode,
+          tabletFeKey: _tabletFeFocusNode,
+          catatanKey: _catatanFocusNode
+        };
+        // logger.d(fieldMap);
+
+        // Cari field pertama yang memiliki error
+        for (var entry in fieldMap.entries) {
+          final key = entry.key;
+          final focusNode = entry.value;
+
+          logger.d(
+              'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+          // Cek apakah field ini punya error
+          if (key.currentState?.hasError ?? false) {
+            // Jika ya, scroll ke field ini
+
+            print(
+                'Field ${entry.key} has error: ${key.currentState?.hasError}');
+            print('Current context: ${key.currentContext}');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Scrollable.ensureVisible(
+                key.currentContext!,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+                alignment: 0.3,
+              );
+              focusNode.requestFocus();
+            });
+
+            // Hentikan loop karena kita hanya butuh fokus ke error pertama
+            break;
+          }
+        }
+      }
+      // showTopSnackBar(
+      //     Overlay.of(context),
+      //     animationDuration: const Duration(milliseconds: 600),
+      //     displayDuration: const Duration(milliseconds: 2200),
+      //     reverseAnimationDuration: const Duration(milliseconds: 300),
+      //     TopSnackbarWidget().warning("Form Tidak Boleh Kosong"));
     }
   }
 
@@ -273,6 +389,7 @@ class _CreateRegisterIbuHamilViewState
               ),
               body: SafeArea(
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   child: Container(
                     margin: EdgeInsets.all(20),
                     padding: const EdgeInsets.symmetric(
@@ -339,14 +456,19 @@ class _CreateRegisterIbuHamilViewState
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    fieldName: "usia_ibu_hamil",
+                                    focusNode: _ageFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: ageKey,
                                     controller: _ageController,
                                     hintText: "Usia Ibu Hamil",
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
                                     obscureText: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                   SizedBox(
@@ -360,11 +482,16 @@ class _CreateRegisterIbuHamilViewState
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    fieldName: "nik",
+                                    focusNode: _nikFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: nikKey,
                                     controller: _nikController,
                                     hintText: "NIK",
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                     isPasswordField: false,
                                     keyboardType: TextInputType.number,
@@ -381,14 +508,19 @@ class _CreateRegisterIbuHamilViewState
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    fieldName: "nama_suami",
+                                    focusNode: _namaSuamiFocusNode,
+                                    onTap: () {},
+                                    formFieldKey: namaSuamiKey,
                                     controller: _namaSuamiController,
                                     hintText: "Nama Suami",
                                     isPasswordField: false,
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                          errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                   SizedBox(
@@ -447,7 +579,9 @@ class _CreateRegisterIbuHamilViewState
                             ),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          DropdownWidget(
+                          DropdownWidget2(
+                            formFieldKey: selectedPosyanduKey,
+                            focusNode: _selectedPosyanduFocusNode,
                             hint: 'Tempat Pengukuran',
                             items: selectPosyandu,
                             value: selectedPosyandu,
@@ -461,6 +595,7 @@ class _CreateRegisterIbuHamilViewState
                               setState(() {
                                 selectedPosyandu = value;
                               });
+                              selectedPosyanduKey.currentState!.validate();
                             },
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -474,11 +609,15 @@ class _CreateRegisterIbuHamilViewState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    MeasurementWidget(
+                                    MeasurementWidget2(
+                                      fieldName: "tinggi_badan",
+                                      focusNode: _heightFocusNode,
+                                      formFieldKey: heightKey,
+                                      onTap: () {},
                                       title: 'Tinggi Badan',
                                       hintText: 'contoh: 150 cm',
                                       unit: 'cm',
-                                      validator: [
+                                      clientValidators: [
                                         // (value) => Validator.required(value),
                                       ],
                                       tool: alatUkurIbuHamil.alatUkurTinggi
@@ -489,7 +628,12 @@ class _CreateRegisterIbuHamilViewState
                                       height:
                                           SizeConfig.calHeightMultiplier(16),
                                     ),
-                                    MeasurementWidget(
+                                    MeasurementWidget2(
+                                      fieldName: "tinggi_fundus_uteri",
+                                      focusNode: _uterineFundusHeightFocusNode,
+                                      onTap: () {},
+                                      clientValidators: [],
+                                      formFieldKey: uterineFundusHeightKey,
                                       title: 'Tinggi Fundus Uteri',
                                       hintText: 'contoh: 10.3 cm',
                                       unit: 'cm',
@@ -512,11 +656,15 @@ class _CreateRegisterIbuHamilViewState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    MeasurementWidget(
+                                    MeasurementWidget2(
+                                      fieldName: "berat_badan",
+                                      focusNode: _weightFocusNode,
+                                      onTap: () {},
+                                      formFieldKey: weightKey,
                                       title: 'Berat Badan',
                                       hintText: 'contoh: 50.5',
                                       unit: 'kg',
-                                      validator: [
+                                      clientValidators: [
                                         // (value) => Validator.required(
                                         //       value,
                                         //     ),
@@ -529,10 +677,14 @@ class _CreateRegisterIbuHamilViewState
                                       height:
                                           SizeConfig.calHeightMultiplier(16),
                                     ),
-                                    MeasurementWidget(
+                                    MeasurementWidget2(
+                                      fieldName: "lingkar_lengan_atas",
+                                      focusNode: _armCircumferenceFocusNode,
+                                      onTap: () {},
+                                      formFieldKey: armCircumferenceKey,
                                       title: 'Lingkar Lengan Atas',
                                       hintText: 'contoh: 15.1',
-                                      validator: [
+                                      clientValidators: [
                                         // (value) => Validator.required(
                                         //       value,
                                         //     ),
@@ -564,16 +716,18 @@ class _CreateRegisterIbuHamilViewState
                             spacing: 6,
                             children: [
                               Expanded(
-                                child: TextFieldWidget(
+                                child: TextFieldWidget2(
+                                  focusNode: _hemoglobinFocusNode,
+                                  fieldName: "hemoglobin",
+                                  onTap: () {},
+                                  formFieldKey: hemoglobinKey,
                                   controller: hemoglobinController,
                                   hintText: "Hemoglobin",
-                                  validators: [
-                                  //   (value) => Validator.required(
-                                  //       value, 'hemoglobin Wajib diisi'),
-                                    (value) => Validator.mustPositiveNumber(
-                                      value: value,
-                                      nullabel: true
-                                    ),
+                                  clientValidators: [
+                                    FormBuilderValidators.required(
+                                        errorText: 'Isi terlebih dahulu'),
+                                    FormBuilderValidators.min(1,
+                                        errorText: 'Hemoglobin minimal 1'),
                                   ],
                                   isPasswordField: false,
                                   keyboardType: TextInputType.number,
@@ -594,13 +748,17 @@ class _CreateRegisterIbuHamilViewState
                             style: TextStyle(fontSize: 12),
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                          TextFieldWidget(
+                          TextFieldWidget2(
+                            fieldName: "jarak_posyandu",
+                            focusNode: _jarakPosyanduFocusNode,
+                            onTap: () {},
+                            formFieldKey: jarakPosyanduKey,
                             controller: _jarakPosyanduController,
                             hintText: 'Jarak Posyandu',
                             keyboardType: TextInputType.number,
                             obscureText: false,
                             isPasswordField: false,
-                            validators: [],
+                            clientValidators: [],
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
@@ -611,10 +769,13 @@ class _CreateRegisterIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                           DateTimePickerWidget(
+                            focusNode: _firstDateHaidFocusNode,
+                            key: firstDateHaidKey,
                             isDate: true,
                             controller: _firstDateHaidController,
                             selectDate: () {
                               _selectDateFirstHaid(context);
+                              firstDateHaidKey.currentState!.validate();
                             },
                             hintText: "Pilih Tanggal",
                             validator: (value) {
@@ -633,10 +794,13 @@ class _CreateRegisterIbuHamilViewState
                           ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                           DateTimePickerWidget(
+                            focusNode: _lastDateHaidFocusNode,
+                            key: lastDateHaidKey,
                             isDate: true,
                             controller: _lastDateHaidController,
                             selectDate: () {
                               _selectDateLastHaid(context);
+                              lastDateHaidKey.currentState!.validate();
                             },
                             hintText: "Pilih Tanggal",
                             validator: (value) {
@@ -710,13 +874,16 @@ class _CreateRegisterIbuHamilViewState
                                       style: AppTextStyles.primaryTextNormal
                                           .copyWith(fontSize: 12),
                                     ),
-                                    TextFieldWidget(
+                                    TextFieldWidget2(
+                                      fieldName: "tablet_fe",
+                                      focusNode: _tabletFeFocusNode,
+                                      formFieldKey: tabletFeKey,
+                                      onTap: () {},
                                       controller: _tabletFeController,
                                       hintText: "Jumlah Tablet FE",
-                                      validators: [
-                                        (value) => Validator.required(
-                                              value,
-                                            ),
+                                      clientValidators: [
+                                        FormBuilderValidators.required(
+                                            errorText: "Isi terlebih dahulu!"),
                                       ],
                                       isPasswordField: false,
                                       keyboardType: TextInputType.number,
@@ -893,60 +1060,7 @@ class _CreateRegisterIbuHamilViewState
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
                               mainButton: () {
-                                if (_formKey.currentState!.validate() &&
-                                    selectedMemilikiBPJS != null) {
-                                  PostIbuHamilModel postData = PostIbuHamilModel(
-                                      jarak: double.tryParse(_jarakPosyanduController.text) ??
-                                          0,
-                                      alatBeratBadanId:
-                                          alatUkurIbuHamil.alatUkurBerat!.id,
-                                      alatLingkarLenganId: alatUkurIbuHamil
-                                          .alatUkurLingkarLengan!.id,
-                                      alatTinggiBadanId:
-                                          alatUkurIbuHamil.alatUkurTinggi!.id,
-                                      alatTinggiFundusId: alatUkurIbuHamil
-                                          .alatUkurTinggiFundus!.id,
-                                      beratBadan: _weightController.text.isNotEmpty
-                                      ? _parseDouble(_weightController.text)
-                                      : null,
-                                      catatan: _catatanController.text,
-                                      hemoglobin: hemoglobinController.text == ""
-                                          ? null
-                                          : _parseDouble(
-                                              hemoglobinController.text),
-                                      ibuId: ibuId,
-                                      jumlahTabletFe:
-                                          _parseInt(_tabletFeController.text),
-                                      lingkarLenganAtas: _armCircumferenceController.text.isNotEmpty
-                                      ? _parseDouble(_armCircumferenceController.text)
-                                      : null,
-                                      terpaparAsapRokok: exposedCigaretteSmoke == 1 ? "Iya" : "Tidak",
-                                      tinggiBadan: _heightController.text.isNotEmpty
-                                      ? _parseDouble(_heightController.text)
-                                      : null,
-                                      tinggiFundusUteri: _uterineFundusHeightController.text == "" ? null : _parseDouble(_uterineFundusHeightController.text),
-                                      tanggalPertamaHaid: _formatDate(_firstDateHaidController.text),
-                                      tanggalTerakhirHaid: _lastDateHaidController.text.isNotEmpty
-                                      ? _formatDate(_lastDateHaidController.text)
-                                      : null,
-                                      memilkiBPJS: selectedMemilikiBPJS!,
-                                      namaBPJS: selectedRadioBPJS == 2 ? _namaBPJSController.text : selectedNamaBPJS,
-                                      tanggalPengukuran: DateFormat("y-MM-dd", "ID_id").format(DateTime.now()));
-                                  context
-                                      .read<CreateRegisterIbuHamilBloc>()
-                                      .add(PostCreateIbuHamil(postData));
-                                } else {
-                                  showTopSnackBar(
-                                      Overlay.of(context),
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      displayDuration:
-                                          const Duration(milliseconds: 2200),
-                                      reverseAnimationDuration:
-                                          const Duration(milliseconds: 300),
-                                      TopSnackbarWidget()
-                                          .warning("Form Tidak Boleh Kosong"));
-                                }
+                                submitForm();
                               },
                             ),
                           ),

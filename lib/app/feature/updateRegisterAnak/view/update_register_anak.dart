@@ -320,6 +320,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
             borderRadius: BorderRadius.circular(12),
           ),
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Form(
               key: _formKey,
               child: Column(
