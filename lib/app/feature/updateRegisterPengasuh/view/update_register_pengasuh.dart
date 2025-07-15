@@ -18,6 +18,7 @@ import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/dropdown_widget2.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/text_field_widget2.dart';
@@ -464,8 +465,9 @@ class _UpdateRegisterPengasuhViewState
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
                           key: selectedHubunganAnakKey,
+                          focusNode: selectedHubunganAnakNode,
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
@@ -477,6 +479,7 @@ class _UpdateRegisterPengasuhViewState
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
                             });
+                            selectedHubunganAnakKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -1095,8 +1098,9 @@ class _UpdateRegisterPengasuhViewState
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
                           key: selectedGolDarahKey,
+                          focusNode: selectedGolDarahFocusNode,
                           items: selectGolDarah,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
@@ -1108,6 +1112,7 @@ class _UpdateRegisterPengasuhViewState
                             setState(() {
                               selectedGolDarahWali = value;
                             });
+                            selectedGolDarahKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
