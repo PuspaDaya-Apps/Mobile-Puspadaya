@@ -60,7 +60,7 @@ dependencies:
   http: ^1.2.2
   icons_launcher: ^3.0.0
   image_picker: ^1.1.2
-  intl: 0.19.0 #0.20.2
+  intl: 0.20.2
   json_annotation: ^4.9.0
   logger: ^2.5.0
   page_transition: ^2.1.0
@@ -96,7 +96,7 @@ dev_dependencies:
 flutter_native_splash: null
 
 icons_launcher:
-  image_path: "assets/logo/logo_big_frame.png"
+  image_path: "assets/logo/logo_big_frame_staging.png"
   platforms:
     android:
       enable: true
