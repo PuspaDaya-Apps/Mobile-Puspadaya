@@ -2,8 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:puspadaya/app/model/paketToScreen/paket_to_create_wali_model.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
+import 'package:puspadaya/app/view/widget/dropdown_widget2.dart';
+import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
+import 'package:puspadaya/utils/logger/logger.dart';
 
 import '../../../../config/screen_config/image_config.dart';
 import '../../../../config/screen_config/size_config.dart';
@@ -16,7 +20,6 @@ import '../../../model/data_wilayah_model.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/generate_button_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
@@ -200,7 +203,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
     });
   }
 
-  void submitForm() {
+  void submitForm() async {
     logger.d('submit form');
     // Langkah 1: Jalankan validasi form
     if (_formKey.currentState!.validate()) {
@@ -393,8 +396,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
                           key: selectedHubunganAnakKey,
+                          focusNode: selectedHubunganAnakNode,
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
@@ -406,6 +410,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
                             });
+                            selectedHubunganAnakKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -607,7 +612,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           clientValidators: [
                             FormBuilderValidators.required(
                                 errorText: "Isi terlebih dahulu!"),
-                          ],
+                          ]
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         Row(
@@ -1143,8 +1148,9 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
                           key: selectedGolDarahKey,
+                          focusNode: selectedGolDarahFocusNode,
                           items: selectGolDarah,
                           hint: 'Golongan Darah',
                           validator: FormBuilderValidators.compose([
@@ -1156,6 +1162,7 @@ class _CreateRegisterWaliViewState extends State<CreateRegisterWaliView> {
                             setState(() {
                               selectedGolDarahWali = value;
                             });
+                            selectedGolDarahKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),

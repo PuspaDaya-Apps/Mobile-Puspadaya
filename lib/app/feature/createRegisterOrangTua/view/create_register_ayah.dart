@@ -721,6 +721,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                         hintText: 'Tanggal Lahir',
                         selectDate: () {
                           widget.onSelectDate(context);
+                          widget.tanggalLahirAyahKey.currentState?.validate();
                         },
                         isDate: true,
                         validator: FormBuilderValidators.compose(

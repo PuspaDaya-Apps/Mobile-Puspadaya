@@ -756,6 +756,7 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                         hintText: 'Tanggal Lahir',
                         selectDate: () {
                           widget.onSelectDate(context);
+                          widget.tanggalLahirIbuKey.currentState?.validate();
                         },
                         isDate: true,
                         validator: FormBuilderValidators.compose(
