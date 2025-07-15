@@ -18,13 +18,17 @@ import '../../../view/screen/error_server_screen.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/dropdown_widget2.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../../view/widget/text_field_widget2.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../bloc/update_pengasuh_bloc.dart';
 
 import '../model/update_pengasuh_model.dart';
+
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 class UpdateRegisterPengasuh extends StatelessWidget {
   const UpdateRegisterPengasuh(
@@ -71,10 +75,10 @@ class _UpdateRegisterPengasuhViewState
   TextEditingController _namaController = TextEditingController();
   TextEditingController _tempatLahirController = TextEditingController();
   TextEditingController _tanggalLahirController = TextEditingController();
-  TextEditingController _rTWaliController = TextEditingController();
-  TextEditingController _rWWaliController = TextEditingController();
-  TextEditingController _teleponWaliController = TextEditingController();
-  TextEditingController _alamatWaliController = TextEditingController();
+  TextEditingController _rTController = TextEditingController();
+  TextEditingController _rWController = TextEditingController();
+  TextEditingController _teleponController = TextEditingController();
+  TextEditingController _alamatController = TextEditingController();
 
   String? selectedStatusHubunganDenganAnak;
   String? selectedGolDarahWali;
@@ -88,6 +92,40 @@ class _UpdateRegisterPengasuhViewState
   DataKecamatan? selectedKecamatan;
   DataDesaKelurahan? selectedDesa;
   DataDusun? selectedDusun;
+
+  final GlobalKey<FormFieldState> kkKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> nikKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> namaKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tempatLahirKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> tanggalLahirKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> alamatKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> teleponKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rtKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> rwKey = GlobalKey<FormFieldState>();
+
+  final GlobalKey<FormFieldState> selectedKabupatenKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedKecamatanKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDesaKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedDusunKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedGolDarahKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedHubunganAnakKey = GlobalKey<FormFieldState>();
+
+  final FocusNode kkFocusNode = FocusNode();
+  final FocusNode nikFocusNode = FocusNode();
+  final FocusNode namaFocusNode = FocusNode();
+  final FocusNode tempatLahirFocusNode = FocusNode();
+  final FocusNode tanggalLahirFocusNode = FocusNode();
+  final FocusNode alamatFocusNode = FocusNode();
+  final FocusNode teleponFocusNode = FocusNode();
+  final FocusNode rtFocusNode = FocusNode();
+  final FocusNode rwFocusNode = FocusNode();
+
+  final FocusNode selectedKabupatenFocusNode = FocusNode();
+  final FocusNode selectedKecamatanFocusNode = FocusNode();
+  final FocusNode selectedDesaFocusNode = FocusNode();
+  final FocusNode selectedDusunFocusNode = FocusNode();
+  final FocusNode selectedGolDarahFocusNode = FocusNode();
+  final FocusNode selectedHubunganAnakNode = FocusNode();
 
   void _toggleDisability(int index) {
     setState(() {
@@ -108,6 +146,97 @@ class _UpdateRegisterPengasuhViewState
         selectedDisabilitiesAnak[index] = false;
       }
     });
+  }
+  
+  void submitForm() {
+    logger.d('submit form');
+    // Langkah 1: Jalankan validasi form
+    if (_formKey.currentState!.validate()) {
+      // ! form valid save to local
+      // widget.onSaveData({'nik_ayah': });
+      logger.d('form ayah valid');
+
+      UpdatePengasuh dataPengasuhTemp = UpdatePengasuh(
+        id: widget.paket.idPengasuh,
+        updatePengasuhModel: UpdatePengasuhModel(
+          statusHubungan: selectedStatusHubunganDenganAnak!,
+          nik: _nikController.text,
+          namaPengasuh: _namaController.text,
+          tempatLahir: _tempatLahirController.text,
+          tanggalLahir: _tanggalLahirController.text,
+          rt: _rTController.text,
+          rw: _rWController.text,
+          alamatLengkap: _alamatController.text,
+          dusunId: selectedDusun!.id,
+          noTelepon: _teleponController.text.isNotEmpty
+            ? _teleponController.text
+            : null,
+          golDarah: selectedGolDarahWali!,
+          nomorKartuKeluarga:_nomorKKController.text,
+          disabilitasPengasuh: selectedDisabilityLabelsAnak
+        ),
+      );
+
+      BlocProvider.of<UpdatePengasuhBloc>(context).add(dataPengasuhTemp);
+
+    } else {
+      // JIKA FORM TIDAK VALID
+      print('Form tidak valid. Mencari error pertama...');
+
+      showTopSnackBar(
+        Overlay.of(context),
+        animationDuration: const Duration(milliseconds: 600),
+        displayDuration: const Duration(milliseconds: 2200),
+        reverseAnimationDuration:const Duration(milliseconds: 300),
+        TopSnackbarWidget().error("Form data wali tidak sesuai\nharap cek kembali"));
+
+      // Buat daftar field Anda secara berurutan sesuai tampilan di UI
+      // Ini PENTING agar scroll menuju ke error PALING ATAS
+      final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
+        kkKey: kkFocusNode,
+        nikKey: nikFocusNode,
+        namaKey: namaFocusNode,
+        tempatLahirKey: tempatLahirFocusNode,
+        tanggalLahirKey: tanggalLahirFocusNode,
+        teleponKey: teleponFocusNode,
+        rtKey: rtFocusNode,
+        rwKey: rwFocusNode,
+        alamatKey: alamatFocusNode,
+        selectedKabupatenKey: selectedKabupatenFocusNode,
+        selectedKecamatanKey: selectedKecamatanFocusNode,
+        selectedDesaKey: selectedDesaFocusNode,
+        selectedDusunKey: selectedDusunFocusNode,
+        selectedGolDarahKey: selectedGolDarahFocusNode
+      };
+
+      // Cari field pertama yang memiliki error
+      for (var entry in fieldMap.entries) {
+        final key = entry.key;
+        final focusNode = entry.value;
+
+        logger.d(
+            'key is ${key}, context current is ${key.currentContext}, has error ${key.currentState?.hasError}');
+        // Cek apakah field ini punya error
+        if (key.currentState?.hasError ?? false) {
+          // Jika ya, scroll ke field ini
+
+          print('Field ${entry.key} has error: ${key.currentState?.hasError}');
+          print('Current context: ${key.currentContext}');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Scrollable.ensureVisible(
+              key.currentContext!,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              alignment: 0.3,
+            );
+            focusNode.requestFocus();
+          });
+
+          // Hentikan loop karena kita hanya butuh fokus ke error pertama
+          break;
+        }
+      }
+    }
   }
 
   @override
@@ -131,19 +260,19 @@ class _UpdateRegisterPengasuhViewState
         text: widget.paket.detailPengasuhResponseModel.data!.tempatLahir);
     _tanggalLahirController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.tanggalLahir);
-    _rTWaliController = TextEditingController(
+    _rTController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.rt);
-    _rWWaliController = TextEditingController(
+    _rWController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.rw);
 
     if (widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon !=
         "0") {
-      _teleponWaliController = TextEditingController(
+      _teleponController = TextEditingController(
           text:
               widget.paket.detailPengasuhResponseModel.data!.user.nomorTelepon);
     }
 
-    _alamatWaliController = TextEditingController(
+    _alamatController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.alamatLengkap);
 
     // ! selected
@@ -182,6 +311,58 @@ class _UpdateRegisterPengasuhViewState
     }
   }
 
+  @override
+  void dispose() {
+    //controller
+    _nikController.dispose();
+    _nomorKKController.dispose();
+    _namaController.dispose();
+    _tempatLahirController.dispose();
+    _tanggalLahirController.dispose();
+    _alamatController.dispose();
+    _teleponController.dispose();
+    _rTController.dispose();
+    _rWController.dispose();
+
+    //focus node
+    kkFocusNode.dispose();
+    nikFocusNode.dispose();
+    namaFocusNode.dispose();
+    tempatLahirFocusNode.dispose();
+    tanggalLahirFocusNode.dispose();
+    alamatFocusNode.dispose();
+    teleponFocusNode.dispose();
+    rtFocusNode.dispose();
+    rwFocusNode.dispose();
+
+    selectedKabupatenFocusNode.dispose();
+    selectedKecamatanFocusNode.dispose();
+    selectedDesaFocusNode.dispose();
+    selectedDusunFocusNode.dispose();
+    selectedGolDarahFocusNode.dispose();
+    selectedHubunganAnakNode.dispose();
+
+    //key
+    kkKey.currentState?.dispose();
+    nikKey.currentState?.dispose();
+    namaKey.currentState?.dispose();
+    tempatLahirKey.currentState?.dispose();
+    tanggalLahirKey.currentState?.dispose();
+    alamatKey.currentState?.dispose();
+    teleponKey.currentState?.dispose();
+    rtKey.currentState?.dispose();
+    rwKey.currentState?.dispose();
+
+    selectedKabupatenKey.currentState?.dispose();
+    selectedKecamatanKey.currentState?.dispose();
+    selectedDesaKey.currentState?.dispose();
+    selectedDusunKey.currentState?.dispose();
+    selectedGolDarahKey.currentState?.dispose();
+    selectedHubunganAnakKey.currentState?.dispose();
+
+    super.dispose();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = DateTime(2000); // Set initial date to the year 1945
@@ -206,7 +387,6 @@ class _UpdateRegisterPengasuhViewState
 
   @override
   Widget build(BuildContext context) {
-    final updatePengasuhBloc = BlocProvider.of<UpdatePengasuhBloc>(context);
 
     return Scaffold(
       appBar: PrimaryAppBar(
@@ -285,20 +465,21 @@ class _UpdateRegisterPengasuhViewState
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          key: selectedHubunganAnakKey,
+                          focusNode: selectedHubunganAnakNode,
                           items: selectStatusHubunganDenganAnak,
                           hint: 'Status Hubungan Dengan Anak',
                           value: selectedStatusHubunganDenganAnak,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Status Hubungan harus dipilih";
-                            }
-                            return null;
-                          },
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                                errorText: "Hubungan dengan anak harus dipilih"),
+                          ]),
                           onChanged: (value) {
                             setState(() {
                               selectedStatusHubunganDenganAnak = value;
                             });
+                            selectedHubunganAnakKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -311,16 +492,23 @@ class _UpdateRegisterPengasuhViewState
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          onTap: () {},
+                          fieldName: 'kk_wali',
+                          formFieldKey: kkKey,
                           controller: _nomorKKController,
+                          focusNode: kkFocusNode,
                           hintText: 'Nomor Kartu keluarga',
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.consistOf(
-                                value, 16, "Masukkan 16 digit angka!"),
-                            (value) => Validator.required(value),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
+                            FormBuilderValidators.numeric(
+                                errorText: "KK harus berupa angka!"),
+                            FormBuilderValidators.equalLength(16,
+                                errorText: "KK harus terdiri dari 16 angka!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -333,16 +521,23 @@ class _UpdateRegisterPengasuhViewState
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'nik_wali',
+                          formFieldKey: nikKey,
                           controller: _nikController,
+                          focusNode: nikFocusNode,
+                          onTap: () {},
                           hintText: 'NIK',
                           keyboardType: TextInputType.number,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(value),
-                            (value) => Validator.consistOf(
-                                value, 16, "Masukkan 16 digit angka!"),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
+                            FormBuilderValidators.numeric(
+                                errorText: "NIK harus berupa angka!"),
+                            FormBuilderValidators.equalLength(16,
+                                errorText: "NIK harus terdiri dari 16 angka!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -355,14 +550,19 @@ class _UpdateRegisterPengasuhViewState
                         SizedBox(
                           height: SizeConfig.calHeightMultiplier(8),
                         ),
-                        TextFieldWidget(
+                        TextFieldWidget2(
+                          fieldName: 'nama_wali',
+                          formFieldKey: namaKey,
                           controller: _namaController,
+                          focusNode: namaFocusNode,
+                          onTap: () {},
                           hintText: 'Nama',
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(value),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi terlebih dahulu!"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -383,14 +583,19 @@ class _UpdateRegisterPengasuhViewState
                                   SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
-                                  TextFieldWidget(
+                                  TextFieldWidget2(
+                                    fieldName: 'tempat_lahir_wali',
+                                    formFieldKey: tempatLahirKey,
                                     controller: _tempatLahirController,
+                                    focusNode: tempatLahirFocusNode,
+                                    onTap: () {},
                                     hintText: 'Tempat Lahir',
                                     keyboardType: TextInputType.text,
                                     obscureText: false,
                                     isPasswordField: false,
-                                    validators: [
-                                      (value) => Validator.required(value),
+                                    clientValidators: [
+                                      FormBuilderValidators.required(
+                                        errorText: "Isi terlebih dahulu!"),
                                     ],
                                   ),
                                 ],
@@ -409,18 +614,19 @@ class _UpdateRegisterPengasuhViewState
                                       height:
                                           SizeConfig.calHeightMultiplier(8)),
                                   DateTimePickerWidget(
+                                    key: tanggalLahirKey,
                                     controller: _tanggalLahirController,
                                     hintText: 'Tanggal Lahir',
                                     selectDate: () {
                                       _selectDate(context);
                                     },
                                     isDate: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Tanggal harus dipilih";
-                                      }
-                                      return null;
-                                    },
+                                    validator: FormBuilderValidators.compose(
+                                      [
+                                        FormBuilderValidators.required(
+                                            errorText: "Isi terlebih dahulu!"),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -809,40 +1015,56 @@ class _UpdateRegisterPengasuhViewState
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              child: TextFieldWidget(
-                                controller: _rTWaliController,
+                              child: TextFieldWidget2(
+                                fieldName: 'rt_wali',
+                                formFieldKey: rtKey,
+                                controller: _rTController,
+                                focusNode: rtFocusNode,
+                                onTap: () {},
                                 hintText: 'RT',
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [
-                                  (value) => Validator.required(value),
+                                clientValidators: [
+                                  FormBuilderValidators.required(errorText: "Isi RT"),
+                                  FormBuilderValidators.numeric(
+                                          errorText: "RT harus berupa angka!"),
                                 ],
                               ),
                             ),
                             Expanded(
-                              child: TextFieldWidget(
-                                controller: _rWWaliController,
+                              child: TextFieldWidget2(
+                                fieldName: 'rw_wali',
+                                formFieldKey: rwKey,
+                                controller: _rWController,
+                                focusNode: rwFocusNode,
+                                onTap: () {},
                                 hintText: 'RW',
                                 isPasswordField: false,
                                 keyboardType: TextInputType.number,
                                 obscureText: false,
-                                validators: [
-                                  (value) => Validator.required(value),
+                                clientValidators: [
+                                  FormBuilderValidators.required(errorText: "Isi RW"),
+                                  FormBuilderValidators.numeric(errorText: "RW harus berupa angka!"),
                                 ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
-                          controller: _alamatWaliController,
+                        TextFieldWidget2(
+                          fieldName: 'alamat_wali',
+                          formFieldKey: alamatKey,
+                          controller: _alamatController,
+                          focusNode: alamatFocusNode,
+                          onTap: () {},
                           hintText: 'Masukan alamat lengkap',
                           keyboardType: TextInputType.text,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.required(value),
+                          clientValidators: [
+                            FormBuilderValidators.required(
+                                errorText: "Isi Terlebih Dahulu"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -851,23 +1073,23 @@ class _UpdateRegisterPengasuhViewState
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget(
-                          controller: _teleponWaliController,
+                        TextFieldWidget2(
+                          fieldName: 'nomor_wali',
+                          formFieldKey: teleponKey,
+                          controller: _teleponController,
+                          focusNode: teleponFocusNode,
+                          onTap: () {},
                           hintText: 'Masukan nomor telepon',
                           keyboardType: TextInputType.phone,
                           obscureText: false,
                           isPasswordField: false,
-                          validators: [
-                            (value) => Validator.minLength(
-                                value,
-                                nullable: true,
-                                10,
-                                "Masukkan nomor yang benar!"),
-                            (value) => Validator.maxLength(
-                                value,
-                                nullable: true,
-                                13,
-                                "Masukkan nomor yang benar!"),
+                          clientValidators: [
+                            FormBuilderValidators.numeric(
+                                          errorText: "Nomor harus berupa angka!", checkNullOrEmpty: false),
+                            FormBuilderValidators.minLength(10,
+                                checkNullOrEmpty: false, errorText: "Minimal 10 digit"),
+                            FormBuilderValidators.maxLength(13,
+                                checkNullOrEmpty: false, errorText: "Maksimal 13 digit"),
                           ],
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -876,14 +1098,21 @@ class _UpdateRegisterPengasuhViewState
                           style: TextStyle(fontSize: 12),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        DropdownWidget(
+                        DropdownWidget2(
+                          key: selectedGolDarahKey,
+                          focusNode: selectedGolDarahFocusNode,
                           items: selectGolDarah,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                                errorText: "Golongan harus dipilih"),
+                          ]),
                           hint: 'Golongan Darah',
                           value: selectedGolDarahWali,
                           onChanged: (value) {
                             setState(() {
                               selectedGolDarahWali = value;
                             });
+                            selectedGolDarahKey.currentState?.validate();
                           },
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
@@ -960,40 +1189,10 @@ class _UpdateRegisterPengasuhViewState
                             return ButtonPrimary(
                               color: bluePrimaryMain,
                               mainButtonMessage: 'Simpan',
-                              mainButton: () {
-                                if (_formKey.currentState!.validate()) {
-                                  updatePengasuhBloc.add(
-                                    UpdatePengasuh(
-                                      id: widget.paket.idPengasuh,
-                                      updatePengasuhModel: UpdatePengasuhModel(
-                                          statusHubungan:
-                                              selectedStatusHubunganDenganAnak!,
-                                          nik: _nikController.text,
-                                          namaPengasuh: _namaController.text,
-                                          tempatLahir:
-                                              _tempatLahirController.text,
-                                          tanggalLahir:
-                                              _tanggalLahirController.text,
-                                          rt: _rTWaliController.text,
-                                          rw: _rWWaliController.text,
-                                          alamatLengkap:
-                                              _alamatWaliController.text,
-                                          dusunId: selectedDusun!.id,
-                                          noTelepon: _teleponWaliController
-                                                  .text.isNotEmpty
-                                              ? _teleponWaliController.text
-                                              : null,
-                                          golDarah: selectedGolDarahWali!,
-                                          nomorKartuKeluarga:
-                                              _nomorKKController.text,
-                                          disabilitasPengasuh:
-                                              selectedDisabilityLabelsAnak),
-                                    ),
-                                  );
-                                } else {
-                                  logger.d('form tidak valid');
-                                }
-                              },
+                              isLoading: state is UpdatePengasuhLoadingState
+                              ? true 
+                              : null,
+                              mainButton: () => submitForm(),
                             );
                           },
                         ),
