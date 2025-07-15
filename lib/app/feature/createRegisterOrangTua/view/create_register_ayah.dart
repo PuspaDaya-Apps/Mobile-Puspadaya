@@ -1092,8 +1092,7 @@ class _CreateRegisterAyahViewState extends State<CreateRegisterAyahView> {
                     obscureText: false,
                     clientValidators: [
                       FormBuilderValidators.required(errorText: "Isi RW"),
-                      FormBuilderValidators.numeric(
-                              errorText: "RW harus berupa angka!"),
+                      FormBuilderValidators.numeric(errorText: "RW harus berupa angka!"),
                     ],
                   ),
                 ),
