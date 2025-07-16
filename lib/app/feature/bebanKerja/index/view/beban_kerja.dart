@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:puspadaya/app/view/screen/no_data_screen.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/beban_kader_items_widget.dart';
+import 'package:puspadaya/app/view/widget/pul_to_refresh.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/route/route_name.dart';
-
 import '../../../../view/screen/error_server_screen.dart';
 import '../bloc/index_beban_kerja_bloc.dart';
 
@@ -32,6 +33,8 @@ class BebanKerjaView extends StatefulWidget {
 }
 
 class _BebanKerjaViewState extends State<BebanKerjaView> {
+  EasyRefreshController refreshController =
+      EasyRefreshController(controlFinishRefresh: true);
   @override
   void initState() {
     super.initState();
@@ -83,36 +86,47 @@ class _BebanKerjaViewState extends State<BebanKerjaView> {
                 }
                 return Padding(
                   padding: const EdgeInsets.all(16),
-                  child: ListView.builder(
-                    itemCount: state.indexBebanKerjaResponseModel.data!.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: shadowMd,
-                        ),
-                        child: BebanKerjaItems(
-                          onTap: () {
-                            Navigator.pushNamed(context, DETAIL_BEBAN_KERJA,
-                                    arguments: state
-                                        .indexBebanKerjaResponseModel
-                                        .data![index]
-                                        .id)
-                                .then((value) {
-                              if (value != null) {
-                                indexBebanKerja.add(GetBebanKerjaEvent());
-                              }
-                            });
-                          },
-                          place: "Posyandu ${state.posyandu}",
-                          date: DateFormat('MMMM y', 'id_ID').format(state
-                              .indexBebanKerjaResponseModel.data![index].bulan),
-                        ),
-                      );
+                  child: PullToRefreshWidget(
+                    onRefresh: () {
+                      context
+                          .read<IndexBebanKerjaBloc>()
+                          .add(GetBebanKerjaEvent());
                     },
+                    refreshController: refreshController,
+                    child: ListView.builder(
+                      itemCount:
+                          state.indexBebanKerjaResponseModel.data!.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: shadowMd,
+                          ),
+                          child: BebanKerjaItems(
+                            onTap: () {
+                              Navigator.pushNamed(context, DETAIL_BEBAN_KERJA,
+                                      arguments: state
+                                          .indexBebanKerjaResponseModel
+                                          .data![index]
+                                          .id)
+                                  .then((value) {
+                                if (value != null) {
+                                  indexBebanKerja.add(GetBebanKerjaEvent());
+                                }
+                              });
+                            },
+                            place: "Posyandu ${state.posyandu}",
+                            date: DateFormat('MMMM y', 'id_ID').format(state
+                                .indexBebanKerjaResponseModel
+                                .data![index]
+                                .bulan),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               }
