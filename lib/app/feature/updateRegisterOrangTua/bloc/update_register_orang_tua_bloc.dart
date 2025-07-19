@@ -42,7 +42,10 @@ class UpdateRegisterOrangTuaBloc
           logger.d('succes patch orang tua');
           emit((UpdateRegisterOrangTuaSuccesState()));
         } else if (statusCode == 409) {
-          emit(UpdateRegisterOrangTuaFailedState(response[1].toString()));
+          logger.e('catched status code 409');
+          ValidationErrorModel validationError =
+              ValidationErrorModel.fromJson(response[1]);
+          emit(UpdateRegisterOrangTuaFailedState(validationError.message));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else if (statusCode == 400) {
