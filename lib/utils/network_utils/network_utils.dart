@@ -184,7 +184,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200 || statusResponse == 400) {
+      if (statusResponse == 200 || statusResponse == 400 || statusResponse == 409) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();
@@ -207,7 +207,7 @@ class NetworkUtils {
       debugPrint(bodyResponse.toString());
       debugPrint(statusResponse.toString());
 
-      if (statusResponse == 200 || statusResponse == 400) {
+      if (statusResponse == 200 || statusResponse == 400 || statusResponse == 409) {
         return [statusResponse, json.decode(json.encode(bodyResponse))];
       } else {
         throw bodyResponse['message'].toString();

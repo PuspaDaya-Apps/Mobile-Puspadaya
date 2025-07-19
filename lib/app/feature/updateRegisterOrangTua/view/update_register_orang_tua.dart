@@ -950,7 +950,7 @@ class _UpdateRegisterOrangTuaViewState
     return Scaffold(
       backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: 'Tambah Data Orang Tua',
+        title: 'Perbarui Data Orang Tua',
         onBackPressed: () {
           Navigator.pop(context);
         },
