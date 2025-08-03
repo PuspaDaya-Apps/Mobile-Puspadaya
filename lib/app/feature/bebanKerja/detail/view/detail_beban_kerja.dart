@@ -106,8 +106,7 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                       height: SizeConfig.calHeightMultiplier(8),
                     ),
                     InfoFieldWidget(
-                        text:
-                            DateFormat('MMMM y', 'id_ID').format(state.bulan)),
+                        text: DateFormat('MMMM y', 'id_ID').format(state.bulan)),
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                     Container(
                       width: double.infinity,
@@ -176,7 +175,8 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                         },
                       ),
                     ),
-                    BlocConsumer<HapusBebanKerjaBloc, HapusBebanKerjaState>(
+                    DateFormat('MMMM y', 'id_ID').format(state.bulan) == DateFormat('MMMM y', 'id_ID').format(DateTime.now())
+                    ? BlocConsumer<HapusBebanKerjaBloc, HapusBebanKerjaState>(
                       listener: (context, state) {
                         debugPrint(state.toString());
                         if (state is HapusBebanKerjaSuccessState) {
@@ -210,13 +210,17 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                                     Navigator.pop(context);
                                   },
                                   cancelButtonMessage: 'Batalkan',
+                                  loadingState: state is HapusBebanKerjaProccesState
+                                  ? true
+                                  : null,
                                 );
                               },
                             );
                           },
                         );
                       },
-                    ),
+                    )
+                    : SizedBox(),
                   ],
                 ),
               ),
