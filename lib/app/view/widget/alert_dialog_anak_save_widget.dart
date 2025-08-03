@@ -11,6 +11,7 @@ class AlertDialogAnakSave extends StatelessWidget {
   final String upperArmCircumference;
   final String uterineFundalHeightValue;
   final bool isAgeLessThanSixMonths;
+  final bool? isLoading;
 
   final VoidCallback mainButton;
   final String mainButtonMessage;
@@ -29,6 +30,7 @@ class AlertDialogAnakSave extends StatelessWidget {
     required this.upperArmCircumference,
     required this.uterineFundalHeightValue,
     required this.isAgeLessThanSixMonths,
+    this.isLoading
   });
 
   @override
@@ -198,6 +200,7 @@ class AlertDialogAnakSave extends StatelessWidget {
               mainButtonMessage: mainButtonMessage,
               mainButton: mainButton,
               color: colorMainButton,
+              isLoading: isLoading,
             ),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(12),
