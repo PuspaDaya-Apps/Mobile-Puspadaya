@@ -90,6 +90,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   String? selectedProvinsiIbu;
   String? selectedKabupatenIbu;
   String? selectedKecamatanIbu;
+  String? selectedStatusAnak;
 
   //! focus node
   FocusNode nomorKKFocusNode = FocusNode();
@@ -113,6 +114,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   FocusNode caraLahirFocusNode = FocusNode();
   FocusNode statusKelahiranFocusNode = FocusNode();
   FocusNode statusOrangTuaAnakFocusNode = FocusNode();
+  FocusNode selectedStatusAnakFocusNode = FocusNode();
 
   // !formFieldStateKey
   final GlobalKey<FormFieldState> nomorKKFormFieldKey =
@@ -155,6 +157,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> statusOrangTuaAnakFormFieldKey =
       GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedStatusAnakKey = GlobalKey<FormFieldState>();
 
   late PaketToCreateAnakModel paketToCreateAnakModel;
 
@@ -210,7 +213,12 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         statusKelahiran: selectedStatusKelahiran!,
                         disabilitasAnak: selectedDisabilityLabelsAnak,
                         statusOrangTua: selectedStatusOrangTuaAnak!,
-                        pengasuh: null),
+                        pengasuh: null,
+                        anakPindah: selectedStatusAnak == 'anak pindah'
+                            ? true : false,
+                        anakMeninggal: selectedStatusAnak == 'anak meninggal'
+                            ? true : false
+                ),
                     createAnakBloc: createAnakBloc),
               );
             },
@@ -235,7 +243,14 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
             statusKelahiran: selectedStatusKelahiran!,
             disabilitasAnak: selectedDisabilityLabelsAnak,
             statusOrangTua: selectedStatusOrangTuaAnak!,
-            pengasuh: null)));
+            pengasuh: null,
+            anakPindah: selectedStatusAnak == 'anak pindah'
+                ? true : false,
+            anakMeninggal: selectedStatusAnak == 'anak meninggal'
+                ? true : false
+            )
+          )
+        );
       }
       logger.d('go to simpan');
     } else {
@@ -1003,7 +1018,28 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                                 ?.validate();
                           },
                         ),
+
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          Text(
+                            'Status Anak',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          DropdownWidget2(
+                            formFieldKey: selectedStatusAnakKey,
+                            focusNode: selectedStatusAnakFocusNode,
+                            hint: 'Pilih Status Anak',
+                            items: selectStatusAnak,
+                            value: selectedStatusAnak,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedStatusAnak = value;
+                              });
+                              selectedStatusAnakKey.currentState!.validate();
+                            },
+                          ),
                         Column(
                           children: selectedDisabilityLabelsAnak.map((label) {
                             return ListTile(
