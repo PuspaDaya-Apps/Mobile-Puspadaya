@@ -287,5 +287,6 @@ final List<String> selectStatusIbuHamil = [
   'bayi lahir hidup', 
   'bayi lahir meninggal',
   'ibu meninggal',
-  'lahir pindah'
+  'lahir pindah',
+  'tidak ada status'
 ];

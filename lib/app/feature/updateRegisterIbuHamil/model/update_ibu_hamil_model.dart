@@ -37,6 +37,14 @@ class UpdateIbuHamilModel {
   final String memilkiBPJS;
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
+  @JsonKey(name: "bayi_lahir_hidup")
+  bool bayiLahirHidup = false;
+  @JsonKey(name: "bayi_lahir_meninggal")
+  bool bayiLahirMeninggal= false;
+  @JsonKey(name: "ibu_meninggal")
+  bool ibuMeninggal = false;
+  @JsonKey(name: "lahir_hidup")
+  bool lahirPindah= false;
 
   UpdateIbuHamilModel({
     required this.jarak,
@@ -55,7 +63,11 @@ class UpdateIbuHamilModel {
     required this.terpaparAsapRokok,
     required this.catatan,
     required this.memilkiBPJS,
-    this.namaBPJS
+    this.namaBPJS,
+    required this.bayiLahirHidup,
+    required this.bayiLahirMeninggal,
+    required this.ibuMeninggal,
+    required this.lahirPindah
   });
 
   factory UpdateIbuHamilModel.fromJson(Map<String, dynamic> json) => _$UpdateIbuHamilModelFromJson(json);
@@ -82,6 +94,10 @@ UpdateIbuHamilModel _$UpdateIbuHamilModelFromJson(Map<String, dynamic> json) =>
       catatan: json['catatan'] as String,
       memilkiBPJS: json['memiliki_bpjs'] as String,
       namaBPJS: json['nama_bpjs'] as String?,
+      bayiLahirHidup: json['bayi_lahir_hidup'] as bool,
+      bayiLahirMeninggal: json['bayi_lahir_meninggal'] as bool,
+      ibuMeninggal: json['ibu_meninggal'] as bool,
+      lahirPindah: json['lahir_pindah'] as bool,
     );
 
 Map<String, dynamic> _$UpdateIbuHamilModelToJson(
@@ -103,5 +119,9 @@ Map<String, dynamic> _$UpdateIbuHamilModelToJson(
       'catatan': instance.catatan,
       'memiliki_bpjs': instance.memilkiBPJS,
       'nama_bpjs': instance.namaBPJS,
-      'jarak': instance.jarak
+      'jarak': instance.jarak,
+      'bayi_lahir_hidup': instance.bayiLahirHidup,
+      'bayi_lahir_meninggal': instance.bayiLahirMeninggal,
+      'ibu_meninggal': instance.ibuMeninggal,
+      'lahir_pindah': instance.lahirPindah,
     };

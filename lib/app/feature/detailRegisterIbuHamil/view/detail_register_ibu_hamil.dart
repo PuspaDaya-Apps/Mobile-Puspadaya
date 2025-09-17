@@ -540,8 +540,11 @@ class _DetailRegisterIbuHamilViewState
                         mainButtonMessage: 'Perbarui',
                         mainButton: () {
                           PaketToUpdateRegisterIbuHamil data =
-                              PaketToUpdateRegisterIbuHamil(
-                                  id: widget.id, data: state.data.data!);
+                            PaketToUpdateRegisterIbuHamil(
+                              id: widget.id,
+                              data: state.data.data!,
+                              statusIbuHamil: state.statusIbuHamil
+                            );
                           Navigator.pushNamed(
                             context,
                             UPDATE_REGISTER_IBU_HAMIL,

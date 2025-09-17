@@ -1034,11 +1034,7 @@ class _CreateRegisterIbuHamilViewState
                             value: selectedStatusIbuHamil,
                             onChanged: (value) {
                               setState(() {
-                                if(value == "belum memiliki status"){
-                                  selectedStatusIbuHamil = null;
-                                } else {
-                                  selectedStatusIbuHamil = value;
-                                }
+                                selectedStatusIbuHamil = value;
                               });
                               selectedStatusIbuHamilKey.currentState!.validate();
                             },
