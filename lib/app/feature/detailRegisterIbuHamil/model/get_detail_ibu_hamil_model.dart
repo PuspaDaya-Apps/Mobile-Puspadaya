@@ -62,6 +62,15 @@ class Data {
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
 
+  @JsonKey(name: "bayi_lahir_hidup")
+  bool bayiLahirHidup = false;
+  @JsonKey(name: "bayi_lahir_meninggal")
+  bool bayiLahirMeninggal= false;
+  @JsonKey(name: "ibu_meninggal")
+  bool ibuMeninggal = false;
+  @JsonKey(name: "lahir_hidup")
+  bool lahirPindah= false;
+
   Data({
     required this.id,
     required this.jarak,
@@ -83,6 +92,11 @@ class Data {
     required this.alatBeratBadan,
     required this.alatLingkarLengan,
     required this.alatTinggiFundus,
+
+    required this.bayiLahirHidup,
+    required this.bayiLahirMeninggal,
+    required this.ibuMeninggal,
+    required this.lahirPindah
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -397,8 +411,20 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
           AlatUkur.fromJson(json['alat_berat_badan'] as Map<String, dynamic>),
       alatLingkarLengan: AlatUkur.fromJson(
           json['alat_lingkar_lengan'] as Map<String, dynamic>),
-      alatTinggiFundus:
-          AlatUkur.fromJson(json['alat_tinggi_fundus'] as Map<String, dynamic>),
+      alatTinggiFundus: AlatUkur.fromJson(json['alat_tinggi_fundus'] as Map<String, dynamic>),
+
+      bayiLahirHidup: json['bayi_lahir_hidup'] != null
+      ? json['bayi_lahir_hidup'] as bool
+      : false,
+      bayiLahirMeninggal: json['bayi_lahir_meninggal'] != null
+      ? json['bayi_lahir_meninggal'] as bool
+      : false,
+      ibuMeninggal: json['ibu_meninggal'] != null
+      ? json['ibu_meninggal'] as bool
+      : false,
+      lahirPindah: json['lahir_pindah'] != null
+      ? json['lahir_pindah'] as bool
+      : false,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -421,6 +447,10 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'alat_lingkar_lengan': instance.alatLingkarLengan,
       'alat_tinggi_fundus': instance.alatTinggiFundus,
       'nama_bpjs': instance.namaBPJS,
+      'bayi_lahir_hidup': instance.bayiLahirHidup,
+      'bayi_lahir_meninggal': instance.bayiLahirMeninggal,
+      'ibu_meninggal': instance.ibuMeninggal,
+      'lahir_pindah': instance.lahirPindah
     };
 
 AlatUkur _$AlatUkurFromJson(Map<String, dynamic> json) => AlatUkur(

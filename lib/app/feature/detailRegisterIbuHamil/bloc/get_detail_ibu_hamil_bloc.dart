@@ -27,12 +27,27 @@ class GetDetailIbuHamilBloc
         dynamic response =
             await DetailIbuHamil().getDetailIbuHamil(accessToken, event.id);
         int statusCode = response[0] as int;
-        GetDetailIbuHamilModel dataIbuHamil =
-            GetDetailIbuHamilModel.fromJson(response[1]);
+        GetDetailIbuHamilModel dataIbuHamil = GetDetailIbuHamilModel.fromJson(response[1]);
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCode == 200) {
           logger.d('succes get detail data ibu hamil');
-          emit(GetDetailIbuHamilSuccess(dataIbuHamil));
+
+          int? statusIbuHamil;
+
+          if(dataIbuHamil.data!.bayiLahirHidup) {
+            statusIbuHamil = 0;
+          }
+          if(dataIbuHamil.data!.bayiLahirMeninggal) {
+            statusIbuHamil = 1;
+          }
+          if(dataIbuHamil.data!.ibuMeninggal) {
+            statusIbuHamil = 2;
+          }
+          if(dataIbuHamil.data!.lahirPindah) {
+            statusIbuHamil = 3;
+          }
+
+          emit(GetDetailIbuHamilSuccess(dataIbuHamil, statusIbuHamil));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {

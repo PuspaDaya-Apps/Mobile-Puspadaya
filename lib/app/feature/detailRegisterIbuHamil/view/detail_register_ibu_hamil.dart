@@ -11,6 +11,7 @@ import 'package:puspadaya/route/route_name.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../bloc/get_detail_ibu_hamil_bloc.dart';
@@ -508,6 +509,21 @@ class _DetailRegisterIbuHamilViewState
                               ? "Tidak Memiliki BPJS"
                               : state.data.data!.namaBPJS!),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      
+                      Text(
+                        'Status Ibu Hamil',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                      InfoFieldWidget(
+                        text: state.statusIbuHamil != null
+                        ? selectStatusIbuHamil[state.statusIbuHamil!] 
+                        : '-',
+                      ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+
                       Text(
                         'Catatan',
                         style: AppTextStyles.primaryTextNormal.copyWith(
