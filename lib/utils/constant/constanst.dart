@@ -273,6 +273,7 @@ List<CheckboxKunjungan> listOfCheckboxIbuHamil = [
     label: 'Ibu Tidak Berada di Rumah',
   ),
 ];
+
 const String lakiLakiTinggiBadan =
     "https://docs.google.com/spreadsheets/d/1kVDOFy5vmZSCtnnl4zVNOXS-kuloHPqx/edit?gid=1214439835#gid=1214439835export?format=xlsx";
 const String lakiLakiBeratBadan =
@@ -281,3 +282,10 @@ const String perempuanTinggiBadan =
     "https://docs.google.com/spreadsheets/d/1qe93X_z8-vK7Y4rGPheQTplSs1cb35bi/edit?gid=304078473#gid=304078473/export?format=xlsx";
 const String perempuanBeratBadan =
     "https://docs.google.com/spreadsheets/d/1MbZFuIm6Lpz8EbtDpTOd6OMML7ZRuTgJ/edit?gid=690794909#gid=690794909export?format=xlsx";
+
+final List<String> selectStatusIbuHamil = [
+  'bayi lahir hidup', 
+  'bayi lahir meninggal',
+  'ibu meninggal',
+  'lahir pindah'
+];

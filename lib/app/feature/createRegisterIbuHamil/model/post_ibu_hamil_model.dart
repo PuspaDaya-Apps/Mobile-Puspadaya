@@ -39,6 +39,14 @@ class PostIbuHamilModel {
   final String memilkiBPJS;
   @JsonKey(name: "nama_bpjs")
   final String? namaBPJS;
+  @JsonKey(name: "bayi_lahir_hidup")
+  bool bayiLahirHidup = false;
+  @JsonKey(name: "bayi_lahir_meninggal")
+  bool bayiLahirMeninggal= false;
+  @JsonKey(name: "ibu_meninggal")
+  bool ibuMeninggal = false;
+  @JsonKey(name: "lahir_hidup")
+  bool lahirPindah= false;
 
   @JsonKey(name: "tanggal_pengukuran")
   final String tanggalPengukuran;
@@ -62,7 +70,11 @@ class PostIbuHamilModel {
     required this.catatan,
     required this.memilkiBPJS,
     this.namaBPJS,
-    required this.tanggalPengukuran
+    required this.tanggalPengukuran,
+    required this.bayiLahirHidup,
+    required this.bayiLahirMeninggal,
+    required this.ibuMeninggal,
+    required this.lahirPindah
   });
 
   factory PostIbuHamilModel.fromJson(Map<String, dynamic> json) => _$PostIbuHamilModelFromJson(json);
@@ -91,6 +103,10 @@ PostIbuHamilModel _$PostIbuHamilModelFromJson(Map<String, dynamic> json) =>
       memilkiBPJS: json['memiliki_bpjs'] as String,
       namaBPJS: json['nama_bpjs'] as String?,
       tanggalPengukuran: json['tanggal_pengukuran'] as String,
+      bayiLahirHidup: json['bayi_lahir_hidup'] as bool,
+      bayiLahirMeninggal: json['bayi_lahir_meninggal'] as bool,
+      ibuMeninggal: json['ibu_meninggal'] as bool,
+      lahirPindah: json['lahir_pindah'] as bool,
     );
 
 Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
@@ -114,4 +130,8 @@ Map<String, dynamic> _$PostIbuHamilModelToJson(PostIbuHamilModel instance) =>
       'nama_bpjs': instance.namaBPJS,
       'tanggal_pengukuran': instance.tanggalPengukuran,
       'jarak': instance.jarak,
+      'bayi_lahir_hidup': instance.bayiLahirHidup,
+      'bayi_lahir_meninggal': instance.bayiLahirMeninggal,
+      'ibu_meninggal': instance.ibuMeninggal,
+      'lahir_pindah': instance.lahirPindah,
     };
