@@ -131,6 +131,7 @@ class _DetailRegisterAnakViewState extends State<DetailRegisterAnakView>
                             detailResponse: state.getDetailRegisterAnak,
                             detailRegisterAnakBloc: detailRegisterAnakBloc,
                             anakId: widget.anakId,
+                            statusAnak: state.statusAnak,
                           ),
                           DetailDataKIA(
                             detailResponse: state.getDetailRegisterAnak,
