@@ -38,9 +38,9 @@ class Data {
     @JsonKey(name: "kartu_keluarga")
     final KartuKeluarga kartuKeluarga;
     @JsonKey(name: "ayah")
-    final Ayah ayah;
+    Ayah? ayah;
     @JsonKey(name: "ibu")
-    final Ibu ibu;
+    Ibu? ibu;
     @JsonKey(name: "pengukuran")
     final List<Pengukuran>? pengukuran;
 
@@ -54,8 +54,8 @@ class Data {
         required this.statusWasting,
         required this.usia,
         required this.kartuKeluarga,
-        required this.ayah,
-        required this.ibu,
+        this.ayah,
+        this.ibu,
         required this.pengukuran,
     });
 
@@ -67,19 +67,19 @@ class Data {
 @JsonSerializable()
 class Ayah {
     @JsonKey(name: "nama")
-    final String nama;
+    String? nama;
     @JsonKey(name: "rt")
-    final String rt;
+    String? rt;
     @JsonKey(name: "rw")
-    final String rw;
+    String? rw;
     @JsonKey(name: "alamat_lengkap")
-    final String alamatLengkap;
+    String? alamatLengkap;
 
     Ayah({
-        required this.nama,
-        required this.rt,
-        required this.rw,
-        required this.alamatLengkap,
+        this.nama,
+        this.rt,
+        this.rw,
+        this.alamatLengkap,
     });
 
     factory Ayah.fromJson(Map<String, dynamic> json) => _$AyahFromJson(json);
@@ -90,22 +90,22 @@ class Ayah {
 @JsonSerializable()
 class Ibu {
     @JsonKey(name: "nama")
-    final String nama;
+    String? nama;
     @JsonKey(name: "rt")
-    final String rt;
+    String? rt;
     @JsonKey(name: "rw")
-    final String rw;
+    String? rw;
     @JsonKey(name: "alamat_lengkap")
-    final String alamatLengkap;
+    String? alamatLengkap;
     @JsonKey(name: "dusun")
-    final Dusun dusun;
+    Dusun? dusun;
 
     Ibu({
-        required this.nama,
-        required this.rt,
-        required this.rw,
-        required this.alamatLengkap,
-        required this.dusun,
+        this.nama,
+        this.rt,
+        this.rw,
+        this.alamatLengkap,
+        this.dusun,
     });
 
     factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);

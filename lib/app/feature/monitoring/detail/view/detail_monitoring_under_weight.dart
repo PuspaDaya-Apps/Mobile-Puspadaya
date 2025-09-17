@@ -68,7 +68,7 @@ class _DetailMonitoringUnderWeightViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3.4;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Monitoring UnderWeight',
@@ -222,7 +222,7 @@ class _DetailMonitoringUnderWeightViewState
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.ayah.nama),
+                                        text: state.data.data.ayah?.nama ?? '-'),
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(16)),
@@ -234,7 +234,7 @@ class _DetailMonitoringUnderWeightViewState
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: state.data.data.ibu.nama),
+                                        text: state.data.data.ibu?.nama ?? '-'),
                                     SizedBox(
                                       height:
                                           SizeConfig.calHeightMultiplier(16),
@@ -254,28 +254,11 @@ class _DetailMonitoringUnderWeightViewState
                                       children: [
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state
-                                                  .data
-                                                  .data
-                                                  .ibu
-                                                  .dusun
-                                                  .desaKelurahan
-                                                  .kecamatan
-                                                  .kabupatenKota
-                                                  .provinsi
-                                                  .namaProvinsi),
+                                            text: state.data.data.ibu?.dusun?.desaKelurahan.kecamatan.kabupatenKota.provinsi.namaProvinsi ?? '-'),
                                         ),
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state
-                                                  .data
-                                                  .data
-                                                  .ibu
-                                                  .dusun
-                                                  .desaKelurahan
-                                                  .kecamatan
-                                                  .kabupatenKota
-                                                  .namaKabupatenKota),
+                                            text: state.data.data.ibu?.dusun?.desaKelurahan.kecamatan.kabupatenKota.namaKabupatenKota ?? '-'),
                                         )
                                       ],
                                     ),
@@ -287,24 +270,11 @@ class _DetailMonitoringUnderWeightViewState
                                       children: [
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state
-                                                  .data
-                                                  .data
-                                                  .ibu
-                                                  .dusun
-                                                  .desaKelurahan
-                                                  .kecamatan
-                                                  .namaKecamatan),
+                                            text: state.data.data.ibu?.dusun?.desaKelurahan.kecamatan.namaKecamatan ?? '-'),
                                         ),
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state
-                                                  .data
-                                                  .data
-                                                  .ibu
-                                                  .dusun
-                                                  .desaKelurahan
-                                                  .namaDesaKelurahan),
+                                            text: state.data.data.ibu?.dusun?.desaKelurahan.namaDesaKelurahan ?? '-'), 
                                         )
                                       ],
                                     ),
@@ -312,8 +282,7 @@ class _DetailMonitoringUnderWeightViewState
                                       height: SizeConfig.calHeightMultiplier(8),
                                     ),
                                     InfoFieldWidget(
-                                        text: state
-                                            .data.data.ibu.dusun.namaDusun),
+                                        text: state.data.data.ibu?.dusun?.namaDusun ?? '-'),
                                     SizedBox(
                                       height: SizeConfig.calHeightMultiplier(8),
                                     ),
@@ -322,11 +291,11 @@ class _DetailMonitoringUnderWeightViewState
                                       children: [
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.data.ibu.rt),
+                                              text: state.data.data.ibu?.rt ?? '-'),
                                         ),
                                         Expanded(
                                           child: InfoFieldWidget(
-                                              text: state.data.data.ibu.rw),
+                                              text: state.data.data.ibu?.rw ?? '-'),
                                         )
                                       ],
                                     ),
@@ -334,7 +303,7 @@ class _DetailMonitoringUnderWeightViewState
                                       height: SizeConfig.calHeightMultiplier(8),
                                     ),
                                     InfoFieldWidget(
-                                      text: state.data.data.ibu.alamatLengkap,
+                                      text: state.data.data.ibu?.alamatLengkap ?? '-'
                                     ),
                                   ],
                                 ),
