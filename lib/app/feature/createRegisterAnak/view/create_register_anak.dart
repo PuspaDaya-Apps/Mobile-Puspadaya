@@ -1040,6 +1040,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                               selectedStatusAnakKey.currentState!.validate();
                             },
                           ),
+                        SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         Column(
                           children: selectedDisabilityLabelsAnak.map((label) {
                             return ListTile(

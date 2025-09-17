@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -374,7 +375,13 @@ class DetailDataAnak extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK, arguments: detailResponse).then((value) {
+                Navigator.pushNamed(context, 
+                UPDATE_REGISTER_ANAK, 
+                arguments: PaketToUpdateRegisterAnak(
+                  data: detailResponse.data,
+                  statusAnak: statusAnak
+                )
+                ).then((value) {
                   if(value != null) {
                     detailRegisterAnakBloc.add(FeathingDetailRegisterAnak(anakId: anakId));
                   }

@@ -293,5 +293,6 @@ final List<String> selectStatusIbuHamil = [
 
 final List<String> selectStatusAnak = [
   'anak pindah', 
-  'anak meninggal'
+  'anak meninggal',
+  'tidak ada status'
 ];

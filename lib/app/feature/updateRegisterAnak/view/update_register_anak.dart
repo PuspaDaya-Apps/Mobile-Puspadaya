@@ -14,6 +14,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
+import '../../../model/paketToScreen/paketToUpdateRegisterAnak.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
@@ -26,15 +27,15 @@ import '../bloc/update_anak_bloc.dart';
 import '../model/update_anak_model.dart';
 
 class UpdateRegisterAnak extends StatelessWidget {
-  const UpdateRegisterAnak({super.key, required this.getDetailAnakResponse});
-  final GetDetailAnakResponse getDetailAnakResponse;
+  const UpdateRegisterAnak({super.key, required this.paketDataUpdateAnak});
+  final PaketToUpdateRegisterAnak paketDataUpdateAnak;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpdateAnakBloc(),
       child: UpdateRegisterAnakView(
-        getDetailAnakResponse: getDetailAnakResponse,
+        paketDataUpdateAnak: paketDataUpdateAnak,
       ),
     );
   }
@@ -42,8 +43,9 @@ class UpdateRegisterAnak extends StatelessWidget {
 
 class UpdateRegisterAnakView extends StatefulWidget {
   const UpdateRegisterAnakView(
-      {super.key, required this.getDetailAnakResponse});
-  final GetDetailAnakResponse getDetailAnakResponse;
+    {super.key, required this.paketDataUpdateAnak}
+  );
+  final PaketToUpdateRegisterAnak paketDataUpdateAnak;
 
   @override
   State<UpdateRegisterAnakView> createState() => _UpdateRegisterAnakViewState();
@@ -74,6 +76,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   String? selectedCaraLahir;
   String? selectedStatusKelahiran;
   String? selectedStatusOrangTuaAnak;
+  String? selectedStatusAnak;
 
   // ! focus node
   final FocusNode nikFocusNode = FocusNode();
@@ -90,6 +93,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   final FocusNode caraLahirFocusNode = FocusNode();
   final FocusNode statusKelahiranFocusNode = FocusNode();
   final FocusNode statusOrangTuaFocusNode = FocusNode();
+  FocusNode selectedStatusAnakFocusNode = FocusNode();
+
 
   // ! formfield key
   final GlobalKey<FormFieldState<String>> nikFormFieldKey =
@@ -120,6 +125,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
       GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> statusOrangTuaFormFieldKey =
       GlobalKey<FormFieldState<String>>();
+  final GlobalKey<FormFieldState> selectedStatusAnakKey = GlobalKey<FormFieldState>();
 
   void _toggleDisability(int index) {
     setState(() {
@@ -146,7 +152,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     logger.d("jarak posyandu update ${jarakPosyanduController.text}");
     if (_formKey.currentState!.validate()) {
       updateAnakBloc.add(UpdateAnak(
-          id: widget.getDetailAnakResponse.data.id,
+          id: widget.paketDataUpdateAnak.data.id,
           updateAnakModel: UpdateAnakModel(
               jarakPosyandu: double.tryParse(jarakPosyanduController.text) ?? 0,
               nik: nikController.text,
@@ -163,7 +169,11 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
               caraLahir: selectedCaraLahir!,
               statusKelahiran: selectedStatusKelahiran!,
               statusOrangTua: selectedStatusOrangTuaAnak!,
-              disabilitasAnak: selectedDisabilityLabelsAnak)));
+              disabilitasAnak: selectedDisabilityLabelsAnak,
+              anakPindah: selectedStatusAnak == 'anak pindah'
+                ? true : false,
+              anakMeninggal: selectedStatusAnak == 'anak meninggal'
+                ? true : false)));
     } else {
       logger.d("form tidak valid");
       final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -226,43 +236,47 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     //! textcontroller
     nomorKKController = TextEditingController(
         text:
-            widget.getDetailAnakResponse.data.kartuKeluarga.nomorKartuKeluarga);
+            widget.paketDataUpdateAnak.data.kartuKeluarga.nomorKartuKeluarga);
     nikController =
-        TextEditingController(text: widget.getDetailAnakResponse.data.nik);
+        TextEditingController(text: widget.paketDataUpdateAnak.data.nik);
     namaController =
-        TextEditingController(text: widget.getDetailAnakResponse.data.namaAnak);
+        TextEditingController(text: widget.paketDataUpdateAnak.data.namaAnak);
     anakKeController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.anakKe.toString());
+        text: widget.paketDataUpdateAnak.data.anakKe.toString());
     tempatLahirController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.tempatLahir);
+        text: widget.paketDataUpdateAnak.data.tempatLahir);
     tanggalLahirController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.tanggalLahir
+        text: widget.paketDataUpdateAnak.data.tanggalLahir
             .toString()
             .split(' ')[0]);
     lingkarLenganController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.lingkarLenganAtasLahir);
+        text: widget.paketDataUpdateAnak.data.lingkarLenganAtasLahir);
     lingkarKepalaController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.lingkarKepalaLahir);
+        text: widget.paketDataUpdateAnak.data.lingkarKepalaLahir);
     heightController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.tinggiBadanLahir);
+        text: widget.paketDataUpdateAnak.data.tinggiBadanLahir);
     weightController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.beratBadanLahir);
+        text: widget.paketDataUpdateAnak.data.beratBadanLahir);
     jarakPosyanduController = TextEditingController(
-        text: widget.getDetailAnakResponse.data.jarakPosyandu);
+        text: widget.paketDataUpdateAnak.data.jarakPosyandu);
 
     //! selected
-    selectedGender = widget.getDetailAnakResponse.data.jenisKelamin;
-    selectedCaraLahir = widget.getDetailAnakResponse.data.caraLahir;
-    selectedStatusKelahiran = widget.getDetailAnakResponse.data.statusKelahiran;
+    selectedGender = widget.paketDataUpdateAnak.data.jenisKelamin;
+    selectedCaraLahir = widget.paketDataUpdateAnak.data.caraLahir;
+    selectedStatusKelahiran = widget.paketDataUpdateAnak.data.statusKelahiran;
     selectedStatusOrangTuaAnak =
-        widget.getDetailAnakResponse.data.statusOrangTua;
+        widget.paketDataUpdateAnak.data.statusOrangTua;
+
+    if(widget.paketDataUpdateAnak.statusAnak != null) {
+      selectedStatusAnak = selectStatusAnak[widget.paketDataUpdateAnak.statusAnak!];
+    }
 
     debugPrint('Init state');
     debugPrint(
-        widget.getDetailAnakResponse.data.disabilitasAnak!.length.toString());
-    if (widget.getDetailAnakResponse.data.disabilitasAnak!.isNotEmpty) {
+        widget.paketDataUpdateAnak.data.disabilitasAnak!.length.toString());
+    if (widget.paketDataUpdateAnak.data.disabilitasAnak!.isNotEmpty) {
       debugPrint('not empty');
-      for (var value in widget.getDetailAnakResponse.data.disabilitasAnak!) {
+      for (var value in widget.paketDataUpdateAnak.data.disabilitasAnak!) {
         debugPrint(disabilities.contains(value.namaDisabilitas).toString());
         selectedDisabilityLabelsAnak.add(value.namaDisabilitas);
         if (disabilities.contains(value.namaDisabilitas)) {
@@ -695,6 +709,27 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                         selectedStatusOrangTuaAnak = value;
                       });
                       statusOrangTuaFormFieldKey.currentState!.validate();
+                    },
+                  ),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                  Text(
+                    'Status Anak',
+                    style: AppTextStyles.primaryTextNormal.copyWith(
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                  DropdownWidget2(
+                    formFieldKey: selectedStatusAnakKey,
+                    focusNode: selectedStatusAnakFocusNode,
+                    hint: 'Pilih Status Anak',
+                    items: selectStatusAnak,
+                    value: selectedStatusAnak,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedStatusAnak = value;
+                      });
+                      selectedStatusAnakKey.currentState!.validate();
                     },
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
