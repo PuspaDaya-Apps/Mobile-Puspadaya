@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:puspadaya/app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
+import '../../../../utils/constant/constanst.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../bloc/detail_register_anak_bloc.dart';
@@ -13,6 +15,7 @@ class DetailDataAnak extends StatelessWidget {
   final DetailRegisterAnakBloc detailRegisterAnakBloc;
   final String anakId;
   final GetDetailAnakResponse detailResponse;
+  int? statusAnak;
   // final List<String> disabilitas = [
   //   'Tunanetra',
   // ];
@@ -20,7 +23,8 @@ class DetailDataAnak extends StatelessWidget {
     super.key, 
     required this.detailResponse,
     required this.detailRegisterAnakBloc,
-    required this.anakId
+    required this.anakId,
+    required this.statusAnak
   });
 
   @override
@@ -283,6 +287,23 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
+            const Text(
+              'Status Anak',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            InfoFieldWidget(
+              text: statusAnak != null
+              ? selectStatusAnak[statusAnak!]
+              : '-'
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
+            ),
             hasDisabilities
                 ? ExpansionTile(
                     tilePadding: EdgeInsets.zero,
@@ -354,7 +375,13 @@ class DetailDataAnak extends StatelessWidget {
               color: goldPrimaryMain,
               mainButtonMessage: 'Perbarui',
               mainButton: () {
-                Navigator.pushNamed(context, UPDATE_REGISTER_ANAK, arguments: detailResponse).then((value) {
+                Navigator.pushNamed(context, 
+                UPDATE_REGISTER_ANAK, 
+                arguments: PaketToUpdateRegisterAnak(
+                  data: detailResponse.data,
+                  statusAnak: statusAnak
+                )
+                ).then((value) {
                   if(value != null) {
                     detailRegisterAnakBloc.add(FeathingDetailRegisterAnak(anakId: anakId));
                   }

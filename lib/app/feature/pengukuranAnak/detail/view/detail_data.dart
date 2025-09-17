@@ -119,7 +119,7 @@ class _DetailDataState extends State<DetailData> {
                         value: widget.detailPengukuranAnakResponseModel.data!.tinggiBadan,
                       ),
                       InfoFieldMeasuringWidget(
-                        title: 'Lengkar Lingan Atas',
+                        title: 'Lingkar Lengan Atas',
                         unit: 'cm',
                         tool: widget.detailPengukuranAnakResponseModel.data!.alatLingkarLengan.jenisAlat,
                         value: widget.detailPengukuranAnakResponseModel.data!

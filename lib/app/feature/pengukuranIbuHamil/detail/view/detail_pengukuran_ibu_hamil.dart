@@ -224,7 +224,7 @@ class _DetailPengukuranIbuHamilViewState
                                       .tinggiBadan,
                                 ),
                                 InfoFieldMeasuringWidget(
-                                  title: 'Lengkar Lingan Atas',
+                                  title: 'Lingkar Lengan Atas',
                                   unit: 'cm',
                                   tool: state
                                       .detailPengukuranIbuHamilResponseModel

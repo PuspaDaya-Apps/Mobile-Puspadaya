@@ -37,6 +37,11 @@ class CreateAnakModel {
   List<String> disabilitasAnak;
   Pengasuh? pengasuh;
 
+  @JsonKey(name: "pindah")
+  bool anakPindah = false;
+  @JsonKey(name: "meninggal")
+  bool anakMeninggal= false;
+
   CreateAnakModel({
     required this.jarakPosyandu,
     required this.nik,
@@ -55,6 +60,8 @@ class CreateAnakModel {
     required this.statusOrangTua,
     required this.disabilitasAnak,
     this.pengasuh,
+    required this.anakPindah,
+    required this.anakMeninggal
   });
 
   CreateAnakModel copyWith({
@@ -75,6 +82,8 @@ class CreateAnakModel {
     String? statusOrangTua,
     List<String>? disabilitasAnak,
     Pengasuh? pengasuh,
+    bool? anakPindah,
+    bool? anakMeninggal
   }) =>
       CreateAnakModel(
         jarakPosyandu: jarakPosyandu?? this.jarakPosyandu,
@@ -95,6 +104,8 @@ class CreateAnakModel {
         statusOrangTua: statusOrangTua ?? this.statusOrangTua,
         disabilitasAnak: disabilitasAnak ?? this.disabilitasAnak,
         pengasuh: pengasuh ?? this.pengasuh,
+        anakPindah: anakPindah ?? this.anakPindah,
+        anakMeninggal: anakMeninggal ?? this.anakMeninggal
       );
 
   factory CreateAnakModel.fromJson(Map<String, dynamic> json) =>
@@ -175,8 +186,10 @@ CreateAnakModel _$CreateAnakModelFromJson(Map<String, dynamic> json) =>
       pengasuh: json['pengasuh'] == null
           ? null
           : Pengasuh.fromJson(json['pengasuh'] as Map<String, dynamic>),
+      anakPindah: json['pindah'] as bool,
+      anakMeninggal: json['meninggal'] as bool,
     );
-
+    
 Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
     <String, dynamic>{
       'nik': instance.nik,
@@ -196,6 +209,8 @@ Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
       'status_orang_tua': instance.statusOrangTua,
       'disabilitas_anak': instance.disabilitasAnak,
       'pengasuh': instance.pengasuh,
+      'pindah': instance.anakPindah,
+      'meninggal': instance.anakMeninggal,
     };
 
 Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(

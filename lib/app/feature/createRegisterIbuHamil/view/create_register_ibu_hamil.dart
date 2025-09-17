@@ -100,10 +100,10 @@ class _CreateRegisterIbuHamilViewState
   final TextEditingController _tabletFeController = TextEditingController();
   final TextEditingController _catatanController = TextEditingController();
   TextEditingController _namaBPJSController = TextEditingController();
-  final TextEditingController _jarakPosyanduController =
-      TextEditingController();
+  final TextEditingController _jarakPosyanduController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
+  String? selectedStatusIbuHamil;
 
   bool boolNamaBPJS = false;
   String? selectedMemilikiBPJS;
@@ -131,6 +131,7 @@ class _CreateRegisterIbuHamilViewState
   final FocusNode _catatanFocusNode = FocusNode();
   final FocusNode _jarakPosyanduFocusNode = FocusNode();
   final FocusNode _selectedPosyanduFocusNode = FocusNode();
+  final FocusNode _selectedStatusIbuHamilFocusNode = FocusNode();
 
   //! form field key
   final GlobalKey<FormFieldState> nameKey = GlobalKey<FormFieldState>();
@@ -151,9 +152,8 @@ class _CreateRegisterIbuHamilViewState
   final GlobalKey<FormFieldState> catatanKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> jarakPosyanduKey =
       GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> selectedPosyanduKey =
-      GlobalKey<FormFieldState>();
-
+  final GlobalKey<FormFieldState> selectedPosyanduKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedStatusIbuHamilKey = GlobalKey<FormFieldState>();
   @override
   void initState() {
     super.initState();
@@ -254,11 +254,17 @@ class _CreateRegisterIbuHamilViewState
             namaBPJS: selectedRadioBPJS == 2
                 ? _namaBPJSController.text
                 : selectedNamaBPJS,
-            tanggalPengukuran:
-                DateFormat("y-MM-dd", "ID_id").format(DateTime.now()));
-        context
-            .read<CreateRegisterIbuHamilBloc>()
-            .add(PostCreateIbuHamil(postData));
+            tanggalPengukuran:DateFormat("y-MM-dd", "ID_id").format(DateTime.now()),
+            bayiLahirHidup: selectedStatusIbuHamil == 'bayi lahir hidup'
+                ? true : false,
+            bayiLahirMeninggal: selectedStatusIbuHamil == 'bayi lahir meninggal'
+                ? true : false,
+            ibuMeninggal: selectedStatusIbuHamil == 'ibu meninggal'
+                ? true : false,
+            lahirPindah: selectedStatusIbuHamil == 'lahir pindah'
+                ? true : false
+        );
+          context.read<CreateRegisterIbuHamilBloc>().add(PostCreateIbuHamil(postData));
       } else {
         logger.i("Form Tidak Boleh Kosong");
         final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -1012,6 +1018,27 @@ class _CreateRegisterIbuHamilViewState
                                       ],
                                     ),
                           //!
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                          Text(
+                            'Status Ibu Hamil',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          DropdownWidget2(
+                            formFieldKey: selectedStatusIbuHamilKey,
+                            focusNode: _selectedStatusIbuHamilFocusNode,
+                            hint: 'Pilih Status Ibu Hamil',
+                            items: selectStatusIbuHamil,
+                            value: selectedStatusIbuHamil,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedStatusIbuHamil = value;
+                              });
+                              selectedStatusIbuHamilKey.currentState!.validate();
+                            },
+                          ),
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
                             'Catatan',

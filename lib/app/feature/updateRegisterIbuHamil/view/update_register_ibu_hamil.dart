@@ -71,24 +71,19 @@ class UpdateRegisterIbuHamilView extends StatefulWidget {
   const UpdateRegisterIbuHamilView({super.key, required this.data});
 
   @override
-  State<UpdateRegisterIbuHamilView> createState() =>
-      UpdateRegisterIbuHamilViewState();
+  State<UpdateRegisterIbuHamilView> createState() => UpdateRegisterIbuHamilViewState();
 }
 
-class UpdateRegisterIbuHamilViewState
-    extends State<UpdateRegisterIbuHamilView> {
+class UpdateRegisterIbuHamilViewState extends State<UpdateRegisterIbuHamilView> {
   final _formKey = GlobalKey<FormState>();
   bool _isExpanded = false;
 
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _upperArmCircumferenceController =
-      TextEditingController();
-  final TextEditingController _uterineFundusHeightController =
-      TextEditingController();
+  final TextEditingController _upperArmCircumferenceController = TextEditingController();
+  final TextEditingController _uterineFundusHeightController = TextEditingController();
   final TextEditingController _hemoglobinController = TextEditingController();
-  final TextEditingController _firstDateHaidController =
-      TextEditingController();
+  final TextEditingController _firstDateHaidController = TextEditingController();
   final TextEditingController _lastDateHaidController = TextEditingController();
   int? exposedCigaretteSmoke = 0;
   final TextEditingController _tabletFeController = TextEditingController();
@@ -97,6 +92,7 @@ class UpdateRegisterIbuHamilViewState
   final TextEditingController _jarakController = TextEditingController();
 
   String selectedPosyandu = 'Posyandu';
+  String? selectedStatusIbuHamil;
 
   bool boolNamaBPJS = false;
   String? selectedMemilikiBPJS;
@@ -123,6 +119,7 @@ class UpdateRegisterIbuHamilViewState
   final FocusNode _catatanFocusNode = FocusNode();
   final FocusNode _jarakPosyanduFocusNode = FocusNode();
   final FocusNode _selectedPosyanduFocusNode = FocusNode();
+  final FocusNode _selectedStatusIbuHamilFocusNode = FocusNode();
 
   //! form field key
   final GlobalKey<FormFieldState> nameKey = GlobalKey<FormFieldState>();
@@ -145,6 +142,7 @@ class UpdateRegisterIbuHamilViewState
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> selectedPosyanduKey =
       GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> selectedStatusIbuHamilKey = GlobalKey<FormFieldState>();
 
   Future<void> _selectDateFirstHaid(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -270,6 +268,9 @@ class UpdateRegisterIbuHamilViewState
         boolNamaBPJS = true;
         selectedMemilikiBPJS = "Iya";
     }
+    if(widget.data.statusIbuHamil != null) {
+      selectedStatusIbuHamil = selectStatusIbuHamil[widget.data.statusIbuHamil!];
+    }
 
     super.initState();
   }
@@ -315,7 +316,17 @@ class UpdateRegisterIbuHamilViewState
           memilkiBPJS: selectedMemilikiBPJS!,
           namaBPJS: selectedRadioBPJS == 2
               ? _namaBPJSController.text
-              : selectedNamaBPJS);
+              : selectedNamaBPJS,
+          bayiLahirHidup: selectedStatusIbuHamil == 'bayi lahir hidup'
+                ? true : false,
+          bayiLahirMeninggal: selectedStatusIbuHamil == 'bayi lahir meninggal'
+                ? true : false,
+          ibuMeninggal: selectedStatusIbuHamil == 'ibu meninggal'
+                ? true : false,
+          lahirPindah: selectedStatusIbuHamil == 'lahir pindah'
+                ? true : false
+          );
+          
 
       context
           .read<UpdateRegisterIbuHamilBloc>()
@@ -1035,6 +1046,28 @@ class UpdateRegisterIbuHamilViewState
                                       ],
                                     ),
                           //!
+                          Text(
+                            'Status Ibu Hamil',
+                            style: AppTextStyles.primaryTextNormal.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          DropdownWidget2(
+                            formFieldKey: selectedStatusIbuHamilKey,
+                            focusNode: _selectedStatusIbuHamilFocusNode,
+                            hint: 'Pilih Status Ibu Hamil',
+                            items: selectStatusIbuHamil,
+                            value: selectedStatusIbuHamil,
+                            onChanged: (value) {
+                                 setState(() {
+                                selectedStatusIbuHamil = value;
+                              });
+                              selectedStatusIbuHamilKey.currentState!.validate();
+                            },
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+
                           SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                           Text(
                             'Catatan',

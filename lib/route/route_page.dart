@@ -92,6 +92,7 @@ import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_k
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
 import '../app/model/current_user_model.dart';
+import '../app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 import '../app/model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
 import '../app/model/paketToScreen/paket_to_update_pengasuh_model.dart';
@@ -415,7 +416,7 @@ class MyRoute {
       case UPDATE_REGISTER_ANAK:
         return MaterialPageRoute(
           builder: (context) => UpdateRegisterAnak(
-            getDetailAnakResponse: settings.arguments as GetDetailAnakResponse,
+            paketDataUpdateAnak: settings.arguments as PaketToUpdateRegisterAnak,
           ),
           settings: settings,
         );

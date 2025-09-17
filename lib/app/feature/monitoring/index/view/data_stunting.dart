@@ -81,7 +81,7 @@ class _DataStuntingViewState extends State<DataStuntingView> {
                   },
                   name: '${dataStunting.namaAnak}',
                   nik: '${dataStunting.nik}',
-                  gender: 'laki laki',
+                  // gender: 'laki laki',
                   month: HelperData().extractMonths(dataStunting.usia),
                   year: HelperData().extractYears(dataStunting.usia),
                 ),

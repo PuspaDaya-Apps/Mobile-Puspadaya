@@ -50,10 +50,20 @@ class DetailRegisterAnakBloc
         final GetDetailAnakResponse getDetailAnakResponse =
             GetDetailAnakResponse.fromJson(responseDetail[1]);
         logger.d('status code Detail is 200 ${getDetailAnakResponse.data}');
+        int? statusAnak;
+
+        if(getDetailAnakResponse.data.anakPindah) {
+          statusAnak = 0;
+        }
+        if(getDetailAnakResponse.data.anakMeninggal) {
+          statusAnak = 1;
+        }
+
         emit(
           DetailRegisterAnakSuccess(
             dataGrafik: dataGrafik,
-              getDetailRegisterAnak: getDetailAnakResponse),
+            getDetailRegisterAnak: getDetailAnakResponse,
+            statusAnak: statusAnak),
         );
       }
     } catch (e) {

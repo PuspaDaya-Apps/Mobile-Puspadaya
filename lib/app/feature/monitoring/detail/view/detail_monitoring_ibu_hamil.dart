@@ -52,7 +52,7 @@ class _DetailMonitoringIbuHamilViewState
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 2.9;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3.4;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Monitoring Ibu Hamil',

@@ -81,7 +81,7 @@ class _DataUnderWeightViewState extends State<DataUnderWeightView> {
                   },
                   name: '${dataUnderWight.namaAnak}',
                   nik: '${dataUnderWight.nik}',
-                  gender: 'laki laki',
+                  // gender: 'laki laki',
                   month: HelperData().extractMonths(dataUnderWight.usia),
                   year: HelperData().extractYears(dataUnderWight.usia),
                 ),

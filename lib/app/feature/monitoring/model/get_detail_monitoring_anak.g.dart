@@ -31,8 +31,12 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       usia: json['usia'] as String,
       kartuKeluarga: KartuKeluarga.fromJson(
           json['kartu_keluarga'] as Map<String, dynamic>),
-      ayah: Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
-      ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
+      ayah: json['ayah'] == null
+          ? null
+          : Ayah.fromJson(json['ayah'] as Map<String, dynamic>),
+      ibu: json['ibu'] == null
+          ? null
+          : Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
       pengukuran: (json['pengukuran'] as List<dynamic>?)
           ?.map((e) => Pengukuran.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -54,10 +58,10 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(
-      nama: json['nama'] as String,
-      rt: json['rt'] as String,
-      rw: json['rw'] as String,
-      alamatLengkap: json['alamat_lengkap'] as String,
+      nama: json['nama'] as String?,
+      rt: json['rt'] as String?,
+      rw: json['rw'] as String?,
+      alamatLengkap: json['alamat_lengkap'] as String?,
     );
 
 Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
@@ -68,11 +72,13 @@ Map<String, dynamic> _$AyahToJson(Ayah instance) => <String, dynamic>{
     };
 
 Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
-      nama: json['nama'] as String,
-      rt: json['rt'] as String,
-      rw: json['rw'] as String,
-      alamatLengkap: json['alamat_lengkap'] as String,
-      dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+      nama: json['nama'] as String?,
+      rt: json['rt'] as String?,
+      rw: json['rw'] as String?,
+      alamatLengkap: json['alamat_lengkap'] as String?,
+      dusun: json['dusun'] == null
+          ? null
+          : Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{

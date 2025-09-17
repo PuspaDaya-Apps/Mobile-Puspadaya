@@ -5,7 +5,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 class RiwayatAnakItems extends StatelessWidget {
   final String name;
   final String nik;
-  final String gender;
+  final String? gender;
   final int? year;
   final int? month;
   final VoidCallback onTap;
@@ -17,7 +17,7 @@ class RiwayatAnakItems extends StatelessWidget {
     this.month,
     required this.name,
     required this.nik,
-    required this.gender,
+    this.gender,
   });
 
   @override
@@ -54,7 +54,7 @@ class RiwayatAnakItems extends StatelessWidget {
                   flex: 3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'NIK : ${nik}',
@@ -62,12 +62,14 @@ class RiwayatAnakItems extends StatelessWidget {
                           fontSize: 10,
                         ),
                       ),
-                      Text(
-                        '$gender',
+                      gender != null 
+                      ? Text(
+                        gender!,
                         style: AppTextStyles.primaryTextMedium.copyWith(
                           fontSize: 12,
                         ),
-                      ),
+                      )
+                      : SizedBox.shrink()
                     ],
                   ),
                 ),
