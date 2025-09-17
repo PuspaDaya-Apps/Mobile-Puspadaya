@@ -290,3 +290,8 @@ final List<String> selectStatusIbuHamil = [
   'lahir pindah',
   'tidak ada status'
 ];
+
+final List<String> selectStatusAnak = [
+  'anak pindah', 
+  'anak meninggal'
+];
