@@ -81,7 +81,7 @@ class _DataWastingViewState extends State<DataWastingView> {
                   },
                   name: '${dataWasting.namaAnak}',
                   nik: '${dataWasting.nik}',
-                  gender: 'laki laki',
+                  // gender: 'laki laki',
                   month: HelperData().extractMonths(dataWasting.usia),
                   year: HelperData().extractYears(dataWasting.usia),
                 ),
