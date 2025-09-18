@@ -42,9 +42,12 @@ dependencies:
   equatable: ^2.0.5
   external_path: ^2.0.1
   file_picker: ^9.0.2
-  firebase_analytics: ^11.4.1
-  firebase_core: ^3.10.1
-  firebase_crashlytics: ^4.3.1
+  # firebase_analytics: ^11.4.1
+  # firebase_core: ^3.10.1
+  # firebase_crashlytics: ^4.3.1
+  firebase_analytics: ^11.5.2 #^11.4.1
+  firebase_core: ^3.15.2 #^3.10.1
+  firebase_crashlytics: ^4.3.1 #^4.3.1
   fl_chart: ^0.70.0
   fluentui_system_icons: ^1.1.270
   flutter:
@@ -96,7 +99,8 @@ dev_dependencies:
 flutter_native_splash: null
 
 icons_launcher:
-  image_path: "assets/logo/logo_big_frame.png"
+  # image_path: "assets/logo/logo_big_frame.png"
+  image_path: "assets/logo/logo_big_frame_staging.png"
   platforms:
     android:
       enable: true
