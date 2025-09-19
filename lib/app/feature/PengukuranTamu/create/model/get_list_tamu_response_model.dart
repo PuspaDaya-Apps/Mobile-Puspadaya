@@ -52,12 +52,12 @@ class KartuKeluarga {
   String id;
   @JsonKey(name: 'nomor_kartu_keluarga')
   String nomorKartuKeluarga;
-  Ibu ibu;
+  Ibu? ibu;
 
   KartuKeluarga({
     required this.id,
     required this.nomorKartuKeluarga,
-    required this.ibu,
+    this.ibu,
   });
 
   factory KartuKeluarga.fromJson(Map<String, dynamic> json) => _$KartuKeluargaFromJson(json);
@@ -68,10 +68,10 @@ class KartuKeluarga {
 //@JsonSerializable()
 class Ibu {
   @JsonKey(name: 'nama_ibu')
-  String namaIbu;
+  String? namaIbu;
 
   Ibu({
-    required this.namaIbu,
+    this.namaIbu,
   });
 
   factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);
@@ -83,11 +83,11 @@ class Ibu {
 class Pengukuran {
   @JsonKey(name: 'tanggal_pengukuran')
   DateTime tanggalPengukuran;
-  Posyandu posyandu;
+  Posyandu? posyandu;
 
   Pengukuran({
     required this.tanggalPengukuran,
-    required this.posyandu
+    this.posyandu
   });
 
   factory Pengukuran.fromJson(Map<String, dynamic> json) => _$PengukuranFromJson(json);
@@ -98,10 +98,10 @@ class Pengukuran {
 //@JsonSerializable()
 class Posyandu {
   @JsonKey(name: 'nama_posyandu')
-  String namaPosyandu;
+  String? namaPosyandu;
 
   Posyandu({
-    required this.namaPosyandu,
+    this.namaPosyandu,
   });
 
   factory Posyandu.fromJson(Map<String, dynamic> json) => _$PosyanduFromJson(json);
@@ -175,7 +175,9 @@ KartuKeluarga _$KartuKeluargaFromJson(Map<String, dynamic> json) =>
     KartuKeluarga(
       id: json['id'] as String,
       nomorKartuKeluarga: json['nomor_kartu_keluarga'] as String,
-      ibu: Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
+      ibu: json['ibu'] == null
+      ? null 
+      : Ibu.fromJson(json['ibu'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
@@ -186,7 +188,7 @@ Map<String, dynamic> _$KartuKeluargaToJson(KartuKeluarga instance) =>
     };
 
 Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
-      namaIbu: json['nama_ibu'] as String,
+      namaIbu: json['nama_ibu'] as String?,
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
@@ -195,7 +197,9 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
 
 Pengukuran _$PengukuranFromJson(Map<String, dynamic> json) => Pengukuran(
       tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
-      posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
+      posyandu: json['posyandu'] == null
+      ? null
+      : Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>
@@ -205,7 +209,7 @@ Map<String, dynamic> _$PengukuranToJson(Pengukuran instance) =>
     };
 
 Posyandu _$PosyanduFromJson(Map<String, dynamic> json) => Posyandu(
-      namaPosyandu: json['nama_posyandu'] as String,
+      namaPosyandu: json['nama_posyandu'] as String?,
     );
 
 Map<String, dynamic> _$PosyanduToJson(Posyandu instance) => <String, dynamic>{

@@ -157,8 +157,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                         onTap: () {
                           String nama = filteredList[index].namaAnak;
                           String nik = filteredList[index].nik;
-                          String namaIbu =
-                              filteredList[index].kartuKeluarga.ibu.namaIbu;
+                          String namaIbu = filteredList[index].kartuKeluarga.ibu?.namaIbu ?? '-';
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -214,11 +213,9 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                         height:
                                             SizeConfig.calHeightMultiplier(8)),
                                     InfoFieldWidget(
-                                        text: filteredList[index]
-                                                .pengukuran
-                                                ?.posyandu
-                                                .namaPosyandu ??
-                                            "Belum Melakukan Pengukuran"),
+                                        text: filteredList[index].pengukuran != null 
+                                          ? filteredList[index].pengukuran!.posyandu?.namaPosyandu ?? '-' 
+                                          : "Belum Melakukan Pengukuran" ),
                                     SizedBox(
                                         height:
                                             SizeConfig.calHeightMultiplier(16)),
@@ -323,10 +320,7 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: filteredList[index]
-                                        .kartuKeluarga
-                                        .ibu
-                                        .namaIbu,
+                                    text: filteredList[index].kartuKeluarga.ibu?.namaIbu ?? '-',
                                     style: AppTextStyles.primaryTextNormal
                                         .copyWith(
                                       fontSize: 12,
