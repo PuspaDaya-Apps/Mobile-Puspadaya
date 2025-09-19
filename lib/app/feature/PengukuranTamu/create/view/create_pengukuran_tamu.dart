@@ -77,8 +77,7 @@ class _CreatePengukuranTamuViewState extends State<CreatePengukuranTamuView> {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController upperArmCircumferenceController =
-      TextEditingController();
+TextEditingController upperArmCircumferenceController = TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController catatanController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
