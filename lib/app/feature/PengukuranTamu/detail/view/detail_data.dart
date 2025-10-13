@@ -202,6 +202,53 @@ class _DetailDataState extends State<DetailData> {
                     spacing: 8,
                     children: [
                       const Text(
+                        'Vitamin A',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      InfoFieldWidget(
+                        text: widget.detailPengukuranTamuResponseModel.data!.vitaminA == null || widget.detailPengukuranTamuResponseModel.data!.vitaminA! == false
+                        ? 'Tidak'
+                        : 'Iya'
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    spacing: 8,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Obat Cacing',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      InfoFieldWidget(
+                        text: widget.detailPengukuranTamuResponseModel.data!.obatCacing == null || widget.detailPengukuranTamuResponseModel.data!.obatCacing! == false
+                        ? 'Tidak'
+                        : 'Iya'
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 8,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 8,
+                    children: [
+                      const Text(
                         'Status Stunting',
                         style: TextStyle(
                           fontSize: 12,

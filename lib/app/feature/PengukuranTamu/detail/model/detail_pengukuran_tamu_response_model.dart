@@ -52,6 +52,11 @@ class Data {
   AlatUkur alatTinggiBadan;
   @JsonKey(name: "alat_lingkar_lengan")
   AlatUkur alatLingkarLengan;
+  @JsonKey(name : 'vitamin_a')
+  bool? vitaminA;
+  @JsonKey(name : 'obat_cacing')
+  bool? obatCacing;
+
   Posyandu posyandu;
   Kader kader;
   String catatan;
@@ -79,7 +84,9 @@ class Data {
     required this.kader,
     required this.posyandu,
     required this.catatan,
-    required this.keluhan
+    required this.keluhan,
+    this.vitaminA,
+    this.obatCacing
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -195,6 +202,8 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
           json['alat_lingkar_lengan'] as Map<String, dynamic>),
       alatTinggiBadan:
           AlatUkur.fromJson(json['alat_tinggi_badan'] as Map<String, dynamic>),
+      vitaminA: json['vitamin_a'] as bool?,
+      obatCacing: json['obat_cacing'] as bool?,
       kader: Kader.fromJson(json['kader'] as Map<String, dynamic>),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       catatan: json['catatan'] as String,
@@ -220,6 +229,8 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'alat_lingkar_kepala': instance.alatLingkarKepala,
       'alat_tinggi_badan': instance.alatTinggiBadan,
       'alat_lingkar_lengan': instance.alatLingkarLengan,
+      'vitamin_a': instance.vitaminA,
+      'obat_cacing': instance.obatCacing,
       'posyandu': instance.posyandu,
       'kader': instance.kader,
       'catatan': instance.catatan,
