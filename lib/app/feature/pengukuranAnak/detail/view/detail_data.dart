@@ -191,6 +191,54 @@ class _DetailDataState extends State<DetailData> {
                     spacing: 8,
                     children: [
                       const Text(
+                        'Vitamin A',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      InfoFieldWidget(
+                        text: widget.detailPengukuranAnakResponseModel.data!.vitaminA == null || widget.detailPengukuranAnakResponseModel.data!.vitaminA! == false
+                        ? 'Tidak'
+                        : 'Iya'
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    spacing: 8,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Obat Cacing',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ),
+                      InfoFieldWidget(
+                        text: widget.detailPengukuranAnakResponseModel.data!.obatCacing == null || widget.detailPengukuranAnakResponseModel.data!.obatCacing! == false
+                        ? 'Tidak'
+                        : 'Iya'
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 8,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 8,
+                    children: [
+                      const Text(
                         'Status Stunting',
                         style: TextStyle(
                           fontSize: 12,
