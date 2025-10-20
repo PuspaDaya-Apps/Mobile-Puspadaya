@@ -96,6 +96,9 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
   String? asiEksklusifValue = '0';
   String? mpasiValue = '0';
 
+  int? vitaminAValue = 0;
+  int? obatCacingValue = 0;
+
   AlatUkurSaveModel alatUkurAnak = AlatUkurSaveModel();
   AlatUkurResponseModel? listAlatUkur;
 
@@ -708,8 +711,114 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                         : SizedBox.shrink(),
                                   ],
                                 ),
-                                SizedBox(
-                                    height: SizeConfig.calHeightMultiplier(16)),
+                                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                                //section vitamin A and obat cacing
+                                Row(
+                                  children: [
+                                    //Vitamin A
+                                    DateTime.now().month == DateTime.february || DateTime.now().month == DateTime.august
+                                    ? Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Vitamin A',
+                                            style: AppTextStyles.primaryTextNormal.copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: SizeConfig.calHeightMultiplier(8),
+                                          ),
+                                          // radio button
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              CustomRadioButton(
+                                                value: 1,
+                                                groupValue: vitaminAValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    vitaminAValue = value;
+                                                  });
+                                                },
+                                                label: 'Ya',
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig.calHeightMultiplier(16),
+                                              ),
+                                              CustomRadioButton(
+                                                value: 0,
+                                                groupValue: vitaminAValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    vitaminAValue = value;
+                                                  });
+                                                },
+                                                label: 'Tidak',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    )
+                                    : SizedBox.shrink(),
+
+                                    //Obat Cacing
+                                    DateTime.now().month == DateTime.march || DateTime.now().month == DateTime.september
+                                    ? Expanded(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Obat Cacing',
+                                            style: AppTextStyles.primaryTextNormal.copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: SizeConfig.calHeightMultiplier(8),
+                                          ),
+                                          // radio button
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              CustomRadioButton(
+                                                value: 1,
+                                                groupValue: obatCacingValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    obatCacingValue = value;
+                                                  });
+                                                },
+                                                label: 'Ya',
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig.calHeightMultiplier(16),
+                                              ),
+                                              CustomRadioButton(
+                                                value: 0,
+                                                groupValue: obatCacingValue!,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    obatCacingValue = value;
+                                                  });
+                                                },
+                                                label: 'Tidak',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    )
+                                    : SizedBox.shrink(),
+                                  ]
+                                ),
+                                SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                                 const Text(
                                   'Catatan',
                                   style: TextStyle(
@@ -920,6 +1029,8 @@ class _CreatePengukuranAnakViewState extends State<CreatePengukuranAnakView> {
                                                                 alatLingkarKepalaId: alatUkurAnak.alatUkurLingkarLengan?.id,
                                                                 asiEksklusif: asiEksklusifValue == "1" ? "Iya" : (asiEksklusifValue == "0" ? "Tidak" : "-"),
                                                                 mpasi: mpasiValue == "1" ? "Iya" : (mpasiValue == "0" ? "Tidak" : "-"),
+                                                                vitaminA: vitaminAValue == 1 ? true : false,
+                                                                obatCacing: obatCacingValue == 1 ? true : false,
                                                                 keluhan: keluhanController.text,
                                                                 catatan: catatanController.text,
                                                                 anakId: paket.id

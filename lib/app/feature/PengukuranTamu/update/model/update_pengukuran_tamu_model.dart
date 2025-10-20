@@ -32,6 +32,11 @@ class UpdatePengukuranTamuModel {
   @JsonKey(name : 'asi_eksklusif')
   String? asiEksklusif;
   String? mpasi;
+  @JsonKey(name : 'vitamin_a')
+  bool? vitaminA;
+  @JsonKey(name : 'obat_cacing')
+  bool? obatCacing;
+
   String? catatan;
   String? keluhan;
 
@@ -49,6 +54,9 @@ class UpdatePengukuranTamuModel {
     this.alatLingkarKepalaId,
     this.asiEksklusif,
     this.mpasi,
+    this.vitaminA,
+    this.obatCacing,
+
     this.keluhan,
     this.catatan,
   });
@@ -74,6 +82,8 @@ UpdatePengukuranTamuModel _$UpdatePengukuranTamuModelFromJson(
       alatLingkarKepalaId: json['alat_lingkar_kepala_id'] as String?,
       asiEksklusif: json['asi_eksklusif'] as String?,
       mpasi: json['mpasi'] as String?,
+      vitaminA: json['vitamin_a'] as bool?,
+      obatCacing: json['obat_cacing'] as bool?,
       keluhan: json['keluhan'] as String?,
       catatan: json['catatan'] as String?,
     );
@@ -93,6 +103,8 @@ Map<String, dynamic> _$UpdatePengukuranTamuModelToJson(
       'alat_lingkar_kepala_id': instance.alatLingkarKepalaId,
       'asi_eksklusif': instance.asiEksklusif,
       'mpasi': instance.mpasi,
+      'vitamin_a': instance.vitaminA,
+      'obat_cacing': instance.obatCacing,
       'catatan': instance.catatan,
       'keluhan': instance.keluhan,
     };

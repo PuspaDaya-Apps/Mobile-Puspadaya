@@ -93,6 +93,9 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
   late int asiEksklusifValue;
   late int mpasiValue;
 
+  late int vitaminAValue;
+  late int obatCacingValue;
+
   AlatUkurSaveModel alatUkurAnak = AlatUkurSaveModel();
   AlatUkurSaveModel? alatUkurAnakSend;
   AlatUkurResponseModel? listAlatUkur;
@@ -159,6 +162,26 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
         asiEksklusifValue = 1;
       } else {
         asiEksklusifValue = 0;
+      }
+    }
+
+    if (widget.paket.data.data!.vitaminA == null) {
+      vitaminAValue = 0;
+    } else {
+      if (widget.paket.data.data!.vitaminA == true) {
+        vitaminAValue = 1;
+      } else {
+        vitaminAValue = 0;
+      }
+    }
+
+    if (widget.paket.data.data!.obatCacing == null) {
+      obatCacingValue = 0;
+    } else {
+      if (widget.paket.data.data!.obatCacing == true) {
+        obatCacingValue = 1;
+      } else {
+        obatCacingValue = 0;
       }
     }
 
@@ -414,6 +437,52 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    Text(
+                                      'Vitamin A',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    // radio button
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        CustomRadioButton(
+                                          value: 1,
+                                          groupValue: vitaminAValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              vitaminAValue = value;
+                                            });
+                                          },
+                                          label: 'Ya',
+                                        ),
+                                        SizedBox(
+                                          width: SizeConfig.calHeightMultiplier(
+                                              16),
+                                        ),
+                                        CustomRadioButton(
+                                          value: 0,
+                                          groupValue: vitaminAValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              vitaminAValue = value;
+                                            });
+                                          },
+                                          label: 'Tidak',
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
@@ -486,6 +555,52 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                           onChanged: (value) {
                                             setState(() {
                                               mpasiValue = value;
+                                            });
+                                          },
+                                          label: 'Tidak',
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(16),
+                                    ),
+                                    Text(
+                                      'Obat Cacing',
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.calHeightMultiplier(8),
+                                    ),
+                                    // radio button
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        CustomRadioButton(
+                                          value: 1,
+                                          groupValue: obatCacingValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              obatCacingValue = value;
+                                            });
+                                          },
+                                          label: 'Ya',
+                                        ),
+                                        SizedBox(
+                                          width: SizeConfig.calHeightMultiplier(
+                                              16),
+                                        ),
+                                        CustomRadioButton(
+                                          value: 0,
+                                          groupValue: obatCacingValue,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              obatCacingValue = value;
                                             });
                                           },
                                           label: 'Tidak',
@@ -600,6 +715,12 @@ class _UpdatePengukuranAnakViewState extends State<UpdatePengukuranAnakView> {
                                               : mpasiValue == 1
                                                   ? 'Iya'
                                                   : 'Tidak',
+                                          vitaminA: vitaminAValue == 1
+                                              ? true
+                                              : false,
+                                          obatCacing: obatCacingValue == 1 
+                                              ? true
+                                              : false,
                                           tanggalPengukuran: widget.paket.data.data!.tanggalPengukuran,
                                           catatan: catatanController.text,
                                           keluhan: keluhanController.text,
