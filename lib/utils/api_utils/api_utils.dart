@@ -4,8 +4,10 @@ part 'api_name.dart';
 
 class ApiUtils {
   //!Base URL
+
   final String _baseUrl = "http://rkc8kowwc8og4ggo4ww0kw4o.103.109.210.102.sslip.io"; //! staging
   // final String _baseUrl = "http://ssc80wssow48gsgwwg8888s4.103.109.210.102.sslip.io"; //! production
+
   // final String _baseUrl = "https://40vg7x7b-8080.asse.devtunnels.ms";
   // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
