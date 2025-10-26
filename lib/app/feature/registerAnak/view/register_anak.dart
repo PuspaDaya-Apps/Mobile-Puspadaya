@@ -159,9 +159,9 @@ class RegisterAnakViewState extends State<RegisterAnakView> {
                                 gender: anak.jenisKelamin,
                                 tahun: anak.year,
                                 bulan: anak.bulan,
-                                isUpdate:
-                                    anak.updatedAtAnak != null ? true : null,
+                                isUpdate: anak.updatedAtAnak != null ? true : null,
                                 inRegister: true,
+                                status: anak.status,
                               ),
                             );
                           },
