@@ -38,11 +38,11 @@ class Data {
   @JsonKey(name: "asi_eksklusif")
   String asiEksklusif;
   @JsonKey(name: "status_stunting")
-  String statusStunting;
+  String? statusStunting;
   @JsonKey(name: "status_gizi")
-  String statusGizi;
+  String? statusGizi;
   @JsonKey(name: "status_wasting")
-  String statusWasting;
+  String? statusWasting;
   Anak anak;
   @JsonKey(name: "alat_berat_badan")
   AlatUkur alatBeratBadan;
@@ -73,9 +73,9 @@ class Data {
     required this.lingkarKepala,
     required this.mpasi,
     required this.asiEksklusif,
-    required this.statusStunting,
-    required this.statusGizi,
-    required this.statusWasting,
+    this.statusStunting,
+    this.statusGizi,
+    this.statusWasting,
     required this.anak,
     required this.alatBeratBadan,
     required this.alatLingkarKepala,
@@ -190,9 +190,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       lingkarKepala: json['lingkar_kepala'] as String,
       mpasi: json['mpasi'] as String,
       asiEksklusif: json['asi_eksklusif'] as String,
-      statusStunting: json['status_stunting'] as String,
-      statusGizi: json['status_gizi'] as String,
-      statusWasting: json['status_wasting'] as String,
+      statusStunting: json['status_stunting'] as String?,
+      statusGizi: json['status_gizi'] as String?,
+      statusWasting: json['status_wasting'] as String?,
       anak: Anak.fromJson(json['anak'] as Map<String, dynamic>),
       alatBeratBadan:
           AlatUkur.fromJson(json['alat_berat_badan'] as Map<String, dynamic>),

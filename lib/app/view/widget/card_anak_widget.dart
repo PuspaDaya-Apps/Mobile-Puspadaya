@@ -13,7 +13,8 @@ class CardAnakWidget extends StatelessWidget {
       super.key,
       required this.onTap,
       this.isUpdate,
-      this.inRegister = false});
+      this.inRegister = false,
+      this.status});
 
   final String nama;
   final String nik;
@@ -23,6 +24,7 @@ class CardAnakWidget extends StatelessWidget {
   final VoidCallback onTap;
   final bool? isUpdate;
   final bool inRegister;
+  final String? status;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class CardAnakWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "NIK : $nik",
+                            nik,
                             style: TextStyle(
                                 color: textPrimary10.withOpacity(0.7),
                                 fontSize: SizeConfig.calMultiplierText(12),
@@ -95,6 +97,19 @@ class CardAnakWidget extends StatelessWidget {
                                 color: textPrimary10.withOpacity(0.7),
                                 fontSize: SizeConfig.calMultiplierText(12),
                                 fontWeight: FontWeight.w400),
+                          ),
+                          status == null
+                          ? SizedBox.shrink()
+                          : Text(
+                            status!,
+                            style: TextStyle(
+                                color: status! == 'aktif'
+                                ?greenPrimary40
+                                : status! == 'pindah'
+                                ? goldPrimaryMain
+                                :redPrimaryMain,
+                                fontSize: SizeConfig.calMultiplierText(12),
+                                fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),

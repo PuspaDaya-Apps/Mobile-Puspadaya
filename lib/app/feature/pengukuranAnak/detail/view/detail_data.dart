@@ -245,8 +245,7 @@ class _DetailDataState extends State<DetailData> {
                         ),
                       ),
                       InfoFieldWidget(
-                          text: widget.detailPengukuranAnakResponseModel.data!
-                              .statusStunting),
+                          text: widget.detailPengukuranAnakResponseModel.data!.statusStunting ?? '-'),
                     ],
                   ),
                 ),
@@ -263,8 +262,7 @@ class _DetailDataState extends State<DetailData> {
                         ),
                       ),
                       InfoFieldWidget(
-                          text: widget.detailPengukuranAnakResponseModel.data!
-                              .statusGizi),
+                          text: widget.detailPengukuranAnakResponseModel.data!.statusGizi ?? '-'),
                     ],
                   ),
                 ),
@@ -283,8 +281,7 @@ class _DetailDataState extends State<DetailData> {
                   ),
                 ),
                 InfoFieldWidget(
-                    text: widget.detailPengukuranAnakResponseModel.data!
-                        .statusWasting),
+                    text: widget.detailPengukuranAnakResponseModel.data!.statusWasting ?? '-'),
               ],
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
