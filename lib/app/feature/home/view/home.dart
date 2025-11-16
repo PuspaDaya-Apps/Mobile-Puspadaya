@@ -130,15 +130,13 @@ class _HomeViewState extends State<HomeView> {
                         'total point ${state.totalPointResponseModel.totalSkorKeseluruhan.toString()}');
                     if (state.jadwal == null) {
                       return CardListActivity(
-                        totalPoint:
-                            state.totalPointResponseModel.totalSkorKeseluruhan,
+                        totalPoint: state.totalPointResponseModel.totalSkorKeseluruhan,
                         date: DateTime.now(),
                         location: widget.currentUserModel.posyandu.namaPosyandu,
                       );
                     }
                     return JadwalCard(
-                        totalPoint:
-                            state.totalPointResponseModel.totalSkorKeseluruhan,
+                        totalPoint: state.totalPointResponseModel.totalSkorKeseluruhan,
                         date: state.jadwal!.tanggalPelaksanaan,
                         name: state.jadwal!.namaKegiatan,
                         timeStart: state.jadwal!.waktuMulai,
@@ -322,7 +320,7 @@ class CardCarousel extends StatelessWidget {
 class CardListActivity extends StatelessWidget {
   final DateTime date;
   final String location;
-  final int totalPoint;
+  final num totalPoint;
   static const List<String> months = [
     'Januari',
     'Februari',
@@ -465,7 +463,7 @@ class JadwalCard extends StatelessWidget {
   final DateTime timeStart;
   final DateTime timeEnd;
   final String location;
-  final int totalPoint;
+  final num totalPoint;
   final List<String> months = [
     'Januari',
     'Februari',
