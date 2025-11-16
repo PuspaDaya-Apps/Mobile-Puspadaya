@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../../config/theme/pallet_color.dart';
 import '../../../../utils/api_utils/api_utils.dart';
 import '../../../view/widget/appbar_widget.dart';
 
@@ -28,13 +29,13 @@ class _WebTestIbuHamilViewState extends State<WebTestIbuHamilView> {
         return NavigationDecision.navigate;
       },
     ),
-  )
-  ..loadRequest(ApiUtils().urlTestibuHamil());
+  )..loadRequest(ApiUtils().urlTestibuHamil());
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
         title: 'Web Test Ibu Hamil',
         background: Colors.white,
