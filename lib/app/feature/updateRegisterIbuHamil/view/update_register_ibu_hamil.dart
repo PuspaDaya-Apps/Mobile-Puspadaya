@@ -764,10 +764,10 @@ class UpdateRegisterIbuHamilViewState extends State<UpdateRegisterIbuHamilView> 
                                   clientValidators: [
                                     //   (value) => Validator.required(
                                     //       value, 'Hemoglobin Wajib Diisi'),
-                                    FormBuilderValidators.required(
-                                        errorText: 'Isi terlebih dahulu'),
-                                    FormBuilderValidators.min(1,
-                                        errorText: 'Hemoglobin minimal 1'),
+                                    // FormBuilderValidators.required(
+                                    //     errorText: 'Isi terlebih dahulu'),
+                                    // FormBuilderValidators.min(1,
+                                    //     errorText: 'Hemoglobin minimal 1'),
                                   ],
                                 ),
                               ),
