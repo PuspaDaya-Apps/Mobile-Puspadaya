@@ -25,7 +25,7 @@ class CreateBebanKerjaResponseModel {
 class Data {
   String id;
   @JsonKey(name: 'totalSkor')
-  int totalSkor;
+  num totalSkor;
  
   Data({
     required this.id,
@@ -57,7 +57,7 @@ Map<String, dynamic> _$CreateBebanKerjaResponseModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
-      totalSkor: (json['total_skor'] as num).toInt(),
+      totalSkor: json['total_skor'] as num,
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{

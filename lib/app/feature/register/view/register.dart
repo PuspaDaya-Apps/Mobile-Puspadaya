@@ -46,8 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemHeight =
-        screenWidth / 0.65; // Calculate height based on aspect ratio
+    double itemHeight = screenWidth / 0.78; // Calculate height based on aspect ratio
 
     List<Widget> _menuItems = [];
 
@@ -198,7 +197,7 @@ class _RegisterViewState extends State<RegisterView> {
                             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                               crossAxisSpacing: 32,
                               childAspectRatio: screenWidth / itemHeight, //0.65
-                              mainAxisSpacing: 0,
+                              mainAxisSpacing: 10,
                               maxCrossAxisExtent: 80,
                             ),
                             itemBuilder: (context, index) {

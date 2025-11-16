@@ -36,6 +36,7 @@ import '../app/feature/alatUkur/detail/model/get_detail_alat_ukur_model.dart';
 import '../app/feature/alatUkur/detail/view/detail_alat_ukur.dart';
 import '../app/feature/bebanKerja/index/view/beban_kerja.dart';
 import '../app/feature/bebanKerja/create/view/create_beban_kerja.dart';
+import '../app/feature/detailRegisterIbuHamil/view/web_test_ibu_hamil.dart';
 import '../app/feature/kunjunganAnakStunting/detailCreateKunjungan/view/detail_create_kunjungan_anak_stunting_screen.dart';
 import '../app/feature/kunjunganAnakStunting/detailKunjungan/model/detail_kunjungan_anak_stunting_response_model.dart';
 import '../app/feature/kunjunganAnakStunting/detailKunjungan/view/detail_kunjungan_anak_stunting.dart';
@@ -479,6 +480,12 @@ class MyRoute {
           builder: (context) => DetailRegisterIbuHamil(
             id: id,
           ),
+          settings: settings,
+        );
+      
+      case TEST_KESEHATAN_JIWA_IBU_HAMIL:
+        return MaterialPageRoute(
+          builder: (context) => const WebTestIbuHamilView(),
           settings: settings,
         );
 

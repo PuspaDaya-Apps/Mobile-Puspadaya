@@ -3,7 +3,7 @@ part 'total_point_response_model.g.dart';
 @JsonSerializable()
 class TotalPointResponseModel {
     @JsonKey(name: "total_skor_keseluruhan")
-    final int totalSkorKeseluruhan;
+    final num totalSkorKeseluruhan;
     @JsonKey(name: "jumlah_bulan")
     final int jumlahBulan;
 

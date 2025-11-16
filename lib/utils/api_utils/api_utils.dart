@@ -12,6 +12,8 @@ class ApiUtils {
   // final String _baseUrlQuaryParameter = "now4kswkgo4owoks884o0wc0.103.109.210.102.sslip.io";
   final String _apiVersion = "/api/v1";
 
+  final String _urlTestIbuHamil = "https://puspadaya.netlify.app/auth/signin";
+  
   //!Header
   // Map<String, String> header() =>
   //     {'Content-Type': 'application/json', 'Accept': 'application/json'};
@@ -26,6 +28,11 @@ class ApiUtils {
   //       'Authorization': 'Bearer $token',
   //       'Content-Type': 'multipart/form-data',
   //     };
+
+  Uri urlTestibuHamil() {
+    Uri url = Uri.parse(_urlTestIbuHamil);
+    return url;
+  }
 
   //!Auth
   String urlLogin() {
