@@ -83,6 +83,7 @@ const String REGISTER_IBU_HAMIL = '/register/ibu-hamil';
 const String CREATE_REGISTER_IBU_HAMIL = '/register/ibu-hamil/create';
 const String DETAIL_REGISTER_IBU_HAMIL = '/register/ibu-hamil/detail';
 const String UPDATE_REGISTER_IBU_HAMIL = '/register/ibu-hamil/update';
+const String TEST_KESEHATAN_JIWA_IBU_HAMIL = '/register/ibu-hamil/test-kesehatan-jiwa';
 
 const String REGISTER_ANGGOTA_KADER = '/register/anggota-kader';
 const String CREATE_REGISTER_ANGGOTA_KADER = '/register/anggota-kader/create';

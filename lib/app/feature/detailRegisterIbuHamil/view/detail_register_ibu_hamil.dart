@@ -557,6 +557,17 @@ class _DetailRegisterIbuHamilViewState
                           });
                         },
                       ),
+                      SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                      ButtonPrimary(
+                        color: greenPrimary50,
+                        mainButtonMessage: 'Test Kesehatan Jiwa',
+                        mainButton: () {
+                          Navigator.pushNamed(
+                            context,
+                            TEST_KESEHATAN_JIWA_IBU_HAMIL,
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
