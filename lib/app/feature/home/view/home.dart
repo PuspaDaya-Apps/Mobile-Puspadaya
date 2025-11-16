@@ -263,7 +263,7 @@ class CardCarousel extends StatelessWidget {
         top: 4,
         bottom: 4,
       ),
-      height: 120,
+      height: 130,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -1048,30 +1048,29 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     logger.d(
         'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 6.5;
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 7.5;
 
     return Container(
       padding:
           EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: 4,
+        spacing: 5,
         children: [
           // AnimatedContainer untuk efek animasi
           AnimatedContainer(
             duration: const Duration(milliseconds: 300), // Durasi animasi
             curve: Curves.easeInOut, // Kurva animasi
             height: _isExpanded
-                ? sizeHeighRowItemMenu * itemExpanedCol.toDouble() +
-                    MediaQuery.of(context).size.height / 40
+                ? sizeHeighRowItemMenu * itemExpanedCol.toDouble() + MediaQuery.of(context).size.height / 200
                 : sizeHeighRowItemMenu, // Tinggi menu saat diperluas/dikecilkan
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 0.62,
-                mainAxisSpacing: 16,
+                childAspectRatio: 0.67,
+                mainAxisSpacing: 5,
                 maxCrossAxisExtent: 80,
               ),
               itemBuilder: (context, index) {
