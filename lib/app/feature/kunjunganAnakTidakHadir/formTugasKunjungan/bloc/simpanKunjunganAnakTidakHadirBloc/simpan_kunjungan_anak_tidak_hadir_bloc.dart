@@ -31,10 +31,10 @@ class SimpanKunjunganAnakTidakHadirBloc extends Bloc<SimpanKunjunganAnakTidakHad
       return;
     }
 
-    if(event.listImages.isEmpty) {
-      emit(ListImagesNullState());
-      return;
-    }
+    // if(event.listImages.isEmpty) {
+    //   emit(ListImagesNullState());
+    //   return;
+    // }
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 

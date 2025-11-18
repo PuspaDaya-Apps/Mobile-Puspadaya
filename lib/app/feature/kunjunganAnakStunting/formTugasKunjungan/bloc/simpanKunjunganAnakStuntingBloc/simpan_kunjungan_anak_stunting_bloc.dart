@@ -33,10 +33,10 @@ class SimpanKunjunganAnakStuntingBloc extends Bloc<SimpanKunjunganAnakStuntingEv
       return;
     }
 
-    if(event.listImages.isEmpty) {
-      emit(ListImagesNullState());
-      return;
-    }
+    // if(event.listImages.isEmpty) {
+    //   emit(ListImagesNullState());
+    //   return;
+    // }
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 
