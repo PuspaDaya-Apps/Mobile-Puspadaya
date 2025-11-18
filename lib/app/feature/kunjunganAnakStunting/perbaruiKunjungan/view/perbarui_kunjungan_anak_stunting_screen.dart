@@ -662,11 +662,12 @@ class _UploadImageState extends State<UploadImage> {
                       }
                     },
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(
-                        Icons.warning_amber_rounded,
-                        size: MediaQuery.sizeOf(context).width / 2,
-                        color: Colors.red,
-                      );
+                      return SizedBox.shrink();
+                      // return Icon(
+                      //   Icons.warning_amber_rounded,
+                      //   size: MediaQuery.sizeOf(context).width / 2,
+                      //   color: Colors.red,
+                      // );
                     },
                     image: NetworkImage(
                       widget.linkImages[index],

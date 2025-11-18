@@ -26,10 +26,10 @@ class PerbaruiKunjunganIbuHamilBloc extends Bloc<PerbaruiKunjunganIbuHamilEvent,
       return;
     }
 
-    if(event.listImages.isEmpty) {
-      emit(ListImagesNullState());
-      return;
-    }
+    // if(event.listImages.isEmpty) {
+    //   emit(ListImagesNullState());
+    //   return;
+    // }
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 
