@@ -46,7 +46,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double itemHeight = screenWidth / 0.78; // Calculate height based on aspect ratio
+    double itemHeight = screenWidth / 0.68; // Calculate height based on aspect ratio
 
     List<Widget> _menuItems = [];
 
