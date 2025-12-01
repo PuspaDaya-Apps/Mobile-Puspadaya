@@ -59,6 +59,8 @@ class _DataUnderWeightViewState extends State<DataUnderWeightView> {
           }
           return ListView.builder(
             itemCount: state.data.data.length,
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(), // Mengganti physics agar tidak konflik dengan NeverScrollableScrollPhysics dari TabBarView
             itemBuilder: (context, index) {
               GetAllMonitoringAnak.Datum dataUnderWight =
                   state.data.data[index];
