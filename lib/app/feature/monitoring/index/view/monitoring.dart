@@ -58,51 +58,49 @@ class _MonitoringViewState extends State<MonitoringView>
       ),
       backgroundColor: backgroundWhite10,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            // padding: const EdgeInsets.symmetric(vertical: 25),
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: TabBar(
-                    tabAlignment: TabAlignment.center,
-                    isScrollable: true,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorAnimation: TabIndicatorAnimation.elastic,
-                    dividerHeight: 0,
-                    controller: _tabController,
-                    unselectedLabelColor: textSecondary1,
-                    indicatorColor: bluePrimaryMain,
-                    physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-                    labelColor: bluePrimaryMain,
-                    tabs: [
-                      Tab(text: 'Stunting'),
-                      Tab(text: 'UnderWeight'),
-                      Tab(text: 'Wasting'),
-                      Tab(text: 'Ibu Hamil'),
-                    ],
-                  ),
+        child: Container(
+          // padding: const EdgeInsets.symmetric(vertical: 25),
+          width: MediaQuery.sizeOf(context).width,
+          height: MediaQuery.sizeOf(context).height,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
                 ),
-                Expanded(
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: _tabController,
-                    children: [
-                      DataStunting(),
-                      DataUnderWeight(),
-                      DataWasting(),
-                      DataIbuHamil()
-                    ],
-                  ),
-                )
-              ],
-            ),
+                child: TabBar(
+                  tabAlignment: TabAlignment.center,
+                  isScrollable: true,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorAnimation: TabIndicatorAnimation.elastic,
+                  dividerHeight: 0,
+                  controller: _tabController,
+                  unselectedLabelColor: textSecondary1,
+                  indicatorColor: bluePrimaryMain,
+                  physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                  labelColor: bluePrimaryMain,
+                  tabs: [
+                    Tab(text: 'Stunting'),
+                    Tab(text: 'UnderWeight'),
+                    Tab(text: 'Wasting'),
+                    Tab(text: 'Ibu Hamil'),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _tabController,
+                  children: [
+                    DataStunting(),
+                    DataUnderWeight(),
+                    DataWasting(),
+                    DataIbuHamil()
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       ),

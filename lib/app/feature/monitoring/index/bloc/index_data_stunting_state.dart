@@ -13,9 +13,7 @@ final class IndexDataStuntingLoading extends IndexDataStuntingState {}
 
 final class IndexDataStuntingSuccess extends IndexDataStuntingState {
   final GetAllMonitoringAnak data;
-  IndexDataStuntingSuccess(this.data);
-  @override
-  List<Object> get props => [data];
+  const IndexDataStuntingSuccess(this.data);
 }
 
 final class IndexDataStuntingFailed extends IndexDataStuntingState {
