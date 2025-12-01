@@ -14,10 +14,7 @@ final class IndexDataIbuHamilLoading extends IndexDataIbuHamilState {}
 final class IndexDataIbuHamilSuccess extends IndexDataIbuHamilState {
   final GetAllMonitoringIbuHamil data;
 
-  IndexDataIbuHamilSuccess(this.data);
-
-  @override
-  List<Object> get props => [data];
+  const IndexDataIbuHamilSuccess(this.data);
 }
 
 final class IndexDataIbuHamilFailed extends IndexDataIbuHamilState {

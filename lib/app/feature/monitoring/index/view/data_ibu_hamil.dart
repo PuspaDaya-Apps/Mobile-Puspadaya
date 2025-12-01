@@ -180,6 +180,8 @@ class _DataIbuHamilViewState extends State<DataIbuHamilView> {
           }
           return ListView.builder(
             itemCount: state.data.data.length,
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(), // Mengganti physics agar tidak konflik dengan NeverScrollableScrollPhysics dari TabBarView
             itemBuilder: (context, index) {
               GetAllMonitoringIbuHamil.Datum dataIbuHamil =
                   state.data.data[index];
