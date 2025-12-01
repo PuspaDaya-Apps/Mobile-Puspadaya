@@ -13,9 +13,7 @@ final class IndexDataWastingLoading extends IndexDataWastingState {}
 
 final class IndexDataWastingSuccess extends IndexDataWastingState {
   final GetAllMonitoringAnak data;
-  IndexDataWastingSuccess(this.data);
-  @override
-  List<Object> get props => [data];
+  const IndexDataWastingSuccess(this.data);
 }
 
 final class IndexDataWastingFailed extends IndexDataWastingState {

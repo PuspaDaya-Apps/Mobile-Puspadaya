@@ -13,9 +13,7 @@ final class IndexDataUnderWeightLoading extends IndexDataUnderWeightState {}
 
 final class IndexDataUnderWeightSuccess extends IndexDataUnderWeightState {
   final GetAllMonitoringAnak data;
-  IndexDataUnderWeightSuccess(this.data);
-  @override
-  List<Object> get props => [data];
+  const IndexDataUnderWeightSuccess(this.data);
 }
 
 final class IndexDataUnderWeightFailed extends IndexDataUnderWeightState {

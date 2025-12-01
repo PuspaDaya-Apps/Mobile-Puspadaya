@@ -60,6 +60,8 @@ class _DataStuntingViewState extends State<DataStuntingView> {
           }
           return ListView.builder(
             itemCount: state.data.data.length,
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(), // Mengganti physics agar tidak konflik dengan NeverScrollableScrollPhysics dari TabBarView
             itemBuilder: (context, index) {
               GetAllMonitoringAnak.Datum dataStunting = state.data.data[index];
               return Container(
@@ -89,7 +91,6 @@ class _DataStuntingViewState extends State<DataStuntingView> {
             },
           );
         }
-        ;
         return Container();
       },
     );
