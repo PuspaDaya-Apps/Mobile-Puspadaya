@@ -368,9 +368,9 @@ TextEditingController upperArmCircumferenceController = TextEditingController();
                                         tool: alatUkurTamu.alatUkurTinggi
                                             ?.alatPengukuranAdmin.jenisAlat,
                                         validator: [
-                                           (value) => Validator.rangeNumber(
-                                              value, 45, 120, "min 45 max 120",
-                                              nullable: true),
+                                          //  (value) => Validator.rangeNumber(
+                                          //     value, 45, 120, "min 45 max 120",
+                                          //     nullable: true),
                                         ],
                                         // tool: 'Microtoise',
                                         controller: heightController,

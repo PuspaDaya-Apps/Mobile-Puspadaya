@@ -341,9 +341,9 @@ class _UpdatePengukuranTamuViewState extends State<UpdatePengukuranTamuView> {
                                       title: 'Tinggi Badan',
                                       hintText: 'contoh: 13.5',
                                       validator: [
-                                        (value) => Validator.rangeNumber(
-                                            value, 45, 120, "min 45 max 120",
-                                            nullable: true),
+                                        // (value) => Validator.rangeNumber(
+                                        //     value, 45, 120, "min 45 max 120",
+                                        //     nullable: true),
                                       ],
                                       unit: 'cm',
                                       tool: alatUkurAnakSend == null
