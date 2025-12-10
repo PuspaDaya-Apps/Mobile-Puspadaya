@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/route/route_name.dart';
@@ -157,8 +158,8 @@ class _DetailRegisterAnggotaKaderViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: state.detailAnggotaKaderResponseModel.data!
-                              .tanggalLahir),
+                        text: DateFormat("d MMMM y", 'ID_id').format(state.detailAnggotaKaderResponseModel.data!.tanggalLahir) 
+                      ),
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
