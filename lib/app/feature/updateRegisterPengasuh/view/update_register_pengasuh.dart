@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -259,7 +260,7 @@ class _UpdateRegisterPengasuhViewState
     _tempatLahirController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.tempatLahir);
     _tanggalLahirController = TextEditingController(
-        text: widget.paket.detailPengasuhResponseModel.data!.tanggalLahir);
+        text: DateFormat("y-MM-dd", 'ID_id').format(widget.paket.detailPengasuhResponseModel.data!.tanggalLahir));
     _rTController = TextEditingController(
         text: widget.paket.detailPengasuhResponseModel.data!.rt);
     _rWController = TextEditingController(

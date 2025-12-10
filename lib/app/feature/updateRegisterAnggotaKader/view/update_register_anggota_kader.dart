@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -99,7 +100,7 @@ class _UpdateRegisterAnggotaKaderViewState
     _nomorTeleponController = TextEditingController(
         text: widget.paket.detailAnggotaKaderResponseModel.data!.nomorTelepon);
     _tanggalLahirController = TextEditingController(
-        text: widget.paket.detailAnggotaKaderResponseModel.data!.tanggalLahir);
+        text: DateFormat("y-MM-dd", 'ID_id').format(widget.paket.detailAnggotaKaderResponseModel.data!.tanggalLahir));
     _rTController = TextEditingController(
         text: widget.paket.detailAnggotaKaderResponseModel.data!.rt);
     _rWController = TextEditingController(
