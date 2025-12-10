@@ -48,7 +48,10 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: bluePrimaryMain,
+        //Production
+        // backgroundColor: bluePrimaryMain,
+        //Staging
+        backgroundColor: greenPrimary50,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -68,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding:
                     EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
                 child: Text(
-                  "V. 2.5.5",
+                  "Staging V. 2.5.5",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: SizeConfig.calMultiplierText(18),
