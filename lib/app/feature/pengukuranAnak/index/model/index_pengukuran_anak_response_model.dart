@@ -28,7 +28,7 @@ class Data {
   String namaAnak;
   String nik;
   @JsonKey(name: 'tanggal_pengukuran')
-  String tanggalPengukuran;
+  DateTime tanggalPengukuran;
   @JsonKey(name: 'tempat_pengukuran')
   String tempatPengukuran;
   @JsonKey(name: 'berat_badan')
@@ -96,7 +96,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
       namaAnak: json['nama_anak'] as String,
       nik: json['nik'] as String,
-      tanggalPengukuran: json['tanggal_pengukuran'] as String,
+      tanggalPengukuran: DateTime.parse(json['tanggal_pengukuran'] as String),
       tempatPengukuran: json['tempat_pengukuran'] as String,
       beratBadan: json['berat_badan'] as String?,
       tinggiBadan: json['tinggi_badan'] as String?
