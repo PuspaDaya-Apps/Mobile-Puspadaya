@@ -97,19 +97,6 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                   children: [
                     const Text(
                       textAlign: TextAlign.start,
-                      'Total Skor',
-                      style: TextStyle(
-                        fontSize: 12,
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.calHeightMultiplier(8),
-                    ),
-                    InfoFieldWidget(
-                        text: state.totalSkor),
-                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                    const Text(
-                      textAlign: TextAlign.start,
                       'Bulan',
                       style: TextStyle(
                         fontSize: 12,
@@ -120,6 +107,19 @@ class _DetailBebanKerjaViewState extends State<DetailBebanKerjaView> {
                     ),
                     InfoFieldWidget(
                         text: DateFormat('MMMM y', 'id_ID').format(state.bulan)),
+                    SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+                    const Text(
+                      textAlign: TextAlign.start,
+                      'Total Skor',
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                        text: state.totalSkor),
                     SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                     Container(
                       width: double.infinity,
