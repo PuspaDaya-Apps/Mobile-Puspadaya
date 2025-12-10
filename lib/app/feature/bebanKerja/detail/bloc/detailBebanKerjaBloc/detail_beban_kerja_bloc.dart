@@ -159,6 +159,7 @@ class DetailBebanKerjaBloc extends Bloc<DetailBebanKerjaEvent, DetailBebanKerjaS
 
           emit(DetailBebanKerjaSuccesState(
             bulan: detailBebanKerjaResponseModel.data!.bulan,
+            totalSkor: detailBebanKerjaResponseModel.data!.totalSkor.toString(),
             item: [
               Jobitem(
                 label: "Balita", 
