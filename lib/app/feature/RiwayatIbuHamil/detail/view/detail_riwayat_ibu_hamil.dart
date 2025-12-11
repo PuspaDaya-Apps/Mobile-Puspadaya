@@ -53,7 +53,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3.3;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Riwayat Ibu Hamil',
@@ -100,7 +100,7 @@ class _DetailRiwayatIbuHamilViewState extends State<DetailRiwayatIbuHamilView> {
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         height: _isExpanded
-                            ? sizeHeighofSingleForm * 3.3
+                            ? sizeHeighofSingleForm * 3.15
                             : sizeHeighofSingleForm,
                         child: SingleChildScrollView(
                           physics: const NeverScrollableScrollPhysics(),
