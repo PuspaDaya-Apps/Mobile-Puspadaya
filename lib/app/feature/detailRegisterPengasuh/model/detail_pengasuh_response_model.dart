@@ -30,7 +30,7 @@ class Data {
   @JsonKey(name: 'tempat_lahir')
   String tempatLahir;
   @JsonKey(name: 'tanggal_lahir')
-  String tanggalLahir;
+  DateTime tanggalLahir;
   String rt;
   String rw;
   @JsonKey(name: 'alamat_lengkap') 
@@ -213,7 +213,7 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       nik: json['nik'] as String,
       statusHubungan: json['status_hubungan'] as String,
       namaPengasuh: json['nama_pengasuh'] as String,
-      tanggalLahir: json['tanggal_lahir'] as String,
+      tanggalLahir: DateTime.parse(json['tanggal_lahir'] as String) ,
       tempatLahir: json['tempat_lahir'] as String,
       rt: json['rt'] as String,
       rw: json['rw'] as String,

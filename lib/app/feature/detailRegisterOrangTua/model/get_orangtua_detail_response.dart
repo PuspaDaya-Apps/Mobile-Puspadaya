@@ -77,7 +77,7 @@ class Ibu {
   final String jenisKB;
 
   @JsonKey(name: "tanggal_melahirkan_sebelumnya")
-  String? tanggalMelahirkanSebelumnya;
+  DateTime? tanggalMelahirkanSebelumnya;
 
   @JsonKey(name: "jumlah_anak")
   final int jumlahAnak;
@@ -124,7 +124,7 @@ class Ibu {
     String? alamat,
     String? golDarah,
     String? jenisKB,
-    String? tanggalMelahirkanSebelumnya,
+    DateTime? tanggalMelahirkanSebelumnya,
     int? jumlahAnak,
     Posyandu? posyandu,
     KartuKeluarga? kartuKeluarga,
@@ -548,7 +548,9 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       alamat: json['alamat'] as String,
       golDarah: json['gol_darah'] as String,
       jenisKB: json['jenis_kb'] as String,
-      tanggalMelahirkanSebelumnya: json['tanggal_melahirkan_sebelumnya'] as String?,
+      tanggalMelahirkanSebelumnya: json['tanggal_melahirkan_sebelumnya'] != null
+      ? DateTime.parse(json['tanggal_melahirkan_sebelumnya'] as String)
+      : null,
       jumlahAnak: (json['jumlah_anak'] as num).toInt(),
       posyandu: Posyandu.fromJson(json['posyandu'] as Map<String, dynamic>),
       kartuKeluarga: KartuKeluarga.fromJson(

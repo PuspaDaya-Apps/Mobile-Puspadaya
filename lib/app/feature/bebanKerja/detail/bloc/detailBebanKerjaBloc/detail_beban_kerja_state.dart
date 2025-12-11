@@ -13,11 +13,13 @@ final class DetailBebanKerjaProcessState extends DetailBebanKerjaState {}
 
 final class DetailBebanKerjaSuccesState extends DetailBebanKerjaState {
   final DateTime bulan;
+  final String totalSkor;
 
   final List<Jobitem> item;
 
   const DetailBebanKerjaSuccesState({
     required this.bulan,
+    required this.totalSkor,
     required this.item
   });
 }

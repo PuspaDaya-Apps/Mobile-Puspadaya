@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
@@ -193,8 +194,8 @@ class _DetailRegisterPengasuhViewState
                                   height: SizeConfig.calHeightMultiplier(8),
                                 ),
                                 InfoFieldWidget(
-                                    text: state.detailPengasuhResponseModel
-                                        .data!.tanggalLahir),
+                                  text: DateFormat("d MMMM y", 'ID_id').format(state.detailPengasuhResponseModel.data!.tanggalLahir) 
+                                ),
                               ],
                             ),
                           ),

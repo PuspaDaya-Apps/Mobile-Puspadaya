@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -268,7 +269,7 @@ class DetailDataIbu extends StatelessWidget {
             ),
             InfoFieldWidget(
               text: getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya != null 
-              ?'${getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya}'
+              ? DateFormat("d MMMM y", 'ID_id').format(getOrangtuaDetailResponse.data.ibu.tanggalMelahirkanSebelumnya!)
               : "Belum Memiliki Anak"
             ),
             SizedBox(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:puspadaya/app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -115,7 +116,9 @@ class DetailDataAnak extends StatelessWidget {
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: '${detailResponse.data.tanggalLahir}'),
+                        text: DateFormat("d MMMM y", 'ID_id').format(detailResponse.data.tanggalLahir)
+                      ),
+                        // text: '${detailResponse.data.tanggalLahir}'),
                     ],
                   ),
                 ),

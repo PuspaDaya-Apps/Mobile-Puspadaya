@@ -24,7 +24,7 @@ class Data {
   String id;
   DateTime bulan;
   @JsonKey(name: 'total_skor')
-  double totalSkor;
+  num totalSkor;
   Kader kader;
   @JsonKey(name: 'penugasan_kader')
   List<PenugasanKader>? penugasanKader;
@@ -120,7 +120,7 @@ Map<String, dynamic> _$DetailBebanKerjaResponseModelToJson(
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: json['id'] as String,
       bulan: DateTime.parse(json['bulan'] as String),
-      totalSkor: (json['total_skor'] as num).toDouble(),
+      totalSkor: json['total_skor'] as num,
       kader: Kader.fromJson(json['kader'] as Map<String, dynamic>),
       penugasanKader: (json['penugasan_kader'] as List<dynamic>?)
           ?.map((e) => PenugasanKader.fromJson(e as Map<String, dynamic>))

@@ -70,7 +70,7 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
 
   @override
   Widget build(BuildContext context) {
-    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3;
+    double sizeHeighofSingleForm = MediaQuery.of(context).size.height / 3.3;
     return Scaffold(
       appBar: PrimaryAppBar(
         title: 'Detail Riwayat Anak',
@@ -121,8 +121,8 @@ class _DetailRiwayatBalitaViewState extends State<DetailRiwayatBalitaView> {
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         height: _isExpanded
-                            ? sizeHeighofSingleForm * 3.7
-                            : sizeHeighofSingleForm,
+                            ? sizeHeighofSingleForm * 3.47
+                            : sizeHeighofSingleForm ,
                         child: SingleChildScrollView(
                           physics: const NeverScrollableScrollPhysics(),
                           child: Column(

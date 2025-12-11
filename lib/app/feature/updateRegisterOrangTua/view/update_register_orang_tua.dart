@@ -76,13 +76,10 @@ class UpdateRegisterOrangTuaView extends StatefulWidget {
   const UpdateRegisterOrangTuaView({super.key, required this.ayahId});
 
   @override
-  State<UpdateRegisterOrangTuaView> createState() =>
-      _UpdateRegisterOrangTuaViewState();
+  State<UpdateRegisterOrangTuaView> createState() => _UpdateRegisterOrangTuaViewState();
 }
 
-class _UpdateRegisterOrangTuaViewState
-    extends State<UpdateRegisterOrangTuaView>
-    with SingleTickerProviderStateMixin {
+class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView> with SingleTickerProviderStateMixin {
   final _formAyahkey = GlobalKey<FormState>();
   final _formIbukey = GlobalKey<FormState>();
 
@@ -98,10 +95,8 @@ class _UpdateRegisterOrangTuaViewState
   final TextEditingController kkAyahController = TextEditingController();
   final TextEditingController nikAyahController = TextEditingController();
   final TextEditingController namaAyahController = TextEditingController();
-  final TextEditingController tempatLahirAyahController =
-      TextEditingController();
-  final TextEditingController tanggalLahirAyahController =
-      TextEditingController();
+  final TextEditingController tempatLahirAyahController = TextEditingController();
+  final TextEditingController tanggalLahirAyahController = TextEditingController();
   final TextEditingController alamatAyahController = TextEditingController();
   final TextEditingController teleponAyahController = TextEditingController();
   final TextEditingController rTAyahController = TextEditingController();
@@ -1028,10 +1023,9 @@ class _UpdateRegisterOrangTuaViewState
                   tanggalLahirIbuController.text = DateFormat('yyyy-MM-dd')
                       .format(detailData.data.ibu.tanggalLahir);
                   alamatIbuController.text = detailData.data.ibu.alamat;
-                  tanggalKelahiranAnakSebelumnyaIbuController.text =
-                      detailData.data.ibu.tanggalMelahirkanSebelumnya != null
-                          ? detailData.data.ibu.tanggalMelahirkanSebelumnya!
-                          : "";
+                  tanggalKelahiranAnakSebelumnyaIbuController.text = detailData.data.ibu.tanggalMelahirkanSebelumnya != null
+                    ? DateFormat("y-MM-dd", 'ID_id').format(detailData.data.ibu.tanggalMelahirkanSebelumnya!)
+                    : "";
                   if (detailData.data.ibu.nomorTelepon != "0") {
                     teleponIbuController.text =
                         detailData.data.ibu.nomorTelepon ?? "-";
