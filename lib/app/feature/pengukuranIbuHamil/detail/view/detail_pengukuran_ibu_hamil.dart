@@ -194,7 +194,7 @@ class _DetailPengukuranIbuHamilViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: DateFormat('d MMMM y').format(state
+                          text: DateFormat('d MMMM y', 'ID_id').format(state
                               .detailPengukuranIbuHamilResponseModel
                               .data!
                               .tanggalPengukuran)),
@@ -317,7 +317,7 @@ class _DetailPengukuranIbuHamilViewState
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
                       InfoFieldWidget(
-                          text: DateFormat('d MMMM y').format(state
+                          text: DateFormat('d MMMM y', 'ID_id').format(state
                               .detailPengukuranIbuHamilResponseModel
                               .data!
                               .ibuHamil
@@ -338,7 +338,7 @@ class _DetailPengukuranIbuHamilViewState
                               .data!
                               .ibuHamil
                               .tanggalTerakhirHaid != "-"
-                      ? DateFormat('d MMMM y').format(state
+                      ? DateFormat('d MMMM y', 'ID_id').format(state
                               .detailPengukuranIbuHamilResponseModel
                               .data!
                               .ibuHamil
