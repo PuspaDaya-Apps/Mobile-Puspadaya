@@ -15,8 +15,7 @@ class UpdateKehadiranIbuHamilBloc
     on<UpdateKehadiranIbuHamilEvent>((event, emit) {});
     on<UpdateKehadiranEventFormIbuHamilLoaded>(formIbuHamilLoaded);
   }
-  Future<void> formIbuHamilLoaded(UpdateKehadiranEventFormIbuHamilLoaded event,
-      Emitter<UpdateKehadiranIbuHamilState> emit) async {
+  Future<void> formIbuHamilLoaded(UpdateKehadiranEventFormIbuHamilLoaded event, Emitter<UpdateKehadiranIbuHamilState> emit) async {
     emit(UpdateKehadiranFormIbuHamilLoading());
     String? accessToken = await SharedPrefUtils().getAccessToken();
 
@@ -24,24 +23,24 @@ class UpdateKehadiranIbuHamilBloc
       emit(TokenExpiredState());
     } else {
       try {
-        int? totalIbuHamil = await CreateKehadiranService()
-            .getTotalItemIbuHamilPosyandu(accessToken);
+        int? totalIbuHamil = await CreateKehadiranService().getTotalItemIbuHamilPosyandu(accessToken);
         
         if(totalIbuHamil == 0){
           emit(UpdateKehadiranFormIbuHamilEmpty());
           return;
         }
 
-        dynamic responseIbuHamil = await CreateKehadiranService()
-            .getAllIbuHamilByPosyandu(accessToken, totalIbuHamil!);
+        dynamic responseIbuHamil = await CreateKehadiranService().getAllIbuHamilByPosyandu(accessToken, totalIbuHamil!);
         int statusCodeIbuHamil = responseIbuHamil[0] as int;
         
         // ibu hamil by posyandu
-        GetAllIbuHamilByPosyandu dataIbuHamil =
-            GetAllIbuHamilByPosyandu.fromJson(responseIbuHamil[1]);
+        GetAllIbuHamilByPosyandu dataIbuHamil = GetAllIbuHamilByPosyandu.fromJson(responseIbuHamil[1]);
         logger.d("succes get ibu hamil by posyandu");
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCodeIbuHamil == 200) {
+          //sorting data
+          dataIbuHamil.data.sort((a, b) => a.namaIbu.compareTo(b.namaIbu));
+
           logger.d('succes get data anak ibu hamil');
           emit(UpdateKehadiranFormIbuHamilSuccess(
               dataIbuHamil: dataIbuHamil));

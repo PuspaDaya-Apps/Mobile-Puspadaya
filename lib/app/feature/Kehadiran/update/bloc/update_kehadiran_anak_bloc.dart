@@ -24,27 +24,27 @@ class UpdateKehadiranAnakBloc
       emit(TokenExpiredState());
     } else {
       try {
-        int? totalAnak = await CreateKehadiranService()
-            .getTotalItemAnakPosyandu(accessToken);
+        int? totalAnak = await CreateKehadiranService().getTotalItemAnakPosyandu(accessToken);
         logger.d('total anak : $totalAnak');
         if(totalAnak == 0){
           emit(UpdateKehadiranFormAnakEmpty());
           return;
         }
-        dynamic responseAnak = await CreateKehadiranService()
-            .getAllAnakByPosyandu(accessToken, totalAnak!);
+
+        dynamic responseAnak = await CreateKehadiranService().getAllAnakByPosyandu(accessToken, totalAnak!);
 
         int statusCodeAnak = responseAnak[0] as int;
       
         // anak by posyandu
-        GetAllAnakByPosyandu dataAnak =
-            GetAllAnakByPosyandu.fromJson(responseAnak[1]);
+        GetAllAnakByPosyandu dataAnak = GetAllAnakByPosyandu.fromJson(responseAnak[1]);
         logger.d("succes get anak by posyandu");
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCodeAnak == 200) {
+          //sorting data
+          dataAnak.data.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+
           logger.d('succes get data anak ibu hamil');
-          emit(UpdateKehadiranFormAnakSuccess(
-              dataAnak: dataAnak, ));
+          emit(UpdateKehadiranFormAnakSuccess(dataAnak: dataAnak));
         } else if (statusCodeAnak == 401 ) {
           emit(TokenExpiredState());
         } else {
