@@ -26,12 +26,19 @@ class DetailKehadiranBloc
       try {
         emit(DetailKehadiranLoading());
         logger.d('id = ${event.id}');
-        dynamic response = await GetDetailKehadiranService()
-            .getDetailKehadiran(event.id, accessToken);
-        GetDetailKehadiranModel data =
-            GetDetailKehadiranModel.fromJson(response[1]);
+
+        dynamic response = await GetDetailKehadiranService().getDetailKehadiran(event.id, accessToken);
+        
+        GetDetailKehadiranModel data =GetDetailKehadiranModel.fromJson(response[1]);
         int statusCode = response[0] as int;
+        
         if (statusCode == 200) {
+
+          //sorting data
+          data.data.kehadiranAnak.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+          data.data.kehadiranIbuHamil.sort((a, b) => a.namaIbuHamil.compareTo(b.namaIbuHamil));
+          data.data.kehadiranTamu.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+
           logger.d('succesfull get data detail jadwal $data');
           emit(DetailKehadiranSuccess(data));
         } else if (statusCode == 401) {
