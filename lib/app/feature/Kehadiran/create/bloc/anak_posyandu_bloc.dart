@@ -26,17 +26,19 @@ class AnakPosyanduBloc extends Bloc<AnakPosyanduEvent, AnakPosyanduState> {
         // int? totalPosyandu =
         //     await PosyanduService().getTotalItemPosyandu(accessToken);
 
-        dynamic response = await AnakPosyanduService()
-            .getAllAnakPosyandu(accessToken, event.id);
+        dynamic response = await AnakPosyanduService().getAllAnakPosyandu(accessToken, event.id);
 
         int statusCode = response[0] as int;
         // anak by posyandu
-        GetAllAnakPosyanduModel dataAnak =
-            GetAllAnakPosyanduModel.fromJson(response[1]);
+        GetAllAnakPosyanduModel dataAnak = GetAllAnakPosyanduModel.fromJson(response[1]);
 
         logger.d("succes get all posyandu");
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCode == 200) {
+
+          //sorting data
+          dataAnak.data.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+
           logger.d('succes get data posyandu');
           emit(AnakPosyanduSuccess(dataAnak));
         } else if (statusCode == 401) {

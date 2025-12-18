@@ -33,22 +33,27 @@ class CreateKehadiranIbuHamilBloc
         //   return;
         // }
 
-        dynamic responseIbuHamil = await CreateKehadiranService()
-            .getAllIbuHamilByPosyandu(accessToken, 5000);
+        dynamic responseIbuHamil = await CreateKehadiranService().getAllIbuHamilByPosyandu(accessToken, 5000);
         int statusCodeIbuHamil = responseIbuHamil[0] as int;
 
         logger.d("succes get anak by posyandu");
+
         // ibu hamil by posyandu
-        GetAllIbuHamilByPosyandu dataIbuHamil =
-            GetAllIbuHamilByPosyandu.fromJson(responseIbuHamil[1]);
+        GetAllIbuHamilByPosyandu dataIbuHamil = GetAllIbuHamilByPosyandu.fromJson(responseIbuHamil[1]);
+
         logger.d("succes get ibu hamil by posyandu");
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
+
         if (statusCodeIbuHamil == 200) {
           logger.d('succes get data anak ibu hamil');
           if(dataIbuHamil.data.isEmpty) {
             emit(CreateKehadiranFormIbuHamilEmpty());
             return;
           }
+
+          //sorting data
+          dataIbuHamil.data.sort((a, b) => a.namaIbu.compareTo(b.namaIbu));
+
           emit(
             CreateKeadiranFormIbuHamilSuccess(
               dataIbuHamil: dataIbuHamil,

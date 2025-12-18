@@ -33,12 +33,11 @@ class CreateKehadiranAnakBloc
         //   return;
         // }
 
-        dynamic responseAnak = await CreateKehadiranService()
-            .getAllAnakByPosyandu(accessToken, 5000);
+        dynamic responseAnak = await CreateKehadiranService().getAllAnakByPosyandu(accessToken, 5000);
         int statusCodeAnak = responseAnak[0] as int;
+
         // anak by posyandu
-        GetAllAnakByPosyandu dataAnak =
-            GetAllAnakByPosyandu.fromJson(responseAnak[1]);
+        GetAllAnakByPosyandu dataAnak = GetAllAnakByPosyandu.fromJson(responseAnak[1]);
         logger.d("succes get anak by posyandu");
 
         if (statusCodeAnak == 200) {
@@ -47,6 +46,10 @@ class CreateKehadiranAnakBloc
             emit(CreateKehadiranFormAnakEmpty());
             return;
           }
+          
+          //sorting data
+          dataAnak.data.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+      
           emit(
             CreateKeadiranFormAnakSuccess(
               dataAnak: dataAnak,
