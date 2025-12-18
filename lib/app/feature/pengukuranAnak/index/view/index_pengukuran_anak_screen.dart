@@ -104,29 +104,25 @@ class _IndexPengukuranAnakScreenViewState extends State<IndexPengukuranAnakScree
                     ),
                     child: PengukuranAnakItems(
                       onTap: () {
-                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_ANAK,
-                                arguments: state
-                                    .indexPengukuranAnakResponseModel
-                                    .data![index]
-                                    .id)
-                            .then((value) {
-                          if (value != null) {
-                            indexPengukuranAnakBloc
-                                .add(GetPengukuranAnakEvent());
+                        Navigator.pushNamed(
+                          context, 
+                          DETAIL_PENGUKURAN_ANAK,
+                          arguments: state.indexPengukuranAnakResponseModel.data![index].id).then((value) {
+                            if (value != null) {
+                              indexPengukuranAnakBloc.add(GetPengukuranAnakEvent());
+                            }
                           }
-                        });
+                        );
                       },
-                      name: state.indexPengukuranAnakResponseModel.data![index]
-                          .namaAnak,
-                      nik: state
-                          .indexPengukuranAnakResponseModel.data![index].nik,
+                      name: state.indexPengukuranAnakResponseModel.data![index].namaAnak,
+                      nik: state.indexPengukuranAnakResponseModel.data![index].nik,
                       date:  DateFormat("d MMMM y", 'ID_id').format(
                         state.indexPengukuranAnakResponseModel.data![index].tanggalPengukuran
                       ),
-                      place: state.indexPengukuranAnakResponseModel.data![index]
-                          .tempatPengukuran,
+                      place: state.indexPengukuranAnakResponseModel.data![index].tempatPengukuran,
                       pengukuranIsNull: state.indexPengukuranAnakResponseModel.data![index].beratBadan != null &&  state.indexPengukuranAnakResponseModel.data![index].tinggiBadan != null
                       ? true : null,
+                      number: state.indexPengukuranAnakResponseModel.data!.length  - index,
                     ));
               },
             ),
