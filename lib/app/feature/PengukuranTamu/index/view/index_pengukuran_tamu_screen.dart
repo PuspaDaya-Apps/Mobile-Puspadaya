@@ -114,6 +114,7 @@ class _IndexPengukuranTamuScreenViewState extends State<IndexPengukuranTamuScree
                     place: state.indexPengukuranTamuResponseModel.data![index].posyanduAsal,
                     pengukuranIsNull: state.indexPengukuranTamuResponseModel.data![index].beratBadan != null && state.indexPengukuranTamuResponseModel.data![index].tinggiBadan != null
                     ? true : null,
+                    number: state.indexPengukuranTamuResponseModel.data!.length - index
                   ),
                 );
               },
