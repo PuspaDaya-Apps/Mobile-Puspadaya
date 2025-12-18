@@ -30,6 +30,9 @@ class GetListAnakBloc extends Bloc<GetListAnakEvent, GetListAnakState> {
           final GetListAnakResponseModel getListAnakResponseModel = GetListAnakResponseModel.fromJson(response[1]);
 
           if(statusCode == 200) {
+            //sorting data
+            getListAnakResponseModel.data!.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+
             emit(GetListAnakSuccessState(getListAnakResponseModel));
           } else if (statusCode == 401) {
             emit(GetListAnakTokenExpiredState());
