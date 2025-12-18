@@ -27,13 +27,16 @@ class CreateRegisterIbuHamilBloc
       emit(TokenExpiredState());
     } else {
       try {
-        dynamic response =
-            await CreateIbuHamil().getSearchIbuHamil(accessToken);
+        dynamic response = await CreateIbuHamil().getSearchIbuHamil(accessToken);
+
         int statusCode = response[0] as int;
-        GetAllOrangTuaResponse dataIbuHamil =
-            GetAllOrangTuaResponse.fromJson(response[1]);
+        GetAllOrangTuaResponse dataIbuHamil = GetAllOrangTuaResponse.fromJson(response[1]);
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
+        
         if (statusCode == 200) {
+          //sorting data
+          dataIbuHamil.data.sort((a, b) => a.ibu.namaIbu.compareTo(b.ibu.namaIbu));
+          
           logger.d('succes get detail data ibu hamil');
           emit(CreateRegisterIbuHamilSuccess(data: dataIbuHamil));
         } else if (statusCode == 401) {
