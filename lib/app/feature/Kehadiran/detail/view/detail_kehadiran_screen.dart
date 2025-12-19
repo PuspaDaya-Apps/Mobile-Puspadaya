@@ -311,17 +311,83 @@ class _DetailKehadiranViewState extends State<DetailKehadiranScreenView>
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),
-          Text(
-            'Status Kegiatan',
-            style: AppTextStyles.primaryTextNormal.copyWith(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            spacing: 8,
+            children: [
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Anak',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                      text: data.kehadiranAnak.length.toString(),
+                    )
+                  ],
+                ),
+              ),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ibu Hamil',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                      text: data.kehadiranIbuHamil.length.toString(),
+                    )
+                  ],
+                ),
+              ),
+               Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tamu',
+                      style: AppTextStyles.primaryTextNormal.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.calHeightMultiplier(8),
+                    ),
+                    InfoFieldWidget(
+                      text: data.kehadiranTamu.length.toString(),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
+          // Text(
+          //   'Status Kegiatan',
+          //   style: AppTextStyles.primaryTextNormal.copyWith(
+          //     color: Colors.white,
+          //     fontSize: 12,
+          //   ),
+          // ),
           SizedBox(
             height: SizeConfig.calHeightMultiplier(8),
           ),
-          InfoFieldWidget(text: data.statusKegiatan),
+          // InfoFieldWidget(text: data.statusKegiatan),
           SizedBox(
             height: SizeConfig.calHeightMultiplier(16),
           ),
