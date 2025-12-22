@@ -707,7 +707,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                         'Pilih Lokasi Rumah',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: SizeConfig.calMultiplierText(15),
+                          fontSize: SizeConfig.calMultiplierText(14),
                           fontWeight: FontWeight.w500
                         ),
                       )
