@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -11,7 +12,9 @@ import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../bloc/detail_register_anak_bloc.dart';
 import '../model/get_detail_anak_response.dart';
+import '../../maps/model/maps_data_model.dart';
 
+// ignore: must_be_immutable
 class DetailDataAnak extends StatelessWidget {
   final DetailRegisterAnakBloc detailRegisterAnakBloc;
   final String anakId;
@@ -248,21 +251,56 @@ class DetailDataAnak extends StatelessWidget {
               height: SizeConfig.calHeightMultiplier(8),
             ),
             InfoFieldWidget(text: '${detailResponse.data!.caraLahir}'),
-             SizedBox(
-              height: SizeConfig.calHeightMultiplier(16),
-            ),
-            const Text(
-              'Jarak Posyandu',
-              style: TextStyle(
-                fontSize: 12,
-              ),
-            ),
-            SizedBox(
-              height: SizeConfig.calHeightMultiplier(8),
-            ),
-            InfoFieldWidget(text: '${detailResponse.data!.jarakPosyandu} Meter'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
+            ),
+            detailResponse.data.latitude == null || detailResponse.data.longitude == null
+            ? SizedBox.shrink()
+            : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Lokasi Rumah Anak',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context, 
+                        MAPSPOIN,
+                        arguments: MapsDataModel(
+                          titikAlamat: LatLng(detailResponse.data.latitude!, detailResponse.data.longitude!)
+                        )
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: greenPrimary40,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:BorderRadius.circular(8)
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(10),
+                        vertical: SizeConfig.calHeightMultiplier(10))),
+                    child: Text(
+                      'Pilih Lokasi Rumah',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.calMultiplierText(15),
+                        fontWeight: FontWeight.w500
+                      ),
+                    )
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(16),
+                ),
+              ],
             ),
             const Text(
               'Status Kelahiran',
