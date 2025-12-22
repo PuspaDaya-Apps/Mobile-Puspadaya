@@ -13,6 +13,7 @@ import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../route/route_name.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paket_to_create_anak_model.dart';
@@ -20,12 +21,12 @@ import '../../../model/paketToScreen/paket_to_create_wali_model.dart';
 import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
-import '../../../view/widget/dropdown_widget.dart';
-import '../../../view/widget/measuring_widget.dart';
+import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/textField_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../bloc/createAnakBloc/create_anak_bloc.dart';
 import '../cubit/generate_nik_cubit.dart';
 import '../cubit/search_kk_cubit.dart';
@@ -77,9 +78,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   TextEditingController ageController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController jarakPosyanduController = TextEditingController();
-  TextEditingController upperArmCircumferenceController =
-      TextEditingController();
+  TextEditingController upperArmCircumferenceController = TextEditingController();
   TextEditingController headCircumferenceController = TextEditingController();
   TextEditingController keluhanController = TextEditingController();
 
@@ -106,7 +105,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   FocusNode ageFocusNode = FocusNode();
   FocusNode heightFocusNode = FocusNode();
   FocusNode weightFocusNode = FocusNode();
-  FocusNode jarakPosyanduFocusNode = FocusNode();
   FocusNode upperArmCircumferenceFocusNode = FocusNode();
   FocusNode headCircumferenceFocusNode = FocusNode();
   FocusNode keluhanFocusNode = FocusNode();
@@ -141,8 +139,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> weightFormFieldKey =
       GlobalKey<FormFieldState>();
-  final GlobalKey<FormFieldState> jarakPosyanduFormFieldKey =
-      GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> upperArmCircumferenceFormFieldKey =
       GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> headCircumferenceFormFieldKey =
@@ -160,6 +156,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   final GlobalKey<FormFieldState> selectedStatusAnakKey = GlobalKey<FormFieldState>();
 
   late PaketToCreateAnakModel paketToCreateAnakModel;
+  MapsDataModel? mapsData;
 
   void _toggleDisability(int index) {
     setState(() {
@@ -183,7 +180,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
   }
 
   void submitForm(CreateAnakBloc createAnakBloc) {
-    logger.d("Jarak Posyandu ${jarakPosyanduController.text}");
     if (_formKey.currentState!.validate()) {
       if (selectedStatusOrangTuaAnak == 'Wali') {
         logger.d('go to wali');
@@ -193,61 +189,62 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
             builder: (context) {
               return CreateRegisterWali(
                 paket: PaketToCreateWaliModel(
-                    createAnakModel: CreateAnakModel(
-                        kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
-                        nik: nikController.text,
-                        anakKe: int.parse(anakKeController.text),
-                        namaAnak: namaController.text,
-                        tempatLahir: tempatLahirController.text,
-                        tanggalLahir: tanggalLahirController.text,
-                        beratBadanLahir: double.parse(weightController.text),
-                        jarakPosyandu:
-                            double.tryParse(jarakPosyanduController.text) ?? 0,
-                        tinggiBadanLahir: double.parse(heightController.text),
-                        lingkarKepalaLahir:
-                            double.parse(headCircumferenceController.text),
-                        lingkarLenganAtasLahir:
-                            double.parse(upperArmCircumferenceController.text),
-                        caraLahir: selectedCaraLahir!,
-                        jenisKelamin: selectedGender!,
-                        statusKelahiran: selectedStatusKelahiran!,
-                        disabilitasAnak: selectedDisabilityLabelsAnak,
-                        statusOrangTua: selectedStatusOrangTuaAnak!,
-                        pengasuh: null,
-                        anakPindah: selectedStatusAnak == 'anak pindah'
-                            ? true : false,
-                        anakMeninggal: selectedStatusAnak == 'anak meninggal'
-                            ? true : false
+                  createAnakModel: CreateAnakModel(
+                    kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+                    nik: nikController.text,
+                    anakKe: int.parse(anakKeController.text),
+                    namaAnak: namaController.text,
+                    tempatLahir: tempatLahirController.text,
+                    tanggalLahir: tanggalLahirController.text,
+                    beratBadanLahir: double.parse(weightController.text),
+                    tinggiBadanLahir: double.parse(heightController.text),
+                    lingkarKepalaLahir:double.parse(headCircumferenceController.text),
+                    lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
+                    caraLahir: selectedCaraLahir!,
+                    jenisKelamin: selectedGender!,
+                    statusKelahiran: selectedStatusKelahiran!,
+                    disabilitasAnak: selectedDisabilityLabelsAnak,
+                    statusOrangTua: selectedStatusOrangTuaAnak!,
+                    pengasuh: null,
+                    anakPindah: selectedStatusAnak == 'anak pindah'
+                      ? true : false,
+                    anakMeninggal: selectedStatusAnak == 'anak meninggal'
+                      ? true : false,
+                    latitude: mapsData?.titikAlamat.latitude,
+                    longitude: mapsData?.titikAlamat.longitude
+                  ),
+                  createAnakBloc: createAnakBloc
                 ),
-                    createAnakBloc: createAnakBloc),
               );
             },
           ),
         );
       } else {
-        createAnakBloc.add(CreateAnak(CreateAnakModel(
-            kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
-            nik: nikController.text,
-            anakKe: int.parse(anakKeController.text),
-            namaAnak: namaController.text,
-            tempatLahir: tempatLahirController.text,
-            tanggalLahir: tanggalLahirController.text,
-            beratBadanLahir: double.parse(weightController.text),
-            jarakPosyandu: double.tryParse(jarakPosyanduController.text) ?? 0,
-            tinggiBadanLahir: double.parse(heightController.text),
-            lingkarKepalaLahir: double.parse(headCircumferenceController.text),
-            lingkarLenganAtasLahir:
-                double.parse(upperArmCircumferenceController.text),
-            caraLahir: selectedCaraLahir!,
-            jenisKelamin: selectedGender!,
-            statusKelahiran: selectedStatusKelahiran!,
-            disabilitasAnak: selectedDisabilityLabelsAnak,
-            statusOrangTua: selectedStatusOrangTuaAnak!,
-            pengasuh: null,
-            anakPindah: selectedStatusAnak == 'anak pindah'
+        createAnakBloc.add(
+          CreateAnak(
+            CreateAnakModel(
+              kartuKeluargaId: paketToCreateAnakModel.idKartuKeluarga,
+              nik: nikController.text,
+              anakKe: int.parse(anakKeController.text),
+              namaAnak: namaController.text,
+              tempatLahir: tempatLahirController.text,
+              tanggalLahir: tanggalLahirController.text,
+              beratBadanLahir: double.parse(weightController.text),
+              tinggiBadanLahir: double.parse(heightController.text),
+              lingkarKepalaLahir: double.parse(headCircumferenceController.text),
+              lingkarLenganAtasLahir: double.parse(upperArmCircumferenceController.text),
+              caraLahir: selectedCaraLahir!,
+              jenisKelamin: selectedGender!,
+              statusKelahiran: selectedStatusKelahiran!,
+              disabilitasAnak: selectedDisabilityLabelsAnak,
+              statusOrangTua: selectedStatusOrangTuaAnak!,
+              pengasuh: null,
+              anakPindah: selectedStatusAnak == 'anak pindah'
                 ? true : false,
-            anakMeninggal: selectedStatusAnak == 'anak meninggal'
-                ? true : false
+              anakMeninggal: selectedStatusAnak == 'anak meninggal'
+                ? true : false,
+              latitude: mapsData?.titikAlamat.latitude,
+              longitude: mapsData?.titikAlamat.longitude
             )
           )
         );
@@ -269,7 +266,6 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
         headCircumferenceFormFieldKey: headCircumferenceFocusNode,
         upperArmCircumferenceFormFieldKey: upperArmCircumferenceFocusNode,
         lingkarLenganFormFieldKey: lingkarLenganFocusNode,
-        jarakPosyanduFormFieldKey: jarakPosyanduFocusNode,
         lingkarKepalaFormFieldKey: lingkarKepalaFocusNode,
         caraLahirFormFieldKey: caraLahirFocusNode,
         statusKelahiranFormFieldKey: statusKelahiranFocusNode,
@@ -940,21 +936,52 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(
-                          'Jarak Posyandu (Meter)',
+                          'Lokasi Rumah Anak',
                           style: TextStyle(fontSize: 12),
                         ),
+                        mapsData != null 
+                        ? SizedBox(height: SizeConfig.calHeightMultiplier(8))
+                        : SizedBox.shrink(),
+                        mapsData != null 
+                        ? InfoFieldWidget(
+                          text: mapsData?.alamat ?? ''
+                        )
+                        : SizedBox.shrink(),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                        TextFieldWidget2(
-                          fieldName: 'jarak_posyandu',
-                          focusNode: jarakPosyanduFocusNode,
-                          onTap: () {},
-                          formFieldKey: jarakPosyanduFormFieldKey,
-                          controller: jarakPosyanduController,
-                          hintText: 'Jarak Posyandu',
-                          keyboardType: TextInputType.number,
-                          obscureText: false,
-                          isPasswordField: false,
-                          clientValidators: [],
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context, 
+                                MAPSCHOOSE,
+                                arguments: mapsData
+                              ).then((value) {
+                                if(value != null) {
+                                  setState(() {
+                                    mapsData = value as MapsDataModel;
+                                  });
+                                }
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: greenPrimary40,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:BorderRadius.circular(8)
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: SizeConfig.calWidthMultiplier(10),
+                                vertical: SizeConfig.calHeightMultiplier(10))),
+                            child: Text(
+                              'Pilih Lokasi Rumah',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: SizeConfig.calMultiplierText(15),
+                                fontWeight: FontWeight.w500
+                              ),
+                            )
+                          ),
                         ),
                         SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                         const Text(

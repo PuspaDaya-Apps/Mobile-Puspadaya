@@ -26,7 +26,7 @@ class CreateAnakModel {
   @JsonKey(name: 'cara_lahir')
   String caraLahir;
   @JsonKey(name: 'jarak_posyandu')
-  double jarakPosyandu;
+  double jarakPosyandu = 0;
   @JsonKey(name: 'status_kelahiran')
   String statusKelahiran;
   @JsonKey(name: 'kartu_keluarga_id')
@@ -42,8 +42,10 @@ class CreateAnakModel {
   @JsonKey(name: "meninggal")
   bool anakMeninggal= false;
 
+  double? latitude;
+  double? longitude;
+
   CreateAnakModel({
-    required this.jarakPosyandu,
     required this.nik,
     required this.namaAnak,
     required this.anakKe,
@@ -61,7 +63,9 @@ class CreateAnakModel {
     required this.disabilitasAnak,
     this.pengasuh,
     required this.anakPindah,
-    required this.anakMeninggal
+    required this.anakMeninggal,
+    this.latitude,
+    this.longitude,
   });
 
   CreateAnakModel copyWith({
@@ -70,7 +74,6 @@ class CreateAnakModel {
     String? tempatLahir,
     int? anakKe,
     String? tanggalLahir,
-    double? jarakPosyandu,
     String? jenisKelamin,
     double? beratBadanLahir,
     double? tinggiBadanLahir,
@@ -83,10 +86,11 @@ class CreateAnakModel {
     List<String>? disabilitasAnak,
     Pengasuh? pengasuh,
     bool? anakPindah,
-    bool? anakMeninggal
+    bool? anakMeninggal,
+    double? latitude,
+    double? longitude
   }) =>
       CreateAnakModel(
-        jarakPosyandu: jarakPosyandu?? this.jarakPosyandu,
         nik: nik ?? this.nik,
         namaAnak: namaAnak ?? this.namaAnak,
         tempatLahir: tempatLahir ?? this.tempatLahir,
@@ -96,8 +100,7 @@ class CreateAnakModel {
         beratBadanLahir: beratBadanLahir ?? this.beratBadanLahir,
         tinggiBadanLahir: tinggiBadanLahir ?? this.tinggiBadanLahir,
         lingkarKepalaLahir: lingkarKepalaLahir ?? this.lingkarKepalaLahir,
-        lingkarLenganAtasLahir:
-            lingkarLenganAtasLahir ?? this.lingkarLenganAtasLahir,
+        lingkarLenganAtasLahir: lingkarLenganAtasLahir ?? this.lingkarLenganAtasLahir,
         caraLahir: caraLahir ?? this.caraLahir,
         statusKelahiran: statusKelahiran ?? this.statusKelahiran,
         kartuKeluargaId: kartuKeluargaId ?? this.kartuKeluargaId,
@@ -105,7 +108,9 @@ class CreateAnakModel {
         disabilitasAnak: disabilitasAnak ?? this.disabilitasAnak,
         pengasuh: pengasuh ?? this.pengasuh,
         anakPindah: anakPindah ?? this.anakPindah,
-        anakMeninggal: anakMeninggal ?? this.anakMeninggal
+        anakMeninggal: anakMeninggal ?? this.anakMeninggal,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude
       );
 
   factory CreateAnakModel.fromJson(Map<String, dynamic> json) =>
@@ -164,7 +169,6 @@ class Pengasuh {
 
 CreateAnakModel _$CreateAnakModelFromJson(Map<String, dynamic> json) =>
     CreateAnakModel(
-      jarakPosyandu: (json['jarak_posyandu'] as num).toDouble(),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       anakKe: (json['anak_ke'] as num).toInt(),
@@ -174,8 +178,7 @@ CreateAnakModel _$CreateAnakModelFromJson(Map<String, dynamic> json) =>
       beratBadanLahir: (json['berat_badan_lahir'] as num).toDouble(),
       tinggiBadanLahir: (json['tinggi_badan_lahir'] as num).toDouble(),
       lingkarKepalaLahir: (json['lingkar_kepala_lahir'] as num).toDouble(),
-      lingkarLenganAtasLahir:
-          (json['lingkar_lengan_atas_lahir'] as num).toDouble(),
+      lingkarLenganAtasLahir: (json['lingkar_lengan_atas_lahir'] as num).toDouble(),
       caraLahir: json['cara_lahir'] as String,
       statusKelahiran: json['status_kelahiran'] as String,
       kartuKeluargaId: json['kartu_keluarga_id'] as String,
@@ -188,6 +191,8 @@ CreateAnakModel _$CreateAnakModelFromJson(Map<String, dynamic> json) =>
           : Pengasuh.fromJson(json['pengasuh'] as Map<String, dynamic>),
       anakPindah: json['pindah'] as bool,
       anakMeninggal: json['meninggal'] as bool,
+      latitude: json['latitude'] as double?,
+      longitude: json['longitude'] as double?
     );
     
 Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
@@ -211,6 +216,8 @@ Map<String, dynamic> _$CreateAnakModelToJson(CreateAnakModel instance) =>
       'pengasuh': instance.pengasuh,
       'pindah': instance.anakPindah,
       'meninggal': instance.anakMeninggal,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude
     };
 
 Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
