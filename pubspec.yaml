@@ -84,6 +84,10 @@ dependencies:
   internet_connection_checker: ^3.0.1
   form_builder_validators: ^11.1.2
   webview_flutter: ^4.13.0
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
+  location: ^8.0.1
+  geocoding: ^4.0.0
 
 dev_dependencies:
   bloc_test: ^10.0.0

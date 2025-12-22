@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'package:puspadaya/app/feature/Kehadiran/update/view/update_kehadiran_screen.dart';
 import 'package:puspadaya/app/feature/PengukuranTamu/create/view/search_posyandu.dart';
 import 'package:puspadaya/app/feature/alatUkur/create/view/create_alat_ukur.dart';
-import 'package:puspadaya/app/feature/alatUkur/index/view/alat_ukur.dart';
 import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart';
 import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
 import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
+import 'package:puspadaya/app/feature/maps/view/maps_choose_screen.dart';
+import 'package:puspadaya/app/feature/maps/view/maps_kunjungan.dart';
+import 'package:puspadaya/app/feature/maps/view/maps_poin_screen.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_stunting.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_under_weight.dart';
@@ -26,7 +27,6 @@ import 'package:puspadaya/app/feature/detailRegisterPengasuh/view/detail_registe
 import 'package:puspadaya/app/feature/register/view/register.dart';
 import 'package:puspadaya/app/feature/registerAnggotaKader/view/register_anggota_kader.dart';
 import 'package:puspadaya/app/feature/registerOrangTua/view/register_orang_tua.dart';
-import 'package:puspadaya/app/feature/updateRegisterOrangTua/view/update_register_orang_tua.dart';
 import 'package:puspadaya/app/view/screen/feature_maintenance.dart';
 import '../app/feature/PengukuranTamu/detail/view/detail_pengukuran_tamu.dart';
 import '../app/feature/PengukuranTamu/update/view/update_pengukuran_tamu.dart';
@@ -48,13 +48,14 @@ import '../app/feature/kunjunganAnakTidakHadir/detailKunjungan/view/detail_kunju
 import '../app/feature/kunjunganAnakTidakHadir/formTugasKunjungan/view/form_tugas_kunjungan_anak_tidak_hadir_screen.dart';
 import '../app/feature/kunjunganAnakTidakHadir/listAnakTidakHadir/view/list_anak_tidak_hadir_kunjungan_screen.dart';
 import '../app/feature/kunjunganAnakStunting/listAnakStunting/view/list_anak_stunting_kunjungan_screen.dart';
-import '../app/feature/detailRegisterAnak/model/get_detail_anak_response.dart';
 import '../app/feature/faktorResiko/create/view/create_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/detail/view/riwayat_parameter_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/index_anak_faktor_resiko.dart';
 import '../app/feature/faktorResiko/index/view/select_bulan.dart';
 import '../app/feature/kunjunganAnakTidakHadir/perbaruiKunjungan/view/perbarui_kunjungan_anak_tidak_hadir_screen.dart';
 
+import '../app/feature/maps/model/maps_data_model.dart';
+import '../app/feature/maps/model/maps_kunjungan_data_model.dart';
 import '../app/feature/notification/view/notifikasi.dart';
 
 import '../app/feature/kunjunganIbuHamil/detailCreateKunjungan/view/detail_create_kunjungan_ibu_hamil_screen.dart';
@@ -92,7 +93,6 @@ import '../app/feature/updateRegisterAnak/view/update_register_anak.dart';
 import '../app/feature/updateRegisterAnggotaKader/view/update_register_anggota_kader.dart';
 import '../app/feature/updateRegisterIbuHamil/view/update_register_ibu_hamil.dart';
 import '../app/feature/updateRegisterPengasuh/view/update_register_pengasuh.dart';
-import '../app/model/current_user_model.dart';
 import '../app/model/paketToScreen/paketToUpdateRegisterAnak.dart';
 import '../app/model/paketToScreen/paketToUpdateRegisterIbuHamil.dart';
 import '../app/model/paketToScreen/paket_to_update_anggota_kader_model.dart';
@@ -651,10 +651,34 @@ class MyRoute {
 
       // ! maintenance
       case FEATURE_MAINTENANCE:
-        final feature =
-            settings.arguments as String? ?? 'Fitur Tidak Diketahui';
+        final feature = settings.arguments as String? ?? 'Fitur Tidak Diketahui';
         return MaterialPageRoute(
           builder: (context) => FeatureMaintenance(feature: feature),
+          settings: settings,
+        );
+
+      //! maps
+      case MAPSPOIN:
+        return MaterialPageRoute(
+          builder: (context) => MapsPoinView(
+            mapsData: settings.arguments as MapsDataModel,
+          ),
+          settings: settings,
+        );
+
+      case MAPSCHOOSE:
+        return MaterialPageRoute(
+          builder: (context) => MapsChooseView(
+            mapsData: settings.arguments as MapsDataModel?,
+          ),
+          settings: settings,
+        );
+      
+      case MAPSKUNJUNGAN:
+        return MaterialPageRoute(
+          builder: (context) => MapskunjunganView(
+            mapsData: settings.arguments as MapsKunjunganDataModel,
+          ),
           settings: settings,
         );
 

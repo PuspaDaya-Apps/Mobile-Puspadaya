@@ -124,3 +124,7 @@ const String NOTIFIKASI = '/notifikasi';
 // ! feature maintenacne
 const String FEATURE_MAINTENANCE = '/maintenance';
 
+// ! Maps
+const String MAPSPOIN = '/maps/poin';
+const String MAPSCHOOSE = '/maps/choose';
+const String MAPSKUNJUNGAN = '/maps/point';
