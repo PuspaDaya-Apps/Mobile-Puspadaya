@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
+
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ayah.dart';
 import 'package:puspadaya/app/feature/createRegisterOrangTua/view/create_register_ibu.dart';
 import 'package:puspadaya/app/feature/detailRegisterOrangTua/bloc/detail_register_orang_tua_bloc.dart';
@@ -44,6 +47,7 @@ import '../../alamat/bloc/alamatSaveCubit/alamat_save_cubit.dart';
 import '../../alatUkur/detail/view/detail_alat_ukur.dart';
 import '../../createRegisterAnak/cubit/generate_kk_cubit.dart';
 import '../../createRegisterAnak/cubit/generate_nik_cubit.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../model/patch_orang_tua_body.dart' as PatchOrangTua;
 
 class UpdateRegisterOrangTua extends StatelessWidget {
@@ -414,6 +418,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
 
   String rawKartuKeluargaIbu = '';
 
+  MapsDataModel? mapsData;
+
   // ? validate Ibu key
   final GlobalKey<FormFieldState> kkIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikIbuKey = GlobalKey<FormFieldState>();
@@ -579,6 +585,30 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
     setState(() {
       selectedGolDarahIbu = value;
     });
+  }
+
+  void _handleMapsDataChanged(MapsDataModel mapsDataIncoming) {
+    setState(() {
+      mapsData = mapsDataIncoming;
+    });
+  }
+
+  Future<void> storeMapsData(LatLng position) async {
+    String? alamat;
+
+    await geocoding.placemarkFromCoordinates(
+      position.latitude, position.longitude).then((List<geocoding.Placemark> placemarks) {
+      geocoding.Placemark place = placemarks[0];
+      
+      alamat ='${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+    }).catchError((e) {
+      debugPrint(e);
+    });
+
+    mapsData = MapsDataModel(
+      titikAlamat: position,
+      alamat: alamat
+    );
   }
 
   bool submitIbuForm() {
@@ -1041,6 +1071,14 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                       .data.ibu.jenisDisabilitas!
                       .map((e) => e.namaDisabilitas)
                       .toList();
+
+                  if(detailData.data.ibu.latitude == null || detailData.data.ibu.longitude == null) {
+                    mapsData = null;
+                  } else {
+                    storeMapsData(
+                      LatLng(detailData.data.ibu.latitude!, detailData.data.ibu.longitude!)
+                    );
+                  }
                 }
                 return Column(
                   children: [
@@ -1290,6 +1328,7 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                     dataKecamatanIbu: dataKecamatanIbu,
                                     dataDesaKelurahanIbu: dataDesaKelurahanIbu,
                                     dataDusunIbu: dataDusunIbu,
+                                    mapsData: mapsData,
                                     kkIbuKey: kkIbuKey,
                                     nikIbuKey: nikIbuKey,
                                     namaIbuKey: namaIbuKey,
@@ -1355,7 +1394,9 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
                                     handleJenisKBChanged: _handleJenisKBChanged,
                                     onSelectDateKelahiranSebelumnya:
                                         _selectDateKelahiranSebelumnyaIbu,
-                                    submitIbuForm: submitIbuForm)
+                                    submitIbuForm: submitIbuForm,
+                                    handleMapsDataChanged: _handleMapsDataChanged,
+                                  )
                               ],
                             ),
                           );
