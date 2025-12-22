@@ -12,7 +12,7 @@ class InfoFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 50,
+      height: 45,
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
       decoration: BoxDecoration(
         color: backgroundWhite10,
@@ -21,8 +21,10 @@ class InfoFieldWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          textAlign: TextAlign.start,
           text,
+          textAlign: TextAlign.start,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis, 
           style: AppTextStyles.primaryTextNormal.copyWith(
             color: color ?? textPrimary30, // Use color if not null, otherwise use textPrimary30
             fontSize: 12,
