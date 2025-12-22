@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/app/view/widget/appbar_widget.dart';
 import 'package:puspadaya/app/view/widget/dropdown_widget2.dart';
 import 'package:puspadaya/app/view/widget/measure_widget2.dart';
@@ -8,21 +9,25 @@ import 'package:puspadaya/app/view/widget/textField_widget.dart';
 import 'package:puspadaya/app/view/widget/text_field_widget2.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 
 import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/text_style.dart';
 import '../../../../config/validator/validator.dart';
+import '../../../../route/route_name.dart';
 import '../../../../utils/constant/constanst.dart';
 import '../../../../utils/logger/logger.dart';
 import '../../../model/paketToScreen/paketToUpdateRegisterAnak.dart';
 import '../../../view/widget/checkbox_list_widget.dart';
 import '../../../view/widget/date_time_picker_widget.dart';
 import '../../../view/widget/dropdown_widget.dart';
+import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/measuring_widget.dart';
 import '../../../view/widget/outline_button_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../../detailRegisterAnak/model/get_detail_anak_response.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../bloc/update_anak_bloc.dart';
 import '../model/update_anak_model.dart';
 
@@ -70,13 +75,14 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   TextEditingController ageController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
-  TextEditingController jarakPosyanduController = TextEditingController();
 
   String? selectedGender;
   String? selectedCaraLahir;
   String? selectedStatusKelahiran;
   String? selectedStatusOrangTuaAnak;
   String? selectedStatusAnak;
+
+  MapsDataModel? mapsData;
 
   // ! focus node
   final FocusNode nikFocusNode = FocusNode();
@@ -88,7 +94,6 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   final FocusNode lingkarKepalaFocusNode = FocusNode();
   final FocusNode heightFocusNode = FocusNode();
   final FocusNode weightFocusNode = FocusNode();
-  final FocusNode jarakPosyanduFocusNode = FocusNode();
   final FocusNode genderFocusNode = FocusNode();
   final FocusNode caraLahirFocusNode = FocusNode();
   final FocusNode statusKelahiranFocusNode = FocusNode();
@@ -114,8 +119,6 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   final GlobalKey<FormFieldState<String>> heightFormFieldKey =
       GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> weightFormFieldKey =
-      GlobalKey<FormFieldState<String>>();
-  final GlobalKey<FormFieldState<String>> jarakPosyanduFormFieldKey =
       GlobalKey<FormFieldState<String>>();
   final GlobalKey<FormFieldState<String>> genderFormFieldKey =
       GlobalKey<FormFieldState<String>>();
@@ -149,31 +152,35 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
   }
 
   void submitForm(UpdateAnakBloc updateAnakBloc) {
-    logger.d("jarak posyandu update ${jarakPosyanduController.text}");
     if (_formKey.currentState!.validate()) {
-      updateAnakBloc.add(UpdateAnak(
+      updateAnakBloc.add(
+        UpdateAnak(
           id: widget.paketDataUpdateAnak.data.id,
           updateAnakModel: UpdateAnakModel(
-              jarakPosyandu: double.tryParse(jarakPosyanduController.text) ?? 0,
-              nik: nikController.text,
-              namaAnak: namaController.text,
-              anakKe: int.parse(anakKeController.text),
-              tempatLahir: tempatLahirController.text,
-              tanggalLahir: tanggalLahirController.text,
-              jenisKelamin: selectedGender!,
-              beratBadanLahir: double.parse(weightController.text),
-              tinggiBadanLahir: double.parse(heightController.text),
-              lingkarKepalaLahir: double.parse(lingkarKepalaController.text),
-              lingkarLenganAtasLahir:
-                  double.parse(lingkarLenganController.text),
-              caraLahir: selectedCaraLahir!,
-              statusKelahiran: selectedStatusKelahiran!,
-              statusOrangTua: selectedStatusOrangTuaAnak!,
-              disabilitasAnak: selectedDisabilityLabelsAnak,
-              anakPindah: selectedStatusAnak == 'anak pindah'
-                ? true : false,
-              anakMeninggal: selectedStatusAnak == 'anak meninggal'
-                ? true : false)));
+            nik: nikController.text,
+            namaAnak: namaController.text,
+            anakKe: int.parse(anakKeController.text),
+            tempatLahir: tempatLahirController.text,
+            tanggalLahir: tanggalLahirController.text,
+            jenisKelamin: selectedGender!,
+            beratBadanLahir: double.parse(weightController.text),
+            tinggiBadanLahir: double.parse(heightController.text),
+            lingkarKepalaLahir: double.parse(lingkarKepalaController.text),
+            lingkarLenganAtasLahir:
+                double.parse(lingkarLenganController.text),
+            caraLahir: selectedCaraLahir!,
+            statusKelahiran: selectedStatusKelahiran!,
+            statusOrangTua: selectedStatusOrangTuaAnak!,
+            disabilitasAnak: selectedDisabilityLabelsAnak,
+            anakPindah: selectedStatusAnak == 'anak pindah'
+              ? true : false,
+            anakMeninggal: selectedStatusAnak == 'anak meninggal'
+              ? true : false,
+            latitude: mapsData?.titikAlamat.latitude,
+            longitude: mapsData?.titikAlamat.longitude
+          )
+        )
+      );
     } else {
       logger.d("form tidak valid");
       final Map<GlobalKey<FormFieldState>, FocusNode> fieldMap = {
@@ -186,12 +193,10 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
         weightFormFieldKey: weightFocusNode,
         heightFormFieldKey: heightFocusNode,
         lingkarLenganFormFieldKey: lingkarLenganFocusNode,
-        jarakPosyanduFormFieldKey: jarakPosyanduFocusNode,
         lingkarKepalaFormFieldKey: lingkarKepalaFocusNode,
         genderFormFieldKey: genderFocusNode,
         caraLahirFormFieldKey: caraLahirFocusNode,
         statusKelahiranFormFieldKey: statusKelahiranFocusNode,
-        jarakPosyanduFormFieldKey: jarakPosyanduFocusNode,
         statusOrangTuaFormFieldKey: statusOrangTuaFocusNode
       };
       // logger.d(fieldMap);
@@ -228,10 +233,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
 
   @override
   void initState() {
-    super.initState();
     // Inisialisasi status checkbox dengan false
-    selectedDisabilitiesAnak =
-        List<bool>.from(List.filled(disabilities.length, false));
+    selectedDisabilitiesAnak = List<bool>.from(List.filled(disabilities.length, false));
 
     //! textcontroller
     nomorKKController = TextEditingController(
@@ -257,8 +260,6 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
         text: widget.paketDataUpdateAnak.data.tinggiBadanLahir);
     weightController = TextEditingController(
         text: widget.paketDataUpdateAnak.data.beratBadanLahir);
-    jarakPosyanduController = TextEditingController(
-        text: widget.paketDataUpdateAnak.data.jarakPosyandu);
 
     //! selected
     selectedGender = widget.paketDataUpdateAnak.data.jenisKelamin;
@@ -272,8 +273,7 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
     }
 
     debugPrint('Init state');
-    debugPrint(
-        widget.paketDataUpdateAnak.data.disabilitasAnak!.length.toString());
+    debugPrint(widget.paketDataUpdateAnak.data.disabilitasAnak!.length.toString());
     if (widget.paketDataUpdateAnak.data.disabilitasAnak!.isNotEmpty) {
       debugPrint('not empty');
       for (var value in widget.paketDataUpdateAnak.data.disabilitasAnak!) {
@@ -286,6 +286,17 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
         }
       }
     }
+
+    //Maps data 
+    if(widget.paketDataUpdateAnak.data.latitude == null || widget.paketDataUpdateAnak.data.longitude == null) {
+      mapsData = null;
+    } else {
+      storeMapsData(
+        LatLng(widget.paketDataUpdateAnak.data.latitude!, widget.paketDataUpdateAnak.data.longitude!)
+      );
+    }
+
+    super.initState();
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -309,6 +320,24 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
       tanggalLahirController.text = "${pickedDate?.toLocal()}".split(' ')[0];
     });
   }
+
+  Future<void> storeMapsData(LatLng position) async {
+    String? alamat;
+
+    await geocoding.placemarkFromCoordinates(
+      position.latitude, position.longitude).then((List<geocoding.Placemark> placemarks) {
+      geocoding.Placemark place = placemarks[0];
+      
+      alamat ='${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+    }).catchError((e) {
+      debugPrint(e);
+    });
+
+    mapsData = MapsDataModel(
+      titikAlamat: position,
+      alamat: alamat
+    );
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -637,21 +666,52 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(
-                    'Jarak Posyandu (Meter)',
+                    'Lokasi Rumah Anak',
                     style: TextStyle(fontSize: 12),
                   ),
+                  mapsData != null 
+                  ? SizedBox(height: SizeConfig.calHeightMultiplier(8))
+                  : SizedBox.shrink(),
+                  mapsData != null 
+                  ? InfoFieldWidget(
+                    text: mapsData?.alamat ?? ''
+                  )
+                  : SizedBox.shrink(),
                   SizedBox(height: SizeConfig.calHeightMultiplier(8)),
-                  TextFieldWidget2(
-                    fieldName: 'jarak_posyandu_anak',
-                    focusNode: jarakPosyanduFocusNode,
-                    onTap: () {},
-                    formFieldKey: jarakPosyanduFormFieldKey,
-                    controller: jarakPosyanduController,
-                    hintText: 'Jarak Posyandu',
-                    keyboardType: TextInputType.number,
-                    obscureText: false,
-                    isPasswordField: false,
-                    clientValidators: [],
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.8,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context, 
+                          MAPSCHOOSE,
+                          arguments: mapsData
+                        ).then((value) {
+                          if(value != null) {
+                            setState(() {
+                              mapsData = value as MapsDataModel;
+                            });
+                          }
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: greenPrimary40,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:BorderRadius.circular(8)
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: SizeConfig.calWidthMultiplier(10),
+                          vertical: SizeConfig.calHeightMultiplier(10))),
+                      child: Text(
+                        'Pilih Lokasi Rumah',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: SizeConfig.calMultiplierText(15),
+                          fontWeight: FontWeight.w500
+                        ),
+                      )
+                    ),
                   ),
                   SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                   const Text(

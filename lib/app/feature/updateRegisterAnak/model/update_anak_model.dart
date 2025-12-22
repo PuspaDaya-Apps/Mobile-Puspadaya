@@ -24,7 +24,7 @@ class UpdateAnakModel {
   @JsonKey(name: 'lingkar_lengan_atas_lahir')
   double lingkarLenganAtasLahir;
   @JsonKey(name: 'jarak_posyandu')
-  double jarakPosyandu;
+  double jarakPosyandu = 0;
   @JsonKey(name: 'cara_lahir')
   String caraLahir;
   @JsonKey(name: 'status_kelahiran')
@@ -40,8 +40,10 @@ class UpdateAnakModel {
   @JsonKey(name: "meninggal")
   bool anakMeninggal= false;
 
+  double? latitude;
+  double? longitude;
+
   UpdateAnakModel({
-    required this.jarakPosyandu,
     required this.nik,
     required this.namaAnak,
     required this.anakKe,
@@ -58,7 +60,9 @@ class UpdateAnakModel {
     required this.disabilitasAnak,
     this.pengasuh,
     required this.anakPindah,
-    required this.anakMeninggal
+    required this.anakMeninggal,
+    this.latitude,
+    this.longitude
   });
 
   UpdateAnakModel copyWith({
@@ -80,10 +84,11 @@ class UpdateAnakModel {
     List<String>? disabilitasAnak,
     Pengasuh? pengasuh,
     bool? anakPindah,
-    bool? anakMeninggal
+    bool? anakMeninggal,
+    double? latitude,
+    double? longitude
   }) =>
       UpdateAnakModel(
-        jarakPosyandu: jarakPosyandu ?? this.jarakPosyandu,
         nik: nik?? this.nik,
         namaAnak: namaAnak ?? this.namaAnak,
         tempatLahir: tempatLahir ?? this.tempatLahir,
@@ -100,7 +105,9 @@ class UpdateAnakModel {
         disabilitasAnak: disabilitasAnak ?? this.disabilitasAnak,
         pengasuh: pengasuh ?? this.pengasuh,
         anakPindah: anakPindah ?? this.anakPindah,
-        anakMeninggal: anakMeninggal ?? this.anakMeninggal
+        anakMeninggal: anakMeninggal ?? this.anakMeninggal,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude
       );
 
   factory UpdateAnakModel.fromJson(Map<String, dynamic> json) => _$UpdateAnakModelFromJson(json);
@@ -157,7 +164,6 @@ class Pengasuh {
 
 UpdateAnakModel _$UpdateAnakModelFromJson(Map<String, dynamic> json) =>
     UpdateAnakModel(
-      jarakPosyandu: (json['jarak_posyandu'] as num).toDouble(),
       nik: json['nik'] as String,
       namaAnak: json['nama_anak'] as String,
       anakKe: (json['anak_ke'] as num).toInt(),
@@ -180,6 +186,8 @@ UpdateAnakModel _$UpdateAnakModelFromJson(Map<String, dynamic> json) =>
           : Pengasuh.fromJson(json['pengasuh'] as Map<String, dynamic>),
       anakPindah: json['pindah'] as bool,
       anakMeninggal: json['meninggal'] as bool,
+      latitude: json['latitude'] as double?,
+      longitude: json['longitude'] as double?
     );
 
 Map<String, dynamic> _$UpdateAnakModelToJson(UpdateAnakModel instance) =>
@@ -202,6 +210,8 @@ Map<String, dynamic> _$UpdateAnakModelToJson(UpdateAnakModel instance) =>
       'pengasuh': instance.pengasuh,
       'pindah': instance.anakPindah,
       'meninggal': instance.anakMeninggal,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude
     };
 
 Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
