@@ -288,10 +288,10 @@ class DetailDataAnak extends StatelessWidget {
                         horizontal: SizeConfig.calWidthMultiplier(10),
                         vertical: SizeConfig.calHeightMultiplier(10))),
                     child: Text(
-                      'Pilih Lokasi Rumah',
+                      'Lihat Lokasi Rumah',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.calMultiplierText(15),
+                        fontSize: SizeConfig.calMultiplierText(14),
                         fontWeight: FontWeight.w500
                       ),
                     )
