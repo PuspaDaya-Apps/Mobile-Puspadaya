@@ -949,7 +949,7 @@ class _CreateRegisterAnakViewState extends State<CreateRegisterAnakView> {
                         : SizedBox.shrink(),
                         SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                         SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          width: MediaQuery.sizeOf(context).width,
                           height: 40,
                           child: ElevatedButton(
                             onPressed: () {

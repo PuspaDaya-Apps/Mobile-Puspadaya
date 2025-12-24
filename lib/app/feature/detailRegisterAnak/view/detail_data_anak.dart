@@ -257,6 +257,7 @@ class DetailDataAnak extends StatelessWidget {
             detailResponse.data.latitude == null || detailResponse.data.longitude == null
             ? SizedBox.shrink()
             : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
@@ -267,7 +268,7 @@ class DetailDataAnak extends StatelessWidget {
                 ),
                 SizedBox(height: SizeConfig.calHeightMultiplier(8)),
                 SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  width: MediaQuery.sizeOf(context).width,
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
