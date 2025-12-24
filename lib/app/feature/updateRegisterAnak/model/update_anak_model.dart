@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../utils/format_utils/format_utils.dart';
+
 // part 'update_anak_model.g.dart';
 
 // @JsonSerializable()
@@ -210,8 +212,12 @@ Map<String, dynamic> _$UpdateAnakModelToJson(UpdateAnakModel instance) =>
       'pengasuh': instance.pengasuh,
       'pindah': instance.anakPindah,
       'meninggal': instance.anakMeninggal,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude
+      'latitude': instance.latitude != null
+      ? FormatUtils.formatMapsPoin(instance.latitude!)
+      : instance.latitude,
+      'longitude': instance.longitude != null
+      ? FormatUtils.formatMapsPoin(instance.longitude!)
+      : instance.longitude
     };
 
 Pengasuh _$PengasuhFromJson(Map<String, dynamic> json) => Pengasuh(
