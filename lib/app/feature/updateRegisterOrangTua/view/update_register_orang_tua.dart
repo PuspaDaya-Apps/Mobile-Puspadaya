@@ -675,6 +675,8 @@ class _UpdateRegisterOrangTuaViewState extends State<UpdateRegisterOrangTuaView>
           jenisDisabilitas: selectedDisabilityLabelsIbu.map((e) {
             return PatchOrangTua.JenisDisabilitas(namaDisabilitas: e);
           }).toList(),
+          latitude: mapsData?.titikAlamat.latitude,
+          longitude: mapsData?.titikAlamat.longitude
         ),
       );
 
