@@ -115,52 +115,51 @@ class _MapsPoinViewState extends State<MapsPoinView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundWhite10,
       appBar: PrimaryAppBar(
-        title: '',
-        background: Colors.transparent,
+        title: 'Maps',
+        background: Colors.white,
         onBackPressed: () {
           Navigator.pop(context);
         },
       ),
-      backgroundColor: backgroundWhite10,
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            FlutterMap(
-              mapController: mapController,
-              options: MapOptions(
-                initialZoom: 17,
-                interactionOptions: InteractionOptions(
-                  flags: InteractiveFlag.all,
-                  debugMultiFingerGestureWinner: true,
-                  enableMultiFingerGestureRace: true,
-                  keyboardOptions: KeyboardOptions.disabled(),
-                  cursorKeyboardRotationOptions: CursorKeyboardRotationOptions.disabled(),
-                ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          FlutterMap(
+            mapController: mapController,
+            options: MapOptions(
+              initialZoom: 17,
+              interactionOptions: InteractionOptions(
+                flags: InteractiveFlag.all,
+                debugMultiFingerGestureWinner: true,
+                enableMultiFingerGestureRace: true,
+                keyboardOptions: KeyboardOptions.disabled(),
+                cursorKeyboardRotationOptions: CursorKeyboardRotationOptions.disabled(),
               ),
-              children: [
-                TileLayer(
-                  urlTemplate: ApiUtils().urlStreetmaps(),
-                  userAgentPackageName: 'com.Puspadya.app',
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: widget.mapsData.titikAlamat,
-                      alignment: Alignment.topCenter,
-                      child: Icon(
-                        Icons.location_pin,
-                        size: 30,
-                        color: redPrimary60,
-                      )
-                    )
-                  ]
-                ),
-              ]
             ),
-          ],
-        ),
+            children: [
+              TileLayer(
+                urlTemplate: ApiUtils().urlStreetmaps(),
+                userAgentPackageName: 'com.Puspadya.app',
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: widget.mapsData.titikAlamat,
+                    alignment: Alignment.topCenter,
+                    child: Icon(
+                      Icons.location_pin,
+                      size: 30,
+                      color: redPrimary60,
+                    )
+                  )
+                ]
+              ),
+            ]
+          ),
+          
+        ],
       )
     );
   }
