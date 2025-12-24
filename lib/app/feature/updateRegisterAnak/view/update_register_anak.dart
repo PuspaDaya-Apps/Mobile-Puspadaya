@@ -331,6 +331,8 @@ class _UpdateRegisterAnakViewState extends State<UpdateRegisterAnakView> {
       alamat ='${place.street}, ${place.subLocality}, ${place.locality}, ${place.subAdministrativeArea}, ${place.postalCode}';
     }).catchError((e) {
       debugPrint(e);
+    }).then((value) {
+      setState(() {});
     });
 
     mapsData = MapsDataModel(
