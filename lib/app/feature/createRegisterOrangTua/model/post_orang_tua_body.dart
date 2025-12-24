@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../../utils/format_utils/format_utils.dart';
 // part 'post_orang_tua_body.g.dart';
 
 // @JsonSerializable()
@@ -318,6 +320,10 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'tanggal_melahirkan_sebelumnya': instance.tanggalMelahirkanSebelumnya,
       'jumlah_anak': instance.jumlahAnak,
       'jenis_disabilitas': instance.jenisDisabilitas,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
+      'latitude': instance.latitude != null
+      ? FormatUtils.formatMapsPoin(instance.latitude!)
+      : instance.latitude,
+      'longitude': instance.longitude != null
+      ? FormatUtils.formatMapsPoin(instance.longitude!)
+      : instance.longitude
     };
