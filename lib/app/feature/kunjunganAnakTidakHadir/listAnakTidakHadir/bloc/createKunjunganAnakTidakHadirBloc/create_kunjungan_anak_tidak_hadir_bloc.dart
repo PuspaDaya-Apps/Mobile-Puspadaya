@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../../../maps/model/lokasi.dart';
 import '../../model/create_kunjungan_anak_tidak_hadir_model.dart';
 import '../../model/create_kunjungan_anak_tidak_hadir_response_model.dart';
 import '../../service/list_anak_tidak_hadir_kunjungan_api.dart';
@@ -30,7 +32,11 @@ class CreateKunjunganAnakTidakHadirBloc extends Bloc<CreateKunjunganAnakTidakHad
         CreateKunjunganAnakTidakHadirModel kunjunganAnakModel = CreateKunjunganAnakTidakHadirModel(
           anakId: event.idAnak, 
           mulaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-          tanggalKunjungan: DateTime.now()
+          tanggalKunjungan: DateTime.now(),
+          lokasiStart: Lokasi(
+            latitude: event.lokasiStart.latitude, 
+            longitude: event.lokasiStart.longitude
+          )
         );
         
         debugPrint(kunjunganAnakModel.jenisKunjungan);
