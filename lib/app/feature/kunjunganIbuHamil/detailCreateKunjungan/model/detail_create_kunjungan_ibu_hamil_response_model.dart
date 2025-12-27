@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../maps/model/lokasi.dart';
+
 // part 'detail_create_kunjungan_ibu_hamil_response_model.g.dart';
 
 //@JsonSerializable()
@@ -28,6 +30,11 @@ class DetailCreateKunjunganIbuHamilResponseModel {
   DateTime mulaiPada;
   @JsonKey(name: 'ibu_hamil')
   IbuHamil? ibuHamil;
+  @JsonKey(name: 'lokasi_start')
+  Lokasi? lokasiStart;
+  @JsonKey(name: 'estimasi_jarak')
+  double estimasiJarak;
+
 
   DetailCreateKunjunganIbuHamilResponseModel({
     required this.id,
@@ -35,7 +42,9 @@ class DetailCreateKunjunganIbuHamilResponseModel {
     required this.jenisKunjungan,
     required this.tanggalKunjungan,
     required this.mulaiPada,
-    this.ibuHamil
+    this.ibuHamil,
+    this.lokasiStart,
+    required this.estimasiJarak
   });
 
   factory DetailCreateKunjunganIbuHamilResponseModel.fromJson(Map<String, dynamic> json) => _$DetailCreateKunjunganIbuHamilResponseModelFromJson(json);
@@ -71,7 +80,8 @@ class IbuAnak {
   String rw;
   String alamat;
   Dusun dusun;
-
+  double? latitude;
+  double? longitude;
 
   IbuAnak({
     required this.id,
@@ -81,6 +91,8 @@ class IbuAnak {
     required this.rw,
     required this.alamat,
     required this.dusun,
+    this.latitude,
+    this.longitude
   });
 
   factory IbuAnak.fromJson(Map<String, dynamic> json) => _$IbuAnakFromJson(json);
@@ -182,6 +194,12 @@ DetailCreateKunjunganIbuHamilResponseModel
           ibuHamil: json['ibu_hamil'] == null
               ? null
               : IbuHamil.fromJson(json['ibu_hamil'] as Map<String, dynamic>),
+          lokasiStart: json['lokasi_start'] != null
+          ? Lokasi.fromJson(json['lokasi_start'] as Map<String, dynamic>)
+          : null,
+          estimasiJarak: json['estimasi_jarak'] == null
+              ? 0
+              : json['estimasi_jarak'] as double
         );
 
 Map<String, dynamic> _$DetailCreateKunjunganIbuHamilResponseModelToJson(
@@ -193,6 +211,8 @@ Map<String, dynamic> _$DetailCreateKunjunganIbuHamilResponseModelToJson(
       'tanggal_kunjungan': instance.tanggalKunjungan.toIso8601String(),
       'mulai_pada': instance.mulaiPada.toIso8601String(),
       'ibu_hamil': instance.ibuHamil,
+      'Lokasi_Start': instance.lokasiStart,
+      'estimasi_jarak': instance.estimasiJarak,
     };
 
 IbuHamil _$IbuHamilFromJson(Map<String, dynamic> json) => IbuHamil(
@@ -215,6 +235,12 @@ IbuAnak _$IbuAnakFromJson(Map<String, dynamic> json) => IbuAnak(
       rw: json['rw'] as String,
       alamat: json['alamat'] as String,
       dusun: Dusun.fromJson(json['dusun'] as Map<String, dynamic>),
+      latitude: json['latitude'] != null
+      ? double.parse(json['latitude'] as String)
+      : null,
+      longitude: json['longitude'] != null
+      ? double.parse(json['longitude'] as String)
+      : null
     );
 
 Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
@@ -225,6 +251,8 @@ Map<String, dynamic> _$IbuAnakToJson(IbuAnak instance) => <String, dynamic>{
       'rw': instance.rw,
       'alamat': instance.alamat,
       'dusun': instance.dusun,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude
     };
 
 Dusun _$DusunFromJson(Map<String, dynamic> json) => Dusun(
