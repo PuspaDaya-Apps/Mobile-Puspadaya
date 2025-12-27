@@ -49,9 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       child: Scaffold(
         //Production
-        // backgroundColor: bluePrimaryMain,
+        backgroundColor: bluePrimaryMain,
         //Staging
-        backgroundColor: greenPrimary50,
+        // backgroundColor: greenPrimary50,
         body: Stack(
           fit: StackFit.expand,
           children: [
