@@ -3,9 +3,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../../model/CheckBoxKunjungan.dart';
+import '../../../../maps/model/lokasi.dart';
 import '../../model/detail_patch_kunjungan_ibu_hamil_response_model.dart';
 import '../../model/simpan_tugas_kunjungan_ibu_hamil_model.dart';
 import '../../model/simpan_tugas_kunjungan_ibu_hamil_response_model.dart';
@@ -55,7 +57,11 @@ class SimpanKunjunganIbuHamilBloc extends Bloc<SimpanKunjunganIbuHamilEvent, Sim
           //!2
           List<dynamic> responseUpdate = await FormTugasKunjunganIbuHamilApi().patchStatuskunjunganService(accessToken, event.idKunjungan, UpdateKunjunganIbuHamilModel(
             selesaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-            statusKunjungan: "Selesai"
+            statusKunjungan: "Selesai",
+            lokasiSelesai: Lokasi(
+              latitude: event.lokasiSelesai.latitude, 
+              longitude: event.lokasiSelesai.longitude
+            )
           ));
 
           int statusCodeUpdateKunjungan = responseUpdate[0] as int;

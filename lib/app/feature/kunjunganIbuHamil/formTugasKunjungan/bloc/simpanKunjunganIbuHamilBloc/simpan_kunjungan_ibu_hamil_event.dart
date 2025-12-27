@@ -12,11 +12,13 @@ final class SimpanKunjungan extends SimpanKunjunganIbuHamilEvent {
   final List<XFile> listImages;
   final List<CheckboxKunjungan> listTugas;
   final CheckboxKunjungan ibuHamilTidakAdaDirumah;
+  final LatLng lokasiSelesai;
 
   const SimpanKunjungan({
     required this.idKunjungan,
     required this.listImages,
     required this.listTugas,
-    required this.ibuHamilTidakAdaDirumah
+    required this.ibuHamilTidakAdaDirumah,
+    required this.lokasiSelesai
   });
 }
