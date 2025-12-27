@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -14,6 +15,7 @@ import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/screen/bukti_kunjungan.dart';
+import '../../../maps/model/maps_kunjungan_data_model.dart';
 import '../bloc/deleteKunjunganAnakTidakHadirBloc/delete_kunjungan_anak_tidak_hadir_bloc.dart';
 import '../bloc/detailKunjunganAnakTidakHadirBloc/detail_kunjungan_anak_tidak_hadir_bloc.dart';
 
@@ -223,116 +225,177 @@ class _DetailKunjunganAnakTidakHadirScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(
-                          text: "${state.listDataAnakTidakHadir.anak!.jarakPosyandu} m"),
+                      InfoFieldWidget(text: "${state.listDataAnakTidakHadir.jarakTotal} m"),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
-                      state.listDataAnakTidakHadir.anak!.kartuKeluarga.ibu !=
-                              null
-                          ? Column(
+                      state.listDataAnakTidakHadir.anak!.kartuKeluarga.ibu !=null
+                        ? Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: const Text(
+                                textAlign: TextAlign.start,
+                                'Alamat',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.calHeightMultiplier(8),
+                            ),
+                            Row(
+                              spacing: 8,
                               children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: const Text(
-                                    textAlign: TextAlign.start,
-                                    'Alamat',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                    ),
-                                  ),
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state
+                                          .listDataAnakTidakHadir
+                                          .anak!
+                                          .kartuKeluarga
+                                          .ibu!
+                                          .dusun
+                                          .desaKelurahan
+                                          .kecamatan
+                                          .kabupatenKota
+                                          .namaKabupatenKota),
                                 ),
-                                SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8),
-                                ),
-                                Row(
-                                  spacing: 8,
-                                  children: [
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state
-                                              .listDataAnakTidakHadir
-                                              .anak!
-                                              .kartuKeluarga
-                                              .ibu!
-                                              .dusun
-                                              .desaKelurahan
-                                              .kecamatan
-                                              .kabupatenKota
-                                              .namaKabupatenKota),
-                                    ),
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state
-                                              .listDataAnakTidakHadir
-                                              .anak!
-                                              .kartuKeluarga
-                                              .ibu!
-                                              .dusun
-                                              .desaKelurahan
-                                              .kecamatan
-                                              .namaKecamatan),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8),
-                                ),
-                                Row(
-                                  spacing: 8,
-                                  children: [
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state
-                                              .listDataAnakTidakHadir
-                                              .anak!
-                                              .kartuKeluarga
-                                              .ibu!
-                                              .dusun
-                                              .desaKelurahan
-                                              .namaDesaKelurahan),
-                                    ),
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state
-                                              .listDataAnakTidakHadir
-                                              .anak!
-                                              .kartuKeluarga
-                                              .ibu!
-                                              .dusun
-                                              .namaDusun),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8),
-                                ),
-                                Row(
-                                  spacing: 8,
-                                  children: [
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state.listDataAnakTidakHadir
-                                              .anak!.kartuKeluarga.ibu!.rt),
-                                    ),
-                                    Expanded(
-                                      child: InfoFieldWidget(
-                                          text: state.listDataAnakTidakHadir
-                                              .anak!.kartuKeluarga.ibu!.rw),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(8),
-                                ),
-                                InfoFieldWidget(
-                                  text: state.listDataAnakTidakHadir.anak!
-                                      .kartuKeluarga.ibu!.alamat,
-                                ),
-                                SizedBox(
-                                  height: SizeConfig.calHeightMultiplier(16),
-                                ),
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state
+                                          .listDataAnakTidakHadir
+                                          .anak!
+                                          .kartuKeluarga
+                                          .ibu!
+                                          .dusun
+                                          .desaKelurahan
+                                          .kecamatan
+                                          .namaKecamatan),
+                                )
                               ],
-                            )
-                          : const SizedBox(),
+                            ),
+                            SizedBox(
+                              height: SizeConfig.calHeightMultiplier(8),
+                            ),
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state
+                                          .listDataAnakTidakHadir
+                                          .anak!
+                                          .kartuKeluarga
+                                          .ibu!
+                                          .dusun
+                                          .desaKelurahan
+                                          .namaDesaKelurahan),
+                                ),
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state
+                                          .listDataAnakTidakHadir
+                                          .anak!
+                                          .kartuKeluarga
+                                          .ibu!
+                                          .dusun
+                                          .namaDusun),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.calHeightMultiplier(8),
+                            ),
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state.listDataAnakTidakHadir
+                                          .anak!.kartuKeluarga.ibu!.rt),
+                                ),
+                                Expanded(
+                                  child: InfoFieldWidget(
+                                      text: state.listDataAnakTidakHadir
+                                          .anak!.kartuKeluarga.ibu!.rw),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.calHeightMultiplier(8),
+                            ),
+                            InfoFieldWidget(
+                              text: state.listDataAnakTidakHadir.anak!
+                                  .kartuKeluarga.ibu!.alamat,
+                            ),
+                            SizedBox(
+                              height: SizeConfig.calHeightMultiplier(16),
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
+
+                      //Maps 
+                      state.listDataAnakTidakHadir.lokasiStart == null && state.listDataAnakTidakHadir.lokasiSelesai  == null
+                      ? SizedBox.shrink()
+                      : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Lokasi Kunjungan',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 40,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context, 
+                                  MAPSDETAILKUNJUNGAN,
+                                  arguments: MapsKunjunganDataModel(
+                                    titikMulai: state.listDataAnakTidakHadir.lokasiStart != null
+                                    ? LatLng(
+                                      state.listDataAnakTidakHadir.lokasiStart!.latitude, 
+                                      state.listDataAnakTidakHadir.lokasiStart!.longitude
+                                    )
+                                    : null,
+                                    titikSelesai: state.listDataAnakTidakHadir.lokasiSelesai != null
+                                    ? LatLng(
+                                      state.listDataAnakTidakHadir.lokasiSelesai!.latitude, 
+                                      state.listDataAnakTidakHadir.lokasiSelesai!.longitude
+                                    )
+                                    : null
+                                  )
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: greenPrimary40,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:BorderRadius.circular(8)
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.calWidthMultiplier(10),
+                                  vertical: SizeConfig.calHeightMultiplier(10))),
+                              child: Text(
+                                'Lihat Lokasi Kunjungan',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.calMultiplierText(14),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(16),
+                          ),
+                        ],
+                      ),
+
                       ExpansionTile(
                         tilePadding: EdgeInsets.zero,
                         title: Text(
