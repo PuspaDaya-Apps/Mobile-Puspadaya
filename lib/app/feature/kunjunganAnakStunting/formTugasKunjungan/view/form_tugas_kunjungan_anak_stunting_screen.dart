@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -45,16 +47,14 @@ class FormTugasKunjunganAnakStunting extends StatelessWidget {
 
 class FormTugasKunjunganAnakStuntingView extends StatefulWidget {
   const FormTugasKunjunganAnakStuntingView(
-      {super.key, required this.idKunjungan});
+    {super.key, required this.idKunjungan});
   final String idKunjungan;
 
   @override
-  State<FormTugasKunjunganAnakStuntingView> createState() =>
-      _FormTugasKunjunganAnakStuntingViewState();
+  State<FormTugasKunjunganAnakStuntingView> createState() => _FormTugasKunjunganAnakStuntingViewState();
 }
 
-class _FormTugasKunjunganAnakStuntingViewState
-    extends State<FormTugasKunjunganAnakStuntingView> {
+class _FormTugasKunjunganAnakStuntingViewState extends State<FormTugasKunjunganAnakStuntingView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -76,6 +76,14 @@ class _FormTugasKunjunganAnakStuntingViewState
     label: "Anak Tidak Berada di Rumah"
   );
 
+  //Maps
+  Location location = Location();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  LatLng? titikAlamat;
+  bool loadingMaps = true;
+
   List<XFile> imagesData = [];
 
   void _goToNextPage() {
@@ -93,9 +101,93 @@ class _FormTugasKunjunganAnakStuntingViewState
 
   @override
   void initState() {
+    initLocation();
+    BlocProvider.of<TugasKunjunganAnakStuntingBloc>(context).add(GetTugasKunjungan());
+
     super.initState();
-    BlocProvider.of<TugasKunjunganAnakStuntingBloc>(context)
-        .add(GetTugasKunjungan());
+  }
+
+  initLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        Navigator.pop(context);
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+        
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    
+    _locationData = await location.getLocation().then((value) {
+      setState(() {
+        loadingMaps = false;
+        titikAlamat = LatLng(value.latitude!, value.longitude!);
+      });
+      return value;
+    });
   }
 
   @override
@@ -179,13 +271,12 @@ class _FormTugasKunjunganAnakStuntingViewState
             physics: const NeverScrollableScrollPhysics(),
             children: [
               // Halaman pertama
-              BlocConsumer<TugasKunjunganAnakStuntingBloc,
-                  TugasKunjunganAnakStuntingState>(
+              BlocConsumer<TugasKunjunganAnakStuntingBloc, TugasKunjunganAnakStuntingState>(
                 listener: (context, state) {
                   debugPrint(state.toString());
                 },
                 builder: (context, state) {
-                  if (state is TugasKunjunganAnakStuntingProccessState) {
+                  if (state is TugasKunjunganAnakStuntingProccessState || loadingMaps) {
                     return SizedBox(
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height,
@@ -305,6 +396,7 @@ class _FormTugasKunjunganAnakStuntingViewState
                 images: imagesData,
                 listTugasKunjungan: listTugasKunjunganData,
                 anakTidakAdaDirumah: anaktidakAdaDirumah,
+                titikAlamat: titikAlamat,
                 setImagesValues: (value) {
                   imagesData.clear();
                   logger.i(value.length);
@@ -467,19 +559,22 @@ class _FormTugasKunjunganAnakStuntingViewState
 // }
 
 class UploadImage extends StatefulWidget {
-  UploadImage(
-      {super.key,
-      required this.listTugasKunjungan,
-      required this.images,
-      required this.idKunjungan,
-      required this.setImagesValues,
-      required this.anakTidakAdaDirumah});
+  UploadImage({
+    super.key,
+    required this.listTugasKunjungan,
+    required this.images,
+    required this.idKunjungan,
+    required this.setImagesValues,
+    required this.anakTidakAdaDirumah,
+    this.titikAlamat
+  });
 
   final List<CheckboxKunjungan> listTugasKunjungan;
   List<XFile> images;
   ValueSetter<List<XFile>> setImagesValues;
   final String idKunjungan;
   CheckboxKunjungan anakTidakAdaDirumah;
+  LatLng? titikAlamat;
 
   @override
   _UploadImageState createState() => _UploadImageState();
@@ -713,8 +808,9 @@ class _UploadImageState extends State<UploadImage> {
                     context: context,
                     builder: (context) {
                       return AlertConfirmCreateKunjungan(
-                        totalDistance: state.model.anak.jarakPosyandu,
-                        totalDuration: formattedTime(state.model.selesaiPada
+                        totalDistance: state.model.jarakTotal,
+                        totalDuration: formattedTime(
+                            state.model.selesaiPada
                             .difference(state.model.mulaiPada)
                             .inSeconds),
                         kunjunganLagi: () {
@@ -806,14 +902,14 @@ class _UploadImageState extends State<UploadImage> {
                   color: bluePrimaryMain,
                   mainButtonMessage: 'Upload Bukti',
                   mainButton: () {
-                    BlocProvider.of<SimpanKunjunganAnakStuntingBloc>(context)
-                        .add(SimpanKunjungan(
-                            idKunjungan: widget.idKunjungan,
-                            listImages: widget.images,
-                            anakTidakAdaDirumah: widget.anakTidakAdaDirumah,
-                            listTugas: widget.listTugasKunjungan
-                                .where((e) => e.isChecked)
-                                .toList()));
+                    BlocProvider.of<SimpanKunjunganAnakStuntingBloc>(context).add(SimpanKunjungan(
+                      idKunjungan: widget.idKunjungan,
+                      listImages: widget.images,
+                      anakTidakAdaDirumah: widget.anakTidakAdaDirumah,
+                      lokasiSelesai: widget.titikAlamat!,
+                      listTugas: widget.listTugasKunjungan
+                          .where((e) => e.isChecked)
+                          .toList()));
                   },
                 );
               },
