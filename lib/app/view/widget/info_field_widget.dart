@@ -21,8 +21,10 @@ class InfoFieldWidget extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          textAlign: TextAlign.start,
           text,
+          textAlign: TextAlign.start,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis, 
           style: AppTextStyles.primaryTextNormal.copyWith(
             color: color ?? textPrimary30, // Use color if not null, otherwise use textPrimary30
             fontSize: 12,

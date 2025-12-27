@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
+import '../../../../maps/model/lokasi.dart';
 import '../../model/create_kunjungan_ibu_hamil_model.dart';
 import '../../model/create_kunjungan_ibu_hamil_response_model.dart';
 import '../../service/list_ibu_hamil_kunjungan_api.dart';
@@ -32,7 +34,11 @@ class CreateKunjunganIbuHamilBloc extends Bloc<CreateKunjunganIbuHamilEvent, Cre
         CreateKunjunganIbuHamilModel kunjunganIbuHamilModel = CreateKunjunganIbuHamilModel(
           ibuHamilId: event.idIbuHamil, 
           mulaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-          tanggalKunjungan: DateTime.now()
+          tanggalKunjungan: DateTime.now(),
+          lokasiStart: Lokasi(
+            latitude: event.lokasiStart.latitude, 
+            longitude: event.lokasiStart.longitude
+          )
         );
         debugPrint(kunjunganIbuHamilModel.jenisKunjungan);
 

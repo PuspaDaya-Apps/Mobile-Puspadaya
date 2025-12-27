@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/utils/helper/helper_core.dart';
 
 import '../../../../config/screen_config/size_config.dart';
@@ -9,6 +10,7 @@ import '../../../../config/theme/text_style.dart';
 import '../../../../route/route_name.dart';
 import '../../../view/widget/info_field_widget.dart';
 import '../../../view/widget/primary_button_widget.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../bloc/detail_register_orang_tua_bloc.dart';
 import '../model/get_orangtua_detail_response.dart';
 
@@ -194,6 +196,55 @@ class DetailDataIbu extends StatelessWidget {
                 text: '${getOrangtuaDetailResponse.data.ibu.alamat}'),
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
+            ),
+            getOrangtuaDetailResponse.data.ibu.latitude == null || getOrangtuaDetailResponse.data.ibu.longitude == null
+            ? SizedBox.shrink()
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Lokasi Rumah Ibu',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context, 
+                        MAPSPOIN,
+                        arguments: MapsDataModel(
+                          titikAlamat: LatLng(getOrangtuaDetailResponse.data.ibu.latitude!, getOrangtuaDetailResponse.data.ibu.longitude!)
+                        )
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: greenPrimary40,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:BorderRadius.circular(8)
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.calWidthMultiplier(10),
+                        vertical: SizeConfig.calHeightMultiplier(10))),
+                    child: Text(
+                      'lihat Lokasi Rumah',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.calMultiplierText(14),
+                        fontWeight: FontWeight.w500
+                      ),
+                    )
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.calHeightMultiplier(16),
+                ),
+              ],
             ),
             const Text(
               'Nomor Telepon',

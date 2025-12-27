@@ -88,24 +88,19 @@ class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHa
                   ),
                   child: PengukuranIbuHamilItems(
                       onTap: () {
-                        Navigator.pushNamed(context, DETAIL_PENGUKURAN_IBU_HAMIL,
-                                arguments: state
-                                    .indexPengukuranIbuHamilResponseModel
-                                    .data![index]
-                                    .id)
-                            .then((value) {
+                        Navigator.pushNamed(
+                          context,
+                          DETAIL_PENGUKURAN_IBU_HAMIL,
+                          arguments: state.indexPengukuranIbuHamilResponseModel.data![index].id).then((value) {
                           if (value != null) {
                             setState(() {
-                              indexPengukuranIbuHamilBloc
-                                  .add(GetPengukuranIbuHamilEvent());
+                              indexPengukuranIbuHamilBloc.add(GetPengukuranIbuHamilEvent());
                             });
                           }
                         });
                       },
-                      name: state.indexPengukuranIbuHamilResponseModel
-                          .data![index].namaIbu,
-                      nik: state
-                          .indexPengukuranIbuHamilResponseModel.data![index].nik,
+                      name: state.indexPengukuranIbuHamilResponseModel.data![index].namaIbu,
+                      nik: state.indexPengukuranIbuHamilResponseModel.data![index].nik,
                       date: DateFormat("d MMMM y", "ID_id").format(state
                           .indexPengukuranIbuHamilResponseModel
                           .data![index]
@@ -114,6 +109,7 @@ class _IndexPengukuranIbuHamilScreenViewState extends State<IndexPengukuranIbuHa
                         state.indexPengukuranIbuHamilResponseModel.data![index].beratBadan != null &&
                         state.indexPengukuranIbuHamilResponseModel.data![index].lingkarLenganAtas != null
                       ? true : null,
+                      number: state.indexPengukuranIbuHamilResponseModel.data!.length - index,
                     ),
                 );
               },

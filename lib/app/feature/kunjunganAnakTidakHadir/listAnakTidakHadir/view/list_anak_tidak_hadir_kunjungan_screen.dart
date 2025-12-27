@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
@@ -10,6 +12,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../route/route_name.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
@@ -39,14 +42,20 @@ class ListAnakTidakHadirKunjunganView extends StatefulWidget {
   const ListAnakTidakHadirKunjunganView({super.key});
 
   @override
-  State<ListAnakTidakHadirKunjunganView> createState() =>
-      _ListAnakTidakHadirKunjunganViewState();
+  State<ListAnakTidakHadirKunjunganView> createState() => _ListAnakTidakHadirKunjunganViewState();
 }
 
-class _ListAnakTidakHadirKunjunganViewState
-    extends State<ListAnakTidakHadirKunjunganView> {
+class _ListAnakTidakHadirKunjunganViewState extends State<ListAnakTidakHadirKunjunganView> {
   final TextEditingController _searchController = TextEditingController();
   bool isSearching = false;
+
+  //Maps
+  Location location = Location();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  LatLng? titikAlamat;
+  bool loadingMaps = true;
 
   final List<Kunjunganstuntingitem> originalList = [
     Kunjunganstuntingitem(
@@ -79,12 +88,95 @@ class _ListAnakTidakHadirKunjunganViewState
 
   @override
   void initState() {
-    super.initState();
+    initLocation();
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
-    BlocProvider.of<ListAnakTidakHadirKunjunganBloc>(context)
-        .add(GetDataAnakTidakHadir());
+    BlocProvider.of<ListAnakTidakHadirKunjunganBloc>(context).add(GetDataAnakTidakHadir());
+    super.initState();
+  }
+
+  initLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        Navigator.pop(context);
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+        
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    
+    _locationData = await location.getLocation().then((value) {
+      setState(() {
+        loadingMaps = false;
+        titikAlamat = LatLng(value.latitude!, value.longitude!);
+      });
+      return value;
+    });
   }
 
   void _filterList() {
@@ -106,11 +198,9 @@ class _ListAnakTidakHadirKunjunganViewState
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc =
-        BlocProvider.of<CreateKunjunganAnakTidakHadirBloc>(context);
+    final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakTidakHadirBloc>(context);
 
-    return BlocConsumer<CreateKunjunganAnakTidakHadirBloc,
-        CreateKunjunganAnakTidakHadirState>(
+    return BlocConsumer<CreateKunjunganAnakTidakHadirBloc, CreateKunjunganAnakTidakHadirState>(
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakTidakHadirSuccessState) {
@@ -158,14 +248,16 @@ class _ListAnakTidakHadirKunjunganViewState
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListAnakTidakHadirKunjunganBloc,
-                    ListAnakTidakHadirKunjunganState>(
+                child: BlocConsumer<ListAnakTidakHadirKunjunganBloc, ListAnakTidakHadirKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
                     if (state is ListAnakTidakHadirKunjunganProccessState) {
-                      return SizedBox(
+                      return Container(
+                        color: Colors.white,
+                        width: MediaQuery.sizeOf(context).width,
+                        height: MediaQuery.sizeOf(context).height,
                         child: Center(
                           child: SpinKitThreeBounce(
                             color: bluePrimaryMain,
@@ -191,16 +283,16 @@ class _ListAnakTidakHadirKunjunganViewState
                             ),
                             child: KunjunganStuntingItems(
                               onTap: () {
-                                createKunjunganBloc.add(CreateKunjunganEvent(
-                                    state.listDataAnakTidakHadir.data![index]
-                                        .id));
+                                createKunjunganBloc.add(
+                                  CreateKunjunganEvent(
+                                    state.listDataAnakTidakHadir.data![index].id,
+                                    titikAlamat!
+                                  )
+                                );
                               },
-                              name: state
-                                  .listDataAnakTidakHadir.data![index].namaAnak,
-                              nik:
-                                  state.listDataAnakTidakHadir.data![index].nik,
-                              parent: state.listDataAnakTidakHadir.data![index]
-                                  .ibu?.namaIbu,
+                              name: state.listDataAnakTidakHadir.data![index].namaAnak,
+                              nik: state.listDataAnakTidakHadir.data![index].nik,
+                              parent: state.listDataAnakTidakHadir.data![index].ibu?.namaIbu,
                             ),
                           );
                         },
@@ -211,18 +303,19 @@ class _ListAnakTidakHadirKunjunganViewState
                 ),
               ),
             ),
-            state is CreateKunjunganAnakTidakHadirProccessState
-                ? SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: MediaQuery.sizeOf(context).height,
-                    child: Center(
-                      child: SpinKitThreeBounce(
-                        color: bluePrimaryMain,
-                        size: 50.0,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            state is CreateKunjunganAnakTidakHadirProccessState || loadingMaps
+            ? Container(
+              color: Colors.white,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
+            )
+            : const SizedBox(),
           ],
         );
       },

@@ -148,48 +148,30 @@ class _DetailCreateKunjunganAnakStuntingViewState
                       Row(
                         children: [
                           Expanded(
-                            child: Container(
-                              alignment: Alignment
-                                  .center, // Pusatkan konten di dalam Container
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .center, // Pusatkan elemen di dalam Row
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5), // Pusatkan konten di dalam Container
+                              child: Column(
+                                crossAxisAlignment:CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Jarak",
-                                        style: AppTextStyles
-                                            .secoundaryTextMedium
-                                            .copyWith(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                          width:
-                                              4), // Tambahkan jarak antar teks jika diperlukan
-                                      Text(
-                                        "${state.listDataAnakStunting.anak!.jarakPosyandu} m",
-                                        style: AppTextStyles.primaryTextMedium
-                                            .copyWith(
-                                          fontSize: 22,
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    "Estimasi Jarak",
+                                    style: AppTextStyles
+                                        .secoundaryTextMedium
+                                        .copyWith(
+                                      fontSize: 12,
+                                    ),
                                   ),
                                   // SizedBox(
                                   //     width:
                                   //         4), // Tambahkan jarak antar teks jika diperlukan
-                                  // Text(
-                                  //   "KM",
-                                  //   style: AppTextStyles.secoundaryTextMedium
-                                  //       .copyWith(
-                                  //     fontSize: 12,
-                                  //   ),
-                                  // ),
+                                  Text(
+                                    "${state.listDataAnakStunting.estimasiJarak} m",
+                                    style: AppTextStyles.primaryTextMedium
+                                        .copyWith(
+                                      fontSize: 22,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -200,11 +182,11 @@ class _DetailCreateKunjunganAnakStuntingViewState
                             width: 2,
                           ),
                           Expanded(
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .center, // Pusatkan elemen di dalam Row
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start, // Pusatkan elemen di dalam Row
                                 children: [
                                   Text(
                                     "Waktu",
@@ -213,9 +195,9 @@ class _DetailCreateKunjunganAnakStuntingViewState
                                       fontSize: 12,
                                     ),
                                   ),
-                                  SizedBox(
-                                      width:
-                                          4), // Tambahkan jarak antar teks jika diperlukan
+                                  // SizedBox(
+                                  //     width:
+                                  //         4), // Tambahkan jarak antar teks jika diperlukan
                                   Text(
                                     formattedTime,
                                     style: AppTextStyles.primaryTextMedium

@@ -40,6 +40,7 @@ import '../../../model/data_wilayah_model.dart';
 // import '../../../view/widget/checkbox_list_widget.dart';
 // import '../../../view/widget/primary_button_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
+import '../../maps/model/maps_data_model.dart';
 // import '../../../view/widget/date_time_picker_widget.dart';
 // import '../../../view/widget/dropdown_widget.dart';
 // import '../../../view/widget/outline_button_widget.dart';
@@ -75,12 +76,10 @@ class CreateRegisterOrangTuaView extends StatefulWidget {
   const CreateRegisterOrangTuaView({super.key});
 
   @override
-  State<CreateRegisterOrangTuaView> createState() =>
-      _CreateRegisterOrangTuaViewState();
+  State<CreateRegisterOrangTuaView> createState() => _CreateRegisterOrangTuaViewState();
 }
 
-class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
-    with SingleTickerProviderStateMixin {
+class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView> with SingleTickerProviderStateMixin {
   final _formAyahkey = GlobalKey<FormState>();
   final _formIbukey = GlobalKey<FormState>();
 
@@ -402,6 +401,9 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
   // List<String> valueDisabilitiesIbu = [];
   List<String> selectedDisabilityLabelsIbu = [];
 
+  //Maps Data
+  MapsDataModel? mapsData;
+
   // ? validate Ibu key
   final GlobalKey<FormFieldState> kkIbuKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> nikIbuKey = GlobalKey<FormFieldState>();
@@ -559,6 +561,12 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
     });
   }
 
+  void _handleMapsDataChanged(MapsDataModel mapsDataIncoming) {
+    setState(() {
+      mapsData = mapsDataIncoming;
+    });
+  }
+
   bool submitIbuForm() {
     // Langkah 1: Jalankan validasi form
     if (_formIbukey.currentState!.validate()) {
@@ -613,6 +621,8 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
           jenisDisabilitas: selectedDisabilityLabelsIbu.map((e) {
             return JenisDisabilitas(namaDisabilitas: e);
           }).toList(),
+          latitude: mapsData?.titikAlamat.latitude,
+          longitude: mapsData?.titikAlamat.longitude
         ),
       );
 
@@ -647,8 +657,7 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
         teleponIbuKey: teleponIbuFocusNode,
         selectedJenisKBIbuKey: selectedJenisKBIbuFocusNode,
         selectedGolDarahIbuKey: selectedGolDarahIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuKey:
-            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+        tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
         jumlahAnakIbuKey: jumlahAnakIbuFocusNode,
       };
       // logger.d(fieldMap);
@@ -1070,79 +1079,82 @@ class _CreateRegisterOrangTuaViewState extends State<CreateRegisterOrangTuaView>
                               ),
                               //!IBU
                               CreateRegisterIbu(
-                                  formIbukey: _formIbukey,
-                                  ibuScrollController: _ibuScrollController,
-                                  kkIbuController: kkIbuController,
-                                  nikIbuController: nikIbuController,
-                                  namaIbuController: namaIbuController,
-                                  tempatLahirIbuController: tempatLahirIbuController,
-                                  tanggalLahirIbuController: tanggalLahirIbuController,
-                                  alamatIbuController: alamatIbuController,
-                                  teleponIbuController: teleponIbuController,
-                                  rTIbuController: rTIbuController,
-                                  rWIbuController: rWIbuController,
-                                  selectedJenisKB: selectedJenisKBIbu,
-                                  jumlahAnakIbuController: jumlahAnakIbuController,
-                                  tanggalKelahiranAnakSebelumnyaIbuController: tanggalKelahiranAnakSebelumnyaIbuController,
-                                  dataKabupatenKotaIbu: dataKabupatenKotaIbu,
-                                  selectedKabupatenIbu: selectedKabupatenIbu,
-                                  selectedDesaIbu: selectedDesaIbu,
-                                  selectedDusunIbu: selectedDusunIbu,
-                                  selectedGolDarahIbu: selectedGolDarahIbu,
-                                  selectedKecamatanIbu: selectedKecamatanIbu,
-                                  selectedDisabilitiesIbu: selectedDisabilitiesIbu,
-                                  selectedDisabilitiesAyah: selectedDisabilitiesAyah,
-                                  selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
-                                  dataKecamatanIbu: dataKecamatanIbu,
-                                  dataDesaKelurahanIbu: dataDesaKelurahanIbu,
-                                  dataDusunIbu: dataDusunIbu,
-                                  kkIbuKey: kkIbuKey,
-                                  nikIbuKey: nikIbuKey,
-                                  namaIbuKey: namaIbuKey,
-                                  tempatLahirIbuKey: tempatLahirIbuKey,
-                                  tanggalLahirIbuKey: tanggalLahirIbuKey,
-                                  alamatIbuKey: alamatIbuKey,
-                                  teleponIbuKey: teleponIbuKey,
-                                  rtIbuKey: rtIbuKey,
-                                  rwIbuKey: rwIbuKey,
-                                  jenisKBKey: selectedJenisKBIbuKey,
-                                  jumlahAnakIbuKey: jumlahAnakIbuKey,
-                                  tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
-                                  selectedKabupatenIbuKey: selectedKabupatenIbuKey,
-                                  selectedKecamatanIbuKey: selectedKecamatanIbuKey,
-                                  selectedDesaIbuKey: selectedDesaIbuKey,
-                                  selectedDusunIbuKey: selectedDusunIbuKey,
-                                  selectedGolDarahIbuKey: selectedGolDarahIbuKey,
-                                  kkIbuFocusNode: kkIbuFocusNode,
-                                  nikIbuFocusNode: nikIbuFocusNode,
-                                  namaIbuFocusNode: namaIbuFocusNode,
-                                  tempatLahirIbuFocusNode: tempatLahirIbuFocusNode,
-                                  tanggalLahirIbuFocusNode: tanggalLahirIbuFocusNode,
-                                  alamatIbuFocusNode: alamatIbuFocusNode,
-                                  teleponIbuFocusNode: teleponIbuFocusNode,
-                                  rtIbuFocusNode: rtIbuFocusNode,
-                                  rwIbuFocusNode: rwIbuFocusNode,
-                                  jenisKBFocusNode: selectedJenisKBIbuFocusNode,
-                                  jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
-                                  tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
-                                  selectedKabupatenIbuFocusNode: selectedKabupatenIbuFocusNode,
-                                  selectedKecamatanIbuFocusNode: selectedKecamatanIbuFocusNode,
-                                  selectedDesaIbuFocusNode: selectedDesaIbuFocusNode,
-                                  selectedDusunIbuFocusNode: selectedDusunIbuFocusNode,
-                                  selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
-                                  onSelectDate: _selectDateIbu,
-                                  removeDisability: _removeDisabilityIbu,
-                                  toggleDisabilityIbu: _toggleDisabilityIbu,
-                                  isGenerateIbuValid: _isGenerateIbuValid,
-                                  dataWilayahModel: state.dataWilayahModel,
-                                  handleKabupatenIbuChanged: _handleKabupatenIbuChanged,
-                                  handleKecamatanIbuChanged: _handleKecamatanIbuChanged,
-                                  handleDesaIbuChanged: _handleDesaIbuChanged,
-                                  handleDusunIbuChanged: _handleDusunIbuChanged,
-                                  handleGolDarahIbuChanged: _handleGolonganDarahIbuChanged,
-                                  handleJenisKBChanged: _handleJenisKBChanged,
-                                  onSelectDateKelahiranSebelumnya: _selectDateKelahiranSebelumnyaIbu,
-                                  submitIbuForm: submitIbuForm)
+                                formIbukey: _formIbukey,
+                                ibuScrollController: _ibuScrollController,
+                                kkIbuController: kkIbuController,
+                                nikIbuController: nikIbuController,
+                                namaIbuController: namaIbuController,
+                                tempatLahirIbuController: tempatLahirIbuController,
+                                tanggalLahirIbuController: tanggalLahirIbuController,
+                                alamatIbuController: alamatIbuController,
+                                teleponIbuController: teleponIbuController,
+                                rTIbuController: rTIbuController,
+                                rWIbuController: rWIbuController,
+                                selectedJenisKB: selectedJenisKBIbu,
+                                jumlahAnakIbuController: jumlahAnakIbuController,
+                                tanggalKelahiranAnakSebelumnyaIbuController: tanggalKelahiranAnakSebelumnyaIbuController,
+                                dataKabupatenKotaIbu: dataKabupatenKotaIbu,
+                                selectedKabupatenIbu: selectedKabupatenIbu,
+                                selectedDesaIbu: selectedDesaIbu,
+                                selectedDusunIbu: selectedDusunIbu,
+                                selectedGolDarahIbu: selectedGolDarahIbu,
+                                selectedKecamatanIbu: selectedKecamatanIbu,
+                                selectedDisabilitiesIbu: selectedDisabilitiesIbu,
+                                selectedDisabilitiesAyah: selectedDisabilitiesAyah,
+                                selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
+                                dataKecamatanIbu: dataKecamatanIbu,
+                                dataDesaKelurahanIbu: dataDesaKelurahanIbu,
+                                dataDusunIbu: dataDusunIbu,
+                                mapsData: mapsData,
+                                kkIbuKey: kkIbuKey,
+                                nikIbuKey: nikIbuKey,
+                                namaIbuKey: namaIbuKey,
+                                tempatLahirIbuKey: tempatLahirIbuKey,
+                                tanggalLahirIbuKey: tanggalLahirIbuKey,
+                                alamatIbuKey: alamatIbuKey,
+                                teleponIbuKey: teleponIbuKey,
+                                rtIbuKey: rtIbuKey,
+                                rwIbuKey: rwIbuKey,
+                                jenisKBKey: selectedJenisKBIbuKey,
+                                jumlahAnakIbuKey: jumlahAnakIbuKey,
+                                tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
+                                selectedKabupatenIbuKey: selectedKabupatenIbuKey,
+                                selectedKecamatanIbuKey: selectedKecamatanIbuKey,
+                                selectedDesaIbuKey: selectedDesaIbuKey,
+                                selectedDusunIbuKey: selectedDusunIbuKey,
+                                selectedGolDarahIbuKey: selectedGolDarahIbuKey,
+                                kkIbuFocusNode: kkIbuFocusNode,
+                                nikIbuFocusNode: nikIbuFocusNode,
+                                namaIbuFocusNode: namaIbuFocusNode,
+                                tempatLahirIbuFocusNode: tempatLahirIbuFocusNode,
+                                tanggalLahirIbuFocusNode: tanggalLahirIbuFocusNode,
+                                alamatIbuFocusNode: alamatIbuFocusNode,
+                                teleponIbuFocusNode: teleponIbuFocusNode,
+                                rtIbuFocusNode: rtIbuFocusNode,
+                                rwIbuFocusNode: rwIbuFocusNode,
+                                jenisKBFocusNode: selectedJenisKBIbuFocusNode,
+                                jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
+                                tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+                                selectedKabupatenIbuFocusNode: selectedKabupatenIbuFocusNode,
+                                selectedKecamatanIbuFocusNode: selectedKecamatanIbuFocusNode,
+                                selectedDesaIbuFocusNode: selectedDesaIbuFocusNode,
+                                selectedDusunIbuFocusNode: selectedDusunIbuFocusNode,
+                                selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
+                                onSelectDate: _selectDateIbu,
+                                removeDisability: _removeDisabilityIbu,
+                                toggleDisabilityIbu: _toggleDisabilityIbu,
+                                isGenerateIbuValid: _isGenerateIbuValid,
+                                dataWilayahModel: state.dataWilayahModel,
+                                handleKabupatenIbuChanged: _handleKabupatenIbuChanged,
+                                handleKecamatanIbuChanged: _handleKecamatanIbuChanged,
+                                handleDesaIbuChanged: _handleDesaIbuChanged,
+                                handleDusunIbuChanged: _handleDusunIbuChanged,
+                                handleGolDarahIbuChanged: _handleGolonganDarahIbuChanged,
+                                handleJenisKBChanged: _handleJenisKBChanged,
+                                onSelectDateKelahiranSebelumnya: _selectDateKelahiranSebelumnyaIbu,
+                                submitIbuForm: submitIbuForm,
+                                handleMapsDataChanged: _handleMapsDataChanged
+                              )
                             ],
                           ),
                         );

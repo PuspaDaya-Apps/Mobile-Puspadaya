@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/model/simpan_tugas_kunjungan_anak_stunting_model.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/model/simpan_tugas_kunjungan_anak_stunting_response_model.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/model/update_kunjungan_anak_stunting_model.dart';
@@ -11,6 +12,7 @@ import 'package:puspadaya/app/feature/kunjunganAnakStunting/formTugasKunjungan/m
 import '../../../../../../utils/logger/logger.dart';
 import '../../../../../../utils/shared_preferences_utils/shared_preferences_utils.dart';
 import '../../../../../model/CheckBoxKunjungan.dart';
+import '../../../../maps/model/lokasi.dart';
 import '../../model/detail_patch_kunjungan_anak_stunting_response_model.dart';
 import '../../service/form_tugas_kunjungan_anak_stunting_api.dart';
 
@@ -57,7 +59,11 @@ class SimpanKunjunganAnakStuntingBloc extends Bloc<SimpanKunjunganAnakStuntingEv
           //!2
           List<dynamic> responseUpdate = await FormTugasKunjunganAnakStuntingApi().patchStatuskunjunganService(accessToken, event.idKunjungan, UpdateKunjunganAnakStuntingModel(
             selesaiPada: DateFormat("HH:mm:ss", "ID_id").format(DateTime.now()), 
-            statusKunjungan: "Selesai"
+            statusKunjungan: "Selesai",
+            lokasiSelesai: Lokasi(
+              latitude: event.lokasiSelesai.latitude, 
+              longitude: event.lokasiSelesai.longitude
+            )
           ));
 
           int statusCodeUpdateKunjungan = responseUpdate[0] as int;

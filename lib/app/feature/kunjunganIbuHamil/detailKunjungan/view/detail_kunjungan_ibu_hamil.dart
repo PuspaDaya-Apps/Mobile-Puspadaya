@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:puspadaya/app/view/widget/primary_button_widget.dart';
 import 'package:puspadaya/config/screen_config/image_config.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
@@ -14,6 +15,7 @@ import '../../../../view/widget/alert_dialog_widget.dart';
 import '../../../../view/widget/appbar_widget.dart';
 import '../../../../view/widget/info_field_widget.dart';
 import '../../../../view/screen/bukti_kunjungan.dart';
+import '../../../maps/model/maps_kunjungan_data_model.dart';
 import '../bloc/deleteKunjunganIbuHamilBloc/delete_kunjungan_ibu_hamil_bloc.dart';
 import '../bloc/detailKunjunganIbuHamilBloc/detail_kunjungan_ibu_hamil_bloc.dart';
 
@@ -218,7 +220,7 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(8),
                       ),
-                      InfoFieldWidget(text: "${state.listDataIbuHamil.ibuHamil!.jarak} m"),
+                      InfoFieldWidget(text: "${state.listDataIbuHamil.jarakTotal} m"),
                       SizedBox(height: SizeConfig.calHeightMultiplier(16)),
                       const Text(
                         textAlign: TextAlign.start,
@@ -303,6 +305,69 @@ class _DetailKunjunganIbuHamilScreenState
                       SizedBox(
                         height: SizeConfig.calHeightMultiplier(16),
                       ),
+
+                       //Maps 
+                      state.listDataIbuHamil.lokasiStart == null && state.listDataIbuHamil.lokasiSelesai  == null
+                      ? SizedBox.shrink()
+                      : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            'Lokasi Kunjungan',
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+                          SizedBox(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 40,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context, 
+                                  MAPSDETAILKUNJUNGAN,
+                                  arguments: MapsKunjunganDataModel(
+                                    titikMulai: state.listDataIbuHamil.lokasiStart != null
+                                    ? LatLng(
+                                      state.listDataIbuHamil.lokasiStart!.latitude, 
+                                      state.listDataIbuHamil.lokasiStart!.longitude
+                                    )
+                                    : null,
+                                    titikSelesai: state.listDataIbuHamil.lokasiSelesai != null
+                                    ? LatLng(
+                                      state.listDataIbuHamil.lokasiSelesai!.latitude, 
+                                      state.listDataIbuHamil.lokasiSelesai!.longitude
+                                    )
+                                    : null
+                                  )
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: greenPrimary40,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:BorderRadius.circular(8)
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: SizeConfig.calWidthMultiplier(10),
+                                  vertical: SizeConfig.calHeightMultiplier(10))),
+                              child: Text(
+                                'Lihat Lokasi Kunjungan',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: SizeConfig.calMultiplierText(14),
+                                  fontWeight: FontWeight.w500
+                                ),
+                              )
+                            ),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.calHeightMultiplier(16),
+                          ),
+                        ],
+                      ),
+                      
                       ExpansionTile(
                         tilePadding: EdgeInsets.zero,
                         title: Text(

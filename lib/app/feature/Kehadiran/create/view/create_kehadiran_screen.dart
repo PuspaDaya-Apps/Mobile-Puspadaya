@@ -633,8 +633,7 @@ class _CreateKehadiranViewState extends State<CreateKehadiranScreenView>
                   },
                 ),
                 // Ibu
-                BlocBuilder<CreateKehadiranIbuHamilBloc,
-                    CreateKehadiranIbuHamilState>(
+                BlocBuilder<CreateKehadiranIbuHamilBloc, CreateKehadiranIbuHamilState>(
                   builder: (context, state) {
                     if (state is CreateKehadiranFormIbuHamilLoading) {
                       return SizedBox(

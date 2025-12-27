@@ -68,11 +68,10 @@ class _SplashScreenState extends State<SplashScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding:
-                    EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
+                padding: EdgeInsets.only(bottom: SizeConfig.calHeightMultiplier(25)),
                 child: Text(
-                  // "Staging V. 2.5.7", //staging
-                  "V. 2.5.7", //Production
+                  "Staging V. 2.6.8", //staging
+                  // "V. 2.6.8", //Production
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: SizeConfig.calMultiplierText(18),

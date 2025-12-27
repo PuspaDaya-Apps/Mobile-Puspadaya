@@ -79,6 +79,9 @@ class Data {
   @JsonKey(name: "meninggal")
   bool anakMeninggal= false;
 
+  double? latitude;
+  double? longitude;
+
   Data({
     required this.id,
     required this.createdAt,
@@ -107,7 +110,9 @@ class Data {
     required this.pengukuran,
     required this.posyandu,
     required this.anakPindah,
-    required this.anakMeninggal
+    required this.anakMeninggal,
+    this.latitude,
+    this.longitude
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
@@ -623,6 +628,12 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       anakMeninggal: json['meninggal'] != null
       ? json['meninggal'] as bool
       : false,
+      latitude: json['latitude'] != null
+      ? double.parse(json['latitude'] as String)
+      : null,
+      longitude: json['longitude'] != null
+      ? double.parse(json['longitude'] as String)
+      : null
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -652,6 +663,8 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'pengasuhAnak': instance.pengasuhAnak,
       'pengukuran': instance.pengukuran,
       'posyandu': instance.posyandu,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude
     };
 
 DisabilitasAnak _$DisabilitasAnakFromJson(Map<String, dynamic> json) =>

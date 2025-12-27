@@ -1,4 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../../../utils/format_utils/format_utils.dart';
 // part 'patch_orang_tua_body.g.dart';
 
 //@JsonSerializable()
@@ -159,6 +161,9 @@ class Ibu {
   @JsonKey(name: "jenis_disabilitas")
   final List<JenisDisabilitas> jenisDisabilitas;
 
+  double? latitude;
+  double? longitude;
+
   Ibu({
     this.nomorKartuKeluarga,
     required this.nik,
@@ -175,6 +180,8 @@ class Ibu {
     this.tanggalMelahirkanSebelumnya,
     required this.jumlahAnak,
     required this.jenisDisabilitas,
+    this.latitude,
+    this.longitude
   });
 
   Ibu copyWith({
@@ -193,6 +200,8 @@ class Ibu {
     String? tanggalMelahirkanSebelumnya,
     int? jumlahAnak,
     List<JenisDisabilitas>? jenisDisabilitas,
+    double? latitude,
+    double? longitude
   }) =>
       Ibu(
         nomorKartuKeluarga: nomorKartuKeluarga ?? this.nomorKartuKeluarga,
@@ -211,6 +220,8 @@ class Ibu {
             tanggalMelahirkanSebelumnya ?? this.tanggalMelahirkanSebelumnya,
         jumlahAnak: jumlahAnak ?? this.jumlahAnak,
         jenisDisabilitas: jenisDisabilitas ?? this.jenisDisabilitas,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude
       );
 
   factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);
@@ -290,6 +301,8 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>)
           .map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
           .toList(),
+      latitude: json['latitude'] as double?,
+      longitude: json['longitude'] as double?
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
@@ -308,4 +321,10 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'tanggal_melahirkan_sebelumnya': instance.tanggalMelahirkanSebelumnya,
       'jumlah_anak': instance.jumlahAnak,
       'jenis_disabilitas': instance.jenisDisabilitas,
+      'latitude': instance.latitude != null
+      ? FormatUtils.formatMapsPoin(instance.latitude!)
+      : instance.latitude,
+      'longitude': instance.longitude != null
+      ? FormatUtils.formatMapsPoin(instance.longitude!)
+      : instance.longitude
     };

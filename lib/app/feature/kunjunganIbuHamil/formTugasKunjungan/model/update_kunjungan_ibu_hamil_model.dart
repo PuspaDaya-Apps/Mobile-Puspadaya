@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../maps/model/lokasi.dart';
+
 // part 'update_kunjungan_ibu_hamil_model.g.dart';
 
 // @JsonSerializable()
@@ -8,10 +10,13 @@ class UpdateKunjunganIbuHamilModel {
   String statusKunjungan;
   @JsonKey(name: 'selesai_pada')
   String selesaiPada;
+  @JsonKey(name: 'lokasi_selesai')
+  Lokasi lokasiSelesai;
 
   UpdateKunjunganIbuHamilModel({
     required this.selesaiPada,
-    required this.statusKunjungan
+    required this.statusKunjungan,
+    required this.lokasiSelesai
   });
 
   factory UpdateKunjunganIbuHamilModel.fromJson(Map<String, dynamic> json) => _$UpdateKunjunganIbuHamilModelFromJson(json);
@@ -24,6 +29,7 @@ UpdateKunjunganIbuHamilModel _$UpdateKunjunganIbuHamilModelFromJson(
     UpdateKunjunganIbuHamilModel(
       selesaiPada: json['selesai_pada'] as String,
       statusKunjungan: json['status_kunjungan'] as String,
+      lokasiSelesai: Lokasi.fromJson(json['lokasi_selesai'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UpdateKunjunganIbuHamilModelToJson(

@@ -24,6 +24,8 @@ class DetailPatchKunjunganAnakStuntingResponseModel {
   DateTime mulaiPada;
   @JsonKey(name: 'selesai_pada')
   DateTime selesaiPada;
+  @JsonKey(name: 'jarak_total')
+  String jarakTotal;
   Anak anak;
 
   DetailPatchKunjunganAnakStuntingResponseModel({
@@ -31,6 +33,7 @@ class DetailPatchKunjunganAnakStuntingResponseModel {
     required this.tanggalKunjungan,
     required this.mulaiPada,
     required this.selesaiPada,
+    required this.jarakTotal,
     required this.anak
   });
 
@@ -79,6 +82,7 @@ DetailPatchKunjunganAnakStuntingResponseModel
           mulaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['mulai_pada']}"),
           selesaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['selesai_pada']}"),
           anak: Anak.fromJson(json['anak'] as Map<String, dynamic>),
+          jarakTotal: json['jarak_total'] as String
         );
 
 Map<String, dynamic> _$DetailPatchKunjunganAnakStuntingResponseModelToJson(
@@ -89,6 +93,7 @@ Map<String, dynamic> _$DetailPatchKunjunganAnakStuntingResponseModelToJson(
       'mulai_pada': instance.mulaiPada.toIso8601String(),
       'selesai_pada': instance.selesaiPada.toIso8601String(),
       'anak': instance.anak,
+      'jarak_total': instance.jarakTotal,
     };
 
 Anak _$AnakFromJson(Map<String, dynamic> json) => Anak(

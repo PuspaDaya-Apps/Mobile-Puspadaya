@@ -30,6 +30,9 @@ class GetPosyanduBloc extends Bloc<GetPosyanduEvent, GetPosyanduState> {
           final GetListPosyanduResponseModel getPosyanduResponseModel = GetListPosyanduResponseModel.fromJson(response[1]);
 
           if(statusCode == 200) {
+            //sorting data
+            getPosyanduResponseModel.data!.sort((a, b) => a.namaPosyandu.compareTo(b.namaPosyandu));
+
             emit(GetPosyanduSuccessState(getPosyanduResponseModel));
           } else if (statusCode == 401) {
             emit(GetPosyanduTokenExpiredState());

@@ -181,63 +181,58 @@ class _SearchAnakViewState extends State<SearchAnakView> {
                               ),
                             ],
                           ),
-                          subtitle: Row(
-                            spacing: 10,
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          subtitle: Column(
+                            // spacing: 10,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                width: 60,
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "NIK : ",
-                                        style: AppTextStyles.primaryTextNormal
-                                            .copyWith(
-                                          fontSize: 12,
-                                        ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "NIK : ",
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
                                       ),
-                                      TextSpan(
-                                        text: filteredList[index].nik,
-                                        style: AppTextStyles.primaryTextNormal
-                                            .copyWith(
-                                          fontSize: 12,
-                                        ),
+                                    ),
+                                    TextSpan(
+                                      text: filteredList[index].nik,
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Container(
-                                height:
-                                    15, // Set a fixed height for the divider
-                                width: 2,
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                              ),
-                              Flexible(
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "Ibu : ",
-                                        style: AppTextStyles.primaryTextNormal
-                                            .copyWith(
-                                          fontSize: 12,
-                                        ),
+                              // Container(
+                              //   height:
+                              //       15, // Set a fixed height for the divider
+                              //   width: 2,
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.black,
+                              //     borderRadius: BorderRadius.circular(24),
+                              //   ),
+                              // ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: "Ibu : ",
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
                                       ),
-                                      TextSpan(
-                                        text: filteredList[index].namaIbu,
-                                        style: AppTextStyles.primaryTextNormal
-                                            .copyWith(
-                                          fontSize: 12,
-                                        ),
+                                    ),
+                                    TextSpan(
+                                      text: filteredList[index].namaIbu,
+                                      style: AppTextStyles.primaryTextNormal
+                                          .copyWith(
+                                        fontSize: 12,
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],

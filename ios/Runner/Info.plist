@@ -47,5 +47,12 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<array>
+			<string>location</string>
+		</array>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Need for calculation path in kunjungan</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Need for calculation path in kunjungan</string>
 	</dict>
 </plist>

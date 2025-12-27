@@ -21,6 +21,9 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../route/route_name.dart';
+import '../../../view/widget/info_field_widget.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../bloc/update_register_orang_tua_bloc.dart';
 
 class UpdateRegisterIbu extends StatelessWidget {
@@ -53,6 +56,8 @@ class UpdateRegisterIbu extends StatelessWidget {
 
   String selectedJenisKB;
   String selectedGolDarahIbu;
+
+  MapsDataModel? mapsData;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
@@ -117,6 +122,7 @@ class UpdateRegisterIbu extends StatelessWidget {
   final void Function(dynamic) handleGolDarahIbuChanged;
   final void Function(dynamic) handleJenisKBChanged;
   final void Function() submitIbuForm;
+  final void Function(MapsDataModel) handleMapsDataChanged;
 
   UpdateRegisterIbu({
     super.key,
@@ -147,6 +153,7 @@ class UpdateRegisterIbu extends StatelessWidget {
     this.selectedKecamatanIbu,
     this.selectedDesaIbu,
     this.selectedDusunIbu,
+    this.mapsData,
     // selected golongan darah
     this.selectedGolDarahIbu = '-',
     // selected disabilities
@@ -204,6 +211,7 @@ class UpdateRegisterIbu extends StatelessWidget {
     required this.handleJenisKBChanged,
     required this.onSelectDateKelahiranSebelumnya,
     required this.submitIbuForm,
+    required this.handleMapsDataChanged
   });
 
   @override
@@ -238,6 +246,7 @@ class UpdateRegisterIbu extends StatelessWidget {
         selectedDesaIbu: selectedDesaIbu,
         selectedDusunIbu: selectedDusunIbu,
         selectedGolDarahIbu: selectedGolDarahIbu,
+        mapsData: mapsData,
         selectedDisabilitiesIbu: selectedDisabilitiesIbu,
         selectedDisabilitiesAyah: selectedDisabilitiesAyah,
         selectedDisabilityLabelsIbu: selectedDisabilityLabelsIbu,
@@ -290,6 +299,7 @@ class UpdateRegisterIbu extends StatelessWidget {
         handleJenisKBChanged: handleJenisKBChanged,
         onSelectDateKelahiranSebelumnya: onSelectDateKelahiranSebelumnya,
         submitIbuForm: submitIbuForm,
+        handleMapsDataChanged: handleMapsDataChanged,
       ),
     );
   }
@@ -324,6 +334,9 @@ class UpdateRegisterIbuView extends StatefulWidget {
   String selectedJenisKB;
   // String selectedJenisKBIbu = '-';
   String selectedGolDarahIbu;
+
+  // maps data
+  MapsDataModel? mapsData;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
@@ -388,6 +401,8 @@ class UpdateRegisterIbuView extends StatefulWidget {
 
   final Future<void> Function(BuildContext) onSelectDateKelahiranSebelumnya;
   final void Function() submitIbuForm;
+  final void Function(MapsDataModel) handleMapsDataChanged;
+
   UpdateRegisterIbuView({
     super.key,
     // form
@@ -416,6 +431,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
     this.selectedKecamatanIbu,
     this.selectedDesaIbu,
     this.selectedDusunIbu,
+    this.mapsData,
     // selected golongan darah
     required this.selectedJenisKB,
     this.selectedGolDarahIbu = '-',
@@ -474,6 +490,7 @@ class UpdateRegisterIbuView extends StatefulWidget {
     required this.handleJenisKBChanged,
     required this.onSelectDateKelahiranSebelumnya,
     required this.submitIbuForm,
+    required this.handleMapsDataChanged
   });
 
   @override
@@ -1149,6 +1166,53 @@ class _UpdateRegisterIbuViewState extends State<UpdateRegisterIbuView> {
                 FormBuilderValidators.required(
                     errorText: "Isi terlebih dahulu!"),
               ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            const Text(
+              'Lokasi Rumah Ibu',
+              style: TextStyle(fontSize: 12),
+            ),
+            widget.mapsData != null 
+            ? SizedBox(height: SizeConfig.calHeightMultiplier(8))
+            : SizedBox.shrink(),
+            widget.mapsData != null 
+            ? InfoFieldWidget(
+              text: widget.mapsData?.alamat ?? ''
+            )
+            : SizedBox.shrink(),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context, 
+                    MAPSCHOOSE,
+                    arguments: widget.mapsData
+                  ).then((value) {
+                    if(value != null) {
+                      widget.handleMapsDataChanged(value as MapsDataModel);
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: greenPrimary40,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:BorderRadius.circular(8)
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.calWidthMultiplier(10),
+                    vertical: SizeConfig.calHeightMultiplier(10))),
+                child: Text(
+                  'Pilih Lokasi Rumah',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.calMultiplierText(14),
+                    fontWeight: FontWeight.w500
+                  ),
+                )
+              ),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(

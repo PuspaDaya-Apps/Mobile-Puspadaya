@@ -9,6 +9,7 @@ sealed class CreateKunjunganAnakStuntingEvent extends Equatable {
 
 final class CreateKunjunganEvent extends CreateKunjunganAnakStuntingEvent {
   final String idAnak;
+  final LatLng lokasiStart;
 
-  const CreateKunjunganEvent(this.idAnak);
+  const CreateKunjunganEvent(this.idAnak, this.lokasiStart);
 }

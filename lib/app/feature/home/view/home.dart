@@ -927,7 +927,10 @@ class ProfileSection extends StatelessWidget {
 }
 
 class HomeMenuFeatures extends StatefulWidget {
+  const HomeMenuFeatures({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeMenuFeaturesState createState() => _HomeMenuFeaturesState();
 }
 
@@ -1045,14 +1048,12 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
     ];
 
     int itemExpanedCol = (_menuItems.length / 4).ceil();
-    logger.d(
-        'menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
+    logger.d('menu items ${_menuItems.length}, itemExpanedCol ${itemExpanedCol.ceil()}');
     int itemsToShow = _isExpanded ? _menuItems.length : 4;
-    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 7.5;
+    double sizeHeighRowItemMenu = MediaQuery.of(context).size.height / 7.2;
 
     return Container(
-      padding:
-          EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
+      padding: EdgeInsets.symmetric(horizontal: SizeConfig.calWidthMultiplier(24)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         spacing: 5,
@@ -1069,7 +1070,7 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
               itemCount: itemsToShow, // Batasi jumlah item yang ditampilkan
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 crossAxisSpacing: 16,
-                childAspectRatio: 0.67,
+                childAspectRatio: 0.62,
                 mainAxisSpacing: 5,
                 maxCrossAxisExtent: 80,
               ),
@@ -1085,6 +1086,16 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
                 _isExpanded = !_isExpanded; // Toggle state
               });
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              side: BorderSide(
+                width: 1,
+                color: Colors.black38,
+              ),
+              minimumSize: Size(double.infinity, 52),
+              shape: RoundedRectangleBorder(),
+            ),
             child: Row(
               spacing: 1,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1105,16 +1116,6 @@ class _HomeMenuFeaturesState extends State<HomeMenuFeatures> {
                       : FluentIcons.chevron_down_24_filled,
                 ),
               ],
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              side: BorderSide(
-                width: 1,
-                color: Colors.black38,
-              ),
-              minimumSize: Size(double.infinity, 52),
-              shape: RoundedRectangleBorder(),
             ),
           )
         ],

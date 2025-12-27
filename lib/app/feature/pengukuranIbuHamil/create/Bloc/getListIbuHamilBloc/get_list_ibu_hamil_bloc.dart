@@ -30,6 +30,9 @@ class GetListIbuHamilBloc extends Bloc<GetListIbuHamilEvent, GetListIbuHamilStat
           final GetListIbuHamilResponseModel getListIbuHamilResponseModel = GetListIbuHamilResponseModel.fromJson(response[1]);
 
           if(statusCode == 200) {
+            //sorting data
+            getListIbuHamilResponseModel.data!.sort((a, b) => a.namaIbu.compareTo(b.namaIbu));
+
             emit(GetListIbuHamilSuccessState(getListIbuHamilResponseModel));
           } else if (statusCode == 401) {
             emit(GetListIbuHamilTokenExpiredState());

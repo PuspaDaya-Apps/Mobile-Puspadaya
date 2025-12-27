@@ -24,6 +24,8 @@ class DetailPatchKunjunganIbuHamilResponseModel {
   DateTime mulaiPada;
   @JsonKey(name: 'selesai_pada')
   DateTime selesaiPada;
+  @JsonKey(name: 'jarak_total')
+  String jarakTotal;
   @JsonKey(name: 'ibu_hamil')
   IbuHamil ibuHamil;
 
@@ -32,6 +34,7 @@ class DetailPatchKunjunganIbuHamilResponseModel {
     required this.tanggalKunjungan,
     required this.mulaiPada,
     required this.selesaiPada,
+    required this.jarakTotal,
     required this.ibuHamil
   });
 
@@ -73,6 +76,7 @@ DetailPatchKunjunganIbuHamilResponseModel
           mulaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['mulai_pada']}"),
           selesaiPada: DateTime.parse("${json['tanggal_kunjungan']} ${json['selesai_pada']}"),
           ibuHamil: IbuHamil.fromJson(json['ibu_hamil'] as Map<String, dynamic>),
+          jarakTotal: json['jarak_total'] as String
         );
 
 Map<String, dynamic> _$DetailPatchKunjunganIbuHamilResponseModelToJson(
@@ -83,6 +87,7 @@ Map<String, dynamic> _$DetailPatchKunjunganIbuHamilResponseModelToJson(
       'mulai_pada': instance.mulaiPada.toIso8601String(),
       'selesai_pada': instance.selesaiPada.toIso8601String(),
       'ibu_hamil': instance.ibuHamil,
+      'jarak_total': instance.jarakTotal,
     };
 IbuHamil _$IbuHamilFromJson(Map<String, dynamic> json) => IbuHamil(
       id: json['id'] as String,

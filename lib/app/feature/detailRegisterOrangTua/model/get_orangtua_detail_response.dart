@@ -91,6 +91,9 @@ class Ibu {
   @JsonKey(name: "jenis_disabilitas")
   final List<JenisDisabilitas>? jenisDisabilitas;
 
+  double? latitude;
+  double? longitude;
+
   Ibu({
     required this.nama,
     required this.id,
@@ -109,6 +112,8 @@ class Ibu {
     required this.posyandu,
     required this.kartuKeluarga,
     required this.jenisDisabilitas,
+    this.latitude,
+    this.longitude
   });
 
   Ibu copyWith({
@@ -129,6 +134,8 @@ class Ibu {
     Posyandu? posyandu,
     KartuKeluarga? kartuKeluarga,
     List<JenisDisabilitas>? jenisDisabilitas,
+    double? latitude,
+    double? longitude,
   }) =>
       Ibu(
         nama: nama ?? this.nama,
@@ -149,6 +156,8 @@ class Ibu {
         posyandu: posyandu ?? this.posyandu,
         kartuKeluarga: kartuKeluarga ?? this.kartuKeluarga,
         jenisDisabilitas: jenisDisabilitas ?? this.jenisDisabilitas,
+        latitude: latitude ?? this.latitude,
+        longitude: latitude ?? this.longitude,
       );
 
   factory Ibu.fromJson(Map<String, dynamic> json) => _$IbuFromJson(json);
@@ -558,6 +567,12 @@ Ibu _$IbuFromJson(Map<String, dynamic> json) => Ibu(
       jenisDisabilitas: (json['jenis_disabilitas'] as List<dynamic>?)
           ?.map((e) => JenisDisabilitas.fromJson(e as Map<String, dynamic>))
           .toList(),
+      latitude: json['latitude'] != null
+      ? double.parse(json['latitude'] as String)
+      : null,
+      longitude: json['longitude'] != null
+      ? double.parse(json['longitude'] as String)
+      : null
     );
 
 Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
@@ -578,6 +593,8 @@ Map<String, dynamic> _$IbuToJson(Ibu instance) => <String, dynamic>{
       'posyandu': instance.posyandu,
       'kartu_keluarga': instance.kartuKeluarga,
       'jenis_disabilitas': instance.jenisDisabilitas,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude
     };
 
 Ayah _$AyahFromJson(Map<String, dynamic> json) => Ayah(

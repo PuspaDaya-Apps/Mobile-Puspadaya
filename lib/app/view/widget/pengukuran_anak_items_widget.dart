@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 
+import '../../../config/screen_config/size_config.dart';
+
 class PengukuranAnakItems extends StatelessWidget {
   final String name;
   final String nik;
@@ -9,6 +11,7 @@ class PengukuranAnakItems extends StatelessWidget {
   final String place;
   final VoidCallback onTap;
   final bool? pengukuranIsNull;
+  final int number;
 
   const PengukuranAnakItems({
     super.key,
@@ -17,7 +20,8 @@ class PengukuranAnakItems extends StatelessWidget {
     required this.name,
     required this.date,
     required this.nik,
-    this.pengukuranIsNull
+    this.pengukuranIsNull,
+    required this.number
   });
 
   @override
@@ -30,38 +34,74 @@ class PengukuranAnakItems extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 4,
-              ),
-              decoration: BoxDecoration(
-                color: pengukuranIsNull != null
-                ? bluePrimary50
-                : goldPrimaryMain,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Column(
-                spacing: 1,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$name',
-                    style: AppTextStyles.primaryTextMedium.copyWith(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+            Row(
+              children: [
+                Container(
+                  height: SizeConfig.calHeightMultiplier(45),
+                  width: SizeConfig.calHeightMultiplier(45),
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 2,
+                    vertical: 2,
                   ),
-                  Text(
-                    'NIK : $nik',
-                    style: AppTextStyles.primaryTextNormal.copyWith(
-                      fontSize: 10,
-                      color: Colors.white,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: pengukuranIsNull != null
+                        ? bluePrimary50
+                        : goldPrimaryMain,
+                    width: 1.5
                     ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ],
-              ),
+                  child: Text(
+                    number.toString(),
+                    style: AppTextStyles.primaryTextBold.copyWith(
+                      color: pengukuranIsNull != null
+                        ? bluePrimary50
+                        : goldPrimaryMain,
+                      fontSize: SizeConfig.calMultiplierText(20),
+                      fontWeight: FontWeight.w600
+                    ),
+                  )
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: pengukuranIsNull != null
+                    ? bluePrimary50
+                    : goldPrimaryMain,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Column(
+                    spacing: 1,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$name',
+                        style: AppTextStyles.primaryTextMedium.copyWith(
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        'NIK : $nik',
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             RichText(
               text: TextSpan(
@@ -102,12 +142,12 @@ class PengukuranAnakItems extends StatelessWidget {
           ],
         ),
       ),
-      trailing: Icon(
-        Icons.arrow_forward_ios,
-        color: pengukuranIsNull != null
-        ? bluePrimary50
-        : goldPrimaryMain,
-      ),
+      // trailing: Icon(
+      //   Icons.arrow_forward_ios,
+      //   color: pengukuranIsNull != null
+      //   ? bluePrimary50
+      //   : goldPrimaryMain,
+      // ),
     );
   }
 }

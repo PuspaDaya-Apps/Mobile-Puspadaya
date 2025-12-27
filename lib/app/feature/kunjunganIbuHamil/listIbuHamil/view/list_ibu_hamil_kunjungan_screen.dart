@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_ibu_hamil_widget.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
 import 'package:puspadaya/config/theme/pallet_color.dart';
@@ -9,6 +11,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../../route/route_name.dart';
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
@@ -40,13 +43,20 @@ class ListIbuHamilKunjunganView extends StatefulWidget {
   const ListIbuHamilKunjunganView({super.key});
 
   @override
-  State<ListIbuHamilKunjunganView> createState() =>
-      _ListIbuHamilKunjunganViewState();
+  State<ListIbuHamilKunjunganView> createState() => _ListIbuHamilKunjunganViewState();
 }
 
 class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
   bool isSearching = false;
   final TextEditingController _searchController = TextEditingController();
+
+  //Maps
+  Location location = Location();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  LatLng? titikAlamat;
+  bool loadingMaps = true;
 
   // final List<KunjuganIbuHamilItem> originalList = [
   //   KunjuganIbuHamilItem(
@@ -79,12 +89,97 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
 
   @override
   void initState() {
-    super.initState();
+    initLocation();
     // filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
     BlocProvider.of<ListIbuHamilKunjunganBloc>(context).add(GetDataIbuHamil());
+    super.initState();
   }
+
+  initLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        Navigator.pop(context);
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+        
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    
+    _locationData = await location.getLocation().then((value) {
+      setState(() {
+        loadingMaps = false;
+        titikAlamat = LatLng(value.latitude!, value.longitude!);
+      });
+      return value;
+    });
+  }
+
 
   void _filterList() {
     // setState(() {
@@ -105,11 +200,9 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc =
-        BlocProvider.of<CreateKunjunganIbuHamilBloc>(context);
+    final createKunjunganBloc = BlocProvider.of<CreateKunjunganIbuHamilBloc>(context);
 
-    return BlocConsumer<CreateKunjunganIbuHamilBloc,
-        CreateKunjunganIbuHamilState>(
+    return BlocConsumer<CreateKunjunganIbuHamilBloc, CreateKunjunganIbuHamilState>(
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganIbuHamilSuccessState) {
@@ -157,14 +250,14 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                 actions: _buildAppBarActions(),
               ),
               body: SafeArea(
-                child: BlocConsumer<ListIbuHamilKunjunganBloc,
-                    ListIbuHamilKunjunganState>(
+                child: BlocConsumer<ListIbuHamilKunjunganBloc, ListIbuHamilKunjunganState>(
                   listener: (context, state) {
                     debugPrint(state.toString());
                   },
                   builder: (context, stateList) {
                     if (stateList is ListIbuHamilKunjunganProccessState) {
-                      return SizedBox(
+                      return Container(
+                        color: Colors.white,
                         width: MediaQuery.sizeOf(context).width,
                         height: MediaQuery.sizeOf(context).height,
                         child: Center(
@@ -192,16 +285,16 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                             ),
                             child: KunjunganIbuHamilItem(
                               onTap: () {
-                                createKunjunganBloc.add(CreateKunjunganEvent(
-                                    stateList
-                                        .listDataIbuHamil.data![index].id));
+                                createKunjunganBloc.add(
+                                  CreateKunjunganEvent(
+                                    stateList.listDataIbuHamil.data![index].id,
+                                    titikAlamat!
+                                  )
+                                );
                               },
-                              name: stateList.listDataIbuHamil.data![index]
-                                  .ibuAnak.namaIbu,
-                              nik: stateList
-                                  .listDataIbuHamil.data![index].ibuAnak.nik,
-                              husband: stateList.listDataIbuHamil.data![index]
-                                  .ibuAnak.ayah.namaAyah,
+                              name: stateList.listDataIbuHamil.data![index].ibuAnak.namaIbu,
+                              nik: stateList.listDataIbuHamil.data![index].ibuAnak.nik,
+                              husband: stateList.listDataIbuHamil.data![index].ibuAnak.ayah.namaAyah,
                             ),
                           );
                         },
@@ -212,18 +305,19 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                 ),
               ),
             ),
-            state is CreateKunjunganIbuHamilProccessState
-                ? SizedBox(
-                width: MediaQuery.sizeOf(context).width,
-                height: MediaQuery.sizeOf(context).height,
-                child: Center(
-                  child: SpinKitThreeBounce(
-                    color: bluePrimaryMain,
-                    size: 50.0,
-                  ),
+            state is CreateKunjunganIbuHamilProccessState || loadingMaps
+            ? Container(
+              color: Colors.white,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
                 ),
-              )
-                : const SizedBox(),
+              ),
+            )
+            : const SizedBox(),
           ],
         );
       },

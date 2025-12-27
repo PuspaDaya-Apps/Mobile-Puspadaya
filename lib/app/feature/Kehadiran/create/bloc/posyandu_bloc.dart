@@ -27,22 +27,24 @@ class PosyanduBloc extends Bloc<PosyanduEvent, PosyanduState> {
         // int? totalPosyandu =
         //     await PosyanduService().getTotalItemPosyandu(accessToken);
 
-        dynamic response =
-            await PosyanduService().getAllPosyandu(accessToken);
+        dynamic response = await PosyanduService().getAllPosyandu(accessToken);
 
         int statusCode = response[0] as int;
         // anak by posyandu
-        GetAllPosyandu dataAnak = GetAllPosyandu.fromJson(response[1]);
+        GetAllPosyandu dataPosyandu = GetAllPosyandu.fromJson(response[1]);
 
         logger.d("succes get all posyandu");
         // logger.d(jadwalPosyandu.data[0].namaKegiatan);
         if (statusCode == 200) {
+          //sorting data
+          dataPosyandu.data.sort((a, b) => a.namaPosyandu.compareTo(b.namaPosyandu));
+
           logger.d('succes get data posyandu');
-          emit(PosyanduSuccess(dataAnak));
+          emit(PosyanduSuccess(dataPosyandu));
         } else if (statusCode == 401) {
           emit(TokenExpiredState());
         } else {
-          emit(PosyanduFailed('error ${dataAnak.message}'));
+          emit(PosyanduFailed('error ${dataPosyandu.message}'));
         }
       } catch (error) {
         emit(PosyanduFailed(error.toString()));

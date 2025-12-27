@@ -13,6 +13,8 @@ class ApiUtils {
   final String _apiVersion = "/api/v1";
 
   final String _urlTestIbuHamil = "https://puspadaya.netlify.app/auth/signin";
+
+  final String _urlStreetMaps = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
   
   //!Header
   // Map<String, String> header() =>
@@ -32,6 +34,10 @@ class ApiUtils {
   Uri urlTestibuHamil() {
     Uri url = Uri.parse(_urlTestIbuHamil);
     return url;
+  }
+
+  String urlStreetmaps() {;
+    return _urlStreetMaps;
   }
 
   //!Auth

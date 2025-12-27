@@ -21,9 +21,13 @@ import 'package:puspadaya/utils/constant/constanst.dart';
 import 'package:puspadaya/utils/logger/logger.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../route/route_name.dart';
+import '../../../view/widget/info_field_widget.dart';
+import '../../maps/model/maps_data_model.dart';
 import '../bloc/create_register_orang_tua_bloc.dart';
 import '../model/alamat_orang_tua_model.dart';
 
+// ignore: must_be_immutable
 class CreateRegisterIbu extends StatelessWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
@@ -54,6 +58,8 @@ class CreateRegisterIbu extends StatelessWidget {
 
   String selectedJenisKB;
   String selectedGolDarahIbu;
+
+  MapsDataModel? mapsData;
 
   // Status checkbox untuk disabilitas
   List<bool> selectedDisabilitiesIbu;
@@ -118,6 +124,7 @@ class CreateRegisterIbu extends StatelessWidget {
   final void Function(dynamic) handleGolDarahIbuChanged;
   final void Function(dynamic) handleJenisKBChanged;
   final void Function() submitIbuForm;
+  final void Function(MapsDataModel) handleMapsDataChanged;
 
   CreateRegisterIbu({
     super.key,
@@ -148,6 +155,7 @@ class CreateRegisterIbu extends StatelessWidget {
     this.selectedKecamatanIbu,
     this.selectedDesaIbu,
     this.selectedDusunIbu,
+    this.mapsData,
     // selected golongan darah
     this.selectedGolDarahIbu = '-',
     // selected disabilities
@@ -205,6 +213,8 @@ class CreateRegisterIbu extends StatelessWidget {
     required this.handleJenisKBChanged,
     required this.onSelectDateKelahiranSebelumnya,
     required this.submitIbuForm,
+    required this.handleMapsDataChanged
+
   });
 
   @override
@@ -255,11 +265,11 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedKecamatanIbuKey: selectedKecamatanIbuKey,
         selectedDesaIbuKey: selectedDesaIbuKey,
         selectedDusunIbuKey: selectedDusunIbuKey,
+        mapsData: mapsData,
         selectedGolDarahIbuKey: selectedGolDarahIbuKey,
         jenisKBKey: jenisKBKey,
         jumlahAnakIbuKey: jumlahAnakIbuKey,
-        tanggalKelahiranAnakSebelumnyaIbuKey:
-            tanggalKelahiranAnakSebelumnyaIbuKey,
+        tanggalKelahiranAnakSebelumnyaIbuKey: tanggalKelahiranAnakSebelumnyaIbuKey,
         kkIbuFocusNode: kkIbuFocusNode,
         nikIbuFocusNode: nikIbuFocusNode,
         namaIbuFocusNode: namaIbuFocusNode,
@@ -276,8 +286,7 @@ class CreateRegisterIbu extends StatelessWidget {
         selectedGolDarahIbuFocusNode: selectedGolDarahIbuFocusNode,
         jenisKBFocusNode: jenisKBFocusNode,
         jumlahAnakIbuFocusNode: jumlahAnakIbuFocusNode,
-        tanggalKelahiranAnakSebelumnyaIbuFocusNode:
-            tanggalKelahiranAnakSebelumnyaIbuFocusNode,
+        tanggalKelahiranAnakSebelumnyaIbuFocusNode: tanggalKelahiranAnakSebelumnyaIbuFocusNode,
         onSelectDate: onSelectDate,
         removeDisability: removeDisability,
         toggleDisabilityIbu: toggleDisabilityIbu,
@@ -291,11 +300,13 @@ class CreateRegisterIbu extends StatelessWidget {
         handleJenisKBChanged: handleJenisKBChanged,
         onSelectDateKelahiranSebelumnya: onSelectDateKelahiranSebelumnya,
         submitIbuForm: submitIbuForm,
+        handleMapsDataChanged: handleMapsDataChanged,
       ),
     );
   }
 }
 
+// ignore: must_be_immutable
 class CreateRegisterIbuView extends StatefulWidget {
   final GlobalKey<FormState> formIbukey;
   final ScrollController ibuScrollController;
@@ -330,6 +341,9 @@ class CreateRegisterIbuView extends StatefulWidget {
   List<bool> selectedDisabilitiesIbu;
   List<bool> selectedDisabilitiesAyah;
   List<String> selectedDisabilityLabelsIbu;
+
+  // maps data
+  MapsDataModel? mapsData;
 
   //! validate formKeyController
   // ? Ibu
@@ -389,6 +403,8 @@ class CreateRegisterIbuView extends StatefulWidget {
 
   final Future<void> Function(BuildContext) onSelectDateKelahiranSebelumnya;
   final void Function() submitIbuForm;
+  final void Function(MapsDataModel) handleMapsDataChanged;
+
   CreateRegisterIbuView({
     super.key,
     // form
@@ -417,6 +433,7 @@ class CreateRegisterIbuView extends StatefulWidget {
     this.selectedKecamatanIbu,
     this.selectedDesaIbu,
     this.selectedDusunIbu,
+    this.mapsData,
     // selected golongan darah
     required this.selectedJenisKB,
     this.selectedGolDarahIbu = '-',
@@ -475,6 +492,7 @@ class CreateRegisterIbuView extends StatefulWidget {
     required this.handleJenisKBChanged,
     required this.onSelectDateKelahiranSebelumnya,
     required this.submitIbuForm,
+    required this.handleMapsDataChanged
   });
 
   @override
@@ -1151,6 +1169,53 @@ class _CreateRegisterIbuViewState extends State<CreateRegisterIbuView> {
                 FormBuilderValidators.required(
                     errorText: "Isi terlebih dahulu!"),
               ],
+            ),
+            SizedBox(height: SizeConfig.calHeightMultiplier(16)),
+            const Text(
+              'Lokasi Rumah Ibu',
+              style: TextStyle(fontSize: 12),
+            ),
+            widget.mapsData != null 
+            ? SizedBox(height: SizeConfig.calHeightMultiplier(8))
+            : SizedBox.shrink(),
+            widget.mapsData != null 
+            ? InfoFieldWidget(
+              text: widget.mapsData?.alamat ?? ''
+            )
+            : SizedBox.shrink(),
+            SizedBox(height: SizeConfig.calHeightMultiplier(8)),
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context, 
+                    MAPSCHOOSE,
+                    arguments: widget.mapsData
+                  ).then((value) {
+                    if(value != null) {
+                      widget.handleMapsDataChanged(value as MapsDataModel);
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: greenPrimary40,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:BorderRadius.circular(8)
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.calWidthMultiplier(10),
+                    vertical: SizeConfig.calHeightMultiplier(10))),
+                child: Text(
+                  'Pilih Lokasi Rumah',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.calMultiplierText(14),
+                    fontWeight: FontWeight.w500
+                  ),
+                )
+              ),
             ),
             SizedBox(height: SizeConfig.calHeightMultiplier(16)),
             const Text(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import 'package:puspadaya/app/feature/kunjunganAnakStunting/listAnakStunting/view/model/KunjunganStuntingItem.dart';
 import 'package:puspadaya/app/view/widget/kunjungan_stunting_items.dart';
 import 'package:puspadaya/app/view/widget/search_text_field_widget.dart';
@@ -10,6 +12,7 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
@@ -39,14 +42,20 @@ class ListAnakStuntingKunjunganView extends StatefulWidget {
   const ListAnakStuntingKunjunganView({super.key});
 
   @override
-  State<ListAnakStuntingKunjunganView> createState() =>
-      _ListAnakStuntingKunjunganViewState();
+  State<ListAnakStuntingKunjunganView> createState() => _ListAnakStuntingKunjunganViewState();
 }
 
-class _ListAnakStuntingKunjunganViewState
-    extends State<ListAnakStuntingKunjunganView> {
+class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunganView> {
   final TextEditingController _searchController = TextEditingController();
   bool isSearching = false;
+
+  //Maps
+  Location location = Location();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  LatLng? titikAlamat;
+  bool loadingMaps = true;
 
   final List<Kunjunganstuntingitem> originalList = [
     Kunjunganstuntingitem(
@@ -73,12 +82,95 @@ class _ListAnakStuntingKunjunganViewState
 
   @override
   void initState() {
-    super.initState();
+    initLocation();
     filteredList = List.from(originalList);
     _searchController.addListener(_filterList);
 
-    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context)
-        .add(GetDataAnakStunting());
+    BlocProvider.of<ListAnakStuntingKunjunganBloc>(context).add(GetDataAnakStunting());
+    super.initState();
+  }
+
+  initLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        Navigator.pop(context);
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          break;
+        }
+        
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    
+    _locationData = await location.getLocation().then((value) {
+      setState(() {
+        loadingMaps = false;
+        titikAlamat = LatLng(value.latitude!, value.longitude!);
+      });
+      return value;
+    });
   }
 
   void _filterList() {
@@ -86,8 +178,8 @@ class _ListAnakStuntingKunjunganViewState
       final query = _searchController.text.toLowerCase();
       filteredList = originalList.where((item) {
         return item.name.toLowerCase().contains(query) ||
-            item.nik.contains(query) ||
-            item.parent.toLowerCase().contains(query);
+        item.nik.contains(query) ||
+        item.parent.toLowerCase().contains(query);
       }).toList();
     });
   }
@@ -100,11 +192,9 @@ class _ListAnakStuntingKunjunganViewState
 
   @override
   Widget build(BuildContext context) {
-    final createKunjunganBloc =
-        BlocProvider.of<CreateKunjunganAnakStuntingBloc>(context);
+    final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakStuntingBloc>(context);
 
-    return BlocConsumer<CreateKunjunganAnakStuntingBloc,
-        CreateKunjunganAnakStuntingState>(
+    return BlocConsumer<CreateKunjunganAnakStuntingBloc, CreateKunjunganAnakStuntingState>(
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakStuntingSuccessState) {
@@ -114,11 +204,12 @@ class _ListAnakStuntingKunjunganViewState
         }
         if (state is CreateKunjunganAnakStuntingFailedState) {
           showTopSnackBar(
-              Overlay.of(context),
-              animationDuration: const Duration(milliseconds: 600),
-              displayDuration: const Duration(milliseconds: 2200),
-              reverseAnimationDuration: const Duration(milliseconds: 300),
-              TopSnackbarWidget().error(state.error));
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error(state.error)
+          );
         }
       },
       builder: (context, state) {
@@ -158,9 +249,10 @@ class _ListAnakStuntingKunjunganViewState
                   },
                   builder: (context, state) {
                     if (state is ListAnakStuntingKunjunganProccessState) {
-                      return SizedBox(
+                      return Container(
+                        color: Colors.white,
                         width: MediaQuery.sizeOf(context).width,
-                        height: MediaQuery.sizeOf(context).height / 1.15,
+                        height: MediaQuery.sizeOf(context).height,
                         child: Center(
                           child: SpinKitThreeBounce(
                             color: bluePrimaryMain,
@@ -186,15 +278,16 @@ class _ListAnakStuntingKunjunganViewState
                             ),
                             child: KunjunganStuntingItems(
                               onTap: () {
-                                createKunjunganBloc.add(CreateKunjunganEvent(
-                                    state
-                                        .listDataAnakStunting.data![index].id));
+                                createKunjunganBloc.add(
+                                  CreateKunjunganEvent(
+                                    state.listDataAnakStunting.data![index].id,
+                                    titikAlamat!
+                                  )
+                                );
                               },
-                              name: state
-                                  .listDataAnakStunting.data![index].namaAnak,
+                              name: state.listDataAnakStunting.data![index].namaAnak,
                               nik: state.listDataAnakStunting.data![index].nik,
-                              parent: state.listDataAnakStunting.data![index]
-                                  .ibu?.namaIbu,
+                              parent: state.listDataAnakStunting.data![index].ibu?.namaIbu,
                             ),
                           );
                         },
@@ -205,18 +298,19 @@ class _ListAnakStuntingKunjunganViewState
                 ),
               ),
             ),
-            state is CreateKunjunganAnakStuntingProccessState
-                ? SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    height: MediaQuery.sizeOf(context).height / 1.15,
-                    child: Center(
-                      child: SpinKitThreeBounce(
-                        color: bluePrimaryMain,
-                        size: 50.0,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            state is CreateKunjunganAnakStuntingProccessState || loadingMaps
+            ? Container(
+              color: Colors.white,
+              width: MediaQuery.sizeOf(context).width,
+              height: MediaQuery.sizeOf(context).height,
+              child: Center(
+                child: SpinKitThreeBounce(
+                  color: bluePrimaryMain,
+                  size: 50.0,
+                ),
+              ),
+            )
+            : const SizedBox(),
           ],
         );
       },

@@ -30,6 +30,9 @@ class GetAnakTamuBloc extends Bloc<GetAnakTamuEvent, GetAnakTamuState> {
           final GetListTamuResponseModel getAnakTamuResponseModel = GetListTamuResponseModel.fromJson(response[1]);
 
           if(statusCode == 200) {
+            //sorting data
+            getAnakTamuResponseModel.data!.sort((a, b) => a.namaAnak.compareTo(b.namaAnak));
+
             emit(GetAnakTamuSuccessState(getAnakTamuResponseModel));
           } else if (statusCode == 401) {
             emit(GetAnakTamuTokenExpiredState());
