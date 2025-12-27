@@ -127,4 +127,4 @@ const String FEATURE_MAINTENANCE = '/maintenance';
 // ! Maps
 const String MAPSPOIN = '/maps/poin';
 const String MAPSCHOOSE = '/maps/choose';
-const String MAPSKUNJUNGAN = '/maps/point';
+const String MAPSDETAILKUNJUNGAN = '/maps/kunjungan/detail';

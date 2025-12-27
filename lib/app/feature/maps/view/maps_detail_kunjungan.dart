@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../config/screen_config/size_config.dart';
 import '../../../../config/theme/pallet_color.dart';
 import '../../../../utils/api_utils/api_utils.dart';
 import '../../../../utils/logger/logger.dart';
@@ -11,18 +11,18 @@ import '../../../view/widget/appbar_widget.dart';
 import '../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../model/maps_kunjungan_data_model.dart';
 
-class MapskunjunganView extends StatefulWidget {
+class MapsDetailkunjunganView extends StatefulWidget {
   final MapsKunjunganDataModel mapsData;
-  const MapskunjunganView({
+  const MapsDetailkunjunganView({
     required this.mapsData,
     super.key
   });
 
   @override
-  State<MapskunjunganView> createState() => _MapskunjunganViewState();
+  State<MapsDetailkunjunganView> createState() => _MapsDetailkunjunganViewState();
 }
 
-class _MapskunjunganViewState extends State<MapskunjunganView> {
+class _MapsDetailkunjunganViewState extends State<MapsDetailkunjunganView> {
   MapController mapController = MapController();
   Location location = Location();
   bool _serviceEnabled = false;
@@ -112,7 +112,17 @@ class _MapskunjunganViewState extends State<MapskunjunganView> {
 
     setState(() {
       logger.i(_locationData.toString());
-      mapController.move(widget.mapsData.titikMulai, 14);
+      if(widget.mapsData.titikMulai == null && widget.mapsData.titikMulai == null) {
+        mapController.move(
+          LatLng(
+            _locationData?.latitude ?? -7.314368, 
+            _locationData?.longitude ?? 112.718195
+          ), 
+          14
+        );
+      } else {
+        mapController.move(widget.mapsData.titikMulai!, 14);
+      }
     });
   }
 
@@ -120,7 +130,7 @@ class _MapskunjunganViewState extends State<MapskunjunganView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'Kunjungan Anak',
+        title: 'Maps',
         background: Colors.white,
         onBackPressed: () {
           Navigator.pop(context);
@@ -150,17 +160,21 @@ class _MapskunjunganViewState extends State<MapskunjunganView> {
                 ),
                 MarkerLayer(
                   markers: [
-                    Marker(
-                      point: widget.mapsData.titikMulai,
+                    widget.mapsData.titikMulai != null
+                    ? Marker(
+                      point: widget.mapsData.titikMulai!,
                       alignment: Alignment.topCenter,
                       child: Icon(
                         Icons.location_pin,
                         size: 30,
                         color: redPrimary60,
                       )
-                    ),
-                    Marker(
-                      point: widget.mapsData.titikTujuan,
+                    )
+                    : Marker(point: LatLng(0, 0), child: SizedBox.shrink()),
+                    
+                    widget.mapsData.titikSelesai!= null
+                    ?Marker(
+                      point: widget.mapsData.titikSelesai!,
                       alignment: Alignment.topCenter,
                       child: Icon(
                         Icons.location_pin,
@@ -168,6 +182,7 @@ class _MapskunjunganViewState extends State<MapskunjunganView> {
                         color: greenPrimary40,
                       )
                     )
+                    : Marker(point: LatLng(0, 0), child: SizedBox.shrink()), 
                   ]
                 ),
               ]

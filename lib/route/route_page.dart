@@ -7,7 +7,7 @@ import 'package:puspadaya/app/feature/alatUkur/update/view/update_alat_ukur.dart
 import 'package:puspadaya/app/feature/eppgbm/view/e_ppgbm.dart';
 import 'package:puspadaya/app/feature/laporan/view/laporan.dart';
 import 'package:puspadaya/app/feature/maps/view/maps_choose_screen.dart';
-import 'package:puspadaya/app/feature/maps/view/maps_kunjungan.dart';
+import 'package:puspadaya/app/feature/maps/view/maps_detail_kunjungan.dart';
 import 'package:puspadaya/app/feature/maps/view/maps_poin_screen.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_ibu_hamil.dart';
 import 'package:puspadaya/app/feature/monitoring/detail/view/detail_monitoring_stunting.dart';
@@ -674,9 +674,9 @@ class MyRoute {
           settings: settings,
         );
       
-      case MAPSKUNJUNGAN:
+      case MAPSDETAILKUNJUNGAN:
         return MaterialPageRoute(
-          builder: (context) => MapskunjunganView(
+          builder: (context) => MapsDetailkunjunganView(
             mapsData: settings.arguments as MapsKunjunganDataModel,
           ),
           settings: settings,

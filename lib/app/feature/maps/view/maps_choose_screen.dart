@@ -161,7 +161,7 @@ class _MapsChooseViewState extends State<MapsChooseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PrimaryAppBar(
-        title: 'MAPS',
+        title: 'Maps',
         background: Colors.white,
         onBackPressed: () {
           Navigator.pop(context);

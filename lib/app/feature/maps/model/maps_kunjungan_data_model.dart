@@ -1,11 +1,11 @@
 import 'package:latlong2/latlong.dart';
 
 class MapsKunjunganDataModel {
-  LatLng titikMulai;
-  LatLng titikTujuan;
+  LatLng? titikMulai;
+  LatLng? titikSelesai;
 
   MapsKunjunganDataModel({
-    required this.titikMulai,
-    required this.titikTujuan
+    this.titikMulai,
+    this.titikSelesai
   });
 }
