@@ -21,9 +21,13 @@ part 'simpan_kunjungan_anak_stunting_state.dart';
 
 class SimpanKunjunganAnakStuntingBloc extends Bloc<SimpanKunjunganAnakStuntingEvent, SimpanKunjunganAnakStuntingState> {
   SimpanKunjunganAnakStuntingBloc() : super(SimpanKunjunganAnakStuntingInitial()) {
-    on<SimpanKunjunganAnakStuntingEvent>((event, emit) {}); 
+    on<SimpanKunjunganAnakStuntingEvent>((event, emit) {});
 
     on<SimpanKunjungan>(simpanKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(LatlangNullState());
+    }));
   }
 
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganAnakStuntingState>emit)  async {

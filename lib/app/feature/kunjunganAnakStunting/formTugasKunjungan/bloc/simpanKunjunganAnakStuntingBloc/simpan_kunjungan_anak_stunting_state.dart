@@ -40,3 +40,5 @@ final class SimpanKunjunganAnakStuntingTokenExpiredState extends SimpanKunjungan
 final class ListImagesNullState extends SimpanKunjunganAnakStuntingState{}
 
 final class ListTugasNullState extends SimpanKunjunganAnakStuntingState{}
+
+final class LatlangNullState extends SimpanKunjunganAnakStuntingState {}
