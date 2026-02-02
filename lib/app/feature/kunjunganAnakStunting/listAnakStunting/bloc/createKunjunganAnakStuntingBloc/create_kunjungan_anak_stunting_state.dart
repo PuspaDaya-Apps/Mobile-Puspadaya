@@ -24,3 +24,9 @@ final class CreateKunjunganAnakStuntingFailedState extends CreateKunjunganAnakSt
 }
 
 final class CreateKunjunganAnakStuntingTokenExpiredState extends CreateKunjunganAnakStuntingState {}
+
+final class LatlangNullState extends CreateKunjunganAnakStuntingState {
+  final String idAnak;
+
+  const LatlangNullState(this.idAnak);
+}
