@@ -23,6 +23,10 @@ class SimpanKunjunganIbuHamilBloc extends Bloc<SimpanKunjunganIbuHamilEvent, Sim
     on<SimpanKunjunganIbuHamilEvent>((event, emit) {});
 
     on<SimpanKunjungan>(simpanKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(LatlangNullState());
+    }));
   }
 
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganIbuHamilState> emit) async {
