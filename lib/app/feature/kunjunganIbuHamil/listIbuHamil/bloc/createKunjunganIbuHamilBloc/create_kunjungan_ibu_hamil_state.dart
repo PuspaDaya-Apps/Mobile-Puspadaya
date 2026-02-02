@@ -24,3 +24,9 @@ final class CreateKunjunganIbuHamilFailedState extends CreateKunjunganIbuHamilSt
 }
 
 final class CreateKunjunganIbuHamilTokenExpiredState extends CreateKunjunganIbuHamilState {}
+
+final class LatlangNullState extends CreateKunjunganIbuHamilState {
+  final String idIbuHamil;
+
+  const LatlangNullState(this.idIbuHamil);
+}

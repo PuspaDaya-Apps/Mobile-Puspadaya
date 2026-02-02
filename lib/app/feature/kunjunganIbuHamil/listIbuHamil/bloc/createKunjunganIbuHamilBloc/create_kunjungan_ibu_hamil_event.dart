@@ -13,3 +13,9 @@ final class CreateKunjunganEvent extends CreateKunjunganIbuHamilEvent {
 
   const CreateKunjunganEvent(this.idIbuHamil, this.lokasiStart);
 }
+
+final class LatlangNullEvent extends CreateKunjunganIbuHamilEvent {
+  final String idIbuHamil;
+
+  const LatlangNullEvent(this.idIbuHamil);
+}

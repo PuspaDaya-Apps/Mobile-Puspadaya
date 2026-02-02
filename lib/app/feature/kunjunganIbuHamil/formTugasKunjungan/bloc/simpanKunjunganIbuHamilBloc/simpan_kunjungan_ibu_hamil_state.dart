@@ -41,3 +41,5 @@ final class SimpanKunjunganIbuHamilTokenExpiredState extends SimpanKunjunganIbuH
 final class ListImagesNullState extends SimpanKunjunganIbuHamilState{}
 
 final class ListTugasNullState extends SimpanKunjunganIbuHamilState{}
+
+final class LatlangNullState extends SimpanKunjunganIbuHamilState {}

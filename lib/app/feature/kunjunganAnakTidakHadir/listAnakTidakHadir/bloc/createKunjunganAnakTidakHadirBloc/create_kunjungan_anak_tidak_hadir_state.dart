@@ -24,3 +24,9 @@ final class CreateKunjunganAnakTidakHadirFailedState extends CreateKunjunganAnak
 }
 
 final class CreateKunjunganAnakTidakHadirTokenExpiredState extends CreateKunjunganAnakTidakHadirState {}
+
+final class LatlangNullState extends CreateKunjunganAnakTidakHadirState {
+  final String idAnak;
+
+  const LatlangNullState(this.idAnak);
+}

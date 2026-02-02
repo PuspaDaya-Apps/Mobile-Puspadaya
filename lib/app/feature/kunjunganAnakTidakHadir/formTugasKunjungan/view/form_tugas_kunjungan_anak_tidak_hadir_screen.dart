@@ -12,6 +12,8 @@ import 'package:puspadaya/config/theme/pallet_color.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/screen_config/image_config.dart';
+import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../../utils/constant/constanst.dart';
 import '../../../../../utils/logger/logger.dart';
@@ -520,7 +522,15 @@ class UploadImage extends StatefulWidget {
 }
 
 class _UploadImageState extends State<UploadImage> {
+
   final ImagePicker _picker = ImagePicker();
+
+  Location location = Location();
+  bool _serviceEnabled = false;
+  PermissionStatus? _permissionGranted;
+  LocationData? _locationData;
+  LatLng? titikAlamat;
+  bool loadingMapsPopUp = false;
 
   String formattedTime(int value) {
     // int minutes = _seconds ~/ 60;
@@ -583,6 +593,104 @@ class _UploadImageState extends State<UploadImage> {
       widget.images.removeAt(index);
       logger.i("jumlah di child =  ${widget.images}");
     });
+  }
+
+  Future<bool> validatioLocation() async {
+    titikAlamat = null;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('Hidupkan GPS anda terlebih dahulu')
+        );
+        
+        return false;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    _locationData = await location.getLocation().then((value) {
+      titikAlamat = LatLng(value.latitude!, value.longitude!);
+      return value;
+    });
+
+    if(titikAlamat != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -804,6 +912,7 @@ class _UploadImageState extends State<UploadImage> {
                     TopSnackbarWidget().error("Tugas Selama Kunjungan Belum Terisi")
                   );
                 }
+
                 if(state is ListImagesNullState) {
                    showTopSnackBar(
                     Overlay.of(context),
@@ -812,6 +921,143 @@ class _UploadImageState extends State<UploadImage> {
                     reverseAnimationDuration:const Duration(milliseconds: 300),
                     TopSnackbarWidget().error("Upload Bukti Terlebih Dahulu")
                   );
+                }
+                if(state is LatlangNullState) {
+                  showDialog(
+                    context: context,
+                    useSafeArea: false,
+                    barrierDismissible: false,
+                    builder: (context) => AlertDialog(
+                      contentPadding: EdgeInsets.all(0),
+                      insetPadding: EdgeInsets.all(0) ,
+                      backgroundColor: Colors.white,
+                      content: StatefulBuilder(
+                        builder: (context, setState) => Container(
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 20
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50
+                                ),
+                                child: Image.asset(
+                                  gpsLostVector,
+                                  fit: BoxFit.contain,
+                                  frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                    if(wasSynchronouslyLoaded) {
+                                      return child;
+                                    } else {
+                                      return AnimatedSwitcher(
+                                        duration: const Duration(milliseconds: 500),
+                                        child: frame != null ? child : SizedBox(
+                                          width: SizeConfig.calWidthMultiplier(150),
+                                          height: SizeConfig.calHeightMultiplier(150),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      Icons.warning_amber_rounded,
+                                      size: SizeConfig.calWidthMultiplier(150) / 2,
+                                      color: Colors.red,
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                'Lokasi Tidak Tersedia',
+                                style: AppTextStyles.primaryTextSemibold.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Pastikan GPS aktif untuk\nmelanjutkan kunjungan anda',
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.primaryTextNormal.copyWith(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: ButtonPrimary(
+                                      color: redPrimaryMain,
+                                      mainButtonMessage: 'Batalkan',
+                                      isLoading: loadingMapsPopUp == true
+                                      ? loadingMapsPopUp
+                                      : null,
+                                      mainButton: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      }
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ButtonPrimary(
+                                      color: bluePrimaryMain,
+                                      mainButtonMessage: 'Lanjutkan',
+                                      isLoading: loadingMapsPopUp == true
+                                      ? loadingMapsPopUp
+                                      : null,
+                                      mainButton: () async {
+                                        setState(() {
+                                          loadingMapsPopUp = true;                              
+                                        });
+                        
+                                        validatioLocation().then((value) {
+                                          if(value = true) {
+                                            Navigator.pop(context, true);
+                                          } 
+                                          if(value = false) {
+                                            setState(() {
+                                              loadingMapsPopUp = false;                                      
+                                            });
+                                          }
+                                        });
+                                      }
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),              
+                  ).then((value) {
+                    loadingMapsPopUp = false;
+
+                    if (value = true) {
+                       BlocProvider.of<SimpanKunjunganAnakTidakHadirBloc>(context).add(
+                        SimpanKunjungan(
+                          idKunjungan: widget.idKunjungan, 
+                          listImages: widget.images,
+                          anakTidakAdaDirumah: widget.anakTidakAdaDirumah,
+                          lokasiSelesai: titikAlamat!, 
+                          listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
+                        )
+                       );
+                    }
+                  });
                 }
               },
               builder: (context, state) {
@@ -835,15 +1081,19 @@ class _UploadImageState extends State<UploadImage> {
                   color: bluePrimaryMain,
                   mainButtonMessage: 'Upload Bukti',
                   mainButton: () {
-                    BlocProvider.of<SimpanKunjunganAnakTidakHadirBloc>(context).add(
-                      SimpanKunjungan(
-                        idKunjungan: widget.idKunjungan, 
-                        listImages: widget.images,
-                        anakTidakAdaDirumah: widget.anakTidakAdaDirumah,
-                        lokasiSelesai: widget.titikAlamat!, 
-                        listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
-                      )
-                    );
+                    if(widget.titikAlamat == null){
+                      BlocProvider.of<SimpanKunjunganAnakTidakHadirBloc>(context).add(LatlangNullEvent());
+                    } else {
+                      BlocProvider.of<SimpanKunjunganAnakTidakHadirBloc>(context).add(
+                        SimpanKunjungan(
+                          idKunjungan: widget.idKunjungan, 
+                          listImages: widget.images,
+                          anakTidakAdaDirumah: widget.anakTidakAdaDirumah,
+                          lokasiSelesai: widget.titikAlamat!, 
+                          listTugas: widget.listTugasKunjungan.where((e) => e.isChecked).toList()
+                        )
+                      );
+                    }
                   },
                 );
               },

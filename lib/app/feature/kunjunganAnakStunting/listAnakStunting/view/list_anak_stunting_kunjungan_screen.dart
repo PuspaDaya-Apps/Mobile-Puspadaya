@@ -12,9 +12,13 @@ import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:puspadaya/route/route_name.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/screen_config/image_config.dart';
+import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
+import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/createKunjunganAnakStuntingBloc/create_kunjungan_anak_stunting_bloc.dart';
 import '../bloc/listAnakStuntingKunjunganBloc/list_anak_stunting_kunjungan_bloc.dart';
@@ -56,35 +60,14 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
   LocationData? _locationData;
   LatLng? titikAlamat;
   bool loadingMaps = true;
-
-  final List<Kunjunganstuntingitem> originalList = [
-    Kunjunganstuntingitem(
-      id: '1',
-      name: 'Aisyah Zahra Putri',
-      nik: '3621554011732625',
-      parent: 'Sri Wahyuni',
-    ),
-    Kunjunganstuntingitem(
-      id: '2',
-      name: 'Budi Santoso',
-      nik: '3621554011732636',
-      parent: 'Tifany Novianti',
-    ),
-    Kunjunganstuntingitem(
-      id: '3',
-      name: 'Citra Dewi',
-      nik: '3621554011732647',
-      parent: 'Mira Dewi',
-    ),
-  ];
-
-  List<Kunjunganstuntingitem> filteredList = [];
+  bool loadingMapsPopUp = false;
 
   @override
   void initState() {
     initLocation();
-    filteredList = List.from(originalList);
-    _searchController.addListener(_filterList);
+    _searchController.addListener(() {
+      setState(() {});
+    });
 
     BlocProvider.of<ListAnakStuntingKunjunganBloc>(context).add(GetDataAnakStunting());
     super.initState();
@@ -95,6 +78,7 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
     if(!_serviceEnabled){
       _serviceEnabled = await location.requestService();
       if(!_serviceEnabled){
+        
         Navigator.pop(context);
       }
     }
@@ -173,15 +157,103 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
     });
   }
 
-  void _filterList() {
-    setState(() {
-      final query = _searchController.text.toLowerCase();
-      filteredList = originalList.where((item) {
-        return item.name.toLowerCase().contains(query) ||
-        item.nik.contains(query) ||
-        item.parent.toLowerCase().contains(query);
-      }).toList();
+  Future<bool> validatioLocation() async {
+    titikAlamat = null;
+    _locationData = null;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('Hidupkan GPS anda terlebih dahulu')
+        );
+        
+        return false;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    _locationData = await location.getLocation().then((value) {
+      titikAlamat = LatLng(value.latitude!, value.longitude!);
+      return value;
     });
+
+    if(titikAlamat != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -193,14 +265,13 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
   @override
   Widget build(BuildContext context) {
     final createKunjunganBloc = BlocProvider.of<CreateKunjunganAnakStuntingBloc>(context);
+    logger.d('Status: $loadingMaps');
 
     return BlocConsumer<CreateKunjunganAnakStuntingBloc, CreateKunjunganAnakStuntingState>(
       listener: (context, state) {
         debugPrint(state.toString());
         if (state is CreateKunjunganAnakStuntingSuccessState) {
           Navigator.pop(context, state.idKunjungan);
-          // Navigator.pushNamed(context, DETAIL_CREATE_ANAK_STUNTING_KUNJUNGAN,
-          //     arguments: state.idKunjungan);
         }
         if (state is CreateKunjunganAnakStuntingFailedState) {
           showTopSnackBar(
@@ -210,6 +281,137 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
             reverseAnimationDuration: const Duration(milliseconds: 300),
             TopSnackbarWidget().error(state.error)
           );
+        }
+        if (state is LatlangNullState) {
+          showDialog(
+            context: context,
+            useSafeArea: false,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              contentPadding: EdgeInsets.all(0),
+              insetPadding: EdgeInsets.all(0) ,
+              backgroundColor: Colors.white,
+              content: StatefulBuilder(
+                builder: (context, setState) => Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 20
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 50
+                        ),
+                        child: Image.asset(
+                          gpsLostVector,
+                          fit: BoxFit.contain,
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if(wasSynchronouslyLoaded) {
+                              return child;
+                            } else {
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                child: frame != null ? child : SizedBox(
+                                  width: SizeConfig.calWidthMultiplier(150),
+                                  height: SizeConfig.calHeightMultiplier(150),
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.warning_amber_rounded,
+                              size: SizeConfig.calWidthMultiplier(150) / 2,
+                              color: Colors.red,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Lokasi Tidak Tersedia',
+                        style: AppTextStyles.primaryTextSemibold.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Pastikan GPS aktif untuk\nmelanjutkan kunjungan anda',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ButtonPrimary(
+                              color: redPrimaryMain,
+                              mainButtonMessage: 'Batalkan',
+                              isLoading: loadingMapsPopUp == true
+                              ? loadingMapsPopUp
+                              : null,
+                              mainButton: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            flex: 1,
+                            child: ButtonPrimary(
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Lanjutkan',
+                              isLoading: loadingMapsPopUp == true
+                              ? loadingMapsPopUp
+                              : null,
+                              mainButton: () async {
+                                setState(() {
+                                  loadingMapsPopUp = true;                              
+                                });
+                
+                                validatioLocation().then((value) {
+                                  if(value = true) {
+                                    Navigator.pop(context);
+                                    createKunjunganBloc.add(
+                                      CreateKunjunganEvent(
+                                        state.idAnak,
+                                        titikAlamat!
+                                      )
+                                    );
+                                  } 
+                                  if(value = false) {
+                                    setState(() {
+                                      loadingMapsPopUp = false;                                      
+                                    });
+                                  }
+                                });
+                              }
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),              
+          ).then((value) {
+            loadingMapsPopUp = false;
+          });
         }
       },
       builder: (context, state) {
@@ -248,7 +450,7 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                     debugPrint(state.toString());
                   },
                   builder: (context, state) {
-                    if (state is ListAnakStuntingKunjunganProccessState) {
+                    if (state is ListAnakStuntingKunjunganProccessState || loadingMaps) {
                       return Container(
                         color: Colors.white,
                         width: MediaQuery.sizeOf(context).width,
@@ -265,8 +467,15 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                       if (state.listDataAnakStunting.data!.isEmpty) {
                         return const NoDataScreen();
                       }
+                      final filteredList = state.listDataAnakStunting.data!.where((data) {
+                        final query = _searchController.text.toLowerCase();
+                        return data.namaAnak.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
                       return ListView.separated(
-                        itemCount: state.listDataAnakStunting.data!.length,
+                        itemCount: filteredList.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           return Container(
@@ -278,16 +487,22 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                             ),
                             child: KunjunganStuntingItems(
                               onTap: () {
-                                createKunjunganBloc.add(
-                                  CreateKunjunganEvent(
-                                    state.listDataAnakStunting.data![index].id,
-                                    titikAlamat!
-                                  )
-                                );
+                                if(titikAlamat == null) {
+                                  createKunjunganBloc.add(
+                                    LatlangNullEvent(filteredList[index].id)
+                                  );
+                                } else {
+                                  createKunjunganBloc.add(
+                                    CreateKunjunganEvent(
+                                      filteredList[index].id,
+                                      titikAlamat!
+                                    )
+                                  );
+                                }
                               },
-                              name: state.listDataAnakStunting.data![index].namaAnak,
-                              nik: state.listDataAnakStunting.data![index].nik,
-                              parent: state.listDataAnakStunting.data![index].ibu?.namaIbu,
+                              name: filteredList[index].namaAnak,
+                              nik: filteredList[index].nik,
+                              parent: filteredList[index].ibu?.namaIbu,
                             ),
                           );
                         },
@@ -298,9 +513,9 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
                 ),
               ),
             ),
-            state is CreateKunjunganAnakStuntingProccessState || loadingMaps
+            state is CreateKunjunganAnakStuntingProccessState
             ? Container(
-              color: Colors.white,
+              color: Colors.white.withAlpha(100),
               width: MediaQuery.sizeOf(context).width,
               height: MediaQuery.sizeOf(context).height,
               child: Center(
@@ -323,10 +538,7 @@ class _ListAnakStuntingKunjunganViewState extends State<ListAnakStuntingKunjunga
         onTap: () {
           setState(() {
             isSearching = !isSearching;
-            if (!isSearching) {
-              _searchController.clear();
-              filteredList = List.from(originalList); // Reset list
-            }
+            _searchController.clear();
           });
         },
         child: Padding(

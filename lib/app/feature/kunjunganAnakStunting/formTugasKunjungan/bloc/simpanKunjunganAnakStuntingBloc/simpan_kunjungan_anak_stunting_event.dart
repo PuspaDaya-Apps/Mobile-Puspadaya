@@ -22,3 +22,5 @@ final class SimpanKunjungan extends SimpanKunjunganAnakStuntingEvent {
     required this.lokasiSelesai
   });
 }
+
+final class LatlangNullEvent extends SimpanKunjunganAnakStuntingEvent {}

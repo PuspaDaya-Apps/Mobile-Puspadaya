@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +18,13 @@ class CreateKunjunganAnakTidakHadirBloc extends Bloc<CreateKunjunganAnakTidakHad
     on<CreateKunjunganAnakTidakHadirEvent>((event, emit) {});
 
     on<CreateKunjunganEvent>(createKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(CreateKunjunganAnakTidakHadirInitial());
+      emit(LatlangNullState(event.idAnak));
+    }));
   }Future<void> createKunjungan (CreateKunjunganEvent event, Emitter<CreateKunjunganAnakTidakHadirState> emit)async {
-     emit(CreateKunjunganAnakTidakHadirProccessState());
+    emit(CreateKunjunganAnakTidakHadirProccessState());
 
     String? accessToken = await SharedPrefUtils().getAccessToken();
 

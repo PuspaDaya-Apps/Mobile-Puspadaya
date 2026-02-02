@@ -5,8 +5,10 @@ const String dataNotFoundVector = 'assets/images/data_not_found_vector.png';
 const String logoutVector = 'assets/images/logout_vector.png';
 const String lostConnectionVector = 'assets/images/lost_connection_vector.png';
 const String pageNotFoundVector = 'assets/images/page_not_found_vector.png';
-const String pageUnderDevelopmentVector =
-    'assets/images/page_under_development_vector.png';
+const String pageUnderDevelopmentVector = 'assets/images/page_under_development_vector.png';
+const String gpsLostVector = 'assets/images/gps_lost_vector.png';
+const String serverMaintanceVector = 'assets/images/server_maintance_vector.png';
+
 const String logoBig = 'assets/logo/logo_big.png';
 const String logoSmall = 'assets/logo/logo_small.png';
 const String onBoarding1Image = 'assets/images/on_boarding1_image.png';
@@ -38,8 +40,7 @@ const String imageDoneTask = "assets/images/image_done_task.png";
 const String imageCrossRoad = "assets/images/image_cross_road.png";
 const String imageMaintenance = "assets/images/image_maintenance.png";
 const String imageOnProcces = "assets/images/image_on_prosses.png";
-const String imageGrafikPerkembanganAnak =
-    "assets/images/grafik_perkembangan_anak.png";
+const String imageGrafikPerkembanganAnak = "assets/images/grafik_perkembangan_anak.png";
 const String noImagePlacholder = "assets/images/no_image_placeholder.jpg";
 const String imageRestart = "assets/images/image_restart.png";
 const String imageAward = "assets/images/image_award.png";
@@ -67,12 +68,10 @@ const String imageAlatUkurLingkarKepala =
     "assets/images/alat_ukur_lingkar_kepala.jpeg";
 const String imageMetline = "assets/images/metline.jpeg";
 
-const String imageSampleImportData =
-    "assets/images/image_sample_import_data.png";
+const String imageSampleImportData = "assets/images/image_sample_import_data.png";
 const String imageBuktiStunting = "assets/images/anak_stunting.jpeg";
 const String imageBuktiIbuHamil = "assets/images/ibu_hamil.jpeg";
-const String imageBuktiPengukuranDiRUmah =
-    "assets/images/pengukuran_dirumah.jpeg";
+const String imageBuktiPengukuranDiRUmah = "assets/images/pengukuran_dirumah.jpeg";
 
 const String imageAlertWarning = "assets/images/alert_warning.png";
 const String imageQuisioner = "assets/images/image_quisioner.png";

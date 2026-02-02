@@ -10,10 +10,14 @@ import 'package:puspadaya/config/theme/shadow.dart';
 import 'package:puspadaya/config/theme/text_style.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../../config/screen_config/image_config.dart';
+import '../../../../../config/screen_config/size_config.dart';
 import '../../../../../route/route_name.dart';
 import '../../../../../utils/logger/logger.dart';
 import '../../../../view/screen/error_server_screen.dart';
 import '../../../../view/screen/no_data_screen.dart';
+import '../../../../view/screen/search_not_found.dart';
+import '../../../../view/widget/primary_button_widget.dart';
 import '../../../../view/widget/top_snackbar/top_snackbar_widget.dart';
 import '../bloc/createKunjunganIbuHamilBloc/create_kunjungan_ibu_hamil_bloc.dart';
 import '../bloc/listIbuHamilKunjunganBloc/list_ibu_hamil_kunjungan_bloc.dart';
@@ -57,41 +61,15 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
   LocationData? _locationData;
   LatLng? titikAlamat;
   bool loadingMaps = true;
+  bool loadingMapsPopUp = false;
 
-  // final List<KunjuganIbuHamilItem> originalList = [
-  //   KunjuganIbuHamilItem(
-  //     id: '1',
-  //     name: 'Tessa Ivangkia',
-  //     nik: '3621554011732625',
-  //     husband: 'Mustafid Sayoga',
-  //   ),
-  //   KunjuganIbuHamilItem(
-  //     id: '2',
-  //     name: 'Soraya Aprilicia',
-  //     nik: '3621554011732636',
-  //     husband: 'Muhamad Aristy',
-  //   ),
-  //   KunjuganIbuHamilItem(
-  //     id: '3',
-  //     name: 'Fernanda Oktaviaman',
-  //     nik: '3621554011732647',
-  //     husband: 'Cakra Yusdwindra',
-  //   ),
-  //   KunjuganIbuHamilItem(
-  //     id: '4',
-  //     name: 'Bella Riyadie',
-  //     nik: '3621554011732658',
-  //     husband: 'Bimo Oktaviani',
-  //   ),
-  // ];
-
-  List<KunjuganIbuHamilItem> filteredList = [];
 
   @override
   void initState() {
     initLocation();
-    // filteredList = List.from(originalList);
-    _searchController.addListener(_filterList);
+    _searchController.addListener(() {
+      setState(() {});
+    });
 
     BlocProvider.of<ListIbuHamilKunjunganBloc>(context).add(GetDataIbuHamil());
     super.initState();
@@ -180,16 +158,103 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
     });
   }
 
+  Future<bool> validatioLocation() async {
+    titikAlamat = null;
+    _locationData = null;
 
-  void _filterList() {
-    // setState(() {
-    //   final query = _searchController.text.toLowerCase();
-    //   filteredList = originalList.where((item) {
-    //     return item.name.toLowerCase().contains(query) ||
-    //         item.nik.contains(query) ||
-    //         item.nik.toLowerCase().contains(query);
-    //   }).toList();
-    // });
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('Hidupkan GPS anda terlebih dahulu')
+        );
+        
+        return false;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    logger.d(_permissionGranted);
+
+    switch(_permissionGranted) {
+      case PermissionStatus.granted:
+        break;
+
+      case PermissionStatus.grantedLimited:
+        break;
+      
+      case null:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+      
+      case PermissionStatus.denied:
+        _permissionGranted = await location.requestPermission();
+        if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited) {
+          break;
+        } else {
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().warning('akses lokasi ditolak'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+          break;
+        }
+
+      case PermissionStatus.deniedForever:
+        showTopSnackBar(
+          Overlay.of(context),
+          animationDuration: const Duration(milliseconds: 600),
+          displayDuration: const Duration(milliseconds: 2200),
+          reverseAnimationDuration: const Duration(milliseconds: 300),
+          TopSnackbarWidget().warning('akses lokasi ditolak selamanya'));
+        Navigator.pop(context);
+        Navigator.pop(context);
+        break;
+
+      default:
+        if(_permissionGranted != PermissionStatus.granted){
+          showTopSnackBar(
+            Overlay.of(context),
+            animationDuration: const Duration(milliseconds: 600),
+            displayDuration: const Duration(milliseconds: 2200),
+            reverseAnimationDuration: const Duration(milliseconds: 300),
+            TopSnackbarWidget().error('akses lokasi tidak dapat diakses'));
+          Navigator.pop(context);
+          Navigator.pop(context);
+        }
+        break;
+    }
+    
+    _locationData = await location.getLocation().then((value) {
+      titikAlamat = LatLng(value.latitude!, value.longitude!);
+      return value;
+    });
+
+    if(titikAlamat != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -217,6 +282,137 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
               displayDuration: const Duration(milliseconds: 2200),
               reverseAnimationDuration: const Duration(milliseconds: 300),
               TopSnackbarWidget().error(state.error));
+        }
+        if (state is LatlangNullState) {
+          showDialog(
+            context: context,
+            useSafeArea: false,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              contentPadding: EdgeInsets.all(0),
+              insetPadding: EdgeInsets.all(0) ,
+              backgroundColor: Colors.white,
+              content: StatefulBuilder(
+                builder: (context, setState) => Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 20
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 50
+                        ),
+                        child: Image.asset(
+                          gpsLostVector,
+                          fit: BoxFit.contain,
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if(wasSynchronouslyLoaded) {
+                              return child;
+                            } else {
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                child: frame != null ? child : SizedBox(
+                                  width: SizeConfig.calWidthMultiplier(150),
+                                  height: SizeConfig.calHeightMultiplier(150),
+                                ),
+                              );
+                            }
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.warning_amber_rounded,
+                              size: SizeConfig.calWidthMultiplier(150) / 2,
+                              color: Colors.red,
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Lokasi Tidak Tersedia',
+                        style: AppTextStyles.primaryTextSemibold.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Pastikan GPS aktif untuk\nmelanjutkan kunjungan anda',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.primaryTextNormal.copyWith(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: ButtonPrimary(
+                              color: redPrimaryMain,
+                              mainButtonMessage: 'Batalkan',
+                              isLoading: loadingMapsPopUp == true
+                              ? loadingMapsPopUp
+                              : null,
+                              mainButton: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              }
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            flex: 1,
+                            child: ButtonPrimary(
+                              color: bluePrimaryMain,
+                              mainButtonMessage: 'Lanjutkan',
+                              isLoading: loadingMapsPopUp == true
+                              ? loadingMapsPopUp
+                              : null,
+                              mainButton: () async {
+                                setState(() {
+                                  loadingMapsPopUp = true;                              
+                                });
+                
+                                validatioLocation().then((value) {
+                                  if(value = true) {
+                                    Navigator.pop(context);
+                                    createKunjunganBloc.add(
+                                      CreateKunjunganEvent(
+                                        state.idIbuHamil,
+                                        titikAlamat!
+                                      )
+                                    );
+                                  } 
+                                  if(value = false) {
+                                    setState(() {
+                                      loadingMapsPopUp = false;                                      
+                                    });
+                                  }
+                                });
+                              }
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),              
+          ).then((value) {
+            loadingMapsPopUp = false;
+          });
         }
       },
       builder: (context, state) {
@@ -255,7 +451,7 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                     debugPrint(state.toString());
                   },
                   builder: (context, stateList) {
-                    if (stateList is ListIbuHamilKunjunganProccessState) {
+                    if (stateList is ListIbuHamilKunjunganProccessState || loadingMaps) {
                       return Container(
                         color: Colors.white,
                         width: MediaQuery.sizeOf(context).width,
@@ -272,8 +468,15 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                       if (stateList.listDataIbuHamil.data!.isEmpty) {
                         return const NoDataScreen();
                       }
+                      final filteredList = stateList.listDataIbuHamil.data!.where((data) {
+                        final query = _searchController.text.toLowerCase();
+                        return data.ibuAnak.namaIbu.toLowerCase().contains(query);
+                      }).toList();
+                      if (filteredList.isEmpty) {
+                        return SearchNotFound();
+                      }
                       return ListView.separated(
-                        itemCount: stateList.listDataIbuHamil.data!.length,
+                        itemCount: filteredList.length,
                         separatorBuilder: (_, __) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           return Container(
@@ -285,16 +488,22 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                             ),
                             child: KunjunganIbuHamilItem(
                               onTap: () {
-                                createKunjunganBloc.add(
-                                  CreateKunjunganEvent(
-                                    stateList.listDataIbuHamil.data![index].id,
-                                    titikAlamat!
-                                  )
-                                );
+                                if(titikAlamat == null) {
+                                  createKunjunganBloc.add(
+                                    LatlangNullEvent(filteredList[index].id)
+                                  );
+                                } else {
+                                  createKunjunganBloc.add(
+                                    CreateKunjunganEvent(
+                                      filteredList[index].id,
+                                      titikAlamat!
+                                    )
+                                  );
+                                }
                               },
-                              name: stateList.listDataIbuHamil.data![index].ibuAnak.namaIbu,
-                              nik: stateList.listDataIbuHamil.data![index].ibuAnak.nik,
-                              husband: stateList.listDataIbuHamil.data![index].ibuAnak.ayah.namaAyah,
+                              name: filteredList[index].ibuAnak.namaIbu,
+                              nik: filteredList[index].ibuAnak.nik,
+                              husband: filteredList[index].ibuAnak.ayah.namaAyah,
                             ),
                           );
                         },
@@ -305,9 +514,9 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
                 ),
               ),
             ),
-            state is CreateKunjunganIbuHamilProccessState || loadingMaps
+            state is CreateKunjunganIbuHamilProccessState
             ? Container(
-              color: Colors.white,
+              color: Colors.white.withAlpha(100),
               width: MediaQuery.sizeOf(context).width,
               height: MediaQuery.sizeOf(context).height,
               child: Center(
@@ -330,10 +539,7 @@ class _ListIbuHamilKunjunganViewState extends State<ListIbuHamilKunjunganView> {
         onTap: () {
           setState(() {
             isSearching = !isSearching;
-            if (!isSearching) {
-              _searchController.clear();
-              // filteredList = List.from(originalList); // Reset list
-            }
+            _searchController.clear();
           });
         },
         child: Padding(

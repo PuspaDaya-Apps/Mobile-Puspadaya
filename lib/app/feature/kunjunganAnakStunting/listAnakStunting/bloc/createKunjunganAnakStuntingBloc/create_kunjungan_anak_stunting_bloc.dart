@@ -20,6 +20,10 @@ class CreateKunjunganAnakStuntingBloc extends Bloc<CreateKunjunganAnakStuntingEv
     on<CreateKunjunganAnakStuntingEvent>((event, emit) {});
 
     on<CreateKunjunganEvent>(createKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(LatlangNullState(event.idAnak));
+    }));
   }
   Future<void> createKunjungan (CreateKunjunganEvent event, Emitter<CreateKunjunganAnakStuntingState> emit)async {
     emit(CreateKunjunganAnakStuntingProccessState());

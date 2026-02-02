@@ -40,3 +40,5 @@ final class SimpanKunjunganAnakTidakHadirTokenExpiredState extends SimpanKunjung
 final class ListImagesNullState extends SimpanKunjunganAnakTidakHadirState{}
 
 final class ListTugasNullState extends SimpanKunjunganAnakTidakHadirState{}
+
+final class LatlangNullState extends SimpanKunjunganAnakTidakHadirState {}

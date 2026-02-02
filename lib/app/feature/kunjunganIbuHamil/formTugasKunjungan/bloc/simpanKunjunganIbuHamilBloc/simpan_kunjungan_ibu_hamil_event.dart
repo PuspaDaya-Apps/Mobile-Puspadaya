@@ -22,3 +22,5 @@ final class SimpanKunjungan extends SimpanKunjunganIbuHamilEvent {
     required this.lokasiSelesai
   });
 }
+
+final class LatlangNullEvent extends SimpanKunjunganIbuHamilEvent {}
