@@ -20,6 +20,10 @@ class CreateKunjunganIbuHamilBloc extends Bloc<CreateKunjunganIbuHamilEvent, Cre
     on<CreateKunjunganIbuHamilEvent>((event, emit) {});
 
     on<CreateKunjunganEvent>(createKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(LatlangNullState(event.idIbuHamil));
+    }));
   }
 
   Future<void> createKunjungan (CreateKunjunganEvent event, Emitter<CreateKunjunganIbuHamilState> emit) async {
