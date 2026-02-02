@@ -13,3 +13,9 @@ final class CreateKunjunganEvent extends CreateKunjunganAnakTidakHadirEvent {
 
   const CreateKunjunganEvent(this.idAnak,this.lokasiStart);
 }
+
+final class LatlangNullEvent extends CreateKunjunganAnakTidakHadirEvent {
+  final String idAnak;
+  
+  const LatlangNullEvent(this.idAnak);
+}
