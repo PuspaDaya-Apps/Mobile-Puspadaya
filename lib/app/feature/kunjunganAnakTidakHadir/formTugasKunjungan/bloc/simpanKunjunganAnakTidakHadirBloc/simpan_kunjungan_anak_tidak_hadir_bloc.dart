@@ -23,6 +23,11 @@ class SimpanKunjunganAnakTidakHadirBloc extends Bloc<SimpanKunjunganAnakTidakHad
     on<SimpanKunjunganAnakTidakHadirEvent>((event, emit) {});
 
     on<SimpanKunjungan>(simpanKunjungan);
+
+    on<LatlangNullEvent>(((event, emit) {
+      emit(SimpanKunjunganAnakTidakHadirInitial());
+      emit(LatlangNullState());
+    }));
   }
   
   Future<void> simpanKunjungan (SimpanKunjungan event, Emitter<SimpanKunjunganAnakTidakHadirState>emit)  async {
