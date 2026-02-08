@@ -67,6 +67,19 @@ class DetailDataAnak extends StatelessWidget {
             SizedBox(
               height: SizeConfig.calHeightMultiplier(16),
             ),
+             const Text(
+              'Nama Ibu ',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            InfoFieldWidget(text: detailResponse.data.kartuKeluarga.ibu?.namaIbu ?? '-'),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
+            ),
             const Text(
               'Anak ke',
               style: TextStyle(
