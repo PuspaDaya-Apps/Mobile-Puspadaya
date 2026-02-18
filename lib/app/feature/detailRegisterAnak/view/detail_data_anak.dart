@@ -42,6 +42,20 @@ class DetailDataAnak extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
+              'Nomor Kartu Keluarga',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(8),
+            ),
+            // ignore: unnecessary_string_interpolations
+            InfoFieldWidget(text: '${detailResponse.data!.kartuKeluarga.nomorKartuKeluarga}'),
+            SizedBox(
+              height: SizeConfig.calHeightMultiplier(16),
+            ),
+            const Text(
               'NIK',
               style: TextStyle(
                 fontSize: 12,
